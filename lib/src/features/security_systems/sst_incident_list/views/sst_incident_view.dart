@@ -111,8 +111,10 @@ class _SstIncidentViewState extends State<SstIncidentView> {
           //     : const SizedBox(),
           bottomNavigationBar: CustomBottomNavigationBar(
             hasAddPermission: widget.isInternal &&
-                (state.extraProperties?.hasWritePermission ?? false) &&
-                widget.occId.isEmptyOrNull ?true : false,
+                    (state.extraProperties?.hasWritePermission ?? false) &&
+                    widget.occId.isEmptyOrNull
+                ? true
+                : false,
             scaffoldKey: scaffoldKey,
             context: context,
             displayMenu: state.displayMenu,
@@ -252,135 +254,252 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                     return index >= state.items.length
                         ? const BaseLoader()
                         : Container(
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              // Color(0xFF6474C6),
-                              // Color(0xFF6474C6),
-                              Colors.transparent,
-                              Colors.transparent,
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                        ),
-                        margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-
-                        child: ClipRRect(
-                            borderRadius: BorderRadius.circular(18),
-                            child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
-                              child: Container(
-                                  decoration:
-                                  BoxDecoration(
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        Colors.white.withValues(alpha: 0.09),
-                                        Colors.transparent,
-                                        Colors.white.withValues(alpha: 0.09),
-                                        // Color(0xFF6474C6).withOpacity(0.14)
-                                      ],
-                                      stops: [0.02, 0.35, 1],
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                    ),
-                                    borderRadius: BorderRadius.circular(27),
-                                    border: Border.all(
-                                      color: Colors.white
-                                          .withValues(alpha: 0.6),
-                                      width: 0.7,
-                                    ),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.white
-                                            .withValues(alpha: 0.0),
-                                        blurRadius: 12,
-                                        offset: const Offset(0, 2),
-                                      ),
-                                    ],
-                                  ),
-                                  child: BaseListTileItem(
-                            id: state.items[index].id,
-                            labels: labels,
-                            status: state.items[index].status,
-                            // isMasterGuard: false,
-                            isEventProtectionStatus: false,
-                            // isSLAViolationStatus: false,
-                            isSecuritySystemSLA: true,
-                            onTap: (selectedIndex) {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext dialogContext) {
-                                  return BasePopUpItems(
-                                    id: state.items[selectedIndex].id
-                                        .toString(),
-                                    labels: labels,
-                                    slNo: state.items[selectedIndex].slNo,
-                                    status: state.items[selectedIndex].status,
-                                    isMasterGuard: false,
-                                    isEventProtectionStatus: false,
-                                    isSecuritySystemSLAStatus: true,
-                                  );
-                                },
-                              );
-                            },
-                            showEditButton: state.items[index].status ==
-                                ConstantsIntValue.securitySystemCreatedStatus,
-                            onEditTap: (selectedIndex) {
-                              getId(
-                                state.extraProperties?.hasWritePermission ??
-                                    false,
-                                id: state.items[index].id ?? 0,
-                                eventStatus: state.items[index].status ?? 0,
-                              );
-                            },
-                            onViewTap: (selectedIndex) {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext dialogContext) {
-                                  return BasePopUpItems(
-                                    id: state.items[selectedIndex].id
-                                        .toString(),
-                                    labels: labels,
-                                    slNo: state.items[selectedIndex].slNo,
-                                    status: state.items[selectedIndex].status,
-                                    isMasterGuard: false,
-                                    isEventProtectionStatus: false,
-                                    isSecuritySystemSLAStatus: true,
-                                  );
-                                },
-                              );
-                            },
-                            showEmailButton: true,
-                            onEmailTap: (selectedIndex) async {
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: const Text(Constants.sentReminder),
-                                    content: const Text(
-                                        Constants.sentRemindertoVendor),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        child: const Text(Constants.ok),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                    ],
-                                  );
-                                },
-                              );
-                              FocusScope.of(context).unfocus();
-                              int? id = state.items[selectedIndex].id;
-                              context
-                                  .read<SstIncidentBloc>()
-                                  .add(SendReminderEmail(
-                                    id: id!,
-                                  ));
-                            },
-                            index: index,
-                                  )))) );
+                            decoration: const BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  // Color(0xFF6474C6),
+                                  // Color(0xFF6474C6),
+                                  Colors.transparent,
+                                  Colors.transparent,
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                            ),
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 8),
+                            child: ClipRRect(
+                                borderRadius: BorderRadius.circular(18),
+                                child: BackdropFilter(
+                                    filter: ImageFilter.blur(
+                                        sigmaX: 18, sigmaY: 18),
+                                    child: Container(
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              Colors.white
+                                                  .withValues(alpha: 0.09),
+                                              Colors.transparent,
+                                              Colors.white
+                                                  .withValues(alpha: 0.09),
+                                              // Color(0xFF6474C6).withOpacity(0.14)
+                                            ],
+                                            stops: [0.02, 0.35, 1],
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(27),
+                                          border: Border.all(
+                                            color: Colors.white
+                                                .withValues(alpha: 0.6),
+                                            width: 0.7,
+                                          ),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.white
+                                                  .withValues(alpha: 0.0),
+                                              blurRadius: 12,
+                                              offset: const Offset(0, 2),
+                                            ),
+                                          ],
+                                        ),
+                                        child: BaseListTileItem(
+                                          id: state.items[index].id,
+                                          labels: labels,
+                                          status: state.items[index].status,
+                                          // isMasterGuard: false,
+                                          isEventProtectionStatus: false,
+                                          // isSLAViolationStatus: false,
+                                          isSecuritySystemSLA: true,
+                                          onTap: (selectedIndex) {
+                                            showDialog(
+                                              context: context,
+                                              builder:
+                                                  (BuildContext dialogContext) {
+                                                return BasePopUpItems(
+                                                  id: state
+                                                      .items[selectedIndex].id
+                                                      .toString(),
+                                                  labels: labels,
+                                                  slNo: state
+                                                      .items[selectedIndex]
+                                                      .slNo,
+                                                  status: state
+                                                      .items[selectedIndex]
+                                                      .status,
+                                                  isMasterGuard: false,
+                                                  isEventProtectionStatus:
+                                                      false,
+                                                  isSecuritySystemSLAStatus:
+                                                      true,
+                                                );
+                                              },
+                                            );
+                                          },
+                                          showEditButton: state
+                                                  .items[index].status ==
+                                              ConstantsIntValue
+                                                  .securitySystemCreatedStatus,
+                                          onEditTap: (selectedIndex) {
+                                            getId(
+                                              state.extraProperties
+                                                      ?.hasWritePermission ??
+                                                  false,
+                                              id: state.items[index].id ?? 0,
+                                              eventStatus:
+                                                  state.items[index].status ??
+                                                      0,
+                                            );
+                                          },
+                                          onViewTap: (selectedIndex) {
+                                            showDialog(
+                                              context: context,
+                                              builder:
+                                                  (BuildContext dialogContext) {
+                                                return BasePopUpItems(
+                                                  id: state
+                                                      .items[selectedIndex].id
+                                                      .toString(),
+                                                  labels: labels,
+                                                  slNo: state
+                                                      .items[selectedIndex]
+                                                      .slNo,
+                                                  status: state
+                                                      .items[selectedIndex]
+                                                      .status,
+                                                  isMasterGuard: false,
+                                                  isEventProtectionStatus:
+                                                      false,
+                                                  isSecuritySystemSLAStatus:
+                                                      true,
+                                                );
+                                              },
+                                            );
+                                          },
+                                          showEmailButton: true,
+                                          onEmailTap: (selectedIndex) async {
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return Dialog(
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  elevation: 0,
+                                                  child: ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                    child: BackdropFilter(
+                                                      filter: ImageFilter.blur(
+                                                          sigmaX: 12,
+                                                          sigmaY: 12),
+                                                      child: Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(20),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: Colors.white
+                                                              .withValues(
+                                                                  alpha:
+                                                                      0.12), // glass layer
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(20),
+                                                          border: Border.all(
+                                                            color: Colors.white
+                                                                .withValues(
+                                                                    alpha:
+                                                                        0.35), // glass border
+                                                            width: 1.3,
+                                                          ),
+                                                        ),
+                                                        child: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          children: [
+                                                            const Text(
+                                                              Constants
+                                                                  .sentReminder,
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontSize: 18,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: Colors
+                                                                    .white,
+                                                              ),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                            ),
+                                                            const SizedBox(
+                                                                height: 12),
+                                                            const Text(
+                                                              Constants
+                                                                  .sentRemindertoVendor,
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontSize: 15,
+                                                                color: Colors
+                                                                    .white70,
+                                                              ),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                            ),
+                                                            const SizedBox(
+                                                                height: 20),
+                                                            TextButton(
+                                                              onPressed: () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                              child: const Text(
+                                                                Constants.ok,
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontSize: 15,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                );
+                                                //   AlertDialog(
+                                                //   title: const Text(Constants.sentReminder),
+                                                //   content: const Text(
+                                                //       Constants.sentRemindertoVendor),
+                                                //   actions: <Widget>[
+                                                //     TextButton(
+                                                //       child: const Text(Constants.ok),
+                                                //       onPressed: () {
+                                                //         Navigator.of(context).pop();
+                                                //       },
+                                                //     ),
+                                                //   ],
+                                                // );
+                                              },
+                                            );
+                                            FocusScope.of(context).unfocus();
+                                            int? id =
+                                                state.items[selectedIndex].id;
+                                            context
+                                                .read<SstIncidentBloc>()
+                                                .add(SendReminderEmail(
+                                                  id: id!,
+                                                ));
+                                          },
+                                          index: index,
+                                        )))));
                   }
 
                   // Handle the case where index is out of bounds

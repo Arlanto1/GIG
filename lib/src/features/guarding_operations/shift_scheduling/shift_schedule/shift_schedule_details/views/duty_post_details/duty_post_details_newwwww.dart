@@ -119,7 +119,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
               );
             },
           ),
-          backgroundColor: AppColors.lavender,
+          backgroundColor: AppColors.newColor3,
           body: getBody(state, height),
         );
       },
@@ -134,18 +134,18 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
       return const BaseLoader();
     }
     return Container(
-      color: AppColors.lavender,
+      color: AppColors.newColor3,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.lavender,
+              color: AppColors.newColor3,
             ),
             Container(
-              decoration: const ShapeDecoration(
-                  color: AppColors.lavender,
-                  shape: RoundedRectangleBorder(
+              decoration: ShapeDecoration(
+                  color: AppColors.newColor3,
+                  shape: const RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
@@ -178,7 +178,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                                   state.labels?.locale.rank ??
                                       state.labels?.defaultLocale.rank ??
                                       Constants.rank,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite14,
                                   isMandatory: true,
                                 ),
 
@@ -223,7 +223,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                                   state.labels?.locale.rank ??
                                       state.labels?.defaultLocale.rank ??
                                       Constants.selectForShift,
-                                  Styles.textStyleBlack14,
+                                  Styles.textStyleWhite14,
                                   isMandatory: true,
                                 ),
 
@@ -352,7 +352,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
               ? 'Select For Shift: ${state.selectedShift?.name ?? shift.shift}'
               : 'Selected (Max Allowed: ${shift.allowed})',
           isMandatory: false,
-          Styles.textStyleBlack14,
+          Styles.textStyleWhite14,
         ),
         CommonWidgets.verticalSpacerWidget(
             MediaQuery.of(context).size.height * 0.01),
@@ -435,7 +435,11 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
       height: MediaQuery.of(context).size.height / 2.5,
       width: MediaQuery.of(context).size.width / 2.3,
       child: availableGuards.isEmptyOrNull
-          ? const Center(child: Text('No Guards Found.'))
+          ? const Center(
+              child: Text(
+              'No Guards Found.',
+              style: TextStyle(color: AppColors.white),
+            ))
           : ListView.builder(
               itemCount: availableGuards.length,
               shrinkWrap: true,
@@ -449,7 +453,8 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         element.name ?? '',
-                        style: const TextStyle(fontSize: 15),
+                        style: const TextStyle(
+                            fontSize: 15, color: AppColors.white),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
@@ -504,12 +509,14 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
           child: Row(
             children: <Widget>[
               const SizedBox(width: 14),
-              SvgPicture.asset(AppIcon.pluscircle),
+              SvgPicture.asset(
+                AppIcon.pluscircle,
+              ),
               const SizedBox(width: 10),
               const Text(
                 Constants.addReplacement,
                 style: TextStyle(
-                  color: AppColors.navigationSkyBlueColor,
+                  color: AppColors.white,
                   decoration: TextDecoration.underline,
                 ),
               ),

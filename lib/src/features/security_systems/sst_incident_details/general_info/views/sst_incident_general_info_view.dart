@@ -187,9 +187,12 @@ class _SstIncidentGeneralInfoViewState
                 ? Constants.ticketLifeCycle
                 : Constants.ticketLifeCycle,
             showPopUp: false,
-            showSaveButton: !disableForm && state.status != FormStatus.loading? true : false,
+            showSaveButton: !disableForm && state.status != FormStatus.loading
+                ? true
+                : false,
             showSubmitButton:
-            (!disableForm || isShowSubmitButtonForSecurityManager ) && state.status != FormStatus.loading
+                (!disableForm || isShowSubmitButtonForSecurityManager) &&
+                        state.status != FormStatus.loading
                     ? true
                     : false,
             showDisLikeButton: false,
@@ -293,7 +296,7 @@ class _SstIncidentGeneralInfoViewState
               }
             },
           ),
-          backgroundColor: AppColors.backgroundWhiteColor,
+          backgroundColor: AppColors.newColor,
           body: getBodybuilder(state, height),
         );
       },
@@ -305,7 +308,7 @@ class _SstIncidentGeneralInfoViewState
         ? Utils.timestampToDateConversion(
             int.tryParse(state.model.acknowledgeDate ?? '0'),
             Constants.fulldateFormat)
-        :  (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+        : (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     escalation1Controller.text = state.model.escalation1 != null
         ? Utils.timestampToDateConversion(
             int.tryParse(state.model.escalation1 ?? '0'),
@@ -367,18 +370,18 @@ class _SstIncidentGeneralInfoViewState
       attachDocuments = state.additionalAttachments ?? [];
     }
     return Container(
-      color: AppColors.lavender,
+      color: AppColors.newColor3,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.lavender,
+              color: AppColors.newColor3,
             ),
             Container(
-              decoration: const ShapeDecoration(
-                  color: AppColors.lavender,
-                  shape: RoundedRectangleBorder(
+              decoration: ShapeDecoration(
+                  color: AppColors.newColor3,
+                  shape: const RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
@@ -408,7 +411,7 @@ class _SstIncidentGeneralInfoViewState
                                   style: Styles.textStyleRegularNormalWhite18,
                                 ),
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Created By
                               CommonWidgets.horizentaltextHandling(
@@ -417,7 +420,7 @@ class _SstIncidentGeneralInfoViewState
                                       Constants.createdby,
                                   isMandatory: true,
                                   '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}'),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Status
                               CommonWidgets.textDisplay(
@@ -519,7 +522,7 @@ class _SstIncidentGeneralInfoViewState
                                       Constants.slno,
                                   isMandatory: true,
                                   state.model.slNo ?? ''),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// System
                               CommonWidgets.textDisplay(
@@ -923,7 +926,7 @@ class _SstIncidentGeneralInfoViewState
                               FlutterInputField(
                                 lineHeight: 6,
                                 characterLimit:
-                                Constants.characterLimitDescTextFormField,
+                                    Constants.characterLimitDescTextFormField,
                                 showBorder: true,
                                 initialValue: state.model.shortDescription,
                                 textFormKey: Keys.incidentDescription,
@@ -954,7 +957,7 @@ class _SstIncidentGeneralInfoViewState
                               FlutterInputField(
                                 lineHeight: 6,
                                 characterLimit:
-                                Constants.characterLimitDescTextFormField,
+                                    Constants.characterLimitDescTextFormField,
                                 initialValue: state.model.detailDescription,
                                 showBorder: true,
                                 textFormKey: Keys.incidentDescription,
@@ -1074,8 +1077,8 @@ class _SstIncidentGeneralInfoViewState
                             if (showSystemIntegratorFields) ...[
                               CommonWidgets.textDisplay(
                                   Constants.systemIntegratorForVendorAction,
-                                  Styles.textStyleGrey16),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                                  Styles.textStyleWhite16),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Acknowledge Integrator for Vendor Action
                               CommonWidgets.textDisplay(
@@ -1084,7 +1087,7 @@ class _SstIncidentGeneralInfoViewState
                                           .acknowledgeDateTime ??
                                       Constants.acknowledgeDateAndTime,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               BaseDate().datePickerWidgetLoading(
                                 isDisabled: true,
                                 textController: acknowledgeDateController,
@@ -1093,6 +1096,7 @@ class _SstIncidentGeneralInfoViewState
                                 onChange: (String value) {},
                                 context: context,
                               ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Vendor Ticket No
                               CommonWidgets.textDisplay(
@@ -1101,7 +1105,7 @@ class _SstIncidentGeneralInfoViewState
                                           .vendorTicketNo ??
                                       Constants.vendorTicketNo,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
@@ -1117,6 +1121,7 @@ class _SstIncidentGeneralInfoViewState
                                 validateTextField: (String? user) {},
                               ),
                             ],
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Onsite Visit Date and Time
                             if (showSystemIntegratorFields &&
@@ -1129,7 +1134,7 @@ class _SstIncidentGeneralInfoViewState
                                           .onsiteVisitDT ??
                                       Constants.onsiteVisitDateAndTime,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               BaseDate().datePickerWidgetLoading(
                                 isDisabled: true,
                                 textController: onsiteVisitDateController,
@@ -1138,6 +1143,7 @@ class _SstIncidentGeneralInfoViewState
                                 onChange: (String value) {},
                                 context: context,
                               ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// critical Spare Used
                               CommonWidgets.textDisplay(
@@ -1146,7 +1152,7 @@ class _SstIncidentGeneralInfoViewState
                                           .criticalSpareUsed ??
                                       Constants.criticalSpareUsed,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               RadioButtonsYesNo(
                                 status: state.model.status ?? 0,
                                 selectedValue: state.model.criticalSpare == null
@@ -1173,6 +1179,7 @@ class _SstIncidentGeneralInfoViewState
                                             .onCheckBoxChange(state.model);
                                       },
                               ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Root Cause Analysis
                               CommonWidgets.textDisplay(
@@ -1181,13 +1188,13 @@ class _SstIncidentGeneralInfoViewState
                                           .rootCauseAnalysis ??
                                       Constants.rootCauseAnalysis,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
                                 lineHeight: 6,
                                 characterLimit:
-                                Constants.characterLimitDescTextFormField,
+                                    Constants.characterLimitDescTextFormField,
                                 initialValue: state.model.rootCauseAnalysis,
                                 showBorder: true,
                                 textFormKey: Keys.incidentDescription,
@@ -1202,7 +1209,7 @@ class _SstIncidentGeneralInfoViewState
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Action Taken Mitigation Action
                               CommonWidgets.textDisplay(
@@ -1211,13 +1218,13 @@ class _SstIncidentGeneralInfoViewState
                                           .actionTakenMA ??
                                       Constants.actionTakenMitigationAction,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
                                 lineHeight: 6,
                                 characterLimit:
-                                Constants.characterLimitDescTextFormField,
+                                    Constants.characterLimitDescTextFormField,
                                 initialValue: state.model.actionTaken,
                                 showBorder: true,
                                 textFormKey: Keys.incidentDescription,
@@ -1232,7 +1239,7 @@ class _SstIncidentGeneralInfoViewState
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Issue Type
                               CommonWidgets.textDisplay(
@@ -1240,7 +1247,7 @@ class _SstIncidentGeneralInfoViewState
                                     state.labels?.defaultLocale.issueType ??
                                     Constants.issueType,
                                 isMandatory: false,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite14,
                               ),
                               BaseDropDown().getDropDown(
                                   isDisabled: true,
@@ -1249,6 +1256,7 @@ class _SstIncidentGeneralInfoViewState
                                   initialValue:
                                       state.model.issueType.toString(),
                                   onTap: () {}),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Data Loss
                               CommonWidgets.textDisplay(
@@ -1256,7 +1264,7 @@ class _SstIncidentGeneralInfoViewState
                                       state.labels?.defaultLocale.dataLoss ??
                                       Constants.dataLoss,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               RadioButtonsYesNo(
                                   status: state.model.status ?? 0,
                                   selectedValue: state.model.dataLoss == null
@@ -1273,7 +1281,7 @@ class _SstIncidentGeneralInfoViewState
                                     // state.labels?.locale.dataLoss ??
                                     //     state.labels?.defaultLocale.dataLoss ??
                                     Constants.dataLossAttachment,
-                                    Styles.textStyleBlack14),
+                                    Styles.textStyleWhite14),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
                                 BaseImageUpload().uploadWidget(
@@ -1299,7 +1307,7 @@ class _SstIncidentGeneralInfoViewState
                                   },
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
 
                                 /// Attachments
                                 Padding(
@@ -1321,7 +1329,7 @@ class _SstIncidentGeneralInfoViewState
                                       state.labels?.defaultLocale
                                           .attachDocumentsDesc ??
                                       Constants.attachTheLayout,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                               BaseImageUpload().uploadWidget(
                                 context: context,
@@ -1343,7 +1351,7 @@ class _SstIncidentGeneralInfoViewState
                                   );
                                 },
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Attachments
                               Padding(
@@ -1367,7 +1375,7 @@ class _SstIncidentGeneralInfoViewState
                                           .solvedProposed ??
                                       Constants.solvedProposedDate,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               BaseDate().datePickerWidgetLoading(
                                 isDisabled: true,
                                 textController: solvedProposedDateController,
@@ -1389,7 +1397,7 @@ class _SstIncidentGeneralInfoViewState
                                           .solvedComplete ??
                                       Constants.solvedCompleteDate,
                                   isMandatory: false,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               BaseDate().datePickerWidgetLoading(
                                 isDisabled: true,
                                 textController: solvedProposedDateController,
@@ -1398,7 +1406,7 @@ class _SstIncidentGeneralInfoViewState
                                 onChange: (String value) {},
                                 context: context,
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
                             ],
 
                             if (state.model.reworkDate != null &&
@@ -1411,7 +1419,7 @@ class _SstIncidentGeneralInfoViewState
                                       state.labels?.defaultLocale.reworkDate ??
                                       Constants.reworkProposedDate,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               BaseDate().datePickerWidgetLoading(
                                 isDisabled: true,
                                 textController: reworkProposedDateController,
@@ -1420,7 +1428,7 @@ class _SstIncidentGeneralInfoViewState
                                 onChange: (String value) {},
                                 context: context,
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
                             ],
 
                             if (state.model.status != null &&
@@ -1433,7 +1441,7 @@ class _SstIncidentGeneralInfoViewState
                                       state.labels?.defaultLocale.escalation1 ??
                                       Constants.escalation1,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               BaseDate().datePickerWidgetLoading(
                                 isDisabled: true,
                                 textController: escalation1Controller,
@@ -1442,7 +1450,7 @@ class _SstIncidentGeneralInfoViewState
                                 onChange: (String value) {},
                                 context: context,
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Escalation 2
                               CommonWidgets.textDisplay(
@@ -1450,7 +1458,7 @@ class _SstIncidentGeneralInfoViewState
                                       state.labels?.defaultLocale.escalation2 ??
                                       Constants.escalation2,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               BaseDate().datePickerWidgetLoading(
                                 isDisabled: true,
                                 textController: escalation2Controller,
@@ -1459,7 +1467,7 @@ class _SstIncidentGeneralInfoViewState
                                 onChange: (String value) {},
                                 context: context,
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Escalation 3
                               CommonWidgets.textDisplay(
@@ -1467,7 +1475,7 @@ class _SstIncidentGeneralInfoViewState
                                       state.labels?.defaultLocale.escalation3 ??
                                       Constants.escalation3,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               BaseDate().datePickerWidgetLoading(
                                 isDisabled: true,
                                 textController: escalation3Controller,
@@ -1476,7 +1484,7 @@ class _SstIncidentGeneralInfoViewState
                                 onChange: (String value) {},
                                 context: context,
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
                             ],
                             if (showSLAOnsiteResponse) ...[
                               /// SLA Onsite Response
@@ -1486,7 +1494,7 @@ class _SstIncidentGeneralInfoViewState
                                           .slaOnsiteResponse ??
                                       Constants.slaOnSiteResponse,
                                   isMandatory: false,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
@@ -1511,7 +1519,7 @@ class _SstIncidentGeneralInfoViewState
                                       state.labels?.defaultLocale.downtime ??
                                       Constants.downTime,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
@@ -1533,7 +1541,7 @@ class _SstIncidentGeneralInfoViewState
                                           .slaResolutionDate ??
                                       Constants.slaResolutionDate,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
@@ -1560,7 +1568,7 @@ class _SstIncidentGeneralInfoViewState
                                           .activityNotes ??
                                       Constants.activityNotes,
                                   isMandatory: true,
-                                  Styles.textStyleBlack14),
+                                  Styles.textStyleWhite14),
                               Column(
                                 children: getActivityNotes(
                                     state.model.activityNotes ?? [],
@@ -1568,29 +1576,29 @@ class _SstIncidentGeneralInfoViewState
                                     state),
                               ),
                             ],
-                            if(state.model.id != null) ...[
+                            if (state.model.id != null) ...[
                               /// Modified Date
                               CommonWidgets.textDisplay(
                                 // state.labels?.locale.date ??
                                 //     state.labels?.defaultLocale.date ??
                                 Constants.modifiedOn,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite14,
                                 isMandatory: true,
                               ),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               datecreateWidgetdisplay(
                                   state.model.modifiedDate ?? ''),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Modified By
                               CommonWidgets.horizentaltextHandling(
-                                // state.labels?.locale.entrySecurity ??
-                                //     state.labels?.defaultLocale.entrySecurity ??
+                                  // state.labels?.locale.entrySecurity ??
+                                  //     state.labels?.defaultLocale.entrySecurity ??
                                   Constants.modifiedBy,
                                   isMandatory: true,
                                   state.model.modifiedBy ?? ''),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
                             ],
                           ],
                         ),
@@ -1802,8 +1810,7 @@ class _SstIncidentGeneralInfoViewState
                 const SizedBox(height: 20),
                 FlutterInputField(
                   lineHeight: 6,
-                  characterLimit:
-                  Constants.characterLimitDescTextFormField,
+                  characterLimit: Constants.characterLimitDescTextFormField,
                   initialValue: activityNotes.activityNotes ?? '',
                   showBorder: true,
                   textFormKey: Keys.incidentDescription,

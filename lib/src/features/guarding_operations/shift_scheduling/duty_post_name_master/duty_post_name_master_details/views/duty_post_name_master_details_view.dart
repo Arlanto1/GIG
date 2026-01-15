@@ -103,7 +103,8 @@ class _DutyPostNameMasterDetailsViewState
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSubmitButton: state.status != FormStatus.loading && showSaveSubmitButtons,
+            showSubmitButton:
+                state.status != FormStatus.loading && showSaveSubmitButtons,
             showSaveButton: false,
             showDisLikeButton: false,
             showLikeButton: false,
@@ -120,7 +121,7 @@ class _DutyPostNameMasterDetailsViewState
                   .submitForm(isSaveOnly: false);
             },
           ),
-          backgroundColor: AppColors.lavender,
+          backgroundColor: AppColors.newColor3,
           body: getBodybuilder(state, height),
         );
       },
@@ -134,18 +135,18 @@ class _DutyPostNameMasterDetailsViewState
       return const BaseLoader();
     }
     return Container(
-      color: AppColors.lavender,
+      color: AppColors.newColor3,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.lavender,
+              color: AppColors.newColor3,
             ),
             Container(
-              decoration: const ShapeDecoration(
-                  color: AppColors.lavender,
-                  shape: RoundedRectangleBorder(
+              decoration: ShapeDecoration(
+                  color: AppColors.newColor3,
+                  shape: const RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
@@ -302,7 +303,7 @@ class _DutyPostNameMasterDetailsViewState
                                   SvgPicture.asset(
                                     AppIcon.pluscircle,
                                     colorFilter: const ColorFilter.mode(
-                                      AppColors.black,
+                                      AppColors.white,
                                       BlendMode.srcIn,
                                     ),
                                     // color: AppColors.navigationSkyBlueColor,
@@ -312,11 +313,11 @@ class _DutyPostNameMasterDetailsViewState
                                   const Text(
                                     Constants.addDutyPostLocationName,
                                     style: TextStyle(
-                                      color: AppColors.black,
-                                      decoration: TextDecoration.underline,
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 16
-                                    ),
+                                        color: AppColors.white,
+                                        decoration: TextDecoration.underline,
+                                        decorationColor: AppColors.white,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 16),
                                   ),
                                 ],
                               ),
@@ -332,14 +333,14 @@ class _DutyPostNameMasterDetailsViewState
                                 // state.labels?.locale.date ??
                                 //     state.labels?.defaultLocale.date ??
                                 Constants.modifiedOn,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite14,
                                 isMandatory: true,
                               ),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               BaseDate().creationDateDisplay(
                                   state.model.modifiedDate ?? ''),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Modified By
                               CommonWidgets.horizentaltextHandling(

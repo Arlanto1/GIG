@@ -54,8 +54,9 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
         log('-state.status---${state.status}----');
         Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
-        if (state.status == FormStatus.popOnly && state.status != FormStatus.navigateToNextScreen) {
-          log('000${state.status == FormStatus.popOnly }');
+        if (state.status == FormStatus.popOnly &&
+            state.status != FormStatus.navigateToNextScreen) {
+          log('000${state.status == FormStatus.popOnly}');
           var dialog = CustomAlertDialog(
             title: 'SLA Violation Penalty',
             message: state.message ?? '',
@@ -70,7 +71,6 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
               context: context,
               barrierDismissible: false,
               builder: (BuildContext context) => dialog);
-
         }
         if (state.status == FormStatus.success && state.model.id != null) {
           log('100${state.status == FormStatus.success && widget.viaAttendance}');
@@ -89,8 +89,10 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
               barrierDismissible: false,
               builder: (BuildContext context) => dialog);
         }
-          if (state.status == FormStatus.success && !widget.viaAttendance && state.model.attdShiftInfoId == null) {
-            log('200${state.status == FormStatus.success && !widget.viaAttendance && state.model.attdShiftInfoId == null}');
+        if (state.status == FormStatus.success &&
+            !widget.viaAttendance &&
+            state.model.attdShiftInfoId == null) {
+          log('200${state.status == FormStatus.success && !widget.viaAttendance && state.model.attdShiftInfoId == null}');
           var dialog = CustomAlertDialog(
             title: 'SLA Violation Penalty',
             message: state.message ?? '',
@@ -137,12 +139,14 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                 '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.slaViolationPenaltyDetailsModuleCode}',
             showSaveButton: state.model.status != 2 &&
                     state.model.status != -1 &&
-                    !isReadOnly && state.status != FormStatus.loading
+                    !isReadOnly &&
+                    state.status != FormStatus.loading
                 ? true
                 : false,
             showSubmitButton: state.model.status != 2 &&
                     state.model.status != -1 &&
-                    !isReadOnly && state.status != FormStatus.loading
+                    !isReadOnly &&
+                    state.status != FormStatus.loading
                 ? true
                 : false,
             showDisLikeButton: false,
@@ -164,7 +168,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
               );
             },
           ),
-          backgroundColor: AppColors.lavender,
+          backgroundColor: AppColors.newColor,
           body: getBodybuilder(state, height),
         );
       },
@@ -181,18 +185,18 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
     }
 
     return Container(
-      color: AppColors.lavender,
+      color: AppColors.newColor3,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.lavender,
+              color: AppColors.newColor3,
             ),
             Container(
-              decoration: const ShapeDecoration(
-                color: AppColors.lavender,
-                shape: RoundedRectangleBorder(
+              decoration: ShapeDecoration(
+                color: AppColors.newColor3,
+                shape: const RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(20.0)),
                 ),
@@ -319,7 +323,9 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               context: context,
                               selectedValues: state.model.vendor ?? [],
                               all: state.vendors,
-                              enabled: !widget.viaAttendance && !isReadOnly && state.model.attdShiftInfoId ==null,
+                              enabled: !widget.viaAttendance &&
+                                  !isReadOnly &&
+                                  state.model.attdShiftInfoId == null,
                               onTap: (List<Organisation> selectedVendors) {
                                 BlocProvider.of<
                                             SLAViolationPenaltyDetailsCubit>(
@@ -433,7 +439,8 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                             context)
                                         .updateDropdownValues(user: user);
                                   },
-                                  roleName: ConstantUserRoles.atomAssistantSecurityLead,
+                                  roleName: ConstantUserRoles
+                                      .atomAssistantSecurityLead,
                                   locationId: state.model.location!.id!,
                                   functionToCall: (BaseUser user) {
                                     BlocProvider.of<
@@ -446,7 +453,6 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                         .refreshList();
                                   },
                                 );
-
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
@@ -486,9 +492,9 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                   const Text(
                                     Constants.addGuardingAgencyPOC,
                                     style: TextStyle(
-                                      color: AppColors.white,
-                                      decoration: TextDecoration.underline,
-                                    ),
+                                        color: AppColors.white,
+                                        decoration: TextDecoration.underline,
+                                        decorationColor: AppColors.white),
                                   ),
                                 ],
                               ),
@@ -521,9 +527,11 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                         GestureDetector(
                           onTap: () async {
                             NavigatorState nav = Navigator.of(context);
-                            if(state.model.status == null || state.model.status == 0 || state.model.status ==1) {
+                            if (state.model.status == null ||
+                                state.model.status == 0 ||
+                                state.model.status == 1) {
                               bool isSaveSuccess = await BlocProvider.of<
-                                  SLAViolationPenaltyDetailsCubit>(context)
+                                      SLAViolationPenaltyDetailsCubit>(context)
                                   .submitForm(
                                 isSaveOnly: true,
                                 navigateToNextScreen: true,
@@ -568,9 +576,9 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               const Text(
                                 Constants.addViewViolation,
                                 style: TextStyle(
-                                  color: AppColors.white,
-                                  decoration: TextDecoration.underline,
-                                ),
+                                    color: AppColors.white,
+                                    decoration: TextDecoration.underline,
+                                    decorationColor: AppColors.white),
                               ),
                             ],
                           ),
@@ -601,9 +609,9 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                 isReadOnly) ...[
               Container(
                 padding: const EdgeInsets.all(5.0),
-                decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhiteColor,
-                  shape: RoundedRectangleBorder(
+                decoration: ShapeDecoration(
+                  color: AppColors.newColor3,
+                  shape: const RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(0.0)),
                   ),

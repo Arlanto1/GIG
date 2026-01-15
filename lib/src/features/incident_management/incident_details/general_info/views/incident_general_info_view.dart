@@ -128,8 +128,9 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
         log('--state.message-----${state.message}-');
       },
       builder: (context, state) {
-        claimantController.text = state.model.complainant?.userInfo !=null ? state.model.complainant?.userInfo ?? '' : state.model.complainant?.name ?? '';
-
+        claimantController.text = state.model.complainant?.userInfo != null
+            ? state.model.complainant?.userInfo ?? ''
+            : state.model.complainant?.name ?? '';
 
         state.model.status ??= 0;
         if (state.model.status! > 0 || !state.model.lock.isEmptyOrNull) {
@@ -141,7 +142,9 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
         log('EntrySecurity ${state.model.entrySecurity?.name}');
         log('EntrySecurity1 ${state.loggedInUserDetails?.name}');
         log('111${state.model.entrySecurity?.name == state.loggedInUserDetails?.name}');
-        if(state.model.status == 0 && state.model.entrySecurity?.name != state.loggedInUserDetails?.name){
+        if (state.model.status == 0 &&
+            state.model.entrySecurity?.name !=
+                state.loggedInUserDetails?.name) {
           disableForm = true;
         }
         // if (widget.extraProperties != null &&
@@ -154,7 +157,8 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
             title: Constants.generalInformation,
             showPopUp: false,
             showSaveButton: !disableForm && state.status != FormStatus.loading,
-            showSubmitButton: !disableForm && state.status != FormStatus.loading,
+            showSubmitButton:
+                !disableForm && state.status != FormStatus.loading,
             showDisLikeButton: false,
             showLikeButton: false,
             pdfAPIName:
@@ -213,18 +217,15 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
     log('-state.status--222-${state.status}-incidentType--2----${state.model.incidentType}--');
 
     return Container(
-      color: AppColors.lavender,
+      color: AppColors.newColor3,
       child: SingleChildScrollView(
         child: Column(
           children: [
+            Container(height: height * 0.01, color: AppColors.newColor3),
             Container(
-              height: height * 0.01,
-              color: AppColors.lavender,
-            ),
-            Container(
-              decoration: const ShapeDecoration(
-                  color: AppColors.lavender,
-                  shape: RoundedRectangleBorder(
+              decoration: ShapeDecoration(
+                  color: AppColors.newColor3,
+                  shape: const RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
@@ -383,7 +384,6 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                               },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
-
 
                             /// Incident Type
                             CommonWidgets.textDisplay(

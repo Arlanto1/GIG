@@ -143,7 +143,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
               ).submitForm(isSaveOnly: false, navigateToNextScreen: false);
             },
           ),
-          backgroundColor: AppColors.backgroundWhiteColor,
+          backgroundColor: AppColors.newColor,
           body: getBodybuilder(state, height),
         );
       },
@@ -159,15 +159,15 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
       return const BaseLoader();
     }
     return Container(
-      color: AppColors.lavender,
+      color: AppColors.newColor3,
       child: SingleChildScrollView(
         child: Column(
           children: [
-            Container(height: height * 0.01, color: AppColors.lavender),
+            Container(height: height * 0.01, color: AppColors.newColor3),
             Container(
-              decoration: const ShapeDecoration(
-                color: AppColors.lavender,
-                shape: RoundedRectangleBorder(
+              decoration: ShapeDecoration(
+                color: AppColors.newColor3,
+                shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.vertical(
                     top: Radius.circular(20.0),
                   ),
@@ -366,8 +366,9 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 Text(
                                   'View Contact(s)',
                                   style: TextStyle(
-                                    color: AppColors.black,
+                                    color: AppColors.white,
                                     decoration: TextDecoration.underline,
+                                    decorationColor: AppColors.white,
                                   ),
                                 ),
                               ],
@@ -443,8 +444,9 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 Text(
                                   'View Contact(s)',
                                   style: TextStyle(
-                                    color: AppColors.black,
+                                    color: AppColors.white,
                                     decoration: TextDecoration.underline,
+                                    decorationColor: AppColors.white,
                                   ),
                                 ),
                               ],
@@ -517,8 +519,9 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 Text(
                                   'View Contact(s)',
                                   style: TextStyle(
-                                    color: AppColors.black,
+                                    color: AppColors.white,
                                     decoration: TextDecoration.underline,
+                                    decorationColor: AppColors.white,
                                   ),
                                 ),
                               ],
@@ -588,8 +591,9 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 Text(
                                   'View Contact(s)',
                                   style: TextStyle(
-                                    color: AppColors.black,
+                                    color: AppColors.white,
                                     decoration: TextDecoration.underline,
+                                    decorationColor: AppColors.white,
                                   ),
                                 ),
                               ],
@@ -662,8 +666,9 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                 Text(
                                   'View Contact(s)',
                                   style: TextStyle(
-                                    color: AppColors.black,
+                                    color: AppColors.white,
                                     decoration: TextDecoration.underline,
+                                    decorationColor: AppColors.white,
                                   ),
                                 ),
                               ],

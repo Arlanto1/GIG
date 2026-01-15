@@ -119,38 +119,39 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
         //         },
         //       ),
 
-
         bottomNavigationBar: !(widget.extraProperties != null &&
-            !widget.extraProperties!.hasWritePermission!) &&
-            widget.parentStatus == 0 &&
-            widget.lock.isEmptyOrNull ? CustomBottomNavigationBar(
-        hasAddPermission: true,
-        scaffoldKey: scaffoldKey,
-        context: context,
-        // displayMenu: state.displayMenu,
-        list: true, // 🔥 only "+" button mode
-        onAddPressed: () async {
-          KeyIssuanceProcessRecord keyIssuanceProcessModel =
-          KeyIssuanceProcessRecord();
-          bool isMasterKey =
-          keyIssuanceProcessModel.kmId == 1 ? true : false;
-          List<Organisation> keyDescriptions =
-              await KeyManagementIssuanceServices().getKeyDescriptions(
-            locationId: widget.locationId,
-            isMasterKey: isMasterKey,
-            kmIssuanceId: widget.parentId,
-          );
+                    !widget.extraProperties!.hasWritePermission!) &&
+                widget.parentStatus == 0 &&
+                widget.lock.isEmptyOrNull
+            ? CustomBottomNavigationBar(
+                hasAddPermission: true,
+                scaffoldKey: scaffoldKey,
+                context: context,
+                // displayMenu: state.displayMenu,
+                list: true, // 🔥 only "+" button mode
+                onAddPressed: () async {
+                  KeyIssuanceProcessRecord keyIssuanceProcessModel =
+                      KeyIssuanceProcessRecord();
+                  bool isMasterKey =
+                      keyIssuanceProcessModel.kmId == 1 ? true : false;
+                  List<Organisation> keyDescriptions =
+                      await KeyManagementIssuanceServices().getKeyDescriptions(
+                    locationId: widget.locationId,
+                    isMasterKey: isMasterKey,
+                    kmIssuanceId: widget.parentId,
+                  );
 
-          showAddKeyIssuanceProcessPopUp(
-            context: context,
-            keyIssuanceProcessRecord: KeyIssuanceProcessRecord(),
-            keyDescriptions: keyDescriptions,
-            selectedKeyDescription: null,
-            parentStatus: widget.parentStatus,
-            state: state,
-          );
-        },
-      ): null,
+                  showAddKeyIssuanceProcessPopUp(
+                    context: context,
+                    keyIssuanceProcessRecord: KeyIssuanceProcessRecord(),
+                    keyDescriptions: keyDescriptions,
+                    selectedKeyDescription: null,
+                    parentStatus: widget.parentStatus,
+                    state: state,
+                  );
+                },
+              )
+            : null,
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: state.labels?.locale.keyIssProcess ??
@@ -303,8 +304,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                         child: BackdropFilter(
                             filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
                             child: Container(
-                                decoration:
-                                BoxDecoration(
+                                decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [
                                       Colors.white.withValues(alpha: 0.09),
@@ -318,14 +318,13 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                                   ),
                                   borderRadius: BorderRadius.circular(27),
                                   border: Border.all(
-                                    color: Colors.white
-                                        .withValues(alpha: 0.6),
+                                    color: Colors.white.withValues(alpha: 0.6),
                                     width: 0.7,
                                   ),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.white
-                                          .withValues(alpha: 0.0),
+                                      color:
+                                          Colors.white.withValues(alpha: 0.0),
                                       blurRadius: 12,
                                       offset: const Offset(0, 2),
                                     ),
@@ -404,20 +403,95 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                                       showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: const Text(
-                                                Constants.valueNotAccepted),
-                                            content: const Text(Constants
-                                                .enteredKeyLostValueNotAccepted),
-                                            actions: <Widget>[
-                                              TextButton(
-                                                child: const Text(Constants.ok),
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
+                                          return Dialog(
+                                            backgroundColor: Colors.transparent,
+                                            elevation: 0,
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              child: BackdropFilter(
+                                                filter: ImageFilter.blur(
+                                                    sigmaX: 12, sigmaY: 12),
+                                                child: Container(
+                                                  padding:
+                                                      const EdgeInsets.all(20),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white
+                                                        .withOpacity(
+                                                            0.12), // glass layer
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                    border: Border.all(
+                                                      color: Colors.white
+                                                          .withOpacity(
+                                                              0.35), // glass border
+                                                      width: 1.3,
+                                                    ),
+                                                  ),
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      Text(
+                                                        Constants
+                                                            .valueNotAccepted,
+                                                        style: const TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Colors.white,
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                      const SizedBox(
+                                                          height: 12),
+                                                      Text(
+                                                        Constants
+                                                            .enteredKeyLostValueNotAccepted,
+                                                        style: const TextStyle(
+                                                          fontSize: 15,
+                                                          color: Colors.white70,
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                      const SizedBox(
+                                                          height: 20),
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                        child: const Text(
+                                                          Constants.ok,
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 15,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
                                               ),
-                                            ],
+                                            ),
                                           );
+                                          //   AlertDialog(
+                                          //   title: const Text(
+                                          //       Constants.valueNotAccepted),
+                                          //   content: const Text(Constants
+                                          //       .enteredKeyLostValueNotAccepted),
+                                          //   actions: <Widget>[
+                                          //     TextButton(
+                                          //       child: const Text(Constants.ok),
+                                          //       onPressed: () {
+                                          //         Navigator.of(context).pop();
+                                          //       },
+                                          //     ),
+                                          //   ],
+                                          // );
                                         },
                                       );
                                     } else {
@@ -443,20 +517,96 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                                       showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title: const Text(
-                                                Constants.valueNotAccepted),
-                                            content: const Text(Constants
-                                                .enteredKeyDamageValueNotAccepted),
-                                            actions: <Widget>[
-                                              TextButton(
-                                                child: const Text(Constants.ok),
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
+                                          return Dialog(
+                                            backgroundColor: Colors.transparent,
+                                            elevation: 0,
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              child: BackdropFilter(
+                                                filter: ImageFilter.blur(
+                                                    sigmaX: 12, sigmaY: 12),
+                                                child: Container(
+                                                  padding:
+                                                      const EdgeInsets.all(20),
+                                                  decoration: BoxDecoration(
+                                                    color: Colors.white.withValues(
+                                                        alpha:
+                                                            0.12), // glass layer
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                    border: Border.all(
+                                                      color: Colors.white
+                                                          .withValues(
+                                                              alpha:
+                                                                  0.35), // glass border
+                                                      width: 1.3,
+                                                    ),
+                                                  ),
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      const Text(
+                                                        Constants
+                                                            .valueNotAccepted,
+                                                        style: const TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Colors.white,
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                      const SizedBox(
+                                                          height: 12),
+                                                      const Text(
+                                                        Constants
+                                                            .enteredKeyDamageValueNotAccepted,
+                                                        style: const TextStyle(
+                                                          fontSize: 15,
+                                                          color: Colors.white70,
+                                                        ),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                      const SizedBox(
+                                                          height: 20),
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                        child: const Text(
+                                                          Constants.ok,
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 15,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
                                               ),
-                                            ],
+                                            ),
                                           );
+                                          //   AlertDialog(
+                                          //   title: const Text(
+                                          //       Constants.valueNotAccepted),
+                                          //   content: const Text(Constants
+                                          //       .enteredKeyDamageValueNotAccepted),
+                                          //   actions: <Widget>[
+                                          //     TextButton(
+                                          //       child: const Text(Constants.ok),
+                                          //       onPressed: () {
+                                          //         Navigator.of(context).pop();
+                                          //       },
+                                          //     ),
+                                          //   ],
+                                          // );
                                         },
                                       );
                                     } else {

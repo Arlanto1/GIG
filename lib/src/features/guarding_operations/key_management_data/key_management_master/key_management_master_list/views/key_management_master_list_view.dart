@@ -41,13 +41,13 @@ class _KeyManagementMasterListViewState
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
       context.read<KeyManagementMasterListBloc>().add(
-        FetchKeyMasterList(
-          startPos: pageNumber,
-          maxPos: Constants.maxResults,
-          newSearch: false,
-          filters: filters,
-        ),
-      );
+            FetchKeyMasterList(
+              startPos: pageNumber,
+              maxPos: Constants.maxResults,
+              newSearch: false,
+              filters: filters,
+            ),
+          );
     }
   }
 
@@ -61,10 +61,8 @@ class _KeyManagementMasterListViewState
     final size = MediaQuery.of(context).size;
     double height = size.height;
     final scaffoldKey = GlobalKey<ScaffoldState>();
-    return BlocConsumer<
-      KeyManagementMasterListBloc,
-      KeyManagementMasterListState
-    >(
+    return BlocConsumer<KeyManagementMasterListBloc,
+        KeyManagementMasterListState>(
       listener: (context, state) {},
       builder: (context, state) {
         log('hasWritePermission ${state.extraProperties?.hasWritePermission}');
@@ -77,11 +75,11 @@ class _KeyManagementMasterListViewState
             displayMenu: state.displayMenu,
             list: true, // 🔥 only "+" button mode
             onAddPressed: () {
-              Navigator.pushNamed(
-                context,
-                articleFoundNewDetailsRoute,
-                arguments: {"title": Constants.createFound},
-              );
+              Navigator.pushNamed(context, keyManagementMasterDetailsRoute,
+                  arguments: {
+                    "title": Constants.createkeyManagementMaster,
+                    "keyMgmtGi": KeyManagementMasterModel(),
+                  });
             },
           ),
           // floatingActionButton:
@@ -96,7 +94,7 @@ class _KeyManagementMasterListViewState
           //                     "title": Constants.createkeyManagementMaster,
           //                     "keyMgmtGi": KeyManagementMasterModel(),
           //                   }),
-          //             },
+          // //             },
           //           )
           //         : const SizedBox(),
           appBar: BaseAppBar().buildAppHeader(
@@ -110,7 +108,8 @@ class _KeyManagementMasterListViewState
             excelAPIName: 'exportKeyMgmtExcel',
             pdfAPIName: 'exportKeyMgmtPDF',
           ),
-          body: BlocBuilder<KeyManagementMasterListBloc, KeyManagementMasterListState>(
+          body: BlocBuilder<KeyManagementMasterListBloc,
+              KeyManagementMasterListState>(
             builder: (context, state) {
               // if (state.status == FormStatus.initial) {
               //   return const BaseLoader();
@@ -137,8 +136,7 @@ class _KeyManagementMasterListViewState
                     BaseSearchWidget(
                       applySearchFilters: applySearchFilters,
                       applyFilters: applyFilters,
-                      commonFilters:
-                          state.commonFilters ??
+                      commonFilters: state.commonFilters ??
                           CommonFilters(statuses: [], regions: []),
                     ),
                     CommonWidgets.verticalSpacerWidget(height * 0.001),
@@ -175,8 +173,7 @@ class _KeyManagementMasterListViewState
                             if (index < state.list.length) {
                               labels.add(
                                 Label(
-                                  key:
-                                      state.labels?.locale.floor ??
+                                  key: state.labels?.locale.floor ??
                                       state.labels?.defaultLocale.floor ??
                                       Constants.floor,
                                   value: state.list[index].floor.toString(),
@@ -184,8 +181,7 @@ class _KeyManagementMasterListViewState
                               );
                               labels.add(
                                 Label(
-                                  key:
-                                      state.labels?.locale.createdBy ??
+                                  key: state.labels?.locale.createdBy ??
                                       state.labels?.defaultLocale.createdBy ??
                                       Constants.createdby,
                                   value:
@@ -194,8 +190,7 @@ class _KeyManagementMasterListViewState
                               );
                               labels.add(
                                 Label(
-                                  key:
-                                      state.labels?.locale.createdDate ??
+                                  key: state.labels?.locale.createdDate ??
                                       state.labels?.defaultLocale.createdDate ??
                                       Constants.createdDate,
                                   value: state.list[index].createdDate != null
@@ -212,8 +207,7 @@ class _KeyManagementMasterListViewState
                               );
                               labels.add(
                                 Label(
-                                  key:
-                                      state.labels?.locale.noKeys ??
+                                  key: state.labels?.locale.noKeys ??
                                       state.labels?.defaultLocale.noKeys ??
                                       Constants.noOfKeys,
                                   value: state.list[index].noKeys.toString(),
@@ -221,175 +215,176 @@ class _KeyManagementMasterListViewState
                               );
                               labels.add(
                                 Label(
-                                  key:
-                                      state.labels?.locale.noMasterKey ??
+                                  key: state.labels?.locale.noMasterKey ??
                                       state.labels?.defaultLocale.noMasterKey ??
                                       Constants.noOfKeys,
-                                  value: state.list[index].noMasterKey
-                                      .toString(),
+                                  value:
+                                      state.list[index].noMasterKey.toString(),
                                 ),
                               );
                               return index >= state.list.length
-                                  ? null :
-                              Container(
-                                decoration: const BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      // Color(0xFF6474C6),
-                                      // Color(0xFF6474C6),
-                                      Colors.transparent,
-                                      Colors.transparent,
-                                    ],
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                  ),
-                                ),
-                                margin: const EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                  vertical: 8,
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(18),
-                                  child: BackdropFilter(
-                                    filter: ImageFilter.blur(
-                                      sigmaX: 18,
-                                      sigmaY: 18,
-                                    ),
-                                    child: Container(
-                                      decoration:
-                                      BoxDecoration(
+                                  ? null
+                                  : Container(
+                                      decoration: const BoxDecoration(
                                         gradient: LinearGradient(
                                           colors: [
-                                            Colors.white.withValues(alpha: 0.09),
+                                            // Color(0xFF6474C6),
+                                            // Color(0xFF6474C6),
                                             Colors.transparent,
-                                            Colors.white.withValues(alpha: 0.09),
-                                            // Color(0xFF6474C6).withOpacity(0.14)
+                                            Colors.transparent,
                                           ],
-                                          stops: [0.02, 0.35, 1],
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
                                         ),
-                                        borderRadius: BorderRadius.circular(27),
-                                        border: Border.all(
-                                          color: Colors.white
-                                              .withValues(alpha: 0.6),
-                                          width: 0.7,
-                                        ),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.white
-                                                .withValues(alpha: 0.0),
-                                            blurRadius: 12,
-                                            offset: const Offset(0, 2),
+                                      ),
+                                      margin: const EdgeInsets.symmetric(
+                                        horizontal: 12,
+                                        vertical: 8,
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(18),
+                                        child: BackdropFilter(
+                                          filter: ImageFilter.blur(
+                                            sigmaX: 18,
+                                            sigmaY: 18,
                                           ),
-                                        ],
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              gradient: LinearGradient(
+                                                colors: [
+                                                  Colors.white
+                                                      .withValues(alpha: 0.09),
+                                                  Colors.transparent,
+                                                  Colors.white
+                                                      .withValues(alpha: 0.09),
+                                                  // Color(0xFF6474C6).withOpacity(0.14)
+                                                ],
+                                                stops: [0.02, 0.35, 1],
+                                                begin: Alignment.topCenter,
+                                                end: Alignment.bottomCenter,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(27),
+                                              border: Border.all(
+                                                color: Colors.white
+                                                    .withValues(alpha: 0.6),
+                                                width: 0.7,
+                                              ),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.white
+                                                      .withValues(alpha: 0.0),
+                                                  blurRadius: 12,
+                                                  offset: const Offset(0, 2),
+                                                ),
+                                              ],
+                                            ),
+                                            // index >= state.list.length
+                                            //   ? const BaseLoader()
+                                            child: BaseListTileItem(
+                                              id: state.list[index].id,
+                                              labels: labels,
+                                              status: state.list[index].status,
+                                              isKeyManagementStatus: true,
+                                              isEventProtectionStatus: false,
+                                              onTap: (selectedIndex) {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (BuildContext
+                                                      dialogContext) {
+                                                    return BasePopUpItems(
+                                                      id: state
+                                                          .list[selectedIndex]
+                                                          .id
+                                                          .toString(),
+                                                      slNo: state
+                                                          .list[selectedIndex]
+                                                          .slNo,
+                                                      labels: labels,
+                                                      status: state
+                                                          .list[selectedIndex]
+                                                          .status,
+                                                      keyNo: state
+                                                          .list[selectedIndex]
+                                                          .keyNo,
+                                                      // keyTagging: state
+                                                      //     .list[selectedIndex]
+                                                      //     .keyTagging,
+                                                      doorName: state
+                                                          .list[selectedIndex]
+                                                          .doorName,
+                                                      isKeyManagementStatus:
+                                                          true,
+                                                      isEventProtectionStatus:
+                                                          false,
+                                                      isMasterGuard: false,
+                                                      isKeyManagementIssuanceStatus:
+                                                          false,
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                              showEditButton: state
+                                                          .list[index].status !=
+                                                      ConstantsIntValue
+                                                          .cancelledStatus &&
+                                                  state.list[index].status !=
+                                                      ConstantsIntValue
+                                                          .keyMMClosedStatus &&
+                                                  state.extraProperties
+                                                          ?.hasWritePermission ==
+                                                      true,
+                                              onEditTap: (selectedIndex) {
+                                                getById(
+                                                  state.extraProperties
+                                                          ?.hasWritePermission ??
+                                                      false,
+                                                  state.list[index].id ?? 0,
+                                                );
+                                              },
+                                              onViewTap: (selectedIndex) {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (BuildContext
+                                                      dialogContext) {
+                                                    return BasePopUpItems(
+                                                      id: state
+                                                          .list[selectedIndex]
+                                                          .id
+                                                          .toString(),
+                                                      slNo: state
+                                                          .list[selectedIndex]
+                                                          .slNo,
+                                                      labels: labels,
+                                                      status: state
+                                                          .list[selectedIndex]
+                                                          .status,
+                                                      keyNo: state
+                                                          .list[selectedIndex]
+                                                          .keyNo,
+                                                      // keyTagging: state
+                                                      //     .list[selectedIndex]
+                                                      //     .keyTagging,
+                                                      doorName: state
+                                                          .list[selectedIndex]
+                                                          .doorName,
+                                                      isEventProtectionStatus:
+                                                          false,
+                                                      isKeyManagementStatus:
+                                                          true,
+                                                      isKeyManagementIssuanceStatus:
+                                                          false,
+                                                      isMasterGuard: false,
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                              index: index,
+                                            ),
+                                          ),
+                                        ),
                                       ),
-                                      // index >= state.list.length
-                                      //   ? const BaseLoader()
-                                      child: BaseListTileItem(
-                                        id: state.list[index].id,
-                                        labels: labels,
-                                        status: state.list[index].status,
-                                        isKeyManagementStatus: true,
-                                        isEventProtectionStatus: false,
-                                        onTap: (selectedIndex) {
-                                          showDialog(
-                                            context: context,
-                                            builder:
-                                                (BuildContext dialogContext) {
-                                                  return BasePopUpItems(
-                                                    id: state
-                                                        .list[selectedIndex]
-                                                        .id
-                                                        .toString(),
-                                                    slNo: state
-                                                        .list[selectedIndex]
-                                                        .slNo,
-                                                    labels: labels,
-                                                    status: state
-                                                        .list[selectedIndex]
-                                                        .status,
-                                                    keyNo: state
-                                                        .list[selectedIndex]
-                                                        .keyNo,
-                                                    // keyTagging: state
-                                                    //     .list[selectedIndex]
-                                                    //     .keyTagging,
-                                                    doorName: state
-                                                        .list[selectedIndex]
-                                                        .doorName,
-                                                    isKeyManagementStatus: true,
-                                                    isEventProtectionStatus:
-                                                        false,
-                                                    isMasterGuard: false,
-                                                    isKeyManagementIssuanceStatus:
-                                                        false,
-                                                  );
-                                                },
-                                          );
-                                        },
-                                        showEditButton:
-                                            state.list[index].status !=
-                                                ConstantsIntValue
-                                                    .cancelledStatus &&
-                                            state.list[index].status !=
-                                                ConstantsIntValue
-                                                    .keyMMClosedStatus &&
-                                            state
-                                                    .extraProperties
-                                                    ?.hasWritePermission ==
-                                                true,
-                                        onEditTap: (selectedIndex) {
-                                          getById(
-                                            state
-                                                    .extraProperties
-                                                    ?.hasWritePermission ??
-                                                false,
-                                            state.list[index].id ?? 0,
-                                          );
-                                        },
-                                        onViewTap: (selectedIndex) {
-                                          showDialog(
-                                            context: context,
-                                            builder:
-                                                (BuildContext dialogContext) {
-                                                  return BasePopUpItems(
-                                                    id: state
-                                                        .list[selectedIndex]
-                                                        .id
-                                                        .toString(),
-                                                    slNo: state
-                                                        .list[selectedIndex]
-                                                        .slNo,
-                                                    labels: labels,
-                                                    status: state
-                                                        .list[selectedIndex]
-                                                        .status,
-                                                    keyNo: state
-                                                        .list[selectedIndex]
-                                                        .keyNo,
-                                                    // keyTagging: state
-                                                    //     .list[selectedIndex]
-                                                    //     .keyTagging,
-                                                    doorName: state
-                                                        .list[selectedIndex]
-                                                        .doorName,
-                                                    isEventProtectionStatus:
-                                                        false,
-                                                    isKeyManagementStatus: true,
-                                                    isKeyManagementIssuanceStatus:
-                                                        false,
-                                                    isMasterGuard: false,
-                                                  );
-                                                },
-                                          );
-                                        },
-                                        index: index,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
+                                    );
                             }
                             // Handle the case where index is out of bounds
                             return const Center(child: SizedBox());

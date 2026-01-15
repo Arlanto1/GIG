@@ -218,7 +218,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
               );
             },
           ),
-          backgroundColor: AppColors.lavender,
+          backgroundColor: AppColors.newColor,
           body: getBodybuilder(state, height),
         );
       },
@@ -412,19 +412,19 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
     }
     initializeDates(state);
     return Container(
-      color: AppColors.lavender,
+      color: AppColors.newColor3,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.lavender,
+              color: AppColors.newColor3,
             ),
             Container(
-              decoration: const ShapeDecoration(
-                color: AppColors.lavender,
+              decoration: ShapeDecoration(
+                color: AppColors.newColor3,
                 // color: Colors.transparent,
-                shape: RoundedRectangleBorder(
+                shape: const RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(20.0)),
                 ),
@@ -1209,9 +1209,9 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                           const Text(
                             'Add/View Key Issuance Process(S)',
                             style: TextStyle(
-                              color: AppColors.white,
-                              decoration: TextDecoration.underline,
-                            ),
+                                color: AppColors.white,
+                                decoration: TextDecoration.underline,
+                                decorationColor: AppColors.white),
                           ),
                         ],
                       ),
@@ -1273,9 +1273,9 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
             /// SubmitButton
             Container(
               padding: const EdgeInsets.all(5.0),
-              decoration: const ShapeDecoration(
-                color: AppColors.lavender,
-                shape: RoundedRectangleBorder(
+              decoration: ShapeDecoration(
+                color: AppColors.newColor3,
+                shape: const RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(00.0)),
                 ),

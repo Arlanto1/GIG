@@ -416,7 +416,6 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
                   style: Styles.textStyleRegularNormalWhite18,
                 ),
                 const SizedBox(height: 20),
-
                 Expanded(
                   child: ListView(
                     physics: const BouncingScrollPhysics(),
@@ -437,7 +436,6 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
                           );
                         },
                       ),
-
                       _rowCard(
                         icon: 'assets/images/security1.png',
                         label: state.labels?.locale.securityGuard ??
@@ -450,14 +448,12 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
                             payRateRoute,
                             arguments: {
                               "title": Constants.createSecurityGuard,
-                              "payRates":
-                              widget.rate.securityGuardRates ?? [],
+                              "payRates": widget.rate.securityGuardRates ?? [],
                               "gmRate": widget.rate,
                             },
                           );
                         },
                       ),
-
                       _rowCard(
                         icon: 'assets/images/security1.png',
                         label: state.labels?.locale.securitySupervisor ??
@@ -471,13 +467,12 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
                             arguments: {
                               "title": Constants.createSecuritySupervisor,
                               "payRates":
-                              widget.rate.securitySupervisorRates ?? [],
+                                  widget.rate.securitySupervisorRates ?? [],
                               "gmRate": widget.rate,
                             },
                           );
                         },
                       ),
-
                       _rowCard(
                         icon: 'assets/images/security1.png',
                         label: state.labels?.locale.securityOfficer ??
@@ -490,14 +485,12 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
                             payRateRoute,
                             arguments: {
                               "title": Constants.createSecurityOfficer,
-                              "payRates":
-                              widget.rate.securityGuardRates ?? [],
+                              "payRates": widget.rate.securityGuardRates ?? [],
                               "gmRate": widget.rate,
                             },
                           );
                         },
                       ),
-
                       _rowCard(
                         icon: 'assets/images/security1.png',
                         label: state.labels?.locale.securityFacilitator ??
@@ -511,13 +504,12 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
                             arguments: {
                               "title": Constants.createSecurityFacilitator,
                               "payRates":
-                              widget.rate.securityFacilitatorRates ?? [],
+                                  widget.rate.securityFacilitatorRates ?? [],
                               "gmRate": widget.rate,
                             },
                           );
                         },
                       ),
-
                       _rowCard(
                         icon: 'assets/images/gunMan1.png',
                         label: state.labels?.locale.gunMan ?? "Gun Man",
@@ -529,14 +521,12 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
                             payRateRoute,
                             arguments: {
                               "title": Constants.createGunMan,
-                              "payRates":
-                              widget.rate.securityGunManRates ?? [],
+                              "payRates": widget.rate.securityGunManRates ?? [],
                               "gmRate": widget.rate,
                             },
                           );
                         },
                       ),
-
                       _rowCard(
                         icon: 'assets/images/security1.png',
                         label: state.labels?.locale.other ?? "Others",
@@ -581,29 +571,23 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Colors.white.withValues(
-                  alpha: 0.2),
+              Colors.white.withValues(alpha: 0.09),
               Colors.transparent,
-              Colors.white.withValues(
-                  alpha: 0.2),
+              Colors.white.withValues(alpha: 0.09),
               // Color(0xFF6474C6).withOpacity(0.14)
             ],
             stops: [0.02, 0.35, 1],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
-          borderRadius: BorderRadius
-              .circular(27),
+          borderRadius: BorderRadius.circular(27),
           border: Border.all(
-            color: Colors.white
-                .withValues(alpha: 0.80),
-            width: 0.8,
+            color: Colors.white.withValues(alpha: 0.6),
+            width: 0.7,
           ),
           boxShadow: [
             BoxShadow(
-              color: const Color(
-                  0xFF6474C6).withValues(
-                  alpha: 0.09),
+              color: Colors.white.withValues(alpha: 0.0),
               blurRadius: 12,
               offset: const Offset(0, 2),
             ),
@@ -611,7 +595,12 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
         ),
         child: Row(
           children: [
-            Image.asset(icon, height: 46, width: 46, color: Colors.white,),
+            Image.asset(
+              icon,
+              height: 46,
+              width: 46,
+              color: Colors.white,
+            ),
             const SizedBox(width: 16),
             Expanded(
               child: Text(
@@ -619,8 +608,7 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
                 style: Styles.textStyleWhite16,
               ),
             ),
-            const Icon(Icons.arrow_forward_ios,
-                size: 18, color: Colors.white),
+            const Icon(Icons.arrow_forward_ios, size: 18, color: Colors.white),
           ],
         ),
       ),

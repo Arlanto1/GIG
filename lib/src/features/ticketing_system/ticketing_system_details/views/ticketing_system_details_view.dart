@@ -93,7 +93,10 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
             context: context,
             title: Constants.ticketingSystem,
             showPopUp: false,
-            showSaveButton: showSaveSubmitButton && state.status != FormStatus.loading ? true : false,
+            showSaveButton:
+                showSaveSubmitButton && state.status != FormStatus.loading
+                    ? true
+                    : false,
             showSubmitButton: false,
             showDisLikeButton: false,
             showLikeButton: false,
@@ -111,7 +114,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
               // );
             },
           ),
-          backgroundColor: AppColors.lavender,
+          backgroundColor: AppColors.newColor,
           body: getBodybuilder(state, height),
         );
       },
@@ -137,7 +140,6 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
       return const BaseLoader();
     }
 
-
     if (state.status == FormStatus.addAttachment ||
         state.status == FormStatus.initial) {
       // uploadFiles = state.uploadAttachments;
@@ -154,18 +156,18 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
     // }
 
     return Container(
-      color: AppColors.lavender,
+      color: AppColors.newColor3,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.lavender,
+              color: AppColors.newColor3,
             ),
             Container(
-              decoration: const ShapeDecoration(
-                color: AppColors.lavender,
-                shape: RoundedRectangleBorder(
+              decoration: ShapeDecoration(
+                color: AppColors.newColor3,
+                shape: const RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(20.0)),
                 ),
@@ -480,8 +482,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                               textFormKey: Keys.incidentDescription,
                               hintText: Constants.informationhere,
                               isEnable: showSaveSubmitButton,
-                              isDisableColor:
-                              !showSaveSubmitButton,
+                              isDisableColor: !showSaveSubmitButton,
                               onChange: (String value) {
                                 state.model.description = value;
                                 context
@@ -614,24 +615,24 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                 ),
               ),
             ),
-          if ((state.model.status == 9)) ...[
-    Container(
-          padding: const EdgeInsets.all(5.0),
-      decoration: const ShapeDecoration(
-        color: AppColors.backgroundWhiteColor,
-        shape: RoundedRectangleBorder(
-          borderRadius:
-          BorderRadius.vertical(top: Radius.circular(00.0)),
-        ),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          cancelButtonDisplay(),
-        ],
-      ),
-    ),
-    ],
+            if ((state.model.status == 9)) ...[
+              Container(
+                padding: const EdgeInsets.all(5.0),
+                decoration: const ShapeDecoration(
+                  color: AppColors.backgroundWhiteColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(00.0)),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    cancelButtonDisplay(),
+                  ],
+                ),
+              ),
+            ],
           ],
         ),
       ),

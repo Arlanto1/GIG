@@ -4,7 +4,6 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/passmanagement/vendor_pass_management/models/vendor_pass_management_model.dart';
 import 'package:db_atom/src/features/passmanagement/vendor_pass_management/vendor_pass_management_details/cubits/vendor_pass_management_details_cubit.dart';
 
-
 class VendorPassManagementDetailsView extends StatefulWidget {
   final VendorPassManagementModel? model;
   final String title;
@@ -32,22 +31,22 @@ class _VendorPassManagementDetailsViewState
   TextEditingController takenOutOnDateController = TextEditingController();
   TextEditingController statusController = TextEditingController();
   TextEditingController expectedDateOfReturnController =
-  TextEditingController();
+      TextEditingController();
   TextEditingController passValidFromController = TextEditingController();
-  TextEditingController passValidUntilController= TextEditingController();
+  TextEditingController passValidUntilController = TextEditingController();
   bool isReadOnly = false;
-  TextEditingController passTypeController =
-  TextEditingController();
+  TextEditingController passTypeController = TextEditingController();
   TextEditingController contactNumberController = TextEditingController();
-  TextEditingController vendorNameController =TextEditingController();
+  TextEditingController vendorNameController = TextEditingController();
   TextEditingController visitorComingFromController = TextEditingController();
   TextEditingController hostController = TextEditingController();
   TextEditingController purposeOfVisitController = TextEditingController();
-  TextEditingController photoIdentityController=TextEditingController();
-  TextEditingController updateStatusTextController =TextEditingController();
+  TextEditingController photoIdentityController = TextEditingController();
+  TextEditingController updateStatusTextController = TextEditingController();
   TextEditingController escortedByController = TextEditingController();
-  TextEditingController escortedByEmployeeIdController = TextEditingController();
-  TextEditingController companyNameController =TextEditingController();
+  TextEditingController escortedByEmployeeIdController =
+      TextEditingController();
+  TextEditingController companyNameController = TextEditingController();
   TextEditingController returnedTimeController = TextEditingController();
   final FocusNode sentToFocusNode = FocusNode();
 
@@ -55,7 +54,8 @@ class _VendorPassManagementDetailsViewState
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<VendorPassManagementDetailsCubit>(context).initializeValues();
+    BlocProvider.of<VendorPassManagementDetailsCubit>(context)
+        .initializeValues();
     //initializeDates(state);
   }
 
@@ -87,26 +87,27 @@ class _VendorPassManagementDetailsViewState
               // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);
-              Navigator.popAndPushNamed(
-                  context, vendorPassManagementListRoute, arguments: {
-              });
+              Navigator.popAndPushNamed(context, vendorPassManagementListRoute,
+                  arguments: {});
             },
           );
           showDialog(
               context: context,
               barrierDismissible: false,
               builder: (BuildContext context) => dialog);
-          }
+        }
       },
       builder: (context, state) {
-        contactNumberController.text = state.model.contactNo ??'';
+        contactNumberController.text = state.model.contactNo ?? '';
         visitorComingFromController.text = state.model.visitorComingFrom ?? '';
-        hostController.text = '${state.model.host?.firstName ?? ''} ${state.model.host?.lastName ?? ''}';
-        vendorNameController.text=  state.model.employeeName ??'';
-        purposeOfVisitController.text = state.model.visitingPurpose??'';
-        escortedByController.text = state.model.escortedBy??'';
+        hostController.text =
+            '${state.model.host?.firstName ?? ''} ${state.model.host?.lastName ?? ''}';
+        vendorNameController.text = state.model.employeeName ?? '';
+        purposeOfVisitController.text = state.model.visitingPurpose ?? '';
+        escortedByController.text = state.model.escortedBy ?? '';
         companyNameController.text = state.model.companyName ?? '';
-        escortedByEmployeeIdController.text = state.model.escortedEmployeeId ??'';
+        escortedByEmployeeIdController.text =
+            state.model.escortedEmployeeId ?? '';
         if (state.model.status == 0 && !state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }
@@ -114,38 +115,44 @@ class _VendorPassManagementDetailsViewState
           isReadOnly = true;
         }
 
-        if(state.model.status != null && state.model.status !=0){
+        if (state.model.status != null && state.model.status != 0) {
           isReadOnly = true;
         }
 
         showSaveSubmitButtons = (widget.model == null ||
-            state.model.status == 0 ||state.model.status == 1) && state.model.lock.isEmptyOrNull;
+                state.model.status == 0 ||
+                state.model.status == 1) &&
+            state.model.lock.isEmptyOrNull;
 
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: (widget.model == null ||
-                state.model.status == 0) && state.status != FormStatus.loading,            pdfAPIName:
-            '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.passManagementModuleCode}',
+            showSaveButton: (widget.model == null || state.model.status == 0) &&
+                state.status != FormStatus.loading,
+            pdfAPIName:
+                '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.passManagementModuleCode}',
             onTapSave: () {
               FocusScope.of(context).unfocus();
-              BlocProvider.of<VendorPassManagementDetailsCubit>(context).submitForm(
+              BlocProvider.of<VendorPassManagementDetailsCubit>(context)
+                  .submitForm(
                 isSaveOnly: true,
               );
             },
-            showSubmitButton: showSaveSubmitButtons && state.status != FormStatus.loading,
+            showSubmitButton:
+                showSaveSubmitButtons && state.status != FormStatus.loading,
             onTapSubmit: () {
               FocusScope.of(context).unfocus();
-              BlocProvider.of<VendorPassManagementDetailsCubit>(context).submitForm(
+              BlocProvider.of<VendorPassManagementDetailsCubit>(context)
+                  .submitForm(
                 isSaveOnly: false,
               );
             },
             showLikeButton: false,
             showDisLikeButton: false,
           ),
-          backgroundColor: AppColors.lavender,
+          backgroundColor: AppColors.newColor,
           body: getBodybuilder(state, height),
         );
       },
@@ -153,32 +160,36 @@ class _VendorPassManagementDetailsViewState
   }
 
   void initializeDates(VendorPassManagementDetailsState state) {
-
     passValidFromController.text = state.model.startTime == null
         ? Utils.timestampToDateConversion(
-        DateTime.now().millisecondsSinceEpoch,
-        Constants.fulldateFormat) : Utils.timestampToDateConversion(
-        int.tryParse(state.model.startTime ?? '') ??
-            DateTime.now().millisecondsSinceEpoch,
-        Constants.fulldateFormat);
+            DateTime.now().millisecondsSinceEpoch, Constants.fulldateFormat)
+        : Utils.timestampToDateConversion(
+            int.tryParse(state.model.startTime ?? '') ??
+                DateTime.now().millisecondsSinceEpoch,
+            Constants.fulldateFormat);
 
     passValidUntilController.text = state.model.endTime != null
         ? Utils.timestampToDateConversion(
-        int.tryParse(state.model.endTime ?? '') ??
-            DateTime.now().millisecondsSinceEpoch, // Fallback to current timestamp
-        Constants.fulldateFormat) :Utils.timestampToDateConversion(
-        DateTime.now().add(const Duration(hours: 12)).millisecondsSinceEpoch, // One day ahead
-        Constants.fulldateFormat);
+            int.tryParse(state.model.endTime ?? '') ??
+                DateTime.now()
+                    .millisecondsSinceEpoch, // Fallback to current timestamp
+            Constants.fulldateFormat)
+        : Utils.timestampToDateConversion(
+            DateTime.now()
+                .add(const Duration(hours: 12))
+                .millisecondsSinceEpoch, // One day ahead
+            Constants.fulldateFormat);
 
-
-    if( (state.model.status == 2||state.model.status == 8 || state.model.status == 9)) {
+    if ((state.model.status == 2 ||
+        state.model.status == 8 ||
+        state.model.status == 9)) {
       returnedTimeController.text = state.model.returnedTime != null
           ? Utils.timestampToDateConversion(
-          int.tryParse(state.model.returnedTime ?? '') ??
-              DateTime
-                  .now()
-                  .millisecondsSinceEpoch, // Fallback to current timestamp
-          Constants.fulldateFormat) : '';
+              int.tryParse(state.model.returnedTime ?? '') ??
+                  DateTime.now()
+                      .millisecondsSinceEpoch, // Fallback to current timestamp
+              Constants.fulldateFormat)
+          : '';
     }
     state.model.startTime == passValidFromController.text;
     state.model.endTime == passValidUntilController.text;
@@ -197,20 +208,20 @@ class _VendorPassManagementDetailsViewState
     }
 
     return Container(
-      color: AppColors.lavender,
+      color: AppColors.newColor3,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.lavender,
+              color: AppColors.newColor3,
             ),
             Container(
-              decoration: const ShapeDecoration(
-                  color: AppColors.lavender,
-                  shape: RoundedRectangleBorder(
+              decoration: ShapeDecoration(
+                  color: AppColors.newColor3,
+                  shape: const RoundedRectangleBorder(
                     borderRadius:
-                    BorderRadius.vertical(top: Radius.circular(20.0)),
+                        BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
               child: Form(
                 key: _formKey,
@@ -225,7 +236,8 @@ class _VendorPassManagementDetailsViewState
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       AbsorbPointer(
-                        absorbing: !showSaveSubmitButtons &&   IgnorePointer == false,
+                        absorbing:
+                            !showSaveSubmitButtons && IgnorePointer == false,
                         child: Column(
                           children: [
                             if (!state.model.lock.isEmptyOrNull) ...[
@@ -254,8 +266,7 @@ class _VendorPassManagementDetailsViewState
                               textController: statusController,
                               items: passManagementStatusValues,
                               initialValue: '${state.model.status ?? 0}',
-                              onTap: () {
-                              },
+                              onTap: () {},
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -268,16 +279,15 @@ class _VendorPassManagementDetailsViewState
                                 '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-
-
                             /// Updated Status
-                            if(widget.model?.status == 0 || widget.model?.status == 1)...[
+                            if (widget.model?.status == 0 ||
+                                widget.model?.status == 1) ...[
                               CommonWidgets.textDisplay(
                                   isMandatory: true,
                                   state.labels?.locale.updateStatus ??
-                                      state.labels?.defaultLocale
-                                          .updateStatus ??
-                                  Constants.updatestatus,
+                                      state
+                                          .labels?.defaultLocale.updateStatus ??
+                                      Constants.updatestatus,
                                   Styles.textStyleWhite16),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
@@ -287,29 +297,28 @@ class _VendorPassManagementDetailsViewState
                                 isDisableColor: widget.model != null &&
                                     !widget.model!.lock.isEmptyOrNull,
                                 onTap: () {
-                                  BaseOrganisationDialog()
-                                      .departmentDialog(
+                                  BaseOrganisationDialog().departmentDialog(
                                     context: context,
-                                    organisations:
-                                    state.getStatus ?? [],
+                                    organisations: state.getStatus ?? [],
                                     onTap: (Organisation org) {
-                                      if(org.name == "Lost") {
-                                        Future.delayed(const Duration(
-                                            milliseconds: 200), () {
+                                      if (org.name == "Lost") {
+                                        Future.delayed(
+                                            const Duration(milliseconds: 200),
+                                            () {
                                           var dialog = CustomAlertDialog(
                                             title: Constants.updatestatus,
-                                            message: "Are you sure you want to select \"${org
-                                                .name}\"?",
+                                            message:
+                                                "Are you sure you want to select \"${org.name}\"?",
                                             onPositivePressed: () {
                                               Navigator.pop(context);
                                               updateStatusTextController.text =
-                                              org.name!;
+                                                  org.name!;
                                               setState(() {});
                                               BlocProvider.of<
-                                                  VendorPassManagementDetailsCubit>(
-                                                  context)
+                                                          VendorPassManagementDetailsCubit>(
+                                                      context)
                                                   .updateDropdownValues(
-                                                  updatedStatus: org);
+                                                      updatedStatus: org);
                                             },
                                             positiveBtnText: Constants.yes,
                                             negativeBtnText: Constants.no,
@@ -317,28 +326,28 @@ class _VendorPassManagementDetailsViewState
 
                                           showDialog(
                                             context: context,
-                                            builder: (
-                                                BuildContext context) => dialog,
+                                            builder: (BuildContext context) =>
+                                                dialog,
                                           );
                                         });
-                                      }else{
+                                      } else {
                                         updateStatusTextController.text =
-                                        org.name!;
+                                            org.name!;
                                         setState(() {});
                                         BlocProvider.of<
-                                            VendorPassManagementDetailsCubit>(
-                                            context)
+                                                    VendorPassManagementDetailsCubit>(
+                                                context)
                                             .updateDropdownValues(
-                                            updatedStatus: org);
+                                                updatedStatus: org);
                                       }
                                     },
                                   );
                                   // }
                                 },
                               ),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
+
                             /// Location
                             CommonWidgets.textDisplay(
                               state.labels?.locale.location ??
@@ -349,20 +358,20 @@ class _VendorPassManagementDetailsViewState
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseLocationDropdown().locationWidgetDisplay(
-                                isEnabled: (!isReadOnly) &&
-                                    !lock,
+                                isEnabled: (!isReadOnly) && !lock,
                                 context: context,
                                 locations: state.locations ?? Locations(),
                                 selectedLocationName:
-                                state.model.location?.name ?? '',
+                                    state.model.location?.name ?? '',
                                 onTap: (Organisation? location) {
-                                  BlocProvider.of<VendorPassManagementDetailsCubit>(
-                                      context)
+                                  BlocProvider.of<
+                                              VendorPassManagementDetailsCubit>(
+                                          context)
                                       .updateLocationDropdownValue(
-                                      location: location);
+                                          location: location);
                                 }),
 
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Date of creation
                             CommonWidgets.textDisplay(
@@ -385,7 +394,7 @@ class _VendorPassManagementDetailsViewState
                               state.model.slNo ?? '',
                               isMandatory: true,
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Entity
                             CommonWidgets.textDisplay(
@@ -400,68 +409,68 @@ class _VendorPassManagementDetailsViewState
                               all: state.listOfEntities ?? [],
                               enabled: !isReadOnly,
                               onTap: (List<Organisation> selectedEntities) {
-                                BlocProvider.of<VendorPassManagementDetailsCubit>(
-                                    context)
+                                BlocProvider.of<
+                                            VendorPassManagementDetailsCubit>(
+                                        context)
                                     .updateDropdownValues(
-                                    entities: selectedEntities);
+                                        entities: selectedEntities);
                                 Navigator.of(context).pop(); // Close the dialog
                               },
                               orgName: 'ATOM_ENTITIES',
                               functionToCall: () {
                                 // refresh the list
-                                BlocProvider.of<VendorPassManagementDetailsCubit>(
-                                    context)
+                                BlocProvider.of<
+                                            VendorPassManagementDetailsCubit>(
+                                        context)
                                     .refreshList();
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Pass Type
                             CommonWidgets.textDisplay(
-                              state.labels?.locale.passType ??
-                                  state.labels?.defaultLocale
-                                      .passType ??
-                                Constants.passtype,
+                                state.labels?.locale.passType ??
+                                    state.labels?.defaultLocale.passType ??
+                                    Constants.passtype,
                                 Styles.textStyleWhite16,
                                 isMandatory: true),
                             TextFieldAddButton(
                               title: state.model.passTypeName,
                               height: 70,
-                              isDisableColor:  isReadOnly,
+                              isDisableColor: isReadOnly,
                               onTap: () {
-                                if(!isReadOnly) {
+                                if (!isReadOnly) {
                                   BaseOrganisationDialog().departmentDialog(
                                     context: context,
                                     organisations: state.passType!,
                                     onTap: (Organisation passType) {
                                       state.model.passTypeName = passType.name;
                                       BlocProvider.of<
-                                          VendorPassManagementDetailsCubit>(
-                                          context)
+                                                  VendorPassManagementDetailsCubit>(
+                                              context)
                                           .updateDropdownValues(
-                                          passType: passType);
+                                              passType: passType);
                                     },
                                     leftImage: false,
                                     orgName: '',
                                     functionToCall: () {
                                       // refresh the list
                                       BlocProvider.of<
-                                          VendorPassManagementDetailsCubit>(
-                                          context)
+                                                  VendorPassManagementDetailsCubit>(
+                                              context)
                                           .refreshList();
                                     },
                                   );
                                 }
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Vendor Name
                             CommonWidgets.textDisplay(
                               state.labels?.locale.vendorName ??
                                   state.labels?.defaultLocale.vendorName ??
-                              Constants.vendorName,
+                                  Constants.vendorName,
                               Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
@@ -471,10 +480,10 @@ class _VendorPassManagementDetailsViewState
                               textFormKey: Keys.challanKey,
                               controller: vendorNameController,
                               characterLimit:
-                              Constants.characterLimitIdTextFormField,
+                                  Constants.characterLimitIdTextFormField,
                               hintText: '',
                               isEnable: !isReadOnly,
-                              isDisableColor:false,
+                              isDisableColor: false,
                               onChange: (String value) {
                                 state.model.employeeName = value;
                                 context
@@ -487,17 +496,14 @@ class _VendorPassManagementDetailsViewState
 
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
 
-
                             ///Contact no
                             CommonWidgets.textDisplay(
-                              state.labels?.locale.contactNo ??
-                                  state.labels?.defaultLocale
-                                      .contactNo ??
-                                Constants.contactNo,
+                                state.labels?.locale.contactNo ??
+                                    state.labels?.defaultLocale.contactNo ??
+                                    Constants.contactNo,
                                 isMandatory: true,
                                 Styles.textStyleWhite16),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.001),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               controller: contactNumberController,
                               textInputType: TextInputType.number,
@@ -511,15 +517,13 @@ class _VendorPassManagementDetailsViewState
                               },
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.01),
-
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Company Name
                             CommonWidgets.textDisplay(
                               state.labels?.locale.companyName ??
                                   state.labels?.defaultLocale.companyName ??
-                              Constants.companyName,
+                                  Constants.companyName,
                               Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
@@ -529,10 +533,10 @@ class _VendorPassManagementDetailsViewState
                               textFormKey: Keys.challanKey,
                               controller: companyNameController,
                               characterLimit:
-                              Constants.characterLimitIdTextFormField,
+                                  Constants.characterLimitIdTextFormField,
                               hintText: '',
                               isEnable: !isReadOnly,
-                              isDisableColor:false,
+                              isDisableColor: false,
                               onChange: (String value) {
                                 state.model.companyName = value;
                                 context
@@ -541,14 +545,14 @@ class _VendorPassManagementDetailsViewState
                               },
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             ///Host Employee Id
                             CommonWidgets.textDisplay(
-                              state.labels?.locale.hostEmployeeId ??
-                                  state.labels?.defaultLocale
-                                      .hostEmployeeId ??
-                                Constants.hostemployeeid,
+                                state.labels?.locale.hostEmployeeId ??
+                                    state
+                                        .labels?.defaultLocale.hostEmployeeId ??
+                                    Constants.hostemployeeid,
                                 Styles.textStyleWhite16,
                                 isMandatory: true),
                             TextFieldAddButton(
@@ -564,45 +568,41 @@ class _VendorPassManagementDetailsViewState
                                     isDbUser: true,
                                     onTap: (BaseUser user) {
                                       BlocProvider.of<
-                                          VendorPassManagementDetailsCubit>(
-                                          context)
+                                                  VendorPassManagementDetailsCubit>(
+                                              context)
                                           .updateDropdownValues(
                                         host: user,
                                       );
                                     },
-                                    roleName:
-                                    ConstantUserRoles.atomStaticUser,
+                                    roleName: ConstantUserRoles.atomStaticUser,
                                     locationId: state.model.location!.id!,
                                     functionToCall: (BaseUser user) {
                                       BlocProvider.of<
-                                          VendorPassManagementDetailsCubit>(
-                                          context)
+                                                  VendorPassManagementDetailsCubit>(
+                                              context)
                                           .updateDropdownValues(
                                         host: user,
                                       );
                                       // refresh the list
                                       BlocProvider.of<
-                                          VendorPassManagementDetailsCubit>(
-                                          context)
+                                                  VendorPassManagementDetailsCubit>(
+                                              context)
                                           .refreshList();
                                     },
                                   );
                                 }
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             ///Host
                             CommonWidgets.textDisplay(
-                              state.labels?.locale.host ??
-                                  state.labels?.defaultLocale
-                                      .host ??
-                                Constants.host,
+                                state.labels?.locale.host ??
+                                    state.labels?.defaultLocale.host ??
+                                    Constants.host,
                                 isMandatory: true,
                                 Styles.textStyleWhite16),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.001),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
                             FlutterInputField(
                               controller: hostController,
                               textInputType: TextInputType.text,
@@ -613,17 +613,14 @@ class _VendorPassManagementDetailsViewState
                               onChange: (String value) {},
                               validateTextField: (String? user) {},
                             ),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.01),
-
-
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             ///  Visiting Department
                             CommonWidgets.textDisplay(
                               state.labels?.locale.visitingDepartment ??
                                   state.labels?.defaultLocale
                                       .visitingDepartment ??
-                              Constants.visitingDepartment,
+                                  Constants.visitingDepartment,
                               Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
@@ -637,14 +634,13 @@ class _VendorPassManagementDetailsViewState
                                       context: context,
                                       organisations: state.departments,
                                       onTap: (Organisation department) {
-                                        state.model.department
-                                            ?.name = department.name;
+                                        state.model.department?.name =
+                                            department.name;
                                         BlocProvider.of<
-                                            VendorPassManagementDetailsCubit>(
-                                            context)
+                                                    VendorPassManagementDetailsCubit>(
+                                                context)
                                             .updateDropdownValues(
-                                            department:
-                                            department);
+                                                department: department);
                                       },
                                       orgName: 'EMPLOYEE_DEPARTMENTS',
                                       createEntity: false,
@@ -652,8 +648,8 @@ class _VendorPassManagementDetailsViewState
                                       functionToCall: () {
                                         // refresh the list
                                         BlocProvider.of<
-                                            VendorPassManagementDetailsCubit>(
-                                            context)
+                                                    VendorPassManagementDetailsCubit>(
+                                                context)
                                             .refreshList();
                                       });
                                   FocusScope.of(context)
@@ -662,14 +658,14 @@ class _VendorPassManagementDetailsViewState
                               },
                             ),
 
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Reason for Vendor Pass
                             CommonWidgets.textDisplay(
                               state.labels?.locale.vendorPassReason ??
-                                  state.labels?.defaultLocale
-                                      .vendorPassReason ??
-                              Constants.reasonForVendorPass,
+                                  state
+                                      .labels?.defaultLocale.vendorPassReason ??
+                                  Constants.reasonForVendorPass,
                               Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
@@ -683,24 +679,23 @@ class _VendorPassManagementDetailsViewState
                                     context: context,
                                     organisations: state.vendorPassReason,
                                     onTap: (Organisation department) {
-                                      BlocProvider.of<VendorPassManagementDetailsCubit>(
-                                          context)
+                                      BlocProvider.of<
+                                                  VendorPassManagementDetailsCubit>(
+                                              context)
                                           .updateDropdownValues(
-                                          vendorPassReason: department);
+                                              vendorPassReason: department);
                                     },
                                   );
                                 }
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Vendor Pass No
                             CommonWidgets.textDisplay(
                               state.labels?.locale.vendorPassInfo ??
-                                  state.labels?.defaultLocale
-                                      .vendorPassInfo ??
-                              Constants.vendorPassNo,
+                                  state.labels?.defaultLocale.vendorPassInfo ??
+                                  Constants.vendorPassNo,
                               Styles.textStyleWhite16,
                               isMandatory: true,
                             ),
@@ -715,30 +710,28 @@ class _VendorPassManagementDetailsViewState
                                     organisations: state.passNo!,
                                     onTap: (Organisation department) {
                                       state.model.passNo = department.name;
-                                      log('PassNo ${state.model.passNo }');
-                                      BlocProvider.of<VendorPassManagementDetailsCubit>(
-                                          context)
+                                      log('PassNo ${state.model.passNo}');
+                                      BlocProvider.of<
+                                                  VendorPassManagementDetailsCubit>(
+                                              context)
                                           .updateDropdownValues(
-                                          passNo: department);
+                                              passNo: department);
                                     },
                                   );
                                 }
                               },
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Pass Valid From
                             CommonWidgets.textDisplay(
                               state.labels?.locale.startTime ??
-                                  state.labels?.defaultLocale
-                              .startTime ??
-                              Constants.passvlidfrom,
+                                  state.labels?.defaultLocale.startTime ??
+                                  Constants.passvlidfrom,
                               isMandatory: true,
                               Styles.textStyleWhite16,
                             ),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.001),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             BaseDate().datePickerWidgetLoading(
                               textController: passValidFromController,
@@ -747,28 +740,24 @@ class _VendorPassManagementDetailsViewState
                               onChange: (String value) {
                                 passValidFromController.text = value;
                                 BlocProvider.of<
-                                    VendorPassManagementDetailsCubit>(
-                                    context)
+                                            VendorPassManagementDetailsCubit>(
+                                        context)
                                     .onModelValueChange(state.model);
                               },
                               context: context,
                             ),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.01),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Pass Valid Until
                             CommonWidgets.textDisplay(
                               state.labels?.locale.endTime ??
-                                  state.labels?.defaultLocale
-                              .endTime ??
-                              Constants.passvliduntil,
+                                  state.labels?.defaultLocale.endTime ??
+                                  Constants.passvliduntil,
                               isMandatory: true,
                               Styles.textStyleWhite16,
                             ),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.001),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
 
                             BaseDate().datePickerWidgetLoading(
                               textController: passValidUntilController,
@@ -776,132 +765,124 @@ class _VendorPassManagementDetailsViewState
                               onlyDate: false,
                               onChange: (String value) {
                                 BlocProvider.of<
-                                    VendorPassManagementDetailsCubit>(
-                                    context)
+                                            VendorPassManagementDetailsCubit>(
+                                        context)
                                     .onModelValueChange(state.model);
                               },
                               context: context,
                             ),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                              /// Escorted By
-                              CommonWidgets.textDisplay(
+                            /// Escorted By
+                            CommonWidgets.textDisplay(
                                 state.labels?.locale.escortedBy ??
-                                    state.labels?.defaultLocale
-                                        .escortedBy ??
-                                  Constants.escortedby,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-                              FlutterInputField(
-                                controller: escortedByController,
-                                textInputType: TextInputType.text,
-                                textFormKey: Keys.contactNoKey,
-                                hintText: '',
-                                isEnable: !isReadOnly,
-                                isDisableColor: isReadOnly,
-                                onChange: (String value) {
-                                  state.model.escortedBy= value;
-                                },
-                                validateTextField: (String? user) {},
-                              ),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.01),
+                                    state.labels?.defaultLocale.escortedBy ??
+                                    Constants.escortedby,
+                                isMandatory: true,
+                                Styles.textStyleWhite16),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            FlutterInputField(
+                              controller: escortedByController,
+                              textInputType: TextInputType.text,
+                              textFormKey: Keys.contactNoKey,
+                              hintText: '',
+                              isEnable: !isReadOnly,
+                              isDisableColor: isReadOnly,
+                              onChange: (String value) {
+                                state.model.escortedBy = value;
+                              },
+                              validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                              /// Escorted By Employee Id
-                              CommonWidgets.textDisplay(
+                            /// Escorted By Employee Id
+                            CommonWidgets.textDisplay(
                                 state.labels?.locale.escortedEmployeeId ??
                                     state.labels?.defaultLocale
                                         .escortedEmployeeId ??
-                                  Constants.escortedbyemployeeid,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-                              FlutterInputField(
-                                controller: escortedByEmployeeIdController,
-                                textInputType: TextInputType.number,
-                                textFormKey: Keys.contactNoKey,
-                                hintText: '',
-                                isEnable: !isReadOnly,
-                                isDisableColor: isReadOnly,
-                                onChange: (String value) {
-                                  state.model.escortedEmployeeId= value;
-                                },
-                                validateTextField: (String? user) {},
-                              ),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.01),
+                                    Constants.escortedbyemployeeid,
+                                isMandatory: true,
+                                Styles.textStyleWhite16),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            FlutterInputField(
+                              controller: escortedByEmployeeIdController,
+                              textInputType: TextInputType.number,
+                              textFormKey: Keys.contactNoKey,
+                              hintText: '',
+                              isEnable: !isReadOnly,
+                              isDisableColor: isReadOnly,
+                              onChange: (String value) {
+                                state.model.escortedEmployeeId = value;
+                              },
+                              validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-
-                            if(state.model.status ==2 || state.model.status ==8 || state.model.status ==9)...[
+                            if (state.model.status == 2 ||
+                                state.model.status == 8 ||
+                                state.model.status == 9) ...[
                               /// Pass Collected By
                               CommonWidgets.horizentaltextHandling(
-                                state.labels?.locale.handoverSecurity ??
-                                    state.labels?.defaultLocale.handoverSecurity ??
-                                  Constants.passCollectedBy,
+                                  state.labels?.locale.handoverSecurity ??
+                                      state.labels?.defaultLocale
+                                          .handoverSecurity ??
+                                      Constants.passCollectedBy,
                                   isMandatory: true,
                                   '${state.model.handoverSecurity?.firstName ?? ''} ${state.model.handoverSecurity?.lastName ?? ''}'),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-
 
                               ///Pass Returned On
                               CommonWidgets.textDisplay(
                                 state.labels?.locale.returnedTime ??
                                     state.labels?.defaultLocale.returnedTime ??
-                                Constants.passReturnedOn,
+                                    Constants.passReturnedOn,
                                 Styles.textStyleWhite16,
                                 isMandatory: true,
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.001),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
                               BaseDate().datePickerWidgetLoading(
                                 textController: returnedTimeController,
                                 isDisabled: true,
                                 onlyDate: false,
                                 onChange: (String value) {
                                   BlocProvider.of<
-                                      VendorPassManagementDetailsCubit>(
-                                      context)
+                                              VendorPassManagementDetailsCubit>(
+                                          context)
                                       .onModelValueChange(state.model);
                                 },
                                 context: context,
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
                             ],
 
                             ///Attachments
                             CommonWidgets.textDisplay(
-                              state.labels?.locale.evidenceInfo ??
-                                  state.labels?.defaultLocale.evidenceInfo ??
-                                Constants.evidenceDocuments,
+                                state.labels?.locale.evidenceInfo ??
+                                    state.labels?.defaultLocale.evidenceInfo ??
+                                    Constants.evidenceDocuments,
                                 Styles.textStyleWhite16),
                             widget.model == null
                                 ? CommonWidgets.verticalSpacerWidget(
-                                height * 0.001)
+                                    height * 0.001)
                                 : Container(),
                             if (state.model.status == 0 ||
                                 state.model.status == null) ...[
                               BaseImageUpload().uploadWidget(
                                 context: context,
                                 isDisabled: isReadOnly,
-                                loggedInUserDetails:
-                                state.loggedInUserDetails!,
+                                loggedInUserDetails: state.loggedInUserDetails!,
                                 getFiles: uploadFiles,
                                 onImageSelected: (ImageContent data) {
                                   List<ImageContent>? files = [];
                                   files.add(data);
-                                  for (ImageContent image
-                                  in uploadFiles) {
+                                  for (ImageContent image in uploadFiles) {
                                     files.add(image);
                                   }
                                   BlocProvider.of<
-                                      VendorPassManagementDetailsCubit>(
-                                      context)
+                                              VendorPassManagementDetailsCubit>(
+                                          context)
                                       .addAttachment(
                                     data: files,
                                     images: files,
@@ -909,31 +890,35 @@ class _VendorPassManagementDetailsViewState
                                 },
                               ),
                             ],
+
                             /// Attachments
                             IgnorePointer(
                               ignoring: false,
-                           child:  Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20.0),
-                              child: BaseImageUpload().getAttachment(
-                                height: height,
-                                attachments: state.loadAttachments,
-                                files: uploadFiles,
-                                moduleCode: Constants.passManagementModuleCode,
-                                isDisabled: false,
-                                showDeleteIcon: state.model.status == null || state.model.status == 0 ,
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20.0),
+                                child: BaseImageUpload().getAttachment(
+                                  height: height,
+                                  attachments: state.loadAttachments,
+                                  files: uploadFiles,
+                                  moduleCode:
+                                      Constants.passManagementModuleCode,
+                                  isDisabled: false,
+                                  showDeleteIcon: state.model.status == null ||
+                                      state.model.status == 0,
+                                ),
                               ),
                             ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// SubmitButton
                             if (showSaveSubmitButtons) ...[
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   cancelButtonDisplay(),
-                                    submitButtonDisplay(state)
+                                  submitButtonDisplay(state)
                                 ],
                               ),
                             ],
@@ -943,15 +928,17 @@ class _VendorPassManagementDetailsViewState
                       ),
                     ],
                   ),
-                ),),),
+                ),
+              ),
+            ),
             if (!showSaveSubmitButtons) ...[
               Container(
                 padding: const EdgeInsets.all(5.0),
-                decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhiteColor,
-                  shape: RoundedRectangleBorder(
+                decoration: ShapeDecoration(
+                  color: AppColors.newColor3,
+                  shape: const RoundedRectangleBorder(
                     borderRadius:
-                    BorderRadius.vertical(top: Radius.circular(00.0)),
+                        BorderRadius.vertical(top: Radius.circular(00.0)),
                   ),
                 ),
                 child: Row(
@@ -990,8 +977,7 @@ class _VendorPassManagementDetailsViewState
       buttonTextKey: Keys.submitButton,
       onTap: () async {
         FocusScope.of(context).unfocus();
-        BlocProvider.of<VendorPassManagementDetailsCubit>(context).submitForm(
-        );
+        BlocProvider.of<VendorPassManagementDetailsCubit>(context).submitForm();
       },
     );
   }
