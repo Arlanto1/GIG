@@ -627,7 +627,7 @@ class Utils {
         const Text(
           'Status:',
           style: TextStyle(
-            color: Colors.black,
+            color: Colors.white,
             fontWeight: FontWeight.w600,
             fontSize: 16,
           ),
@@ -1519,7 +1519,7 @@ class Utils {
         const Text(
           'Status:',
           style: TextStyle(
-            color: Colors.black,
+            color: Colors.white,
             fontWeight: FontWeight.w600,
             fontSize: 16,
           ),
@@ -2832,12 +2832,12 @@ class Utils {
       maxLines: 1,                      // 👈 optional (limit lines)
       overflow: TextOverflow.ellipsis,  // 👈 show "..."
       text: TextSpan(
-        style: Styles.textStyleBlack16,
+        style: Styles.textStyleWhite16,
         children: [
           TextSpan(text: title),
           TextSpan(
             text: desc,
-            style: Styles.textStyleBlack16,
+            style: Styles.textStyleWhite16,
           ),
         ],
       ),

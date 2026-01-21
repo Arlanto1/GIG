@@ -1600,8 +1600,8 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                         : null;
                   },
                   icon: widget.showEditButton ?? true
-                      ?  Icon(Icons.edit, color: AppColors.newColor)
-                      :  Icon(Icons.edit_off_outlined, color: AppColors.newColor),
+                      ?  const Icon(Icons.edit, color: AppColors.white)
+                      :  const Icon(Icons.edit_off_outlined, color: AppColors.white),
                 ),
 
                 // if (widget.showNonEditButton ?? true) ...[

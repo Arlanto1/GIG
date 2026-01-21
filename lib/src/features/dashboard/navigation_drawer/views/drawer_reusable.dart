@@ -5609,43 +5609,43 @@ class NavigationDrawer1 extends StatelessWidget {
     }
     List<MenuItem> expansionTileDrawerItems = [];
     if (displayMenu?.aps ?? false) {
-      // expansionTileDrawerItems.add(const MenuItem(
-      //     Constants.annualPowerShutdownListTitle,
-      //     AppIcon.annualPowerShutdownIcon,
-      //     0));
+      expansionTileDrawerItems.add(const MenuItem(
+          Constants.annualPowerShutdownListTitle,
+          AppIcon.annualPowerShutdownIcon,
+          0));
     }
     if (displayMenu?.aF ?? false) {
-      // expansionTileDrawerItems.add(const MenuItem(
-      //     Constants.articleFoundRegisterListTitle,
-      //     AppIcon.articleFoundRegisterIcon,
-      //     0));
+      expansionTileDrawerItems.add(const MenuItem(
+          Constants.articleFoundRegisterListTitle,
+          AppIcon.articleFoundRegisterIcon,
+          0));
     }
     if (displayMenu?.eP ?? false) {
-      // expansionTileDrawerItems.add(const MenuItem(
-      //     Constants.eventProtectionList, AppIcon.eventProtectionIcon, 0));
+      expansionTileDrawerItems.add(const MenuItem(
+          Constants.eventProtectionList, AppIcon.eventProtectionIcon, 0));
     }
 
     log('gm -- ${displayMenu?.gM}');
     if (guardingOperations) {
-      // expansionTileDrawerItems.add(const MenuItem(
-      //     Constants.guardingOperations, AppIcon.guardingOperationIcon, 1));
+      expansionTileDrawerItems.add(const MenuItem(
+          Constants.guardingOperations, AppIcon.guardingOperationIcon, 1));
     }
 
     if (displayMenu?.iM ?? false) {
-      // expansionTileDrawerItems.add(const MenuItem(
-      //     Constants.incidentManagementTitle,
-      //     AppIcon.incidentManagementIcon,
-      //     0));
+      expansionTileDrawerItems.add(const MenuItem(
+          Constants.incidentManagementTitle,
+          AppIcon.incidentManagementIcon,
+          0));
     }
     if (displayMenu?.keyMM ?? false) {
-      // expansionTileDrawerItems.add(const MenuItem(
-      //     Constants.keyManagementData, AppIcon.keyManagementDataIcon, 1));
+      expansionTileDrawerItems.add(const MenuItem(
+          Constants.keyManagementData, AppIcon.keyManagementDataIcon, 1));
     }
     if (displayMenu?.lEO ?? false) {
-      // expansionTileDrawerItems.add(const MenuItem(
-      //     Constants.lawEnforcementVisitsListTitle,
-      //     AppIcon.lawEnforcementIcon,
-      //     0));
+      expansionTileDrawerItems.add(const MenuItem(
+          Constants.lawEnforcementVisitsListTitle,
+          AppIcon.lawEnforcementIcon,
+          0));
     }
 
     if (displayMenu?.mM ?? false) {
@@ -5658,43 +5658,43 @@ class NavigationDrawer1 extends StatelessWidget {
     }
 
     if (displayMenu?.sS ?? false) {
-      // expansionTileDrawerItems.add(
-      //     const MenuItem(shiftSchedulingTitle, AppIcon.eventProtectionIcon, 1));
+      expansionTileDrawerItems.add(
+          const MenuItem(shiftSchedulingTitle, AppIcon.eventProtectionIcon, 1));
     }
 
     if (displayMenu?.vIP ?? false) {
-      // expansionTileDrawerItems
-      //     .add(const MenuItem(vVipVisitorsTitle, AppIcon.vvipVisitorIcon, 0));
+      expansionTileDrawerItems
+          .add(const MenuItem(vVipVisitorsTitle, AppIcon.vvipVisitorIcon, 0));
     }
 
     return expansionTileDrawerItems;
   }
 
-  // Future<List<MenuItem>> costBillingDisplayMenu() async {
-  //   displayMenu = await SharedPrefs.getDisplayMenu();
-  //   if (displayMenu == null) {
-  //     return [];
-  //   }
-  //   List<MenuItem> costAndBillingExpansionTileDrawerItems = [];
-  //   if (displayMenu?.gR ?? false) {
-  //     costAndBillingExpansionTileDrawerItems.add(const MenuItem(
-  //         Constants.guardingRates, AppIcon.guardingRatesIcon, 0));
-  //   }
-  //   return costAndBillingExpansionTileDrawerItems;
-  // }
+  Future<List<MenuItem>> costBillingDisplayMenu() async {
+    displayMenu = await SharedPrefs.getDisplayMenu();
+    if (displayMenu == null) {
+      return [];
+    }
+    List<MenuItem> costAndBillingExpansionTileDrawerItems = [];
+    if (displayMenu?.gR ?? false) {
+      costAndBillingExpansionTileDrawerItems.add(const MenuItem(
+          Constants.guardingRates, AppIcon.guardingRatesIcon, 0));
+    }
+    return costAndBillingExpansionTileDrawerItems;
+  }
 
-  // Future<List<MenuItem>> securitySystemsDisplayMenu() async {
-  //   displayMenu = await SharedPrefs.getDisplayMenu();
-  //   if (displayMenu == null) {
-  //     return [];
-  //   }
-  //   List<MenuItem> securitySystemTicketsItems = [];
-  //   if (displayMenu?.gR ?? false) {
-  //     securitySystemTicketsItems
-  //         .add(const MenuItem(Constants.incident, AppIcon.incidentIcon, 0));
-  //   }
-  //   return securitySystemTicketsItems;
-  // }
+  Future<List<MenuItem>> securitySystemsDisplayMenu() async {
+    displayMenu = await SharedPrefs.getDisplayMenu();
+    if (displayMenu == null) {
+      return [];
+    }
+    List<MenuItem> securitySystemTicketsItems = [];
+    if (displayMenu?.gR ?? false) {
+      securitySystemTicketsItems
+          .add(const MenuItem(Constants.incident, AppIcon.incidentIcon, 0));
+    }
+    return securitySystemTicketsItems;
+  }
 
   final String? username;
   final String? email;
@@ -5778,20 +5778,20 @@ class NavigationDrawer1 extends StatelessWidget {
                         _opearationsLastSelectedItem =
                             (state as OperationsGetDrawerItemChange).index;
                         break;
-                    // case SecurityFunctionsGetDrawerItemChange:
-                    //   _securityfunfunctionslastSelectedItem =
-                    //       (state as SecurityFunctionsGetDrawerItemChange)
-                    //           .index;
-                    //   break;
+                    case SecurityFunctionsGetDrawerItemChange:
+                      _securityfunfunctionslastSelectedItem =
+                          (state as SecurityFunctionsGetDrawerItemChange)
+                              .index;
+                      break;
                       case PassMgmtGetDrawerItemChange:
                         _passlastSelectedItem =
                             (state as PassMgmtGetDrawerItemChange).index;
                         break;
-                    // case TicketingSystemGetDrawerItemChange:
-                    //   _ticketingSystemlastSelectedItem =
-                    //       (state as TicketingSystemGetDrawerItemChange)
-                    //           .index;
-                    //   break;
+                    case TicketingSystemGetDrawerItemChange:
+                      _ticketingSystemlastSelectedItem =
+                          (state as TicketingSystemGetDrawerItemChange)
+                              .index;
+                      break;
                       default:
                         break;
                     }
@@ -5814,65 +5814,65 @@ class NavigationDrawer1 extends StatelessWidget {
                                   _menuScaffoldKey.currentState!.openDrawer();
                                 }
                               },
-                              // child: Container(
-                              //   padding: const EdgeInsets.all(6),
-                              //   decoration: BoxDecoration(
-                              //     color: Colors.white.withValues(alpha: 0.04),
-                              //     borderRadius: BorderRadius.circular(10),
-                              //     border: Border.all(
-                              //         color: Colors.white.withValues(alpha: 0.6)),
-                              //   ),
-                              //   child:
-                              //   SvgPicture.asset(AppIcon.closeicon,color: Colors.white),
-                              // )
-                              child: Row(
-                                children: [
-                                  //  LEFT BOX — LOGO
-                                  // Container(
-                                  //   padding: const EdgeInsets.all(6),
-                                  //   decoration: BoxDecoration(
-                                  //     color: Colors.white.withValues(alpha: 0.04),
-                                  //     borderRadius: BorderRadius.circular(10),
-                                  //     border: Border.all(
-                                  //       color: Colors.white.withValues(alpha: 0.6),
-                                  //     ),
-                                  //   ),
+                              child: Container(
+                                padding: const EdgeInsets.all(6),
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withValues(alpha: 0.04),
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                      color: Colors.white.withValues(alpha: 0.6)),
+                                ),
+                                child:
+                                SvgPicture.asset(AppIcon.closeicon,color: Colors.white),
+                              )
+                              // child: Row(
+                              //   children: [
+                              //     //  LEFT BOX — LOGO
+                              //     Container(
+                              //       padding: const EdgeInsets.all(6),
+                              //       decoration: BoxDecoration(
+                              //         color: Colors.white.withValues(alpha: 0.04),
+                              //         borderRadius: BorderRadius.circular(10),
+                              //         border: Border.all(
+                              //           color: Colors.white.withValues(alpha: 0.6),
+                              //         ),
+                              //       ),
+                              //       child: Image.asset(
+                              //         'assets/images/fedex.png',
+                              //         height: 35,
+                              //         fit: BoxFit.contain,
+                              //       ),
+                              //     ),
+
+                                  // Padding(
+                                  //   padding: const EdgeInsets.all(0),
                                   //   child: Image.asset(
-                                  //     'assets/images/fedex.png',
-                                  //     height: 35,
-                                  //     fit: BoxFit.contain,
+                                  //     'assets/images/logo1.png',
+                                  //     height: 50,
+                                  //     // fit: BoxFit.contain,
                                   //   ),
                                   // ),
-
-                                  Padding(
-                                    padding: const EdgeInsets.all(0),
-                                    child: Image.asset(
-                                      'assets/images/fedex1.png',
-                                      height: 50,
-                                      // fit: BoxFit.contain,
-                                    ),
-                                  ),
-
-                                  const Spacer(),
+                                  //
+                                  // const Spacer(),
 
                                   //  RIGHT BOX — CLOSE ICON
-                                  Container(
-                                    padding: const EdgeInsets.all(6),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white.withValues(alpha: 0.04),
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(
-                                        color: Colors.white.withValues(alpha: 0.6),
-                                      ),
-                                    ),
-                                    child: SvgPicture.asset(
-                                      AppIcon.closeicon,
-                                      color: Colors.white,
-                                      height: 35,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                              //     Container(
+                              //       padding: const EdgeInsets.all(6),
+                              //       decoration: BoxDecoration(
+                              //         color: Colors.white.withValues(alpha: 0.04),
+                              //         borderRadius: BorderRadius.circular(10),
+                              //         border: Border.all(
+                              //           color: Colors.white.withValues(alpha: 0.6),
+                              //         ),
+                              //       ),
+                              //       child: SvgPicture.asset(
+                              //         AppIcon.closeicon,
+                              //         color: Colors.white,
+                              //         height: 35,
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
 
 
                             ),
@@ -5888,7 +5888,7 @@ class NavigationDrawer1 extends StatelessWidget {
                               horizontal: 4, vertical: 6),
                           padding: const EdgeInsets.all(14),
                           decoration: BoxDecoration(
-                            color: AppColors.fedexColor,
+                            color: AppColors.newColor7,
                             borderRadius: BorderRadius.circular(16),
                             border: Border.all(
                                 color: Colors.white.withValues(alpha: 0.1)),
@@ -6247,26 +6247,26 @@ class NavigationDrawer1 extends StatelessWidget {
                   buildDrawerChildren(context, drawerItem.title);
                   break;
 
-              // case Constants.costAndBilling:
-              //   _onCostAndBillingItemSelected(i, context);
-              //   break;
+              case Constants.costAndBilling:
+                _onCostAndBillingItemSelected(i, context);
+                break;
 
-              // case Constants.securitySystems:
-              //   _onSecuritySystemIncidentItemSelected(i, context);
-              //   break;
-              //
-              // case Constants.keyManagementData:
-              //   _onKeyManagementItemSelected(
-              //     i,
-              //     context,
-              //   );
-              //   break;
+              case Constants.securitySystems:
+                _onSecuritySystemIncidentItemSelected(i, context);
+                break;
 
-              // case shiftSchedulingTitle:
-              //   _onShiftScheduleItemSelected(i, context);
-              //   break;
-              // default:
-              //   _onSecuritySystemIncidentItemSelected(i, context);
+              case Constants.keyManagementData:
+                _onKeyManagementItemSelected(
+                  i,
+                  context,
+                );
+                break;
+
+              case shiftSchedulingTitle:
+                _onShiftScheduleItemSelected(i, context);
+                break;
+              default:
+                _onSecuritySystemIncidentItemSelected(i, context);
               // Default case if title doesn't match any specific condition
               }
             },

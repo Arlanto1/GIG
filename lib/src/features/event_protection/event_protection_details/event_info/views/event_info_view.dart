@@ -3,7 +3,9 @@ import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/base_widget/opacity_absorb_widget.dart';
-import 'package:quill_html_editor/quill_html_editor.dart';
+// import 'package:quill_html_editor/quill_html_editor.dart';
+// import 'package:html_editor_enhanced/html_editor.dart';
+import 'package:html_editor_enhanced/html_editor.dart'; // includes HtmlEditor and HtmlEditorToolbar
 
 class EventInfoView extends StatefulWidget {
   const EventInfoView({
@@ -26,7 +28,9 @@ class EventInfoView extends StatefulWidget {
 class _EventInfoViewState extends State<EventInfoView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  final QuillEditorController quillController = QuillEditorController();
+  // final QuillEditorController quillController = QuillEditorController();
+  final HtmlEditorController quillController = HtmlEditorController();
+
 
   User? userDetails;
   List<ImageContent>? guardFiles;
@@ -49,13 +53,15 @@ class _EventInfoViewState extends State<EventInfoView> {
   void dispose() {
     dateController.dispose();
     addEmailController.dispose();
-    quillController.dispose();
+    // quillController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final size = MediaQuery
+        .of(context)
+        .size;
     final height = size.height;
 
     return BlocConsumer<EventInfoCubit, EventInfoState>(
@@ -112,13 +118,13 @@ class _EventInfoViewState extends State<EventInfoView> {
                 Constants.fulldateFormat);
           }
           initialisedFromDate = DateTime.fromMillisecondsSinceEpoch(
-                  (int.tryParse('${state.model.startDate}') ?? 0) * 1000)
+              (int.tryParse('${state.model.startDate}') ?? 0) * 1000)
               .toString();
           initialisedStartDate = DateTime.fromMillisecondsSinceEpoch(
-                  (int.tryParse('${state.model.startDate}') ?? 0) * 1000)
+              (int.tryParse('${state.model.startDate}') ?? 0) * 1000)
               .toString();
           initialisedToDate = DateTime.fromMillisecondsSinceEpoch(
-                  (int.tryParse('${state.model.endDate}') ?? 0) * 1000)
+              (int.tryParse('${state.model.endDate}') ?? 0) * 1000)
               .toString();
           log('initialisedToDate--- $initialisedToDate');
           log('initialisedStartDate--- $initialisedStartDate');
@@ -128,16 +134,17 @@ class _EventInfoViewState extends State<EventInfoView> {
         if (state.eventDuration == ConstantsIntValue.eventDurationAfter) {
           if (!state.model.eventConcludedAt.isEmptyOrNull &&
               dateController.text.isEmpty) {
-            log('state.model.eventConcludedAt--- ${state.model.eventConcludedAt}');
+            log('state.model.eventConcludedAt--- ${state.model
+                .eventConcludedAt}');
             dateController.text = Utils.timestampToDateConversion(
                 int.tryParse(state.model.eventConcludedAt ?? 'null'),
                 Constants.fulldateFormat);
           }
           initialisedFromDate = DateTime.fromMillisecondsSinceEpoch(
-                  (int.tryParse('${state.model.eventStartedAt}') ?? 0) * 1000)
+              (int.tryParse('${state.model.eventStartedAt}') ?? 0) * 1000)
               .toString();
           initialisedStartDate = DateTime.fromMillisecondsSinceEpoch(
-                  (int.tryParse('${state.model.eventStartedAt}') ?? 0) * 1000)
+              (int.tryParse('${state.model.eventStartedAt}') ?? 0) * 1000)
               .toString();
           DateTime currentDate = DateTime.now();
           DateTime newDateTime = currentDate.add(const Duration(days: 1));
@@ -213,7 +220,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                   color: AppColors.newColor3,
                   shape: const RoundedRectangleBorder(
                     borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20.0)),
+                    BorderRadius.vertical(top: Radius.circular(20.0)),
                   )),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -310,7 +317,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                                         style: TextStyle(
                                             color: AppColors.white,
                                             decoration:
-                                                TextDecoration.underline,
+                                            TextDecoration.underline,
                                             decorationColor: AppColors.white),
                                       ),
                                     ],
@@ -332,114 +339,196 @@ class _EventInfoViewState extends State<EventInfoView> {
                                 ),
                                 child:
 
-                                    // Column(
-                                    //   children: [
-                                    //     EditorHtml(
-                                    //       mainContext: context,
-                                    //       text: state.model.email ?? '',
-                                    //       eventInfoState: state,
-                                    //     ),
-                                    //   ],
-                                    // ),
+                                // Column(
+                                //   children: [
+                                //     EditorHtml(
+                                //       mainContext: context,
+                                //       text: state.model.email ?? '',
+                                //       eventInfoState: state,
+                                //     ),
+                                //   ],
+                                // ),
 
-                                    Column(
+                                Column(
                                   children: [
-                                    ToolBar(
-                                      toolBarColor: toolbarColor,
-                                      padding: const EdgeInsets.all(8),
-                                      iconSize: 25,
-                                      iconColor: toolbarIconColor,
-                                      activeIconColor:
-                                          Colors.greenAccent.shade400,
+                                    // ToolBar(
+                                    //   toolBarColor: toolbarColor,
+                                    //   padding: const EdgeInsets.all(8),
+                                    //   iconSize: 25,
+                                    //   iconColor: toolbarIconColor,
+                                    //   activeIconColor:
+                                    //       Colors.greenAccent.shade400,
+                                    //   controller: quillController,
+                                    //   crossAxisAlignment:
+                                    //       WrapCrossAlignment.start,
+                                    //   direction: Axis.horizontal,
+                                    //   // customButtons: [
+                                    //   //   Container(
+                                    //   //     width: 25,
+                                    //   //     height: 25,
+                                    //   //     decoration: BoxDecoration(
+                                    //   //         color: _hasFocus ? Colors.green : Colors.grey,
+                                    //   //         borderRadius: BorderRadius.circular(15)),
+                                    //   //   ),
+                                    //   //   InkWell(
+                                    //   //       onTap: () => unFocusEditor(),
+                                    //   //       child: const Icon(
+                                    //   //         Icons.favorite,
+                                    //   //         color: Colors.black,
+                                    //   //       )),
+                                    //   //   InkWell(
+                                    //   //       onTap: () async {
+                                    //   //         var selectedText = await controller.getSelectedText();
+                                    //   //         debugPrint('selectedText $selectedText');
+                                    //   //         var selectedHtmlText = await controller.getSelectedHtmlText();
+                                    //   //         debugPrint('selectedHtmlText $selectedHtmlText');
+                                    //   //       },
+                                    //   //       child: const Icon(
+                                    //   //         Icons.add_circle,
+                                    //   //         color: Colors.black,
+                                    //   //       )),
+                                    //   // ],
+                                    // ),
+                                    // HtmlToolbar(
+                                    //   controller: quillController,
+                                    //   toolbarType: ToolbarType.nativeScrollable,
+                                    // ),
+                                    // HtmlEditor(
+                                    //   controller: quillController, // your HtmlEditorController
+                                    //   htmlEditorOptions: HtmlEditorOptions(
+                                    //     hint: "Type here...",
+                                    //     initialText: state.model.email ?? '',
+                                    //     shouldEnsureVisible: true,
+                                    //   ),
+                                    //   otherOptions: OtherOptions(
+                                    //     height: 400,
+                                    //   ),
+                                    //   callbacks: Callbacks(
+                                    //     onTextChanged: (text) {
+                                    //       updatedEmailText = text;
+                                    //     },
+                                    //     onEditorCreated: () {
+                                    //       setHtmlText(state.model.email ?? '');
+                                    //     },
+                                    //   ),
+                                    // ),
+                                    HtmlEditor(
                                       controller: quillController,
-                                      crossAxisAlignment:
-                                          WrapCrossAlignment.start,
-                                      direction: Axis.horizontal,
-                                      // customButtons: [
-                                      //   Container(
-                                      //     width: 25,
-                                      //     height: 25,
-                                      //     decoration: BoxDecoration(
-                                      //         color: _hasFocus ? Colors.green : Colors.grey,
-                                      //         borderRadius: BorderRadius.circular(15)),
-                                      //   ),
-                                      //   InkWell(
-                                      //       onTap: () => unFocusEditor(),
-                                      //       child: const Icon(
-                                      //         Icons.favorite,
-                                      //         color: Colors.black,
-                                      //       )),
-                                      //   InkWell(
-                                      //       onTap: () async {
-                                      //         var selectedText = await controller.getSelectedText();
-                                      //         debugPrint('selectedText $selectedText');
-                                      //         var selectedHtmlText = await controller.getSelectedHtmlText();
-                                      //         debugPrint('selectedHtmlText $selectedHtmlText');
-                                      //       },
-                                      //       child: const Icon(
-                                      //         Icons.add_circle,
-                                      //         color: Colors.black,
-                                      //       )),
-                                      // ],
+                                      htmlEditorOptions: HtmlEditorOptions(
+                                        hint: "Type here...",
+                                        initialText: state.model.email ?? '',
+                                        shouldEnsureVisible: true,
+                                      ),
+                                      htmlToolbarOptions: const HtmlToolbarOptions(
+                                        defaultToolbarButtons: [
+                                          FontButtons(),
+                                          ColorButtons(),
+                                          ParagraphButtons(),
+                                          InsertButtons(),
+                                        ],
+                                      ),
+                                      otherOptions: OtherOptions(height: 400),
+                                      callbacks: Callbacks(
+                                        onInit: () {
+                                          quillController.setText(state.model.email ?? '');
+                                        },
+                                        onChangeContent: (String? text) {
+                                          updatedEmailText = text ?? '';
+                                        },
+                                      ),
                                     ),
+
                                     SizedBox(
                                       height: 450,
                                       width: double.infinity,
                                       child: SingleChildScrollView(
-                                        child: QuillHtmlEditor(
-                                          // text: widget.text,
-                                          hintText: 'Hint text goes here',
+                                        // child: QuillHtmlEditor(
+                                        //   // text: widget.text,
+                                        //   hintText: 'Hint text goes here',
+                                        //   controller: quillController,
+                                        //   isEnabled: showSaveButtons,
+                                        //   ensureVisible: true,
+                                        //   minHeight: 500,
+                                        //   autoFocus: true,
+                                        //   textStyle: editorTextStyle,
+                                        //   hintTextStyle: hintTextStyle,
+                                        //   hintTextAlign: TextAlign.start,
+                                        //   padding: const EdgeInsets.only(
+                                        //       left: 10, top: 10),
+                                        //   hintTextPadding:
+                                        //       const EdgeInsets.only(left: 20),
+                                        //   backgroundColor: backgroundColor,
+                                        //   inputAction: InputAction.newline,
+                                        //   onEditingComplete: (s) async {
+                                        //     debugPrint('Editing completed $s');
+                                        //     state.model.email = s;
+                                        //     BlocProvider.of<EventInfoCubit>(
+                                        //             context)
+                                        //         .onModelValueChange(
+                                        //             state.model);
+                                        //   },
+                                        //   loadingBuilder: (context) {
+                                        //     return const Center(
+                                        //         child:
+                                        //             CircularProgressIndicator(
+                                        //       strokeWidth: 1,
+                                        //       color: Colors.red,
+                                        //     ));
+                                        //   },
+                                        //   onFocusChanged: (focus) {
+                                        //     debugPrint(
+                                        //         'has focus-----SSSS---- $focus');
+                                        //   },
+                                        //   onTextChanged: (text) {
+                                        //     debugPrint(
+                                        //         'widget text change $text');
+                                        //     updatedEmailText = text;
+                                        //   },
+                                        //   onEditorCreated: () {
+                                        //     debugPrint(
+                                        //         'Editor has been loaded--------');
+                                        //     // setHtmlText(widget.text);
+                                        //     quillController.setText(
+                                        //         state.model.email ?? '');
+                                        //   },
+                                        //   onEditorResized: (height) => debugPrint(
+                                        //       'Editor resized----------- $height'),
+                                        //   onSelectionChanged: (sel) => debugPrint(
+                                        //       'index---- ${sel.index}, range ${sel.length}'),
+                                        // ),
+                                        child: HtmlEditor(
                                           controller: quillController,
-                                          isEnabled: showSaveButtons,
-                                          ensureVisible: true,
-                                          minHeight: 500,
-                                          autoFocus: true,
-                                          textStyle: editorTextStyle,
-                                          hintTextStyle: hintTextStyle,
-                                          hintTextAlign: TextAlign.start,
-                                          padding: const EdgeInsets.only(
-                                              left: 10, top: 10),
-                                          hintTextPadding:
-                                              const EdgeInsets.only(left: 20),
-                                          backgroundColor: backgroundColor,
-                                          inputAction: InputAction.newline,
-                                          onEditingComplete: (s) async {
-                                            debugPrint('Editing completed $s');
-                                            state.model.email = s;
-                                            BlocProvider.of<EventInfoCubit>(
-                                                    context)
-                                                .onModelValueChange(
-                                                    state.model);
-                                          },
-                                          loadingBuilder: (context) {
-                                            return const Center(
-                                                child:
-                                                    CircularProgressIndicator(
-                                              strokeWidth: 1,
-                                              color: Colors.red,
-                                            ));
-                                          },
-                                          onFocusChanged: (focus) {
-                                            debugPrint(
-                                                'has focus-----SSSS---- $focus');
-                                          },
-                                          onTextChanged: (text) {
-                                            debugPrint(
-                                                'widget text change $text');
-                                            updatedEmailText = text;
-                                          },
-                                          onEditorCreated: () {
-                                            debugPrint(
-                                                'Editor has been loaded--------');
-                                            // setHtmlText(widget.text);
-                                            quillController.setText(
-                                                state.model.email ?? '');
-                                          },
-                                          onEditorResized: (height) => debugPrint(
-                                              'Editor resized----------- $height'),
-                                          onSelectionChanged: (sel) => debugPrint(
-                                              'index---- ${sel.index}, range ${sel.length}'),
-                                        ),
+                                          htmlEditorOptions: HtmlEditorOptions(
+                                            hint: 'Hint text goes here',
+                                            initialText: state.model.email ??
+                                                '',
+                                            autoAdjustHeight: true,
+                                            disabled: !showSaveButtons,
+                                          ),
+                                          htmlToolbarOptions: HtmlToolbarOptions(
+                                            toolbarPosition: ToolbarPosition
+                                                .aboveEditor,
+                                          ),
+                                          callbacks: Callbacks(
+                                            onChangeContent: (text) {
+                                              updatedEmailText = text;
+                                            },
+                                            onBlur: () async {
+                                              final text = await quillController
+                                                  .getText();
+                                              state.model.email = text;
+                                              BlocProvider.of<EventInfoCubit>(
+                                                  context)
+                                                  .onModelValueChange(
+                                                  state.model);
+                                            },
+                                            onInit: () {
+                                              quillController.setText(
+                                                  state.model.email ?? '');
+                                            },
+                                          ),
+                                        )
+                                        ,
                                       ),
                                     ),
                                   ],
@@ -455,8 +544,9 @@ class _EventInfoViewState extends State<EventInfoView> {
                                   Center(
                                     child: Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                       children: [
+
                                         /// Add Button
                                         OpacityAbsorbInkWellWidget(
                                           absorbing: !showSaveButtons,
@@ -466,12 +556,12 @@ class _EventInfoViewState extends State<EventInfoView> {
                                               articleFoundNewDetailsRoute,
                                               arguments: {
                                                 ConstantsArgument.eventId:
-                                                    state.model.id,
+                                                state.model.id,
                                                 ConstantsArgument
-                                                        .eventProtectionId:
-                                                    widget.eventProtectionId,
+                                                    .eventProtectionId:
+                                                widget.eventProtectionId,
                                                 ConstantsArgument.location:
-                                                    state.model.location,
+                                                state.model.location,
                                               },
                                             );
                                           },
@@ -482,8 +572,8 @@ class _EventInfoViewState extends State<EventInfoView> {
 
                                         /// Show List Button
                                         if (!state.foundArticles.isEmptyOrNull
-                                            // && state.model.status! >= 22
-                                            ) ...[
+                                        // && state.model.status! >= 22
+                                        ) ...[
                                           submitButtonDisplay(
                                             label: Constants.showList,
                                             onTap: () {
@@ -492,10 +582,10 @@ class _EventInfoViewState extends State<EventInfoView> {
                                                 articleFoundNewListRoute,
                                                 arguments: {
                                                   ConstantsArgument.eventId:
-                                                      state.model.id,
+                                                  state.model.id,
                                                   ConstantsArgument
-                                                          .eventProtectionId:
-                                                      widget.eventProtectionId,
+                                                      .eventProtectionId:
+                                                  widget.eventProtectionId,
                                                 },
                                               );
                                               // showDialog(
@@ -540,16 +630,17 @@ class _EventInfoViewState extends State<EventInfoView> {
                                   Styles.textStyleWhite14),
                               state.model.image == null
                                   ? CommonWidgets.verticalSpacerWidget(
-                                      height * 0.001)
+                                  height * 0.001)
                                   : Container(),
                               BaseImageUpload().uploadWidget(
                                 context: context,
                                 isDisabled: !showSaveButtons,
                                 loggedInUserDetails:
-                                    state.loggedInUserDetails ?? User(),
+                                state.loggedInUserDetails ?? User(),
                                 getFiles: guardFiles,
                                 onImageSelected: (ImageContent data) {
-                                  log('-------function---onImageSelected---------');
+                                  log(
+                                      '-------function---onImageSelected---------');
                                   List<ImageContent>? files = [];
                                   files.add(data);
                                   for (ImageContent image in guardFiles ?? []) {
@@ -617,8 +708,14 @@ class _EventInfoViewState extends State<EventInfoView> {
           value: exampleCubit,
           child: BlocBuilder<EventInfoCubit, EventInfoState>(
             builder: (context, state) {
-              var height = MediaQuery.of(dialogContext).size.height;
-              var width = MediaQuery.of(dialogContext).size.width;
+              var height = MediaQuery
+                  .of(dialogContext)
+                  .size
+                  .height;
+              var width = MediaQuery
+                  .of(dialogContext)
+                  .size
+                  .width;
               return AlertDialog(
                 backgroundColor: AppColors.backgroundWhiteColor,
                 shape: RoundedRectangleBorder(
@@ -748,35 +845,24 @@ class _EventInfoViewState extends State<EventInfoView> {
     return htmlText;
   }
 
-  ///[setHtmlText] to set the html text to editor
-  void setHtmlText(String text) async {
-    await quillController.setText(text);
+  void setHtmlText(String text) {
+    quillController.setText(text); // just call it, don't await
   }
 
-  ///[insertNetworkImage] to set the html text to editor
-  void insertNetworkImage(String url) async {
-    await quillController.embedImage(url);
+  // void insertNetworkImage(String url) {
+  //   quillController.insertNetworkImage(url: url); // just call it
+  // }
+
+  // void insertHtmlText(String text) {
+  //   quillController.insertHtml(html: text); // just call it
+  // }
+
+  void clearEditor() {
+    quillController.clear(); // call directly
   }
 
-  ///[insertVideoURL] to set the video url to editor
-  ///this method recognises the inserted url and sanitize to make it embeddable url
-  ///eg: converts youtube video to embed video, same for vimeo
-  void insertVideoURL(String url) async {
-    await quillController.embedVideo(url);
+  void enableEditor(bool enable) {
+    quillController.enable(); // call directly
   }
 
-  /// to set the html text to editor
-  /// if index is not set, it will be inserted at the cursor postion
-  void insertHtmlText(String text, {int? index}) async {
-    await quillController.insertText(text, index: index);
-  }
-
-  /// to clear the editor
-  void clearEditor() => quillController.clear();
-
-  /// to enable/disable the editor
-  void enableEditor(bool enable) => quillController.enableEditor(enable);
-
-  /// method to un focus editor
-  void unFocusEditor() => quillController.unFocus();
 }

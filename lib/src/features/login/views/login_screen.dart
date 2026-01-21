@@ -1755,11 +1755,11 @@ class _LoginState extends State<Login> {
                           Align(
                             alignment: Alignment.topCenter,
                             child: FractionallySizedBox(
-                              widthFactor: 0.4,   // responsive width
+                              widthFactor: 0.6,   // responsive width
                               child: Padding(
-                                padding: EdgeInsets.only(top: size.height * 0.1),
+                                padding: EdgeInsets.only(top: size.height * 0.12),
                                 child: Image.asset(
-                                  'assets/images/fedex1.png',
+                                  'assets/images/logo1.png',
                                   fit: BoxFit.contain,
                                 ),
                               ),
@@ -1949,90 +1949,90 @@ class _LoginState extends State<Login> {
                             ),),
 
                           // Positioned OR + SSO block
-                          // Positioned(
-                          //   top: size.height * 0.730,
-                          //   left: 0,
-                          //   right: 0,
-                          //   child: Column(
-                          //     children: [
-                          //       const Text(
-                          //         "OR",
-                          //         style: TextStyle(fontWeight: FontWeight.bold,
-                          //             fontSize: 20,
-                          //             color: Colors.white),
-                          //       ),
-                          //       const SizedBox(height: 10),
-                          //       Container(
-                          //         width: MediaQuery.of(context).size.width* 0.9,
-                          //         padding: const EdgeInsets.symmetric(
-                          //             vertical: 30, horizontal: 30),
-                          //         decoration: BoxDecoration(
-                          //           color: Colors.white.withValues(alpha: 0.30),
-                          //           borderRadius: BorderRadius.circular(20),
-                          //           boxShadow: [
-                          //             BoxShadow(
-                          //               color: Colors.white.withValues(
-                          //                   alpha: 0.07),
-                          //               blurRadius: 16,
-                          //               offset: const Offset(0, 4),
-                          //             ),
-                          //           ],
-                          //           border: Border.all(
-                          //               color: Colors.white.withValues(
-                          //                   alpha: 0.25)),
-                          //         ),
-                          //         // Replace ElevatedButton with InkWell or GestureDetector for tap handling
-                          //         child: InkWell(
-                          //           borderRadius: BorderRadius.circular(10),
-                          //           onTap: () async {
-                          //             try {
-                          //               final MsalUser? user = await WebSsoMsalHandler()
-                          //                   .getToken(context);
-                          //               if (user != null) {
-                          //                 bloc.add(LoginSsoVerifyEvent(
-                          //                     user: user, isFromLogin: false));
-                          //                 if (state is LoginVerifyOtpActionState) {
-                          //                   dismissLoadingDialog(context);
-                          //                   await Future.delayed(
-                          //                       const Duration(milliseconds: 20));
-                          //                   Navigator.pushNamedAndRemoveUntil(
-                          //                     context,
-                          //                     dashboardViewRoute,
-                          //                         (route) => false,
-                          //                   );
-                          //                 }
-                          //               }
-                          //             } on MsalException catch (e) {
-                          //               // LogService.add('MSAL error: ${e.errorMessage}');
-                          //
-                          //               log('MSAL error: ${e.errorMessage}');
-                          //             } catch (e) {
-                          //               log('General error: ${e.toString()}');
-                          //               // LogService.add('General error: ${e.toString()}');
-                          //
-                          //             }
-                          //           },
-                          //           child: Row(
-                          //             mainAxisAlignment: MainAxisAlignment.center,
-                          //             children: [
-                          //               Image.asset(
-                          //                   AppIcon.deutscheBankLogo, height: 20),
-                          //               CommonWidgets.horizontalSpacerWidget(
-                          //                   height * 0.01),
-                          //                Text(
-                          //                 Constants.dbSSO,
-                          //                 style: TextStyle(
-                          //                     color: AppColors.newColor,
-                          //                     fontWeight: FontWeight.w900,
-                          //                     fontSize: 18),
-                          //               ),
-                          //             ],
-                          //           ),
-                          //         ),
-                          //       ),
-                          //     ],
-                          //   ),
-                          // ),
+                          Positioned(
+                            top: size.height * 0.730,
+                            left: 0,
+                            right: 0,
+                            child: Column(
+                              children: [
+                                const Text(
+                                  "OR",
+                                  style: TextStyle(fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                      color: Colors.white),
+                                ),
+                                const SizedBox(height: 10),
+                                Container(
+                                  width: MediaQuery.of(context).size.width* 0.9,
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 30, horizontal: 30),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withValues(alpha: 0.30),
+                                    borderRadius: BorderRadius.circular(20),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.white.withValues(
+                                            alpha: 0.07),
+                                        blurRadius: 16,
+                                        offset: const Offset(0, 4),
+                                      ),
+                                    ],
+                                    border: Border.all(
+                                        color: Colors.white.withValues(
+                                            alpha: 0.25)),
+                                  ),
+                                  // Replace ElevatedButton with InkWell or GestureDetector for tap handling
+                                  child: InkWell(
+                                    borderRadius: BorderRadius.circular(10),
+                                    onTap: () async {
+                                      try {
+                                        final MsalUser? user = await WebSsoMsalHandler()
+                                            .getToken(context);
+                                        if (user != null) {
+                                          bloc.add(LoginSsoVerifyEvent(
+                                              user: user, isFromLogin: false));
+                                          if (state is LoginVerifyOtpActionState) {
+                                            dismissLoadingDialog(context);
+                                            await Future.delayed(
+                                                const Duration(milliseconds: 20));
+                                            Navigator.pushNamedAndRemoveUntil(
+                                              context,
+                                              dashboardViewRoute,
+                                                  (route) => false,
+                                            );
+                                          }
+                                        }
+                                      } on MsalException catch (e) {
+                                        // LogService.add('MSAL error: ${e.errorMessage}');
+
+                                        log('MSAL error: ${e.errorMessage}');
+                                      } catch (e) {
+                                        log('General error: ${e.toString()}');
+                                        // LogService.add('General error: ${e.toString()}');
+
+                                      }
+                                    },
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Image.asset(
+                                            AppIcon.deutscheBankLogo, height: 20),
+                                        CommonWidgets.horizontalSpacerWidget(
+                                            height * 0.01),
+                                         Text(
+                                          Constants.dbSSO,
+                                          style: TextStyle(
+                                              color: AppColors.newColor,
+                                              fontWeight: FontWeight.w900,
+                                              fontSize: 18),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
 
                           // Positioned Copyright and Version
                           Positioned(

@@ -1821,12 +1821,12 @@ class _CustomBottomNavigationBarState
                                 colors: [
                                   // Color(0xFF6474C6),
                                   // Color(0xFF6474C6),
-                                  AppColors.fedexColor,
+                                  AppColors.newColor7,
                                   // Color(0xFF0C4C99),
                                   // Color(0xFF071130),
                                   // Color(0xFF0C4C99),
-                                  AppColors.fedexColor,
-                                  AppColors.fedexColor
+                                  AppColors.newColor7,
+                                  AppColors.newColor7
                                 ],
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
@@ -2014,7 +2014,7 @@ class _CustomBottomNavigationBarState
                               shape: BoxShape.circle,
                               gradient: isSelected
                                   ? LinearGradient(
-                                colors: [AppColors.fedexColor, AppColors.fedexColor],
+                                colors: [AppColors.newColor7, AppColors.newColor7],
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
                               )

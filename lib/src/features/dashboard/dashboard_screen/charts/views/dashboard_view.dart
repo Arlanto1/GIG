@@ -1517,12 +1517,12 @@ class DashboardViewState extends State<DashboardView>
           drawer: NavigationDrawer1(scaffoldKey, userName, email),
           appBar: AppHeader(
             isTitleCenter: false,
-            // title: Constants.dashboard,
-            titleWidget: Image.asset(
-              'assets/images/fedex1.png',
-              height: 40,
-              fit: BoxFit.contain,
-            ),
+            title: Constants.dashboard,
+            // titleWidget: Image.asset(
+            //   'assets/images/fedex1.png',
+            //   height: 40,
+            //   fit: BoxFit.contain,
+            // ),
             backgroundColour:  AppColors.newColor,
             action: [
               // if (Environment().config.apiHost.contains('api.qa.')) ...[
@@ -1928,18 +1928,33 @@ class DashboardViewState extends State<DashboardView>
             child: Column(
               children: [
                 buildChartHorizontalWidget(
-                  title: Constants.outWardMM,
+                  title: Constants.lawEnforcementVisitsByEntity,
                   chartValues: state.lawEnforcementVisitByEntity ?? [],
                 ),
                 const SizedBox(height: 20),
                 buildChartHorizontalWidget(
-                  title: Constants.inWardMM,
+                  title: Constants.lawEnforcementVisitsByRegion,
                   chartValues: state.lawEnforcementVisitByRegion ?? [],
                 ),
                 const SizedBox(height: 20),
                 buildChartHorizontalWidget(
-                  title: Constants.visitor,
+                  title: Constants.eventProtectionByRegion,
                   chartValues: state.eventProtectionByRegion ?? [],
+                ),
+                const SizedBox(height: 20),
+                buildChartHorizontalWidget(
+                  title: Constants.outWardMM,
+                  chartValues: state.outWardMaterialMovement ?? [],
+                ),
+                const SizedBox(height: 20),
+                buildChartHorizontalWidget(
+                  title: Constants.inWardMM,
+                  chartValues: state.inWardMaterialMovement ?? [],
+                ),
+                const SizedBox(height: 20),
+                buildChartHorizontalWidget(
+                  title: Constants.visitor,
+                  chartValues: state.visitorPassManagement ?? [],
                 ),
               ],
             ),

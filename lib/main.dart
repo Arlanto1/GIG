@@ -11,15 +11,3 @@ Future<void> main() async {
   // InactivityFunctions().startInactivityTimer(navigatorKey);
 }
 
-
-
-
-
-//
-// class LogService {
-//   static final ValueNotifier<List<String>> logsNotifier = ValueNotifier([]);
-//
-//   static void add(String message) {
-//     logsNotifier.value = List.from(logsNotifier.value)..add(message);
-//   }
-// }

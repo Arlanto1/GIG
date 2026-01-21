@@ -34,7 +34,7 @@ class AppColors {
   static MaterialColor colorCustom = MaterialColor(0xFF2CAAE0, color);
 
 
-  // static Color newColor = const Color(0xFF071B2E);
+  static Color newColor = const Color(0xFF071B2E);
   static Color newColor1 = const Color(0xFF98C781);
   static Color newColor2 = const Color(0xFFCFE4C3);
   static Color newColor3 = const Color(0xFF0C2340);
@@ -55,7 +55,7 @@ class AppColors {
   static Color newColor18 = const Color(0xFFE58774);
   static Color newColor19 = const Color(0xFFF6AD6E);
   static Color fedexColor = const Color(0xFFff6200);
-  static Color newColor = const Color(0xFF4d148c);
+  // static Color newColor = const Color(0xFF4d148c);
 
   static const white = MaterialColor(
     0xFFFFFFFF,

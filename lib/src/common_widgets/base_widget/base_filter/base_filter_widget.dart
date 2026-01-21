@@ -1954,10 +1954,10 @@ class _BaseSearchWidgetState extends State<BaseSearchWidget> {
               height: 40,
               padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.black),
+                border: Border.all(color: Colors.white),
                 borderRadius: BorderRadius.circular(5),
               ),
-              child: const Icon(Icons.tune, color: Colors.black),
+              child: const Icon(Icons.tune, color: Colors.white),
             ),
           ),
         ],
@@ -2397,7 +2397,7 @@ class _FilterDrawerWidgetState extends State<FilterDrawerWidget> {
                           Expanded(
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.fedexColor.withValues(alpha: 0.5),
+                                backgroundColor: AppColors.newColor7.withValues(alpha: 0.5),
                                 foregroundColor: Colors.white,
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8),   side: const BorderSide(
                                   color: Colors.white,   // 👈 WHITE BORDER

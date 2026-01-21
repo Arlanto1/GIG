@@ -823,11 +823,11 @@ class _OtpVerifyState extends State<OtpVerify> {
                     Align(
                       alignment: Alignment.topCenter,
                       child: FractionallySizedBox(
-                        widthFactor: 0.4,   // responsive width
+                        widthFactor: 0.6,   // responsive width
                         child: Padding(
-                          padding: EdgeInsets.only(top: size.height * 0.1),
+                          padding: EdgeInsets.only(top: size.height * 0.13),
                           child: Image.asset(
-                            'assets/images/fedex1.png',
+                            'assets/images/logo1.png',
                             fit: BoxFit.contain,
                           ),
                         ),
@@ -869,12 +869,12 @@ class _OtpVerifyState extends State<OtpVerify> {
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
                                       // Heading text
-                                      const Text(
+                                      Text(
                                         'OTP Verification',
                                         style: TextStyle(
                                           fontSize: 32,
                                           fontFamily: 'Bungee',
-                                          color: Color(0xFF000080),
+                                          color: AppColors.newColor,
                                           fontWeight: FontWeight.w900,
                                           letterSpacing: 2,
                                         ),
