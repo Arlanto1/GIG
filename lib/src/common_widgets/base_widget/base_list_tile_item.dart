@@ -1072,9 +1072,13 @@ class BaseListTileItem extends StatefulWidget {
   final Function? onDeleteTap;
   final Function? onEmailTap;
   final Function? onLinkOffTap;
+  final Function? onApproveTap;
   final int? incidentType;
   final bool isIncident;
   final Organisation? vendors;
+  final int? workShift;
+  final bool isWorkShift;
+
 
   // final Item userItem;
   final int? index;
@@ -1083,6 +1087,7 @@ class BaseListTileItem extends StatefulWidget {
   final bool? showDeleteButton;
   final bool? showEmailButton;
   final bool? showLinkOffButton;
+  final bool? showApproveButton;
   final bool isMasterGuard;
   final bool? isMasterGuardRank;
   final bool isEventProtectionStatus;
@@ -1117,6 +1122,8 @@ class BaseListTileItem extends StatefulWidget {
     this.onViewTap,
     this.onEmailTap,
     this.onLinkOffTap,
+    this.onApproveTap,
+    this.showApproveButton = false,
     this.index,
     this.region,
     this.vendor,
@@ -1129,7 +1136,7 @@ class BaseListTileItem extends StatefulWidget {
     this.guardRank,
     this.labels,
     this.isMasterGuard = false,
-    this.isMasterGuardRank,
+    this.isMasterGuardRank = false,
     this.isEventProtectionStatus = true,
     this.isOccurrenceStatus = false,
     this.isSLAViolationStatus = false,
@@ -1154,6 +1161,8 @@ class BaseListTileItem extends StatefulWidget {
     this.isPassManagementStatus = false,
     this.isLawEnforcementStatus = false,
     this.isArticleFoundStatus = false,
+    this.workShift,
+    this.isWorkShift = false,
   });
 
   @override
@@ -1338,13 +1347,24 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                       //   CommonWidgets.horizontalSpacerWidget(5),
                       //   Utils().buildMasterDataStatusRow(widget.status ?? 0),
                       // ],
-                      if (widget.guardRank != -1 && widget.isMasterGuard) ...[
+                      if (widget.guardRank != -1 && widget.isMasterGuardRank == true) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Utils().buildGuardRank(
                                 guardRank: widget.guardRank ?? 0),
+                          ],
+                        ),
+                      ],
+
+                      if (widget.workShift != -1 && widget.isWorkShift == true) ...[
+                        CommonWidgets.horizontalSpacerWidget(5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Utils().buildWorkShift(
+                                workShift: widget.workShift ?? 0),
                           ],
                         ),
                       ],
@@ -1666,7 +1686,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           ? widget.onLinkOffTap!(widget.index)
                           : null;
                     },
-                    icon: const Icon(Icons.link_off, color:  Color(0xFF0000CC)),
+                    icon: const Icon(Icons.link_off, color:  Colors.white),
                   ),
                 ],
                 if (widget.showDeleteButton ?? true) ...[
@@ -1678,9 +1698,18 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                             ? widget.onDeleteTap!(widget.index)
                             : null;
                       },
-                      icon: const Icon(Icons.delete, color:  Color(0xFF0000CC)),
+                      icon: const Icon(Icons.delete, color:  Colors.white),
                     ),
                   ]
+                ],
+
+                if (widget.showApproveButton ?? true) ...[
+                  IconButton(
+                    onPressed: () {
+                      widget.onApproveTap !=null ? widget.onApproveTap!(widget.index):null;
+                    },
+                    icon: const Icon(Icons.approval, color:  Colors.white),
+                  ),
                 ],
               ],
             ),

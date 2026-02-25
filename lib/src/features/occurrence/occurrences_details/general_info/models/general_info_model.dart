@@ -1,6 +1,8 @@
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/incident_management/models/incidents_response.dart';
 
+import '../../../../opsTeamSituationUpdate/model/opsTeamSitutationModel.dart';
+
 part 'general_info_model.g.dart';
 
 class OccurrenceResponse {
@@ -33,7 +35,8 @@ class OccurrenceResponse {
       };
 }
 
-@JsonSerializable()
+// @JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class OccurrenceModel {
   int? id;
   String? slNo;
@@ -72,7 +75,6 @@ class OccurrenceModel {
   bool cwmVisit;
   String? comments;
   bool dgWrking;
-
   String? modifiedDate;
   String? modifiedBy;
   List<PowerFailureModel>? powerFailures;
@@ -80,6 +82,13 @@ class OccurrenceModel {
   List<dynamic>? secSysFailureIncident;
   bool followedUp;
   int? status;
+  int? shifts;
+  Organisation? ipadSerialNo;
+  Organisation? dutyPostLocation;
+  String? privacyScreenComments;
+  bool monsoon;
+  bool privacyScreenPresent;
+  List<LsmSituationalModel>? lsmUpdateList;
   String? lock;
 
   OccurrenceModel({
@@ -127,6 +136,13 @@ class OccurrenceModel {
     this.followedUp = false,
     this.status,
     this.powerFailures,
+    this.shifts,
+    this.ipadSerialNo,
+    this.dutyPostLocation,
+    this.privacyScreenComments,
+    this.monsoon = false,
+    this.privacyScreenPresent=false,
+    this.lsmUpdateList,
     this.lock,
   });
 
@@ -135,3 +151,5 @@ class OccurrenceModel {
 
   Map<String, dynamic> toJson() => _$OccurrenceModelToJson(this);
 }
+
+

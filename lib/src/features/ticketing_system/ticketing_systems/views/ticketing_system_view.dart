@@ -80,7 +80,9 @@ class _TicketingSystemViewState extends State<TicketingSystemView> {
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
-          backgroundColor: AppColors.newColor,
+          backgroundColor:Colors.transparent,
+          extendBody: true,
+          extendBodyBehindAppBar: true,
           // floatingActionButton: Flutterfloatingbutton(
           //   backgroundColor: AppColors.navigationSkyBlueColor,
           //   foregroundColor: AppColors.backgroundWhiteColor,
@@ -134,23 +136,35 @@ class _TicketingSystemViewState extends State<TicketingSystemView> {
               // if (state.status == FormStatus.initial) {
               //   return const BaseLoader();
               // }
-              return Container(
-                width: double.infinity,
-                height: double.infinity,
-                color:AppColors.newColor3,
-                // margin: allMargin16,
-                // decoration: const ShapeDecoration(
-                //   color: AppColors.backgroundWhiteColor,
-                //   shape: RoundedRectangleBorder(
-                //     borderRadius:
-                //         BorderRadius.vertical(top: Radius.circular(20.0)),
-                //   ),
-                // ),
-                child: Column(
-                  // crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    CommonWidgets.verticalSpacerWidget(height * 0.01),
-                    BaseSearchWidget(
+              return Stack(
+                children: [
+                  // 🔹 Background
+                  Positioned.fill(
+                    child: Image.asset(
+                      'assets/images/bg2.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Positioned.fill(
+                    child: ClipRect(
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
+                        child: Container(
+                          color: Colors.black.withOpacity(0.2),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  // 🔹 Search Bar - positioned safely at the top
+                  Positioned(
+                    top: MediaQuery
+                        .of(context)
+                        .padding
+                        .top + kToolbarHeight + -40, // below AppBar
+                    left: 3,
+                    right: 3,
+                    child: BaseSearchWidget(
                       applySearchFilters: applySearchFilters,
                       applyFilters: applyFilters,
                       commonFilters: state.commonFilters ??
@@ -159,26 +173,30 @@ class _TicketingSystemViewState extends State<TicketingSystemView> {
                             regions: [],
                           ),
                     ),
-                    CommonWidgets.verticalSpacerWidget(height * 0.001),
-                    if (state.status == FormStatus.loading) ...[
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      const BaseLoader(),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-                    ],
-                    UtilsCommon().showNoRecordWidget(
-                        state: state, height: height, items: state.items),
-                    Expanded(
-                      child: CustomMaterialIndicator(
-                        onRefresh: () => _onRefresh(),
-                        backgroundColor: Colors.white,
-                        indicatorBuilder: (context, controller) {
-                          return const Padding(
-                            padding: EdgeInsets.all(6.0),
-                            child: BaseLoader(),
-                          );
-                        },
+                  ),
+
+                  // 🔹 ListView - start immediately below search bar
+                  Positioned(
+                    top: MediaQuery
+                        .of(context)
+                        .padding
+                        .top + kToolbarHeight + 10,
+                    // search bar height ~64+padding
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    child: CustomMaterialIndicator(
+                      onRefresh: () => _onRefresh(),
+                      backgroundColor: Colors.white,
+                      indicatorBuilder: (context, controller) {
+                        return const Padding(
+                          padding: EdgeInsets.all(6.0),
+                          child: BaseLoader(),
+                        );
+                      },
                         child: ListView.builder(
                           controller: _scrollController,
+                          padding: EdgeInsets.zero,
                           itemCount: state.hasReachedMax
                               ? state.items.length
                               : state.items.length + 1,
@@ -328,7 +346,6 @@ class _TicketingSystemViewState extends State<TicketingSystemView> {
                       ),
                     ),
                   ],
-                ),
               );
             },
           ),

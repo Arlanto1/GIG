@@ -62,7 +62,9 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
     final size = MediaQuery.of(context).size;
     double height = size.height;
     return Scaffold(
-        backgroundColor: AppColors.newColor,
+        backgroundColor:Colors.transparent,
+        extendBody: true,
+        extendBodyBehindAppBar: true,
         // floatingActionButton: Flutterfloatingbutton(
         //   backgroundColor: AppColors.navigationSkybluecolor,
         //   foregroundColor: AppColors.backgroundWhitecolor,
@@ -79,11 +81,6 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
           // displayMenu: state.displayMenu,
           list: true, // 🔥 only "+" button mode
           onAddPressed: () {
-            Navigator.pushNamed(
-              context,
-              articleFoundNewDetailsRoute,
-              arguments: {"title": Constants.createFound},
-            );
           },
         ),
         appBar: BaseAppBar().buildAppHeader(
@@ -105,52 +102,60 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
           // if (state.list.isEmptyOrNull) {
           //   return const NoRecordFoundWidget();
           // }
-          return Container(
-            width: double.infinity,
-            height: double.infinity,
-            color: AppColors.newColor3,
-            child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                const SizedBox(
-                  height: 10,
-                ),
-                BaseSearchWidget(
-                  applySearchFilters: applySearchFilters,
-                  applyFilters: applyFilters,
-                  commonFilters: state.commonFilters ??
-                      CommonFilters(
-                        statuses: [],
-                        regions: [],
+              return Stack(
+                children: [
+                  // 🔹 Background
+                  Positioned.fill(
+                    child: Image.asset(
+                      'assets/images/bg2.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Positioned.fill(
+                    child: ClipRect(
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
+                        child: Container(
+                          color: Colors.black.withOpacity(0.2),
+                        ),
                       ),
-                ),
-                CommonWidgets.verticalSpacerWidget(height * 0.001),
-                // if (state.status == FormStatus.loading) ...[
-                //   CommonWidgets.verticalSpacerWidget(height * 0.01),
-                //   const BaseLoader(),
-                //   CommonWidgets.verticalSpacerWidget(height * 0.01),
-                // ],
-                // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
-                // Text('state.status=====${state.status}'),
-                if (state.list.isEmptyOrNull &&
-                    state.status != FormStatus.loading &&
-                    state.status != FormStatus.initial) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.1),
-                  const NoRecordFoundWidget(),
-                ],
+                    ),
+                  ),
 
-                Expanded(
-                  child: CustomMaterialIndicator(
-                    onRefresh: () => _onRefresh(),
-                    backgroundColor: Colors.white,
-                    indicatorBuilder: (context, controller) {
-                      return const Padding(
-                        padding: EdgeInsets.all(6.0),
-                        child: BaseLoader(),
-                      );
-                    },
+                  // 🔹 Search Bar - positioned safely at the top
+                  Positioned(
+                    top: MediaQuery.of(context).padding.top + kToolbarHeight + -40, // below AppBar
+                    left: 3,
+                    right: 3,
+                    child: BaseSearchWidget(
+                      applySearchFilters: applySearchFilters,
+                      applyFilters: applyFilters,
+                      commonFilters: state.commonFilters ??
+                          CommonFilters(
+                            statuses: [],
+                            regions: [],
+                          ),
+                    ),
+                  ),
+
+                  // 🔹 ListView - start immediately below search bar
+                  Positioned(
+                    top: MediaQuery.of(context).padding.top + kToolbarHeight + 10, // search bar height ~64+padding
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    child: CustomMaterialIndicator(
+                      onRefresh: () => _onRefresh(),
+                      backgroundColor: Colors.white,
+                      indicatorBuilder: (context, controller) {
+                        return const Padding(
+                          padding: EdgeInsets.all(6.0),
+                          child: BaseLoader(),
+                        );
+                      },
                     child: ListView.builder(
                       controller: _scrollController,
+                      padding: EdgeInsets.zero,
                       itemCount: state.hasReachedMax
                           ? state.list.length
                           : state.list.length + 1,
@@ -349,9 +354,8 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
                   ),
                 ),
               ],
-            ),
-          );
-        }));
+            );
+        },));
   }
 
   void applySearchFilters(

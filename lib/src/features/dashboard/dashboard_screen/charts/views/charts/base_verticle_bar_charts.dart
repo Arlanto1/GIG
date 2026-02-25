@@ -3798,9 +3798,9 @@ class _BaseVerticleBarChartsState extends State<BaseVerticleBarCharts>
         decoration: BoxDecoration(
           gradient: const LinearGradient(
             colors: [
-              Colors.white,
-              Colors.white,
-              Colors.white,
+              Colors.transparent,
+              Colors.transparent,
+              Colors.transparent,
               // Color(0xFF6474C6).withOpacity(0.14)
             ],
             stops: [0.02, 0.35, 1],
@@ -3809,7 +3809,7 @@ class _BaseVerticleBarChartsState extends State<BaseVerticleBarCharts>
           ),
           borderRadius: BorderRadius.circular(27),
           border: Border.all(
-            color: Colors.black.withValues(alpha: 0.80),
+            color: Colors.white.withValues(alpha: 0.80),
             width: 0.8,
           ),
           // boxShadow: [
@@ -3825,7 +3825,7 @@ class _BaseVerticleBarChartsState extends State<BaseVerticleBarCharts>
           children: [
             // Header Row
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Expanded(
                   child: SingleChildScrollView(
@@ -3834,7 +3834,7 @@ class _BaseVerticleBarChartsState extends State<BaseVerticleBarCharts>
                       widget.chartTitle,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: Colors.white,
                         fontSize: 19,
                       ),
                     ),
@@ -3880,7 +3880,7 @@ class _BaseVerticleBarChartsState extends State<BaseVerticleBarCharts>
               child: const Center(
                 child: Text(
                   'No Data Found',
-                  style: TextStyle(color: Colors.black, fontSize: 14),
+                  style: TextStyle(color: Colors.white, fontSize: 14),
                 ),
               ),
             )
@@ -4076,7 +4076,7 @@ class _BaseVerticleBarChartsState extends State<BaseVerticleBarCharts>
 
                       // ⭐ BORDER
                       borderWidth: 0.7,
-                      borderColor: Colors.black,
+                      borderColor: Colors.white,
 
                       // ⭐ BORDER GRADIENT
                       borderGradient: const LinearGradient(
@@ -4133,7 +4133,7 @@ class _BaseVerticleBarChartsState extends State<BaseVerticleBarCharts>
 
                       dataLabelSettings: const DataLabelSettings(
                         isVisible: true,
-                        textStyle: TextStyle(color: Colors.black),
+                        textStyle: TextStyle(color: Colors.white),
                       ),
                     )
 

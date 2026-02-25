@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/law_enforcement_new/models/law_enforcement_model_new.dart';
@@ -135,7 +136,7 @@ class _LawEnforcementNewDetailsViewState
               );
             },
           ),
-          backgroundColor: AppColors.newColor,
+          backgroundColor: Colors.transparent,
           body: getBodybuilder(state, height),
         );
       },
@@ -164,534 +165,147 @@ class _LawEnforcementNewDetailsViewState
       return const BaseLoader();
     }
 
-    return Container(
-      color: AppColors.newColor3,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: height * 0.01,
-              color: AppColors.newColor3,
+    return Stack(
+      children: [
+        // 🔹 Background Image
+        Positioned.fill(
+          child: Image.asset(
+            'assets/images/bg2.png',
+            fit: BoxFit.cover,
+          ),
+        ),
+
+        // 🔹 Blur Layer
+        Positioned.fill(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 200, sigmaY: 200),
+            child: Container(
+              color: Colors.black.withValues(alpha: 0.08), // optional tint
             ),
-            Container(
-              decoration: ShapeDecoration(
-                color: AppColors.newColor3,
-                shape: const RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(20.0)),
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  AbsorbPointer(
-                    absorbing: isReadOnly,
-                    child: Form(
-                      key: _formKey,
-                      autovalidateMode: isReadOnly
-                          ? AutovalidateMode.disabled
-                          : AutovalidateMode.onUserInteraction,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 20.0, right: 20),
-                        child: Column(
-                          children: [
-                            if (!state.model.lock.isEmptyOrNull) ...[
-                              RecordLockedWidget(text: '${state.model.lock}'),
-                            ],
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: const Text(
-                                Constants.generalinformation,
-                                style: Styles.textStyleRegularNormalWhite18,
-                              ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+          ),
+        ),
 
-                            ///Status
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.status ??
-                                  state.labels?.defaultLocale.status ??
-                                  Constants.status,
-                              Styles.textStyleWhite16,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              isEnable: false,
-                              isDisableColor: true,
-                              textFormKey: Keys.statusTextController,
-                              hintText: '',
-                              initialValue: Utils().buildLeoStatusRow(
-                                  state.model.status ?? 0,
-                                  returnTextOnly: true),
-                              onChange: (String value) {},
-                              validateTextField: (String? user) {},
-                            ),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            ///Date of Creation
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.inputDate ??
-                                  state.labels?.defaultLocale.inputDate ??
-                                  Constants.dateofcreation,
-                              Styles.textStyleWhite16,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            dateCreateWidgetDisplay(
-                                state.model.inputDate ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            ///Created By
-                            CommonWidgets.horizentaltextHandling(
-                              state.labels?.locale.entrySecurity ??
-                                  state.labels?.defaultLocale.entrySecurity ??
-                                  Constants.createdby,
-                              '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}',
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            ///Location
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.location ??
-                                  state.labels?.defaultLocale.location ??
-                                  Constants.location,
-                              Styles.textStyleWhite16,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            BaseLocationDropdown().locationWidgetDisplay(
-                                context: context,
-                                isEnabled: isEdit,
-                                locations: state.locations ?? Locations(),
-                                selectedLocationName:
-                                    state.model.location?.name ?? '',
-                                onTap: (Organisation? location) {
-                                  BlocProvider.of<LawEnforcementDetailsCubit>(
-                                          context)
-                                      .updateLocationDropdownValue(
-                                          location: location);
-                                }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            ///Sl no
-                            CommonWidgets.horizentaltextHandling(
-                              state.labels?.locale.slNo ??
-                                  state.labels?.defaultLocale.slNo ??
-                                  Constants.slno,
-                              state.model.slNo ?? '',
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            ///Entity
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.entity ??
-                                    state.labels?.defaultLocale.entity ??
-                                    Constants.entity,
-                                Styles.textStyleWhite16,
-                                isMandatory: true),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                            BaseEntitiesSelection().entityDropDownSelection(
-                              context: context,
-                              selectedValues: state.model.entities ?? [],
-                              all: state.listOfEntities ?? [],
-                              enabled: isEdit,
-                              onTap: (List<Organisation> selectedEntities) {
-                                BlocProvider.of<LawEnforcementDetailsCubit>(
-                                        context)
-                                    .updateDropdownValues(
-                                        entities: selectedEntities);
-                                Navigator.of(context).pop();
-                              },
-                              orgName: 'ATOM_ENTITIES',
-                              functionToCall: () {
-                                BlocProvider.of<LawEnforcementDetailsCubit>(
-                                        context)
-                                    .refreshList();
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            /// Actual Time of Visit
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.timeOfVisit ??
-                                  state.labels?.defaultLocale.timeOfVisit ??
-                                  Constants.actualtimeofvisit,
-                              isMandatory: true,
-                              Styles.textStyleWhite16,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                            BaseDate().datePickerWidgetLoading(
-                              textController: timeOfVisitController,
-                              isDisabled: !isEdit,
-                              onlyDate: false,
-                              showPastDate: true,
-                              showFutureDate: false,
-                              onChange: (String value) {
-                                timeOfVisitController.text = value;
-                                state.model.timeOfVisit =
-                                    Utils().formatTime(value);
-                                BlocProvider.of<LawEnforcementDetailsCubit>(
-                                        context)
-                                    .onModelValueChange(state.model);
-                              },
-                              context: context,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            /// Official ID Card Verified?
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.officialCardVerified ??
-                                    state.labels?.defaultLocale
-                                        .officialCardVerified ??
-                                    Constants.officialsidcardverified,
-                                isMandatory: true,
-                                Styles.textStyleWhite16),
-                            RadioButtonsYesNo(
-                                status: state.model.status ?? 0,
-                                selectedValue:
-                                    state.model.officialCardVerified ? 1 : 0,
-                                onChangedYes: state.model.status != null &&
-                                        state.model.status != 0
-                                    ? null
-                                    : (val) {
-                                        state.model.officialCardVerified = true;
-                                        BlocProvider.of<
-                                                    LawEnforcementDetailsCubit>(
-                                                context)
-                                            .onCheckBoxChange(state.model);
-                                      },
-                                onChangedNo: state.model.status != null &&
-                                        state.model.status != 0
-                                    ? null
-                                    : (val) {
-                                        state.model.officialCardVerified =
-                                            false;
-                                        BlocProvider.of<
-                                                    LawEnforcementDetailsCubit>(
-                                                context)
-                                            .onCheckBoxChange(state.model);
-                                      }),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            /// Purpose of visit
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.visitPurpose ??
-                                    state.labels?.defaultLocale.visitPurpose ??
-                                    Constants.purposeOfVisit,
-                                Styles.textStyleWhite16,
-                                isMandatory: true),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            TextFieldAddButton(
-                              title: state.model.visitPurpose?.name,
-                              height: 70,
-                              isDisableColor: !isEdit,
-                              onTap: () {
-                                if (isEdit) {
-                                  BaseOrganisationDialog().departmentDialog(
-                                      context: context,
-                                      organisations: state.visitPurpose,
-                                      onTap: (Organisation visitPurpose) {
-                                        state.model.visitPurpose?.name =
-                                            visitPurpose.name;
-
-                                        BlocProvider.of<
-                                                    LawEnforcementDetailsCubit>(
-                                                context)
-                                            .updateDropdownValues(
-                                                visitPurpose: visitPurpose);
-                                      },
-                                      functionToCall: () {
-                                        // refresh the list
-                                        BlocProvider.of<
-                                                    LawEnforcementDetailsCubit>(
-                                                context)
-                                            .refreshList();
-                                      });
-                                }
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            /// Document if any to confirm purpose
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.documentVerified ??
-                                    state.labels?.defaultLocale
-                                        .documentVerified ??
-                                    Constants.documentifanytoconfirmpurpose,
-                                isMandatory: true,
-                                Styles.textStyleWhite16),
-                            RadioButtonsYesNo(
-                                status: state.model.status ?? 0,
-                                selectedValue:
-                                    state.model.documentVerified ? 1 : 0,
-                                onChangedYes: state.model.status != null &&
-                                        state.model.status != 0
-                                    ? null
-                                    : (val) {
-                                        state.model.documentVerified = true;
-                                        BlocProvider.of<
-                                                    LawEnforcementDetailsCubit>(
-                                                context)
-                                            .onCheckBoxChange(state.model);
-                                      },
-                                onChangedNo: state.model.status != null &&
-                                        state.model.status != 0
-                                    ? null
-                                    : (val) {
-                                        state.model.documentVerified = false;
-                                        BlocProvider.of<
-                                                    LawEnforcementDetailsCubit>(
-                                                context)
-                                            .onCheckBoxChange(state.model);
-                                      }),
-
-                            /// In case of Police, was official in uniform?
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.visitorInUniform ??
-                                    state.labels?.defaultLocale
-                                        .visitorInUniform ??
-                                    Constants
-                                        .incaseofpolicewasofficialinuniform,
-                                isMandatory: true,
-                                Styles.textStyleWhite16),
-                            RadioButtonsYesNo(
-                                status: state.model.status ?? 0,
-                                selectedValue:
-                                    state.model.visitorInUniform ? 1 : 0,
-                                onChangedYes: state.model.status != null &&
-                                        state.model.status != 0
-                                    ? null
-                                    : (val) {
-                                        state.model.visitorInUniform = true;
-                                        BlocProvider.of<
-                                                    LawEnforcementDetailsCubit>(
-                                                context)
-                                            .onCheckBoxChange(state.model);
-                                      },
-                                onChangedNo: state.model.status != null &&
-                                        state.model.status != 0
-                                    ? null
-                                    : (val) {
-                                        state.model.visitorInUniform = false;
-                                        BlocProvider.of<
-                                                    LawEnforcementDetailsCubit>(
-                                                context)
-                                            .onCheckBoxChange(state.model);
-                                      }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            /// DB official want to meet
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.dbOfficialEmail ??
-                                    state.labels?.defaultLocale
-                                        .dbOfficialEmail ??
-                                    Constants.dbofficialwanttomeet,
-                                isMandatory: true,
-                                Styles.textStyleWhite16),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              controller: dbOfficialWantToMeetController,
-                              textInputType: TextInputType.text,
-                              textFormKey: Keys.contactNoKey,
-                              hintText: '',
-                              isEnable: isEdit,
-                              isDisableColor: !isEdit,
-                              onChange: (String value) {
-                                state.model.dbOfficialEmail = value;
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            ///DB official Department
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.dbOfficialEmailDepartment ??
-                                  state.labels?.defaultLocale
-                                      .dbOfficialEmailDepartment ??
-                                  Constants.dbofficialdepartment,
-                              Styles.textStyleWhite16,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            TextFieldAddButton(
-                              title:
-                                  state.model.dbOfficialEmailDepartment?.name,
-                              height: 70,
-                              isDisableColor: !isEdit,
-                              onTap: () {
-                                if (isEdit) {
-                                  BaseOrganisationDialog().departmentDialog(
-                                      context: context,
-                                      organisations: state.department,
-                                      onTap: (Organisation department) {
-                                        state.model.dbOfficialEmailDepartment
-                                            ?.name = department.name;
-
-                                        BlocProvider.of<
-                                                    LawEnforcementDetailsCubit>(
-                                                context)
-                                            .updateDropdownValues(
-                                                department: department);
-                                      },
-                                      functionToCall: () {
-                                        // refresh the list
-                                        BlocProvider.of<
-                                                    LawEnforcementDetailsCubit>(
-                                                context)
-                                            .refreshList();
-                                      });
-                                }
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            /// Db Official email ID Accompanied LEO Official
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale
-                                        .dbOfficialAccompaniedEmail ??
-                                    state.labels?.defaultLocale
-                                        .dbOfficialAccompaniedEmail ??
-                                    Constants
-                                        .dbofficialemailidaccompaniedleoofficial,
-                                Styles.textStyleWhite16,
-                                isMandatory: true),
-                            TextFieldAddButton(
-                                title: state.model.dbOfficialAccompaniedEmail,
-                                height: 70,
-                                isDisableColor: !isEdit,
-                                onTap: () {
-                                  if (isEdit) {
-                                    BaseOrganisationDialog().userDialog(
-                                      employeeId: false,
-                                      context: context,
-                                      users: state.users!,
-                                      isDbUser: true,
-                                      onTap: (BaseUser user) {
-                                        BlocProvider.of<
-                                                    LawEnforcementDetailsCubit>(
-                                                context)
-                                            .updateDropdownValues(
-                                                dbOfficialEmail: user);
-                                      },
-                                      roleName:
-                                          ConstantUserRoles.atomStaticUser,
-                                      locationId: state.model.location!.id!,
-                                      functionToCall: (BaseUser user) {
-                                        BlocProvider.of<
-                                                    LawEnforcementDetailsCubit>(
-                                                context)
-                                            .updateDropdownValues(
-                                                dbOfficialEmail: user);
-                                        BlocProvider.of<
-                                                    LawEnforcementDetailsCubit>(
-                                                context)
-                                            .refreshList();
-                                      },
-                                    );
-                                  }
-                                }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            /// Additional Information
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.additionalInformation ??
-                                    state.labels?.defaultLocale
-                                        .additionalInformation ??
-                                    Constants.additionalinformation,
-                                Styles.textStyleWhite16,
-                                isMandatory: false),
-                            FlutterInputField(
-                              lineHeight: 6,
-                              characterLimit:
-                                  Constants.characterLimitDescTextFormField,
-                              initialValue: state.model.additionalInformation,
-                              textFormKey: Keys.premisesRoundTknCommentsKey,
-                              hintText: Constants.informationhere,
-                              showBorder: true,
-                              textInputAction: TextInputAction.newline,
-                              textInputType: TextInputType.multiline,
-                              isEnable: isEdit,
-                              isDisableColor: !isEdit,
-                              onChange: (String value) {
-                                state.model.additionalInformation = value;
-                                context
-                                    .read<LawEnforcementDetailsCubit>()
-                                    .onModelValueChange(state.model);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            ///Attachments
-                            CommonWidgets.textDisplay(
-                                Constants.attachments, Styles.textStyleWhite16),
-                            widget.model == null
-                                ? CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001)
-                                : Container(),
-                            if (state.model.status == 0 ||
-                                state.model.status == null) ...[
-                              BaseImageUpload().uploadWidget(
-                                context: context,
-                                isDisabled: !isEdit,
-                                loggedInUserDetails: state.loggedInUserDetails!,
-                                getFiles: uploadFiles,
-                                onImageSelected: (ImageContent data) {
-                                  List<ImageContent>? files = [];
-                                  files.add(data);
-                                  for (ImageContent image in uploadFiles) {
-                                    files.add(image);
-                                  }
-                                  BlocProvider.of<LawEnforcementDetailsCubit>(
-                                          context)
-                                      .addAttachment(
-                                    data: files,
-                                    images: files,
-                                  );
-                                },
-                              ),
-                            ],
-
-                            /// Attachments
-                            IgnorePointer(
-                              ignoring: false,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20.0),
-                                child: BaseImageUpload().getAttachment(
-                                  height: height,
-                                  attachments: state.loadAttachments,
-                                  files: uploadFiles,
-                                  moduleCode: Constants.leoModuleCode,
-                                  isDisabled: false,
-                                  showDeleteIcon: isEdit,
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                color: Colors.transparent,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    AbsorbPointer(
+                      absorbing: isReadOnly,
+                      child: Form(
+                        key: _formKey,
+                        autovalidateMode: isReadOnly
+                            ? AutovalidateMode.disabled
+                            : AutovalidateMode.onUserInteraction,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 20.0, right: 20),
+                          child: Column(
+                            children: [
+                              if (!state.model.lock.isEmptyOrNull) ...[
+                                RecordLockedWidget(text: '${state.model.lock}'),
+                              ],
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              Container(
+                                alignment: Alignment.topLeft,
+                                child: const Text(
+                                  Constants.generalinformation,
+                                  style: Styles.textStyleRegularNormalWhite18,
                                 ),
                               ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            if (widget.model?.status ==
-                                    ConstantsIntValue.leoStatusSubmitted ||
-                                widget.model?.status ==
-                                    ConstantsIntValue
-                                        .leoStatusVerificationUnderProgress ||
-                                widget.model?.status ==
-                                    ConstantsIntValue.leoStatusDistributed) ...[
-                              ///Distribution Groups
+                              ///Status
                               CommonWidgets.textDisplay(
-                                  state.labels?.locale.distributionList ??
-                                      state.labels?.defaultLocale
-                                          .distributionList ??
-                                      Constants.distributiongroups,
+                                state.labels?.locale.status ??
+                                    state.labels?.defaultLocale.status ??
+                                    Constants.status,
+                                Styles.textStyleWhite16,
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                isEnable: false,
+                                isDisableColor: true,
+                                textFormKey: Keys.statusTextController,
+                                hintText: '',
+                                initialValue: Utils().buildLeoStatusRow(
+                                    state.model.status ?? 0,
+                                    returnTextOnly: true),
+                                onChange: (String value) {},
+                                validateTextField: (String? user) {},
+                              ),
+
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              ///Date of Creation
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.inputDate ??
+                                    state.labels?.defaultLocale.inputDate ??
+                                    Constants.dateofcreation,
+                                Styles.textStyleWhite16,
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              dateCreateWidgetDisplay(
+                                  state.model.inputDate ?? ''),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              ///Created By
+                              CommonWidgets.horizentaltextHandling(
+                                state.labels?.locale.entrySecurity ??
+                                    state.labels?.defaultLocale.entrySecurity ??
+                                    Constants.createdby,
+                                '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}',
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              ///Location
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.location ??
+                                    state.labels?.defaultLocale.location ??
+                                    Constants.location,
+                                Styles.textStyleWhite16,
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              BaseLocationDropdown().locationWidgetDisplay(
+                                  context: context,
+                                  isEnabled: isEdit,
+                                  locations: state.locations ?? Locations(),
+                                  selectedLocationName:
+                                      state.model.location?.name ?? '',
+                                  onTap: (Organisation? location) {
+                                    BlocProvider.of<LawEnforcementDetailsCubit>(
+                                            context)
+                                        .updateLocationDropdownValue(
+                                            location: location);
+                                  }),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              ///Sl no
+                              CommonWidgets.horizentaltextHandling(
+                                state.labels?.locale.slNo ??
+                                    state.labels?.defaultLocale.slNo ??
+                                    Constants.slno,
+                                state.model.slNo ?? '',
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              ///Entity
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.entity ??
+                                      state.labels?.defaultLocale.entity ??
+                                      Constants.entity,
                                   Styles.textStyleWhite16,
                                   isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
@@ -699,16 +313,17 @@ class _LawEnforcementNewDetailsViewState
 
                               BaseEntitiesSelection().entityDropDownSelection(
                                 context: context,
-                                selectedValues: state.model.mailList ?? [],
-                                all: state.distributionGroups ?? [],
+                                selectedValues: state.model.entities ?? [],
+                                all: state.listOfEntities ?? [],
                                 enabled: isEdit,
-                                onTap: (List<Organisation> selectedGroups) {
+                                onTap: (List<Organisation> selectedEntities) {
                                   BlocProvider.of<LawEnforcementDetailsCubit>(
                                           context)
                                       .updateDropdownValues(
-                                          distributionGroups: selectedGroups);
+                                          entities: selectedEntities);
                                   Navigator.of(context).pop();
                                 },
+                                orgName: 'ATOM_ENTITIES',
                                 functionToCall: () {
                                   BlocProvider.of<LawEnforcementDetailsCubit>(
                                           context)
@@ -716,158 +331,569 @@ class _LawEnforcementNewDetailsViewState
                                 },
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
-                            ],
-                            if (state.model.id != null) ...[
-                              /// Modified Date
+
+                              /// Actual Time of Visit
                               CommonWidgets.textDisplay(
-                                // state.labels?.locale.date ??
-                                //     state.labels?.defaultLocale.date ??
-                                Constants.modifiedOn,
+                                state.labels?.locale.timeOfVisit ??
+                                    state.labels?.defaultLocale.timeOfVisit ??
+                                    Constants.actualtimeofvisit,
+                                isMandatory: true,
+                                Styles.textStyleWhite16,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+
+                              BaseDate().datePickerWidgetLoading(
+                                textController: timeOfVisitController,
+                                isDisabled: !isEdit,
+                                onlyDate: false,
+                                showPastDate: true,
+                                showFutureDate: false,
+                                onChange: (String value) {
+                                  timeOfVisitController.text = value;
+                                  state.model.timeOfVisit =
+                                      Utils().formatTime(value);
+                                  BlocProvider.of<LawEnforcementDetailsCubit>(
+                                          context)
+                                      .onModelValueChange(state.model);
+                                },
+                                context: context,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              /// Official ID Card Verified?
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.officialCardVerified ??
+                                      state.labels?.defaultLocale
+                                          .officialCardVerified ??
+                                      Constants.officialsidcardverified,
+                                  isMandatory: true,
+                                  Styles.textStyleWhite16),
+                              RadioButtonsYesNo(
+                                  status: state.model.status ?? 0,
+                                  selectedValue:
+                                      state.model.officialCardVerified ? 1 : 0,
+                                  onChangedYes: state.model.status != null &&
+                                          state.model.status != 0
+                                      ? null
+                                      : (val) {
+                                          state.model.officialCardVerified =
+                                              true;
+                                          BlocProvider.of<
+                                                      LawEnforcementDetailsCubit>(
+                                                  context)
+                                              .onCheckBoxChange(state.model);
+                                        },
+                                  onChangedNo: state.model.status != null &&
+                                          state.model.status != 0
+                                      ? null
+                                      : (val) {
+                                          state.model.officialCardVerified =
+                                              false;
+                                          BlocProvider.of<
+                                                      LawEnforcementDetailsCubit>(
+                                                  context)
+                                              .onCheckBoxChange(state.model);
+                                        }),
+
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              /// Purpose of visit
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.visitPurpose ??
+                                      state
+                                          .labels?.defaultLocale.visitPurpose ??
+                                      Constants.purposeOfVisit,
+                                  Styles.textStyleWhite16,
+                                  isMandatory: true),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              TextFieldAddButton(
+                                title: state.model.visitPurpose?.name,
+                                height: 70,
+                                isDisableColor: !isEdit,
+                                onTap: () {
+                                  if (isEdit) {
+                                    BaseOrganisationDialog().departmentDialog(
+                                        context: context,
+                                        organisations: state.visitPurpose,
+                                        onTap: (Organisation visitPurpose) {
+                                          state.model.visitPurpose?.name =
+                                              visitPurpose.name;
+
+                                          BlocProvider.of<
+                                                      LawEnforcementDetailsCubit>(
+                                                  context)
+                                              .updateDropdownValues(
+                                                  visitPurpose: visitPurpose);
+                                        },
+                                        functionToCall: () {
+                                          // refresh the list
+                                          BlocProvider.of<
+                                                      LawEnforcementDetailsCubit>(
+                                                  context)
+                                              .refreshList();
+                                        });
+                                  }
+                                },
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              /// Document if any to confirm purpose
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.documentVerified ??
+                                      state.labels?.defaultLocale
+                                          .documentVerified ??
+                                      Constants.documentifanytoconfirmpurpose,
+                                  isMandatory: true,
+                                  Styles.textStyleWhite16),
+                              RadioButtonsYesNo(
+                                  status: state.model.status ?? 0,
+                                  selectedValue:
+                                      state.model.documentVerified ? 1 : 0,
+                                  onChangedYes: state.model.status != null &&
+                                          state.model.status != 0
+                                      ? null
+                                      : (val) {
+                                          state.model.documentVerified = true;
+                                          BlocProvider.of<
+                                                      LawEnforcementDetailsCubit>(
+                                                  context)
+                                              .onCheckBoxChange(state.model);
+                                        },
+                                  onChangedNo: state.model.status != null &&
+                                          state.model.status != 0
+                                      ? null
+                                      : (val) {
+                                          state.model.documentVerified = false;
+                                          BlocProvider.of<
+                                                      LawEnforcementDetailsCubit>(
+                                                  context)
+                                              .onCheckBoxChange(state.model);
+                                        }),
+
+                              /// In case of Police, was official in uniform?
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.visitorInUniform ??
+                                      state.labels?.defaultLocale
+                                          .visitorInUniform ??
+                                      Constants
+                                          .incaseofpolicewasofficialinuniform,
+                                  isMandatory: true,
+                                  Styles.textStyleWhite16),
+                              RadioButtonsYesNo(
+                                  status: state.model.status ?? 0,
+                                  selectedValue:
+                                      state.model.visitorInUniform ? 1 : 0,
+                                  onChangedYes: state.model.status != null &&
+                                          state.model.status != 0
+                                      ? null
+                                      : (val) {
+                                          state.model.visitorInUniform = true;
+                                          BlocProvider.of<
+                                                      LawEnforcementDetailsCubit>(
+                                                  context)
+                                              .onCheckBoxChange(state.model);
+                                        },
+                                  onChangedNo: state.model.status != null &&
+                                          state.model.status != 0
+                                      ? null
+                                      : (val) {
+                                          state.model.visitorInUniform = false;
+                                          BlocProvider.of<
+                                                      LawEnforcementDetailsCubit>(
+                                                  context)
+                                              .onCheckBoxChange(state.model);
+                                        }),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              /// DB official want to meet
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.dbOfficialEmail ??
+                                      state.labels?.defaultLocale
+                                          .dbOfficialEmail ??
+                                      Constants.dbofficialwanttomeet,
+                                  isMandatory: true,
+                                  Styles.textStyleWhite16),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                controller: dbOfficialWantToMeetController,
+                                textInputType: TextInputType.text,
+                                textFormKey: Keys.contactNoKey,
+                                hintText: '',
+                                isEnable: isEdit,
+                                isDisableColor: !isEdit,
+                                onChange: (String value) {
+                                  state.model.dbOfficialEmail = value;
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              ///DB official Department
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.dbOfficialEmailDepartment ??
+                                    state.labels?.defaultLocale
+                                        .dbOfficialEmailDepartment ??
+                                    Constants.dbofficialdepartment,
                                 Styles.textStyleWhite16,
                                 isMandatory: true,
                               ),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
-                              datecreateWidgetdisplay(
-                                  state.model.modifiedDate ?? ''),
+                              TextFieldAddButton(
+                                title:
+                                    state.model.dbOfficialEmailDepartment?.name,
+                                height: 70,
+                                isDisableColor: !isEdit,
+                                onTap: () {
+                                  if (isEdit) {
+                                    BaseOrganisationDialog().departmentDialog(
+                                        context: context,
+                                        organisations: state.department,
+                                        onTap: (Organisation department) {
+                                          state.model.dbOfficialEmailDepartment
+                                              ?.name = department.name;
+
+                                          BlocProvider.of<
+                                                      LawEnforcementDetailsCubit>(
+                                                  context)
+                                              .updateDropdownValues(
+                                                  department: department);
+                                        },
+                                        functionToCall: () {
+                                          // refresh the list
+                                          BlocProvider.of<
+                                                      LawEnforcementDetailsCubit>(
+                                                  context)
+                                              .refreshList();
+                                        });
+                                  }
+                                },
+                              ),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                              /// Modified By
-                              CommonWidgets.horizentaltextHandling(
-                                  // state.labels?.locale.entrySecurity ??
-                                  //     state.labels?.defaultLocale.entrySecurity ??
-                                  Constants.modifiedBy,
-                                  isMandatory: true,
-                                  state.model.modifiedBy ?? ''),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            ],
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  // Visiting Officials Details section
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        /// Visiting Officials Details
-                        Container(
-                          alignment: Alignment.topLeft,
-                          // child: Text(
-                          //   Constants.visitingOfficialDetails,
-                          //   style: Styles.styleHeaderGreyText16,
-                          // ),
-                          child: CommonWidgets.textDisplay(
-                              // state.labels?.locale.additionalInformation ??
-                              //     state.labels?.defaultLocale.additionalInformation ??
-                              Constants.visitingOfficialDetails,
-                              Styles.textStyleWhite16,
-                              isMandatory: true),
-                        ),
-                        CommonWidgets.verticalSpacerWidget(height * 0.01),
-                        GestureDetector(
-                          onTap: () async {
-                            NavigatorState nav = Navigator.of(context);
-                            if (state.model.status == 0 ||
-                                state.model.status == null) {
-                              bool isSaveSuccess = await BlocProvider.of<
-                                      LawEnforcementDetailsCubit>(context)
-                                  .submitForm(
-                                isSaveOnly: true,
-                                navigateToNextScreen: true,
-                              );
+                              /// Db Official email ID Accompanied LEO Official
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale
+                                          .dbOfficialAccompaniedEmail ??
+                                      state.labels?.defaultLocale
+                                          .dbOfficialAccompaniedEmail ??
+                                      Constants
+                                          .dbofficialemailidaccompaniedleoofficial,
+                                  Styles.textStyleWhite16,
+                                  isMandatory: true),
+                              TextFieldAddButton(
+                                  title: state.model.dbOfficialAccompaniedEmail,
+                                  height: 70,
+                                  isDisableColor: !isEdit,
+                                  onTap: () {
+                                    if (isEdit) {
+                                      BaseOrganisationDialog().userDialog(
+                                        employeeId: false,
+                                        context: context,
+                                        users: state.users!,
+                                        isDbUser: true,
+                                        onTap: (BaseUser user) {
+                                          BlocProvider.of<
+                                                      LawEnforcementDetailsCubit>(
+                                                  context)
+                                              .updateDropdownValues(
+                                                  dbOfficialEmail: user);
+                                        },
+                                        roleName:
+                                            ConstantUserRoles.atomStaticUser,
+                                        locationId: state.model.location!.id!,
+                                        functionToCall: (BaseUser user) {
+                                          BlocProvider.of<
+                                                      LawEnforcementDetailsCubit>(
+                                                  context)
+                                              .updateDropdownValues(
+                                                  dbOfficialEmail: user);
+                                          BlocProvider.of<
+                                                      LawEnforcementDetailsCubit>(
+                                                  context)
+                                              .refreshList();
+                                        },
+                                      );
+                                    }
+                                  }),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                              if (!isSaveSuccess) {
-                                return;
-                              }
-                              log('--state.model.id---${state.model.id}--');
-                            }
-                            nav.pushNamed(
-                              visitingOfficialListRoute,
-                              arguments: {
-                                ConstantsArgument.title:
-                                    Constants.visitingOfficials,
-                                ConstantsArgument.keyLostType: 0,
-                                ConstantsArgument.id: state.model.id,
-                                ConstantsArgument.departments:
-                                    state.visitingDepartment,
-                                ConstantsArgument.showSaveButton:
-                                    (widget.model?.status != 3) && !isReadOnly
-                                        ? true
-                                        : false,
-                                ConstantsArgument.isEligibleToEdit:
-                                    widget.model?.id == null
-                                        ? true
-                                        : state.model.isEligibleToEdit
-                              },
-                            );
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              SvgPicture.asset(
-                                AppIcon.pluscircle,
-                                colorFilter: const ColorFilter.mode(
-                                  Colors.white70,
-                                  BlendMode.srcIn,
+                              /// Additional Information
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.additionalInformation ??
+                                      state.labels?.defaultLocale
+                                          .additionalInformation ??
+                                      Constants.additionalinformation,
+                                  Styles.textStyleWhite16,
+                                  isMandatory: false),
+                              FlutterInputField(
+                                lineHeight: 6,
+                                characterLimit:
+                                    Constants.characterLimitDescTextFormField,
+                                initialValue: state.model.additionalInformation,
+                                textFormKey: Keys.premisesRoundTknCommentsKey,
+                                hintText: Constants.informationhere,
+                                showBorder: true,
+                                textInputAction: TextInputAction.newline,
+                                textInputType: TextInputType.multiline,
+                                isEnable: isEdit,
+                                isDisableColor: !isEdit,
+                                onChange: (String value) {
+                                  state.model.additionalInformation = value;
+                                  context
+                                      .read<LawEnforcementDetailsCubit>()
+                                      .onModelValueChange(state.model);
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              ///Attachments
+                              CommonWidgets.textDisplay(Constants.attachments,
+                                  Styles.textStyleWhite16),
+                              widget.model == null
+                                  ? CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001)
+                                  : Container(),
+                              if (state.model.status == 0 ||
+                                  state.model.status == null) ...[
+                                BaseImageUpload().uploadWidget(
+                                  context: context,
+                                  isDisabled: !isEdit,
+                                  loggedInUserDetails:
+                                      state.loggedInUserDetails!,
+                                  getFiles: uploadFiles,
+                                  onImageSelected: (ImageContent data) {
+                                    List<ImageContent>? files = [];
+                                    files.add(data);
+                                    for (ImageContent image in uploadFiles) {
+                                      files.add(image);
+                                    }
+                                    BlocProvider.of<LawEnforcementDetailsCubit>(
+                                            context)
+                                        .addAttachment(
+                                      data: files,
+                                      images: files,
+                                    );
+                                  },
                                 ),
-                                // color: AppColors.navigationSkyBlueColor,
+                              ],
+
+                              /// Attachments
+                              IgnorePointer(
+                                ignoring: false,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20.0),
+                                  child: BaseImageUpload().getAttachment(
+                                    height: height,
+                                    attachments: state.loadAttachments,
+                                    files: uploadFiles,
+                                    moduleCode: Constants.leoModuleCode,
+                                    isDisabled: false,
+                                    showDeleteIcon: isEdit,
+                                  ),
+                                ),
                               ),
-                              const SizedBox(width: 10),
-                              const Text(
-                                'Add/View Visiting Officials',
-                                style: TextStyle(
-                                    color: AppColors.white,
-                                    decoration: TextDecoration.underline,
-                                    decorationColor: Colors.white),
-                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              if (widget.model?.status ==
+                                      ConstantsIntValue.leoStatusSubmitted ||
+                                  widget.model?.status ==
+                                      ConstantsIntValue
+                                          .leoStatusVerificationUnderProgress ||
+                                  widget.model?.status ==
+                                      ConstantsIntValue
+                                          .leoStatusDistributed) ...[
+                                ///Distribution Groups
+                                CommonWidgets.textDisplay(
+                                    state.labels?.locale.distributionList ??
+                                        state.labels?.defaultLocale
+                                            .distributionList ??
+                                        Constants.distributiongroups,
+                                    Styles.textStyleWhite16,
+                                    isMandatory: true),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+
+                                BaseEntitiesSelection().entityDropDownSelection(
+                                  context: context,
+                                  selectedValues: state.model.mailList ?? [],
+                                  all: state.distributionGroups ?? [],
+                                  enabled: isEdit,
+                                  onTap: (List<Organisation> selectedGroups) {
+                                    BlocProvider.of<LawEnforcementDetailsCubit>(
+                                            context)
+                                        .updateDropdownValues(
+                                            distributionGroups: selectedGroups);
+                                    Navigator.of(context).pop();
+                                  },
+                                  functionToCall: () {
+                                    BlocProvider.of<LawEnforcementDetailsCubit>(
+                                            context)
+                                        .refreshList();
+                                  },
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02),
+                              ],
+                              if (state.model.id != null) ...[
+                                /// Modified Date
+                                CommonWidgets.textDisplay(
+                                  // state.labels?.locale.date ??
+                                  //     state.labels?.defaultLocale.date ??
+                                  Constants.modifiedOn,
+                                  Styles.textStyleWhite16,
+                                  isMandatory: true,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                datecreateWidgetdisplay(
+                                    state.model.modifiedDate ?? ''),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02),
+
+                                /// Modified By
+                                CommonWidgets.horizentaltextHandling(
+                                    // state.labels?.locale.entrySecurity ??
+                                    //     state.labels?.defaultLocale.entrySecurity ??
+                                    Constants.modifiedBy,
+                                    isMandatory: true,
+                                    state.model.modifiedBy ?? ''),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+                              ],
                             ],
                           ),
                         ),
-                        CommonWidgets.verticalSpacerWidget(height * 0.02),
+                      ),
+                    ),
+                    // Visiting Officials Details section
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          /// Visiting Officials Details
+                          Container(
+                            alignment: Alignment.topLeft,
+                            // child: Text(
+                            //   Constants.visitingOfficialDetails,
+                            //   style: Styles.styleHeaderGreyText16,
+                            // ),
+                            child: CommonWidgets.textDisplay(
+                                // state.labels?.locale.additionalInformation ??
+                                //     state.labels?.defaultLocale.additionalInformation ??
+                                Constants.visitingOfficialDetails,
+                                Styles.textStyleWhite16,
+                                isMandatory: true),
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          GestureDetector(
+                            onTap: () async {
+                              NavigatorState nav = Navigator.of(context);
+                              if (state.model.status == 0 ||
+                                  state.model.status == null) {
+                                bool isSaveSuccess = await BlocProvider.of<
+                                        LawEnforcementDetailsCubit>(context)
+                                    .submitForm(
+                                  isSaveOnly: true,
+                                  navigateToNextScreen: true,
+                                );
+
+                                if (!isSaveSuccess) {
+                                  return;
+                                }
+                                log('--state.model.id---${state.model.id}--');
+                              }
+                              nav.pushNamed(
+                                visitingOfficialListRoute,
+                                arguments: {
+                                  ConstantsArgument.title:
+                                      Constants.visitingOfficials,
+                                  ConstantsArgument.keyLostType: 0,
+                                  ConstantsArgument.id: state.model.id,
+                                  ConstantsArgument.departments:
+                                      state.visitingDepartment,
+                                  ConstantsArgument.showSaveButton:
+                                      (widget.model?.status != 3) && !isReadOnly
+                                          ? true
+                                          : false,
+                                  ConstantsArgument.isEligibleToEdit:
+                                      widget.model?.id == null
+                                          ? true
+                                          : state.model.isEligibleToEdit
+                                },
+                              );
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                SvgPicture.asset(
+                                  AppIcon.pluscircle,
+                                  colorFilter: const ColorFilter.mode(
+                                    Colors.white70,
+                                    BlendMode.srcIn,
+                                  ),
+                                  // color: AppColors.navigationSkyBlueColor,
+                                ),
+                                const SizedBox(width: 10),
+                                const Text(
+                                  'Add/View Visiting Officials',
+                                  style: TextStyle(
+                                      color: AppColors.white,
+                                      decoration: TextDecoration.underline,
+                                      decorationColor: Colors.white),
+                                ),
+                              ],
+                            ),
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
+                        ],
+                      ),
+                    ),
+
+                    /// SubmitButton
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        if ((isEdit)) ...[
+                          cancelButtonDisplay(),
+                          submitButtonDisplay()
+                        ],
                       ],
                     ),
-                  ),
-
-                  /// SubmitButton
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      if ((isEdit)) ...[
-                        cancelButtonDisplay(),
-                        submitButtonDisplay()
-                      ],
-                    ],
-                  ),
-                  CommonWidgets.verticalSpacerWidget(height * 0.04),
-                ],
-              ),
-            ),
-            if (state.model.status == ConstantsIntValue.cancelledStatus ||
-                !isEdit) ...[
-              Container(
-                padding: const EdgeInsets.all(5.0),
-                decoration: ShapeDecoration(
-                  color: AppColors.newColor3,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(0.0)),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    cancelButtonDisplay(),
+                    CommonWidgets.verticalSpacerWidget(height * 0.04),
                   ],
                 ),
               ),
+              if (state.model.status == ConstantsIntValue.cancelledStatus ||
+                  !isEdit) ...[
+                Container(
+                  padding: const EdgeInsets.all(5.0),
+                  decoration: ShapeDecoration(
+                    color: AppColors.newColor3,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(0.0)),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      cancelButtonDisplay(),
+                    ],
+                  ),
+                ),
+              ],
+              CommonWidgets.verticalSpacerWidget(height * 0.04),
             ],
-            CommonWidgets.verticalSpacerWidget(height * 0.04),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 

@@ -5589,8 +5589,8 @@ class NavigationDrawer1 extends StatelessWidget {
 
   Future<void> initializeDrawerItems() async {
     expansionTileDrawerItems = await checkDisplayMenu();
-    // costAndBillingExpansionTileDrawerItems = await costBillingDisplayMenu();
-    // securitySystemTicketsItems = await securitySystemsDisplayMenu();
+    costAndBillingExpansionTileDrawerItems = await costBillingDisplayMenu();
+    securitySystemTicketsItems = await securitySystemsDisplayMenu();
   }
 
   DisplayMenu? displayMenu;
@@ -5622,7 +5622,7 @@ class NavigationDrawer1 extends StatelessWidget {
     }
     if (displayMenu?.eP ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
-          Constants.eventProtectionList, AppIcon.eventProtectionIcon, 0));
+          Constants.eventProtection, AppIcon.eventProtectionIcon, 1));
     }
 
     log('gm -- ${displayMenu?.gM}');
@@ -5732,19 +5732,37 @@ class NavigationDrawer1 extends StatelessWidget {
         child: Stack(
           children: [
             // BACKGROUND GRADIENT
-            Container(
-              decoration:  BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    AppColors.newColor,
-                    AppColors.newColor,
-                    // Color(0xFF0F172A), // deep navy
-                    // Color(0xFF071130),
-                    //   Color(0xFF111827),
-                    //   Color(0xFF111827)
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+            // Container(
+            //   decoration:  BoxDecoration(
+            //     gradient: LinearGradient(
+            //       colors: [
+            //         AppColors.newColor,
+            //         AppColors.newColor,
+            //         // Color(0xFF0F172A), // deep navy
+            //         // Color(0xFF071130),
+            //         //   Color(0xFF111827),
+            //         //   Color(0xFF111827)
+            //       ],
+            //       begin: Alignment.topLeft,
+            //       end: Alignment.bottomRight,
+            //     ),
+            //   ),
+            // ),
+            Positioned.fill(
+              child: Image.asset(
+                'assets/images/bg2.png',
+                fit: BoxFit.cover,
+              ),
+            ),
+
+            // 🔹 Global Blur Layer
+            Positioned.fill(
+              child: ClipRect(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+                  child: Container(
+                    color: Colors.black.withValues(alpha: 0.3), // soft tint
+                  ),
                 ),
               ),
             ),
@@ -5766,28 +5784,28 @@ class NavigationDrawer1 extends StatelessWidget {
                 child: BlocBuilder<DrawerCubit, DrawerState>(
                   builder: (context, state) {
                     switch (state.runtimeType) {
-                      case DrawerInitial:
+                      case DrawerInitial _:
                         _lastSelectedItem = (state as DrawerInitial).index;
                         break;
-                      case GetDrawerItemChange:
+                      case GetDrawerItemChange _:
                         _lastSelectedItem =
                             (state as GetDrawerItemChange).index;
                         break;
-                      case OperationsGetDrawerItemChange:
+                      case OperationsGetDrawerItemChange _:
                         log('drawer operation ');
                         _opearationsLastSelectedItem =
                             (state as OperationsGetDrawerItemChange).index;
                         break;
-                    case SecurityFunctionsGetDrawerItemChange:
+                    case SecurityFunctionsGetDrawerItemChange _:
                       _securityfunfunctionslastSelectedItem =
                           (state as SecurityFunctionsGetDrawerItemChange)
                               .index;
                       break;
-                      case PassMgmtGetDrawerItemChange:
+                      case PassMgmtGetDrawerItemChange _:
                         _passlastSelectedItem =
                             (state as PassMgmtGetDrawerItemChange).index;
                         break;
-                    case TicketingSystemGetDrawerItemChange:
+                    case TicketingSystemGetDrawerItemChange _:
                       _ticketingSystemlastSelectedItem =
                           (state as TicketingSystemGetDrawerItemChange)
                               .index;
@@ -5888,10 +5906,10 @@ class NavigationDrawer1 extends StatelessWidget {
                               horizontal: 4, vertical: 6),
                           padding: const EdgeInsets.all(14),
                           decoration: BoxDecoration(
-                            color: AppColors.newColor7,
+                            color: AppColors.newColor.withValues(alpha: 0.4),
                             borderRadius: BorderRadius.circular(16),
                             border: Border.all(
-                                color: Colors.white.withValues(alpha: 0.1)),
+                                color: Colors.white.withValues(alpha: 0.5)),
                             // boxShadow: [
                             //   BoxShadow(
                             //     color: Colors.white.withValues(alpha: 0.4),
@@ -5982,7 +6000,7 @@ class NavigationDrawer1 extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                               vertical: 6, horizontal: 6),
                           decoration: BoxDecoration(
-                            color:   AppColors.newColor3.withValues(alpha: 0.2),
+                            color:   AppColors.newColor.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(14),
                           ),
                           child: Column(
@@ -6136,8 +6154,8 @@ class NavigationDrawer1 extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             decoration: BoxDecoration(
               color: (isHovered || isSelected)
-                  ? AppColors.newColor
-                  : AppColors.newColor,
+                  ? Colors.transparent
+                  : Colors.transparent,
               borderRadius: BorderRadius.circular(12),
 
               // 🌟 Highlight border when selected
@@ -6155,8 +6173,8 @@ class NavigationDrawer1 extends StatelessWidget {
                 if (isHovered || isSelected)
                   BoxShadow(
                     color: isSelected
-                        ? Colors.white.withOpacity(0.25)
-                        : Colors.white.withOpacity(0.25),
+                        ? Colors.white.withOpacity(0.05)
+                        : Colors.white.withOpacity(0.05),
                     blurRadius: isSelected ? 12 : 12,
                     spreadRadius: isSelected ? 1 : 1,
                     offset: const Offset(0, 3),
@@ -6215,13 +6233,16 @@ class NavigationDrawer1 extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 15,
                     fontFamily: Constants.customFontSemiBoldFamily,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w900,
                     color: (i == _passlastSelectedItem)
                         ? AppColors.white
                         : AppColors.white)),
             onTap: () {
               switch (title) {
               /// 2nd Level Menu
+                case Constants.eventProtection:
+                  _onEventProtectionItemSelected(i, context);
+                  break;
                 case Constants.materialMovement:
                   _onMaterialMovementItemSelected(i, context);
                   break;
@@ -6231,9 +6252,9 @@ class NavigationDrawer1 extends StatelessWidget {
               case Constants.sCRI:
                 _onSCRIItemSelected(i, context);
                 break;
-              case Constants.securityFunctions:
-                _onSecurityFunctionsItemSelected(i, context);
-                break;
+              // case Constants.securitySystems:
+              //   _onSecurityFunctionsItemSelected(i, context);
+              //   break;
 
               case Constants.ticketingSystem:
                 _onTicketingSystemItemSelected(i, context);
@@ -6261,7 +6282,6 @@ class NavigationDrawer1 extends StatelessWidget {
                   context,
                 );
                 break;
-
               case shiftSchedulingTitle:
                 _onShiftScheduleItemSelected(i, context);
                 break;
@@ -6284,15 +6304,33 @@ class NavigationDrawer1 extends StatelessWidget {
     context.read<DrawerCubit>().getPassMgmtIndexChange(index);
     if (index == 0) {
       Navigator.pushNamed(context, materialMovementInwardsOutwardsRoute,
-          arguments: {"isInward": true});
+          arguments: {"isInward": true, "returnable": true,});
     } else if (index == 1) {
       Navigator.pushNamed(context, materialMovementInwardsOutwardsRoute,
           arguments: {
-            "isInward": false, "returnable": true,
+            "isInward": true, "returnable": false,
           });
     } else if (index == 2) {
       Navigator.pushNamed(context, materialMovementInwardsOutwardsRoute,
+          arguments: {"isInward": false, "returnable": true});
+    }
+    else if (index == 3) {
+      Navigator.pushNamed(context, materialMovementInwardsOutwardsRoute,
           arguments: {"isInward": false, "returnable": false});
+    }
+  }
+
+
+  _onEventProtectionItemSelected(int index, BuildContext context) async {
+    // _menuScaffoldKey.currentState!.closeDrawer();
+    _passlastSelectedItem = index;
+    context.read<DrawerCubit>().getPassMgmtIndexChange(index);
+    if (index == 0) {
+      Navigator.pushNamed(context, eventProtectionListRoute);
+    } else if (index == 1) {
+      Navigator.pushNamed(context, csrEventListRoute , arguments: {ConstantsArgument.isCSREvent :true});
+    } else if (index == 2) {
+      Navigator.pushNamed(context, csrEventListRoute,arguments: {ConstantsArgument.isCSREvent :false});
     }
   }
 
@@ -6440,9 +6478,9 @@ class NavigationDrawer1 extends StatelessWidget {
                         : AppColors.white)),
             title: Text(drawerItem.title,
                 style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 18,
                     fontFamily: Constants.customFontSemiBoldFamily,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w900,
                     color: (i == _lastSelectedItem)
                         ? AppColors.white
                         : AppColors.white)),
@@ -6474,7 +6512,7 @@ class NavigationDrawer1 extends StatelessWidget {
                 title: Text(
                   drawerItem.title,
                   style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 18,
                       fontFamily: Constants.customFontSemiBoldFamily,
                       fontWeight: FontWeight.w600,
                       color: (i == _lastSelectedItem)
@@ -6509,14 +6547,14 @@ class NavigationDrawer1 extends StatelessWidget {
     List<MenuItem> menuItems = [];
     menuItems
         .add(const MenuItem(Constants.operations, AppIcon.operationsIcon, 1));
-    // if (displayMenu?.gR ?? false) {
-    //   menuItems.add(
-    //       const MenuItem(Constants.costAndBilling, AppIcon.costBillingIcon, 1));
-    // }
-    // if (displayMenu?.sSSLA ?? false) {
-    //   menuItems.add(const MenuItem(
-    //       Constants.securitySystems, AppIcon.securitySystemIcon, 1));
-    // }
+    if (displayMenu?.gR ?? false) {
+      menuItems.add(
+          const MenuItem(Constants.costAndBilling, AppIcon.costBillingIcon, 1));
+    }
+    if (displayMenu?.sSSLA ?? false) {
+      menuItems.add(const MenuItem(
+          Constants.securitySystems, AppIcon.securitySystemIcon, 1));
+    }
 
     for (int i = 0; i < menuItems.length; i++) {
       MenuItem drawerItem = menuItems[i];
@@ -6538,7 +6576,7 @@ class NavigationDrawer1 extends StatelessWidget {
                 )),
             title: Text(drawerItem.title,
                 style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 18,
                     fontFamily: Constants.customFontSemiBoldFamily,
                     fontWeight: FontWeight.w600,
                     color: (i == _securityfunfunctionslastSelectedItem)
@@ -6567,7 +6605,7 @@ class NavigationDrawer1 extends StatelessWidget {
               title: Text(
                 drawerItem.title,
                 style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 18,
                     fontFamily: Constants.customFontSemiBoldFamily,
                     fontWeight: FontWeight.w600,
                     color: (i == _lastSelectedItem)
@@ -6626,7 +6664,7 @@ class NavigationDrawer1 extends StatelessWidget {
             title: Text(drawerItem.title,
                 //style: Styles.textStyleBlack16,
                 style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 18,
                     fontFamily: Constants.customFontSemiBoldFamily,
                     fontWeight: FontWeight.w600,
                     color: (i == _ticketingSystemlastSelectedItem)
@@ -6700,7 +6738,7 @@ class NavigationDrawer1 extends StatelessWidget {
                         : AppColors.white)),
             title: Text(drawerItem.title,
                 style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 18,
                     fontFamily: Constants.customFontSemiBoldFamily,
                     fontWeight: FontWeight.w600,
                     color: (i == _opearationsLastSelectedItem)
@@ -6796,9 +6834,9 @@ class NavigationDrawer1 extends StatelessWidget {
       case Constants.articleFoundRegisterListTitle:
         Navigator.pushNamed(context, articleFoundNewListRoute);
         break;
-      case Constants.eventProtectionList:
-        Navigator.pushNamed(context, eventProtectionListRoute);
-        break;
+      // case Constants.eventProtectionList:
+      //   Navigator.pushNamed(context, eventProtectionListRoute);
+      //   break;
       case Constants.incidentManagementTitle:
         Navigator.pushNamed(context, incidentManagementsRoute);
         break;
@@ -6913,6 +6951,9 @@ class NavigationDrawer1 extends StatelessWidget {
       ) {
     // log('--title---$title--');
     switch (title) {
+      case Constants.eventProtection:
+        return _genericItemSelection(
+            context, eventProtectionDrawerItems, title);
       case Constants.materialMovement:
         return _genericItemSelection(
             context, materialMovementDrawerItemsWithReturnable, title);

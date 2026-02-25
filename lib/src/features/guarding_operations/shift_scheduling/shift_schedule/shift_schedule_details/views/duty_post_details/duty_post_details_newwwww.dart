@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/base_widget/opacity_absorb_widget.dart';
@@ -119,7 +120,9 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
               );
             },
           ),
-          backgroundColor: AppColors.newColor3,
+          backgroundColor: Colors.transparent,
+          // extendBodyBehindAppBar: true,
+          extendBody: true,
           body: getBody(state, height),
         );
       },
@@ -133,187 +136,209 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
     }
-    return Container(
-      color: AppColors.newColor3,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: height * 0.01,
-              color: AppColors.newColor3,
+    return SizedBox.expand(
+      child: Stack(
+        children: [
+          // 🔹 Background Image
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/bg2.png',
+              fit: BoxFit.cover,
             ),
-            Container(
-              decoration: ShapeDecoration(
-                  color: AppColors.newColor3,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20.0)),
-                  )),
-              // child: AbsorbPointer(
-              //   absorbing: isReadOnly,
-              child: Form(
-                key: _formKey,
-                // autovalidateMode: isReadOnly
-                //     ? AutovalidateMode.disabled
-                //     : AutovalidateMode.onUserInteraction,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0, right: 20),
-                      child: Column(
-                        children: [
-                          if (!state.model.lock.isEmptyOrNull) ...[
-                            RecordLockedWidget(text: '${state.model.lock}'),
-                          ],
-                          IntrinsicHeight(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                /// Rank Dropdown
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.rank ??
-                                      state.labels?.defaultLocale.rank ??
-                                      Constants.rank,
-                                  Styles.textStyleWhite14,
-                                  isMandatory: true,
-                                ),
+          ),
 
-                                // Problem: Not displaying selected element
-                                // please update the below widget to show selected element
-
-                                DropdownWidget(
-                                  label: 'Select Rank',
-                                  items: state.ranks ?? [],
-                                  isInitial: false,
-                                  initialValue: selectedRank,
-                                  onChange: (Organisation? value) async {
-                                    setState(() {
-                                      selectedRank = value;
-                                      selectedShift =
-                                          null; //It will be removing the previous selected shift
-                                      state.model.selectForAttendance = null;
-                                      state.model.shift = null;
-                                    });
-                                    log('---onChange-region-----');
-
-                                    // BlocProvider.of<DutyPostDetailsCubit>(
-                                    //         context)
-                                    //     .submitForm(
-                                    //   isSaveOnly: true,
-                                    //   model: state.model,
-                                    //   status: FormStatus.initial,
-                                    //   newSelectedShift: state.selectedShift!,
-                                    // );
-                                    // if (state.status != FormStatus.formError) {
-                                    BlocProvider.of<DutyPostDetailsCubit>(
-                                            context)
-                                        .getShifts(rank: value!);
-                                    // }
-                                  },
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
-
-                                /// Select For Shift Dropdown
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.rank ??
-                                      state.labels?.defaultLocale.rank ??
-                                      Constants.selectForShift,
-                                  Styles.textStyleWhite14,
-                                  isMandatory: true,
-                                ),
-
-                                DropdownWidget(
-                                  label: 'Select Shift',
-                                  items: state.shifts ?? [],
-                                  isInitial: selectedRank != null &&
-                                          selectedShift == null
-                                      ? true
-                                      : false,
-                                  initialValue: selectedShift,
-                                  onChange: (Organisation? value) {
-                                    // selectedShift = value;
-                                    setState(() {
-                                      selectedShift = value;
-                                    });
-                                    // BlocProvider.of<DutyPostDetailsCubit>(
-                                    //         context)
-                                    //     .submitForm(
-                                    //   isSaveOnly: true,
-                                    //   model: state.model,
-                                    //   status: FormStatus.initial,
-                                    //   newSelectedShift: value!,
-                                    // );
-
-                                    // if (state.status != FormStatus.formError) {
-                                    BlocProvider.of<DutyPostDetailsCubit>(
-                                            context)
-                                        .getAvailableSelectedGuardsByShift(
-                                      // rank: state.selectedRank,
-                                      shift: value!,
-                                    );
-                                    // }
-                                  },
-                                ),
-
-                                /// Guard Lists (Drag Drop)
-
-                                OpacityAbsorbInkWellWidget(
-                                  absorbing: isReadOnly,
-                                  child: Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          buildShiftColumn(
-                                            state: state,
-                                            shift: state.model,
-                                            isSourceList: true,
-                                          ),
-                                          buildShiftColumn(
-                                            state: state,
-                                            shift: state.model,
-                                            isSourceList: false,
-                                          ),
-                                        ],
-                                      ),
-                                      CommonWidgets.verticalSpacerWidget(
-                                          MediaQuery.of(context).size.height *
-                                              0.01),
-                                      if (!state.model.selectedGuards
-                                          .isEmptyOrNull) ...[
-                                        buildReplacementColumn(state),
-                                      ],
-                                    ],
-                                  ),
-                                ),
-
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.02),
-
-                                /// Save Button
-                                if (!isReadOnly) ...[
-                                  Center(child: submitButtonDisplay(state)),
-                                ],
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    CommonWidgets.verticalSpacerWidget(height * 0.02),
-                    CommonWidgets.verticalSpacerWidget(height * 0.04),
-                  ],
-                ),
+          // 🔹 Blur Layer
+          Positioned.fill(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 200, sigmaY: 200),
+              child: Container(
+                color: Colors.black.withValues(alpha: 0.08), // optional tint
               ),
             ),
-          ],
-        ),
+          ),
+
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  height: height * 0.01,
+                  color: Colors.transparent,
+                ),
+                Container(
+                  decoration: const ShapeDecoration(
+                      color: Colors.transparent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(top: Radius.circular(20.0)),
+                      )),
+                  // child: AbsorbPointer(
+                  //   absorbing: isReadOnly,
+                  child: Form(
+                    key: _formKey,
+                    // autovalidateMode: isReadOnly
+                    //     ? AutovalidateMode.disabled
+                    //     : AutovalidateMode.onUserInteraction,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20.0, right: 20),
+                          child: Column(
+                            children: [
+                              if (!state.model.lock.isEmptyOrNull) ...[
+                                RecordLockedWidget(text: '${state.model.lock}'),
+                              ],
+                              IntrinsicHeight(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    /// Rank Dropdown
+                                    CommonWidgets.textDisplay(
+                                      state.labels?.locale.rank ??
+                                          state.labels?.defaultLocale.rank ??
+                                          Constants.rank,
+                                      Styles.textStyleWhite14,
+                                      isMandatory: true,
+                                    ),
+
+                                    // Problem: Not displaying selected element
+                                    // please update the below widget to show selected element
+
+                                    DropdownWidget(
+                                      label: 'Select Rank',
+                                      items: state.ranks ?? [],
+                                      isInitial: false,
+                                      initialValue: selectedRank,
+                                      onChange: (Organisation? value) async {
+                                        setState(() {
+                                          selectedRank = value;
+                                          selectedShift =
+                                              null; //It will be removing the previous selected shift
+                                          state.model.selectForAttendance = null;
+                                          state.model.shift = null;
+                                        });
+                                        log('---onChange-region-----');
+
+                                        // BlocProvider.of<DutyPostDetailsCubit>(
+                                        //         context)
+                                        //     .submitForm(
+                                        //   isSaveOnly: true,
+                                        //   model: state.model,
+                                        //   status: FormStatus.initial,
+                                        //   newSelectedShift: state.selectedShift!,
+                                        // );
+                                        // if (state.status != FormStatus.formError) {
+                                        BlocProvider.of<DutyPostDetailsCubit>(
+                                                context)
+                                            .getShifts(rank: value!);
+                                        // }
+                                      },
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),
+
+                                    /// Select For Shift Dropdown
+                                    CommonWidgets.textDisplay(
+                                      state.labels?.locale.rank ??
+                                          state.labels?.defaultLocale.rank ??
+                                          Constants.selectForShift,
+                                      Styles.textStyleWhite14,
+                                      isMandatory: true,
+                                    ),
+
+                                    DropdownWidget(
+                                      label: 'Select Shift',
+                                      items: state.shifts ?? [],
+                                      isInitial: selectedRank != null &&
+                                              selectedShift == null
+                                          ? true
+                                          : false,
+                                      initialValue: selectedShift,
+                                      onChange: (Organisation? value) {
+                                        // selectedShift = value;
+                                        setState(() {
+                                          selectedShift = value;
+                                        });
+                                        // BlocProvider.of<DutyPostDetailsCubit>(
+                                        //         context)
+                                        //     .submitForm(
+                                        //   isSaveOnly: true,
+                                        //   model: state.model,
+                                        //   status: FormStatus.initial,
+                                        //   newSelectedShift: value!,
+                                        // );
+
+                                        // if (state.status != FormStatus.formError) {
+                                        BlocProvider.of<DutyPostDetailsCubit>(
+                                                context)
+                                            .getAvailableSelectedGuardsByShift(
+                                          // rank: state.selectedRank,
+                                          shift: value!,
+                                        );
+                                        // }
+                                      },
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.02),
+
+                                    /// Guard Lists (Drag Drop)
+
+                                    OpacityAbsorbInkWellWidget(
+                                      absorbing: isReadOnly,
+                                      child: Column(
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              buildShiftColumn(
+                                                state: state,
+                                                shift: state.model,
+                                                isSourceList: true,
+                                              ),
+                                              buildShiftColumn(
+                                                state: state,
+                                                shift: state.model,
+                                                isSourceList: false,
+                                              ),
+                                            ],
+                                          ),
+                                          CommonWidgets.verticalSpacerWidget(
+                                              MediaQuery.of(context).size.height *
+                                                  0.02),
+                                          if (!state.model.selectedGuards
+                                              .isEmptyOrNull) ...[
+                                            buildReplacementColumn(state),
+                                          ],
+                                        ],
+                                      ),
+                                    ),
+
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.02),
+
+                                    /// Save Button
+                                    if (!isReadOnly) ...[
+                                      Center(child: submitButtonDisplay(state)),
+                                    ],
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.06),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -419,6 +444,52 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
     );
   }
 
+  // Widget buildUserList({
+  //   required Set<BaseUser> availableGuards,
+  //   required Set<BaseUser> selectedGuards,
+  //   required bool isSourceList,
+  //   required int maxAllowed,
+  //   required void Function(BaseUser guard) onAdd,
+  //   required void Function(BaseUser guard) onRemove,
+  // }) {
+  //   return Container(
+  //     decoration: BoxDecoration(
+  //       borderRadius: BorderRadius.circular(10.0),
+  //       color: AppColors.disableTextFieldBackground,
+  //     ),
+  //     height: MediaQuery.of(context).size.height / 2.5,
+  //     width: MediaQuery.of(context).size.width / 2.3,
+  //     child: availableGuards.isEmptyOrNull
+  //         ? const Center(
+  //             child: Text(
+  //             'No Guards Found.',
+  //             style: TextStyle(color: AppColors.white),
+  //           ))
+  //         : ListView.builder(
+  //             itemCount: availableGuards.length,
+  //             shrinkWrap: true,
+  //             itemBuilder: (context, index) {
+  //               final element = availableGuards.toList()[index];
+  //               return GestureDetector(
+  //                 onTap: () => handleUserListTap(isSourceList, element,
+  //                     selectedGuards, maxAllowed, onAdd, onRemove),
+  //                 child: Card(
+  //                   child: Padding(
+  //                     padding: const EdgeInsets.all(8.0),
+  //                     child: Text(
+  //                       element.name ?? '',
+  //                       style: const TextStyle(
+  //                           fontSize: 15, color: AppColors.white),
+  //                       overflow: TextOverflow.ellipsis,
+  //                     ),
+  //                   ),
+  //                 ),
+  //               );
+  //             },
+  //           ),
+  //   );
+  // }
+
   Widget buildUserList({
     required Set<BaseUser> availableGuards,
     required Set<BaseUser> selectedGuards,
@@ -427,43 +498,85 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
     required void Function(BaseUser guard) onAdd,
     required void Function(BaseUser guard) onRemove,
   }) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        color: AppColors.disableTextFieldBackground,
-      ),
-      height: MediaQuery.of(context).size.height / 2.5,
-      width: MediaQuery.of(context).size.width / 2.3,
-      child: availableGuards.isEmptyOrNull
-          ? const Center(
-              child: Text(
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10), // ✅ glass blur
+        child: Container(
+          height: MediaQuery.of(context).size.height / 2.5,
+          width: MediaQuery.of(context).size.width / 2.3,
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.05), // ✅ glass tint
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(
+              color: Colors.white.withValues(alpha: 1),
+              width: 1,
+            ),
+          ),
+          child: availableGuards.isEmptyOrNull
+              ? const Center(
+            child: Text(
               'No Guards Found.',
-              style: TextStyle(color: AppColors.white),
-            ))
-          : ListView.builder(
-              itemCount: availableGuards.length,
-              shrinkWrap: true,
-              itemBuilder: (context, index) {
-                final element = availableGuards.toList()[index];
-                return GestureDetector(
-                  onTap: () => handleUserListTap(isSourceList, element,
-                      selectedGuards, maxAllowed, onAdd, onRemove),
-                  child: Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        element.name ?? '',
-                        style: const TextStyle(
-                            fontSize: 15, color: AppColors.white),
-                        overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: Colors.white70,
+                fontSize: 14,
+              ),
+            ),
+          )
+              : ListView.builder(
+            padding: const EdgeInsets.all(8),
+            itemCount: availableGuards.length,
+            itemBuilder: (context, index) {
+              final element = availableGuards.toList()[index];
+
+              return GestureDetector(
+                onTap: () => handleUserListTap(
+                  isSourceList,
+                  element,
+                  selectedGuards,
+                  maxAllowed,
+                  onAdd,
+                  onRemove,
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: BackdropFilter(
+                    filter:
+                    ImageFilter.blur(sigmaX: 0, sigmaY: 0),
+                    child: Card(
+                      elevation: 0,
+                      color: Colors.transparent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                        BorderRadius.circular(1),
+                        side: BorderSide(
+                          color: Colors.white.withValues(alpha: 1),
+                          width: 0.8,
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Text(
+                          element.name ?? '',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 15,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                );
-              },
-            ),
+                ),
+              );
+            },
+          ),
+        ),
+      ),
     );
   }
+
 
   void handleUserListTap(
     bool isSourceList,
@@ -511,22 +624,27 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
               const SizedBox(width: 14),
               SvgPicture.asset(
                 AppIcon.pluscircle,
+                colorFilter: const ColorFilter.mode(
+                  AppColors.white,
+                  BlendMode.srcIn,
+                ),
               ),
               const SizedBox(width: 10),
               const Text(
                 Constants.addReplacement,
                 style: TextStyle(
                   color: AppColors.white,
+                  fontSize: 16,
                   decoration: TextDecoration.underline,
                 ),
               ),
               CommonWidgets.verticalSpacerWidget(
-                  MediaQuery.of(context).size.height * 0.01),
-              CommonWidgets.verticalSpacerWidget(
-                  MediaQuery.of(context).size.height * 0.01),
+                  MediaQuery.of(context).size.height * 0.03),
             ],
           ),
         ),
+        CommonWidgets.verticalSpacerWidget(
+            MediaQuery.of(context).size.height * 0.01),
         if (state.model.replacements != null &&
             state.model.replacements!.isNotEmpty) ...[
           SingleChildScrollView(
@@ -543,6 +661,84 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
     );
   }
 
+  // List<Widget> buildReplacements(DutyPostDetailsState state) {
+  //   return [
+  //     for (Replacement replacement in state.model.replacements ?? [])
+  //       InkWell(
+  //         onTap: () => showReplacementPopUp(
+  //           context: context,
+  //           model: replacement,
+  //           selectedGuards: state.model.selectedGuards ?? {},
+  //           rankId: state.selectedRank!.id!,
+  //           dutyPostId: widget.model!.id!,
+  //           shiftId: state.selectedShift!.id!,
+  //           state: state,
+  //         ),
+  //         child: Stack(
+  //           children: [
+  //             Card(
+  //               color: Colors.transparent,
+  //               child: Padding(
+  //                 padding: const EdgeInsets.all(8.0),
+  //                 child: Column(
+  //                   crossAxisAlignment: CrossAxisAlignment.start,
+  //                   children: [
+  //                     buildTextWithLabel(
+  //                         'Replacement For:', replacement.replacedFor?.name),
+  //                     buildTextWithLabel(
+  //                       'From Date:',
+  //                       replacement.fromDate != null
+  //                           ? Utils.timestampToDateConversion(
+  //                               int.tryParse(replacement.fromDate ?? '0'),
+  //                               Constants.dateFormat,
+  //                             )
+  //                           : '',
+  //                     ),
+  //                     buildTextWithLabel(
+  //                       'To Date:',
+  //                       replacement.toDate != null
+  //                           ? Utils.timestampToDateConversion(
+  //                               int.parse(replacement.toDate ?? '0'),
+  //                               Constants.dateFormat,
+  //                             )
+  //                           : '',
+  //                     ),
+  //                     buildTextWithLabel(
+  //                         'Reason:',
+  //                         Utils().getKeyFromValue(
+  //                           value: replacement.status!,
+  //                           dropdownValues: attendanceReasonDropDownValues,
+  //                         )),
+  //                     buildTextWithLabel(
+  //                         'Replacement By:', replacement.replacementBy?.name),
+  //                   ],
+  //                 ),
+  //               ),
+  //             ),
+  //             Positioned(
+  //               right: 0,
+  //               top: 0,
+  //               child: InkWell(
+  //                 onTap: () {
+  //                   state.model.replacements?.remove(replacement);
+  //                   BlocProvider.of<DutyPostDetailsCubit>(context)
+  //                       .submitAndRefreshScreen(
+  //                     checkValidations: false,
+  //                   );
+  //                   setState(() {});
+  //                 },
+  //                 child: Card(
+  //                   elevation: 5,
+  //                   child: BaseIcons().closeIcon(),
+  //                 ),
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //   ];
+  // }
+
   List<Widget> buildReplacements(DutyPostDetailsState state) {
     return [
       for (Replacement replacement in state.model.replacements ?? [])
@@ -556,65 +752,97 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
             shiftId: state.selectedShift!.id!,
             state: state,
           ),
-          child: Stack(
-            children: [
-              Card(
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+              child: Card(
+                elevation: 0,
+                color: Colors.white.withOpacity(0.06),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  side: BorderSide(
+                    color: Colors.white.withOpacity(1),
+                    width: 1,
+                  ),
+                ),
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(12.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       buildTextWithLabel(
-                          'Replacement For:', replacement.replacedFor?.name),
+                        'Replacement For:',
+                        replacement.replacedFor?.name,
+                      ),
                       buildTextWithLabel(
                         'From Date:',
                         replacement.fromDate != null
                             ? Utils.timestampToDateConversion(
-                                int.tryParse(replacement.fromDate ?? '0'),
-                                Constants.dateFormat,
-                              )
+                          int.tryParse(
+                              replacement.fromDate ?? '0'),
+                          Constants.dateFormat,
+                        )
                             : '',
                       ),
                       buildTextWithLabel(
                         'To Date:',
                         replacement.toDate != null
                             ? Utils.timestampToDateConversion(
-                                int.parse(replacement.toDate ?? '0'),
-                                Constants.dateFormat,
-                              )
+                          int.parse(
+                              replacement.toDate ?? '0'),
+                          Constants.dateFormat,
+                        )
                             : '',
                       ),
                       buildTextWithLabel(
-                          'Reason:',
-                          Utils().getKeyFromValue(
-                            value: replacement.status!,
-                            dropdownValues: attendanceReasonDropDownValues,
-                          )),
+                        'Reason:',
+                        Utils().getKeyFromValue(
+                          value: replacement.status!,
+                          dropdownValues:
+                          attendanceReasonDropDownValues,
+                        ),
+                      ),
                       buildTextWithLabel(
-                          'Replacement By:', replacement.replacementBy?.name),
+                        'Replacement By:',
+                        replacement.replacementBy?.name,
+                      ),
+
+                      const SizedBox(height: 8),
+
+                      // 🔹 CLOSE BUTTON AT BOTTOM RIGHT
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        child: InkWell(
+                          onTap: () {
+                            state.model.replacements
+                                ?.remove(replacement);
+                            BlocProvider.of<DutyPostDetailsCubit>(
+                                context)
+                                .submitAndRefreshScreen(
+                              checkValidations: false,
+                            );
+                            setState(() {});
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(2),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              color: Colors.transparent,
+                              border: Border.all(
+                                color: Colors.white.withOpacity(0.6),
+                              ),
+                            ),
+                            child: BaseIcons().closeIcon(
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
               ),
-              Positioned(
-                right: 0,
-                top: 0,
-                child: InkWell(
-                  onTap: () {
-                    state.model.replacements?.remove(replacement);
-                    BlocProvider.of<DutyPostDetailsCubit>(context)
-                        .submitAndRefreshScreen(
-                      checkValidations: false,
-                    );
-                    setState(() {});
-                  },
-                  child: Card(
-                    elevation: 5,
-                    child: BaseIcons().closeIcon(),
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
     ];
@@ -629,13 +857,13 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
             style: const TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.normal,
-              color: Colors.black, // You can adjust the color as needed
+              color: Colors.white, // You can adjust the color as needed
             ),
           ),
           TextSpan(
             text: value,
             style: const TextStyle(
-              color: AppColors.black,
+              color: AppColors.white,
               fontSize: 12,
               fontWeight: FontWeight.bold,
             ),

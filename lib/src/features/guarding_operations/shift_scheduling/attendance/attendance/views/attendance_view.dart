@@ -61,260 +61,297 @@ class _AttendanceViewState extends State<AttendanceView> {
     final scaffoldKey = GlobalKey<ScaffoldState>();
     final size = MediaQuery.of(context).size;
     double height = size.height;
-    return BlocConsumer<AttendanceBloc,
-        AttendanceState>(
-        listener: (context, state) {},
-        builder: (context, state) {
-    return Scaffold(
-        backgroundColor: AppColors.newColor,
-        bottomNavigationBar: CustomBottomNavigationBar(
-            scaffoldKey: scaffoldKey,
-            context: context,
-            hasAddPermission: false,
-            displayMenu: state.displayMenu,
-            list: true,
-            onAddPressed: () {
-            }),
-        appBar: BaseAppBar().buildAppHeader(
-          context: context,
-          title: Constants.attendanceListTitle,
-          showPopUp: true,
-          showSaveButton: false,
-          showSubmitButton: false,
-          showDisLikeButton: false,
-          showLikeButton: false,
-          excelAPIName: 'exportAttendanceExcel',
-          pdfAPIName: 'exportAttendancePDF',
-        ),
-        body: BlocBuilder<AttendanceBloc, AttendanceState>(
-            builder: (context, state) {
-          // if (state.status == FormStatus.loading) {
-          //   return const BaseLoader();
-          // }
-          // if (state.list.isEmptyOrNull) {
-          //   return const NoRecordFoundWidget();
-          // }
-          // log('--labels-${state.labels?.locale.locationRegion}');
-          return Container(
-            width: double.infinity,
-            height: double.infinity,
-            color: AppColors.newColor3,
-            child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                CommonWidgets.verticalSpacerWidget(height * 0.01),
-                BaseSearchWidget(
-                  applySearchFilters: applySearchFilters,
-                  applyFilters: applyFilters,
-                  commonFilters: state.commonFilters ??
-                      CommonFilters(
-                        statuses: [],
-                        regions: [],
+    return BlocConsumer<AttendanceBloc, AttendanceState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        return Scaffold(
+            backgroundColor: Colors.transparent,
+            extendBodyBehindAppBar: true,
+            extendBody: true,
+            bottomNavigationBar: CustomBottomNavigationBar(
+                scaffoldKey: scaffoldKey,
+                context: context,
+                hasAddPermission: false,
+                displayMenu: state.displayMenu,
+                list: true,
+                onAddPressed: () {}),
+            appBar: BaseAppBar().buildAppHeader(
+              context: context,
+              title: Constants.attendanceListTitle,
+              showPopUp: true,
+              showSaveButton: false,
+              showSubmitButton: false,
+              showDisLikeButton: false,
+              showLikeButton: false,
+              excelAPIName: 'exportAttendanceExcel',
+              pdfAPIName: 'exportAttendancePDF',
+            ),
+            body: BlocBuilder<AttendanceBloc, AttendanceState>(
+                builder: (context, state) {
+              // if (state.status == FormStatus.loading) {
+              //   return const BaseLoader();
+              // }
+              // if (state.list.isEmptyOrNull) {
+              //   return const NoRecordFoundWidget();
+              // }
+              // log('--labels-${state.labels?.locale.locationRegion}');
+              return Stack(
+                children: [
+                  // 🔹 Background
+                  Positioned.fill(
+                    child: Image.asset(
+                      'assets/images/bg2.png',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Positioned.fill(
+                    child: ClipRect(
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
+                        child: Container(
+                          color: Colors.black.withOpacity(0.2),
+                        ),
                       ),
-                ),
-                CommonWidgets.verticalSpacerWidget(height * 0.001),
-                if (state.status == FormStatus.loading) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                  const BaseLoader(),
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                ],
-                // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
-                // Text('state.status=====${state.status}'),
-                if (state.items.isEmptyOrNull &&
-                    state.status != FormStatus.initial &&
-                    state.status != FormStatus.loading) ...[
-                  CommonWidgets.verticalSpacerWidget(height * 0.1),
-                  const NoRecordFoundWidget(),
-                ],
+                    ),
+                  ),
 
-                Expanded(
-                  child: CustomMaterialIndicator(
-                    onRefresh: () => _onRefresh(),
-                    backgroundColor: Colors.white,
-                    indicatorBuilder: (context, controller) {
-                      return const Padding(
-                        padding: EdgeInsets.all(6.0),
-                        child: BaseLoader(),
-                      );
-                    },
-                    child: ListView.builder(
-                        controller: _scrollController,
-                        itemCount: state.hasReachedMax
-                            ? state.items.length
-                            : state.items.length + 1,
-                        itemBuilder: (context, index) {
-                          List<Label> labels = [];
-                          if (index < state.items.length) {
-                            labels.add(Label(
-                                key: state.labels?.locale.locationRegion ??
-                                    state
-                                        .labels?.defaultLocale.locationRegion ??
-                                    Constants.region,
-                                value:
-                                state.items[index].locationRegion?.name ??
-                                    ''));
-                            labels.add(Label(
-                                key: state.labels?.locale.location ??
-                                    state.labels?.defaultLocale.location ??
-                                    Constants.location,
-                                value:
-                                state.items[index].location?.name ?? ''));
-                            labels.add(Label(
-                                key: state.labels?.locale.slNo ??
-                                    state.labels?.defaultLocale.slNo ??
-                                    Constants.slno,
-                                value: state.items[index].slNo ?? ''));
-                            labels.add(Label(
-                                key: state.labels?.locale.inputDate ??
-                                    state.labels?.defaultLocale.inputDate ??
-                                    Constants.dateofcreation,
-                                value: state.items[index].inputDate != null
-                                    ? Utils.timestampToDateConversion(
-                                    int.parse(
-                                        state.items[index].inputDate ??
-                                            '0'),
-                                    Constants.twentyFourHourDateTimeFormat)
-                                    : ''));
-                            labels.add(Label(
-                                key:
-                                Constants.shiftScheduleId,
-                                value:
-                                (state.items[index].shiftInfo?.id ??
-                                    '').toString()));
-                            return index >= state.items.length
-                                ? const BaseLoader()
-                                :
-                            // index >= state.items.length
-                            //   ? const BaseLoader()
-                            Container(
-                                decoration: const BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      // Color(0xFF6474C6),
-                                      // Color(0xFF6474C6),
-                                      Colors.transparent,
-                                      Colors.transparent,
-                                    ],
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                  ),
-                                ),
-                                margin: const EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 8),
-                                child: ClipRRect(
-                                    borderRadius:
-                                    BorderRadius.circular(18),
-                                    child: BackdropFilter(
-                                        filter: ImageFilter.blur(
-                                            sigmaX: 18, sigmaY: 18),
-                                        child: Container(
-                                          decoration:
-                                          BoxDecoration(
-                                            gradient: LinearGradient(
-                                              colors: [
-                                                Colors.white.withValues(alpha: 0.09),
-                                                Colors.transparent,
-                                                Colors.white.withValues(alpha: 0.09),
-                                                // Color(0xFF6474C6).withOpacity(0.14)
-                                              ],
-                                              stops: [0.02, 0.35, 1],
-                                              begin: Alignment.topCenter,
-                                              end: Alignment.bottomCenter,
-                                            ),
-                                            borderRadius: BorderRadius.circular(27),
-                                            border: Border.all(
-                                              color: Colors.white
-                                                  .withValues(alpha: 0.6),
-                                              width: 0.7,
-                                            ),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.white
-                                                    .withValues(alpha: 0.0),
-                                                blurRadius: 12,
-                                                offset: const Offset(0, 2),
-                                              ),
-                                            ],
-                                          ),
-                                          child: BaseListTileItem(
-                                              id: state.items[index].id,
-                                              labels: labels,
-                                              status: state.items[index].status,
-                                              isMasterGuard: false,
-                                              isAttendanceStatus: true,
-                                              isEventProtectionStatus: false,
-                                              onTap: (selectedIndex) {
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (
-                                                      BuildContext dialogContext) {
-                                                    return BasePopUpItems(
-                                                      id: state
-                                                          .items[selectedIndex]
-                                                          .id
-                                                          .toString(),
-                                                      labels: labels,
-                                                      dutyType: state
-                                                          .items[selectedIndex]
-                                                          .dutyType,
-                                                      isAttendance: true,
-                                                      isShiftScheduleStatus: true,
-                                                      isMasterGuard: false,
-                                                      isEventProtectionStatus: false,
-                                                      status: state
-                                                          .items[selectedIndex]
-                                                          .status,
-                                                    );
-                                                  },
-                                                );
-                                              },
-                                              showEditButton: true,
-                                              onEditTap: (selectedIndex) {
-                                                getById(
-                                                    state.extraProperties
-                                                        ?.hasWritePermission ??
+                  // 🔹 Search Bar - positioned safely at the top
+                  Positioned(
+                    top: MediaQuery.of(context).padding.top +
+                        kToolbarHeight +
+                        -40, // below AppBar
+                    left: 3,
+                    right: 3,
+                    child: BaseSearchWidget(
+                      applySearchFilters: applySearchFilters,
+                      applyFilters: applyFilters,
+                      commonFilters: state.commonFilters ??
+                          CommonFilters(
+                            statuses: [],
+                            regions: [],
+                          ),
+                    ),
+                  ),
+
+                  // 🔹 ListView - start immediately below search bar
+                  Positioned(
+                    top: MediaQuery.of(context).padding.top +
+                        kToolbarHeight +
+                        10,
+                    // search bar height ~64+padding
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    child: CustomMaterialIndicator(
+                      onRefresh: () => _onRefresh(),
+                      backgroundColor: Colors.white,
+                      indicatorBuilder: (context, controller) {
+                        return const Padding(
+                          padding: EdgeInsets.all(6.0),
+                          child: BaseLoader(),
+                        );
+                      },
+                      child: ListView.builder(
+                          controller: _scrollController,
+                          padding: EdgeInsets.zero,
+                          itemCount: state.hasReachedMax
+                              ? state.items.length
+                              : state.items.length + 1,
+                          itemBuilder: (context, index) {
+                            List<Label> labels = [];
+                            if (index < state.items.length) {
+                              labels.add(Label(
+                                  key: state.labels?.locale.locationRegion ??
+                                      state.labels?.defaultLocale
+                                          .locationRegion ??
+                                      Constants.region,
+                                  value:
+                                      state.items[index].locationRegion?.name ??
+                                          ''));
+                              labels.add(Label(
+                                  key: state.labels?.locale.location ??
+                                      state.labels?.defaultLocale.location ??
+                                      Constants.location,
+                                  value:
+                                      state.items[index].location?.name ?? ''));
+                              labels.add(Label(
+                                  key: state.labels?.locale.slNo ??
+                                      state.labels?.defaultLocale.slNo ??
+                                      Constants.slno,
+                                  value: state.items[index].slNo ?? ''));
+                              labels.add(Label(
+                                  key: state.labels?.locale.inputDate ??
+                                      state.labels?.defaultLocale.inputDate ??
+                                      Constants.dateofcreation,
+                                  value: state.items[index].inputDate != null
+                                      ? Utils.timestampToDateConversion(
+                                          int.parse(
+                                              state.items[index].inputDate ??
+                                                  '0'),
+                                          Constants
+                                              .twentyFourHourDateTimeFormat)
+                                      : ''));
+                              labels.add(Label(
+                                  key: Constants.shiftScheduleId,
+                                  value:
+                                      (state.items[index].shiftInfo?.id ?? '')
+                                          .toString()));
+                              return index >= state.items.length
+                                  ? const BaseLoader()
+                                  :
+                                  // index >= state.items.length
+                                  //   ? const BaseLoader()
+                                  Container(
+                                      decoration: const BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            // Color(0xFF6474C6),
+                                            // Color(0xFF6474C6),
+                                            Colors.transparent,
+                                            Colors.transparent,
+                                          ],
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                        ),
+                                      ),
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 12, vertical: 8),
+                                      child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(18),
+                                          child: BackdropFilter(
+                                              filter: ImageFilter.blur(
+                                                  sigmaX: 18, sigmaY: 18),
+                                              child: Container(
+                                                  decoration: BoxDecoration(
+                                                    gradient: LinearGradient(
+                                                      colors: [
+                                                        Colors.white.withValues(
+                                                            alpha: 0.09),
+                                                        Colors.transparent,
+                                                        Colors.white.withValues(
+                                                            alpha: 0.09),
+                                                        // Color(0xFF6474C6).withOpacity(0.14)
+                                                      ],
+                                                      stops: [0.02, 0.35, 1],
+                                                      begin:
+                                                          Alignment.topCenter,
+                                                      end: Alignment
+                                                          .bottomCenter,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            27),
+                                                    border: Border.all(
+                                                      color: Colors.white
+                                                          .withValues(
+                                                              alpha: 0.6),
+                                                      width: 0.7,
+                                                    ),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Colors.white
+                                                            .withValues(
+                                                                alpha: 0.0),
+                                                        blurRadius: 12,
+                                                        offset:
+                                                            const Offset(0, 2),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  child: BaseListTileItem(
+                                                    id: state.items[index].id,
+                                                    labels: labels,
+                                                    status: state
+                                                        .items[index].status,
+                                                    isMasterGuard: false,
+                                                    isAttendanceStatus: true,
+                                                    isEventProtectionStatus:
                                                         false,
-                                                    id: state.items[index].id ??
-                                                        0);
-                                              },
-                                              onViewTap: (selectedIndex) {
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (
-                                                      BuildContext dialogContext) {
-                                                    return BasePopUpItems(
-                                                      id: state
-                                                          .items[selectedIndex]
-                                                          .id
-                                                          .toString(),
-                                                      labels: labels,
-                                                      dutyType: state
-                                                          .items[selectedIndex]
-                                                          .dutyType,
-                                                      status: state
-                                                          .items[selectedIndex]
-                                                          .status,
-                                                      isMaterGuard: false,
-                                                      isMasterGuard: false,
-                                                      isAttendance: true,
-                                                      isEventProtectionStatus: false,
-                                                    );
-                                                  },
-                                                );
-                                              },
-                                              index: index,
-                                            )))));
-                          };
-                        }),
-              ),
-              ),
-              ],
-              ),
+                                                    onTap: (selectedIndex) {
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                            dialogContext) {
+                                                          return BasePopUpItems(
+                                                            id: state
+                                                                .items[
+                                                                    selectedIndex]
+                                                                .id
+                                                                .toString(),
+                                                            labels: labels,
+                                                            dutyType: state
+                                                                .items[
+                                                                    selectedIndex]
+                                                                .dutyType,
+                                                            isAttendance: true,
+                                                            isShiftScheduleStatus:
+                                                                true,
+                                                            isMasterGuard:
+                                                                false,
+                                                            isEventProtectionStatus:
+                                                                false,
+                                                            status: state
+                                                                .items[
+                                                                    selectedIndex]
+                                                                .status,
+                                                          );
+                                                        },
+                                                      );
+                                                    },
+                                                    showEditButton: true,
+                                                    onEditTap: (selectedIndex) {
+                                                      getById(
+                                                          state.extraProperties
+                                                                  ?.hasWritePermission ??
+                                                              false,
+                                                          id: state.items[index]
+                                                                  .id ??
+                                                              0);
+                                                    },
+                                                    onViewTap: (selectedIndex) {
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                            dialogContext) {
+                                                          return BasePopUpItems(
+                                                            id: state
+                                                                .items[
+                                                                    selectedIndex]
+                                                                .id
+                                                                .toString(),
+                                                            labels: labels,
+                                                            dutyType: state
+                                                                .items[
+                                                                    selectedIndex]
+                                                                .dutyType,
+                                                            status: state
+                                                                .items[
+                                                                    selectedIndex]
+                                                                .status,
+                                                            isMaterGuard: false,
+                                                            isMasterGuard:
+                                                                false,
+                                                            isAttendance: true,
+                                                            isEventProtectionStatus:
+                                                                false,
+                                                          );
+                                                        },
+                                                      );
+                                                    },
+                                                    index: index,
+                                                  )))));
+                            }
+                            ;
+                          }),
+                    ),
+                  ),
+                ],
               );
-              }));
-            },
-        );
-    }
+            }));
+      },
+    );
+  }
 
   getById(
     bool hasWritePermission, {

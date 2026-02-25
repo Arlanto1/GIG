@@ -91,6 +91,8 @@ class BasePopUpItems extends StatefulWidget {
   final Organisation? visitPurpose;
   final Organisation? dbOfficialDep;
   final bool isArticleFoundStatus;
+  final bool isWorkShift;
+  final int? workShift;
 
   @override
   State<BasePopUpItems> createState() => _BasePopUpItemsState();
@@ -185,6 +187,8 @@ class BasePopUpItems extends StatefulWidget {
     this.visitPurpose,
     this.dbOfficialDep,
     this.isArticleFoundStatus = false,
+    this.isWorkShift = false,
+    this.workShift,
   });
 }
 

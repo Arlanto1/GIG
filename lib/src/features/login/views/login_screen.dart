@@ -1258,9 +1258,9 @@
 // //                               focusedBorder: UnderlineInputBorder(
 // //                                 borderSide: BorderSide(color: Color(0xFF5026bc), width: 2),
 // //                               ),
-// //                               enabledBorder: UnderlineInputBorder(
-// //                                 borderSide: BorderSide(color: Color(0xFF5026bc), width: 1.2),
-// //                               ),
+//                               enabledBorder: UnderlineInputBorder(
+//                                 borderSide: BorderSide(color: Color(0xFF5026bc), width: 1.2),
+//                               ),
 // //                             ),
 // //                           ),
 // //                         ],
@@ -1680,11 +1680,12 @@ class _LoginState extends State<Login> {
                     final height = constraints.maxHeight;
                     final width = constraints.minHeight;
 
-                    return Scaffold(
-                      body: Stack(
+                    // return Scaffold(
+                    //  body:
+                    return Stack(
                         children: [
                           // Background Gradient + Wavy Image
-                          Container(
+                          SizedBox(
                             width: double.infinity,
                             height: double.infinity,
                             // decoration: const BoxDecoration(
@@ -1709,7 +1710,7 @@ class _LoginState extends State<Login> {
                             // ),
                             child: Image.asset(
                               'assets/images/login4.png',
-                              fit: BoxFit.fitHeight,
+                              fit: BoxFit.cover,
                               width: double.infinity,
                             ),
                           ),
@@ -2059,8 +2060,8 @@ class _LoginState extends State<Login> {
                             ),
                           ),
                         ],
-                      ),
-                    );
+                      );
+                    // );
                   });
 
 

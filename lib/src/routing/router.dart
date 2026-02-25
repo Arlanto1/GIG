@@ -24,8 +24,8 @@ const String eventProtectionListRoute = '/eventProtectionListRoute';
 const String eventProtectionDetailsTabRoute = '/eventProtectionDetailsTabRoute';
 // const String generalInfoTilesViewRoute = '/generalInfoTilesViewRoute';
 const String eventProtectionGeneralInfoGIRoute = '/generalInfoGIRoute';
-const String generalInfoCIRoute = '/generalInfoCIRoute';
-const String guardInfoRoute = '/guardInfoRoute';
+// const String generalInfoCIRoute = '/generalInfoCIRoute';
+// const String guardInfoRoute = '/guardInfoRoute';
 const String eventInfoRoute = '/eventInfoRoute';
 
 const String incidentManagementsRoute = '/incidentManagementRoute';
@@ -39,6 +39,9 @@ const String resetPwdScreenRoute = '/resetPwdScreen';
 const String materialMovementInwardsOutwardsRoute = '/materialMovementInwards';
 const String materialMovementInwardOutwardDetailsRoute =
     '/materialMovementInwardOutwardDetailsRoute';
+const String materialItemsRoute = '/materialItemsRoute';
+const String materialMovementApproveRoute ='/materialMovementApproveRoute';
+
 
 const String sstIncidentListRoute = '/sstIncidentListRoute';
 const String sstIncidentDetailsRoute = '/sstIncidentDetailsRoute';
@@ -54,6 +57,9 @@ const String femaleDropPickUpRoute = '/femaleDropPickUpRoute';
 
 const String shiftOccurrenceRoute = '/shiftOccurrenceRoute';
 const String shiftOccurrenceDetailsRoute = '/shiftOccurrenceDetailsRoute';
+const String opsSituationUpdateDetailsRoute = '/opsSituationUpdateDetailsRoute';
+const String buildingOccRepDetailsRoute = '/buildingOccRepDetailsRoute';
+const String dbLocUpdateDetailsRoute = '/dbLocUpdateDetailsRoute';
 
 const String contactDetailsListRoute = '/contactDetailsListRoute';
 const String contactDetailsRoute = '/contactDetailsRoute';
@@ -128,7 +134,12 @@ const String lawVisitingOfficialViewRoute = '/lawVisitingOfficialViewRoute';
 const String articleFoundNewListRoute = '/articleFoundNewListRoute';
 const String articleFoundNewDetailsRoute = '/articleFoundNewDetailsRoute';
 
-
-
 const String aiChatListRoute = '/aiChatListRoute';
 const String aiChatDetailsRoute = '/aiChatDetailsRoute';
+
+
+const String csrEventListRoute = '/csrEventListRoute';
+const String csrEventDetailsTabRoute = '/csrEventDetailsTabRoute';
+const String csrEventGeneralInfoRoute = '/csrEventGeneralInfoRoute';
+
+const String csrEventInfoRoute = '/csrEventInfoRoute';

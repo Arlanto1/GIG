@@ -1513,28 +1513,25 @@ class DashboardViewState extends State<DashboardView>
       bloc: chartsCubit,
       builder: (context, state) {
         return Scaffold(
+          extendBody: true,
+          extendBodyBehindAppBar: true,
           key: scaffoldKey,
           drawer: NavigationDrawer1(scaffoldKey, userName, email),
           appBar: AppHeader(
+            backgroundColour: Colors.transparent,
             isTitleCenter: false,
             title: Constants.dashboard,
-            // titleWidget: Image.asset(
-            //   'assets/images/fedex1.png',
-            //   height: 40,
-            //   fit: BoxFit.contain,
-            // ),
-            backgroundColour:  AppColors.newColor,
             action: [
-              // if (Environment().config.apiHost.contains('api.qa.')) ...[
-              //   const Text(
-              //     'Logs',
-              //     style: TextStyle(color: AppColors.white),
-              //   ),
-              //   Switch(
-              //     value: isToggled,
-              //     onChanged: _onToggleChanged,
-              //   ),
-              // ],
+              if (Environment().config.apiHost.contains('api.qa.')) ...[
+                const Text(
+                  'Logs',
+                  style: TextStyle(color: AppColors.white),
+                ),
+                Switch(
+                  value: isToggled,
+                  onChanged: _onToggleChanged,
+                ),
+              ],
               // GestureDetector(
               //   onTap: () {
               //     showDialog(
@@ -1634,7 +1631,7 @@ class DashboardViewState extends State<DashboardView>
                 onTap: () {
                   showDialog(
                     context: context,
-                    barrierColor: Colors.black.withValues(alpha: 0.5),
+                    barrierColor: Colors.white.withValues(alpha: 0.5),
                     builder: (context) {
                       return Stack(
                         children: [
@@ -1851,7 +1848,8 @@ class DashboardViewState extends State<DashboardView>
           //     child: getBody(state)),
 
           /// Bottom Navigation Bar
-          bottomNavigationBar: state.displayMenu != null
+          bottomNavigationBar:
+          state.displayMenu != null
               ? CustomBottomNavigationBar(
             hasAddPermission: false,
             scaffoldKey: scaffoldKey,
@@ -1859,110 +1857,246 @@ class DashboardViewState extends State<DashboardView>
             displayMenu: state.displayMenu!,
           )
               : const SizedBox(),
+
           body: getBody(state),
         );
       },
     );
   }
+  // Widget getBody(ChartsState state) {
+  //   Utils().errorAndLogout(state, context);
+  //   if (state.status == FormStatus.loading) {
+  //     return const BaseLoader();
+  //   }
+  //   // return Container(
+  //     // color: Colors.white,
+  //     // decoration:  const BoxDecoration(
+  //     //   gradient: LinearGradient(
+  //     //     colors: [
+  //     //       // Color(0xFF845EF7),
+  //     //       // Color(0xFF6A89CC).withValues(alpha: 0.4),
+  //     //       // Color(0xFF6A89CC),
+  //     //       // Color(0xFF6A89CC),
+  //     //
+  //     //       // Color(0xFF6A89CC).withValues(alpha: 0.4),
+  //     //       // Color(0xFF7589E9),
+  //     //       // Colors.orange,
+  //     //       AppColors.white,
+  //     //       AppColors.white,
+  //     //       // Color(0xFF6474C6),
+  //     //       // Color(0xFF6474C6),
+  //     //     ],
+  //     //     begin: Alignment.topLeft,
+  //     //     end: Alignment.bottomRight,
+  //     //   ),
+  //     // ),
+  //     // child:
+  //   return Stack(children: [
+  //   // 🔹 Background Image
+  //   // Positioned.fill(
+  //   // child: Image.asset(
+  //   //   'assets/images/bg2.png',
+  //   //   fit: BoxFit.cover,
+  //   // ),
+  //   // ),
+  //
+  //   // 🔹 Blur Layer
+  //   Positioned.fill(
+  //   child: BackdropFilter(
+  //   filter: ImageFilter.blur(sigmaX: 200, sigmaY: 200),
+  //   child: Container(
+  //   color: Colors.black.withValues(alpha: 0.08), // optional tint
+  //   ),
+  //   ),
+  //   ),
+  //     Padding(
+  //       padding: const EdgeInsets.only(top: 20.0),
+  //       child: SingleChildScrollView(
+  //         child: Stack(
+  //   children: [
+  //   // 🔹 Background Image
+  //   Positioned.fill(
+  //   child: Image.asset(
+  //   'assets/images/bg2.png',
+  //   fit: BoxFit.fitHeight,
+  //   ),
+  //   ),
+  //
+  //   // 🔹 Blur Layer
+  //   Positioned.fill(
+  //   child: ClipRect(
+  //   child: BackdropFilter(
+  //   filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+  //   child: Container(
+  //   color: Colors.black.withOpacity(0.08), // optional tint
+  //   ),
+  //   ),
+  //   ),
+  //   ),
+  //
+  //    Column(
+  //             children: [
+  //               buildChartHorizontalWidget(
+  //                 title: Constants.lawEnforcementVisitsByEntity,
+  //                 chartValues: state.lawEnforcementVisitByEntity ?? [],
+  //               ),
+  //               const SizedBox(height: 20),
+  //               buildChartHorizontalWidget(
+  //                 title: Constants.lawEnforcementVisitsByRegion,
+  //                 chartValues: state.lawEnforcementVisitByRegion ?? [],
+  //               ),
+  //               const SizedBox(height: 20),
+  //               buildChartHorizontalWidget(
+  //                 title: Constants.eventProtectionByRegion,
+  //                 chartValues: state.eventProtectionByRegion ?? [],
+  //               ),
+  //               const SizedBox(height: 20),
+  //               // buildChartHorizontalWidget(
+  //               //   title: Constants.outWardMM,
+  //               //   chartValues: state.outWardMaterialMovement ?? [],
+  //               // ),
+  //               // const SizedBox(height: 20),
+  //               // buildChartHorizontalWidget(
+  //               //   title: Constants.inWardMM,
+  //               //   chartValues: state.inWardMaterialMovement ?? [],
+  //               // ),
+  //               // const SizedBox(height: 20),
+  //               // buildChartHorizontalWidget(
+  //               //   title: Constants.visitor,
+  //               //   chartValues: state.visitorPassManagement ?? [],
+  //               // ),
+  //             ],
+  //           ),
+  //        ], ),
+  //       ),
+  //     ),
+  //  ] );
+  // }
+
+  // Widget getBody(ChartsState state) {
+  //   Utils().errorAndLogout(state, context);
+  //
+  //   if (state.status == FormStatus.loading) {
+  //     return const BaseLoader();
+  //   }
+  //
+  //   return Stack(
+  //     children: [
+  //       // 🔹 Background Image
+  //       Positioned.fill(
+  //         child: Image.asset(
+  //           'assets/images/bg2.png',
+  //           fit: BoxFit.cover,
+  //         ),
+  //       ),
+  //
+  //       // 🔹 Global Blur Layer
+  //       Positioned.fill(
+  //         child: ClipRect(
+  //           child: BackdropFilter(
+  //             filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+  //             child: Container(
+  //               color: Colors.black.withOpacity(0.08), // soft tint
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //
+  //       // 🔹 Content
+  //       Padding(
+  //         padding: const EdgeInsets.only(top: 20.0),
+  //         child: SingleChildScrollView(
+  //           child: Column(
+  //             children: [
+  //               buildChartHorizontalWidget(
+  //                 title: Constants.lawEnforcementVisitsByEntity,
+  //                 chartValues: state.lawEnforcementVisitByEntity ?? [],
+  //               ),
+  //               const SizedBox(height: 20),
+  //               buildChartHorizontalWidget(
+  //                 title: Constants.lawEnforcementVisitsByRegion,
+  //                 chartValues: state.lawEnforcementVisitByRegion ?? [],
+  //               ),
+  //               const SizedBox(height: 20),
+  //               buildChartHorizontalWidget(
+  //                 title: Constants.eventProtectionByRegion,
+  //                 chartValues: state.eventProtectionByRegion ?? [],
+  //               ),
+  //               const SizedBox(height: 20),
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
+
   Widget getBody(ChartsState state) {
     Utils().errorAndLogout(state, context);
+
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
     }
-    return Container(
-      // color: Colors.white,
-      decoration:  const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            // Color(0xFF845EF7),
-            // Color(0xFF6A89CC).withValues(alpha: 0.4),
-            // Color(0xFF6A89CC),
-            // Color(0xFF6A89CC),
 
-            // Color(0xFF6A89CC).withValues(alpha: 0.4),
-            // Color(0xFF7589E9),
-            // Colors.orange,
-            AppColors.white,
-            AppColors.white,
-            // Color(0xFF6474C6),
-            // Color(0xFF6474C6),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+    return Stack(
+      children: [
+        // 🔹 Full screen Background Image
+        Positioned.fill(
+          child: Image.asset(
+            'assets/images/bg2.png',
+            fit: BoxFit.cover,
+          ),
         ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.only(top: 20.0),
-        child: SingleChildScrollView(
-          child: Container(
-            // padding: const EdgeInsets.all(10.0),
-            decoration:  const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  // Color(0xFF845EF7),
-                  // Color(0xFF6A89CC),
-                  // Color(0xFF7589E9),
-                  // Color(0xFF7589E9),
-                  // Color(0xFF6A89CC).withValues(alpha: 0.1),
-                  // Color(0xFF6A89CC).withValues(alpha: 0.1),
-                  // Color(0xFF6474C6),
-                  // Color(0xFF6474C6),
-                  AppColors.white,
-                  AppColors.white,
-                  // Color(0xFF6A89CC),
-                  // Color(0xFF6A89CC),
-                  // Colors.white,
-                  // Colors.white,
 
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+        // 🔹 Global Blur Layer
+        Positioned.fill(
+          child: ClipRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+              child: Container(
+                color: Colors.black.withOpacity(0.08), // soft tint
               ),
-            ),
-            // decoration: const BoxDecoration(
-            //   image: DecorationImage(
-            //     image: AssetImage('assets/images/login4.png'),
-            //     fit: BoxFit.fitHeight,
-            //   ),
-            // ),
-            child: Column(
-              children: [
-                buildChartHorizontalWidget(
-                  title: Constants.lawEnforcementVisitsByEntity,
-                  chartValues: state.lawEnforcementVisitByEntity ?? [],
-                ),
-                const SizedBox(height: 20),
-                buildChartHorizontalWidget(
-                  title: Constants.lawEnforcementVisitsByRegion,
-                  chartValues: state.lawEnforcementVisitByRegion ?? [],
-                ),
-                const SizedBox(height: 20),
-                buildChartHorizontalWidget(
-                  title: Constants.eventProtectionByRegion,
-                  chartValues: state.eventProtectionByRegion ?? [],
-                ),
-                const SizedBox(height: 20),
-                buildChartHorizontalWidget(
-                  title: Constants.outWardMM,
-                  chartValues: state.outWardMaterialMovement ?? [],
-                ),
-                const SizedBox(height: 20),
-                buildChartHorizontalWidget(
-                  title: Constants.inWardMM,
-                  chartValues: state.inWardMaterialMovement ?? [],
-                ),
-                const SizedBox(height: 20),
-                buildChartHorizontalWidget(
-                  title: Constants.visitor,
-                  chartValues: state.visitorPassManagement ?? [],
-                ),
-              ],
             ),
           ),
         ),
-      ),
+
+        // 🔹 Content
+        SafeArea(
+          top: true, // respects status bar
+          bottom: false,
+          child: Padding(
+            // padding: const EdgeInsets.only(
+            //   top: kToolbarHeight, // pushes content below AppBar
+            // ),
+    padding: const EdgeInsets.only(top: kToolbarHeight + -30),
+
+    child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  buildChartHorizontalWidget(
+                    title: Constants.lawEnforcementVisitsByEntity,
+                    chartValues: state.lawEnforcementVisitByEntity ?? [],
+                  ),
+                  const SizedBox(height: 20),
+                  buildChartHorizontalWidget(
+                    title: Constants.lawEnforcementVisitsByRegion,
+                    chartValues: state.lawEnforcementVisitByRegion ?? [],
+                  ),
+                  const SizedBox(height: 20),
+                  buildChartHorizontalWidget(
+                    title: Constants.eventProtectionByRegion,
+                    chartValues: state.eventProtectionByRegion ?? [],
+                  ),
+                  const SizedBox(height: 100),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
+
 
   _logout(BuildContext context) {
     var dialog = CustomAlertDialog(
@@ -1984,7 +2118,8 @@ class DashboardViewState extends State<DashboardView>
   }) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      child: Row(
+      child:
+      Row(
         children: [
           SizedBox(
             width: MediaQuery.of(context).size.width,
@@ -2011,6 +2146,7 @@ class DashboardViewState extends State<DashboardView>
               chartData: chartValues,
             ),
           ),
+          // const SizedBox(height: 100),
           // SizedBox(
           //   width: 430,
           //   child: BaseVerticleBarCharts(

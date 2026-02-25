@@ -8,18 +8,22 @@ class ViolationPenaltyRecord {
   num? id;
   num? svpId;
   Organisation? violation;
+  String? comments;
   double? penaltyAmount;
   num? totalViolations;
   int? staffCategory;
+  int? shifts;
   num? totalPenaltyAmount;
 
   ViolationPenaltyRecord({
     this.id,
     this.svpId,
     this.violation,
+    this.comments,
     this.penaltyAmount,
     this.totalViolations,
     this.staffCategory,
+    this.shifts,
     this.totalPenaltyAmount,
   });
 

@@ -181,6 +181,7 @@ class ArticleFoundDetailsState extends Equatable {
     String? message,
     List<BaseUser>? idCardManger,
     List<BaseUser>? idCardEmployee,
+    bool? isReceiverSignEditable,
 
     PMUiLabels? labels,
   }) {

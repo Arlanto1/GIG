@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:db_atom/index.dart';
 
@@ -8,6 +9,7 @@ class AttendanceDetailsView extends StatefulWidget {
   final AttendanceModel? model;
   final ExtraProperties? extraProperties;
   static int flag = 0;
+
   const AttendanceDetailsView({
     super.key,
     this.model,
@@ -29,6 +31,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
   bool isDisabled = true;
   bool isReadOnly = false;
   int flag = 0;
+
   // AttendanceDetailsView.flag = 0;
   @override
   void initState() {
@@ -141,7 +144,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                   .submitForm(isSaveOnly: false);
             },
           ),
-          backgroundColor: AppColors.newColor,
+          backgroundColor: Colors.transparent,
           body: getBodybuilder(state, height),
         );
       },
@@ -154,366 +157,389 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
     }
-    return Container(
-      color: AppColors.newColor3,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: height * 0.01,
-              color: AppColors.newColor3,
+    return Stack(
+      children: [
+        // 🔹 Background Image
+        Positioned.fill(
+          child: Image.asset(
+            'assets/images/bg2.png',
+            fit: BoxFit.cover,
+          ),
+        ),
+
+        // 🔹 Blur Layer
+        Positioned.fill(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 200, sigmaY: 200),
+            child: Container(
+              color: Colors.black.withValues(alpha: 0.08), // optional tint
             ),
-            Container(
-              decoration: ShapeDecoration(
-                  color: AppColors.newColor3,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20.0)),
-                  )),
-              child: Form(
-                key: _formKey,
-                autovalidateMode: state.model.status == 4
-                    ? AutovalidateMode.disabled
-                    : AutovalidateMode.onUserInteraction,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    AbsorbPointer(
-                      absorbing: isReadOnly,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 20.0, right: 20),
-                        child: Column(
-                          children: [
-                            if (!state.model.lock.isEmptyOrNull) ...[
-                              RecordLockedWidget(text: '${state.model.lock}'),
-                            ],
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: const Text(
-                                Constants.generalinformation,
-                                style: Styles.textStyleWhite16,
+          ),
+        ),
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                color: Colors.transparent,
+                child: Form(
+                  key: _formKey,
+                  autovalidateMode: state.model.status == 4
+                      ? AutovalidateMode.disabled
+                      : AutovalidateMode.onUserInteraction,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      AbsorbPointer(
+                        absorbing: isReadOnly,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 20.0, right: 20),
+                          child: Column(
+                            children: [
+                              if (!state.model.lock.isEmptyOrNull) ...[
+                                RecordLockedWidget(text: '${state.model.lock}'),
+                              ],
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+                              Container(
+                                alignment: Alignment.topLeft,
+                                child: const Text(
+                                  Constants.generalinformation,
+                                  style: Styles.textStyleWhite16,
+                                ),
                               ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                            /// Status
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.status ??
-                                    state.labels?.defaultLocale.status ??
-                                    Constants.status,
-                                Styles.textStyleWhite16,
-                                isMandatory: true),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            BaseDropDown().getDropDown(
-                              isDisabled: state.model.status != 3,
-                              textController: statusController,
-                              items: attendanceStatusDropDownValues,
-                              initialValue: '${state.model.status ?? 0}',
-                              onTap: () {
-                                if (widget.model != null) {
-                                  BaseDropDown().assetTypeDialog(
-                                    context: context,
-                                    dropDownValues:
-                                        attendanceStatusDropDownValues
-                                            .map((label) => label.key)
-                                            .toList(),
-                                    onTap: (String value) {
-                                      Label? selectedLabel;
-                                      selectedLabel =
-                                          attendanceStatusDropDownValues
-                                              .firstWhere(
-                                        (label) => label.key == value,
-                                        orElse: () =>
-                                            const Label(key: '', value: ''),
-                                      );
-                                      BlocProvider.of<AttendanceDetailsCubit>(
-                                              context)
-                                          .updateDropdownValues(
-                                              status: int.tryParse(
-                                                  selectedLabel.value));
-                                    },
-                                  );
-                                }
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            /// Created By
-                            CommonWidgets.horizentaltextHandling(
-                                state.labels?.locale.entrySecurity ??
-                                    state.labels?.defaultLocale.entrySecurity ??
-                                    Constants.createdby,
-                                isMandatory: true,
-                                state.model.entrySecurityName ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            /// Date of creation
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.inputDate ??
-                                    state.labels?.defaultLocale.inputDate ??
-                                    Constants.date,
-                                isMandatory: true,
-                                Styles.textStyleWhite16),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            BaseDate().creationDateDisplay(
-                                state.model.inputDate ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            /// Location
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.location ??
-                                    state.labels?.defaultLocale.location ??
-                                    Constants.location,
-                                isMandatory: true,
-                                Styles.textStyleWhite16),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            AbsorbPointer(
-                                absorbing: true,
-                                child: BaseLocationDropdown()
-                                    .locationWidgetDisplay(
-                                        context: context,
-                                        locations:
-                                            state.locations ?? Locations(),
-                                        selectedLocationName:
-                                            state.model.location?.name ?? '',
-                                        onTap: (Organisation? location) {
-                                          BlocProvider.of<
-                                                      AttendanceDetailsCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                                  location: location);
-                                        })),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            /// Sl No.
-                            CommonWidgets.horizentaltextHandling(
-                              state.labels?.locale.slNo ??
-                                  state.labels?.defaultLocale.slNo ??
-                                  Constants.slno,
-                              state.model.slNo ?? '',
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            /// Vendor
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.vendor ??
-                                  state.labels?.defaultLocale.vendor ??
-                                  Constants.vendor,
-                              isMandatory: true,
-                              Styles.textStyleWhite16,
-                            ),
-                            TextFieldAddButton(
-                              title: state.model.vendor?.name,
-                              height: 70,
-                              isDisableColor: true,
-                              onTap: () {
-                                if (state.model.status == null) {
-                                  BaseOrganisationDialog().departmentDialog(
-                                    context: context,
-                                    organisations: state.vendors,
-                                    onTap: (Organisation department) {
-                                      BlocProvider.of<AttendanceDetailsCubit>(
-                                              context)
-                                          .updateDropdownValues(
-                                              vendor: department);
-                                    },
-                                  );
-                                }
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            /// Duty Type
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.dutyType ??
-                                    state.labels?.defaultLocale.dutyType ??
-                                    Constants.dutyType,
-                                isMandatory: true,
-                                Styles.textStyleWhite16),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            BaseDropDown().getDropDown(
-                                isDisabled: state.model.status != null,
-                                textController: dutyTypeController,
-                                items: shiftDutyTypeDropDownValues,
-                                initialValue: state.model.dutyType.toString(),
-                                onTap: () {
-                                  if (state.model.status == null) {
-                                    BaseDropDown().assetTypeDialog(
-                                        context: context,
-                                        dropDownValues:
-                                            shiftDutyTypeDropDownValues
-                                                .map((label) => label.key)
-                                                .toList(),
-                                        onTap: (String value) {
-                                          Label? selectedLabel;
-                                          selectedLabel =
-                                              shiftDutyTypeDropDownValues
-                                                  .firstWhere(
-                                            (label) => label.key == value,
-                                            orElse: () =>
-                                                const Label(key: '', value: ''),
-                                          );
-                                          BlocProvider.of<
-                                                      AttendanceDetailsCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                                  dutyType: int.tryParse(
-                                                      selectedLabel.value));
-                                        });
-                                  }
-                                }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            /// Attendance Type
-                            CommonWidgets.textDisplay(
-                                // state.labels?.locale.guardRank ??
-                                //    state.labels?.defaultLocale.guardRank ??
-                                Constants.attendanceType,
-                                isMandatory: true,
-                                Styles.textStyleWhite16),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            BaseDropDown().getDropDown(
-                                isDisabled: state.model.status != null,
-                                textController: attendanceTypeController,
-                                items: attendanceTypeDropDownValues,
-                                initialValue:
-                                    state.model.attendanceType.toString(),
-                                onTap: () {
-                                  if (state.model.status == 0) {
-                                    BaseDropDown().assetTypeDialog(
-                                        context: context,
-                                        dropDownValues:
-                                            attendanceTypeDropDownValues
-                                                .map((label) => label.key)
-                                                .toList(),
-                                        onTap: (String value) {
-                                          Label? selectedLabel;
-                                          selectedLabel =
-                                              attendanceTypeDropDownValues
-                                                  .firstWhere(
-                                            (label) => label.key == value,
-                                            orElse: () =>
-                                                const Label(key: '', value: ''),
-                                          );
-                                          BlocProvider.of<
-                                                      AttendanceDetailsCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                                  attendanceType: int.tryParse(
-                                                      selectedLabel.value));
-                                        });
-                                  }
-                                }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            if (state.model.id != null) ...[
-                              /// Modified Date
+                              /// Status
                               CommonWidgets.textDisplay(
-                                // state.labels?.locale.date ??
-                                //     state.labels?.defaultLocale.date ??
-                                Constants.modifiedOn,
-                                Styles.textStyleWhite16,
-                                isMandatory: true,
-                              ),
+                                  state.labels?.locale.status ??
+                                      state.labels?.defaultLocale.status ??
+                                      Constants.status,
+                                  Styles.textStyleWhite16,
+                                  isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
-                              datecreateWidgetdisplay(
-                                  state.model.modifiedDate ?? ''),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              BaseDropDown().getDropDown(
+                                isDisabled: state.model.status != 3,
+                                textController: statusController,
+                                items: attendanceStatusDropDownValues,
+                                initialValue: '${state.model.status ?? 0}',
+                                onTap: () {
+                                  if (widget.model != null) {
+                                    BaseDropDown().assetTypeDialog(
+                                      context: context,
+                                      dropDownValues:
+                                          attendanceStatusDropDownValues
+                                              .map((label) => label.key)
+                                              .toList(),
+                                      onTap: (String value) {
+                                        Label? selectedLabel;
+                                        selectedLabel =
+                                            attendanceStatusDropDownValues
+                                                .firstWhere(
+                                          (label) => label.key == value,
+                                          orElse: () =>
+                                              const Label(key: '', value: ''),
+                                        );
+                                        BlocProvider.of<AttendanceDetailsCubit>(
+                                                context)
+                                            .updateDropdownValues(
+                                                status: int.tryParse(
+                                                    selectedLabel.value));
+                                      },
+                                    );
+                                  }
+                                },
+                              ),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                              /// Modified By
+                              /// Created By
                               CommonWidgets.horizentaltextHandling(
-                                  // state.labels?.locale.entrySecurity ??
-                                  //     state.labels?.defaultLocale.entrySecurity ??
-                                  Constants.modifiedBy,
+                                  state.labels?.locale.entrySecurity ??
+                                      state.labels?.defaultLocale
+                                          .entrySecurity ??
+                                      Constants.createdby,
                                   isMandatory: true,
-                                  state.model.modifiedBy ?? ''),
+                                  state.model.entrySecurityName ?? ''),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              /// Date of creation
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.inputDate ??
+                                      state.labels?.defaultLocale.inputDate ??
+                                      Constants.date,
+                                  isMandatory: true,
+                                  Styles.textStyleWhite16),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              BaseDate().creationDateDisplay(
+                                  state.model.inputDate ?? ''),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              /// Location
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.location ??
+                                      state.labels?.defaultLocale.location ??
+                                      Constants.location,
+                                  isMandatory: true,
+                                  Styles.textStyleWhite16),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              AbsorbPointer(
+                                  absorbing: true,
+                                  child: BaseLocationDropdown()
+                                      .locationWidgetDisplay(
+                                          context: context,
+                                          locations:
+                                              state.locations ?? Locations(),
+                                          selectedLocationName:
+                                              state.model.location?.name ?? '',
+                                          onTap: (Organisation? location) {
+                                            BlocProvider.of<
+                                                        AttendanceDetailsCubit>(
+                                                    context)
+                                                .updateDropdownValues(
+                                                    location: location);
+                                          })),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              /// Sl No.
+                              CommonWidgets.horizentaltextHandling(
+                                state.labels?.locale.slNo ??
+                                    state.labels?.defaultLocale.slNo ??
+                                    Constants.slno,
+                                state.model.slNo ?? '',
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              /// Vendor
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.vendor ??
+                                    state.labels?.defaultLocale.vendor ??
+                                    Constants.vendor,
+                                isMandatory: true,
+                                Styles.textStyleWhite16,
+                              ),
+                              TextFieldAddButton(
+                                title: state.model.vendor?.name,
+                                height: 70,
+                                isDisableColor: true,
+                                onTap: () {
+                                  if (state.model.status == null) {
+                                    BaseOrganisationDialog().departmentDialog(
+                                      context: context,
+                                      organisations: state.vendors,
+                                      onTap: (Organisation department) {
+                                        BlocProvider.of<AttendanceDetailsCubit>(
+                                                context)
+                                            .updateDropdownValues(
+                                                vendor: department);
+                                      },
+                                    );
+                                  }
+                                },
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              /// Duty Type
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.dutyType ??
+                                      state.labels?.defaultLocale.dutyType ??
+                                      Constants.dutyType,
+                                  isMandatory: true,
+                                  Styles.textStyleWhite16),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              BaseDropDown().getDropDown(
+                                  isDisabled: state.model.status != null,
+                                  textController: dutyTypeController,
+                                  items: shiftDutyTypeDropDownValues,
+                                  initialValue: state.model.dutyType.toString(),
+                                  onTap: () {
+                                    if (state.model.status == null) {
+                                      BaseDropDown().assetTypeDialog(
+                                          context: context,
+                                          dropDownValues:
+                                              shiftDutyTypeDropDownValues
+                                                  .map((label) => label.key)
+                                                  .toList(),
+                                          onTap: (String value) {
+                                            Label? selectedLabel;
+                                            selectedLabel =
+                                                shiftDutyTypeDropDownValues
+                                                    .firstWhere(
+                                              (label) => label.key == value,
+                                              orElse: () => const Label(
+                                                  key: '', value: ''),
+                                            );
+                                            BlocProvider.of<
+                                                        AttendanceDetailsCubit>(
+                                                    context)
+                                                .updateDropdownValues(
+                                                    dutyType: int.tryParse(
+                                                        selectedLabel.value));
+                                          });
+                                    }
+                                  }),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              /// Attendance Type
+                              CommonWidgets.textDisplay(
+                                  // state.labels?.locale.guardRank ??
+                                  //    state.labels?.defaultLocale.guardRank ??
+                                  Constants.attendanceType,
+                                  isMandatory: true,
+                                  Styles.textStyleWhite16),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              BaseDropDown().getDropDown(
+                                  isDisabled: state.model.status != null,
+                                  textController: attendanceTypeController,
+                                  items: attendanceTypeDropDownValues,
+                                  initialValue:
+                                      state.model.attendanceType.toString(),
+                                  onTap: () {
+                                    if (state.model.status == 0) {
+                                      BaseDropDown().assetTypeDialog(
+                                          context: context,
+                                          dropDownValues:
+                                              attendanceTypeDropDownValues
+                                                  .map((label) => label.key)
+                                                  .toList(),
+                                          onTap: (String value) {
+                                            Label? selectedLabel;
+                                            selectedLabel =
+                                                attendanceTypeDropDownValues
+                                                    .firstWhere(
+                                              (label) => label.key == value,
+                                              orElse: () => const Label(
+                                                  key: '', value: ''),
+                                            );
+                                            BlocProvider.of<
+                                                        AttendanceDetailsCubit>(
+                                                    context)
+                                                .updateDropdownValues(
+                                                    attendanceType:
+                                                        int.tryParse(
+                                                            selectedLabel
+                                                                .value));
+                                          });
+                                    }
+                                  }),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              if (state.model.id != null) ...[
+                                /// Modified Date
+                                CommonWidgets.textDisplay(
+                                  // state.labels?.locale.date ??
+                                  //     state.labels?.defaultLocale.date ??
+                                  Constants.modifiedOn,
+                                  Styles.textStyleWhite16,
+                                  isMandatory: true,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                datecreateWidgetdisplay(
+                                    state.model.modifiedDate ?? ''),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02),
+
+                                /// Modified By
+                                CommonWidgets.horizentaltextHandling(
+                                    // state.labels?.locale.entrySecurity ??
+                                    //     state.labels?.defaultLocale.entrySecurity ??
+                                    Constants.modifiedBy,
+                                    isMandatory: true,
+                                    state.model.modifiedBy ?? ''),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02),
+                              ],
                             ],
-                          ],
+                          ),
                         ),
                       ),
-                    ),
 
-                    if (state.model.shiftInfo?.id != null) ...[
-                      /// List of Duty Posts
-                      DutyPostListWidget(
-                          dutyPosts: state.dutyPosts ?? [],
-                          onTap: (int? thisVariableIsOfNoUseDoNotDeleteThis,
-                              int? dutyPostNameId,
-                              DutyPostModel dutyPostModel) async {
-                            log('flagValue---${AttendanceDetailsView.flag}');
-                            // flag =   widget.flag;
-                            // AttendanceDetailsView.flag++;
-                            log('flagValue---${AttendanceDetailsView.flag}');
-                            bool isSaveSuccess =
-                                await BlocProvider.of<AttendanceDetailsCubit>(
-                                        context)
-                                    .submitForm(
-                                        isSaveOnly: true,
-                                        navigateToNextScreen: true);
+                      if (state.model.shiftInfo?.id != null) ...[
+                        /// List of Duty Posts
+                        DutyPostListWidget(
+                            dutyPosts: state.dutyPosts ?? [],
+                            onTap: (int? thisVariableIsOfNoUseDoNotDeleteThis,
+                                int? dutyPostNameId,
+                                DutyPostModel dutyPostModel) async {
+                              log('flagValue---${AttendanceDetailsView.flag}');
+                              // flag =   widget.flag;
+                              // AttendanceDetailsView.flag++;
+                              log('flagValue---${AttendanceDetailsView.flag}');
+                              bool isSaveSuccess =
+                                  await BlocProvider.of<AttendanceDetailsCubit>(
+                                          context)
+                                      .submitForm(
+                                          isSaveOnly: true,
+                                          navigateToNextScreen: true);
 
-                            log('flagValue---${AttendanceDetailsView.flag}');
-                            AttendanceDetailsView.flag++;
-                            log('flagValue---${AttendanceDetailsView.flag}');
+                              log('flagValue---${AttendanceDetailsView.flag}');
+                              AttendanceDetailsView.flag++;
+                              log('flagValue---${AttendanceDetailsView.flag}');
 
-                            if (!isSaveSuccess) {
-                              return;
-                            }
+                              if (!isSaveSuccess) {
+                                return;
+                              }
 
-                            BlocProvider.of<AttendanceDetailsCubit>(context)
-                                .navigateToNextScreen(
-                              dutyPostNameId: dutyPostNameId!,
-                              dutyPostModel: dutyPostModel,
-                            );
-                            NavigatorState nav = Navigator.of(context);
-                            nav.pushNamed(
-                              attendanceShiftsRoute,
-                              arguments: {
-                                ConstantsArgument.parentId: state.parentId,
-                                ConstantsArgument.selectedDutyPostNameId:
-                                    state.selectedDutyPostNameId,
-                                ConstantsArgument.location:
-                                    state.model.location,
-                                ConstantsArgument.locationRegion:
-                                    state.model.locationRegion,
-                                ConstantsArgument.vendor: state.model.vendor,
-                                ConstantsArgument.selectedDutyPostModel:
-                                    state.selectedDutyPostModel,
-                                ConstantsArgument.isReadOnly: isReadOnly,
-                                ConstantsArgument.isEligibleToEdit:
-                                    state.model.isEligibleToEdit
-                              },
-                            );
-                            log('--state.model.id---${state.model.id}--');
-                          }),
-                    ],
-                    CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                    /// SubmitButton
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        cancelButtonDisplay(),
-                        if (!isReadOnly) ...[submitButtonDisplay()],
+                              BlocProvider.of<AttendanceDetailsCubit>(context)
+                                  .navigateToNextScreen(
+                                dutyPostNameId: dutyPostNameId!,
+                                dutyPostModel: dutyPostModel,
+                              );
+                              NavigatorState nav = Navigator.of(context);
+                              nav.pushNamed(
+                                attendanceShiftsRoute,
+                                arguments: {
+                                  ConstantsArgument.parentId: state.parentId,
+                                  ConstantsArgument.selectedDutyPostNameId:
+                                      state.selectedDutyPostNameId,
+                                  ConstantsArgument.location:
+                                      state.model.location,
+                                  ConstantsArgument.locationRegion:
+                                      state.model.locationRegion,
+                                  ConstantsArgument.vendor: state.model.vendor,
+                                  ConstantsArgument.selectedDutyPostModel:
+                                      state.selectedDutyPostModel,
+                                  ConstantsArgument.isReadOnly: isReadOnly,
+                                  ConstantsArgument.isEligibleToEdit:
+                                      state.model.isEligibleToEdit
+                                },
+                              );
+                              log('--state.model.id---${state.model.id}--');
+                            }),
                       ],
-                    ),
+                      CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                    CommonWidgets.verticalSpacerWidget(height * 0.04),
-                  ],
+                      /// SubmitButton
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          cancelButtonDisplay(),
+                          if (!isReadOnly) ...[submitButtonDisplay()],
+                        ],
+                      ),
+
+                      CommonWidgets.verticalSpacerWidget(height * 0.04),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            //  )
-          ],
+              //  )
+            ],
+          ),
         ),
-      ),
+      ],
     );
   }
 

@@ -78,7 +78,8 @@ class MaterialMovementModel extends BaseObject {
   bool isEligibleToEdit;
   String? modifiedBy;
   String? modifiedDate;
-  List<MaterialDetails>? materialItems;
+  List<MaterialMovementItem>? materialItems;
+  int? approverStepId;
 
 
   MaterialMovementModel({
@@ -149,7 +150,8 @@ class MaterialMovementModel extends BaseObject {
     this.comment,
     this.isEligibleToEdit = false,
     this.modifiedDate,
-    this.materialItems
+    this.materialItems,
+    this.approverStepId,
   });
 
   factory MaterialMovementModel.fromJson(Map<String, dynamic> json) =>

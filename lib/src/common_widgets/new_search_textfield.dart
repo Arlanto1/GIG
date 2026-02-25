@@ -31,7 +31,8 @@ class FlutterInputField extends StatelessWidget {
   final bool? textCapitalization;
   final bool showCounter;
   final bool isLoginScreen;
-
+  final Color? backgroundColor;
+  final bool fillColor;
 
   const FlutterInputField({
     super.key,
@@ -63,6 +64,8 @@ class FlutterInputField extends StatelessWidget {
     this.textCapitalization = true,
     this.showCounter = true,
     this.isLoginScreen = false,
+    this.backgroundColor,
+    this.fillColor = false,
   });
   //
   // @override
@@ -293,175 +296,28 @@ class FlutterInputField extends StatelessWidget {
         FocusScope.of(context).unfocus();
       },
     );
-    // if (isLoginScreen) {
-    //   // Simple text field without container
-    //   return textFormField;
-    // }
+    if (fillColor && backgroundColor != null) {
+      return Container(
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(25),
+          border: Border.all(
+            color: Colors.white.withValues(alpha: 0.6),
+            width: 0.7,
+          ),
+          // border: Border.all(
+          //   color: backgroundColor!,
+          //   width: 1,
+          // ),
+        ),
+        child: textFormField,
+      );
+    }
 
-    // ✅ Wrap with gradient background container
-    // return Container(
-    //   decoration: BoxDecoration(
-    //     gradient: LinearGradient(
-    //       colors: [
-    //         Colors.white.withValues(alpha: 0), // subtle white glow
-    //         const Color(0xFF6474C6).withValues(alpha: 0), // lavender-blue
-    //         const Color(0xFFD6D6FF).withValues(alpha: 0), // soft white-purple
-    //         Colors.white.withValues(alpha: 0.8),
-    //         // const Color(0xFFD6D6FF).withValues(alpha: 0)
-    //       ],
-    //       stops: const [0, 0.9, 0.7, 3],
-    //       begin: Alignment.topLeft,
-    //       end: Alignment.bottomRight,
-    //     ),
-    //     boxShadow: [
-    //       BoxShadow(
-    //         color: Colors.white.withValues(alpha: 0),
-    //         blurRadius: 10,
-    //         offset: const Offset(-3, -3), // white glow on top-left
-    //       ),
-    //       BoxShadow(
-    //         color: AppColors.lavender.withValues(alpha: 2),
-    //         blurRadius: 0,
-    //         offset: const Offset(3, 3), // soft shadow bottom-right
-    //       ),
-    //     ],
-    //     borderRadius: BorderRadius.circular(20),
-    //     border: Border.all(
-    //       color: Colors.white.withValues(alpha: 1.5),
-    //       width: 1.5,
-    //     ),
-    //   ),
-    //   child: textFormField,
-    // );
-    // ✅ Clean Glass Container Wrapper
-// ✅ Glassmorphism Container Wrapper
-    // ✅ Lavender Glassmorphism Container Wrapper
-    // return ClipRRect(
-    //   borderRadius: BorderRadius.circular(25
-    //   ),
-    //   child: BackdropFilter(
-    //     filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
-    //     child: Container(
-    //       decoration: BoxDecoration(
-    //         // gradient: LinearGradient(
-    //         //   colors: [
-    //         //     Colors.white.withValues(alpha: 0), // subtle white glow
-    //         //     const Color(0xFF6474C6).withValues(alpha: 0), // lavender-blue
-    //         //     const Color(0xFFD6D6FF)
-    //         //         .withValues(alpha: 0), // soft white-purple
-    //         //     Colors.white.withValues(alpha: 0.4), // white edge tint
-    //         //   ],
-    //         //   begin: Alignment.topLeft,
-    //         //   end: Alignment.bottomRight,
-    //         // ),
-    //         // gradient: LinearGradient(
-    //         //   colors: [
-    //         //     // Colors.white.withValues(alpha: 0.2),
-    //         //     Colors.white.withValues(alpha: 0.28),
-    //         //     const Color(0xFF6474C6).withValues(alpha: 0.2),
-    //         //     const Color(0xFF6474C6).withValues(alpha: 0),
-    //         //     // Colors.white.withValues(alpha: 0.5),
-    //         //
-    //         //   ],
-    //         //   // stops: [0.02, 0.35, 0.9,],
-    //         //   begin: Alignment.topRight,
-    //         //   end: Alignment.bottomCenter,
-    //         // ),
-    //         gradient: LinearGradient(
-    //           colors: [
-    //             // Colors.white.withValues(alpha: 0.2),
-    //             // Colors.white.withValues(alpha: 0.28),
-    //             const Color(0xFF6474C6).withValues(alpha: 0.2),
-    //             // const Color(0xFF6474C6).withValues(alpha: 0),
-    //             Colors.white.withValues(alpha: 0.3),
-    //
-    //           ],
-    //           // stops: [0.02, 0.35, 0.9,],
-    //           begin: Alignment.topRight,
-    //           end: Alignment.bottomCenter,
-    //         ),
-    //         borderRadius: BorderRadius.circular(25),
-    //         border: Border.all(
-    //           color: Colors.white.withValues(alpha: 90),
-    //           width: 0.7,
-    //         ),
-    //         boxShadow: [
-    //           BoxShadow(
-    //             color: Colors.white.withValues(alpha: 3),
-    //             blurRadius: 90,
-    //             offset: const Offset(3, 3), // white glow on top-left
-    //           ),
-    //           BoxShadow(
-    //             color: AppColors.lavender.withValues(alpha: 20),
-    //             blurRadius: 30,
-    //             offset: const Offset(6, 7), // soft shadow bottom-right
-    //           ),
-    //         ],
-    //       ),
-    //       // padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10),
-    //       child: textFormField,
-    //     ),
-    //   ),
-    // );
-
-    return
-      // isLoginScreen
-    //     ? TextFormField(
-    //   decoration: const InputDecoration(
-    //     labelStyle: TextStyle(
-    //       color: Colors.black,
-    //     ),
-    //     focusedBorder: UnderlineInputBorder(
-    //       borderSide: BorderSide(color: Color(0xFF5026bc)),
-    //     ),
-    //   ),
-    //     controller: controller,
-    //     child: textFormField,
-    //     style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 20, color: Colors.black)
-    // )
-    //     :
-    ClipRRect(
+      return ClipRRect(
       borderRadius: BorderRadius.circular(25),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
-  //       child: Container(
-  //           decoration: isLoginScreen ?
-  // InputDecoration(
-  //             labelStyle: TextStyle(
-  //               color: Colors.black,
-  //             ),
-  //             // focusedBorder: UnderlineInputBorder(
-  //             //   borderSide: BorderSide(color: Color(0xFF5026bc)),
-  //             // ),
-  //           ): BoxDecoration(
-  //           gradient: LinearGradient(
-  //             colors: [
-  //               const Color(0xFF6474C6).withValues(alpha: 0.2),
-  //               Colors.white.withValues(alpha: 0.3),
-  //             ],
-  //             begin: Alignment.topRight,
-  //             end: Alignment.bottomCenter,
-  //           ),
-  //           borderRadius: BorderRadius.circular(25),
-  //           border: Border.all(
-  //             color: Colors.white.withValues(alpha: 90),
-  //             width: 0.7,
-  //           ),
-  //           boxShadow: [
-  //             BoxShadow(
-  //               color: Colors.white.withValues(alpha: 3),
-  //               blurRadius: 90,
-  //               offset: const Offset(3, 3),
-  //             ),
-  //             BoxShadow(
-  //               color: AppColors.lavender.withValues(alpha: 20),
-  //               blurRadius: 30,
-  //               offset: const Offset(6, 7),
-  //             ),
-  //           ],
-  //         ),
-  //         child: textFormField,
-  //       ),
         child: Container(
           decoration: isLoginScreen
               ?   BoxDecoration(
@@ -491,58 +347,8 @@ class FlutterInputField extends StatelessWidget {
               ),
             ],
           )
-          //     : BoxDecoration(
-          //   gradient:
-          //   (isDisableColor ?? false) ?
-          //   LinearGradient( colors: [
-          //     AppColors.disableTextFieldBackground.withValues(alpha: 0.1),
-          //     AppColors.disableTextFieldBackground.withValues(alpha: 0.1),
-          //   ],)
-          //       :
-          //   LinearGradient(
-          //     colors: [
-          //       // Colors.white.withValues(alpha: 0.2),
-          //       // Colors.white.withValues(alpha: 0.28),
-          //       const Color(0xFF6474C6).withValues(alpha: 0.4),
-          //       // const Color(0xFF6474C6).withValues(alpha: 0),
-          //       Colors.white.withValues(alpha: 0.35),
-          //
-          //     ],
-          //     // stops: [0.02, 0.35, 0.9,],
-          //     begin: Alignment.topRight,
-          //     end: Alignment.bottomCenter,
-          //   ) ,
-          //   // gradient:  isDisableColor ? : LinearGradient(
-          //   //   colors: [
-          //   //     const Color(0xFF6474C6).withValues(alpha: 0.2),
-          //   //     Colors.white.withValues(alpha: 0.3),
-          //   //   ],
-          //   //   begin: Alignment.topRight,
-          //   //   end: Alignment.bottomCenter,
-          //   // ),
-          //   borderRadius: BorderRadius.circular(25),
-          //   border: isDisableColor ?? false ? Border.all(
-          //     color: Colors.white.withValues(alpha: 0.5),
-          //     width: 0.4,
-          //   ) : Border.all(
-          //     color: Colors.white.withValues(alpha: 0.9),
-          //     width: 0.7,
-          //   ) ,
-          //   boxShadow: [
-          //     BoxShadow(
-          //       color: Colors.white.withValues(alpha: 0.03),
-          //       blurRadius: 90,
-          //       offset: const Offset(3, 3),
-          //     ),
-          //     BoxShadow(
-          //       color: AppColors.lavender.withValues(alpha: 0.2),
-          //       blurRadius: 30,
-          //       offset: const Offset(6, 7),
-          //     ),
-          //   ],
-          // ),
-
-          : BoxDecoration(
+          :
+          BoxDecoration(
           gradient:
         (isDisableColor ?? false) ?
         LinearGradient( colors: [
@@ -580,35 +386,5 @@ class FlutterInputField extends StatelessWidget {
 
       ),
     );
-
-
   }
 }
-
-// class ObscuringTextEditingController extends TextEditingController {
-//   @override
-//   TextSpan buildTextSpan({
-//     required BuildContext context,
-//     required bool withComposing,
-//     TextStyle? style,
-//   }) {
-//     var displayValue = '•' * value.text.length;
-//     if (!value.composing.isValid || !withComposing) {
-//       return TextSpan(style: style, text: displayValue);
-//     }
-//     final TextStyle? composingStyle = style?.merge(
-//       const TextStyle(decoration: TextDecoration.none),
-//     );
-//     return TextSpan(
-//       style: style,
-//       children: <TextSpan>[
-//         TextSpan(text: value.composing.textBefore(displayValue)),
-//         TextSpan(
-//           style: composingStyle,
-//           text: value.composing.textInside(displayValue),
-//         ),
-//         TextSpan(text: value.composing.textAfter(displayValue)),
-//       ],
-//     );
-//   }
-// }

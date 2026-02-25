@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:db_atom/index.dart';
 
@@ -168,7 +169,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
               );
             },
           ),
-          backgroundColor: AppColors.newColor,
+          backgroundColor: Colors.transparent,
           body: getBodybuilder(state, height),
         );
       },
@@ -184,450 +185,515 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
       return const BaseLoader();
     }
 
-    return Container(
-      color: AppColors.newColor3,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: height * 0.01,
-              color: AppColors.newColor3,
+    return Stack(
+      children: [
+        // 🔹 Background Image
+        Positioned.fill(
+          child: Image.asset(
+            'assets/images/bg2.png',
+            fit: BoxFit.cover,
+          ),
+        ),
+
+        // 🔹 Blur Layer
+        Positioned.fill(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 200, sigmaY: 200),
+            child: Container(
+              color: Colors.black.withValues(alpha: 0.08), // optional tint
             ),
-            Container(
-              decoration: ShapeDecoration(
-                color: AppColors.newColor3,
-                shape: const RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(20.0)),
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  AbsorbPointer(
-                    absorbing: isReadOnly,
-                    child: Form(
-                      key: _formKey,
-                      autovalidateMode: isReadOnly
-                          ? AutovalidateMode.disabled
-                          : AutovalidateMode.onUserInteraction,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 20.0, right: 20),
-                        child: Column(
-                          children: [
-                            if (!state.model.lock.isEmptyOrNull) ...[
-                              RecordLockedWidget(text: '${state.model.lock}'),
-                            ],
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: const Text(
-                                Constants.generalinformation,
-                                style: Styles.textStyleWhite16,
+          ),
+        ),
+
+        // color: AppColors.newColor3,
+        // color: AppColors.navigationSkyBlueColor,
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                color: Colors.transparent,
+                // decoration: const ShapeDecoration(
+                //     color: AppColors.backgroundWhiteColor,
+                //     shape: RoundedRectangleBorder(
+                //       borderRadius:
+                //           BorderRadius.vertical(top: Radius.circular(20.0)),
+                //     )),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    AbsorbPointer(
+                      absorbing: isReadOnly,
+                      child: Form(
+                        key: _formKey,
+                        autovalidateMode: isReadOnly
+                            ? AutovalidateMode.disabled
+                            : AutovalidateMode.onUserInteraction,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 20.0, right: 20),
+                          child: Column(
+                            children: [
+                              if (!state.model.lock.isEmptyOrNull) ...[
+                                RecordLockedWidget(text: '${state.model.lock}'),
+                              ],
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              Container(
+                                alignment: Alignment.topLeft,
+                                child: const Text(
+                                  Constants.generalinformation,
+                                  style: Styles.textStyleWhite16,
+                                ),
                               ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            // General Information Fields
-                            ///Created By
-                            CommonWidgets.horizentaltextHandling(
-                              state.labels?.locale.entrySecurity ??
-                                  state.labels?.defaultLocale.entrySecurity ??
-                                  Constants.createdby,
-                              '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}',
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                              // General Information Fields
+                              ///Created By
+                              CommonWidgets.horizentaltextHandling(
+                                state.labels?.locale.entrySecurity ??
+                                    state.labels?.defaultLocale.entrySecurity ??
+                                    Constants.createdby,
+                                '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}',
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                            ///Status
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.status ??
-                                  state.labels?.defaultLocale.status ??
-                                  Constants.status,
-                              Styles.textStyleWhite16,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              isEnable: false,
-                              isDisableColor: true,
-                              textFormKey: Keys.statusTextController,
-                              hintText: '',
-                              initialValue: Utils().buildSLAViolationStatus(
-                                  state.model.status ?? 0,
-                                  returnTextOnly: true),
-                              onChange: (String value) {},
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                              ///Status
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.status ??
+                                    state.labels?.defaultLocale.status ??
+                                    Constants.status,
+                                Styles.textStyleWhite16,
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                isEnable: false,
+                                isDisableColor: true,
+                                textFormKey: Keys.statusTextController,
+                                hintText: '',
+                                initialValue: Utils().buildSLAViolationStatus(
+                                    state.model.status ?? 0,
+                                    returnTextOnly: true),
+                                onChange: (String value) {},
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                            ///Date of Creation
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.inputDate ??
-                                  state.labels?.defaultLocale.inputDate ??
-                                  Constants.dateofcreation,
-                              Styles.textStyleWhite16,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            datecreateWidgetdisplay(
-                                state.model.inputDate ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                              ///Date of Creation
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.inputDate ??
+                                    state.labels?.defaultLocale.inputDate ??
+                                    Constants.dateofcreation,
+                                Styles.textStyleWhite16,
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              datecreateWidgetdisplay(
+                                  state.model.inputDate ?? ''),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                            ///Location
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.location ??
-                                  state.labels?.defaultLocale.location ??
-                                  Constants.location,
-                              Styles.textStyleWhite16,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            BaseLocationDropdown().locationWidgetDisplay(
+                              ///Location
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.location ??
+                                    state.labels?.defaultLocale.location ??
+                                    Constants.location,
+                                Styles.textStyleWhite16,
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              BaseLocationDropdown().locationWidgetDisplay(
+                                  context: context,
+                                  isEnabled: !widget.viaAttendance,
+                                  locations: state.locations ?? Locations(),
+                                  selectedLocationName:
+                                      state.model.location?.name ?? '',
+                                  onTap: (Organisation? location) {
+                                    BlocProvider.of<
+                                                SLAViolationPenaltyDetailsCubit>(
+                                            context)
+                                        .updateLocationDropdownValue(
+                                            location: location);
+                                  }),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              ///Sl no
+                              CommonWidgets.horizentaltextHandling(
+                                state.labels?.locale.slNo ??
+                                    state.labels?.defaultLocale.slNo ??
+                                    Constants.slno,
+                                state.model.slNo ?? '',
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              ///Vendor
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.vendor ??
+                                    state.labels?.defaultLocale.vendor ??
+                                    Constants.vendor,
+                                Styles.textStyleWhite16,
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+
+                              BaseEntitiesSelection().entityDropDownSelection(
                                 context: context,
-                                isEnabled: !widget.viaAttendance,
-                                locations: state.locations ?? Locations(),
-                                selectedLocationName:
-                                    state.model.location?.name ?? '',
-                                onTap: (Organisation? location) {
+                                selectedValues: state.model.vendor ?? [],
+                                all: state.vendors,
+                                enabled: !widget.viaAttendance &&
+                                    !isReadOnly &&
+                                    state.model.attdShiftInfoId == null,
+                                onTap: (List<Organisation> selectedVendors) {
                                   BlocProvider.of<
                                               SLAViolationPenaltyDetailsCubit>(
                                           context)
-                                      .updateLocationDropdownValue(
-                                          location: location);
-                                }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            ///Sl no
-                            CommonWidgets.horizentaltextHandling(
-                              state.labels?.locale.slNo ??
-                                  state.labels?.defaultLocale.slNo ??
-                                  Constants.slno,
-                              state.model.slNo ?? '',
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            ///Vendor
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.vendor ??
-                                  state.labels?.defaultLocale.vendor ??
-                                  Constants.vendor,
-                              Styles.textStyleWhite16,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                            BaseEntitiesSelection().entityDropDownSelection(
-                              context: context,
-                              selectedValues: state.model.vendor ?? [],
-                              all: state.vendors,
-                              enabled: !widget.viaAttendance &&
-                                  !isReadOnly &&
-                                  state.model.attdShiftInfoId == null,
-                              onTap: (List<Organisation> selectedVendors) {
-                                BlocProvider.of<
-                                            SLAViolationPenaltyDetailsCubit>(
-                                        context)
-                                    .updateDropdownValues(
-                                        vendors: selectedVendors);
-                                Navigator.of(context).pop();
-                              },
-                              addTitle: 'ADD Vendor',
-                              createEntity: false,
-                              orgName: 'ATOM_VENDORS',
-                              functionToCall: () {
-                                BlocProvider.of<
-                                            SLAViolationPenaltyDetailsCubit>(
-                                        context)
-                                    .refreshList();
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            ///Entity
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.entity ??
-                                    state.labels?.defaultLocale.entity ??
-                                    Constants.entity,
-                                Styles.textStyleWhite16,
-                                isMandatory: true),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                            BaseEntitiesSelection().entityDropDownSelection(
-                              context: context,
-                              selectedValues: state.model.entity ?? [],
-                              all: state.listOfEntities ?? [],
-                              enabled: !isReadOnly,
-                              onTap: (List<Organisation> selectedEntities) {
-                                log('--selectedEntities----${selectedEntities.length}');
-                                BlocProvider.of<
-                                            SLAViolationPenaltyDetailsCubit>(
-                                        context)
-                                    .updateDropdownValues(
-                                        entities: selectedEntities);
-                                Navigator.of(context).pop();
-                              },
-                              orgName: 'ATOM_ENTITIES',
-                              functionToCall: () {
-                                BlocProvider.of<
-                                            SLAViolationPenaltyDetailsCubit>(
-                                        context)
-                                    .refreshList();
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            ///Type of Service
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.typeOfService ??
-                                    state.labels?.defaultLocale.typeOfService ??
-                                    Constants.typeOfService,
-                                Styles.textStyleWhite16,
-                                isMandatory: true),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                            BaseEntitiesSelection().entityDropDownSelection(
-                              context: context,
-                              selectedValues: state.model.typeOfService ?? [],
-                              all: state.typeOfServices,
-                              enabled: !isReadOnly,
-                              onTap:
-                                  (List<Organisation> selectedTypeOfVendors) {
-                                log('--selectedEntities----${selectedTypeOfVendors.length}');
-                                BlocProvider.of<
-                                            SLAViolationPenaltyDetailsCubit>(
-                                        context)
-                                    .updateDropdownValues(
-                                        typeOfServices: selectedTypeOfVendors);
-                                Navigator.of(context).pop();
-                              },
-                              addTitle: 'ADD Type of Service',
-                              createEntity: false,
-                              orgName: 'SLA_VIOLATION_TYPE_OF_SERVICE',
-                              functionToCall: () {
-                                BlocProvider.of<
-                                            SLAViolationPenaltyDetailsCubit>(
-                                        context)
-                                    .refreshList();
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            /// ASL
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.approver ??
-                                    state.labels?.defaultLocale.approver ??
-                                    Constants.aSL,
-                                Styles.textStyleWhite16,
-                                isMandatory: true),
-                            TextFieldAddButton(
-                              title: state.model.approver?.userInfo ??
-                                  state.model.approver?.name,
-                              height: 70,
-                              isDisableColor: isReadOnly,
-                              onTap: () {
-                                BaseOrganisationDialog().userDialog(
-                                  context: context,
-                                  enabled: !isReadOnly,
-                                  users: state.emailUsers,
-                                  isDbUser: true,
-                                  onTap: (BaseUser user) {
-                                    BlocProvider.of<
-                                                SLAViolationPenaltyDetailsCubit>(
-                                            context)
-                                        .updateDropdownValues(user: user);
-                                  },
-                                  roleName: ConstantUserRoles
-                                      .atomAssistantSecurityLead,
-                                  locationId: state.model.location!.id!,
-                                  functionToCall: (BaseUser user) {
-                                    BlocProvider.of<
-                                                SLAViolationPenaltyDetailsCubit>(
-                                            context)
-                                        .updateDropdownValues(user: user);
-                                    BlocProvider.of<
-                                                SLAViolationPenaltyDetailsCubit>(
-                                            context)
-                                        .refreshList();
-                                  },
-                                );
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            ///Guarding Agency POC
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.poc ??
-                                    state.labels?.defaultLocale.poc ??
-                                    Constants.guardingAgencyPOC,
-                                Styles.textStyleWhite16,
-                                isMandatory: true),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            GestureDetector(
-                              onTap: () {
-                                log('--onTap------');
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext dialogContext) {
-                                    return AddPOCPopUp(
-                                      model: model,
-                                      mainContext: context,
-                                    );
-                                  },
-                                );
-                              },
-                              child: Row(
-                                children: <Widget>[
-                                  const SizedBox(width: 14),
-                                  SvgPicture.asset(
-                                    AppIcon.pluscircle,
-                                    colorFilter: const ColorFilter.mode(
-                                      AppColors.white,
-                                      BlendMode.srcIn,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 10),
-                                  const Text(
-                                    Constants.addGuardingAgencyPOC,
-                                    style: TextStyle(
-                                        color: AppColors.white,
-                                        decoration: TextDecoration.underline,
-                                        decorationColor: AppColors.white),
-                                  ),
-                                ],
+                                      .updateDropdownValues(
+                                          vendors: selectedVendors);
+                                  Navigator.of(context).pop();
+                                },
+                                addTitle: 'ADD Vendor',
+                                createEntity: false,
+                                orgName: 'ATOM_VENDORS',
+                                functionToCall: () {
+                                  BlocProvider.of<
+                                              SLAViolationPenaltyDetailsCubit>(
+                                          context)
+                                      .refreshList();
+                                },
                               ),
-                            ),
-                            Column(
-                              children: getPOC(state, height),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                  // Violation Penalty section
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        /// Violation Penalty
-                        Container(
-                          alignment: Alignment.topLeft,
-                          child: const Text(
-                            Constants.violationPenalty,
-                            style: Styles.textStyleWhite16,
-                          ),
-                        ),
-                        CommonWidgets.verticalSpacerWidget(height * 0.01),
-                        GestureDetector(
-                          onTap: () async {
-                            NavigatorState nav = Navigator.of(context);
-                            if (state.model.status == null ||
-                                state.model.status == 0 ||
-                                state.model.status == 1) {
-                              bool isSaveSuccess = await BlocProvider.of<
-                                      SLAViolationPenaltyDetailsCubit>(context)
-                                  .submitForm(
-                                isSaveOnly: true,
-                                navigateToNextScreen: true,
-                              );
+                              ///Entity
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.entity ??
+                                      state.labels?.defaultLocale.entity ??
+                                      Constants.entity,
+                                  Styles.textStyleWhite16,
+                                  isMandatory: true),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
 
-                              if (!isSaveSuccess) {
-                                return;
-                              }
-                            }
-                            log('--state.model.id---${state.model.id}--');
-                            List<Organisation> violationDescriptions =
-                                await CommonServices().getOrganisations(
-                                    name: Constants.slaViolation);
-                            nav.pushNamed(
-                              slaViolationPenaltyRecordsRoute,
-                              arguments: {
-                                ConstantsArgument.title:
-                                    Constants.violationPenalty,
-                                ConstantsArgument.id: state.model.id,
-                                ConstantsArgument.violationDescription:
-                                    Constants.slaViolation,
-                                ConstantsArgument.violationDescriptions:
-                                    violationDescriptions,
-                                ConstantsArgument.parentStatus:
-                                    state.model.status,
-                                ConstantsArgument.isLocked:
-                                    !state.model.lock.isEmptyOrNull,
-                              },
-                            );
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              SvgPicture.asset(
-                                AppIcon.pluscircle,
-                                colorFilter: const ColorFilter.mode(
-                                  AppColors.white,
-                                  BlendMode.srcIn,
+                              BaseEntitiesSelection().entityDropDownSelection(
+                                context: context,
+                                selectedValues: state.model.entity ?? [],
+                                all: state.listOfEntities ?? [],
+                                enabled: !isReadOnly,
+                                onTap: (List<Organisation> selectedEntities) {
+                                  log('--selectedEntities----${selectedEntities.length}');
+                                  BlocProvider.of<
+                                              SLAViolationPenaltyDetailsCubit>(
+                                          context)
+                                      .updateDropdownValues(
+                                          entities: selectedEntities);
+                                  Navigator.of(context).pop();
+                                },
+                                orgName: 'ATOM_ENTITIES',
+                                functionToCall: () {
+                                  BlocProvider.of<
+                                              SLAViolationPenaltyDetailsCubit>(
+                                          context)
+                                      .refreshList();
+                                },
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              ///Type of Service
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.typeOfService ??
+                                      state.labels?.defaultLocale
+                                          .typeOfService ??
+                                      Constants.typeOfService,
+                                  Styles.textStyleWhite16,
+                                  isMandatory: true),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+
+                              BaseEntitiesSelection().entityDropDownSelection(
+                                context: context,
+                                selectedValues: state.model.typeOfService ?? [],
+                                all: state.typeOfServices,
+                                enabled: !isReadOnly,
+                                onTap:
+                                    (List<Organisation> selectedTypeOfVendors) {
+                                  log('--selectedEntities----${selectedTypeOfVendors.length}');
+                                  BlocProvider.of<
+                                              SLAViolationPenaltyDetailsCubit>(
+                                          context)
+                                      .updateDropdownValues(
+                                          typeOfServices:
+                                              selectedTypeOfVendors);
+                                  Navigator.of(context).pop();
+                                },
+                                addTitle: 'ADD Type of Service',
+                                createEntity: false,
+                                orgName: 'SLA_VIOLATION_TYPE_OF_SERVICE',
+                                functionToCall: () {
+                                  BlocProvider.of<
+                                              SLAViolationPenaltyDetailsCubit>(
+                                          context)
+                                      .refreshList();
+                                },
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              /// ASL
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.approver ??
+                                      state.labels?.defaultLocale.approver ??
+                                      Constants.aSL,
+                                  Styles.textStyleWhite16,
+                                  isMandatory: true),
+                              TextFieldAddButton(
+                                title: state.model.approver?.userInfo ??
+                                    state.model.approver?.name,
+                                height: 70,
+                                isDisableColor: isReadOnly,
+                                onTap: () {
+                                  BaseOrganisationDialog().userDialog(
+                                    context: context,
+                                    enabled: !isReadOnly,
+                                    users: state.emailUsers,
+                                    isDbUser: true,
+                                    onTap: (BaseUser user) {
+                                      BlocProvider.of<
+                                                  SLAViolationPenaltyDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(user: user);
+                                    },
+                                    roleName: ConstantUserRoles
+                                        .atomAssistantSecurityLead,
+                                    locationId: state.model.location!.id!,
+                                    functionToCall: (BaseUser user) {
+                                      BlocProvider.of<
+                                                  SLAViolationPenaltyDetailsCubit>(
+                                              context)
+                                          .updateDropdownValues(user: user);
+                                      BlocProvider.of<
+                                                  SLAViolationPenaltyDetailsCubit>(
+                                              context)
+                                          .refreshList();
+                                    },
+                                  );
+                                },
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              ///Guarding Agency POC
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.poc ??
+                                      state.labels?.defaultLocale.poc ??
+                                      Constants.guardingAgencyPOC,
+                                  Styles.textStyleWhite16,
+                                  isMandatory: true),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              GestureDetector(
+                                onTap: () {
+                                  log('--onTap------');
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext dialogContext) {
+                                      return AddPOCPopUp(
+                                        model: model,
+                                        mainContext: context,
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Row(
+                                  children: <Widget>[
+                                    const SizedBox(width: 14),
+                                    SvgPicture.asset(
+                                      AppIcon.pluscircle,
+                                      colorFilter: const ColorFilter.mode(
+                                        AppColors.white,
+                                        BlendMode.srcIn,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    const Text(
+                                      Constants.addGuardingAgencyPOC,
+                                      style: TextStyle(
+                                          color: AppColors.white,
+                                          decoration: TextDecoration.underline,
+                                          decorationColor: AppColors.white),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              const SizedBox(width: 10),
-                              const Text(
-                                Constants.addViewViolation,
-                                style: TextStyle(
-                                    color: AppColors.white,
-                                    decoration: TextDecoration.underline,
-                                    decorationColor: AppColors.white),
+                              Column(
+                                children: getPOC(state, height),
                               ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              /// Duty Post Name
+                              CommonWidgets.textDisplay(
+                                  // state.labels?.locale.postName ??
+                                  //     state.labels?.defaultLocale.postName ??
+                                  Constants.dutyPostName,
+                                  isMandatory: true,
+                                  Styles.textStyleWhite16),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              TextFieldAddButton(
+                                title: state.model.dutyPostLocation?.name,
+                                height: 70,
+                                isDisableColor: isReadOnly ||
+                                        !state.model.lock.isEmptyOrNull
+                                    ? true
+                                    : false,
+                                onTap: () {
+                                  if (isReadOnly ||
+                                      state.model.lock.isEmptyOrNull) {
+                                    BaseOrganisationDialog().departmentDialog(
+                                      context: context,
+                                      organisations: state.dutyPosts ?? [],
+                                      onTap: (Organisation? org) {
+                                        // state.model.dutyPostLocation?.name =
+                                        //     org.name;
+
+                                        BlocProvider.of<
+                                                    SLAViolationPenaltyDetailsCubit>(
+                                                context)
+                                            .updateDropdownValues(
+                                                dutyPostName: org);
+                                      },
+                                    );
+                                  }
+                                },
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
                             ],
                           ),
                         ),
-                        CommonWidgets.verticalSpacerWidget(height * 0.02),
+                      ),
+                    ),
+
+                    // Violation Penalty section
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          /// Violation Penalty
+                          Container(
+                            alignment: Alignment.topLeft,
+                            child: const Text(
+                              Constants.violationPenalty,
+                              style: Styles.textStyleWhite16,
+                            ),
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          GestureDetector(
+                            onTap: () async {
+                              NavigatorState nav = Navigator.of(context);
+                              if (state.model.status == null ||
+                                  state.model.status == 0 ||
+                                  state.model.status == 1) {
+                                bool isSaveSuccess = await BlocProvider.of<
+                                            SLAViolationPenaltyDetailsCubit>(
+                                        context)
+                                    .submitForm(
+                                  isSaveOnly: true,
+                                  navigateToNextScreen: true,
+                                );
+
+                                if (!isSaveSuccess) {
+                                  return;
+                                }
+                              }
+                              log('--state.model.id---${state.model.id}--');
+                              List<Organisation> violationDescriptions =
+                                  await CommonServices().getOrganisations(
+                                      name: Constants.slaViolation);
+                              nav.pushNamed(
+                                slaViolationPenaltyRecordsRoute,
+                                arguments: {
+                                  ConstantsArgument.title:
+                                      Constants.violationPenalty,
+                                  ConstantsArgument.id: state.model.id,
+                                  ConstantsArgument.violationDescription:
+                                      Constants.slaViolation,
+                                  ConstantsArgument.violationDescriptions:
+                                      violationDescriptions,
+                                  ConstantsArgument.parentStatus:
+                                      state.model.status,
+                                  ConstantsArgument.isLocked:
+                                      !state.model.lock.isEmptyOrNull,
+                                },
+                              );
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                SvgPicture.asset(
+                                  AppIcon.pluscircle,
+                                  colorFilter: const ColorFilter.mode(
+                                    AppColors.white,
+                                    BlendMode.srcIn,
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                const Text(
+                                  Constants.addViewViolation,
+                                  style: TextStyle(
+                                      color: AppColors.white,
+                                      decoration: TextDecoration.underline,
+                                      decorationColor: AppColors.white),
+                                ),
+                              ],
+                            ),
+                          ),
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
+                        ],
+                      ),
+                    ),
+
+                    /// SubmitButton
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        if ((state.model.status != 2 &&
+                            state.model.status != -1 &&
+                            !isReadOnly)) ...[
+                          cancelButtonDisplay(),
+                          submitButtonDisplay()
+                        ],
                       ],
                     ),
-                  ),
-
-                  /// SubmitButton
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      if ((state.model.status != 2 &&
-                          state.model.status != -1 &&
-                          !isReadOnly)) ...[
-                        cancelButtonDisplay(),
-                        submitButtonDisplay()
-                      ],
-                    ],
-                  ),
-                  CommonWidgets.verticalSpacerWidget(height * 0.04),
-                ],
-              ),
-            ),
-            if (state.model.status == 2 ||
-                state.model.status == ConstantsIntValue.cancelledStatus ||
-                isReadOnly) ...[
-              Container(
-                padding: const EdgeInsets.all(5.0),
-                decoration: ShapeDecoration(
-                  color: AppColors.newColor3,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(0.0)),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    cancelButtonDisplay(),
+                    CommonWidgets.verticalSpacerWidget(height * 0.04),
                   ],
                 ),
               ),
+              if (state.model.status == 2 ||
+                  state.model.status == ConstantsIntValue.cancelledStatus ||
+                  isReadOnly) ...[
+                Container(
+                  padding: const EdgeInsets.all(5.0),
+                  decoration: ShapeDecoration(
+                    color: AppColors.newColor3,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(0.0)),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      cancelButtonDisplay(),
+                    ],
+                  ),
+                ),
+              ],
+              CommonWidgets.verticalSpacerWidget(height * 0.04),
             ],
-            CommonWidgets.verticalSpacerWidget(height * 0.04),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 

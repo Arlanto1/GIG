@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/sla_violation_penalty/violation_penalty_record/bloc/violation_penalty_record_bloc.dart';
@@ -36,6 +37,9 @@ class AddContactPopUpState extends State<AddContactPopUp> {
   TextEditingController penaltyAmountController = TextEditingController();
   TextEditingController totalPenaltyAmountController = TextEditingController();
   TextEditingController totalNoOfViolationsController = TextEditingController();
+  TextEditingController commentBoxController = TextEditingController();
+  TextEditingController workShiftController = TextEditingController();
+
   bool isReadonly = false;
 
   @override
@@ -53,6 +57,9 @@ class AddContactPopUpState extends State<AddContactPopUp> {
     totalNoOfViolationsController.text = widget.model.totalViolations == null
         ? ''
         : widget.model.totalViolations.toString();
+
+    commentBoxController.text =
+    widget.model.comments == null ? '' : widget.model.comments.toString();
     updateStaffCategoryText();
   }
 
@@ -62,16 +69,33 @@ class AddContactPopUpState extends State<AddContactPopUp> {
     Label? matchingLabel = staffCategoryDropDownValues
         .firstOrNullWhere((element) => element.value == staffCategoryValue);
 
-    log('--matchingLabel?.value---${matchingLabel?.value}--');
 
     staffCategoryController.text = matchingLabel?.key ?? '';
     log('--staffCategoryController.text---${staffCategoryController.text}--');
+
+    String workShiftValue = widget.model.shifts.toString();
+    Label? matchingShiftLabel = workShift
+        .firstOrNullWhere((element) => element.value == workShiftValue);
+    workShiftController.text = matchingShiftLabel?.key ?? '';
   }
 
   @override
   Widget build(BuildContext context) {
     ViolationPenaltyRecordState state = const ViolationPenaltyRecordState();
-    return AlertDialog(
+
+    return Stack(
+        children: [
+    // 🔹 BLUR THE ENTIRE BACKGROUND PAGE
+    BackdropFilter(
+    filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+    child: Container(
+    color: Colors.black.withOpacity(0.25), // dim + blur
+    ),
+    ),
+
+    // 🔹 YOUR ALERT DIALOG
+    Center(
+    child:  AlertDialog(
       insetPadding: const EdgeInsets.symmetric(
         horizontal: 12,
       ),
@@ -95,9 +119,9 @@ class AddContactPopUpState extends State<AddContactPopUp> {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  AppColors.newColor3.withValues(alpha: 0.7),
-                  AppColors.newColor,
-                  AppColors.newColor3.withValues(alpha: 0.7),
+                  AppColors.lightBlackBackground.withValues(alpha: 0.09),
+                  AppColors.white.withValues(alpha: 0.09),
+                  AppColors.white.withValues(alpha: 0.09),
                   // Color(0xFF6474C6).withOpacity(0.14)
                 ],
                 stops: [0.02, 0.35, 1],
@@ -206,6 +230,71 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                                       }
                                     })
                               ],
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Work Shifts
+                            CommonWidgets.textDisplay(
+                                // state.labels?.locale.staffCategory ??
+                                //     state.labels?.defaultLocale.staffCategory ??
+                                    Constants.workShift,
+                                //isMandatory: true,
+                                Styles.textStyleWhite14),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+
+                            BaseDropDown().getDropDown(
+                                isDisabled: isReadonly,
+                                textController: workShiftController,
+                                items: workShift,
+                                onTap: () {
+                                  if (!isReadonly) {
+                                    BaseDropDown().assetTypeDialog(
+                                      context: context,
+                                      dropDownValues:
+                                      workShift
+                                          .map((label) => label.key)
+                                          .toList(),
+                                      onTap: (String value) {
+                                        Label? selectedLabel;
+                                        selectedLabel =
+                                            workShift
+                                                .firstWhere(
+                                                  (label) => label.key == value,
+                                              orElse: () =>
+                                              const Label(key: '', value: ''),
+                                            );
+                                        workShiftController.text =
+                                            selectedLabel.key;
+                                        widget.model.shifts =
+                                            int.tryParse(selectedLabel.value);
+
+                                      },
+                                    );
+                                  }
+                                }),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Comment Box
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.totalViolations ??
+                              //     state.labels?.defaultLocale.totalViolations ??
+                                  Constants.commentBox,
+                              Styles.textStyleWhite14,
+                              //isMandatory: true,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            FlutterInputField(
+                              // initialValue: '${widget.model.totalViolations ?? ''}',
+                              textInputType: TextInputType.text,
+                              controller: commentBoxController,
+                              textFormKey: Keys.commentsKey,
+                              hintText: '',
+                              isEnable: !isReadonly,
+                              isDisableColor: false,
+                              onChange: (String value) {
+                                widget.model.comments = value;
+                              },
+                              validateTextField: (String? user) {},
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
@@ -394,7 +483,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
               ),
             ));
       }),
-    );
+    ),),], );
   }
 
   Widget buttonViews(BuildContext context, double width) {

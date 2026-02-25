@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/duty_post_master_details/cubits/duty_post_master_details_cubit.dart';
 
@@ -121,7 +123,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                 BlocProvider.of<DutyPostMasterDetailsCubit>(context)
                     .submitForm(isSaveOnly: false);
               }),
-          backgroundColor: AppColors.newColor,
+          backgroundColor: Colors.transparent,
           body: getBodybuilder(state, height),
         );
       },
@@ -134,402 +136,429 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
     }
-    return Container(
-      color: AppColors.newColor3,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: height * 0.01,
-              color: AppColors.newColor3,
+    return Stack(
+      children: [
+        // 🔹 Background Image
+        Positioned.fill(
+          child: Image.asset(
+            'assets/images/bg2.png',
+            fit: BoxFit.cover,
+          ),
+        ),
+
+        // 🔹 Blur Layer
+        Positioned.fill(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 200, sigmaY: 200),
+            child: Container(
+              color: Colors.black.withValues(alpha: 0.08), // optional tint
             ),
-            Container(
-              decoration: ShapeDecoration(
-                  color: AppColors.newColor3,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20.0)),
-                  )),
-              child: Form(
-                key: _formKey,
-                // autovalidateMode: state.model == 4
-                //     ? AutovalidateMode.disabled
-                //     : AutovalidateMode.onUserInteraction,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    AbsorbPointer(
-                      absorbing: isReadOnly || !state.model.lock.isEmptyOrNull,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 20.0, right: 20),
-                        child: Column(
-                          children: [
-                            if (!state.model.lock.isEmptyOrNull) ...[
-                              RecordLockedWidget(text: '${state.model.lock}'),
-                            ],
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: const Text(
-                                Constants.generalinformation,
-                                style: Styles.textStyleWhite16,
+          ),
+        ),
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                color: Colors.transparent,
+                child: Form(
+                  key: _formKey,
+                  // autovalidateMode: state.model == 4
+                  //     ? AutovalidateMode.disabled
+                  //     : AutovalidateMode.onUserInteraction,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      AbsorbPointer(
+                        absorbing:
+                            isReadOnly || !state.model.lock.isEmptyOrNull,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 20.0, right: 20),
+                          child: Column(
+                            children: [
+                              if (!state.model.lock.isEmptyOrNull) ...[
+                                RecordLockedWidget(text: '${state.model.lock}'),
+                              ],
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+                              Container(
+                                alignment: Alignment.topLeft,
+                                child: const Text(
+                                  Constants.generalinformation,
+                                  style: Styles.textStyleWhite16,
+                                ),
                               ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                            /// Created By
-                            CommonWidgets.horizentaltextHandling(
-                                state.labels?.locale.createdBy ??
-                                    state.labels?.defaultLocale.createdBy ??
-                                    Constants.createdby,
-                                isMandatory: true,
-                                '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                              /// Created By
+                              CommonWidgets.horizentaltextHandling(
+                                  state.labels?.locale.createdBy ??
+                                      state.labels?.defaultLocale.createdBy ??
+                                      Constants.createdby,
+                                  isMandatory: true,
+                                  '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}'),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                            /// Date of creation
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.inputDate ??
-                                    state.labels?.defaultLocale.inputDate ??
-                                    Constants.dateofcreation,
-                                isMandatory: true,
-                                Styles.textStyleWhite16),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            BaseDate().creationDateDisplay(
-                                state.model.createdDate ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                              /// Date of creation
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.inputDate ??
+                                      state.labels?.defaultLocale.inputDate ??
+                                      Constants.dateofcreation,
+                                  isMandatory: true,
+                                  Styles.textStyleWhite16),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              BaseDate().creationDateDisplay(
+                                  state.model.createdDate ?? ''),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                            /// Status
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.status ??
-                                    state.labels?.defaultLocale.status ??
-                                    Constants.status,
-                                Styles.textStyleWhite16,
-                                isMandatory: true),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            BaseDropDown().getDropDown(
-                              isDisabled: true,
-                              textController: statusController,
-                              items: dutyPostMasterStatusValues,
-                              initialValue: '${state.model.status ?? 1}',
-                              onTap: () {
-                                if (!isDisabled) {
-                                  BaseDropDown().assetTypeDialog(
-                                    context: context,
-                                    dropDownValues: dutyPostMasterStatusValues
-                                        .map((label) => label.key)
-                                        .toList(),
-                                    onTap: (String value) {
-                                      Label? selectedLabel;
-                                      selectedLabel =
-                                          dutyPostMasterStatusValues.firstWhere(
-                                        (label) => label.key == value,
-                                        orElse: () =>
-                                            const Label(key: '', value: ''),
-                                      );
-                                      BlocProvider.of<
-                                                  DutyPostMasterDetailsCubit>(
-                                              context)
-                                          .updateDropdownValues(
-                                              status: int.tryParse(
-                                                  selectedLabel.value));
-                                    },
-                                  );
-                                }
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            ///Location
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.location ??
-                                    state.labels?.defaultLocale.location ??
-                                    Constants.location,
-                                isMandatory: true,
-                                Styles.textStyleWhite16),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            BaseLocationDropdown().locationWidgetDisplay(
-                                isEnabled: isReadOnly ||
-                                        !state.model.lock.isEmptyOrNull
-                                    ? false
-                                    : true,
-                                context: context,
-                                locations: state.locations ?? Locations(),
-                                selectedLocationName:
-                                    state.model.location?.name ?? '',
-                                onTap: (Organisation? location) {
-                                  BlocProvider.of<DutyPostMasterDetailsCubit>(
-                                          context)
-                                      .updateDropdownValues(location: location);
-                                }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            /// Duty Post Name
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.postName ??
-                                    state.labels?.defaultLocale.postName ??
-                                    Constants.dutyPostName,
-                                isMandatory: true,
-                                Styles.textStyleWhite16),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            TextFieldAddButton(
-                              title: state.model.dutyPostLocation?.name,
-                              height: 70,
-                              isDisableColor:
-                                  isReadOnly || !state.model.lock.isEmptyOrNull
-                                      ? true
-                                      : false,
-                              onTap: () {
-                                if (isReadOnly ||
-                                    state.model.lock.isEmptyOrNull) {
-                                  BaseOrganisationDialog().departmentDialog(
-                                    context: context,
-                                    organisations: state.dutyPosts ?? [],
-                                    onTap: (Organisation? org) {
-                                      // state.model.dutyPostLocation?.name =
-                                      //     org.name;
-
-                                      BlocProvider.of<
-                                                  DutyPostMasterDetailsCubit>(
-                                              context)
-                                          .updateDropdownValues(
-                                              dutyPostName: org);
-                                    },
-                                  );
-                                }
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            /// Rank
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.rankId ??
-                                    state.labels?.defaultLocale.rankId ??
-                                    Constants.rank,
-                                isMandatory: true,
-                                Styles.textStyleWhite16),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            BaseDropDown().getDropDown(
-                                isDisabled: isDisabled ? false : true,
-                                textController: rankController,
-                                items: guardRankDropDownValues,
-                                initialValue: state.model.rankId.toString(),
+                              /// Status
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.status ??
+                                      state.labels?.defaultLocale.status ??
+                                      Constants.status,
+                                  Styles.textStyleWhite16,
+                                  isMandatory: true),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              BaseDropDown().getDropDown(
+                                isDisabled: true,
+                                textController: statusController,
+                                items: dutyPostMasterStatusValues,
+                                initialValue: '${state.model.status ?? 1}',
                                 onTap: () {
-                                  if (isDisabled) {
+                                  if (!isDisabled) {
                                     BaseDropDown().assetTypeDialog(
-                                        context: context,
-                                        dropDownValues: guardRankDropDownValues
-                                            .map((label) => label.key)
-                                            .toList(),
-                                        onTap: (String value) {
-                                          Label? selectedLabel;
-                                          selectedLabel =
-                                              guardRankDropDownValues
-                                                  .firstWhere(
-                                            (label) => label.key == value,
-                                            orElse: () =>
-                                                const Label(key: '', value: ''),
-                                          );
-
-                                          BlocProvider.of<
-                                                      DutyPostMasterDetailsCubit>(
-                                                  context)
-                                              .updateDropdownValues(
-                                                  rankId: int.tryParse(
-                                                      selectedLabel.value));
-                                          FocusScope.of(context)
-                                              .requestFocus(aShiftFocusNode);
-                                        });
+                                      context: context,
+                                      dropDownValues: dutyPostMasterStatusValues
+                                          .map((label) => label.key)
+                                          .toList(),
+                                      onTap: (String value) {
+                                        Label? selectedLabel;
+                                        selectedLabel =
+                                            dutyPostMasterStatusValues
+                                                .firstWhere(
+                                          (label) => label.key == value,
+                                          orElse: () =>
+                                              const Label(key: '', value: ''),
+                                        );
+                                        BlocProvider.of<
+                                                    DutyPostMasterDetailsCubit>(
+                                                context)
+                                            .updateDropdownValues(
+                                                status: int.tryParse(
+                                                    selectedLabel.value));
+                                      },
+                                    );
                                   }
-                                }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                                },
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                            /// A Shift(7AM-3PM)
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.shiftA ??
-                                    state.labels?.defaultLocale.shiftA ??
-                                    Constants.aShift,
-                                isMandatory: true,
-                                Styles.textStyleWhite16),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              textInputType: TextInputType.number,
-                              textFormKey: Keys.guardingPOCKey,
-                              initialValue: '${state.model.shiftA ?? ''}',
-                              hintText: '',
-                              focusNode: aShiftFocusNode,
-                              isEnable: true,
-                              isDisableColor: false,
-                              onChange: (String value) {
-                                state.model.shiftA = int.tryParse(value);
-                                int shiftA = state.model.shiftA ?? 0;
-                                int shiftB = state.model.shiftB ?? 0;
-                                int shiftC = state.model.shiftC ?? 0;
-                                int shiftG = state.model.shiftG ?? 0;
-                                totalController.text =
-                                    (shiftA + shiftB + shiftC + shiftG)
-                                        .toString();
-                                state.model.total =
-                                    int.tryParse(totalController.text);
-                                context
-                                    .read<DutyPostMasterDetailsCubit>()
-                                    .onModelValueChange(state.model);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                              ///Location
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.location ??
+                                      state.labels?.defaultLocale.location ??
+                                      Constants.location,
+                                  isMandatory: true,
+                                  Styles.textStyleWhite16),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              BaseLocationDropdown().locationWidgetDisplay(
+                                  isEnabled: isReadOnly ||
+                                          !state.model.lock.isEmptyOrNull
+                                      ? false
+                                      : true,
+                                  context: context,
+                                  locations: state.locations ?? Locations(),
+                                  selectedLocationName:
+                                      state.model.location?.name ?? '',
+                                  onTap: (Organisation? location) {
+                                    BlocProvider.of<DutyPostMasterDetailsCubit>(
+                                            context)
+                                        .updateDropdownValues(
+                                            location: location);
+                                  }),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                            /// B Shift(3PM-11PM)
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.shiftB ??
-                                    state.labels?.defaultLocale.shiftB ??
-                                    Constants.bShift,
-                                isMandatory: true,
-                                Styles.textStyleWhite16),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              textInputType: TextInputType.number,
-                              textFormKey: Keys.guardingPOCKey,
-                              initialValue: '${state.model.shiftB ?? ''}',
-                              hintText: '',
-                              isEnable: true,
-                              isDisableColor: false,
-                              onChange: (String value) {
-                                state.model.shiftB = int.tryParse(value);
-                                int shiftA = state.model.shiftA ?? 0;
-                                int shiftB = state.model.shiftB ?? 0;
-                                int shiftC = state.model.shiftC ?? 0;
-                                int shiftG = state.model.shiftG ?? 0;
-                                totalController.text =
-                                    (shiftA + shiftB + shiftC + shiftG)
-                                        .toString();
-                                state.model.total =
-                                    int.tryParse(totalController.text);
-                                context
-                                    .read<DutyPostMasterDetailsCubit>()
-                                    .onModelValueChange(state.model);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                              /// Duty Post Name
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.postName ??
+                                      state.labels?.defaultLocale.postName ??
+                                      Constants.dutyPostName,
+                                  isMandatory: true,
+                                  Styles.textStyleWhite16),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              TextFieldAddButton(
+                                title: state.model.dutyPostLocation?.name,
+                                height: 70,
+                                isDisableColor: isReadOnly ||
+                                        !state.model.lock.isEmptyOrNull
+                                    ? true
+                                    : false,
+                                onTap: () {
+                                  if (isReadOnly ||
+                                      state.model.lock.isEmptyOrNull) {
+                                    BaseOrganisationDialog().departmentDialog(
+                                      context: context,
+                                      organisations: state.dutyPosts ?? [],
+                                      onTap: (Organisation? org) {
+                                        // state.model.dutyPostLocation?.name =
+                                        //     org.name;
 
-                            /// C Shift(11PM-7AM)
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.shiftC ??
-                                    state.labels?.defaultLocale.shiftC ??
-                                    Constants.cShift,
-                                isMandatory: true,
-                                Styles.textStyleWhite16),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              textInputType: TextInputType.number,
-                              textFormKey: Keys.guardingPOCKey,
-                              initialValue: '${state.model.shiftC ?? ''}',
-                              hintText: '',
-                              isEnable: true,
-                              isDisableColor: false,
-                              onChange: (String value) {
-                                state.model.shiftC = int.tryParse(value);
-                                int shiftA = state.model.shiftA ?? 0;
-                                int shiftB = state.model.shiftB ?? 0;
-                                int shiftC = state.model.shiftC ?? 0;
-                                int shiftG = state.model.shiftG ?? 0;
-                                totalController.text =
-                                    (shiftA + shiftB + shiftC + shiftG)
-                                        .toString();
-                                state.model.total =
-                                    int.tryParse(totalController.text);
-                                // context
-                                //     .read<DutyPostMasterDetailsCubit>()
-                                //     .onModelValueChange(state.model);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                                        BlocProvider.of<
+                                                    DutyPostMasterDetailsCubit>(
+                                                context)
+                                            .updateDropdownValues(
+                                                dutyPostName: org);
+                                      },
+                                    );
+                                  }
+                                },
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                            /// G Shift(9AM-6PM)
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.shiftG ??
-                                    state.labels?.defaultLocale.shiftG ??
-                                    Constants.gShift,
-                                isMandatory: true,
-                                Styles.textStyleWhite16),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              textInputType: TextInputType.number,
-                              textFormKey: Keys.guardingPOCKey,
-                              initialValue: '${state.model.shiftG ?? ''}',
-                              hintText: '',
-                              isEnable: true,
-                              isDisableColor: false,
-                              onChange: (String value) {
-                                state.model.shiftG = int.tryParse(value);
-                                int shiftA = state.model.shiftA ?? 0;
-                                int shiftB = state.model.shiftB ?? 0;
-                                int shiftC = state.model.shiftC ?? 0;
-                                int shiftG = state.model.shiftG ?? 0;
-                                totalController.text =
-                                    (shiftA + shiftB + shiftC + shiftG)
-                                        .toString();
-                                state.model.total =
-                                    int.tryParse(totalController.text);
-                                // context
-                                //     .read<DutyPostMasterDetailsCubit>()
-                                //     .onModelValueChange(state.model);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                              /// Rank
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.rankId ??
+                                      state.labels?.defaultLocale.rankId ??
+                                      Constants.rank,
+                                  isMandatory: true,
+                                  Styles.textStyleWhite16),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              BaseDropDown().getDropDown(
+                                  isDisabled: isDisabled ? false : true,
+                                  textController: rankController,
+                                  items: guardRankDropDownValues,
+                                  initialValue: state.model.rankId.toString(),
+                                  onTap: () {
+                                    if (isDisabled) {
+                                      BaseDropDown().assetTypeDialog(
+                                          context: context,
+                                          dropDownValues:
+                                              guardRankDropDownValues
+                                                  .map((label) => label.key)
+                                                  .toList(),
+                                          onTap: (String value) {
+                                            Label? selectedLabel;
+                                            selectedLabel =
+                                                guardRankDropDownValues
+                                                    .firstWhere(
+                                              (label) => label.key == value,
+                                              orElse: () => const Label(
+                                                  key: '', value: ''),
+                                            );
 
-                            ///  Total
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.total ??
-                                    state.labels?.defaultLocale.total ??
-                                    Constants.total,
-                                isMandatory: true,
-                                Styles.textStyleWhite16),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              textInputType: TextInputType.number,
-                              textFormKey: Keys.guardingPOCKey,
-                              //           initialValue: (((state.model.shiftA ?? 0) +
-                              //           (state.model.shiftB ?? 0))
-                              // .toString()),
-                              controller: totalController,
-                              hintText: '',
-                              isEnable: false,
-                              isDisableColor: true,
-                              onChange: (int value) {
-                                state.model.total = value;
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.03),
-                          ],
+                                            BlocProvider.of<
+                                                        DutyPostMasterDetailsCubit>(
+                                                    context)
+                                                .updateDropdownValues(
+                                                    rankId: int.tryParse(
+                                                        selectedLabel.value));
+                                            FocusScope.of(context)
+                                                .requestFocus(aShiftFocusNode);
+                                          });
+                                    }
+                                  }),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              /// A Shift(7AM-3PM)
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.shiftA ??
+                                      state.labels?.defaultLocale.shiftA ??
+                                      Constants.aShift,
+                                  isMandatory: true,
+                                  Styles.textStyleWhite16),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                textInputType: TextInputType.number,
+                                textFormKey: Keys.guardingPOCKey,
+                                initialValue: '${state.model.shiftA ?? ''}',
+                                hintText: '',
+                                focusNode: aShiftFocusNode,
+                                isEnable: true,
+                                isDisableColor: false,
+                                onChange: (String value) {
+                                  state.model.shiftA = int.tryParse(value);
+                                  int shiftA = state.model.shiftA ?? 0;
+                                  int shiftB = state.model.shiftB ?? 0;
+                                  int shiftC = state.model.shiftC ?? 0;
+                                  int shiftG = state.model.shiftG ?? 0;
+                                  totalController.text =
+                                      (shiftA + shiftB + shiftC + shiftG)
+                                          .toString();
+                                  state.model.total =
+                                      int.tryParse(totalController.text);
+                                  context
+                                      .read<DutyPostMasterDetailsCubit>()
+                                      .onModelValueChange(state.model);
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              /// B Shift(3PM-11PM)
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.shiftB ??
+                                      state.labels?.defaultLocale.shiftB ??
+                                      Constants.bShift,
+                                  isMandatory: true,
+                                  Styles.textStyleWhite16),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                textInputType: TextInputType.number,
+                                textFormKey: Keys.guardingPOCKey,
+                                initialValue: '${state.model.shiftB ?? ''}',
+                                hintText: '',
+                                isEnable: true,
+                                isDisableColor: false,
+                                onChange: (String value) {
+                                  state.model.shiftB = int.tryParse(value);
+                                  int shiftA = state.model.shiftA ?? 0;
+                                  int shiftB = state.model.shiftB ?? 0;
+                                  int shiftC = state.model.shiftC ?? 0;
+                                  int shiftG = state.model.shiftG ?? 0;
+                                  totalController.text =
+                                      (shiftA + shiftB + shiftC + shiftG)
+                                          .toString();
+                                  state.model.total =
+                                      int.tryParse(totalController.text);
+                                  context
+                                      .read<DutyPostMasterDetailsCubit>()
+                                      .onModelValueChange(state.model);
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              /// C Shift(11PM-7AM)
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.shiftC ??
+                                      state.labels?.defaultLocale.shiftC ??
+                                      Constants.cShift,
+                                  isMandatory: true,
+                                  Styles.textStyleWhite16),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                textInputType: TextInputType.number,
+                                textFormKey: Keys.guardingPOCKey,
+                                initialValue: '${state.model.shiftC ?? ''}',
+                                hintText: '',
+                                isEnable: true,
+                                isDisableColor: false,
+                                onChange: (String value) {
+                                  state.model.shiftC = int.tryParse(value);
+                                  int shiftA = state.model.shiftA ?? 0;
+                                  int shiftB = state.model.shiftB ?? 0;
+                                  int shiftC = state.model.shiftC ?? 0;
+                                  int shiftG = state.model.shiftG ?? 0;
+                                  totalController.text =
+                                      (shiftA + shiftB + shiftC + shiftG)
+                                          .toString();
+                                  state.model.total =
+                                      int.tryParse(totalController.text);
+                                  // context
+                                  //     .read<DutyPostMasterDetailsCubit>()
+                                  //     .onModelValueChange(state.model);
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              /// G Shift(9AM-6PM)
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.shiftG ??
+                                      state.labels?.defaultLocale.shiftG ??
+                                      Constants.gShift,
+                                  isMandatory: true,
+                                  Styles.textStyleWhite16),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                textInputType: TextInputType.number,
+                                textFormKey: Keys.guardingPOCKey,
+                                initialValue: '${state.model.shiftG ?? ''}',
+                                hintText: '',
+                                isEnable: true,
+                                isDisableColor: false,
+                                onChange: (String value) {
+                                  state.model.shiftG = int.tryParse(value);
+                                  int shiftA = state.model.shiftA ?? 0;
+                                  int shiftB = state.model.shiftB ?? 0;
+                                  int shiftC = state.model.shiftC ?? 0;
+                                  int shiftG = state.model.shiftG ?? 0;
+                                  totalController.text =
+                                      (shiftA + shiftB + shiftC + shiftG)
+                                          .toString();
+                                  state.model.total =
+                                      int.tryParse(totalController.text);
+                                  // context
+                                  //     .read<DutyPostMasterDetailsCubit>()
+                                  //     .onModelValueChange(state.model);
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              ///  Total
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.total ??
+                                      state.labels?.defaultLocale.total ??
+                                      Constants.total,
+                                  isMandatory: true,
+                                  Styles.textStyleWhite16),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                textInputType: TextInputType.number,
+                                textFormKey: Keys.guardingPOCKey,
+                                //           initialValue: (((state.model.shiftA ?? 0) +
+                                //           (state.model.shiftB ?? 0))
+                                // .toString()),
+                                controller: totalController,
+                                hintText: '',
+                                isEnable: false,
+                                isDisableColor: true,
+                                onChange: (int value) {
+                                  state.model.total = value;
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.03),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
 
-                    /// SubmitButton
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        cancelButtonDisplay(),
-                        if (!isReadOnly && state.model.lock.isEmptyOrNull) ...[
-                          submitButtonDisplay()
+                      /// SubmitButton
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          cancelButtonDisplay(),
+                          if (!isReadOnly &&
+                              state.model.lock.isEmptyOrNull) ...[
+                            submitButtonDisplay()
+                          ],
                         ],
-                      ],
-                    ),
-                    CommonWidgets.verticalSpacerWidget(height * 0.04),
-                  ],
+                      ),
+                      CommonWidgets.verticalSpacerWidget(height * 0.04),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
+      ],
     );
   }
 

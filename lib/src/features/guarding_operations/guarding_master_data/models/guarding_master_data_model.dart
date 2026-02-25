@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+
 class GuardingMasterDataResponse {
   List<GuardingMastersDataModel>? items;
   int? totalCount;
@@ -33,7 +34,7 @@ class GuardingMasterDataResponse {
       if (json['data'] is List) {
         items = (json['data'] as List)
             .map((dynamic e) =>
-            GuardingMastersDataModel.fromJson(e as Map<String, dynamic>))
+                GuardingMastersDataModel.fromJson(e as Map<String, dynamic>))
             .toList();
       } else {
         // Handle the case where 'list' is not a List
@@ -50,12 +51,13 @@ class GuardingMasterDataResponse {
   }
 
   Map<String, dynamic> toJson() => {
-    'data': items?.map((e) => e.toJson()).toList(),
-    'totalCount': totalCount,
-    'currentPageNo': currentPageNo,
-    'totalPageCount': totalPageCount
-  };
+        'data': items?.map((e) => e.toJson()).toList(),
+        'totalCount': totalCount,
+        'currentPageNo': currentPageNo,
+        'totalPageCount': totalPageCount
+      };
 }
+
 class GuardingMastersDataModel extends BaseObject {
   int? id;
   String? slNo;
@@ -132,6 +134,7 @@ class GuardingMastersDataModel extends BaseObject {
   bool? showMsgbData;
   String? modifiedBy;
   String? modifiedDate;
+  String? greenBgvDate;
 
   GuardingMastersDataModel({
     this.id,
@@ -209,6 +212,7 @@ class GuardingMastersDataModel extends BaseObject {
     this.msgbExemptionDate,
     this.modifiedBy,
     this.modifiedDate,
+    this.greenBgvDate,
   });
 
   factory GuardingMastersDataModel.fromJson(Map<String, dynamic> json) {
@@ -221,7 +225,7 @@ class GuardingMastersDataModel extends BaseObject {
       locationRegion: json['locationRegion'] == null
           ? null
           : Organisation.fromJson(
-          json['locationRegion'] as Map<String, dynamic>),
+              json['locationRegion'] as Map<String, dynamic>),
       vendor: json['vendor'] == null
           ? null
           : Organisation.fromJson(json['vendor'] as Map<String, dynamic>),
@@ -237,14 +241,13 @@ class GuardingMastersDataModel extends BaseObject {
       inputDate: json['inputDate'] as String?,
       status: json['status'] as int?,
       guardRank: json['guardRank'] as int?,
-
       localAddressProof: json['localAddressProof'] is Map<String, dynamic>
           ? ImageContent.fromJson(json['localAddressProof'])
           : null,
       permanentAddressProof:
-      json['permanentAddressProof'] is Map<String, dynamic>
-          ? ImageContent.fromJson(json['permanentAddressProof'])
-          : null,
+          json['permanentAddressProof'] is Map<String, dynamic>
+              ? ImageContent.fromJson(json['permanentAddressProof'])
+              : null,
       bioData: json['bioData'] is Map<String, dynamic>
           ? ImageContent.fromJson(json['bioData'])
           : null,
@@ -259,8 +262,8 @@ class GuardingMastersDataModel extends BaseObject {
       dateOfBirth: json['dateOfBirth'] as String?,
       maritalStatus: json['maritalStatus'] as int?,
       typeOfDeployment: json['typeOfDeployment'] as int?,
-      deploymentOrderSubmitted: json['deploymentOrderSubmitted'] as bool? ??
-          false,
+      deploymentOrderSubmitted:
+          json['deploymentOrderSubmitted'] as bool? ?? false,
       deploymentOrders: (json['deploymentOrders'] as List<dynamic>?)
           ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -287,13 +290,14 @@ class GuardingMastersDataModel extends BaseObject {
       pvc: (json['pvc'] as List<dynamic>?)
           ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
           .toList(),
-      trainingCertificateProvided: json['trainingCertificateProvided'] as bool? ??
-          false,
+      trainingCertificateProvided:
+          json['trainingCertificateProvided'] as bool? ?? false,
       showMsgbData: json['showMsgbData'] as bool?,
       trainingCertificates: (json['trainingCertificates'] as List<dynamic>?)
           ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
           .toList(),
-      medicalCertificateValidUntil: json['medicalCertificateValidUntil'] as String?,
+      medicalCertificateValidUntil:
+          json['medicalCertificateValidUntil'] as String?,
       medicalCertificates: (json['medicalCertificates'] as List<dynamic>?)
           ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -306,21 +310,21 @@ class GuardingMastersDataModel extends BaseObject {
       staffMsgbCompliant: json['staffMsgbCompliant'] as int?,
       guardingPOC: json['guardingPOC'] as String?,
       csrParticipations: (json['csrParticipations'] as List<dynamic>?)
-          ?.map((e) =>
-          GuardingMasterDataExtraDetails.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => GuardingMasterDataExtraDetails.fromJson(
+              e as Map<String, dynamic>))
           .toList(),
       additionalInitiatives: (json['additionalInitiatives'] as List<dynamic>?)
-          ?.map((e) =>
-          GuardingMasterDataExtraDetails.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => GuardingMasterDataExtraDetails.fromJson(
+              e as Map<String, dynamic>))
           .toList(),
-      additionalQualifications: (json['additionalQualifications'] as List<
-          dynamic>?)
-          ?.map((e) =>
-          GuardingMasterDataExtraDetails.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      additionalQualifications:
+          (json['additionalQualifications'] as List<dynamic>?)
+              ?.map((e) => GuardingMasterDataExtraDetails.fromJson(
+                  e as Map<String, dynamic>))
+              .toList(),
       specialAchievements: (json['specialAchievements'] as List<dynamic>?)
-          ?.map((e) =>
-          GuardingMasterDataExtraDetails.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => GuardingMasterDataExtraDetails.fromJson(
+              e as Map<String, dynamic>))
           .toList(),
       entrySecurityName: json['entrySecurityName'] as String?,
       guardName: json['guardName'] as String?,
@@ -328,7 +332,8 @@ class GuardingMastersDataModel extends BaseObject {
       covidSecondDoseDate: json['covidSecondDoseDate'] as String?,
       covidPrecautionaryDoseDate: json['covidPrecautionaryDoseDate'] as String?,
       ertCertificationDate: json['ertCertificationDate'] as String?,
-      firstAidTrainingCompletionDate: json['firstAidTrainingCompletionDate'] as String?,
+      firstAidTrainingCompletionDate:
+          json['firstAidTrainingCompletionDate'] as String?,
       height: json['height'] as num?,
       weight: json['weight'] as num?,
       chest: json['chest'] as num?,
@@ -336,8 +341,10 @@ class GuardingMastersDataModel extends BaseObject {
       msgbExemptionDate: json['msgbExemptionDate'] as String?,
       modifiedBy: json['modifiedBy'] as String?,
       modifiedDate: json['modifiedDate'] as String?,
+      greenBgvDate: json['greenBgvDate'] as String?,
     );
   }
+
   @override
   Map<String, dynamic> toJson() {
     return {
@@ -386,9 +393,11 @@ class GuardingMastersDataModel extends BaseObject {
       'pvcExpiryDate': pvcExpiryDate,
       'pvc': pvc?.map((e) => e.toJson()).toList(),
       'trainingCertificateProvided': trainingCertificateProvided,
-      'trainingCertificates': trainingCertificates?.map((e) => e.toJson()).toList(),
+      'trainingCertificates':
+          trainingCertificates?.map((e) => e.toJson()).toList(),
       'medicalCertificateValidUntil': medicalCertificateValidUntil,
-      'medicalCertificates': medicalCertificates?.map((e) => e.toJson()).toList(),
+      'medicalCertificates':
+          medicalCertificates?.map((e) => e.toJson()).toList(),
       'systemAccess': systemAccess,
       'onboarded': onboarded,
       'esicNo': esicNo,
@@ -398,21 +407,22 @@ class GuardingMastersDataModel extends BaseObject {
       'staffMsgbCompliant': staffMsgbCompliant,
       'guardingPOC': guardingPOC,
       'csrParticipations': csrParticipations?.map((e) => e.toJson()).toList(),
-      'additionalInitiatives': additionalInitiatives?.map((e) => e.toJson()).toList(),
-      'additionalQualifications': additionalQualifications?.map((e) => e.toJson()).toList(),
-      'specialAchievements': specialAchievements?.map((e) => e.toJson()).toList(),
+      'additionalInitiatives':
+          additionalInitiatives?.map((e) => e.toJson()).toList(),
+      'additionalQualifications':
+          additionalQualifications?.map((e) => e.toJson()).toList(),
+      'specialAchievements':
+          specialAchievements?.map((e) => e.toJson()).toList(),
       'entrySecurityName': entrySecurityName,
       'guardName': guardName,
       'dependentsNo': dependentsNo,
       'msgbExemptionDate': msgbExemptionDate,
       'modifiedBy': modifiedBy,
       'modifiedDate': modifiedDate,
+      'greenBgvDate': greenBgvDate
     };
   }
-
 }
-
-
 
 class GuardingMasterDataExtraDetails {
   final int? id;
@@ -436,4 +446,3 @@ class GuardingMasterDataExtraDetails {
   Map<String, dynamic> toJson() =>
       {'id': id, 'description': description, 'date': date, 'type': type};
 }
-

@@ -7,6 +7,8 @@ import 'package:db_atom/src/features/occurrence/occurrences_details/general_info
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/services/occurrences_services.dart';
 import 'package:intl/intl.dart';
 
+import '../models/ipad_model.dart';
+
 part 'occurrence_general_info_state.dart';
 
 class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
@@ -29,10 +31,8 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
             errorMessage: '',
             loadAttachments: const [],
             eventId: null,
-            listOfEntities: const [],
-            getEntitiesResponse: null,
             departments: const [],
-            loggedInUserDetails: null,
+            loggedInUserDetails: null, ipadSerialNum: const [],
           ),
         );
 
@@ -76,11 +76,15 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
         locationId: model!.location!.id!,
         );
 
+    Organisation? location;
+    List<Organisation> dutyPostNames = await commonServices.getDutyPostsByLocation(
+        locationId: location!.id.toString());
 
     emit(
       state.copyWith(
         status: FormStatus.initial,
         shiftTakenOverBy: shiftTakenOverBy,
+        dutyPosts: dutyPostNames,
       ),
     );
   }
@@ -94,6 +98,8 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       ),
     );
     var userId = await SharedPrefs.getUserId();
+    List<Organisation> dutyPostNames = [];
+    GetIpadSerialNo ipadSerialNum = GetIpadSerialNo(ipadSerialNum: []); // Initialize with default value
     try {
       OccurrenceModel model = OccurrenceModel();
       if (!id.isEmptyOrNull) {
@@ -120,8 +126,6 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           int.tryParse(model.modifiedDate ?? '0'),
           Constants.fulldateFormat);
 
-      AddEntities entities =
-          await commonServices.getEntities(name: 'ATOM_ENTITIES');
 
       // List<User> entrySecurities = await commonServices.getUsers();
       bool isOnGoingPowerFailure = false;
@@ -133,6 +137,9 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
             locationId: defaultLocation.id.toString(),
             moduleCode: Constants.occurrenceModule,
           );
+          dutyPostNames = await commonServices
+              .getDutyPostsByLocation(
+              locationId: defaultLocation.id.toString());
           model.location = defaultLocation;
           model.slNo = slNo.serialNo;
 
@@ -146,6 +153,9 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           if (!followUp.comments.isEmptyOrNull) {
             model.comments = followUp.comments;
           }
+
+          ipadSerialNum =
+          await commonServices.getIpadSerialNo(locId: defaultLocation.id!);
           log('-powerFailureModel.powerFailureStartDate--${powerFailureModel.powerFailureStartDate}-');
           if (powerFailureModel.powerFailureStartDate != null) {
             model.powerFailure = true;
@@ -173,9 +183,14 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
               locationId: model.location!.id!,
             isDbUser: false,
             );
+      dutyPostNames = await commonServices
+          .getDutyPostsByLocation(
+          locationId: model.location!.id.toString());
 
       EmployeeDepartments departments =
           await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
+      GetIpadSerialNo ipadSerialNo =
+      await commonServices.getIpadSerialNo(locId: model.location!.id! );
       model.status ?? 0;
 
       log('--model.status---${model.status}-');
@@ -188,10 +203,12 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           status: FormStatus.initial,
           shiftTakenOverBy: shiftTakenOverBy,
           departments: departments.employeeDepartments,
+          ipadSerialNum : ipadSerialNo.ipadSerialNum,
           // entrySecurities: entrySecurities,
-          listOfEntities: entities.atomEntities,
-          getEntitiesResponse: entities,
+          // listOfEntities: entities.atomEntities,
+          // getEntitiesResponse: entities,
           isOnGoingPowerFailure: isOnGoingPowerFailure,
+          dutyPosts: dutyPostNames,
         ),
       );
       isFormReadable();
@@ -217,6 +234,9 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     );
 
     List<BaseUser>? shiftTakenOverBy = [];
+    List<Organisation> dutyPostNames = [];
+    // GetIpadSerialNo ipadSerialNum ;
+    GetIpadSerialNo ipadSerialNum = GetIpadSerialNo(ipadSerialNum: []); // Initialize with default value
 
     /// Get Sl No from API
     if (location != null) {
@@ -233,6 +253,11 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
         isDbUser: false,
           locationId: location.id!,
       );
+      dutyPostNames = await commonServices
+          .getDutyPostsByLocation(
+          locationId: location.id.toString());
+       ipadSerialNum =
+      await commonServices.getIpadSerialNo(locId: location.id!);
       /// Todo: Uncomment this after fixing the issue from backend
       // await services.getOccPowerFailure(
       //     locationId: location.id.toString());
@@ -245,6 +270,8 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     emit(state.copyWith(
       model: state.model,
       shiftTakenOverBy: shiftTakenOverBy,
+      ipadSerialNum: ipadSerialNum.ipadSerialNum,
+      dutyPosts: dutyPostNames,
       status: FormStatus.initial,
     ));
   }
@@ -253,6 +280,9 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     List<Organisation>? entities,
     Organisation? location,
     BaseUser? shiftTakenOverBy,
+    Organisation? dutyPostName,
+    Organisation? ipadSerialNum,
+
     int? status,
   }) async {
     emit(
@@ -283,6 +313,13 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
         email: shiftTakenOverBy.email,
       );
       state.model.handoverSecurity = userDetails;
+    }
+
+    if (ipadSerialNum != null) {
+      state.model.ipadSerialNo = ipadSerialNum;
+    }
+    if (dutyPostName != null) {
+      state.model.dutyPostLocation = dutyPostName;
     }
     emit(state.copyWith(
       model: state.model,
@@ -345,6 +382,8 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     bool? cwmVisit,
     bool? dgWrking,
     bool? followedUp,
+    bool? monsoon,
+    bool? isPrivacyScreen
   }) {
     emit(
       state.copyWith(
@@ -362,6 +401,10 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     }
     if (materialMovement != null) {
       state.model.materialMovement = materialMovement;
+    }
+
+    if (monsoon != null) {
+      state.model.monsoon = monsoon;
     }
     if (leoVisit != null) {
       state.model.leoVisit = leoVisit;
@@ -414,6 +457,10 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     }
     if (followedUp != null) {
       state.model.followedUp = followedUp;
+    }
+
+    if (isPrivacyScreen != null) {
+      state.model.privacyScreenPresent = isPrivacyScreen;
     }
     emit(state.copyWith(
       model: state.model,

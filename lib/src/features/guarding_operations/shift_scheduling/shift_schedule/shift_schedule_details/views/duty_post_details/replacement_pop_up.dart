@@ -112,7 +112,7 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
     Label? selectedReason;
 
     return AlertDialog(
-      backgroundColor: AppColors.backgroundWhiteColor,
+      backgroundColor: Colors.transparent,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       content: Builder(builder: (context) {
         // Get available height and width of the build area of this widget. Make a choice depending on the size.

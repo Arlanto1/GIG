@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/duty_post_name_master_details/views/add_duty_post_location_name_pop_up.dart';
@@ -121,7 +122,7 @@ class _DutyPostNameMasterDetailsViewState
                   .submitForm(isSaveOnly: false);
             },
           ),
-          backgroundColor: AppColors.newColor3,
+          backgroundColor: Colors.transparent,
           body: getBodybuilder(state, height),
         );
       },
@@ -134,247 +135,266 @@ class _DutyPostNameMasterDetailsViewState
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
     }
-    return Container(
-      color: AppColors.newColor3,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: height * 0.01,
-              color: AppColors.newColor3,
+    return Stack(
+      children: [
+        // 🔹 Background Image
+        Positioned.fill(
+          child: Image.asset(
+            'assets/images/bg2.png',
+            fit: BoxFit.cover,
+          ),
+        ),
+
+        // 🔹 Blur Layer
+        Positioned.fill(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 200, sigmaY: 200),
+            child: Container(
+              color: Colors.black.withValues(alpha: 0.08), // optional tint
             ),
-            Container(
-              decoration: ShapeDecoration(
-                  color: AppColors.newColor3,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20.0)),
-                  )),
-              child: Form(
-                key: _formKey,
-                autovalidateMode: state.model.status == 4
-                    ? AutovalidateMode.disabled
-                    : AutovalidateMode.onUserInteraction,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    AbsorbPointer(
-                      absorbing: isReadOnly || !state.model.lock.isEmptyOrNull,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 20.0, right: 20),
-                        child: Column(
-                          children: [
-                            if (!state.model.lock.isEmptyOrNull) ...[
-                              RecordLockedWidget(text: '${state.model.lock}'),
-                            ],
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: const Text(
-                                Constants.generalinformation,
-                                style: Styles.textStyleWhite16,
+          ),
+        ),
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                color: Colors.transparent,
+                child: Form(
+                  key: _formKey,
+                  autovalidateMode: state.model.status == 4
+                      ? AutovalidateMode.disabled
+                      : AutovalidateMode.onUserInteraction,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      AbsorbPointer(
+                        absorbing:
+                            isReadOnly || !state.model.lock.isEmptyOrNull,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 20.0, right: 20),
+                          child: Column(
+                            children: [
+                              if (!state.model.lock.isEmptyOrNull) ...[
+                                RecordLockedWidget(text: '${state.model.lock}'),
+                              ],
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+                              Container(
+                                alignment: Alignment.topLeft,
+                                child: const Text(
+                                  Constants.generalinformation,
+                                  style: Styles.textStyleWhite16,
+                                ),
                               ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                            /// Status
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.status ??
-                                    state.labels?.defaultLocale.status ??
-                                    Constants.status,
-                                Styles.textStyleWhite16,
-                                isMandatory: true),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            BaseDropDown().getDropDown(
-                              isDisabled: true,
-                              textController: statusController,
-                              items: dutyPostNameMasterStatusValues,
-                              initialValue: '${state.model.status ?? 0}',
-                              onTap: () {
-                                if (!isDisabled) {
-                                  BaseDropDown().assetTypeDialog(
-                                    context: context,
-                                    dropDownValues:
-                                        dutyPostNameMasterStatusValues
-                                            .map((label) => label.key)
-                                            .toList(),
-                                    onTap: (String value) {
-                                      Label? selectedLabel;
-                                      selectedLabel =
-                                          dutyPostNameMasterStatusValues
-                                              .firstWhere(
-                                        (label) => label.key == value,
-                                        orElse: () =>
-                                            const Label(key: '', value: ''),
-                                      );
-                                      BlocProvider.of<
-                                                  DutyPostNameMasterDetailsCubit>(
-                                              context)
-                                          .updateDropdownValues(
-                                              status: int.tryParse(
-                                                  selectedLabel.value));
-                                    },
-                                  );
-                                }
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            /// Created By
-                            CommonWidgets.horizentaltextHandling(
-                                state.labels?.locale.entrySecurity ??
-                                    state.labels?.defaultLocale.entrySecurity ??
-                                    Constants.createdby,
-                                isMandatory: true,
-                                '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            /// Date of creation
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.inputDate ??
-                                    state.labels?.defaultLocale.inputDate ??
-                                    Constants.date,
-                                isMandatory: true,
-                                Styles.textStyleWhite16),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            BaseDate().creationDateDisplay(
-                                state.model.inputDate ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            ///Location
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.location ??
-                                    state.labels?.defaultLocale.location ??
-                                    Constants.location,
-                                isMandatory: true,
-                                Styles.textStyleWhite16),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            BaseLocationDropdown().locationWidgetDisplay(
-                                context: context,
-                                locations: state.locations ?? Locations(),
-                                selectedLocationName:
-                                    state.model.location?.name ?? '',
-                                onTap: (Organisation? location) {
-                                  BlocProvider.of<
-                                              DutyPostNameMasterDetailsCubit>(
-                                          context)
-                                      .updateDropdownValues(location: location);
-                                }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            /// Sl No.
-                            CommonWidgets.horizentaltextHandling(
-                              state.labels?.locale.slNo ??
-                                  state.labels?.defaultLocale.slNo ??
-                                  Constants.slno,
-                              state.model.slNo ?? '',
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            /// DutyPost Location Name
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.postName ??
-                                  state.labels?.defaultLocale.postName ??
-                                  Constants.dutyPostLocationName,
-                              Styles.textStyleWhite16,
-                              //isMandatory: true
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            GestureDetector(
-                              onTap: () {
-                                log('--onTap------');
-
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext dialogContext) {
-                                    return AddDutyPostLocationNamePopUp(
-                                      model: model,
-                                      mainContext: context,
-                                    );
-                                  },
-                                );
-                              },
-                              child: Row(
-                                children: <Widget>[
-                                  const SizedBox(width: 14),
-                                  SvgPicture.asset(
-                                    AppIcon.pluscircle,
-                                    colorFilter: const ColorFilter.mode(
-                                      AppColors.white,
-                                      BlendMode.srcIn,
-                                    ),
-                                    // color: AppColors.navigationSkyBlueColor,
-                                  ),
-                                  // ),
-                                  const SizedBox(width: 10),
-                                  const Text(
-                                    Constants.addDutyPostLocationName,
-                                    style: TextStyle(
-                                        color: AppColors.white,
-                                        decoration: TextDecoration.underline,
-                                        decorationColor: AppColors.white,
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 16),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Column(
-                              children: getDutyPostLocationName(
-                                  state.model.dpName ?? [], height, state),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.03),
-                            if (widget.model?.id != null) ...[
-                              /// Modified Date
+                              /// Status
                               CommonWidgets.textDisplay(
-                                // state.labels?.locale.date ??
-                                //     state.labels?.defaultLocale.date ??
-                                Constants.modifiedOn,
-                                Styles.textStyleWhite14,
-                                isMandatory: true,
+                                  state.labels?.locale.status ??
+                                      state.labels?.defaultLocale.status ??
+                                      Constants.status,
+                                  Styles.textStyleWhite16,
+                                  isMandatory: true),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              BaseDropDown().getDropDown(
+                                isDisabled: true,
+                                textController: statusController,
+                                items: dutyPostNameMasterStatusValues,
+                                initialValue: '${state.model.status ?? 0}',
+                                onTap: () {
+                                  if (!isDisabled) {
+                                    BaseDropDown().assetTypeDialog(
+                                      context: context,
+                                      dropDownValues:
+                                          dutyPostNameMasterStatusValues
+                                              .map((label) => label.key)
+                                              .toList(),
+                                      onTap: (String value) {
+                                        Label? selectedLabel;
+                                        selectedLabel =
+                                            dutyPostNameMasterStatusValues
+                                                .firstWhere(
+                                          (label) => label.key == value,
+                                          orElse: () =>
+                                              const Label(key: '', value: ''),
+                                        );
+                                        BlocProvider.of<
+                                                    DutyPostNameMasterDetailsCubit>(
+                                                context)
+                                            .updateDropdownValues(
+                                                status: int.tryParse(
+                                                    selectedLabel.value));
+                                      },
+                                    );
+                                  }
+                                },
                               ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              /// Created By
+                              CommonWidgets.horizentaltextHandling(
+                                  state.labels?.locale.entrySecurity ??
+                                      state.labels?.defaultLocale
+                                          .entrySecurity ??
+                                      Constants.createdby,
+                                  isMandatory: true,
+                                  '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              /// Date of creation
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.inputDate ??
+                                      state.labels?.defaultLocale.inputDate ??
+                                      Constants.date,
+                                  isMandatory: true,
+                                  Styles.textStyleWhite16),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               BaseDate().creationDateDisplay(
-                                  state.model.modifiedDate ?? ''),
+                                  state.model.inputDate ?? ''),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                              /// Modified By
-                              CommonWidgets.horizentaltextHandling(
-                                  // state.labels?.locale.entrySecurity ??
-                                  //     state.labels?.defaultLocale.entrySecurity ??
-                                  Constants.modifiedBy,
+                              ///Location
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.location ??
+                                      state.labels?.defaultLocale.location ??
+                                      Constants.location,
                                   isMandatory: true,
-                                  '${state.model.modifiedBy}'),
+                                  Styles.textStyleWhite16),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              BaseLocationDropdown().locationWidgetDisplay(
+                                  context: context,
+                                  locations: state.locations ?? Locations(),
+                                  selectedLocationName:
+                                      state.model.location?.name ?? '',
+                                  onTap: (Organisation? location) {
+                                    BlocProvider.of<
+                                                DutyPostNameMasterDetailsCubit>(
+                                            context)
+                                        .updateDropdownValues(
+                                            location: location);
+                                  }),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              /// Sl No.
+                              CommonWidgets.horizentaltextHandling(
+                                state.labels?.locale.slNo ??
+                                    state.labels?.defaultLocale.slNo ??
+                                    Constants.slno,
+                                state.model.slNo ?? '',
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              /// DutyPost Location Name
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.postName ??
+                                    state.labels?.defaultLocale.postName ??
+                                    Constants.dutyPostLocationName,
+                                Styles.textStyleWhite16,
+                                //isMandatory: true
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              GestureDetector(
+                                onTap: () {
+                                  log('--onTap------');
+
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext dialogContext) {
+                                      return AddDutyPostLocationNamePopUp(
+                                        model: model,
+                                        mainContext: context,
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Row(
+                                  children: <Widget>[
+                                    const SizedBox(width: 14),
+                                    SvgPicture.asset(
+                                      AppIcon.pluscircle,
+                                      colorFilter: const ColorFilter.mode(
+                                        AppColors.white,
+                                        BlendMode.srcIn,
+                                      ),
+                                      // color: AppColors.navigationSkyBlueColor,
+                                    ),
+                                    // ),
+                                    const SizedBox(width: 10),
+                                    const Text(
+                                      Constants.addDutyPostLocationName,
+                                      style: TextStyle(
+                                          color: AppColors.white,
+                                          decoration: TextDecoration.underline,
+                                          decorationColor: AppColors.white,
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 16),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Column(
+                                children: getDutyPostLocationName(
+                                    state.model.dpName ?? [], height, state),
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.03),
+                              if (widget.model?.id != null) ...[
+                                /// Modified Date
+                                CommonWidgets.textDisplay(
+                                  // state.labels?.locale.date ??
+                                  //     state.labels?.defaultLocale.date ??
+                                  Constants.modifiedOn,
+                                  Styles.textStyleWhite14,
+                                  isMandatory: true,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                BaseDate().creationDateDisplay(
+                                    state.model.modifiedDate ?? ''),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02),
+
+                                /// Modified By
+                                CommonWidgets.horizentaltextHandling(
+                                    // state.labels?.locale.entrySecurity ??
+                                    //     state.labels?.defaultLocale.entrySecurity ??
+                                    Constants.modifiedBy,
+                                    isMandatory: true,
+                                    '${state.model.modifiedBy}'),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+                              ],
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                             ],
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
 
-                    /// SubmitButton
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        cancelButtonDisplay(),
-                        if (showSaveSubmitButtons) ...[submitButtonDisplay()],
-                      ],
-                    ),
+                      /// SubmitButton
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          cancelButtonDisplay(),
+                          if (showSaveSubmitButtons) ...[submitButtonDisplay()],
+                        ],
+                      ),
 
-                    CommonWidgets.verticalSpacerWidget(height * 0.04),
-                  ],
+                      CommonWidgets.verticalSpacerWidget(height * 0.04),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
+      ],
     );
   }
 
@@ -394,12 +414,13 @@ class _DutyPostNameMasterDetailsViewState
           Text(
             dutyPostLocationName.dutyPostName ?? '',
             textAlign: TextAlign.start,
+              style: const TextStyle(color: Colors.white),
           ),
           Checkbox(
             // Add this Checkbox widget
             value: isTransportShift,
             activeColor: AppColors.navigationSkyBlueColor,
-            focusColor: AppColors.navigationSkyBlueColor,
+            focusColor: AppColors.white,
             onChanged: (value) {
               // Implement logic to update the transport shift value
               setState(() {
@@ -427,8 +448,11 @@ class _DutyPostNameMasterDetailsViewState
       return [
         Container(
           decoration: BoxDecoration(
-            color: AppColors.lightGreyBackground,
+            color: Colors.transparent,
             borderRadius: BorderRadius.circular(5),
+            border: Border.all(
+              color: Colors.white.withValues(alpha: 0.4)
+            )
           ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),

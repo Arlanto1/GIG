@@ -111,6 +111,7 @@ class ConstantsIntValue {
   static const int mmStatusApproved = 6;
   static const int mmStatusInwardWaiting = 9;
   static const int mmStatusClosed = 10;
+  static const int mmStatusOverDue = 11;
 
   /// Key Issuance status
   static const int issuanceDraftStatus = 0;

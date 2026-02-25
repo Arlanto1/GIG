@@ -321,6 +321,8 @@ const List<Label> materialMovementStatusValues = [
   Label(key: 'Return Pending', value: '8'),
   Label(key: 'Inward Pending', value: '9'),
   Label(key: 'Closed/Finalized', value: '10'),
+  Label(key: 'Material Return Overdue', value: '11'),
+  Label(key: 'Material Return Pending', value: '12'),
   Label(key: 'Cancelled', value: '-1'),
 ];
 const List<Label> shiftScheduleStatusDropDownValues = [
@@ -342,8 +344,8 @@ const List<Label> passManagementStatusValues = [
   Label(key: 'Returned', value: '2'),
   Label(key: 'Non Returned', value: '3'),
   Label(key: 'Lost', value: '4'),
-  Label(key: 'Damaged/De-Activated', value: '5'),
-  Label(key: 'Defaced/De-Activated', value: '6'),
+  // Label(key: 'Damaged/De-Activated', value: '5'),
+  // Label(key: 'Defaced/De-Activated', value: '6'),
   Label(key: 'Cancelled', value: '7'),
   Label(key: 'Returned/Damaged', value: '8'),
   Label(key: 'Returned/Defaced', value: '9'),
@@ -388,3 +390,15 @@ const List<Label> articleFoundStatus = [
 ];
 
 
+const List<Label> workShift = [
+  Label(key: 'A Shift (7AM-3PM)', value: '0'),
+  Label(key: 'B Shift (3PM-11PM)', value: '1'),
+  Label(key: 'C Shift (11PM-7AM)', value: '2'),
+  Label(key: 'G Shift (9AM-6PM)', value: '3'),
+];
+
+
+const List<Label> approveReject = [
+  Label(key: 'Approve', value: '1'),
+  Label(key: 'Reject', value: '0'),
+];

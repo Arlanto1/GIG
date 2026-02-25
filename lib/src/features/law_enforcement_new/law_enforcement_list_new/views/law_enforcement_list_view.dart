@@ -71,7 +71,9 @@ class _LawEnforcementListViewState extends State<LawEnforcementListView> {
         builder: (context, state) {
           log('plus ${state.extraProperties?.hasWritePermission}');
           return Scaffold(
-              backgroundColor: AppColors.newColor,
+              backgroundColor: Colors.transparent,
+              extendBodyBehindAppBar: true,
+              extendBody: true,
               // floatingActionButton: state.extraProperties?.hasWritePermission ??
               //     false
               //     ? Flutterfloatingbutton(
@@ -113,21 +115,35 @@ class _LawEnforcementListViewState extends State<LawEnforcementListView> {
               body:
               BlocBuilder<LawEnforcementBloc, LawEnforcementNewState>(
                   builder: (context, state) {
-                    return Container(
-                      width: double.infinity,
-                      height: double.infinity,
-                      color: AppColors.newColor3,
-                      // margin: allMargin16,
-                      // decoration: const ShapeDecoration(
-                      //     color: AppColors.backgroundWhiteColor,
-                      //     shape: RoundedRectangleBorder(
-                      //       borderRadius:
-                      //       BorderRadius.vertical(top: Radius.circular(20.0)),
-                      //     )),
-                      child: Column(
-                        children: [
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          BaseSearchWidget(
+                    return Stack(
+                      children: [
+                        // 🔹 Background
+                        Positioned.fill(
+                          child: Image.asset(
+                            'assets/images/bg2.png',
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Positioned.fill(
+                          child: ClipRect(
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
+                              child: Container(
+                                color: Colors.black.withValues(alpha: 0.2),
+                              ),
+                            ),
+                          ),
+                        ),
+
+                        // 🔹 Search Bar - positioned safely at the top
+                        Positioned(
+                          top: MediaQuery
+                              .of(context)
+                              .padding
+                              .top + kToolbarHeight + -40, // below AppBar
+                          left: 3,
+                          right: 3,
+                          child: BaseSearchWidget(
                             applySearchFilters: applySearchFilters,
                             applyFilters: applyFilters,
                             commonFilters: state.commonFilters ??
@@ -136,30 +152,30 @@ class _LawEnforcementListViewState extends State<LawEnforcementListView> {
                                   regions: [],
                                 ),
                           ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          if (state.status == FormStatus.loading) ...[
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            const BaseLoader(),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          ],
-                          if (state.items.isEmptyOrNull &&
-                              state.status != FormStatus.loading) ...[
-                            CommonWidgets.verticalSpacerWidget(height * 0.1),
-                            const NoRecordFoundWidget(),
-                          ],
+                        ),
 
-                          Expanded(
-                            child: CustomMaterialIndicator(
-                              onRefresh: () => _onRefresh(),
-                              backgroundColor: Colors.white,
-                              indicatorBuilder: (context, controller) {
-                                return const Padding(
-                                  padding: EdgeInsets.all(6.0),
-                                  child: BaseLoader(),
-                                );
-                              },
+                        // 🔹 ListView - start immediately below search bar
+                        Positioned(
+                          top: MediaQuery
+                              .of(context)
+                              .padding
+                              .top + kToolbarHeight + 10,
+                          // search bar height ~64+padding
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          child: CustomMaterialIndicator(
+                            onRefresh: () => _onRefresh(),
+                            backgroundColor: Colors.white,
+                            indicatorBuilder: (context, controller) {
+                              return const Padding(
+                                padding: EdgeInsets.all(6.0),
+                                child: BaseLoader(),
+                              );
+                            },
                               child: ListView.builder(
                                 controller: _scrollController,
+                                padding: EdgeInsets.zero,
                                 itemCount: state.hasReachedMax
                                     ? state.items.length
                                     : state.items.length + 1,
@@ -342,7 +358,6 @@ class _LawEnforcementListViewState extends State<LawEnforcementListView> {
                             ),
                           ),
                         ],
-                      ),
                     );
                   }));
         });

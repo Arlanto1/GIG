@@ -5,7 +5,7 @@ GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
   // WidgetsFlutterBinding.ensureInitialized(); // VERY important
-  F.appFlavor = Flavor.qa;
+  F.appFlavor = Flavor.uat;
   //runApp(App());
   MainConfig.initialSetup(navigatorKey);
   // InactivityFunctions().startInactivityTimer(navigatorKey);

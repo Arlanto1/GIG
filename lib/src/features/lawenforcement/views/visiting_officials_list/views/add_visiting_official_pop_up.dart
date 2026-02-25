@@ -72,17 +72,7 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
         return Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  AppColors.newColor3.withValues(alpha: 0.7),
-                  AppColors.newColor,
-                  AppColors.newColor3.withValues(alpha: 0.7),
-                  // Color(0xFF6474C6).withOpacity(0.14)
-                ],
-                stops: [0.02, 0.35, 1],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
+             color: Colors.transparent,
               borderRadius: BorderRadius.circular(27),
               border: Border.all(
                 color: Colors.white.withValues(alpha: 0.6),

@@ -179,7 +179,10 @@ class Constants {
   static const String articleFoundRegisterListTitle = 'Article Found';
   static const String lawEnforcementVisitsListTitle =
       'Law Enforcement Visits List';
+  static const String eventProtection = 'Event Protection';
   static const String eventProtectionList = 'Event Protection List';
+  static const String cSREventList = 'CSR Event List';
+  static const String sportEventList = 'Sport Event List';
   static const String annualPowerShutdownListTitle =
       'Annual Power Shutdown List';
   static const String annualPowerShutdownListDetails =
@@ -207,6 +210,8 @@ class Constants {
   static const String notifications = 'Notifications';
 
   static const String materialMovementInward = 'Inward Material Movement';
+  static const String materialMovementInwardReturnable = 'Material Movement Inward - Returnable';
+  static const String materialMovementInwardNonReturnable = 'Material Movement Inward - Non Returnable';
   static const String materialMovementInwardCreate =
       'Create Inward Material Movement';
   static const String materialMovementInwardEdit =
@@ -415,6 +420,7 @@ class Constants {
   static const String passValidUntil = '31/03/2023';
   static const String confirmation = 'Update Status';
   static const String updatedStatusMessage = 'are you sure you want to select "lost"?';
+  static const String visitorsLapSerialNum = "Visitor's Laptop Serial Number";
 
   //List page - Found Article
   static const String searchHintText = 'Search....';
@@ -633,6 +639,7 @@ class Constants {
   static const String uploadDeploymentOrderFile =
       'Upload Deployment Order File';
   static const String addQualificationType = 'Add Qualification';
+  static const String greenBGVDate = 'Green BGV Date';
 
   // Event Protection
   static const String eventProtectionTitle = 'Event Protection List';
@@ -765,8 +772,14 @@ class Constants {
   static const String detailIncidentDescription = 'Detail Description';
   static const String ipbArea = 'IPB Area';
   static const String colourMake = 'Colour/Make/Model';
-
   static const String showDetails = 'Show Details';
+  static const String dutyPostLocationNames = 'DutyPost Location Name';
+  static const String isPrivacyScreenPresent = 'Is Privacy Screen Present on the Teller Computer Screen';
+  static const String monsoon = 'Monsoon';
+  static const String opsSituationalTitle = 'Ops Team Situational Update';
+  static const String ipadSerialNo = 'Ipad Serial No.';
+  static const String mailTo = 'Mail To';
+  static const String mailCc = 'Mail Cc';
 
   //SLA Violation Penalty
   static const String sLAViolationPenalty = 'SLA Violation Penalty';
@@ -800,6 +813,9 @@ class Constants {
   static const String staffCategory = 'Staff Category';
   static const String slaViolation = 'SLA_VIOLATION_DESCRIPTION';
   static const String addGuardingAgencyPOC = 'Add Guarding Agency POC';
+  static const String commentBox = 'Comment Box';
+  static const String workShift = 'Work Shift';
+
 
   ///KeyManagementData
   static const String keyManagementMaster = 'Key Management Master';
@@ -1043,6 +1059,40 @@ class Constants {
   static const String outWardMM = 'Outward Material Movements';
   static const String visitor =
       'Visitor Pass Managements';
+
+
+  ///Ops Team Situational Update
+  static const String warningAlert = 'Warning/Alert';
+  static const String forecastType = 'Forecast Type';
+  static const String specificLocation = 'Specific Location';
+  static const String currentRainSituation = 'Current Rain Situation';
+  static const String impactOnDbTrans = 'Impact on DB Transportation';
+  static const String overallImpact = 'Overall Impact';
+  static const String waterLoggingOutside = 'Water Logging Outside Premises';
+  static const String trafficSituation = 'Current Traffic Situation';
+  static const String incidentSite = 'Incident Site';
+  static const String distanceIncidentSite = 'Distance from Incident Site';
+  static const String fteAndCwr = 'FTE and CWR';
+  static const String supportStaff = 'Support Staff and Other';
+  static const String buildingReport = 'Building Occupancy Report';
+  static const String listDbLocationUpdate ='List of DB Location Update';
+
+  ///CSR Event Protection
+  static const String eventType = 'Event Type';
+  static const String eventName= 'Event Name';
+  static const String eventLoc= 'Event Location';
+  static const String numParticipantsReg= 'Number of Participants Register/anticipated';
+  static const String extrernalVIPAttendance= 'External VIP Attendance';
+  static const String eventCoordinatorPrimary= 'Event Coordinator Primary';
+  static const String eventCoordinatorSecondary= 'Event Coordinator Secondary';
+  static const String eventCoordinatorPrimaryContact= 'Event Coordinator Primary Contact';
+  static const String eventCoordinatorSecondaryContact= 'Event Coordinator Secondary Contact';
+  static const String eventMgmtVendorPocContact= 'Event Management Vendor Poc Contact No';
+  static const String eventMgmtVendorPocName= 'Event Management Vendor Poc Name';
+  static const String eventMgmtVendorStaffList= 'Event Management Vendor Staff List';
+  static const String nameNGOVendorsEngaged= 'Name of NGO/Vendors engaged for event';
+  static const String map= 'Map';
+
 
 
 

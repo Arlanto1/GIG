@@ -41,13 +41,13 @@ class _KeyManagementIssuanceListViewState
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
       context.read<KeyManagementIssuanceListBloc>().add(
-        FetchKeyIssuanceList(
-          startPos: pageNumber,
-          maxPos: Constants.maxResults,
-          newSearch: false,
-          filters: filters,
-        ),
-      );
+            FetchKeyIssuanceList(
+              startPos: pageNumber,
+              maxPos: Constants.maxResults,
+              newSearch: false,
+              filters: filters,
+            ),
+          );
     }
   }
 
@@ -61,20 +61,21 @@ class _KeyManagementIssuanceListViewState
     final size = MediaQuery.of(context).size;
     double height = size.height;
     final scaffoldKey = GlobalKey<ScaffoldState>();
-    return BlocConsumer<
-      KeyManagementIssuanceListBloc,
-      KeyManagementIssuanceListState
-    >(
+    return BlocConsumer<KeyManagementIssuanceListBloc,
+        KeyManagementIssuanceListState>(
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
-          backgroundColor: AppColors.newColor,
+          backgroundColor: Colors.transparent,
+          extendBody: true,
+          extendBodyBehindAppBar: true,
           bottomNavigationBar: CustomBottomNavigationBar(
             hasAddPermission: true,
             scaffoldKey: scaffoldKey,
             context: context,
             displayMenu: state.displayMenu,
-            list: true, // 🔥 only "+" button mode
+            list: true,
+            // 🔥 only "+" button mode
             onAddPressed: () {
               Navigator.pushNamed(
                 context,
@@ -108,7 +109,8 @@ class _KeyManagementIssuanceListViewState
             excelAPIName: 'exportKmiExcel',
             pdfAPIName: 'exportKmiPDF',
           ),
-          body: BlocBuilder<KeyManagementIssuanceListBloc, KeyManagementIssuanceListState>(
+          body: BlocBuilder<KeyManagementIssuanceListBloc,
+              KeyManagementIssuanceListState>(
             builder: (context, state) {
               log('state${state.status}');
 
@@ -120,306 +122,306 @@ class _KeyManagementIssuanceListViewState
               // }
               // log('--labels-${state.labels?.locale.locationRegion}')
 
-              return Container(
-                width: double.infinity,
-                height: double.infinity,
-                color: AppColors.newColor3,
-
-                child: Column(
-                  // crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    const SizedBox(height: 10),
-                    BaseSearchWidget(
-                      applySearchFilters: applySearchFilters,
-                      applyFilters: applyFilters,
-                      commonFilters:
-                          state.commonFilters ??
-                          CommonFilters(statuses: [], regions: []),
+              return Stack(
+                children: [
+                  // 🔹 Background
+                  Positioned.fill(
+                    child: Image.asset(
+                      'assets/images/bg2.png',
+                      fit: BoxFit.cover,
                     ),
-                    CommonWidgets.verticalSpacerWidget(height * 0.001),
-                    if (state.status == FormStatus.loading) ...[
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      const BaseLoader(),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
-                    ],
-
-                    // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
-                    // Text('state.status=====${state.status}'),
-                    if (state.list.isEmptyOrNull &&
-                        state.status != FormStatus.loading) ...[
-                      CommonWidgets.verticalSpacerWidget(height * 0.1),
-                      const NoRecordFoundWidget(),
-                    ],
-
-                    Expanded(
-                      child: CustomMaterialIndicator(
-                        onRefresh: () => _onRefresh(),
-                        backgroundColor: Colors.white,
-                        indicatorBuilder: (context, controller) {
-                          return const Padding(
-                            padding: EdgeInsets.all(6.0),
-                            child: BaseLoader(),
-                          );
-                        },
-                        child: ListView.builder(
-                          controller: _scrollController,
-                          itemCount: state.hasReachedMax
-                              ? state.list.length
-                              : state.list.length + 1,
-                          itemBuilder: (context, index) {
-                            List<Label> labels = [];
-                            if (index < state.list.length) {
-                              labels.add(
-                                Label(
-                                  key:
-                                      state.labels?.locale.createdBy ??
-                                      state.labels?.defaultLocale.createdBy ??
-                                      Constants.createdby,
-                                  value:
-                                      '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}',
-                                ),
-                              );
-                              labels.add(
-                                Label(
-                                  key:
-                                      state.labels?.locale.location ??
-                                      state.labels?.defaultLocale.location ??
-                                      Constants.location,
-                                  value: state.list[index].location?.name ?? '',
-                                ),
-                              );
-                              labels.add(
-                                Label(
-                                  key:
-                                      state.labels?.locale.createdDate ??
-                                      state.labels?.defaultLocale.createdDate ??
-                                      Constants.createDate,
-                                  value: state.list[index].createdDate != null
-                                      ? Utils.timestampToDateConversion(
-                                          int.parse(
-                                            state.list[index].createdDate ??
-                                                '0',
-                                          ),
-                                          Constants
-                                              .twentyFourHourDateTimeFormat,
-                                        )
-                                      : '',
-                                ),
-                              );
-                              if (state.list[index].handedOverTo?.firstName !=
-                                  null) {
-                                labels.add(
-                                  Label(
-                                    key:
-                                        state.labels?.locale.handedOverTo ??
-                                        state
-                                            .labels
-                                            ?.defaultLocale
-                                            .handedOverTo ??
-                                        Constants.handedOverTo,
-                                    value:
-                                        '${state.list[index].handedOverTo?.firstName ?? ''} ${state.list[index].handedOverTo?.lastName ?? ''}',
-                                  ),
-                                );
-                              }
-
-                              if (!state
-                                  .list[index]
-                                  .handedOverToCwrT2
-                                  .isEmptyOrNull) {
-                                labels.add(
-                                  Label(
-                                    key:
-                                        state.labels?.locale.handedOverTo ??
-                                        state
-                                            .labels
-                                            ?.defaultLocale
-                                            .handedOverTo ??
-                                        Constants.handedOverTo,
-                                    value:
-                                        '${state.list[index].handedOverToCwrT2 ?? ''} ${state.list[index].handedOverTo ?? ''}',
-                                  ),
-                                );
-                              }
-                            }
-                            return index >= state.list.length
-                                ? null
-                            : Container(
-                              decoration: const BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    // Color(0xFF6474C6),
-                                    // Color(0xFF6474C6),
-                                    Colors.transparent,
-                                    Colors.transparent,
-                                  ],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                ),
-                              ),
-                              margin: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 8,
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(18),
-                                child: BackdropFilter(
-                                  filter: ImageFilter.blur(
-                                    sigmaX: 18,
-                                    sigmaY: 18,
-                                  ),
-                                  child: Container(
-                                    decoration:
-                                    BoxDecoration(
-                                      gradient: LinearGradient(
-                                        colors: [
-                                          Colors.white.withValues(alpha: 0.09),
-                                          Colors.transparent,
-                                          Colors.white.withValues(alpha: 0.09),
-                                          // Color(0xFF6474C6).withOpacity(0.14)
-                                        ],
-                                        stops: [0.02, 0.35, 1],
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                      ),
-                                      borderRadius: BorderRadius.circular(27),
-                                      border: Border.all(
-                                        color: Colors.white
-                                            .withValues(alpha: 0.6),
-                                        width: 0.7,
-                                      ),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.white
-                                              .withValues(alpha: 0.0),
-                                          blurRadius: 12,
-                                          offset: const Offset(0, 2),
-                                        ),
-                                      ],
-                                    ),
-                                    // index >= state.list.length
-                                    //   ? null
-                                    child: BaseListTileItem(
-                                      id: state.list[index].id,
-                                      labels: labels,
-                                      status: state.list[index].status,
-                                      isEventProtectionStatus: false,
-                                      isKeyManagementIssuanceStatus: true,
-                                      onTap: (selectedIndex) {
-                                        showDialog(
-                                          context: context,
-                                          builder:
-                                              (BuildContext dialogContext) {
-                                                return BasePopUpItems(
-                                                  id: state
-                                                      .list[selectedIndex]
-                                                      .id
-                                                      .toString(),
-                                                  slNo: state
-                                                      .list[selectedIndex]
-                                                      .slNo,
-                                                  labels: labels,
-                                                  isMasterGuard: false,
-                                                  isEventProtectionStatus:
-                                                      false,
-                                                  isKeyManagementIssuanceStatus:
-                                                      true,
-                                                  status: state
-                                                      .list[selectedIndex]
-                                                      .status,
-                                                  employeeType: state
-                                                      .list[selectedIndex]
-                                                      .employeeType,
-                                                  dbSponsorCWRT2: state
-                                                      .list[selectedIndex]
-                                                      .dbSponsorCwrT2,
-                                                  department: state
-                                                      .list[selectedIndex]
-                                                      .department,
-                                                  returnedByName: state
-                                                      .list[selectedIndex]
-                                                      .returnedByName,
-                                                );
-                                              },
-                                        );
-                                      },
-                                      showEditButton:
-                                          state.list[index].status !=
-                                              ConstantsIntValue
-                                                  .issuanceClosedDamagedStatus &&
-                                          state.list[index].status !=
-                                              ConstantsIntValue
-                                                  .issuanceClosedLostStatus &&
-                                          state.list[index].status !=
-                                              ConstantsIntValue
-                                                  .issuanceClosedLostDamagedStatus &&
-                                          state.list[index].status !=
-                                              ConstantsIntValue
-                                                  .issuanceClosedDamagedStatus &&
-                                          state.list[index].status !=
-                                              ConstantsIntValue
-                                                  .issuanceClosedStatus &&
-                                          state.list[index].status !=
-                                              ConstantsIntValue.cancelledStatus,
-                                      onEditTap: (selectedIndex) {
-                                        getById(
-                                          state
-                                                  .extraProperties
-                                                  ?.hasWritePermission ??
-                                              false,
-                                          state.list[index].id ?? 0,
-                                        );
-                                      },
-                                      onViewTap: (selectedIndex) {
-                                        showDialog(
-                                          context: context,
-                                          builder:
-                                              (BuildContext dialogContext) {
-                                                return BasePopUpItems(
-                                                  id: state
-                                                      .list[selectedIndex]
-                                                      .id
-                                                      .toString(),
-                                                  slNo: state
-                                                      .list[selectedIndex]
-                                                      .slNo,
-                                                  labels: labels,
-                                                  status: state
-                                                      .list[selectedIndex]
-                                                      .status,
-                                                  employeeType: state
-                                                      .list[selectedIndex]
-                                                      .employeeType,
-                                                  dbSponsorCWRT2: state
-                                                      .list[selectedIndex]
-                                                      .dbSponsorCwrT2,
-                                                  department: state
-                                                      .list[selectedIndex]
-                                                      .department,
-                                                  returnedByName: state
-                                                      .list[selectedIndex]
-                                                      .returnedByName,
-                                                  isKeyManagementIssuanceStatus:
-                                                      true,
-                                                  isEventProtectionStatus:
-                                                      false,
-                                                  isMasterGuard: false,
-                                                );
-                                              },
-                                        );
-                                      },
-                                      index: index,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
+                  ),
+                  Positioned.fill(
+                    child: ClipRect(
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
+                        child: Container(
+                          color: Colors.black.withOpacity(0.2),
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+
+                  // 🔹 Search Bar - positioned safely at the top
+                  Positioned(
+                    top: MediaQuery.of(context).padding.top +
+                        kToolbarHeight +
+                        -40, // below AppBar
+                    left: 3,
+                    right: 3,
+                    child: BaseSearchWidget(
+                      applySearchFilters: applySearchFilters,
+                      applyFilters: applyFilters,
+                      commonFilters: state.commonFilters ??
+                          CommonFilters(
+                            statuses: [],
+                            regions: [],
+                          ),
+                    ),
+                  ),
+
+                  // 🔹 ListView - start immediately below search bar
+                  Positioned(
+                    top: MediaQuery.of(context).padding.top +
+                        kToolbarHeight +
+                        10,
+                    // search bar height ~64+padding
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    child: CustomMaterialIndicator(
+                      onRefresh: () => _onRefresh(),
+                      backgroundColor: Colors.white,
+                      indicatorBuilder: (context, controller) {
+                        return const Padding(
+                          padding: EdgeInsets.all(6.0),
+                          child: BaseLoader(),
+                        );
+                      },
+                      child: ListView.builder(
+                        controller: _scrollController,
+                        padding: EdgeInsets.zero,
+                        itemCount: state.hasReachedMax
+                            ? state.list.length
+                            : state.list.length + 1,
+                        itemBuilder: (context, index) {
+                          List<Label> labels = [];
+                          if (index < state.list.length) {
+                            labels.add(
+                              Label(
+                                key: state.labels?.locale.createdBy ??
+                                    state.labels?.defaultLocale.createdBy ??
+                                    Constants.createdby,
+                                value:
+                                    '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}',
+                              ),
+                            );
+                            labels.add(
+                              Label(
+                                key: state.labels?.locale.location ??
+                                    state.labels?.defaultLocale.location ??
+                                    Constants.location,
+                                value: state.list[index].location?.name ?? '',
+                              ),
+                            );
+                            labels.add(
+                              Label(
+                                key: state.labels?.locale.createdDate ??
+                                    state.labels?.defaultLocale.createdDate ??
+                                    Constants.createDate,
+                                value: state.list[index].createdDate != null
+                                    ? Utils.timestampToDateConversion(
+                                        int.parse(
+                                          state.list[index].createdDate ?? '0',
+                                        ),
+                                        Constants.twentyFourHourDateTimeFormat,
+                                      )
+                                    : '',
+                              ),
+                            );
+                            if (state.list[index].handedOverTo?.firstName !=
+                                null) {
+                              labels.add(
+                                Label(
+                                  key: state.labels?.locale.handedOverTo ??
+                                      state
+                                          .labels?.defaultLocale.handedOverTo ??
+                                      Constants.handedOverTo,
+                                  value:
+                                      '${state.list[index].handedOverTo?.firstName ?? ''} ${state.list[index].handedOverTo?.lastName ?? ''}',
+                                ),
+                              );
+                            }
+
+                            if (!state
+                                .list[index].handedOverToCwrT2.isEmptyOrNull) {
+                              labels.add(
+                                Label(
+                                  key: state.labels?.locale.handedOverTo ??
+                                      state
+                                          .labels?.defaultLocale.handedOverTo ??
+                                      Constants.handedOverTo,
+                                  value:
+                                      '${state.list[index].handedOverToCwrT2 ?? ''} ${state.list[index].handedOverTo ?? ''}',
+                                ),
+                              );
+                            }
+                          }
+                          return index >= state.list.length
+                              ? null
+                              : Container(
+                                  decoration: const BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        // Color(0xFF6474C6),
+                                        // Color(0xFF6474C6),
+                                        Colors.transparent,
+                                        Colors.transparent,
+                                      ],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
+                                  ),
+                                  margin: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                    vertical: 8,
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(18),
+                                    child: BackdropFilter(
+                                      filter: ImageFilter.blur(
+                                        sigmaX: 18,
+                                        sigmaY: 18,
+                                      ),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              Colors.white
+                                                  .withValues(alpha: 0.09),
+                                              Colors.transparent,
+                                              Colors.white
+                                                  .withValues(alpha: 0.09),
+                                              // Color(0xFF6474C6).withOpacity(0.14)
+                                            ],
+                                            stops: [0.02, 0.35, 1],
+                                            begin: Alignment.topCenter,
+                                            end: Alignment.bottomCenter,
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(27),
+                                          border: Border.all(
+                                            color: Colors.white
+                                                .withValues(alpha: 0.6),
+                                            width: 0.7,
+                                          ),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.white
+                                                  .withValues(alpha: 0.0),
+                                              blurRadius: 12,
+                                              offset: const Offset(0, 2),
+                                            ),
+                                          ],
+                                        ),
+                                        // index >= state.list.length
+                                        //   ? null
+                                        child: BaseListTileItem(
+                                          id: state.list[index].id,
+                                          labels: labels,
+                                          status: state.list[index].status,
+                                          isEventProtectionStatus: false,
+                                          isKeyManagementIssuanceStatus: true,
+                                          onTap: (selectedIndex) {
+                                            showDialog(
+                                              context: context,
+                                              builder:
+                                                  (BuildContext dialogContext) {
+                                                return BasePopUpItems(
+                                                  id: state
+                                                      .list[selectedIndex].id
+                                                      .toString(),
+                                                  slNo: state
+                                                      .list[selectedIndex].slNo,
+                                                  labels: labels,
+                                                  isMasterGuard: false,
+                                                  isEventProtectionStatus:
+                                                      false,
+                                                  isKeyManagementIssuanceStatus:
+                                                      true,
+                                                  status: state
+                                                      .list[selectedIndex]
+                                                      .status,
+                                                  employeeType: state
+                                                      .list[selectedIndex]
+                                                      .employeeType,
+                                                  dbSponsorCWRT2: state
+                                                      .list[selectedIndex]
+                                                      .dbSponsorCwrT2,
+                                                  department: state
+                                                      .list[selectedIndex]
+                                                      .department,
+                                                  returnedByName: state
+                                                      .list[selectedIndex]
+                                                      .returnedByName,
+                                                );
+                                              },
+                                            );
+                                          },
+                                          showEditButton: state
+                                                      .list[index].status !=
+                                                  ConstantsIntValue
+                                                      .issuanceClosedDamagedStatus &&
+                                              state.list[index].status !=
+                                                  ConstantsIntValue
+                                                      .issuanceClosedLostStatus &&
+                                              state.list[index].status !=
+                                                  ConstantsIntValue
+                                                      .issuanceClosedLostDamagedStatus &&
+                                              state.list[index].status !=
+                                                  ConstantsIntValue
+                                                      .issuanceClosedDamagedStatus &&
+                                              state.list[index].status !=
+                                                  ConstantsIntValue
+                                                      .issuanceClosedStatus &&
+                                              state.list[index].status !=
+                                                  ConstantsIntValue
+                                                      .cancelledStatus,
+                                          onEditTap: (selectedIndex) {
+                                            getById(
+                                              state.extraProperties
+                                                      ?.hasWritePermission ??
+                                                  false,
+                                              state.list[index].id ?? 0,
+                                            );
+                                          },
+                                          onViewTap: (selectedIndex) {
+                                            showDialog(
+                                              context: context,
+                                              builder:
+                                                  (BuildContext dialogContext) {
+                                                return BasePopUpItems(
+                                                  id: state
+                                                      .list[selectedIndex].id
+                                                      .toString(),
+                                                  slNo: state
+                                                      .list[selectedIndex].slNo,
+                                                  labels: labels,
+                                                  status: state
+                                                      .list[selectedIndex]
+                                                      .status,
+                                                  employeeType: state
+                                                      .list[selectedIndex]
+                                                      .employeeType,
+                                                  dbSponsorCWRT2: state
+                                                      .list[selectedIndex]
+                                                      .dbSponsorCwrT2,
+                                                  department: state
+                                                      .list[selectedIndex]
+                                                      .department,
+                                                  returnedByName: state
+                                                      .list[selectedIndex]
+                                                      .returnedByName,
+                                                  isKeyManagementIssuanceStatus:
+                                                      true,
+                                                  isEventProtectionStatus:
+                                                      false,
+                                                  isMasterGuard: false,
+                                                );
+                                              },
+                                            );
+                                          },
+                                          index: index,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               );
             },
           ),

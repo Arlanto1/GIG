@@ -32,10 +32,16 @@ const materialMovementDrawerItems = [
 
 const materialMovementDrawerItemsWithReturnable = [
   MenuItem(
-    Constants.materialMovementInward,
+    Constants.materialMovementInwardReturnable,
     AppIcon.materialMovementInwardIcon,
     0,
   ),
+  MenuItem(
+    Constants.materialMovementInwardNonReturnable,
+    AppIcon.materialMovementInwardIcon,
+    0,
+  ),
+
   MenuItem(
     Constants.materialMovementOutwardReturnable,
     AppIcon.materialMovementOutwardIcon,
@@ -108,4 +114,24 @@ const sCRIItems = [
 
 const ticketingSystem = [
   MenuItem(Constants.tickets, AppIcon.incidentIcon, 0),
+];
+
+
+const eventProtectionDrawerItems = [
+  MenuItem(
+    Constants.eventProtectionList,
+    AppIcon.eventProtectionIcon,
+    0,
+  ),
+  MenuItem(
+    Constants.cSREventList,
+    AppIcon.eventProtectionIcon,
+    0,
+  ),
+
+  MenuItem(
+    Constants.sportEventList,
+    AppIcon.eventProtectionIcon,
+    0,
+  ),
 ];

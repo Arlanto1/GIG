@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
 
@@ -80,7 +82,9 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
     final height = size.height;
     //_loadMore();
     return Scaffold(
-      backgroundColor: AppColors.newColor,
+      backgroundColor: Colors.transparent,
+      extendBody: true,
+      // extendBodyBehindAppBar: true,
       bottomNavigationBar: CustomBottomNavigationBar(
         hasAddPermission: false,
         scaffoldKey: scaffoldKey,
@@ -88,18 +92,17 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
         // displayMenu: state.displayMenu,
         list: true,
         // 🔥 only "+" button mode
-        onAddPressed: () {
-        },
+        onAddPressed: () {},
       ),
       appBar: BaseAppBar().buildAppHeader(
         context: context,
-        title:  widget.passId == '0'
-      ? 'Day Pass Info List'
-          : widget.passId == '1'
-      ? 'Visitor Pass Info List'
-          : widget.passId == '2'
-      ? 'Vendor Pass Info List'
-          : 'SEZ Pass Info List',
+        title: widget.passId == '0'
+            ? 'Day Pass Info List'
+            : widget.passId == '1'
+                ? 'Visitor Pass Info List'
+                : widget.passId == '2'
+                    ? 'Vendor Pass Info List'
+                    : 'SEZ Pass Info List',
         showPopUp: true,
         showSaveButton: false,
         showSubmitButton: false,
@@ -170,9 +173,26 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
 
   Widget listWidgetLoading(double height, DayPassInfoState state,
       ScrollController? scrollController, List<PassInfo>? foundList) {
-    return Container(
-        color: AppColors.newColor3,
-        child: SingleChildScrollView(
+    return Stack(
+      children: [
+        // 🔹 Background Image
+        Positioned.fill(
+          child: Image.asset(
+            'assets/images/bg2.png',
+            fit: BoxFit.cover,
+          ),
+        ),
+
+        // 🔹 Blur Layer
+        Positioned.fill(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 200, sigmaY: 200),
+            child: Container(
+              color: Colors.black.withValues(alpha: 0.08), // optional tint
+            ),
+          ),
+        ),
+        SingleChildScrollView(
           controller: scrollController,
           child: Column(children: [
             // Container(
@@ -198,13 +218,15 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
               ),
             ),
           ]),
-        ));
+        )
+      ],
+    );
   }
 
   // Search Widget
   Widget searchWidget() {
     return Container(
-      padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 2),
+      padding: const EdgeInsets.only(left: 10, right: 10, top: 10, ),
       child: SearchWidget(
         controller: _searchCtrl,
         hintText: Constants.searchHintText,
@@ -235,18 +257,18 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
   Widget _userFoundListWidget(List<PassInfo>? userList, BuildContext cont,
       ScrollController? scrollController) {
     return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            // Color(0xFF6474C6),
-            // Color(0xFF6474C6),
-            Colors.transparent,
-            Colors.transparent,
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-      ),
+      // decoration: const BoxDecoration(
+      //   // gradient: LinearGradient(
+      //   //   colors: [
+      //   //     // Color(0xFF6474C6),
+      //   //     // Color(0xFF6474C6),
+      //   //     Colors.transparent,
+      //   //     Colors.transparent,
+      //   //   ],
+      //   //   begin: Alignment.topLeft,
+      //   //   end: Alignment.bottomRight,
+      //   // ),
+      // ),
       // width: double.infinity,
       // height: double.infinity,
       // color: const Color(0xFF6474C6),

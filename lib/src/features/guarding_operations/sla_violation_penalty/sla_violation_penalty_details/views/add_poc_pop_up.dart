@@ -100,9 +100,9 @@ class AddPOCPopUpState extends State<AddPOCPopUp> {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    AppColors.newColor3.withValues(alpha: 2),
-                    AppColors.newColor,
-                    AppColors.newColor3.withValues(alpha: 2),
+                    AppColors.newColor3.withValues(alpha: 0.6),
+                    AppColors.newColor3.withValues(alpha: 0.5),
+                    AppColors.newColor3.withValues(alpha: 0.6),
                     // Color(0xFF6474C6).withOpacity(0.14)
                   ],
                   stops: [0.02, 0.35, 1],
@@ -116,8 +116,8 @@ class AddPOCPopUpState extends State<AddPOCPopUp> {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.white.withValues(alpha: 0.0),
-                    blurRadius: 12,
+                    color: AppColors.newColor.withValues(alpha: 0.1),
+                    blurRadius: 62,
                     offset: const Offset(0, 2),
                   ),
                 ],

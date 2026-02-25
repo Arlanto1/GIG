@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/base_widget/opacity_absorb_widget.dart';
@@ -39,146 +40,287 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
     BlocProvider.of<AttendanceShiftsCubit>(context).initializeValues();
   }
 
+  // @override
+  // Widget build(BuildContext context) {
+  //   final size = MediaQuery.of(context).size;
+  //   final height = size.height;
+  //   log('----build----');
+  //
+  //   return BlocConsumer<AttendanceShiftsCubit, AttendanceShiftsState>(
+  //     listener: (context, state) {
+  //       log('----state.status--${state.status}--');
+  //       Utils().formError(state, context);
+  //       Utils().errorAndLogout(state, context);
+  //
+  //       if (state.status == FormStatus.success) {
+  //         var dialog = CustomAlertDialog(
+  //           title: 'Attendance',
+  //           message: state.message ?? '',
+  //           positiveBtnText: Constants.ok,
+  //           onPositivePressed: () {
+  //             // TODO: Need to improve this code
+  //             Navigator.pop(context);
+  //             Navigator.pop(context);
+  //             Navigator.pop(context);
+  //             Navigator.popAndPushNamed(
+  //               context,
+  //               attendanceListRoute,
+  //             );
+  //           },
+  //         );
+  //
+  //         showDialog(
+  //           context: context,
+  //           barrierDismissible: false,
+  //           builder: (BuildContext context) => dialog,
+  //         );
+  //       }
+  //     },
+  //     builder: (context, state) {
+  //       log('----builder----');
+  //
+  //       if (!state.model.lock.isEmptyOrNull) {
+  //         isReadOnly = true;
+  //       }
+  //
+  //       log('11111${state.model.attdStatus}');
+  //       if (state.model.attdStatus != 1) {
+  //         isReadOnly = true;
+  //       }
+  //       if (widget.isEligibleToEdit == false) {
+  //         isReadOnly = true;
+  //       }
+  //       // if (widget.isEligibleToEdit == false) {
+  //       //   isReadOnly = true;
+  //       // }
+  //
+  //       if (state.model.attdStatus == 1 && widget.isEligibleToEdit == true) {
+  //         isReadOnly = false;
+  //       }
+  //       // isReadOnly = false; // TODO: remove this
+  //
+  //       return Scaffold(
+  //         backgroundColor: Colors.transparent,
+  //         extendBody: true,
+  //         // extendBodyBehindAppBar: true,
+  //         appBar: BaseAppBar().buildAppHeader(
+  //             context: context,
+  //             title: widget.selectedDutyPostModel.name ?? '',
+  //             showPopUp: false,
+  //             showSaveButton: false,
+  //             showSubmitButton: state.model.activeShift == true &&
+  //                     state.status != FormStatus.loading
+  //                 ? true
+  //                 : false,
+  //             showDisLikeButton: false,
+  //             showLikeButton: false,
+  //             // onTapSave: () => BlocProvider.of<AttendanceShiftsCubit>(context)
+  //             //     .submitAndRefreshScreen(),
+  //             // onTapSubmit: () => submitDutyPost(context, isSaveOnly: false),
+  //
+  //             popAndReplace: () {
+  //               int flag = AttendanceDetailsView.flag;
+  //
+  //               // log('flagValueinShiftsView----${flag}');
+  //               if (flag == 1) {
+  //                 Navigator.pop(context);
+  //               } else {
+  //                 Navigator.pop(context);
+  //                 Navigator.pop(context);
+  //                 Navigator.pop(context);
+  //               }
+  //             },
+  //
+  //             /// On Click on Submit it will show the confirmation dialogue box
+  //             onTapSubmit: () {
+  //               showDialog(
+  //                 context: context,
+  //                 builder: (BuildContext context) {
+  //                   return AlertDialog(
+  //                     title: const Text(Constants.attendanceMessage),
+  //                     content:
+  //                         const Text(Constants.attendanceSubmissionMessage),
+  //                     actions: <Widget>[
+  //                       TextButton(
+  //                         child: const Text(Constants.cancel),
+  //                         onPressed: () {
+  //                           Navigator.of(context).pop();
+  //                         },
+  //                       ),
+  //
+  //                       /// on click ok, it will submit the record
+  //                       TextButton(
+  //                         child: const Text(Constants.ok),
+  //                         onPressed: () {
+  //                           FocusScope.of(context).unfocus();
+  //                           // Close the dialog
+  //                           Navigator.of(context).pop();
+  //                           // Submit and refresh data
+  //                           BlocProvider.of<AttendanceShiftsCubit>(this.context)
+  //                               .submitAndRefreshScreen(
+  //                                   isSubmit: true,
+  //                                   isSaveOnly: false,
+  //                                   isRemove: false);
+  //                         },
+  //                       ),
+  //                     ],
+  //                   );
+  //                 },
+  //               );
+  //             }),
+  //         body: Padding(
+  //           padding: const EdgeInsets.all(20),
+  //           child: SingleChildScrollView(
+  //             child: getBody(
+  //               state,
+  //               height,
+  //               state.model,
+  //             ),
+  //           ),
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final height = size.height;
-    log('----build----');
 
     return BlocConsumer<AttendanceShiftsCubit, AttendanceShiftsState>(
       listener: (context, state) {
-        log('----state.status--${state.status}--');
         Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
 
         if (state.status == FormStatus.success) {
-          var dialog = CustomAlertDialog(
-            title: 'Attendance',
-            message: state.message ?? '',
-            positiveBtnText: Constants.ok,
-            onPositivePressed: () {
-              // TODO: Need to improve this code
-              Navigator.pop(context);
-              Navigator.pop(context);
-              Navigator.pop(context);
-              Navigator.popAndPushNamed(
-                context,
-                attendanceListRoute,
-              );
-            },
-          );
-
           showDialog(
             context: context,
             barrierDismissible: false,
-            builder: (BuildContext context) => dialog,
+            builder: (_) => CustomAlertDialog(
+              title: 'Attendance',
+              message: state.message ?? '',
+              positiveBtnText: Constants.ok,
+              onPositivePressed: () {
+                Navigator.pop(context);
+                Navigator.pop(context);
+                Navigator.pop(context);
+                Navigator.popAndPushNamed(
+                  context,
+                  attendanceListRoute,
+                );
+              },
+            ),
           );
         }
       },
       builder: (context, state) {
-        log('----builder----');
-
-        if (!state.model.lock.isEmptyOrNull) {
-          isReadOnly = true;
-        }
-
-        log('11111${state.model.attdStatus}');
-        if (state.model.attdStatus != 1) {
-          isReadOnly = true;
-        }
-        if (widget.isEligibleToEdit == false) {
-          isReadOnly = true;
-        }
-        // if (widget.isEligibleToEdit == false) {
-        //   isReadOnly = true;
-        // }
-
-        if (state.model.attdStatus == 1 && widget.isEligibleToEdit == true) {
+        if (!state.model.lock.isEmptyOrNull) isReadOnly = true;
+        if (state.model.attdStatus != 1) isReadOnly = true;
+        if (!widget.isEligibleToEdit) isReadOnly = true;
+        if (state.model.attdStatus == 1 && widget.isEligibleToEdit) {
           isReadOnly = false;
         }
-        // isReadOnly = false; // TODO: remove this
 
         return Scaffold(
-          backgroundColor: AppColors.newColor3,
+          backgroundColor: Colors.transparent,
+          extendBodyBehindAppBar: true, // ✅ important
           appBar: BaseAppBar().buildAppHeader(
-              context: context,
-              title: widget.selectedDutyPostModel.name ?? '',
-              showPopUp: false,
-              showSaveButton: false,
-              showSubmitButton: state.model.activeShift == true &&
-                      state.status != FormStatus.loading
-                  ? true
-                  : false,
-              showDisLikeButton: false,
-              showLikeButton: false,
-              // onTapSave: () => BlocProvider.of<AttendanceShiftsCubit>(context)
-              //     .submitAndRefreshScreen(),
-              // onTapSubmit: () => submitDutyPost(context, isSaveOnly: false),
+            context: context,
+            title: widget.selectedDutyPostModel.name ?? '',
+            showPopUp: false,
+            showSaveButton: false,
+            showSubmitButton:
+            state.model.activeShift && state.status != FormStatus.loading,
+            showDisLikeButton: false,
+            showLikeButton: false,
+            popAndReplace: () {
+              int flag = AttendanceDetailsView.flag;
+              if (flag == 1) {
+                Navigator.pop(context);
+              } else {
+                Navigator.pop(context);
+                Navigator.pop(context);
+                Navigator.pop(context);
+              }
+            },
+            onTapSubmit: () {
+              showDialog(
+                context: context,
+                builder: (_) => AlertDialog(
+                  title: const Text(Constants.attendanceMessage),
+                  content:
+                  const Text(Constants.attendanceSubmissionMessage),
+                  actions: [
+                    TextButton(
+                      child: const Text(Constants.cancel),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                    TextButton(
+                      child: const Text(Constants.ok),
+                      onPressed: () {
+                        FocusScope.of(context).unfocus();
+                        Navigator.pop(context);
+                        BlocProvider.of<AttendanceShiftsCubit>(context)
+                            .submitAndRefreshScreen(
+                            isSubmit: true,
+                            isSaveOnly: false,
+                            isRemove: false);
+                      },
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
 
-              popAndReplace: () {
-                int flag = AttendanceDetailsView.flag;
-
-                // log('flagValueinShiftsView----${flag}');
-                if (flag == 1) {
-                  Navigator.pop(context);
-                } else {
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                }
-              },
-
-              /// On Click on Submit it will show the confirmation dialogue box
-              onTapSubmit: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: const Text(Constants.attendanceMessage),
-                      content:
-                          const Text(Constants.attendanceSubmissionMessage),
-                      actions: <Widget>[
-                        TextButton(
-                          child: const Text(Constants.cancel),
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                        ),
-
-                        /// on click ok, it will submit the record
-                        TextButton(
-                          child: const Text(Constants.ok),
-                          onPressed: () {
-                            FocusScope.of(context).unfocus();
-                            // Close the dialog
-                            Navigator.of(context).pop();
-                            // Submit and refresh data
-                            BlocProvider.of<AttendanceShiftsCubit>(this.context)
-                                .submitAndRefreshScreen(
-                                    isSubmit: true,
-                                    isSaveOnly: false,
-                                    isRemove: false);
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                );
-              }),
-          body: Padding(
-            padding: const EdgeInsets.all(20),
-            child: SingleChildScrollView(
-              child: getBody(
-                state,
-                height,
-                state.model,
+          // ================= BODY WITH BACKGROUND =================
+          body: Stack(
+            children: [
+              // 🔹 BACKGROUND IMAGE
+              Positioned.fill(
+                child: Image.asset(
+                  'assets/images/bg2.png',
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
+
+              // 🔹 OPTIONAL BLUR (enable if needed)
+              Positioned.fill(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+                  child: Container(
+                    color: Colors.black.withValues(alpha: 0.15),
+                  ),
+                ),
+              ),
+
+              // 🔹 PAGE CONTENT
+              MediaQuery.removePadding(
+                context: context,
+                removeTop: true,
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: kToolbarHeight +
+                              MediaQuery.of(context).padding.top,
+                        ),
+                        getBody(state, height, state.model),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         );
       },
     );
   }
+
 
   void submitDutyPost(BuildContext context,
       {required bool isSaveOnly,
@@ -198,9 +340,9 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
     double height,
     ShiftModel model,
   ) {
-    if (state.status == FormStatus.loading) {
-      return const BaseLoader();
-    }
+    // if (state.status == FormStatus.loading) {
+    //   return const BaseLoader();
+    // }
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -636,6 +778,15 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
       },
       child: IntrinsicHeight(
         child: Card(
+          elevation: 0, // ✅ remove shadow
+          color: Colors.transparent, // ✅ transparent background
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+            side: const BorderSide(
+              color: Colors.white, // ✅ white border
+              width: 0.5,
+            ),
+          ),
           child: Padding(
             padding: const EdgeInsets.all(5.0),
             child: Column(
@@ -807,7 +958,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
       Container(
         // margin: const EdgeInsets.all(0),
         decoration: BoxDecoration(
-          color: AppColors.white,
+          color: AppColors.newColor,
           borderRadius: BorderRadius.circular(6),
           border: Border.all(color: Colors.grey.shade300),
         ),
@@ -861,7 +1012,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
           child: Container(
             // margin: const EdgeInsets.only(bottom: 1),
             decoration: BoxDecoration(
-              color: AppColors.newColor3,
+              color: Colors.transparent,
               borderRadius: BorderRadius.circular(6),
               border: Border.all(color: Colors.grey.shade300),
             ),
@@ -945,7 +1096,7 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
         style: const TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 8,
-          color: Colors.black,
+          color: Colors.white,
         ),
       ),
     );
@@ -1010,9 +1161,33 @@ class AttendanceShiftsViewState extends State<AttendanceShiftsView> {
       columnWidth = width / 2.67;
     }
     return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        color: AppColors.disableTextFieldBackground,
+      decoration:
+      BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Colors.white.withValues(alpha: 0.09),
+            Colors.transparent,
+            Colors.white.withValues(alpha: 0.09),
+            // Color(0xFF6474C6).withOpacity(0.14)
+          ],
+          stops: [0.02, 0.35, 1],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+        borderRadius: BorderRadius.circular(27),
+        border: Border.all(
+          color: Colors.white
+              .withValues(alpha: 1),
+          width: 0.7,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.white
+                .withValues(alpha: 0.0),
+            blurRadius: 12,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       height: MediaQuery.of(context).size.height / 3.3,
       width: columnWidth,

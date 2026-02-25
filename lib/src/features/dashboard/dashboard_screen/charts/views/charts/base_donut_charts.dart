@@ -1328,15 +1328,19 @@ class _BaseDonutChartState extends State<BaseDonutChart>
       child: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height/2.2,
-        // height: ,
-        margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 8),
+        // height: 200,
+        // margin: const EdgeInsets.symmetric(vertical: 100, horizontal: 8),
+        margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 10),
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           gradient:  const LinearGradient(
             colors: [
-              AppColors.white,
-              AppColors.white,
-              AppColors.white,
+              // AppColors.white,
+              // AppColors.white,
+              // AppColors.white,
+              Colors.transparent,
+              Colors.transparent,
+              Colors.transparent
             ],
             stops: [0.02, 0.35, 1],
             begin: Alignment.topCenter,
@@ -1344,12 +1348,12 @@ class _BaseDonutChartState extends State<BaseDonutChart>
           ),
           borderRadius: BorderRadius.circular(27),
           border: Border.all(
-            color: Colors.black.withValues(alpha: 0.80),
+            color: Colors.white.withValues(alpha: 0.80),
             width: 0.8,
           ),
           // boxShadow: [
           //   BoxShadow(
-          //     color: const Color(0xFF6474C6).withValues(alpha: 0.09),
+          //     color:  Colors.black.withValues(alpha: 0.1),
           //     blurRadius: 12,
           //     offset: const Offset(0, 2),
           //   ),
@@ -1369,7 +1373,7 @@ class _BaseDonutChartState extends State<BaseDonutChart>
                       widget.chartTitle,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: Colors.white,
                         fontSize: 19,
                       ),
                     ),
@@ -1413,7 +1417,7 @@ class _BaseDonutChartState extends State<BaseDonutChart>
               child: const Center(
                 child: Text(
                   'No Data Found',
-                  style: TextStyle(color: Colors.black, fontSize: 14),
+                  style: TextStyle(color: Colors.white, fontSize: 14),
                 ),
               ),
             )
@@ -1457,19 +1461,19 @@ class _BaseDonutChartState extends State<BaseDonutChart>
                 // child: Image.asset('assets/your_blurred_background.jpg', fit: BoxFit.cover),
                 // ),
                 // 2. Circular blur overlay, matching the pie's size and position
-                Center(
-                  child: ClipOval(
-                    child: BackdropFilter(
-                      filter: ui.ImageFilter.blur(sigmaX: 14, sigmaY: 14),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.6,
-                        height: MediaQuery.of(context).size.height * 0.278,
-                        color:
-                        Colors.white.withOpacity(0.30), // Slight tint
-                      ),
-                    ),
-                  ),
-                ),
+                // Center(
+                //   child: ClipOval(
+                //     child: BackdropFilter(
+                //       filter: ui.ImageFilter.blur(sigmaX: 14, sigmaY: 14),
+                //       child: Container(
+                //         width: MediaQuery.of(context).size.width * 0.6,
+                //         height: MediaQuery.of(context).size.height * 0.278,
+                //         color:
+                //         Colors.white.withOpacity(0.30), // Slight tint
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 // 3. The actual PieChart, with translucent colors
                 SfCircularChart(
                   backgroundColor: Colors.transparent,
@@ -1500,7 +1504,7 @@ class _BaseDonutChartState extends State<BaseDonutChart>
 
                       dataLabelSettings: const DataLabelSettings(
                         isVisible: true,
-                        textStyle: TextStyle(color: Colors.black),
+                        textStyle: TextStyle(color: Colors.white),
                       ),
                     )
                   ],

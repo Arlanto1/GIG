@@ -12,6 +12,9 @@ class MaterialMovementState extends Equatable {
   final ExtraProperties? extraProperties;
   final MaterialMovementModel? model;
   final DisplayMenu? displayMenu;
+  final ApprovalModel? approvalModel;
+  final int? selectedId;
+  // final int? objectId;
 
   const MaterialMovementState({
     this.items = const <MaterialMovementModel>[],
@@ -25,6 +28,9 @@ class MaterialMovementState extends Equatable {
     this.extraProperties,
     this.model,
     this.displayMenu,
+    this.approvalModel,
+    this.selectedId,
+    // this.objectId,
   });
 
   MaterialMovementState copyWith({
@@ -39,6 +45,9 @@ class MaterialMovementState extends Equatable {
     User? loggedInUser,
     MmUiLabels? labels,
     ExtraProperties? extraProperties,
+    ApprovalModel? approvalModel,
+    int? selectedId,
+    // int? objectId,
   }) {
     return MaterialMovementState(
       items: items ?? this.items,
@@ -50,6 +59,9 @@ class MaterialMovementState extends Equatable {
       loggedInUser: loggedInUser ?? this.loggedInUser,
       labels: labels ?? this.labels,
       extraProperties: extraProperties ?? this.extraProperties,
+        approvalModel:approvalModel??this.approvalModel,
+        selectedId:selectedId??this.selectedId,
+        // objectId:objectId??this.objectId,
     );
   }
 

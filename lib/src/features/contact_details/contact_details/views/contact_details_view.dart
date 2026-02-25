@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:db_atom/index.dart';
 
@@ -143,7 +144,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
               ).submitForm(isSaveOnly: false, navigateToNextScreen: false);
             },
           ),
-          backgroundColor: AppColors.newColor,
+          backgroundColor: Colors.transparent,
           body: getBodybuilder(state, height),
         );
       },
@@ -158,547 +159,561 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
     }
-    return Container(
-      color: AppColors.newColor3,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(height: height * 0.01, color: AppColors.newColor3),
-            Container(
-              decoration: ShapeDecoration(
-                color: AppColors.newColor3,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(20.0),
-                  ),
-                ),
-              ),
-              // child: AbsorbPointer(
-              //   absorbing: isReadOnly,
-              child: Form(
-                key: _formKey,
-                autovalidateMode: isReadOnly
-                    ? AutovalidateMode.disabled
-                    : AutovalidateMode.onUserInteraction,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0, right: 20),
-                      child: Column(
-                        children: [
-                          if (!state.model.lock.isEmptyOrNull) ...[
-                            RecordLockedWidget(text: '${state.model.lock}'),
-                          ],
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              Constants.generalinformation,
-                              style: Styles.styleHeaderWhiteText16,
+    return Stack(
+      children: [
+        // 🔹 Background Image
+        Positioned.fill(
+          child: Image.asset(
+            'assets/images/bg2.png',
+            fit: BoxFit.cover,
+          ),
+        ),
+
+        // 🔹 Blur Layer
+        Positioned.fill(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 200, sigmaY: 200),
+            child: Container(
+              color: Colors.black.withValues(alpha: 0.08), // optional tint
+            ),
+          ),
+        ),
+
+        // color: AppColors.newColor3,
+        // color: AppColors.navigationSkyBlueColor,
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                color: Colors.transparent,
+                child: Form(
+                  key: _formKey,
+                  autovalidateMode: isReadOnly
+                      ? AutovalidateMode.disabled
+                      : AutovalidateMode.onUserInteraction,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0, right: 20),
+                        child: Column(
+                          children: [
+                            if (!state.model.lock.isEmptyOrNull) ...[
+                              RecordLockedWidget(text: '${state.model.lock}'),
+                            ],
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                Constants.generalinformation,
+                                style: Styles.styleHeaderWhiteText16,
+                              ),
                             ),
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          /// Created By
-                          CommonWidgets.horizentaltextHandling(
-                            state.labels?.locale.entrySecurity ??
-                                state.labels?.defaultLocale.entrySecurity ??
-                                Constants.createdby,
-                            isMandatory: true,
-                            '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}',
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          /// Status
-                          CommonWidgets.textDisplay(
-                            state.labels?.locale.status ??
-                                state.labels?.defaultLocale.status ??
-                                Constants.status,
-                            Styles.textStyleWhite14,
-                            isMandatory: true,
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          FlutterInputField(
-                            isEnable: false,
-                            isDisableColor: true,
-                            textFormKey: Keys.statusTextController,
-                            hintText: '',
-                            initialValue: getStatusString(
-                              state.model.status ?? 0,
+                            /// Created By
+                            CommonWidgets.horizentaltextHandling(
+                              state.labels?.locale.entrySecurity ??
+                                  state.labels?.defaultLocale.entrySecurity ??
+                                  Constants.createdby,
+                              isMandatory: true,
+                              '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}',
                             ),
-                            onChange: (String value) {},
-                            validateTextField: (String? user) {},
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          /// Date of creation
-                          CommonWidgets.textDisplay(
-                            state.labels?.locale.date ??
-                                state.labels?.defaultLocale.date ??
-                                Constants.dateofcreation,
-                            Styles.textStyleWhite14,
-                            isMandatory: true,
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          dateCreateWidgetDisplay(state.model.inputDate ?? ''),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          /// Location
-                          CommonWidgets.textDisplay(
-                            state.labels?.locale.location ??
-                                state.labels?.defaultLocale.location ??
-                                Constants.location,
-                            Styles.textStyleWhite14,
-                            isMandatory: true,
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          BaseLocationDropdown().locationWidgetDisplay(
-                            isEnabled: false,
-                            context: context,
-                            locations: state.locations ?? Locations(),
-                            selectedLocationName:
-                                state.model.location?.name ?? '',
-                            onTap: (Organisation? location) {
-                              BlocProvider.of<ContactDetailsCubit>(
-                                context,
-                              ).updateDropdownValues(location: location);
-                            },
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          /// Sl No.
-                          CommonWidgets.horizentaltextHandling(
-                            state.labels?.locale.slNo ??
-                                state.labels?.defaultLocale.slNo ??
-                                Constants.slno,
-                            state.model.slNo ?? '',
-                            isMandatory: true,
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                          if (state.model.status != null) ...[
-                            /// Modified Date
+                            /// Status
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.date ??
-                              //     state.labels?.defaultLocale.date ??
-                              Constants.modifiedOn,
+                              state.labels?.locale.status ??
+                                  state.labels?.defaultLocale.status ??
+                                  Constants.status,
+                              Styles.textStyleWhite14,
+                              isMandatory: true,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            FlutterInputField(
+                              isEnable: false,
+                              isDisableColor: true,
+                              textFormKey: Keys.statusTextController,
+                              hintText: '',
+                              initialValue: getStatusString(
+                                state.model.status ?? 0,
+                              ),
+                              onChange: (String value) {},
+                              validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Date of creation
+                            CommonWidgets.textDisplay(
+                              state.labels?.locale.date ??
+                                  state.labels?.defaultLocale.date ??
+                                  Constants.dateofcreation,
                               Styles.textStyleWhite14,
                               isMandatory: true,
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             dateCreateWidgetDisplay(
-                              state.model.modifiedDate ?? '',
-                            ),
+                                state.model.inputDate ?? ''),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Modified By
-                            CommonWidgets.horizentaltextHandling(
-                              // state.labels?.locale.entrySecurity ??
-                              //     state.labels?.defaultLocale.entrySecurity ??
-                              Constants.modifiedBy,
+                            /// Location
+                            CommonWidgets.textDisplay(
+                              state.labels?.locale.location ??
+                                  state.labels?.defaultLocale.location ??
+                                  Constants.location,
+                              Styles.textStyleWhite14,
                               isMandatory: true,
-                              '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}',
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            BaseLocationDropdown().locationWidgetDisplay(
+                              isEnabled: false,
+                              context: context,
+                              locations: state.locations ?? Locations(),
+                              selectedLocationName:
+                                  state.model.location?.name ?? '',
+                              onTap: (Organisation? location) {
+                                BlocProvider.of<ContactDetailsCubit>(
+                                  context,
+                                ).updateDropdownValues(location: location);
+                              },
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          ],
 
-                          /// General Contact
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              state.labels?.locale.generalContact ??
-                                  state.labels?.defaultLocale.generalContact ??
-                                  Constants.generalContact,
-                              style: Styles.styleHeaderWhiteText16,
+                            /// Sl No.
+                            CommonWidgets.horizentaltextHandling(
+                              state.labels?.locale.slNo ??
+                                  state.labels?.defaultLocale.slNo ??
+                                  Constants.slno,
+                              state.model.slNo ?? '',
+                              isMandatory: true,
                             ),
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          GestureDetector(
-                            onTap: () async {
-                              NavigatorState nav = Navigator.of(context);
-                              // bool isSaveSuccess =
-                              //     await BlocProvider.of<ContactDetailsCubit>(
-                              //             context)
-                              //         .submitForm(
-                              //   isSaveOnly: true,
-                              //   navigateToNextScreen: true,
-                              // );
-                              //
-                              // if (!isSaveSuccess) {
-                              //   return;
-                              // }
-                              log('--state.model.id---${state.model.id}--');
-                              List<Organisation> ranks = await CommonServices()
-                                  .getOrganisations(
-                                    name: Constants.contactGeneralRank,
-                                  );
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                              nav.pushNamed(
-                                contactRecordsRoute,
-                                arguments: {
-                                  ConstantsArgument.title:
-                                      Constants.generalContact,
-                                  ConstantsArgument.keyLostType: 0,
-                                  ConstantsArgument.id: state.model.id,
-                                  ConstantsArgument.rankType:
-                                      Constants.contactGeneralRank,
-                                  ConstantsArgument.ranks: ranks,
-                                  ConstantsArgument.parentStatus:
-                                      state.model.status,
-                                  ConstantsArgument.isLocked: state.model.lock,
-                                },
-                              );
-                            },
-                            child: const Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                // SvgPicture.asset(
-                                //   AppIcon.pluscircle,
-                                //   colorFilter: const ColorFilter.mode(
-                                //     AppColors.navigationSkyBlueColor,
-                                //     BlendMode.srcIn,
-                                //   ),
-                                //   // color: AppColors.navigationSkyBlueColor,
-                                // ),
-                                SizedBox(width: 10),
-                                Text(
-                                  'View Contact(s)',
-                                  style: TextStyle(
-                                    color: AppColors.white,
-                                    decoration: TextDecoration.underline,
-                                    decorationColor: AppColors.white,
+                            if (state.model.status != null) ...[
+                              /// Modified Date
+                              CommonWidgets.textDisplay(
+                                // state.labels?.locale.date ??
+                                //     state.labels?.defaultLocale.date ??
+                                Constants.modifiedOn,
+                                Styles.textStyleWhite14,
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              dateCreateWidgetDisplay(
+                                state.model.modifiedDate ?? '',
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              /// Modified By
+                              CommonWidgets.horizentaltextHandling(
+                                // state.labels?.locale.entrySecurity ??
+                                //     state.labels?.defaultLocale.entrySecurity ??
+                                Constants.modifiedBy,
+                                isMandatory: true,
+                                '${state.loggedInUserDetails?.firstName ?? ''} ${state.loggedInUserDetails?.lastName ?? ''}',
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            ],
+
+                            /// General Contact
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                state.labels?.locale.generalContact ??
+                                    state
+                                        .labels?.defaultLocale.generalContact ??
+                                    Constants.generalContact,
+                                style: Styles.styleHeaderWhiteText16,
+                              ),
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            GestureDetector(
+                              onTap: () async {
+                                NavigatorState nav = Navigator.of(context);
+                                // bool isSaveSuccess =
+                                //     await BlocProvider.of<ContactDetailsCubit>(
+                                //             context)
+                                //         .submitForm(
+                                //   isSaveOnly: true,
+                                //   navigateToNextScreen: true,
+                                // );
+                                //
+                                // if (!isSaveSuccess) {
+                                //   return;
+                                // }
+                                log('--state.model.id---${state.model.id}--');
+                                List<Organisation> ranks =
+                                    await CommonServices().getOrganisations(
+                                  name: Constants.contactGeneralRank,
+                                );
+
+                                nav.pushNamed(
+                                  contactRecordsRoute,
+                                  arguments: {
+                                    ConstantsArgument.title:
+                                        Constants.generalContact,
+                                    ConstantsArgument.keyLostType: 0,
+                                    ConstantsArgument.id: state.model.id,
+                                    ConstantsArgument.rankType:
+                                        Constants.contactGeneralRank,
+                                    ConstantsArgument.ranks: ranks,
+                                    ConstantsArgument.parentStatus:
+                                        state.model.status,
+                                    ConstantsArgument.isLocked:
+                                        state.model.lock,
+                                  },
+                                );
+                              },
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  // SvgPicture.asset(
+                                  //   AppIcon.pluscircle,
+                                  //   colorFilter: const ColorFilter.mode(
+                                  //     AppColors.navigationSkyBlueColor,
+                                  //     BlendMode.srcIn,
+                                  //   ),
+                                  //   // color: AppColors.navigationSkyBlueColor,
+                                  // ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    'View Contact(s)',
+                                    style: TextStyle(
+                                      color: AppColors.white,
+                                      decoration: TextDecoration.underline,
+                                      decorationColor: AppColors.white,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.02),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                          /// Guarding Agency Escalation Contact
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              state
-                                      .labels
-                                      ?.locale
-                                      .guardingAgencyEscalationContact ??
-                                  state
-                                      .labels
-                                      ?.defaultLocale
-                                      .guardingAgencyEscalationContact ??
-                                  Constants.guardingAgencyContact,
-                              style: Styles.styleHeaderWhiteText16,
+                            /// Guarding Agency Escalation Contact
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                state.labels?.locale
+                                        .guardingAgencyEscalationContact ??
+                                    state.labels?.defaultLocale
+                                        .guardingAgencyEscalationContact ??
+                                    Constants.guardingAgencyContact,
+                                style: Styles.styleHeaderWhiteText16,
+                              ),
                             ),
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          GestureDetector(
-                            onTap: () async {
-                              NavigatorState nav = Navigator.of(context);
-                              // bool isSaveSuccess =
-                              //     await BlocProvider.of<ContactDetailsCubit>(
-                              //             context)
-                              //         .submitForm(
-                              //   isSaveOnly: true,
-                              //   navigateToNextScreen: true,
-                              // );
-                              //
-                              // if (!isSaveSuccess) {
-                              //   return;
-                              // }
-                              log('--state.model.id---${state.model.id}--');
-                              List<Organisation> ranks = await CommonServices()
-                                  .getOrganisations(
-                                    name: Constants
-                                        .contactGuardingAgencyEscalationRank,
-                                  );
-                              nav.pushNamed(
-                                contactRecordsRoute,
-                                arguments: {
-                                  ConstantsArgument.title:
-                                      Constants.guardingAgencyContact,
-                                  ConstantsArgument.keyLostType: 1,
-                                  ConstantsArgument.id: state.model.id,
-                                  ConstantsArgument.rankType: Constants
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            GestureDetector(
+                              onTap: () async {
+                                NavigatorState nav = Navigator.of(context);
+                                // bool isSaveSuccess =
+                                //     await BlocProvider.of<ContactDetailsCubit>(
+                                //             context)
+                                //         .submitForm(
+                                //   isSaveOnly: true,
+                                //   navigateToNextScreen: true,
+                                // );
+                                //
+                                // if (!isSaveSuccess) {
+                                //   return;
+                                // }
+                                log('--state.model.id---${state.model.id}--');
+                                List<Organisation> ranks =
+                                    await CommonServices().getOrganisations(
+                                  name: Constants
                                       .contactGuardingAgencyEscalationRank,
-                                  ConstantsArgument.ranks: ranks,
-                                  ConstantsArgument.parentStatus:
-                                      state.model.status,
-                                  ConstantsArgument.isLocked: state.model.lock,
-                                },
-                              );
-                            },
-                            child: const Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                // SvgPicture.asset(
-                                //   AppIcon.pluscircle,
-                                //   colorFilter: const ColorFilter.mode(
-                                //     AppColors.navigationSkyBlueColor,
-                                //     BlendMode.srcIn,
-                                //   ),
-                                //   // color: AppColors.navigationSkyBlueColor,
-                                // ),
-                                SizedBox(width: 10),
-                                Text(
-                                  'View Contact(s)',
-                                  style: TextStyle(
-                                    color: AppColors.white,
-                                    decoration: TextDecoration.underline,
-                                    decorationColor: AppColors.white,
+                                );
+                                nav.pushNamed(
+                                  contactRecordsRoute,
+                                  arguments: {
+                                    ConstantsArgument.title:
+                                        Constants.guardingAgencyContact,
+                                    ConstantsArgument.keyLostType: 1,
+                                    ConstantsArgument.id: state.model.id,
+                                    ConstantsArgument.rankType: Constants
+                                        .contactGuardingAgencyEscalationRank,
+                                    ConstantsArgument.ranks: ranks,
+                                    ConstantsArgument.parentStatus:
+                                        state.model.status,
+                                    ConstantsArgument.isLocked:
+                                        state.model.lock,
+                                  },
+                                );
+                              },
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  // SvgPicture.asset(
+                                  //   AppIcon.pluscircle,
+                                  //   colorFilter: const ColorFilter.mode(
+                                  //     AppColors.navigationSkyBlueColor,
+                                  //     BlendMode.srcIn,
+                                  //   ),
+                                  //   // color: AppColors.navigationSkyBlueColor,
+                                  // ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    'View Contact(s)',
+                                    style: TextStyle(
+                                      color: AppColors.white,
+                                      decoration: TextDecoration.underline,
+                                      decorationColor: AppColors.white,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.02),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                          /// System Escalation Contact
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              state.labels?.locale.systemEscalationContact ??
-                                  state
-                                      .labels
-                                      ?.defaultLocale
-                                      .systemEscalationContact ??
-                                  Constants.systemEscalationContact,
-                              style: Styles.styleHeaderWhiteText16,
+                            /// System Escalation Contact
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                state.labels?.locale.systemEscalationContact ??
+                                    state.labels?.defaultLocale
+                                        .systemEscalationContact ??
+                                    Constants.systemEscalationContact,
+                                style: Styles.styleHeaderWhiteText16,
+                              ),
                             ),
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          GestureDetector(
-                            onTap: () async {
-                              NavigatorState nav = Navigator.of(context);
-                              // bool isSaveSuccess =
-                              //     await BlocProvider.of<ContactDetailsCubit>(
-                              //             context)
-                              //         .submitForm(
-                              //   isSaveOnly: true,
-                              //   navigateToNextScreen: true,
-                              // );
-                              //
-                              // if (!isSaveSuccess) {
-                              //   return;
-                              // }
-                              log('--state.model.id---${state.model.id}--');
-                              List<Organisation> ranks = await CommonServices()
-                                  .getOrganisations(
-                                    name: Constants.contactSystemEscalationRank,
-                                  );
-                              nav.pushNamed(
-                                contactRecordsRoute,
-                                arguments: {
-                                  ConstantsArgument.title:
-                                      Constants.systemEscalationContact,
-                                  ConstantsArgument.keyLostType: 2,
-                                  ConstantsArgument.id: state.model.id,
-                                  ConstantsArgument.rankType:
-                                      Constants.contactSystemEscalationRank,
-                                  ConstantsArgument.ranks: ranks,
-                                  ConstantsArgument.parentStatus:
-                                      state.model.status,
-                                  ConstantsArgument.isLocked: state.model.lock,
-                                },
-                              );
-                            },
-                            child: const Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                // SvgPicture.asset(
-                                //   AppIcon.pluscircle,
-                                //   colorFilter: const ColorFilter.mode(
-                                //     AppColors.navigationSkyBlueColor,
-                                //     BlendMode.srcIn,
-                                //   ),
-                                //   // color: AppColors.navigationSkyBlueColor,
-                                // ),
-                                SizedBox(width: 10),
-                                Text(
-                                  'View Contact(s)',
-                                  style: TextStyle(
-                                    color: AppColors.white,
-                                    decoration: TextDecoration.underline,
-                                    decorationColor: AppColors.white,
+                            GestureDetector(
+                              onTap: () async {
+                                NavigatorState nav = Navigator.of(context);
+                                // bool isSaveSuccess =
+                                //     await BlocProvider.of<ContactDetailsCubit>(
+                                //             context)
+                                //         .submitForm(
+                                //   isSaveOnly: true,
+                                //   navigateToNextScreen: true,
+                                // );
+                                //
+                                // if (!isSaveSuccess) {
+                                //   return;
+                                // }
+                                log('--state.model.id---${state.model.id}--');
+                                List<Organisation> ranks =
+                                    await CommonServices().getOrganisations(
+                                  name: Constants.contactSystemEscalationRank,
+                                );
+                                nav.pushNamed(
+                                  contactRecordsRoute,
+                                  arguments: {
+                                    ConstantsArgument.title:
+                                        Constants.systemEscalationContact,
+                                    ConstantsArgument.keyLostType: 2,
+                                    ConstantsArgument.id: state.model.id,
+                                    ConstantsArgument.rankType:
+                                        Constants.contactSystemEscalationRank,
+                                    ConstantsArgument.ranks: ranks,
+                                    ConstantsArgument.parentStatus:
+                                        state.model.status,
+                                    ConstantsArgument.isLocked:
+                                        state.model.lock,
+                                  },
+                                );
+                              },
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  // SvgPicture.asset(
+                                  //   AppIcon.pluscircle,
+                                  //   colorFilter: const ColorFilter.mode(
+                                  //     AppColors.navigationSkyBlueColor,
+                                  //     BlendMode.srcIn,
+                                  //   ),
+                                  //   // color: AppColors.navigationSkyBlueColor,
+                                  // ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    'View Contact(s)',
+                                    style: TextStyle(
+                                      color: AppColors.white,
+                                      decoration: TextDecoration.underline,
+                                      decorationColor: AppColors.white,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.02),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                          /// Supervisor Contact
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              state.labels?.locale.supervisorRank ??
-                                  state.labels?.defaultLocale.supervisorRank ??
-                                  Constants.cmsEscalationContact,
-                              style: Styles.styleHeaderWhiteText16,
+                            /// Supervisor Contact
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                state.labels?.locale.supervisorRank ??
+                                    state
+                                        .labels?.defaultLocale.supervisorRank ??
+                                    Constants.cmsEscalationContact,
+                                style: Styles.styleHeaderWhiteText16,
+                              ),
                             ),
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          GestureDetector(
-                            onTap: () async {
-                              NavigatorState nav = Navigator.of(context);
-                              // bool isSaveSuccess =
-                              //     await BlocProvider.of<ContactDetailsCubit>(
-                              //             context)
-                              //         .submitForm(
-                              //   isSaveOnly: true,
-                              //   navigateToNextScreen: true,
-                              // );
-                              //
-                              // if (!isSaveSuccess) {
-                              //   return;
-                              // }
-                              log('--state.model.id---${state.model.id}--');
-                              List<Organisation> ranks = await CommonServices()
-                                  .getOrganisations(
-                                    name: Constants.contactSupervisorRank,
-                                  );
-                              nav.pushNamed(
-                                contactRecordsRoute,
-                                arguments: {
-                                  ConstantsArgument.title:
-                                      Constants.cmsEscalationContact,
-                                  ConstantsArgument.keyLostType: 4,
-                                  ConstantsArgument.id: state.model.id,
-                                  ConstantsArgument.rankType:
-                                      Constants.contactSupervisorRank,
-                                  ConstantsArgument.ranks: ranks,
-                                  ConstantsArgument.parentStatus:
-                                      state.model.status,
-                                  ConstantsArgument.isLocked: state.model.lock,
-                                },
-                              );
-                            },
-                            child: const Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                // SvgPicture.asset(
-                                //   AppIcon.pluscircle,
-                                //   colorFilter: const ColorFilter.mode(
-                                //     AppColors.navigationSkyBlueColor,
-                                //     BlendMode.srcIn,
-                                //   ),
-                                //   // color: AppColors.navigationSkyBlueColor,
-                                // ),
-                                SizedBox(width: 10),
-                                Text(
-                                  'View Contact(s)',
-                                  style: TextStyle(
-                                    color: AppColors.white,
-                                    decoration: TextDecoration.underline,
-                                    decorationColor: AppColors.white,
+                            GestureDetector(
+                              onTap: () async {
+                                NavigatorState nav = Navigator.of(context);
+                                // bool isSaveSuccess =
+                                //     await BlocProvider.of<ContactDetailsCubit>(
+                                //             context)
+                                //         .submitForm(
+                                //   isSaveOnly: true,
+                                //   navigateToNextScreen: true,
+                                // );
+                                //
+                                // if (!isSaveSuccess) {
+                                //   return;
+                                // }
+                                log('--state.model.id---${state.model.id}--');
+                                List<Organisation> ranks =
+                                    await CommonServices().getOrganisations(
+                                  name: Constants.contactSupervisorRank,
+                                );
+                                nav.pushNamed(
+                                  contactRecordsRoute,
+                                  arguments: {
+                                    ConstantsArgument.title:
+                                        Constants.cmsEscalationContact,
+                                    ConstantsArgument.keyLostType: 4,
+                                    ConstantsArgument.id: state.model.id,
+                                    ConstantsArgument.rankType:
+                                        Constants.contactSupervisorRank,
+                                    ConstantsArgument.ranks: ranks,
+                                    ConstantsArgument.parentStatus:
+                                        state.model.status,
+                                    ConstantsArgument.isLocked:
+                                        state.model.lock,
+                                  },
+                                );
+                              },
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  // SvgPicture.asset(
+                                  //   AppIcon.pluscircle,
+                                  //   colorFilter: const ColorFilter.mode(
+                                  //     AppColors.navigationSkyBlueColor,
+                                  //     BlendMode.srcIn,
+                                  //   ),
+                                  //   // color: AppColors.navigationSkyBlueColor,
+                                  // ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    'View Contact(s)',
+                                    style: TextStyle(
+                                      color: AppColors.white,
+                                      decoration: TextDecoration.underline,
+                                      decorationColor: AppColors.white,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.02),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                          /// Zonal Escalation Contact
-                          Container(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              state.labels?.locale.guardingAgencyZonalManager ??
-                                  state
-                                      .labels
-                                      ?.defaultLocale
-                                      .guardingAgencyZonalManager ??
-                                  Constants.guardingAgencyZonalManagerContact,
-                              style: Styles.styleHeaderWhiteText16,
+                            /// Zonal Escalation Contact
+                            Container(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                state.labels?.locale
+                                        .guardingAgencyZonalManager ??
+                                    state.labels?.defaultLocale
+                                        .guardingAgencyZonalManager ??
+                                    Constants.guardingAgencyZonalManagerContact,
+                                style: Styles.styleHeaderWhiteText16,
+                              ),
                             ),
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                          GestureDetector(
-                            onTap: () async {
-                              NavigatorState nav = Navigator.of(context);
-                              // bool isSaveSuccess =
-                              //     await BlocProvider.of<ContactDetailsCubit>(
-                              //             context)
-                              //         .submitForm(
-                              //   isSaveOnly: true,
-                              //   navigateToNextScreen: true,
-                              // );
-                              //
-                              // if (!isSaveSuccess) {
-                              //   return;
-                              // }
-                              log('--state.model.id---${state.model.id}--');
-                              List<Organisation> ranks = await CommonServices()
-                                  .getOrganisations(
-                                    name: Constants.contactZone,
-                                  );
-                              nav.pushNamed(
-                                contactRecordsRoute,
-                                arguments: {
-                                  ConstantsArgument.title: Constants
-                                      .guardingAgencyZonalManagerContact,
-                                  ConstantsArgument.keyLostType: 3,
-                                  ConstantsArgument.id: state.model.id,
-                                  ConstantsArgument.rankType:
-                                      Constants.contactZone,
-                                  ConstantsArgument.ranks: ranks,
-                                  ConstantsArgument.parentStatus:
-                                      state.model.status,
-                                  ConstantsArgument.isLocked: state.model.lock,
-                                },
-                              );
-                            },
-                            child: const Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                // SvgPicture.asset(
-                                //   AppIcon.pluscircle,
-                                //   colorFilter: const ColorFilter.mode(
-                                //     AppColors.navigationSkyBlueColor,
-                                //     BlendMode.srcIn,
-                                //   ),
-                                //   // color: AppColors.navigationSkyBlueColor,
-                                // ),
-                                SizedBox(width: 10),
-                                Text(
-                                  'View Contact(s)',
-                                  style: TextStyle(
-                                    color: AppColors.white,
-                                    decoration: TextDecoration.underline,
-                                    decorationColor: AppColors.white,
+                            GestureDetector(
+                              onTap: () async {
+                                NavigatorState nav = Navigator.of(context);
+                                // bool isSaveSuccess =
+                                //     await BlocProvider.of<ContactDetailsCubit>(
+                                //             context)
+                                //         .submitForm(
+                                //   isSaveOnly: true,
+                                //   navigateToNextScreen: true,
+                                // );
+                                //
+                                // if (!isSaveSuccess) {
+                                //   return;
+                                // }
+                                log('--state.model.id---${state.model.id}--');
+                                List<Organisation> ranks =
+                                    await CommonServices().getOrganisations(
+                                  name: Constants.contactZone,
+                                );
+                                nav.pushNamed(
+                                  contactRecordsRoute,
+                                  arguments: {
+                                    ConstantsArgument.title: Constants
+                                        .guardingAgencyZonalManagerContact,
+                                    ConstantsArgument.keyLostType: 3,
+                                    ConstantsArgument.id: state.model.id,
+                                    ConstantsArgument.rankType:
+                                        Constants.contactZone,
+                                    ConstantsArgument.ranks: ranks,
+                                    ConstantsArgument.parentStatus:
+                                        state.model.status,
+                                    ConstantsArgument.isLocked:
+                                        state.model.lock,
+                                  },
+                                );
+                              },
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  // SvgPicture.asset(
+                                  //   AppIcon.pluscircle,
+                                  //   colorFilter: const ColorFilter.mode(
+                                  //     AppColors.navigationSkyBlueColor,
+                                  //     BlendMode.srcIn,
+                                  //   ),
+                                  //   // color: AppColors.navigationSkyBlueColor,
+                                  // ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    'View Contact(s)',
+                                    style: TextStyle(
+                                      color: AppColors.white,
+                                      decoration: TextDecoration.underline,
+                                      decorationColor: AppColors.white,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
+                          ],
+                        ),
+                      ),
+                      CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                      /// SubmitButton
+                      // if ((state.model.status == -1) ? false : true) ...[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          cancelButtonDisplay(),
+                          // if ((!isReadOnly)) ...[
+                          //   submitButtonDisplay(),
                         ],
                       ),
-                    ),
-                    CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                    /// SubmitButton
-                    // if ((state.model.status == -1) ? false : true) ...[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        cancelButtonDisplay(),
-                        // if ((!isReadOnly)) ...[
-                        //   submitButtonDisplay(),
-                      ],
-                    ),
-                    // ],
-                    CommonWidgets.verticalSpacerWidget(height * 0.04),
-                  ],
+                      // ],
+                      CommonWidgets.verticalSpacerWidget(height * 0.04),
+                    ],
+                  ),
                 ),
+                // ),
               ),
-              // ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
+      ],
     );
   }
 
@@ -797,25 +812,25 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
     );
   }
 
-  // getById(int id, int type) async {
-  //   showLoadingDialog(context);
-  //
-  //   ContactListResponseModel contactsModel =
-  //   await ContactDetailsServices().getCdById(id, type);
-  //
-  //   editDataLoading(contactsModel);
-  // }
-  // void editDataLoading(ContactListResponseModel? model) {
-  //   dismissLoadingDialog(context);
-  //   if (model != null) {
-  //     Navigator.pushNamed(
-  //       context,
-  //       contactDetailsRoute,
-  //       arguments: {
-  //         "model": model,
-  //         "title": Constants.contactDetails,
-  //       },
-  //     );
-  //   }
-  // }
+// getById(int id, int type) async {
+//   showLoadingDialog(context);
+//
+//   ContactListResponseModel contactsModel =
+//   await ContactDetailsServices().getCdById(id, type);
+//
+//   editDataLoading(contactsModel);
+// }
+// void editDataLoading(ContactListResponseModel? model) {
+//   dismissLoadingDialog(context);
+//   if (model != null) {
+//     Navigator.pushNamed(
+//       context,
+//       contactDetailsRoute,
+//       arguments: {
+//         "model": model,
+//         "title": Constants.contactDetails,
+//       },
+//     );
+//   }
+// }
 }

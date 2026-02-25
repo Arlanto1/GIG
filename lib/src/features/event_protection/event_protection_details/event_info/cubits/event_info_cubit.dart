@@ -6,6 +6,9 @@ import 'package:db_atom/src/features/article_found_register_module/foundlist/mod
 import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
 import 'package:intl/intl.dart';
 
+import '../models/notification_model.dart';
+import '../models/request_models/notification_email_request.dart';
+
 part 'event_info_state.dart';
 
 class EventInfoCubit extends Cubit<EventInfoState> {
@@ -36,7 +39,8 @@ class EventInfoCubit extends Cubit<EventInfoState> {
               getEntitiesResponse: null,
               departments: const [],
               listOfQualifications: const [],
-              getQualificationsResponse: null),
+              getQualificationsResponse: null,  draftTemplateHtml: null,
+          ),
         );
 
   Future<void> initializeValues() async {
@@ -60,6 +64,17 @@ class EventInfoCubit extends Cubit<EventInfoState> {
           maximumRecords: '50',
           eventId: eventProtectionId.toString());
       List<String> emails = Utils().splitStringAfterComma(model.emails ?? '');
+      /// 4️⃣ NOTIFICATION LIST (🔥 NEW)
+      final notificationResponse =
+      await services.getNotificationList(eventProtectionId);
+
+      final notificationItems = notificationResponse.data ?? [];
+
+      final emailTemplates = notificationItems.map((e) => {
+        "id": e.id,                   // ✅ 385, 386...
+        "html": e.notification,       // ✅ template html
+      }).toList();
+
 
       emit(
         state.copyWith(
@@ -68,7 +83,9 @@ class EventInfoCubit extends Cubit<EventInfoState> {
             additionalEmails: emails,
             guardAttachments: model.image,
             loadAttachments: model.image,
-            foundArticles: foundArticles.items),
+            foundArticles: foundArticles.items,
+          emailTemplates: emailTemplates,
+        ),
       );
     } on GenericResponse catch (e) {
       emit(
@@ -127,6 +144,215 @@ class EventInfoCubit extends Cubit<EventInfoState> {
       );
     }
   }
+
+  Future<void> getEPEmailInfoById(String id) async {
+    emit(state.copyWith(
+      status: FormStatus.templateLoading,
+      isTemplateLoading: true,
+    ));
+
+    try {
+      final response =
+      await services.getEventInfo(id, eventDurationType);
+
+      // final exists = state.emailTemplates.any(
+      //       (e) => e["id"] == response.id,
+      // );
+      //
+      // if (!exists) {
+      //   final updatedTemplates = List<Map<String, dynamic>>.from(
+      //     state.emailTemplates,
+      //   )..add({
+      //     "id": response.id,
+      //     "html": response.email,
+      //   });
+
+      final exists = (state.emailTemplates ?? []).any(
+            (e) => e["id"] == response.id,
+      );
+
+      if (!exists) {
+        final updatedTemplates = List<Map<String, dynamic>>.from(
+          state.emailTemplates ?? [],
+        )..add({
+          "id": response.id,
+          "html": response.email,
+        });
+
+        emit(state.copyWith(
+          emailTemplates: updatedTemplates,
+          status: FormStatus.templateLoaded,
+          isTemplateLoading: false,
+        ));
+      } else {
+        emit(state.copyWith(
+          status: FormStatus.initial,
+          isTemplateLoading: false,
+        ));
+      }
+    } catch (e) {
+      emit(state.copyWith(
+        status: FormStatus.error,
+        isTemplateLoading: false,
+        message: e.toString(),
+      ));
+    }
+  }
+  // Future<void> getEPEmailInfoById(String id) async {
+  //   emit(state.copyWith(
+  //     isTemplateLoading: true,
+  //     draftTemplateHtml: null, // 🔥 important
+  //   ));
+  //
+  //   try {
+  //     final response = await services.getEventInfo(id, eventDurationType);
+  //
+  //     emit(state.copyWith(
+  //       draftTemplateHtml: response.email,
+  //       isTemplateLoading: false,
+  //     ));
+  //   } catch (e) {
+  //     emit(state.copyWith(
+  //       isTemplateLoading: false,
+  //       message: e.toString(),
+  //     ));
+  //   }
+  // }
+
+
+  // Future<void> createNotification({
+  //   required String html,
+  // }) async {
+  //   emit(state.copyWith(status: FormStatus.loading));
+  //
+  //   try {
+  //     final eventInfo = EventInfoResponse(
+  //       id: int.tryParse(eventProtectionId),
+  //       email: html, // 👈 template HTML
+  //       emails: state.model.emails,
+  //       image: state.guardAttachments,
+  //     );
+  //
+  //     final request = NotificationEmailRequest(
+  //       eventProtectionInfo: eventInfo,
+  //     );
+  //
+  //     final response = await services.createEventNotification(
+  //       body: request,
+  //       eventDuration: eventDurationType,
+  //       epId: int.parse(eventProtectionId),
+  //     );
+  //
+  //     emit(state.copyWith(
+  //       status: FormStatus.success,
+  //       message: response.message,
+  //     ));
+  //   } catch (e) {
+  //     emit(state.copyWith(
+  //       status: FormStatus.error,
+  //       message: e.toString(),
+  //     ));
+  //   }
+  // }
+  //
+ //  Future<void> submitTemplateAndRefresh({
+ //    required String html,
+ //  }) async {
+ //    emit(state.copyWith(status: FormStatus.loading));
+ //
+ //    try {
+ //      /// 1️⃣ CREATE NOTIFICATION
+ //      final eventInfo = EventInfoResponse(
+ //        id: int.tryParse(eventProtectionId),
+ //        email: html,
+ //        emails: state.model.emails,
+ //        image: state.guardAttachments,
+ //      );
+ //
+ //      final request = NotificationEmailRequest(
+ //        eventProtectionInfo: eventInfo,
+ //      );
+ //
+ //      await services.createEventNotification(
+ //        body: request,
+ //        eventDuration: eventDurationType,
+ //        epId: int.parse(eventProtectionId),
+ //      );
+ //
+ //      /// 2️⃣ FETCH NOTIFICATION LIST
+ //      final listResponse = await services.getNotificationList(
+ // eventProtectionId,
+ //      );
+ //
+ //      final items = listResponse.items ?? [];
+ //
+ //      /// 3️⃣ UPDATE STATE WITH LIST
+ //      emit(state.copyWith(
+ //        status: FormStatus.success,
+ //        emailTemplates: items.map((e) => {
+ //          "id": e.id, // ✅ use correct field
+ //          "html": e.notification,
+ //        }).toList(),
+ //      ));
+ //    } catch (e) {
+ //      emit(state.copyWith(
+ //        status: FormStatus.error,
+ //        message: e.toString(),
+ //      ));
+ //    }
+ //  }
+  Future<EventNotificationModel> getNotificationById(String id) async {
+    return await services.getNotificationById(id);
+  }
+
+  Future<void> submitTemplateAndRefresh({
+    required String html,
+     int? id,
+  }) async {
+    emit(state.copyWith(status: FormStatus.loading));
+
+    try {
+      /// 1️⃣ SUBMIT TEMPLATE
+      final eventInfo = EventInfoResponse(
+        id: id,
+        email: html,
+        emails: state.model.emails,
+        image: state.guardAttachments,
+      );
+
+      final request = NotificationEmailRequest(
+        eventProtectionInfo: eventInfo,
+      );
+
+      await services.createEventNotification(
+        body: request,
+        eventDuration: eventDurationType,
+        epId: int.parse(eventProtectionId),
+      );
+
+      /// 2️⃣ FETCH LIST (GET API)
+      final listResponse =
+      await services.getNotificationList(eventProtectionId);
+
+      final items = listResponse.data ?? [];
+
+      /// 3️⃣ UPDATE STATE
+      emit(state.copyWith(
+        status: FormStatus.success,
+        emailTemplates: items.map((e) => {
+          "id": e.id,                   // ✅ 385, 386, etc
+          "html": e.notification,       // ✅ HTML
+        }).toList(),
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        status: FormStatus.error,
+        message: e.toString(),
+      ));
+    }
+  }
+
+
 
   void submitForm({
     bool isSaveOnly = false,

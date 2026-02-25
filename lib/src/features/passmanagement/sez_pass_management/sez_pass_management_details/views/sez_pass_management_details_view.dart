@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/passmanagement/sez_pass_management/models/sez_pass_management_model.dart';
@@ -50,6 +51,7 @@ class _SezPassManagementDetailsViewState
   final FocusNode sentToFocusNode = FocusNode();
 
   List<ImageContent>? uploadFiles;
+
   @override
   void initState() {
     super.initState();
@@ -152,7 +154,7 @@ class _SezPassManagementDetailsViewState
             showLikeButton: false,
             showDisLikeButton: false,
           ),
-          backgroundColor: AppColors.newColor,
+          backgroundColor: Colors.transparent,
           body: getBodybuilder(state, height),
         );
       },
@@ -204,417 +206,268 @@ class _SezPassManagementDetailsViewState
       uploadFiles = state.loadAttachments;
       uploadFiles = state.model.evidenceDocuments ?? [];
     }
-    return Container(
-      color: AppColors.newColor3,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: height * 0.01,
-              color: AppColors.newColor3,
+    return Stack(
+      children: [
+        // 🔹 Background Image
+        Positioned.fill(
+          child: Image.asset(
+            'assets/images/bg2.png',
+            fit: BoxFit.cover,
+          ),
+        ),
+
+        // 🔹 Blur Layer
+        Positioned.fill(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 200, sigmaY: 200),
+            child: Container(
+              color: Colors.black.withValues(alpha: 0.08), // optional tint
             ),
-            Container(
-              decoration: ShapeDecoration(
-                  color: AppColors.newColor3,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20.0)),
-                  )),
-              child: Form(
-                key: _formKey,
-                autovalidateMode: isReadOnly
-                    ? AutovalidateMode.disabled
-                    : AutovalidateMode.onUserInteraction,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 20.0, right: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      AbsorbPointer(
-                        absorbing:
-                            !showSaveSubmitButtons && IgnorePointer == false,
-                        child: Column(
-                          children: [
-                            if (!state.model.lock.isEmptyOrNull) ...[
-                              RecordLockedWidget(text: '${state.model.lock}'),
-                            ],
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: const Text(
-                                Constants.generalinformation,
-                                style: Styles.textStyleRegularNormalWhite18,
-                              ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Status
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.status ??
-                                  state.labels?.defaultLocale.status ??
-                                  Constants.status,
-                              Styles.textStyleWhite16,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            BaseDropDown().getDropDown(
-                              isDisabled: true,
-                              textController: statusController,
-                              items: passManagementStatusValues,
-                              initialValue: '${state.model.status ?? 0}',
-                              onTap: () {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Created By
-                            CommonWidgets.horizentaltextHandling(
-                                state.labels?.locale.entrySecurity ??
-                                    state.labels?.defaultLocale.entrySecurity ??
-                                    Constants.createdby,
-                                isMandatory: true,
-                                '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Updated Status
-                            if (widget.model?.status == 0 ||
-                                widget.model?.status == 1) ...[
-                              CommonWidgets.textDisplay(
-                                  isMandatory: true,
-                                  state.labels?.locale.updateStatus ??
-                                      state
-                                          .labels?.defaultLocale.updateStatus ??
-                                      Constants.updatestatus,
-                                  Styles.textStyleWhite16),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-                              TextFieldAddButton(
-                                title: updateStatusTextController.text,
-                                height: 70,
-                                isDisableColor: widget.model != null &&
-                                    !widget.model!.lock.isEmptyOrNull,
-                                onTap: () {
-                                  BaseOrganisationDialog().departmentDialog(
-                                    context: context,
-                                    organisations: state.getStatus ?? [],
-                                    onTap: (Organisation org) {
-                                      if (org.name == "Lost") {
-                                        Future.delayed(
-                                            const Duration(milliseconds: 200),
-                                            () {
-                                          var dialog = CustomAlertDialog(
-                                            title: Constants.updatestatus,
-                                            message:
-                                                "Are you sure you want to select \"${org.name}\"?",
-                                            onPositivePressed: () {
-                                              Navigator.pop(context);
-                                              updateStatusTextController.text =
-                                                  org.name!;
-                                              setState(() {});
-                                              BlocProvider.of<
-                                                          SezPassManagementDetailsCubit>(
-                                                      context)
-                                                  .updateDropdownValues(
-                                                      updatedStatus: org);
-                                            },
-                                            positiveBtnText: Constants.yes,
-                                            negativeBtnText: Constants.no,
-                                          );
-
-                                          showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) =>
-                                                dialog,
-                                          );
-                                        });
-                                      } else {
-                                        updateStatusTextController.text =
-                                            org.name!;
-                                        setState(() {});
-                                        BlocProvider.of<
-                                                    SezPassManagementDetailsCubit>(
-                                                context)
-                                            .updateDropdownValues(
-                                                updatedStatus: org);
-                                      }
-                                    },
-                                  );
-                                  // }
-                                },
+          ),
+        ),
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                color: Colors.transparent,
+                child: Form(
+                  key: _formKey,
+                  autovalidateMode: isReadOnly
+                      ? AutovalidateMode.disabled
+                      : AutovalidateMode.onUserInteraction,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20.0, right: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        AbsorbPointer(
+                          absorbing:
+                              !showSaveSubmitButtons && IgnorePointer == false,
+                          child: Column(
+                            children: [
+                              if (!state.model.lock.isEmptyOrNull) ...[
+                                RecordLockedWidget(text: '${state.model.lock}'),
+                              ],
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              Container(
+                                alignment: Alignment.topLeft,
+                                child: const Text(
+                                  Constants.generalinformation,
+                                  style: Styles.textStyleRegularNormalWhite18,
+                                ),
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            ],
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Location
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.location ??
-                                  state.labels?.defaultLocale.location ??
-                                  Constants.location,
-                              Styles.textStyleWhite16,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            BaseLocationDropdown().locationWidgetDisplay(
-                                isEnabled: (!isReadOnly) && !lock,
+                              /// Status
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.status ??
+                                    state.labels?.defaultLocale.status ??
+                                    Constants.status,
+                                Styles.textStyleWhite16,
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              BaseDropDown().getDropDown(
+                                isDisabled: true,
+                                textController: statusController,
+                                items: passManagementStatusValues,
+                                initialValue: '${state.model.status ?? 0}',
+                                onTap: () {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              /// Created By
+                              CommonWidgets.horizentaltextHandling(
+                                  state.labels?.locale.entrySecurity ??
+                                      state.labels?.defaultLocale
+                                          .entrySecurity ??
+                                      Constants.createdby,
+                                  isMandatory: true,
+                                  '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              /// Updated Status
+                              if (widget.model?.status == 0 ||
+                                  widget.model?.status == 1) ...[
+                                CommonWidgets.textDisplay(
+                                    isMandatory: true,
+                                    state.labels?.locale.updateStatus ??
+                                        state.labels?.defaultLocale
+                                            .updateStatus ??
+                                        Constants.updatestatus,
+                                    Styles.textStyleWhite16),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                TextFieldAddButton(
+                                  title: updateStatusTextController.text,
+                                  height: 70,
+                                  isDisableColor: widget.model != null &&
+                                      !widget.model!.lock.isEmptyOrNull,
+                                  onTap: () {
+                                    BaseOrganisationDialog().departmentDialog(
+                                      context: context,
+                                      organisations: state.getStatus ?? [],
+                                      onTap: (Organisation org) {
+                                        if (org.name == "Lost") {
+                                          Future.delayed(
+                                              const Duration(milliseconds: 200),
+                                              () {
+                                            var dialog = CustomAlertDialog(
+                                              title: Constants.updatestatus,
+                                              message:
+                                                  "Are you sure you want to select \"${org.name}\"?",
+                                              onPositivePressed: () {
+                                                Navigator.pop(context);
+                                                updateStatusTextController
+                                                    .text = org.name!;
+                                                setState(() {});
+                                                BlocProvider.of<
+                                                            SezPassManagementDetailsCubit>(
+                                                        context)
+                                                    .updateDropdownValues(
+                                                        updatedStatus: org);
+                                              },
+                                              positiveBtnText: Constants.yes,
+                                              negativeBtnText: Constants.no,
+                                            );
+
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  dialog,
+                                            );
+                                          });
+                                        } else {
+                                          updateStatusTextController.text =
+                                              org.name!;
+                                          setState(() {});
+                                          BlocProvider.of<
+                                                      SezPassManagementDetailsCubit>(
+                                                  context)
+                                              .updateDropdownValues(
+                                                  updatedStatus: org);
+                                        }
+                                      },
+                                    );
+                                    // }
+                                  },
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+                              ],
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              /// Location
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.location ??
+                                    state.labels?.defaultLocale.location ??
+                                    Constants.location,
+                                Styles.textStyleWhite16,
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              BaseLocationDropdown().locationWidgetDisplay(
+                                  isEnabled: (!isReadOnly) && !lock,
+                                  context: context,
+                                  locations: state.locations ?? Locations(),
+                                  selectedLocationName:
+                                      state.model.location?.name ?? '',
+                                  onTap: (Organisation? location) {
+                                    BlocProvider.of<
+                                                SezPassManagementDetailsCubit>(
+                                            context)
+                                        .updateLocationDropdownValue(
+                                            location: location);
+                                  }),
+
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              /// Date of creation
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.inputDate ??
+                                    state.labels?.defaultLocale.inputDate ??
+                                    Constants.dateofcreation,
+                                Styles.textStyleWhite16,
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              dateCreateWidgetDisplay(
+                                  state.model.inputDate ?? ''),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              /// Sl No.
+                              CommonWidgets.horizentaltextHandling(
+                                state.labels?.locale.slNo ??
+                                    state.labels?.defaultLocale.slNo ??
+                                    Constants.slno,
+                                state.model.slNo ?? '',
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              /// Entity
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.entity ??
+                                      state.labels?.defaultLocale.entity ??
+                                      Constants.entity,
+                                  Styles.textStyleWhite16,
+                                  isMandatory: true),
+                              BaseEntitiesSelection().entityDropDownSelection(
                                 context: context,
-                                locations: state.locations ?? Locations(),
-                                selectedLocationName:
-                                    state.model.location?.name ?? '',
-                                onTap: (Organisation? location) {
+                                selectedValues: state.model.entities ?? [],
+                                all: state.listOfEntities ?? [],
+                                enabled: !isReadOnly,
+                                onTap: (List<Organisation> selectedEntities) {
                                   BlocProvider.of<
                                               SezPassManagementDetailsCubit>(
                                           context)
-                                      .updateLocationDropdownValue(
-                                          location: location);
-                                }),
+                                      .updateDropdownValues(
+                                          entities: selectedEntities);
+                                  Navigator.of(context)
+                                      .pop(); // Close the dialog
+                                },
+                                functionToCall: () {
+                                  // refresh the list
+                                  BlocProvider.of<
+                                              SezPassManagementDetailsCubit>(
+                                          context)
+                                      .refreshList();
+                                },
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Date of creation
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.inputDate ??
-                                  state.labels?.defaultLocale.inputDate ??
-                                  Constants.dateofcreation,
-                              Styles.textStyleWhite16,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            dateCreateWidgetDisplay(
-                                state.model.inputDate ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Sl No.
-                            CommonWidgets.horizentaltextHandling(
-                              state.labels?.locale.slNo ??
-                                  state.labels?.defaultLocale.slNo ??
-                                  Constants.slno,
-                              state.model.slNo ?? '',
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Entity
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.entity ??
-                                    state.labels?.defaultLocale.entity ??
-                                    Constants.entity,
-                                Styles.textStyleWhite16,
-                                isMandatory: true),
-                            BaseEntitiesSelection().entityDropDownSelection(
-                              context: context,
-                              selectedValues: state.model.entities ?? [],
-                              all: state.listOfEntities ?? [],
-                              enabled: !isReadOnly,
-                              onTap: (List<Organisation> selectedEntities) {
-                                BlocProvider.of<SezPassManagementDetailsCubit>(
-                                        context)
-                                    .updateDropdownValues(
-                                        entities: selectedEntities);
-                                Navigator.of(context).pop(); // Close the dialog
-                              },
-                              functionToCall: () {
-                                // refresh the list
-                                BlocProvider.of<SezPassManagementDetailsCubit>(
-                                        context)
-                                    .refreshList();
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Pass Type
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.passType ??
-                                    state.labels?.defaultLocale.passType ??
-                                    Constants.passtype,
-                                Styles.textStyleWhite16,
-                                isMandatory: true),
-                            TextFieldAddButton(
-                              title: state.model.passTypeName,
-                              height: 70,
-                              isDisableColor: isReadOnly,
-                              onTap: () {
-                                if (!isReadOnly) {
-                                  BaseOrganisationDialog().departmentDialog(
-                                    context: context,
-                                    organisations: state.passType!,
-                                    onTap: (Organisation passType) {
-                                      state.model.passTypeName = passType.name;
-                                      BlocProvider.of<
-                                                  SezPassManagementDetailsCubit>(
-                                              context)
-                                          .updateDropdownValues(
-                                              passType: passType);
-                                    },
-                                    leftImage: false,
-                                    functionToCall: () {
-                                      // refresh the list
-                                      BlocProvider.of<
-                                                  SezPassManagementDetailsCubit>(
-                                              context)
-                                          .refreshList();
-                                    },
-                                  );
-                                }
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Pass Category
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.category ??
-                                    state.labels?.defaultLocale.category ??
-                                    Constants.passCategory,
-                                Styles.textStyleWhite16,
-                                isMandatory: true),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            BaseDropDown().getDropDown(
-                                isDisabled: true,
-                                textController: passCategoryController,
-                                items: passCategoryValues,
-                                initialValue: '${state.model.category ?? 0}',
-                                onTap: () {
-                                  if (!isReadOnly) {
-                                    BaseDropDown().assetTypeDialog(
-                                      context: context,
-                                      dropDownValues: passCategoryValues
-                                          .map((label) => label.key)
-                                          .toList(),
-                                      onTap: (String value) {
-                                        Label? selectedLabel;
-                                        selectedLabel =
-                                            passCategoryValues.firstWhere(
-                                          (label) => label.key == value,
-                                          orElse: () =>
-                                              const Label(key: '', value: ''),
-                                        );
-                                        BlocProvider.of<
-                                                    SezPassManagementDetailsCubit>(
-                                                context)
-                                            .updateDropdownValues(
-                                                passCategory: int.tryParse(
-                                                    selectedLabel.value));
-                                      },
-                                    );
-                                  }
-                                }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Company Type
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.companyType ??
-                                    state.labels?.defaultLocale.companyType ??
-                                    Constants.companyType,
-                                Styles.textStyleWhite16,
-                                isMandatory: true),
-                            TextFieldAddButton(
-                              title: state.model.companyType?.name,
-                              height: 70,
-                              isDisableColor: isReadOnly,
-                              onTap: () {
-                                if (!isReadOnly) {
-                                  BaseOrganisationDialog().departmentDialog(
-                                    context: context,
-                                    organisations: state.getCompanyTypeResponse,
-                                    onTap: (Organisation companyType) {
-                                      BlocProvider.of<
-                                                  SezPassManagementDetailsCubit>(
-                                              context)
-                                          .updateDropdownValues(
-                                              companyType: companyType);
-                                    },
-                                    leftImage: false,
-                                    orgName: 'ATOM_COMPANY_TYPES',
-                                    functionToCall: () {
-                                      // refresh the list
-                                      BlocProvider.of<
-                                                  SezPassManagementDetailsCubit>(
-                                              context)
-                                          .refreshList();
-                                    },
-                                  );
-                                }
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Company Name
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.companyName ??
-                                  state.labels?.defaultLocale.companyName ??
-                                  Constants.companyName,
-                              Styles.textStyleWhite16,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              textInputType: TextInputType.text,
-                              textFormKey: Keys.challanKey,
-                              controller: companyNameController,
-                              characterLimit:
-                                  Constants.characterLimitIdTextFormField,
-                              hintText: '',
-                              isEnable:
-                                  (state.model.companyType?.name != 'FTE') &&
-                                          (state.model.status == null ||
-                                              state.model.status == 0)
-                                      ? true
-                                      : false,
-                              isDisableColor: false,
-                              onChange: (String value) {
-                                state.model.companyName =
-                                    state.model.companyType?.name != 'FTE'
-                                        ? value
-                                        : "Deutsche Bank";
-                                context
-                                    .read<SezPassManagementDetailsCubit>()
-                                    .onModelValueChange(state.model);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                            /// category == Permanent
-                            if (state.model.category == 1) ...[
-                              /// Employee Id
+                              /// Pass Type
                               CommonWidgets.textDisplay(
-                                  state.labels?.locale.employeeId ??
-                                      state.labels?.defaultLocale.employeeId ??
-                                      Constants.employeeid,
+                                  state.labels?.locale.passType ??
+                                      state.labels?.defaultLocale.passType ??
+                                      Constants.passtype,
                                   Styles.textStyleWhite16,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.employeeId,
+                                title: state.model.passTypeName,
                                 height: 70,
                                 isDisableColor: isReadOnly,
                                 onTap: () {
                                   if (!isReadOnly) {
-                                    BaseOrganisationDialog().userDialog(
-                                      employeeId: true,
+                                    BaseOrganisationDialog().departmentDialog(
                                       context: context,
-                                      users: state.employee!,
-                                      isDbUser: true,
-                                      onTap: (BaseUser user) {
+                                      organisations: state.passType!,
+                                      onTap: (Organisation passType) {
+                                        state.model.passTypeName =
+                                            passType.name;
                                         BlocProvider.of<
                                                     SezPassManagementDetailsCubit>(
                                                 context)
                                             .updateDropdownValues(
-                                          employee: user,
-                                        );
+                                                passType: passType);
                                       },
-                                      roleName:
-                                          ConstantUserRoles.atomStaticUser,
-                                      locationId: state.model.location!.id!,
-                                      functionToCall: (BaseUser user) {
-                                        BlocProvider.of<
-                                                    SezPassManagementDetailsCubit>(
-                                                context)
-                                            .updateDropdownValues(
-                                          employee: user,
-                                        );
+                                      leftImage: false,
+                                      functionToCall: () {
                                         // refresh the list
                                         BlocProvider.of<
                                                     SezPassManagementDetailsCubit>(
@@ -626,211 +479,336 @@ class _SezPassManagementDetailsViewState
                                 },
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            ],
 
-                            if (state.model.category == 2) ...[
-                              ///EmployeeId
+                              /// Pass Category
                               CommonWidgets.textDisplay(
-                                  state.labels?.locale.employeeId ??
-                                      state.labels?.defaultLocale.employeeId ??
-                                      Constants.employeeid,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16),
+                                  state.labels?.locale.category ??
+                                      state.labels?.defaultLocale.category ??
+                                      Constants.passCategory,
+                                  Styles.textStyleWhite16,
+                                  isMandatory: true),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              BaseDropDown().getDropDown(
+                                  isDisabled: true,
+                                  textController: passCategoryController,
+                                  items: passCategoryValues,
+                                  initialValue: '${state.model.category ?? 0}',
+                                  onTap: () {
+                                    if (!isReadOnly) {
+                                      BaseDropDown().assetTypeDialog(
+                                        context: context,
+                                        dropDownValues: passCategoryValues
+                                            .map((label) => label.key)
+                                            .toList(),
+                                        onTap: (String value) {
+                                          Label? selectedLabel;
+                                          selectedLabel =
+                                              passCategoryValues.firstWhere(
+                                            (label) => label.key == value,
+                                            orElse: () =>
+                                                const Label(key: '', value: ''),
+                                          );
+                                          BlocProvider.of<
+                                                      SezPassManagementDetailsCubit>(
+                                                  context)
+                                              .updateDropdownValues(
+                                                  passCategory: int.tryParse(
+                                                      selectedLabel.value));
+                                        },
+                                      );
+                                    }
+                                  }),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              /// Company Type
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.companyType ??
+                                      state.labels?.defaultLocale.companyType ??
+                                      Constants.companyType,
+                                  Styles.textStyleWhite16,
+                                  isMandatory: true),
+                              TextFieldAddButton(
+                                title: state.model.companyType?.name,
+                                height: 70,
+                                isDisableColor: isReadOnly,
+                                onTap: () {
+                                  if (!isReadOnly) {
+                                    BaseOrganisationDialog().departmentDialog(
+                                      context: context,
+                                      organisations:
+                                          state.getCompanyTypeResponse,
+                                      onTap: (Organisation companyType) {
+                                        BlocProvider.of<
+                                                    SezPassManagementDetailsCubit>(
+                                                context)
+                                            .updateDropdownValues(
+                                                companyType: companyType);
+                                      },
+                                      leftImage: false,
+                                      orgName: 'ATOM_COMPANY_TYPES',
+                                      functionToCall: () {
+                                        // refresh the list
+                                        BlocProvider.of<
+                                                    SezPassManagementDetailsCubit>(
+                                                context)
+                                            .refreshList();
+                                      },
+                                    );
+                                  }
+                                },
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              /// Company Name
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.companyName ??
+                                    state.labels?.defaultLocale.companyName ??
+                                    Constants.companyName,
+                                Styles.textStyleWhite16,
+                                isMandatory: true,
+                              ),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
-                                controller: employeeIdFreeTextController,
-                                textInputType: TextInputType.number,
-                                textFormKey: Keys.contactNoKey,
+                                textInputType: TextInputType.text,
+                                textFormKey: Keys.challanKey,
+                                controller: companyNameController,
+                                characterLimit:
+                                    Constants.characterLimitIdTextFormField,
                                 hintText: '',
-                                isEnable: !isReadOnly ? true : false,
-                                isDisableColor: true,
+                                isEnable:
+                                    (state.model.companyType?.name != 'FTE') &&
+                                            (state.model.status == null ||
+                                                state.model.status == 0)
+                                        ? true
+                                        : false,
+                                isDisableColor: false,
                                 onChange: (String value) {
-                                  state.model.employeeId = value;
+                                  state.model.companyName =
+                                      state.model.companyType?.name != 'FTE'
+                                          ? value
+                                          : "Deutsche Bank";
+                                  context
+                                      .read<SezPassManagementDetailsCubit>()
+                                      .onModelValueChange(state.model);
                                 },
                                 validateTextField: (String? user) {},
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            ],
 
-                            ///Name
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.employeeName ??
-                                    state.labels?.defaultLocale.employeeName ??
-                                    Constants.name,
-                                isMandatory: true,
-                                Styles.textStyleWhite16),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              controller: nameController,
-                              textInputType: TextInputType.text,
-                              textFormKey: Keys.contactNoKey,
-                              hintText: '',
-                              // focusNode: employeeIdFocusNode,
-                              isEnable: state.model.category == 2 &&
-                                      (state.model.status == null ||
-                                          state.model.status == 0)
-                                  ? true
-                                  : false,
-                              isDisableColor: true,
-                              onChange: (String value) {
-                                state.model.employeeName = value;
-                                state.model.employee?.name = value;
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
 
-                            if (state.model.category == 2) ...[
-                              /// Email
+                              /// category == Permanent
+                              if (state.model.category == 1) ...[
+                                /// Employee Id
+                                CommonWidgets.textDisplay(
+                                    state.labels?.locale.employeeId ??
+                                        state
+                                            .labels?.defaultLocale.employeeId ??
+                                        Constants.employeeid,
+                                    Styles.textStyleWhite16,
+                                    isMandatory: true),
+                                TextFieldAddButton(
+                                  title: state.model.employeeId,
+                                  height: 70,
+                                  isDisableColor: isReadOnly,
+                                  onTap: () {
+                                    if (!isReadOnly) {
+                                      BaseOrganisationDialog().userDialog(
+                                        employeeId: true,
+                                        context: context,
+                                        users: state.employee!,
+                                        isDbUser: true,
+                                        onTap: (BaseUser user) {
+                                          BlocProvider.of<
+                                                      SezPassManagementDetailsCubit>(
+                                                  context)
+                                              .updateDropdownValues(
+                                            employee: user,
+                                          );
+                                        },
+                                        roleName:
+                                            ConstantUserRoles.atomStaticUser,
+                                        locationId: state.model.location!.id!,
+                                        functionToCall: (BaseUser user) {
+                                          BlocProvider.of<
+                                                      SezPassManagementDetailsCubit>(
+                                                  context)
+                                              .updateDropdownValues(
+                                            employee: user,
+                                          );
+                                          // refresh the list
+                                          BlocProvider.of<
+                                                      SezPassManagementDetailsCubit>(
+                                                  context)
+                                              .refreshList();
+                                        },
+                                      );
+                                    }
+                                  },
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+                              ],
+
+                              if (state.model.category == 2) ...[
+                                ///EmployeeId
+                                CommonWidgets.textDisplay(
+                                    state.labels?.locale.employeeId ??
+                                        state
+                                            .labels?.defaultLocale.employeeId ??
+                                        Constants.employeeid,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                FlutterInputField(
+                                  controller: employeeIdFreeTextController,
+                                  textInputType: TextInputType.number,
+                                  textFormKey: Keys.contactNoKey,
+                                  hintText: '',
+                                  isEnable: !isReadOnly ? true : false,
+                                  isDisableColor: true,
+                                  onChange: (String value) {
+                                    state.model.employeeId = value;
+                                  },
+                                  validateTextField: (String? user) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+                              ],
+
+                              ///Name
                               CommonWidgets.textDisplay(
-                                  state.labels?.locale.email ??
-                                      state.labels?.defaultLocale.email ??
-                                      Constants.email,
+                                  state.labels?.locale.employeeName ??
+                                      state
+                                          .labels?.defaultLocale.employeeName ??
+                                      Constants.name,
                                   isMandatory: true,
                                   Styles.textStyleWhite16),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
-                                controller: emailController,
+                                controller: nameController,
+                                textInputType: TextInputType.text,
+                                textFormKey: Keys.contactNoKey,
+                                hintText: '',
+                                // focusNode: employeeIdFocusNode,
+                                isEnable: state.model.category == 2 &&
+                                        (state.model.status == null ||
+                                            state.model.status == 0)
+                                    ? true
+                                    : false,
+                                isDisableColor: true,
+                                onChange: (String value) {
+                                  state.model.employeeName = value;
+                                  state.model.employee?.name = value;
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              if (state.model.category == 2) ...[
+                                /// Email
+                                CommonWidgets.textDisplay(
+                                    state.labels?.locale.email ??
+                                        state.labels?.defaultLocale.email ??
+                                        Constants.email,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                FlutterInputField(
+                                  controller: emailController,
+                                  textInputType: TextInputType.text,
+                                  textFormKey: Keys.contactNoKey,
+                                  hintText: '',
+                                  isEnable: !isReadOnly,
+                                  isDisableColor: true,
+                                  onChange: (String value) {
+                                    state.model.email = value;
+                                  },
+                                  validateTextField: (String? user) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+                              ],
+
+                              /// Sez Pass Info
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.sezPassInfo ??
+                                      state.labels?.defaultLocale.sezPassInfo ??
+                                      Constants.sezPassInfo,
+                                  isMandatory: true,
+                                  Styles.textStyleWhite16),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                controller: sezPassInfoController,
                                 textInputType: TextInputType.text,
                                 textFormKey: Keys.contactNoKey,
                                 hintText: '',
                                 isEnable: !isReadOnly,
                                 isDisableColor: true,
                                 onChange: (String value) {
-                                  state.model.email = value;
+                                  state.model.passNo = value;
+                                  state.model.passInfo?.passNo = value;
                                 },
                                 validateTextField: (String? user) {},
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            ],
 
-                            /// Sez Pass Info
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.sezPassInfo ??
-                                    state.labels?.defaultLocale.sezPassInfo ??
-                                    Constants.sezPassInfo,
-                                isMandatory: true,
-                                Styles.textStyleWhite16),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              controller: sezPassInfoController,
-                              textInputType: TextInputType.text,
-                              textFormKey: Keys.contactNoKey,
-                              hintText: '',
-                              isEnable: !isReadOnly,
-                              isDisableColor: true,
-                              onChange: (String value) {
-                                state.model.passNo = value;
-                                state.model.passInfo?.passNo = value;
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// MTP Application Number
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.mtpPassNo ??
-                                    state.labels?.defaultLocale.mtpPassNo ??
-                                    Constants.mTPApplicationNo,
-                                isMandatory: true,
-                                Styles.textStyleWhite16),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              controller: mTPApplicationNoController,
-                              textInputType: TextInputType.text,
-                              textFormKey: Keys.contactNoKey,
-                              hintText: '',
-                              // focusNode: employeeIdFocusNode,
-                              isEnable: !isReadOnly,
-                              isDisableColor: true,
-                              onChange: (String value) {
-                                state.model.mifareNo = value;
-                                state.model.passInfo?.mifareNo = value;
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Pass Issued On
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.passIssuedOn ??
-                                  state.labels?.defaultLocale.passIssuedOn ??
-                                  Constants.passIssuedOn,
-                              isMandatory: true,
-                              Styles.textStyleWhite16,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                            BaseDate().datePickerWidgetLoading(
-                              textController: passValidFromController,
-                              isDisabled: state.model.status != null &&
-                                  state.model.status != 0,
-                              onlyDate: false,
-                              showPastDate: true,
-                              showFutureDate: false,
-                              onChange: (String value) {
-                                passValidFromController.text = value;
-                                state.model.passIssuedOn =
-                                    Utils().formatTime(value);
-                                BlocProvider.of<SezPassManagementDetailsCubit>(
-                                        context)
-                                    .onModelValueChange(state.model);
-                              },
-                              context: context,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Pass Valid Until
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.endTime ??
-                                  state.labels?.defaultLocale.endTime ??
-                                  Constants.passvliduntil,
-                              isMandatory: true,
-                              Styles.textStyleWhite16,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                            BaseDate().datePickerWidgetLoading(
-                              textController: passValidUntilController,
-                              isDisabled: true,
-                              onlyDate: false,
-                              onChange: (String value) {},
-                              context: context,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            if (state.model.status == 2 ||
-                                state.model.status == 8 ||
-                                state.model.status == 9) ...[
-                              /// Pass Collected By
-                              CommonWidgets.horizentaltextHandling(
-                                  state.labels?.locale.handoverSecurity ??
-                                      state.labels?.defaultLocale
-                                          .handoverSecurity ??
-                                      Constants.passCollectedBy,
+                              /// MTP Application Number
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.mtpPassNo ??
+                                      state.labels?.defaultLocale.mtpPassNo ??
+                                      Constants.mTPApplicationNo,
                                   isMandatory: true,
-                                  '${state.model.handoverSecurity?.firstName ?? ''} ${state.model.handoverSecurity?.lastName ?? ''}'),
+                                  Styles.textStyleWhite16),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                controller: mTPApplicationNoController,
+                                textInputType: TextInputType.text,
+                                textFormKey: Keys.contactNoKey,
+                                hintText: '',
+                                // focusNode: employeeIdFocusNode,
+                                isEnable: !isReadOnly,
+                                isDisableColor: true,
+                                onChange: (String value) {
+                                  state.model.mifareNo = value;
+                                  state.model.passInfo?.mifareNo = value;
+                                },
+                                validateTextField: (String? user) {},
+                              ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                              ///Pass Returned On
+                              /// Pass Issued On
                               CommonWidgets.textDisplay(
-                                state.labels?.locale.returnedTime ??
-                                    state.labels?.defaultLocale.returnedTime ??
-                                    Constants.passReturnedOn,
-                                Styles.textStyleWhite16,
+                                state.labels?.locale.passIssuedOn ??
+                                    state.labels?.defaultLocale.passIssuedOn ??
+                                    Constants.passIssuedOn,
                                 isMandatory: true,
+                                Styles.textStyleWhite16,
                               ),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
+
                               BaseDate().datePickerWidgetLoading(
-                                textController: returnedTimeController,
-                                isDisabled: true,
+                                textController: passValidFromController,
+                                isDisabled: state.model.status != null &&
+                                    state.model.status != 0,
                                 onlyDate: false,
+                                showPastDate: true,
+                                showFutureDate: false,
                                 onChange: (String value) {
+                                  passValidFromController.text = value;
+                                  state.model.passIssuedOn =
+                                      Utils().formatTime(value);
                                   BlocProvider.of<
                                               SezPassManagementDetailsCubit>(
                                           context)
@@ -839,105 +817,166 @@ class _SezPassManagementDetailsViewState
                                 context: context,
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            ],
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            ///Attachments
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.evidenceInfo ??
-                                    state.labels?.defaultLocale.evidenceInfo ??
-                                    Constants.evidenceDocuments,
-                                Styles.textStyleWhite16),
-                            widget.model == null
-                                ? CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001)
-                                : Container(),
-                            if (state.model.status == 0 ||
-                                state.model.status == null) ...[
-                              BaseImageUpload().uploadWidget(
-                                context: context,
-                                isDisabled: isReadOnly,
-                                loggedInUserDetails: state.loggedInUserDetails!,
-                                getFiles: uploadFiles,
-                                onImageSelected: (ImageContent data) {
-                                  List<ImageContent>? files = [];
-                                  files.add(data);
-                                  for (ImageContent image
-                                      in uploadFiles ?? []) {
-                                    files.add(image);
-                                  }
-                                  BlocProvider.of<
-                                              SezPassManagementDetailsCubit>(
-                                          context)
-                                      .addAttachment(
-                                    data: files,
-                                    images: files,
-                                  );
-                                },
+                              /// Pass Valid Until
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.endTime ??
+                                    state.labels?.defaultLocale.endTime ??
+                                    Constants.passvliduntil,
+                                isMandatory: true,
+                                Styles.textStyleWhite16,
                               ),
-                            ],
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
 
-                            /// Attachments
-                            IgnorePointer(
-                              ignoring: false,
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20.0),
-                                child: BaseImageUpload().getAttachment(
-                                  height: height,
-                                  attachments: state.loadAttachments,
-                                  files: uploadFiles,
-                                  moduleCode: Constants.dayPassManagementModule,
-                                  isDisabled: false,
-                                  showDeleteIcon: state.model.status == null ||
-                                      state.model.status == 0,
+                              BaseDate().datePickerWidgetLoading(
+                                textController: passValidUntilController,
+                                isDisabled: true,
+                                onlyDate: false,
+                                onChange: (String value) {},
+                                context: context,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              if (state.model.status == 2 ||
+                                  state.model.status == 8 ||
+                                  state.model.status == 9) ...[
+                                /// Pass Collected By
+                                CommonWidgets.horizentaltextHandling(
+                                    state.labels?.locale.handoverSecurity ??
+                                        state.labels?.defaultLocale
+                                            .handoverSecurity ??
+                                        Constants.passCollectedBy,
+                                    isMandatory: true,
+                                    '${state.model.handoverSecurity?.firstName ?? ''} ${state.model.handoverSecurity?.lastName ?? ''}'),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                ///Pass Returned On
+                                CommonWidgets.textDisplay(
+                                  state.labels?.locale.returnedTime ??
+                                      state
+                                          .labels?.defaultLocale.returnedTime ??
+                                      Constants.passReturnedOn,
+                                  Styles.textStyleWhite16,
+                                  isMandatory: true,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                BaseDate().datePickerWidgetLoading(
+                                  textController: returnedTimeController,
+                                  isDisabled: true,
+                                  onlyDate: false,
+                                  onChange: (String value) {
+                                    BlocProvider.of<
+                                                SezPassManagementDetailsCubit>(
+                                            context)
+                                        .onModelValueChange(state.model);
+                                  },
+                                  context: context,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+                              ],
+
+                              ///Attachments
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.evidenceInfo ??
+                                      state
+                                          .labels?.defaultLocale.evidenceInfo ??
+                                      Constants.evidenceDocuments,
+                                  Styles.textStyleWhite16),
+                              widget.model == null
+                                  ? CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001)
+                                  : Container(),
+                              if (state.model.status == 0 ||
+                                  state.model.status == null) ...[
+                                BaseImageUpload().uploadWidget(
+                                  context: context,
+                                  isDisabled: isReadOnly,
+                                  loggedInUserDetails:
+                                      state.loggedInUserDetails!,
+                                  getFiles: uploadFiles,
+                                  onImageSelected: (ImageContent data) {
+                                    List<ImageContent>? files = [];
+                                    files.add(data);
+                                    for (ImageContent image
+                                        in uploadFiles ?? []) {
+                                      files.add(image);
+                                    }
+                                    BlocProvider.of<
+                                                SezPassManagementDetailsCubit>(
+                                            context)
+                                        .addAttachment(
+                                      data: files,
+                                      images: files,
+                                    );
+                                  },
+                                ),
+                              ],
+
+                              /// Attachments
+                              IgnorePointer(
+                                ignoring: false,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20.0),
+                                  child: BaseImageUpload().getAttachment(
+                                    height: height,
+                                    attachments: state.loadAttachments,
+                                    files: uploadFiles,
+                                    moduleCode:
+                                        Constants.dayPassManagementModule,
+                                    isDisabled: false,
+                                    showDeleteIcon:
+                                        state.model.status == null ||
+                                            state.model.status == 0,
+                                  ),
                                 ),
                               ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// SubmitButton
-                            if (showSaveSubmitButtons) ...[
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  cancelButtonDisplay(),
-                                  if (showSaveSubmitButtons) ...[
-                                    submitButtonDisplay(state)
+                              /// SubmitButton
+                              if (showSaveSubmitButtons) ...[
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    cancelButtonDisplay(),
+                                    if (showSaveSubmitButtons) ...[
+                                      submitButtonDisplay(state)
+                                    ],
                                   ],
-                                ],
-                              ),
+                                ),
+                              ],
+                              CommonWidgets.verticalSpacerWidget(height * 0.04),
                             ],
-                            CommonWidgets.verticalSpacerWidget(height * 0.04),
-                          ],
+                          ),
                         ),
-                      ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              if (!showSaveSubmitButtons) ...[
+                Container(
+                  padding: const EdgeInsets.all(5.0),
+                  color: Colors.transparent,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      cancelButtonDisplay(),
                     ],
                   ),
                 ),
-              ),
-            ),
-            if (!showSaveSubmitButtons) ...[
-              Container(
-                padding: const EdgeInsets.all(5.0),
-                decoration: ShapeDecoration(
-                  color: AppColors.newColor3,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(00.0)),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    cancelButtonDisplay(),
-                  ],
-                ),
-              ),
+              ],
             ],
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 

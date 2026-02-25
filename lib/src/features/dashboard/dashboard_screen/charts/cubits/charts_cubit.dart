@@ -19,9 +19,10 @@ class ChartsCubit extends Cubit<ChartsState> {
               eventProtectionByRegion: const [],
               errorMessage: '',
               notificationCount: 0,
-              outWardMaterialMovement: const [],
-              inWardMaterialMovement: const [],
-              visitorPassManagement: const []),
+              // outWardMaterialMovement: const [],
+              // inWardMaterialMovement: const [],
+              // visitorPassManagement: const []
+            ),
         );
 
   NotificationServices notificationServices = NotificationServices();
@@ -42,9 +43,9 @@ class ChartsCubit extends Cubit<ChartsState> {
         commonServices.getDashboardChart(module: 'LEVE'),
         commonServices.getDashboardChart(module: 'LEVR'),
         commonServices.getDashboardChart(module: 'EPR'),
-        commonServices.getDashboardChart(module: 'OUTWMC'),
-        commonServices.getDashboardChart(module: 'INWMC'),
-        commonServices.getDashboardChart(module: 'VISPASSMC'),
+        // commonServices.getDashboardChart(module: 'OUTWMC'),
+        // commonServices.getDashboardChart(module: 'INWMC'),
+        // commonServices.getDashboardChart(module: 'VISPASSMC'),
       ];
 
       final results = await Future.wait(futures);
@@ -54,18 +55,18 @@ class ChartsCubit extends Cubit<ChartsState> {
       List<PieChartData> lawEnforcementVisitByEntity = results[0];
       List<PieChartData> lawEnforcementVisitByRegion = results[1];
       List<PieChartData> eventProtectionByRegion = results[2];
-      List<PieChartData> outWardMaterialMovement = results[3];
-      List<PieChartData> inWardMaterialMovement = results[4];
-      List<PieChartData> visitorPassManagement = results[5];
+      // List<PieChartData> outWardMaterialMovement = results[3];
+      // List<PieChartData> inWardMaterialMovement = results[4];
+      // List<PieChartData> visitorPassManagement = results[5];
 
       emit(
         state.copyWith(
           lawEnforcementVisitByEntity: lawEnforcementVisitByEntity,
           lawEnforcementVisitByRegion: lawEnforcementVisitByRegion,
           eventProtectionByRegion: eventProtectionByRegion,
-          outWardMaterialMovement:outWardMaterialMovement,
-          inWardMaterialMovement:inWardMaterialMovement,
-          visitorPassManagement:visitorPassManagement,
+          // outWardMaterialMovement:outWardMaterialMovement,
+          // inWardMaterialMovement:inWardMaterialMovement,
+          // visitorPassManagement:visitorPassManagement,
           status: FormStatus.initial,
           notificationCount: count,
           displayMenu: displayMenu,

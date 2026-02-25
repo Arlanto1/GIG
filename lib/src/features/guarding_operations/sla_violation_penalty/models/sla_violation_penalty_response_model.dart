@@ -49,6 +49,7 @@ class SLAViolationPenaltyModel extends BaseObject {
   List<Organisation>? vendor;
   List<Organisation>? typeOfService;
   List<Organisation>? entity;
+  Organisation? dutyPostLocation;
   User? approver;
   String? poc;
   int? attdShiftInfoId;
@@ -65,6 +66,7 @@ class SLAViolationPenaltyModel extends BaseObject {
     this.entrySecurity,
     this.status,
     this.entity,
+    this.dutyPostLocation,
     this.vendor,
     this.poc,
     this.typeOfService,

@@ -15,6 +15,9 @@ class EventInfoState extends Equatable {
   final int? eventDuration;
   final String? message;
   final List<FoundModel>? foundArticles;
+  final List<Map<String, dynamic>>? emailTemplates;
+  final bool? isTemplateLoading ;
+  final String? draftTemplateHtml;
 
   factory EventInfoState.initial({
     required EventInfoResponse model,
@@ -43,6 +46,9 @@ class EventInfoState extends Equatable {
     List<String>? additionalEmails,
     List<FoundModel>? foundArticles,
     required int eventDuration,
+    List<Map<String, dynamic>>? emailTemplates,
+    bool? isTemplateLoading,
+  required String? draftTemplateHtml,
   }) {
     return EventInfoState(
       status: FormStatus.initial,
@@ -57,6 +63,8 @@ class EventInfoState extends Equatable {
       additionalEmails: additionalEmails,
       eventDuration: eventDuration,
       foundArticles: foundArticles,
+        emailTemplates:emailTemplates,
+        isTemplateLoading:isTemplateLoading,
     );
   }
 
@@ -85,6 +93,9 @@ class EventInfoState extends Equatable {
     this.eventDuration,
     this.message,
     this.foundArticles,
+    this.emailTemplates,
+    this.isTemplateLoading,
+    this.draftTemplateHtml,
   });
 
   EventInfoState copyWith({
@@ -101,6 +112,9 @@ class EventInfoState extends Equatable {
     int? eventDuration,
     String? message,
     List<FoundModel>? foundArticles,
+    List<Map<String, dynamic>>? emailTemplates,
+    bool? isTemplateLoading,
+     String? draftTemplateHtml,
   }) {
     return EventInfoState(
       status: status ?? this.status,
@@ -116,6 +130,9 @@ class EventInfoState extends Equatable {
       eventDuration: eventDuration ?? this.eventDuration,
       message: message ?? this.message,
       foundArticles: foundArticles ?? this.foundArticles,
+      emailTemplates: emailTemplates ?? this.emailTemplates,
+      isTemplateLoading: isTemplateLoading ?? this.isTemplateLoading,
+      draftTemplateHtml:draftTemplateHtml?? this.draftTemplateHtml,
     );
   }
 }

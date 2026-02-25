@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/models/ipad_model.dart';
 import 'package:db_atom/src/features/passmanagement/models/day_pass_reason_model.dart';
 import 'package:db_atom/src/features/passmanagement/models/vendor_pass_reason_model.dart';
 
@@ -40,6 +41,8 @@ class   CommonApis {
   static final String _getPassType = '$baseUrl/getPassType?passType=';
   static final String _getPassValidUntil = '$baseUrl/getPassValidUntil?';
   static final String _getGroup = '$baseUrl/getGroup';
+  static final String _getDutyPostsByLocation = '$baseUrl/getDpnByLocId';
+  static final String _getIpadSerialNum = '$baseUrl/getIpadSerialNos';
 
 }
 
@@ -132,6 +135,19 @@ class CommonServices {
     );
     return EmployeeDepartments.fromJson(response);
   }
+
+
+  Future<GetIpadSerialNo> getIpadSerialNo({
+    required int locId,
+  }) async {
+    String url = '${CommonApis._getIpadSerialNum}?locationId=$locId';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return GetIpadSerialNo.fromJson(response);
+  }
+
+
 
   Future<Vendors> getVendors({
     required String name,
@@ -516,6 +532,7 @@ class CommonServices {
     return LeoPurposeVisit.fromJson(response);
   }
 
+
   Future<LeoDepartments> getLeoVisitDepartment({
     required String name,
   }) async {
@@ -533,6 +550,19 @@ class CommonServices {
     );
     return DistributionGroupModel.fromJson(response);
   }
+
+  Future<List<Organisation>> getDutyPostsByLocation({
+    required String locationId,
+  }) async {
+    final String url = '${CommonApis._getDutyPostsByLocation}/$locationId';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    return List<Organisation>.from(
+        response.map((x) => Organisation.fromJson(x)));
+  }
+
 
 }
 

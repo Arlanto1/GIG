@@ -1,656 +1,411 @@
-// // import 'dart:ui';
-// //
-// // import '../../../../../index.dart';
-// //
-// // class AddMaterialDetailsPopUp extends StatefulWidget {
-// //   const AddMaterialDetailsPopUp({
-// //     super.key,
-// //     required this.mainContext,
-// //     required this.onSubmit,
-// //   });
-// //
-// //   final BuildContext mainContext;
-// //   final Function(String)? onSubmit;
-// //
-// //   @override
-// //   State<AddMaterialDetailsPopUp> createState() =>
-// //       AddMaterialDetailsPopUpState();
-// // }
-// //
-// // class AddMaterialDetailsPopUpState extends State<AddMaterialDetailsPopUp> {
-// //   final _formKey = GlobalKey<FormState>();
-// //   TextEditingController rejectionCommentController = TextEditingController();
-// //
-// //   @override
-// //   void initState() {
-// //     super.initState();
-// //   }
-// //
-// //   @override
-// //   Widget build(BuildContext context) {
-// //     return Dialog(
-// //       backgroundColor: Colors.transparent,
-// //       insetPadding: const EdgeInsets.all(16),
-// //       child: Builder(
-// //         builder: (context) {
-// //           final height = MediaQuery.of(context).size.height;
-// //           final width = MediaQuery.of(context).size.width;
-// //
-// //           return ClipRRect(
-// //             borderRadius: BorderRadius.circular(20),
-// //             child: BackdropFilter(
-// //               filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-// //               child: Container(
-// //                 height: height / 4.2,
-// //                 width: width,
-// //                 decoration: BoxDecoration(
-// //                   borderRadius: BorderRadius.circular(20),
-// //                   color: AppColors.lavender.withValues(alpha: 0.3), // Glass effect
-// //                   border: Border.all(
-// //                     color: Colors.white.withOpacity(0.9),
-// //                   ),
-// //                   boxShadow: [
-// //                     BoxShadow(
-// //                       color: Colors.black.withOpacity(0.15),
-// //                       blurRadius: 20,
-// //                       offset: const Offset(0, 10),
-// //                     ),
-// //                   ],
-// //                 ),
-// //                 child: Form(
-// //                   key: _formKey,
-// //                   child: SingleChildScrollView(
-// //                     padding: const EdgeInsets.all(16),
-// //                     child: Column(
-// //                       mainAxisSize: MainAxisSize.min,
-// //                       children: <Widget>[
-// //                         /// Rejection Comment
-// //                     CommonWidgets.textDisplay(
-// //                     // state.labels?.locale.materialDescription ??
-// //                     // state.labels?.defaultLocale
-// //                     //   .materialDescription ??
-// //                       Constants.materialBriefDescription,
-// //                       Styles.textStyleWhite16,
-// //                     //   isMandatory: (state.model.status !=
-// //                     //       ConstantsIntValue.mmStatusDraft &&
-// //                     //       widget.model != null) ||
-// //                     //       (widget.isInward == true)
-// //                     //       ? true
-// //                     //       : false,
-// //                     // ),
-// //                       CommonWidgets.verticalSpacerWidget(height * 0.001),
-// //                       FlutterInputField(
-// //                         showBorder: true,
-// //                         lineHeight: 6,
-// //                         characterLimit:
-// //                         Constants.characterLimitDescTextFormField,
-// //                         initialValue: state.model.materialDescription,
-// //                         textFormKey: Keys.materialBreifDescKey,
-// //                         hintText: Constants.informationhere,
-// //                         // isEnable: state.model.status == 10 ||
-// //                         //     state.model.status == -1 ||
-// //                         //     state.model.status == 6 ||
-// //                         //     state.model.status == 2 ||
-// //                         //     state.model.status == 3 ||
-// //                         //     state.model.status == 4 ||
-// //                         //     state.model.status ==
-// //                         //         ConstantsIntValue
-// //                         //             .mmStatusInwardWaiting ||
-// //                         //     !state.model.lock.isEmptyOrNull
-// //                         //     ? false
-// //                         //     : true,
-// //                         // isDisableColor: state.model.status == 10 ||
-// //                         //     state.model.status == -1 ||
-// //                         //     state.model.status == 6 ||
-// //                         //     state.model.status == 2 ||
-// //                         //     state.model.status == 3 ||
-// //                         //     state.model.status == 4 ||
-// //                         //     !showSaveSubmitButtons ||
-// //                         //     state.model.status ==
-// //                         //         ConstantsIntValue
-// //                         //             .mmStatusInwardWaiting ||
-// //                         //     !state.model.lock.isEmptyOrNull
-// //                         //     ? true
-// //                         //     : false,
-// //                         validateTextField: (String? user) {},
-// //                         onChange: (String value) {
-// //                           state.model.materialDescription = value;
-// //                         },
-// //                         textInputAction: TextInputAction.newline,
-// //                         textInputType:
-// //                         TextInputType.multiline, // Add this line
-// //                       ),
-// //
-// //                       CommonWidgets.verticalSpacerWidget(height * 0.02),
-// //
-// //                       /// Quantity
-// //                       CommonWidgets.textDisplay(
-// //                         // state.labels?.locale.quantity ??
-// //                         //     state.labels?.defaultLocale.quantity ??
-// //                             Constants.quantity,
-// //                         Styles.textStyleWhite16,
-// //                       //   isMandatory: (state.model.status !=
-// //                       //       ConstantsIntValue.mmStatusDraft &&
-// //                       //       widget.model != null) ||
-// //                       //       (widget.isInward == true)
-// //                       //       ? true
-// //                       //       : false,
-// //                       // ),
-// //                       CommonWidgets.verticalSpacerWidget(height * 0.001),
-// //
-// //                       Row(
-// //                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-// //                         children: [
-// //                           SizedBox(
-// //                             width: 120,
-// //                             child: FlutterInputField(
-// //                               characterLimit: 5,
-// //                               textInputType:
-// //                               const TextInputType.numberWithOptions(
-// //                                 decimal: true,
-// //                               ),
-// //                               initialValue:
-// //                               '${state.model.quantity ?? ''}',
-// //                               textFormKey: Keys.quantityKey,
-// //                               hintText: '',
-// //                               // isEnable: state.model.status == 10 ||
-// //                               //     state.model.status == -1 ||
-// //                               //     state.model.status == 6 ||
-// //                               //     state.model.status == 2 ||
-// //                               //     state.model.status == 3 ||
-// //                               //     state.model.status == 4 ||
-// //                               //     state.model.status ==
-// //                               //         ConstantsIntValue
-// //                               //             .mmStatusInwardWaiting ||
-// //                               //     !showSaveSubmitButtons ||
-// //                               //     isReadOnly
-// //                               //     ? false
-// //                               //     : true,
-// //                               // isDisableColor: state.model.status == 10 ||
-// //                               //     state.model.status == -1 ||
-// //                               //     state.model.status == 6 ||
-// //                               //     state.model.status == 2 ||
-// //                               //     state.model.status == 3 ||
-// //                               //     state.model.status == 4 ||
-// //                               //     !showSaveSubmitButtons ||
-// //                               //     state.model.status ==
-// //                               //         ConstantsIntValue
-// //                               //             .mmStatusInwardWaiting ||
-// //                               //     !state.model.lock.isEmptyOrNull
-// //                               //     ? true
-// //                               //     : false,
-// //                               onChange: (String? value) {
-// //                                 if (value != null) {
-// //                                   state.model.quantity = int.parse(value);
-// //                                 }
-// //                                 context
-// //                                     .read<MaterialMovementDetailsCubit>()
-// //                                     .onModelValueChange(state.model);
-// //                               },
-// //                               validateTextField: (String? user) {},
-// //                             ),
-// //                           ),
-// //                           TileWidget(
-// //                             name: state.model.unit?.name ?? 'Unit',
-// //                             width: 200,
-// //                           ),
-// //                           if (!isReadOnly) ...[
-// //                             InkWell(
-// //                               onTap: () {
-// //                                 if (!isQuantityDisabled) {
-// //                                   quantityUnitDialog(
-// //                                     context: context,
-// //                                     quantityUnits: state.quantityUnits,
-// //                                   );
-// //                                 }
-// //                               },
-// //                               child: AddButtonWidget(
-// //                                 height: 50,
-// //                               //   isDisableColor: state.model.status ==
-// //                               //       10 ||
-// //                               //       state.model.status == -1 ||
-// //                               //       state.model.status == 6 ||
-// //                               //       state.model.status == 2 ||
-// //                               //       state.model.status == 3 ||
-// //                               //       state.model.status == 4 ||
-// //                               //       !showSaveSubmitButtons ||
-// //                               //       state.model.status ==
-// //                               //           ConstantsIntValue
-// //                               //               .mmStatusInwardWaiting ||
-// //                               //       !state.model.lock.isEmptyOrNull
-// //                               //       ? true
-// //                               //       : false,
-// //                               ),
-// //                             ),
-// //                           ],
-// //                         ],
-// //                       ),
-// //
-// //                       // quantityUnitPopUp(state),
-// //                       CommonWidgets.verticalSpacerWidget(height * 0.02),
-// //
-// //                       /// Outward Details Fields
-// //                       if (!widget.isInward) ...[
-// //                 /// Equipment No/Identification
-// //                 CommonWidgets.textDisplay(
-// //                 state.labels?.locale.modelInfo ??
-// //                 state.labels?.defaultLocale.modelInfo ??
-// //                   Constants.equipmentNo,
-// //                   Styles.textStyleWhite16,
-// //                   isMandatory: state.model.status !=
-// //                       ConstantsIntValue.mmStatusDraft &&
-// //                       widget.model != null
-// //                       ? true
-// //                       : false,
-// //                 ),
-// //                 CommonWidgets.verticalSpacerWidget(
-// //                     height * 0.001),
-// //                 FlutterInputField(
-// //                   lineHeight: 6,
-// //                   initialValue: state.model.modelInfo,
-// //                   showBorder: true,
-// //                   characterLimit:
-// //                   Constants.characterLimitDescTextFormField,
-// //                   textFormKey: Keys.equipmentNoKey,
-// //                   hintText: '',
-// //                   isEnable: state.model.status == 10 ||
-// //                       state.model.status == -1 ||
-// //                       state.model.status == 6 ||
-// //                       state.model.status == 2 ||
-// //                       state.model.status == 3 ||
-// //                       state.model.status == 4 ||
-// //                       state.model.status ==
-// //                           ConstantsIntValue
-// //                               .mmStatusInwardWaiting ||
-// //                       isReadOnly
-// //                       ? false
-// //                       : true,
-// //                   isDisableColor: state.model.status == 10 ||
-// //                       state.model.status == -1 ||
-// //                       state.model.status == 6 ||
-// //                       state.model.status == 2 ||
-// //                       state.model.status == 3 ||
-// //                       state.model.status == 4 ||
-// //                       !showSaveSubmitButtons ||
-// //                       state.model.status ==
-// //                           ConstantsIntValue
-// //                               .mmStatusInwardWaiting ||
-// //                       !state.model.lock.isEmptyOrNull
-// //                       ? true
-// //                       : false,
-// //                   onChange: (String value) {
-// //                     state.model.modelInfo = value;
-// //                     context
-// //                         .read<MaterialMovementDetailsCubit>()
-// //                         .onModelValueChange(state.model);
-// //                   },
-// //                   textInputAction: TextInputAction.newline,
-// //                   textInputType: TextInputType.multiline,
-// //                   validateTextField: (String? user) {},
-// //                 ),
-// //                 CommonWidgets.verticalSpacerWidget(height * 0.02),
-// //
-// //                 CommonWidgets.verticalSpacerWidget(height * 0.02),
-// //
-// //                         buttonViews(widget.mainContext, width),
-// //
-// //                         CommonWidgets.verticalSpacerWidget(height * 0.08),
-// //                       ],
-// //                     ),
-// //                   ),
-// //                 ),
-// //               ),
-// //             ),
-// //           );
-// //         },
-// //       ),
-// //     );
-// //
-// //   }
-// //
-// //   Widget buttonViews(BuildContext context, double width) {
-// //     return Row(
-// //       //mainAxisSize: MainAxisSize.min,
-// //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-// //       children: <Widget>[cancelButton(width), saveButton(width)],
-// //     );
-// //   }
-// //
-// //   Widget cancelButton(double width) {
-// //     return AppButton(
-// //       width: width / 3.5,
-// //       key: const Key(Keys.cancelButton),
-// //       buttonText: Constants.cancel,
-// //       buttonTextKey: Keys.cancelButtonText,
-// //       onTap: () {
-// //         FocusScope.of(context).unfocus();
-// //         Navigator.of(context).pop();
-// //       },
-// //     );
-// //   }
-// //
-// //   Widget saveButton(double width) {
-// //     return AppButton(
-// //       width: width / 3.5,
-// //       key: const Key(Keys.saveButton),
-// //       buttonText: Constants.save,
-// //       buttonTextKey: Keys.saveButtonText,
-// //       backgroundColor: AppColors.navigationSkyBlueColor,
-// //       onTap: () {
-// //         if (!isFormValid.status) {
-// //           Validator().showToast(
-// //             context,
-// //             isFormValid.message,
-// //           );
-// //           return;
-// //         }
-// //         if (rejectionCommentController.text.isEmptyOrNull) {}
-// //         return widget.onSubmit!(rejectionCommentController.text);
-// //       },
-// //     );
-// //   }
-// //
-// //   ErrorResponse get isFormValid {
-// //     if (rejectionCommentController.text.isEmptyOrNull) {
-// //       return const ErrorResponse(
-// //           status: false, message: 'Please enter Rejection Comment');
-// //     }
-// //
-// //     return const ErrorResponse(status: true, message: 'Form is Valid');
-// //   }
-// // }
-//
-// import 'dart:developer';
-// import 'dart:ui';
-// import '../../../../../index.dart';
-// import '../../../../common_widgets/base_widget/base_add_organisation_dialog.dart';
-//
-// class AddMaterialDetailsPopUp extends StatefulWidget {
-//   const AddMaterialDetailsPopUp({
-//     super.key,
-//     required this.mainContext,
-//     required this.onSubmit,
-//     required this.isInward,
-//     this.model,
-//   });
-//
-//   final BuildContext mainContext;
-//   final Function(String)? onSubmit;
-//   final bool isInward;
-//   final MaterialMovementModel? model;
-//
-//
-//   @override
-//   State<AddMaterialDetailsPopUp> createState() =>
-//       AddMaterialDetailsPopUpState();
-// }
-//
-// class AddMaterialDetailsPopUpState extends State<AddMaterialDetailsPopUp> {
-//   final _formKey = GlobalKey<FormState>();
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     final height = MediaQuery.of(context).size.height;
-//     final width = MediaQuery.of(context).size.width;
-//     bool isReadOnly = false;
-//     log('IsInward ${widget.model?.inwardMovement == false}');
-//
-//     return BlocBuilder<MaterialMovementDetailsCubit,
-//         MaterialMovementDetailsState>(
-//         builder: (context, state) {
-//           bool isQuantityDisabled = state.model.status == 10 ||
-//               state.model.status == -1 ||
-//               state.model.status == 6 ||
-//               state.model.status == 2 ||
-//               state.model.status == 3 ||
-//               state.model.status == 4 ||
-//               state.model.status == ConstantsIntValue.mmStatusInwardWaiting ||
-//               !state.model.lock.isEmptyOrNull;
-//           return Dialog(
-//             backgroundColor: Colors.transparent,
-//             insetPadding: const EdgeInsets.all(16),
-//             child: ClipRRect(
-//               borderRadius: BorderRadius.circular(20),
-//               child: BackdropFilter(
-//                 filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
-//                 child: Container(
-//                   height: height * 0.75,
-//                   width: width,
-//                   decoration: BoxDecoration(
-//                     borderRadius: BorderRadius.circular(20),
-//                     color: AppColors.lavender.withOpacity(0.3),
-//                     border: Border.all(color: Colors.white.withOpacity(0.8)),
-//                     boxShadow: [
-//                       BoxShadow(
-//                         color: Colors.black.withOpacity(0.15),
-//                         blurRadius: 20,
-//                         offset: const Offset(0, 10),
-//                       ),
-//                     ],
-//                   ),
-//                   child: Form(
-//                     key: _formKey,
-//                     child: SingleChildScrollView(
-//                       padding: const EdgeInsets.all(16),
-//                       child: Column(
-//                         crossAxisAlignment: CrossAxisAlignment.start,
-//                         children: [
-//
-//                           /// Material Description
-//                           CommonWidgets.textDisplay(
-//                             Constants.materialBriefDescription,
-//                             Styles.textStyleWhite16,
-//                           ),
-//
-//                           CommonWidgets.verticalSpacerWidget(height * 0.01),
-//
-//                           FlutterInputField(
-//                             showBorder: true,
-//                             lineHeight: 6,
-//                             characterLimit:
-//                             Constants.characterLimitDescTextFormField,
-//                             initialValue: state.model.materialDescription,
-//                             textFormKey: Keys.materialBreifDescKey,
-//                             hintText: Constants.informationhere,
-//                             textInputType: TextInputType.multiline,
-//                             textInputAction: TextInputAction.newline,
-//                             onChange: (value) {
-//                               state.model.materialDescription = value;
-//                             },
-//                             validateTextField: (_) {},
-//                           ),
-//
-//                           CommonWidgets.verticalSpacerWidget(height * 0.03),
-//
-//                           /// Quantity
-//                           CommonWidgets.textDisplay(
-//                             Constants.quantity,
-//                             Styles.textStyleWhite16,
-//                           ),
-//
-//                           CommonWidgets.verticalSpacerWidget(height * 0.01),
-//
-//                           Row(
-//                             children: [
-//                               SizedBox(
-//                                 width: 120,
-//                                 child: FlutterInputField(
-//                                   characterLimit: 5,
-//                                   textInputType:
-//                                   const TextInputType.numberWithOptions(
-//                                       decimal: true),
-//                                   initialValue: '${state.model.quantity ?? ''}',
-//                                   textFormKey: Keys.quantityKey,
-//                                   onChange: (value) {
-//                                     if (value != null && value.isNotEmpty) {
-//                                       state.model.quantity =
-//                                           int.tryParse(value);
-//                                       context
-//                                           .read<MaterialMovementDetailsCubit>()
-//                                           .onModelValueChange(state.model);
-//                                     }
-//                                   },
-//                                   validateTextField: (_) {},
-//                                   hintText: '',
-//                                 ),
-//                               ),
-//
-//                               const SizedBox(width: 12),
-//
-//                               TileWidget(
-//                                 name: state.model.unit?.name ?? 'Unit',
-//                                 width: 160,
-//                               ),
-//
-//                               if (!isReadOnly) ...[
-//                                 const SizedBox(width: 8),
-//                                 InkWell(
-//                                   onTap: () {
-//                                     if (!isQuantityDisabled) {
-//                                       quantityUnitDialog(
-//                                         context: context,
-//                                         quantityUnits: state.quantityUnits,
-//                                       );
-//                                     }
-//                                   },
-//                                   child: const AddButtonWidget(height: 50),
-//                                 ),
-//                               ],
-//                             ],
-//                           ),
-//
-//                           CommonWidgets.verticalSpacerWidget(height * 0.03),
-//
-//                           /// Outward Fields
-//                           // if (widget.model?.inwardMovement == false) ...[
-//                           CommonWidgets.textDisplay(
-//                             Constants.equipmentNo,
-//                             Styles.textStyleWhite16,
-//                           ),
-//
-//                           CommonWidgets.verticalSpacerWidget(height * 0.01),
-//
-//                           FlutterInputField(
-//                             showBorder: true,
-//                             lineHeight: 6,
-//                             initialValue: state.model.modelInfo,
-//                             characterLimit:
-//                             Constants.characterLimitDescTextFormField,
-//                             textFormKey: Keys.equipmentNoKey,
-//                             textInputType: TextInputType.multiline,
-//                             textInputAction: TextInputAction.newline,
-//                             onChange: (value) {
-//                               state.model.modelInfo = value;
-//                               context
-//                                   .read<MaterialMovementDetailsCubit>()
-//                                   .onModelValueChange(state.model);
-//                             },
-//                             validateTextField: (_) {},
-//                             hintText: '',
-//                           ),
-//
-//                           CommonWidgets.verticalSpacerWidget(height * 0.03),
-//                           // ],
-//
-//                           buttonViews(widget.mainContext, width),
-//
-//                           CommonWidgets.verticalSpacerWidget(height * 0.04),
-//                         ],
-//                       ),
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//             ),
-//           );
-//         }
-//     );
-//   }
-//
-//   quantityUnitDialog({
-//     required BuildContext context,
-//     required List<Organisation> quantityUnits,
-//   }) {
-//     showDialog(
-//         context: context,
-//         builder: (BuildContext dialogContext) {
-//           return CustomListTexts(
-//             duplicateQuantityUnitList: quantityUnits,
-//             // leftImageName: AppIcon.addicon,
-//             onLeftButtonTap: () {
-//               Navigator.pop(context);
-//               showDialog(
-//                   barrierDismissible: false,
-//                   context: context,
-//                   builder: (BuildContext dialogContext) {
-//                     return BaseAddOrganisationDialog(
-//                       title: Constants.addQuantity,
-//                       orgName: 'ATOM_MATERIAL_MOVEMENT_UNIT',
-//                       functionToCall: () {
-//                         // refresh the list
-//                         BlocProvider.of<MaterialMovementDetailsCubit>(context)
-//                             .refreshList();
-//                       },
-//                     );
-//                   });
-//             },
-//             onTap: (Organisation unit) {
-//               BlocProvider.of<MaterialMovementDetailsCubit>(context)
-//                   .updateDropdownValues(quantityUnit: unit);
-//             },
-//           );
-//         });
-//   }
-//   Widget buttonViews(BuildContext context, double width) {
-//     return Row(
-//       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//       children: [
-//         cancelButton(width),
-//         saveButton(width),
-//       ],
-//     );
-//   }
-//
-//   Widget cancelButton(double width) {
-//     return AppButton(
-//       width: width / 3.5,
-//       key: const Key(Keys.cancelButton),
-//       buttonText: Constants.cancel,
-//       buttonTextKey: Keys.cancelButtonText,
-//       onTap: () {
-//         FocusScope.of(context).unfocus();
-//         Navigator.of(context).pop();
-//       },
-//     );
-//   }
-//
-//   // Widget saveButton(double width) {
-//   //   return AppButton(
-//   //     width: width / 3.5,
-//   //     key: const Key(Keys.saveButton),
-//   //     buttonText: Constants.save,
-//   //     buttonTextKey: Keys.saveButtonText,
-//   //     backgroundColor: AppColors.navigationSkyBlueColor,
-//   //     onTap: () {
-//   //       widget.onSubmit?.call('');
-//   //     },
-//   //   );
-//   // }
-//   Widget saveButton(double width) {
-//     return AppButton(
-//       width: width / 3.5,
-//       key: const Key(Keys.saveButton),
-//       buttonText: Constants.save,
-//       buttonTextKey: Keys.saveButtonText,
-//       backgroundColor: AppColors.navigationSkyBlueColor,
-//       onTap: () {
-//         // 1️⃣ Save via Cubit
-//         // context.read<MaterialMovementDetailsCubit>().saveMaterial();
-//
-//         // 2️⃣ Close popup
-//         Navigator.of(context).pop();
-//       },
-//     );
-//   }
-//
-// }
+
+
+import 'dart:developer';
+
+import 'package:db_atom/index.dart';
+
+import '../../../../common_widgets/base_widget/base_add_organisation_dialog.dart';
+import '../../models/material_items_model.dart';
+import '../bloc/material_items_bloc.dart';
+
+
+class AddMaterialItemsPopUp extends StatefulWidget {
+  const AddMaterialItemsPopUp({
+    super.key,
+    required this.title,
+    required this.onSubmit,
+    required this.model,
+    required this.mainContext,
+    this.extraProperties,
+    required this.parentStatus,
+    required this.users,
+    required this.isInward,
+  });
+
+  final String title;
+  final Function onSubmit;
+  final MaterialMovementItem model;
+  final BuildContext mainContext;
+  final ExtraProperties? extraProperties;
+  final int parentStatus;
+  final List<Organisation> users;
+  final bool isInward;
+
+  @override
+  State<AddMaterialItemsPopUp> createState() => AddMaterialItemsPopUpState();
+}
+
+class AddMaterialItemsPopUpState extends State<AddMaterialItemsPopUp> {
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController materialDesController = TextEditingController();
+  TextEditingController unitController = TextEditingController();
+  TextEditingController quantityController = TextEditingController();
+  TextEditingController equipmentController = TextEditingController();
+
+  bool isReadOnly = false;
+  @override
+  void initState() {
+    super.initState();
+    if (widget.model.id != null) {
+      materialDesController.text =
+          widget.model.materialDescription ?? '';
+
+      quantityController.text =
+          widget.model.quantity?.toString() ?? '';
+
+      equipmentController.text =
+          widget.model.modelInfo ?? '';
+
+      unitController.text =
+          widget.model.unit?.name ?? '';
+    }
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    MaterialItemsState state = const MaterialItemsState();
+
+    return AlertDialog(
+      title: Align(
+        alignment: Alignment.center,
+        child: Text(
+          widget.title,
+          style: Styles.textFontSet(18, AppColors.white,
+              FontWeight.normal, Constants.customFontSemiBoldFamily),
+        ),
+      ),
+      backgroundColor: Colors.transparent,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      content: Builder(builder: (context) {
+        // Get available height and width of the build area of this widget. Make a choice depending on the size.
+        var height = MediaQuery.of(context).size.height;
+        var width = MediaQuery.of(context).size.width;
+
+        return SizedBox(
+          height: height / 1.8,
+          width: width,
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: <Widget>[
+              Form(
+                key: _formKey,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      /// Material Description
+                      CommonWidgets.textDisplay(
+                        Constants.materialBriefDescription,
+                        isMandatory: true,
+                        Styles.textStyleWhite14,
+                      ),
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                      FlutterInputField(
+                        controller: materialDesController,
+                        textInputType: TextInputType.text,
+                        textFormKey: Keys.visitorsNameKey,
+                        hintText: '',
+                        isEnable: (widget.parentStatus == 0) &&
+                            !(widget.extraProperties != null &&
+                                !widget
+                                    .extraProperties!.hasWritePermission!)
+                            ? true
+                            : false,
+                        isDisableColor: (widget.parentStatus == 0) &&
+                            !(widget.extraProperties != null &&
+                                !widget
+                                    .extraProperties!.hasWritePermission!)
+                            ? false
+                            : true,
+                        onChange: (String value) {
+                          widget.model.materialDescription = value;
+                          materialDesController.text = value;
+                          // BlocProvider.of<PayRateCubit>(widget.mainContext)
+                          //     .onModelValueChange(widget.payRate);
+                        },
+                        validateTextField: (String? user) {},
+                      ),
+                      CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                      /// Quantity
+                      CommonWidgets.textDisplay(
+                        // state.labels?.locale.quantity ??
+                        //     state.labels?.defaultLocale.quantity ??
+                          Constants.quantity,
+                          Styles.textStyleWhite16,
+                          isMandatory: true),
+                      //   (state.model.status !=
+                      //       ConstantsIntValue.mmStatusDraft &&
+                      //       widget.model != null) ||
+                      //       (widget.isInward == true)
+                      //       ? true
+                      //       : false,
+                      // ),
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: 100,
+                            child: FlutterInputField(
+                              characterLimit: 5,
+                              textInputType: TextInputType.number,
+                              controller: quantityController,
+                              // initialValue:
+                              // '${widget.model.quantity ?? ''}',
+                              textFormKey: Keys.quantityKey,
+                              hintText: '',
+                              // isEnable: state.model.status == 10 ||
+                              //     state.model.status == -1 ||
+                              //     state.model.status == 6 ||
+                              //     state.model.status == 2 ||
+                              //     state.model.status == 3 ||
+                              //     state.model.status == 4 ||
+                              //     state.model.status ==
+                              //         ConstantsIntValue
+                              //             .mmStatusInwardWaiting ||
+                              //     !showSaveSubmitButtons ||
+                              //     isReadOnly
+                              //     ? false
+                              //     : true,
+                              // isDisableColor: state.model.status == 10 ||
+                              //     state.model.status == -1 ||
+                              //     state.model.status == 6 ||
+                              //     state.model.status == 2 ||
+                              //     state.model.status == 3 ||
+                              //     state.model.status == 4 ||
+                              //     !showSaveSubmitButtons ||
+                              //     state.model.status ==
+                              //         ConstantsIntValue
+                              //             .mmStatusInwardWaiting ||
+                              //     !state.model.lock.isEmptyOrNull
+                              //     ? true
+                              //     : false,
+                              onChange: (String? value) {
+                                if (value != null) {
+                                  widget.model.quantity = int.parse(value);
+                                  quantityController.text =value;
+
+                                }
+
+                              },
+                              validateTextField: (String? user) {},
+                            ),
+
+                            // FlutterInputField(
+                            //   // initialValue: '${widget.model.penaltyAmount}',
+                            //   controller: penaltyAmountController,
+                            //   textInputType: TextInputType.number,
+                            //   textFormKey: Keys.phoneNumberKey,
+                            //   hintText: '',
+                            //   isEnable: false,
+                            //   isDisableColor: true,
+                            //   onChange: (String value) {
+                            //     // widget.payRate.perHour = double.parse(value);
+                            //     // BlocProvider.of<PayRateCubit>(widget.mainContext)
+                            //     //     .onModelValueChange(widget.payRate);
+                            //   },
+                            //   validateTextField: (String? user) {},
+                            // ),
+                          ),
+                          TileWidget(
+                            name: widget.model.unit?.name ?? 'Unit',
+                            width: 120,
+                          ),
+                          if (!isReadOnly) ...[
+                            InkWell(
+                              onTap: () {
+                                BaseOrganisationDialog().departmentDialog(
+                                  context: context,
+                                  organisations: widget.users ?? [],
+                                  onTap: (Organisation org) {
+                                    unitController.text = org.name ?? '';
+
+
+                                    setState(() {
+                                      widget.model.unit = org;
+                                    });
+                                  },
+                                );
+                              },
+
+                              child: const AddButtonWidget(
+                                height: 50,
+                              ),
+                            ),
+                          ],
+
+                        ],
+                      ),
+
+                      CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                      if(!widget.isInward)...[
+                        CommonWidgets.textDisplay(
+                          Constants.equipmentNo,
+                          isMandatory: true,
+                          Styles.textStyleWhite14,
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                        FlutterInputField(
+                          controller: equipmentController,
+                          textInputType: TextInputType.text,
+                          textFormKey: Keys.visitorsNameKey,
+                          hintText: '',
+                          isEnable: (widget.parentStatus == 0) &&
+                              !(widget.extraProperties != null &&
+                                  !widget
+                                      .extraProperties!.hasWritePermission!)
+                              ? true
+                              : false,
+                          isDisableColor: (widget.parentStatus == 0) &&
+                              !(widget.extraProperties != null &&
+                                  !widget
+                                      .extraProperties!.hasWritePermission!)
+                              ? false
+                              : true,
+                          onChange: (String value) {
+                            widget.model.modelInfo = value;
+                            equipmentController.text = value;
+                            // BlocProvider.of<PayRateCubit>(widget.mainContext)
+                            //     .onModelValueChange(widget.payRate);
+                          },
+                          validateTextField: (String? user) {},
+                        ),
+                      ],
+                      CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                      CommonWidgets.verticalSpacerWidget(height * 0.02),
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      buttonViews(widget.mainContext, width),
+                      CommonWidgets.verticalSpacerWidget(height * 0.02),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      }),
+    );
+  }
+
+  Widget buttonViews(BuildContext context, double width) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        cancelButton(width),
+        if ((widget.parentStatus == 0) &&
+            !(widget.extraProperties != null &&
+                !widget.extraProperties!.hasWritePermission!)) ...[
+          saveButton(width, widget.onSubmit)
+        ]
+      ],
+    );
+  }
+
+  Widget cancelButton(double width) {
+    return PopButton(
+      width: width / 3.5,
+      key: const Key(Keys.cancelButton),
+      buttonText: Constants.cancel,
+      buttonTextKey: Keys.cancelButtonText,
+      foregroundColor: AppColors.textGreyThemeColor,
+      textStyle: Styles.styleHeaderGreyText16,
+      backgroundColor: AppColors.white,
+      boarderColor: AppColors.textGreyThemeColor,
+      onTap: () {
+        //loginFormKey.currentState!.validate();
+        FocusScope.of(context).unfocus();
+        Navigator.of(context).pop();
+      },
+    );
+  }
+
+  Widget saveButton(double width, Function onSubmit) {
+    return PopButton(
+      width: width / 3.5,
+      key: const Key(Keys.saveButton),
+      buttonText: Constants.save,
+      buttonTextKey: Keys.saveButtonText,
+      boarderColor: AppColors.navigationSkyBlueColor,
+      backgroundColor: AppColors.navigationSkyBlueColor,
+      foregroundColor: Colors.white,
+      textStyle: Styles.textStyleSemiBold16White,
+      onTap: () {
+        if (!isFormValid.status) {
+          Validator().showToast(
+            context,
+            isFormValid.message,
+          );
+          return;
+        }
+
+        onSubmit(widget.model);
+        Navigator.pop(context);
+      },
+    );
+  }
+
+
+  quantityUnitDialog({
+    required BuildContext context,
+    required List<Organisation> quantityUnits,
+  }) {
+    showDialog(
+        context: context,
+        builder: (BuildContext dialogContext) {
+          return CustomListTexts(
+            duplicateQuantityUnitList: quantityUnits,
+            // leftImageName: AppIcon.addicon,
+            onLeftButtonTap: () {
+              Navigator.pop(context);
+              showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (BuildContext dialogContext) {
+                    return BaseAddOrganisationDialog(
+                      title: Constants.addQuantity,
+                      orgName: 'ATOM_MATERIAL_MOVEMENT_UNIT',
+                      functionToCall: () {
+                        // refresh the list
+                        BlocProvider.of<MaterialMovementDetailsCubit>(context)
+                            .refreshList();
+                      },
+                    );
+                  });
+            },
+            onTap: (Organisation unit) {
+              BlocProvider.of<MaterialMovementDetailsCubit>(context)
+                  .updateDropdownValues(quantityUnit: unit);
+            },
+          );
+        });
+  }
+  ErrorResponse get isFormValid {
+    if (widget.model.materialDescription == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Material Description.');
+    }
+    if (widget.model.quantity == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Quantity.');
+    }
+
+    if (widget.model.unit == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Unit.');
+    }
+
+    if (widget.model.modelInfo == null && !widget.isInward) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Equipment No.');
+    }
+
+    return const ErrorResponse(status: true, message: 'Form is Valid');
+  }
+}

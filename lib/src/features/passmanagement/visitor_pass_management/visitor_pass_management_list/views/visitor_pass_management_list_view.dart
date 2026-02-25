@@ -917,7 +917,6 @@
 //   const Color(0xFF6A1BFF).withOpacity(0.12); // purple glow
 // }
 
-
 import 'dart:ui';
 
 import 'package:db_atom/index.dart';
@@ -931,10 +930,12 @@ class VisitorPassManagementListView extends StatefulWidget {
   });
 
   @override
-  State<VisitorPassManagementListView> createState() => _VisitorPassManagementListViewState();
+  State<VisitorPassManagementListView> createState() =>
+      _VisitorPassManagementListViewState();
 }
 
-class _VisitorPassManagementListViewState extends State<VisitorPassManagementListView> {
+class _VisitorPassManagementListViewState
+    extends State<VisitorPassManagementListView> {
   late final ScrollController _scrollController;
   int pageNumber = 0;
   BaseFilterModel filters = BaseFilterModel();
@@ -943,8 +944,8 @@ class _VisitorPassManagementListViewState extends State<VisitorPassManagementLis
   void initState() {
     super.initState();
     context.read<VisitorPassManagementListBloc>().add(
-      const InitializeVisitorPassValues(),
-    );
+          const InitializeVisitorPassValues(),
+        );
     _scrollController = ScrollController()..addListener(_onScroll);
   }
 
@@ -963,18 +964,18 @@ class _VisitorPassManagementListViewState extends State<VisitorPassManagementLis
     if (currentScroll == maxScroll) {
       pageNumber = pageNumber + 20;
       context.read<VisitorPassManagementListBloc>().add(FetchVisitorPassData(
-        startPos: pageNumber,
-        maxPos: Constants.maxResults,
-        newSearch: false,
-        filters: filters,
-      ));
+            startPos: pageNumber,
+            maxPos: Constants.maxResults,
+            newSearch: false,
+            filters: filters,
+          ));
     }
   }
 
   Future<void> _onRefresh() async {
     context.read<VisitorPassManagementListBloc>().add(
-      const RefreshVisitorPassList(),
-    );
+          const RefreshVisitorPassList(),
+        );
     await Future.delayed(const Duration(milliseconds: 2000));
   }
 
@@ -983,11 +984,14 @@ class _VisitorPassManagementListViewState extends State<VisitorPassManagementLis
     final scaffoldKey = GlobalKey<ScaffoldState>();
     final size = MediaQuery.of(context).size;
     double height = size.height;
-    return BlocConsumer<VisitorPassManagementListBloc, VisitorPassManagementListState>(
+    return BlocConsumer<VisitorPassManagementListBloc,
+            VisitorPassManagementListState>(
         listener: (context, state) {},
         builder: (context, state) {
           return Scaffold(
-              backgroundColor: AppColors.newColor,
+              backgroundColor: Colors.transparent,
+              extendBody: true,
+              extendBodyBehindAppBar: true,
               // floatingActionButton: state.extraProperties?.hasWritePermission ??
               //     false
               //     ? Flutterfloatingbutton(
@@ -1002,18 +1006,20 @@ class _VisitorPassManagementListViewState extends State<VisitorPassManagementLis
               // )
               //     : const SizedBox(),
               bottomNavigationBar: CustomBottomNavigationBar(
-                hasAddPermission: state.extraProperties?.hasWritePermission ??
-                    false ? true : false,
+                hasAddPermission:
+                    state.extraProperties?.hasWritePermission ?? false
+                        ? true
+                        : false,
                 scaffoldKey: scaffoldKey,
                 context: context,
                 displayMenu: state.displayMenu,
                 list: true,
                 // 🔥 only "+" button mode
                 onAddPressed: () {
-                  Navigator.pushNamed(context, visitorPassManagementDetailsRoute,
-                      arguments: {
-                        "title": Constants.createVisitorPassManagementTitle
-                      });
+                  Navigator.pushNamed(
+                      context, visitorPassManagementDetailsRoute, arguments: {
+                    "title": Constants.createVisitorPassManagementTitle
+                  });
                 },
               ),
               appBar: BaseAppBar().buildAppHeader(
@@ -1027,269 +1033,330 @@ class _VisitorPassManagementListViewState extends State<VisitorPassManagementLis
                 excelAPIName: 'exportPassMgmtExcel?passType=${1}&isList=1',
                 pdfAPIName: 'exportPassMgmtPDF?passType=${1}&isList=1',
               ),
-              body:
-              BlocBuilder<VisitorPassManagementListBloc, VisitorPassManagementListState>(
-                  builder: (context, state) {
-                    // if (state.status == FormStatus.loading) {
-                    //   return const BaseLoader();
-                    // }
-                    // if (state.list.isEmptyOrNull) {
-                    //   return const NoRecordFoundWidget();
-                    // }
-                    // log('--labels-${state.labels?.locale.locationRegion}');
-                    return Container(
-                      width: double.infinity,
-                      height: double.infinity,
-                      color: AppColors.newColor3,
-                      // margin: allMargin16,
-                      // decoration: const ShapeDecoration(
-                      //     color: AppColors.backgroundWhiteColor,
-                      //     shape: RoundedRectangleBorder(
-                      //       borderRadius:
-                      //       BorderRadius.vertical(top: Radius.circular(20.0)),
-                      //     )),
-                      child: Column(
-                        // crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          BaseSearchWidget(
-                            applySearchFilters: applySearchFilters,
-                            applyFilters: applyFilters,
-                            commonFilters: state.commonFilters ??
-                                CommonFilters(
-                                  statuses: [],
-                                  regions: [],
-                                ),
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.001),
-                          if (state.status == FormStatus.loading) ...[
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            const BaseLoader(),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          ],
-                          // Text('state.items.isEmptyOrNull=====${state.items.isEmptyOrNull}'),
-                          // Text('state.status=====${state.status}'),
-                          if (state.items.isEmptyOrNull &&
-                              state.status != FormStatus.loading) ...[
-                            CommonWidgets.verticalSpacerWidget(height * 0.1),
-                            const NoRecordFoundWidget(),
-                          ],
-
-                          Expanded(
-                            child: CustomMaterialIndicator(
-                              onRefresh: () => _onRefresh(),
-                              backgroundColor: Colors.white,
-                              indicatorBuilder: (context, controller) {
-                                return const Padding(
-                                  padding: EdgeInsets.all(6.0),
-                                  child: BaseLoader(),
-                                );
-                              },
-                              child: ListView.builder(
-                                controller: _scrollController,
-                                itemCount: state.hasReachedMax
-                                    ? state.items.length
-                                    : state.items.length + 1,
-                                itemBuilder: (context, index) {
-                                  List<Label> labels = [];
-                                  if (index < state.items.length) {
-                                    labels.add(Label(
-                                        key:
-                                        state.labels?.locale.inputDate ??
-                                            state.labels?.defaultLocale
-                                                .inputDate ??
-                                            Constants.createdDate,
-                                        value: state.items[index].inputDate != null
-                                            ? Utils.timestampToDateConversion(
-                                            int.parse(
-                                                state.items[index].inputDate ??
-                                                    '0'),
-                                            Constants
-                                                .twentyFourHourDateTimeFormat)
-                                            : ''));
-                                    labels.add(Label(
-                                        key: state.labels?.locale.locationRegion ??
-                                            state.labels?.defaultLocale
-                                                .locationRegion ??
-                                            Constants.region,
-                                        value:
-                                        state.items[index].locationRegion?.name ?? ''));
-                                    labels.add(Label(
-                                        key: state.labels?.locale.location ??
-                                            state.labels?.defaultLocale.location ??
-                                            Constants.location,
-                                        value: state.items[index].location?.name ??
-                                            ''));
-                                    labels.add(Label(
-                                        key: state.labels?.locale.entrySecurity ??
-                                            state.labels?.defaultLocale
-                                                .entrySecurity ??
-                                            Constants.createdby,
-                                        value:
-                                        '${state.items[index].entrySecurity?.firstName ?? ''} ${state.items[index].entrySecurity?.lastName ?? ''}'));
-
-                                    labels.add(Label(
-                                        key: state.labels?.locale.visitorPassInfo ??
-                                            state.labels?.defaultLocale
-                                                .visitorPassInfo ??
-                                            Constants.visitorPassNo,
-                                        value:
-                                        '${state.items[index].passInfo?.passNo ?? ''} '));
-
-                                    labels.add(Label(
-                                        key: state.labels?.locale.returnedTime ??
-                                            state.labels?.defaultLocale
-                                                .returnedTime ??
-                                            Constants.passReturnedOn,
-                                        value: state.items[index]. returnedTime != null
-                                            ? Utils.timestampToDateConversion(
-                                            int.parse(
-                                                state.items[index].returnedTime ??
-                                                    '0'),
-                                            Constants
-                                                .twentyFourHourDateTimeFormat)
-                                            : ''));
-
-                                    labels.add(Label(
-                                        key: state.labels?.locale.handoverSecurity ??
-                                            state.labels?.defaultLocale.handoverSecurity ??
-                                            Constants.passCollectedBy,
-                                        value: state.items[index].handoverSecurity?.name != null ?state.items[index].handoverSecurity?.name ??
-                                            '':''));
-                                    // labels.add(Label(
-                                    //     key: state.labels?.locale.companyType ??
-                                    //         state.labels?.defaultLocale.companyType ??
-                                    //         Constants.companyType,
-                                    //     value: state.items[index].companyType?.name ??
-                                    //         ''));
-                                    return index >= state.items.length
-                                        ? const BaseLoader()
-                                        : Container(
-                                        decoration: const BoxDecoration(
-                                          gradient: LinearGradient(
-                                            colors: [
-                                              // Color(0xFF6474C6),
-                                              // Color(0xFF6474C6),
-                                              Colors.transparent,
-                                              Colors.transparent,
-                                            ],
-                                            begin: Alignment.topLeft,
-                                            end: Alignment.bottomRight,
-                                          ),
-                                        ),
-                                        margin: const EdgeInsets.symmetric(
-                                            horizontal: 12, vertical: 8),
-
-                                        child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(18),
-                                            child: BackdropFilter(
-                                                filter: ImageFilter.blur(
-                                                    sigmaX: 18, sigmaY: 18),
-                                                child: Container(
-                                                    decoration:
-                                                    BoxDecoration(
-                                                      gradient: LinearGradient(
-                                                        colors: [
-                                                          Colors.white.withValues(alpha: 0.09),
-                                                          Colors.transparent,
-                                                          Colors.white.withValues(alpha: 0.09),
-                                                          // Color(0xFF6474C6).withOpacity(0.14)
-                                                        ],
-                                                        stops: [0.02, 0.35, 1],
-                                                        begin: Alignment.topCenter,
-                                                        end: Alignment.bottomCenter,
-                                                      ),
-                                                      borderRadius: BorderRadius.circular(27),
-                                                      border: Border.all(
-                                                        color: Colors.white
-                                                            .withValues(alpha: 0.6),
-                                                        width: 0.7,
-                                                      ),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.white
-                                                              .withValues(alpha: 0.0),
-                                                          blurRadius: 12,
-                                                          offset: const Offset(0, 2),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    child: BaseListTileItem(
-                                                      id: state.items[index].id,
-                                                      status: state.items[index].status,
-                                                      labels: labels,
-                                                      isPassManagementStatus: true,
-                                                      isEventProtectionStatus: false,
-                                                      onTap: (selectedIndex) {
-                                                        showDialog(
-                                                          context: context,
-                                                          builder:
-                                                              (BuildContext dialogContext) {
-                                                            return BasePopUpItems(
-                                                              id: state.items[selectedIndex].id
-                                                                  .toString(),
-                                                              status: state.items[index].status,
-                                                              slNo: state
-                                                                  .items[selectedIndex].slNo,
-                                                              labels: labels,
-                                                              passValidFrom: state.items[selectedIndex].startTime,
-                                                              passValidUntil: state.items[selectedIndex].endTime,
-                                                              isPassManagementStatus: true,
-                                                              isEventProtectionStatus: false,
-                                                              isMasterGuard: false,
-                                                            );
-                                                          },
-                                                        );
-                                                      },
-                                                      onEditTap: (selectedIndex) {
-                                                        getById(
-                                                            state.extraProperties
-                                                                ?.hasWritePermission ??
-                                                                false,
-                                                            state.items[index].id ?? 0);
-                                                      },
-                                                      showEditButton: state
-                                                          .items[index].status ==
-                                                          ConstantsIntValue.passCreatedStatus || state
-                                                          .items[index].status ==
-                                                          ConstantsIntValue.passStatusHandedOver,
-                                                      onViewTap: (selectedIndex) {
-                                                        showDialog(
-                                                          context: context,
-                                                          builder:
-                                                              (BuildContext dialogContext) {
-                                                            return BasePopUpItems(
-                                                              id: state.items[selectedIndex].id
-                                                                  .toString(),
-                                                              status: state.items[index].status,
-                                                              slNo: state
-                                                                  .items[selectedIndex].slNo,
-                                                              labels: labels,
-                                                              passValidFrom: state.items[selectedIndex].startTime,
-                                                              passValidUntil: state.items[selectedIndex].endTime,
-                                                              isPassManagementStatus: true,
-                                                              isEventProtectionStatus: false,
-                                                              isMasterGuard: false,
-                                                            );
-                                                          },
-                                                        );
-                                                      },
-                                                      index: index,
-                                                    )))) );
-                                  }
-
-                                  // Handle the case where index is out of bounds
-                                  return const Center(
-                                    child: SizedBox(),
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                        ],
+              body: BlocBuilder<VisitorPassManagementListBloc,
+                  VisitorPassManagementListState>(builder: (context, state) {
+                // if (state.status == FormStatus.loading) {
+                //   return const BaseLoader();
+                // }
+                // if (state.list.isEmptyOrNull) {
+                //   return const NoRecordFoundWidget();
+                // }
+                // log('--labels-${state.labels?.locale.locationRegion}');
+                return Stack(
+                  children: [
+                    // 🔹 Background
+                    Positioned.fill(
+                      child: Image.asset(
+                        'assets/images/bg2.png',
+                        fit: BoxFit.cover,
                       ),
-                    );
-                  }));
+                    ),
+                    Positioned.fill(
+                      child: ClipRect(
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
+                          child: Container(
+                            color: Colors.black.withOpacity(0.2),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    // 🔹 Search Bar - positioned safely at the top
+                    Positioned(
+                      top: MediaQuery.of(context).padding.top +
+                          kToolbarHeight +
+                          -40, // below AppBar
+                      left: 3,
+                      right: 3,
+                      child: BaseSearchWidget(
+                        applySearchFilters: applySearchFilters,
+                        applyFilters: applyFilters,
+                        commonFilters: state.commonFilters ??
+                            CommonFilters(
+                              statuses: [],
+                              regions: [],
+                            ),
+                      ),
+                    ),
+
+                    // 🔹 ListView - start immediately below search bar
+                    Positioned(
+                      top: MediaQuery.of(context).padding.top +
+                          kToolbarHeight +
+                          10,
+                      // search bar height ~64+padding
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      child: CustomMaterialIndicator(
+                        onRefresh: () => _onRefresh(),
+                        backgroundColor: Colors.white,
+                        indicatorBuilder: (context, controller) {
+                          return const Padding(
+                            padding: EdgeInsets.all(6.0),
+                            child: BaseLoader(),
+                          );
+                        },
+                        child: ListView.builder(
+                          controller: _scrollController,
+                          padding: EdgeInsets.zero,
+                          itemCount: state.hasReachedMax
+                              ? state.items.length
+                              : state.items.length + 1,
+                          itemBuilder: (context, index) {
+                            List<Label> labels = [];
+                            if (index < state.items.length) {
+                              labels.add(Label(
+                                  key: state.labels?.locale.inputDate ??
+                                      state.labels?.defaultLocale.inputDate ??
+                                      Constants.createdDate,
+                                  value: state.items[index].inputDate != null
+                                      ? Utils.timestampToDateConversion(
+                                          int.parse(
+                                              state.items[index].inputDate ??
+                                                  '0'),
+                                          Constants
+                                              .twentyFourHourDateTimeFormat)
+                                      : ''));
+                              labels.add(Label(
+                                  key: state.labels?.locale.locationRegion ??
+                                      state.labels?.defaultLocale
+                                          .locationRegion ??
+                                      Constants.region,
+                                  value:
+                                      state.items[index].locationRegion?.name ??
+                                          ''));
+                              labels.add(Label(
+                                  key: state.labels?.locale.location ??
+                                      state.labels?.defaultLocale.location ??
+                                      Constants.location,
+                                  value:
+                                      state.items[index].location?.name ?? ''));
+                              labels.add(Label(
+                                  key: state.labels?.locale.entrySecurity ??
+                                      state.labels?.defaultLocale
+                                          .entrySecurity ??
+                                      Constants.createdby,
+                                  value:
+                                      '${state.items[index].entrySecurity?.firstName ?? ''} ${state.items[index].entrySecurity?.lastName ?? ''}'));
+
+                              labels.add(Label(
+                                  key: state.labels?.locale.visitorPassInfo ??
+                                      state.labels?.defaultLocale
+                                          .visitorPassInfo ??
+                                      Constants.visitorPassNo,
+                                  value:
+                                      '${state.items[index].passInfo?.passNo ?? ''} '));
+
+                              labels.add(Label(
+                                  key: state.labels?.locale.returnedTime ??
+                                      state
+                                          .labels?.defaultLocale.returnedTime ??
+                                      Constants.passReturnedOn,
+                                  value: state.items[index].returnedTime != null
+                                      ? Utils.timestampToDateConversion(
+                                          int.parse(
+                                              state.items[index].returnedTime ??
+                                                  '0'),
+                                          Constants
+                                              .twentyFourHourDateTimeFormat)
+                                      : ''));
+
+                              labels.add(Label(
+                                  key: state.labels?.locale.handoverSecurity ??
+                                      state.labels?.defaultLocale
+                                          .handoverSecurity ??
+                                      Constants.passCollectedBy,
+                                  value: state.items[index].handoverSecurity
+                                              ?.name !=
+                                          null
+                                      ? state.items[index].handoverSecurity
+                                              ?.name ??
+                                          ''
+                                      : ''));
+                              // labels.add(Label(
+                              //     key: state.labels?.locale.companyType ??
+                              //         state.labels?.defaultLocale.companyType ??
+                              //         Constants.companyType,
+                              //     value: state.items[index].companyType?.name ??
+                              //         ''));
+                              return index >= state.items.length
+                                  ? const BaseLoader()
+                                  : Container(
+                                      decoration: const BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            // Color(0xFF6474C6),
+                                            // Color(0xFF6474C6),
+                                            Colors.transparent,
+                                            Colors.transparent,
+                                          ],
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                        ),
+                                      ),
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 12, vertical: 8),
+                                      child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(18),
+                                          child: BackdropFilter(
+                                              filter: ImageFilter.blur(
+                                                  sigmaX: 18, sigmaY: 18),
+                                              child: Container(
+                                                  decoration: BoxDecoration(
+                                                    gradient: LinearGradient(
+                                                      colors: [
+                                                        Colors.white.withValues(
+                                                            alpha: 0.09),
+                                                        Colors.transparent,
+                                                        Colors.white.withValues(
+                                                            alpha: 0.09),
+                                                        // Color(0xFF6474C6).withOpacity(0.14)
+                                                      ],
+                                                      stops: [0.02, 0.35, 1],
+                                                      begin:
+                                                          Alignment.topCenter,
+                                                      end: Alignment
+                                                          .bottomCenter,
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            27),
+                                                    border: Border.all(
+                                                      color: Colors.white
+                                                          .withValues(
+                                                              alpha: 0.6),
+                                                      width: 0.7,
+                                                    ),
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Colors.white
+                                                            .withValues(
+                                                                alpha: 0.0),
+                                                        blurRadius: 12,
+                                                        offset:
+                                                            const Offset(0, 2),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  child: BaseListTileItem(
+                                                    id: state.items[index].id,
+                                                    status: state
+                                                        .items[index].status,
+                                                    labels: labels,
+                                                    isPassManagementStatus:
+                                                        true,
+                                                    isEventProtectionStatus:
+                                                        false,
+                                                    onTap: (selectedIndex) {
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                            dialogContext) {
+                                                          return BasePopUpItems(
+                                                            id: state
+                                                                .items[
+                                                                    selectedIndex]
+                                                                .id
+                                                                .toString(),
+                                                            status: state
+                                                                .items[index]
+                                                                .status,
+                                                            slNo: state
+                                                                .items[
+                                                                    selectedIndex]
+                                                                .slNo,
+                                                            labels: labels,
+                                                            passValidFrom: state
+                                                                .items[
+                                                                    selectedIndex]
+                                                                .startTime,
+                                                            passValidUntil: state
+                                                                .items[
+                                                                    selectedIndex]
+                                                                .endTime,
+                                                            isPassManagementStatus:
+                                                                true,
+                                                            isEventProtectionStatus:
+                                                                false,
+                                                            isMasterGuard:
+                                                                false,
+                                                          );
+                                                        },
+                                                      );
+                                                    },
+                                                    onEditTap: (selectedIndex) {
+                                                      getById(
+                                                          state.extraProperties
+                                                                  ?.hasWritePermission ??
+                                                              false,
+                                                          state.items[index]
+                                                                  .id ??
+                                                              0);
+                                                    },
+                                                    showEditButton: state
+                                                                .items[index]
+                                                                .status ==
+                                                            ConstantsIntValue
+                                                                .passCreatedStatus ||
+                                                        state.items[index]
+                                                                .status ==
+                                                            ConstantsIntValue
+                                                                .passStatusHandedOver,
+                                                    onViewTap: (selectedIndex) {
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (BuildContext
+                                                            dialogContext) {
+                                                          return BasePopUpItems(
+                                                            id: state
+                                                                .items[
+                                                                    selectedIndex]
+                                                                .id
+                                                                .toString(),
+                                                            status: state
+                                                                .items[index]
+                                                                .status,
+                                                            slNo: state
+                                                                .items[
+                                                                    selectedIndex]
+                                                                .slNo,
+                                                            labels: labels,
+                                                            passValidFrom: state
+                                                                .items[
+                                                                    selectedIndex]
+                                                                .startTime,
+                                                            passValidUntil: state
+                                                                .items[
+                                                                    selectedIndex]
+                                                                .endTime,
+                                                            isPassManagementStatus:
+                                                                true,
+                                                            isEventProtectionStatus:
+                                                                false,
+                                                            isMasterGuard:
+                                                                false,
+                                                          );
+                                                        },
+                                                      );
+                                                    },
+                                                    index: index,
+                                                  )))));
+                            }
+
+                            // Handle the case where index is out of bounds
+                            return const Center(
+                              child: SizedBox(),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              }));
         });
   }
 
@@ -1297,27 +1364,28 @@ class _VisitorPassManagementListViewState extends State<VisitorPassManagementLis
     showLoadingDialog(context);
 
     VisitorPassManagementModel visitorPassManagementModel =
-    await VisitorPassManagementServices().getById(id);
+        await VisitorPassManagementServices().getById(id);
 
     editDataLoading(visitorPassManagementModel, hasWritePermission);
   }
 
-  void editDataLoading(
-      VisitorPassManagementModel? visitorPassManagementModel, bool hasWritePermission) {
+  void editDataLoading(VisitorPassManagementModel? visitorPassManagementModel,
+      bool hasWritePermission) {
     dismissLoadingDialog(context);
     if (VisitorPassManagementModel != null) {
-      Navigator.pushNamed(context, visitorPassManagementDetailsRoute, arguments: {
-        "model": visitorPassManagementModel,
-        "title": Constants.editVisitorPassManagementTitle,
-        ConstantsArgument.extraProperties:
-        ExtraProperties(hasWritePermission: hasWritePermission),
-      });
+      Navigator.pushNamed(context, visitorPassManagementDetailsRoute,
+          arguments: {
+            "model": visitorPassManagementModel,
+            "title": Constants.editVisitorPassManagementTitle,
+            ConstantsArgument.extraProperties:
+                ExtraProperties(hasWritePermission: hasWritePermission),
+          });
     }
   }
 
   void applySearchFilters(
-      FilterCriteria model,
-      ) {
+    FilterCriteria model,
+  ) {
     filters = BaseFilterModel(filterCriteria: model);
 
     BlocProvider.of<VisitorPassManagementListBloc>(context).add(
@@ -1330,8 +1398,8 @@ class _VisitorPassManagementListViewState extends State<VisitorPassManagementLis
   }
 
   void applyFilters(
-      Filters model,
-      ) {
+    Filters model,
+  ) {
     filters = BaseFilterModel(filterCriteria: FilterCriteria(filters: model));
 
     BlocProvider.of<VisitorPassManagementListBloc>(context).add(
@@ -1346,4 +1414,3 @@ class _VisitorPassManagementListViewState extends State<VisitorPassManagementLis
     Navigator.pop(context);
   }
 }
-

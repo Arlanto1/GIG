@@ -1069,11 +1069,11 @@
 //   }
 // }
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/passmanagement/visitor_pass_management/models/visitor_pass_management_model.dart';
 import 'package:db_atom/src/features/passmanagement/visitor_pass_management/visitor_pass_management_details/cubits/visitor_pass_management_details_cubit.dart';
-
 
 class VisitorPassManagementDetailsView extends StatefulWidget {
   final VisitorPassManagementModel? model;
@@ -1102,30 +1102,33 @@ class _VisitorPassManagementDetailsViewState
   TextEditingController takenOutOnDateController = TextEditingController();
   TextEditingController statusController = TextEditingController();
   TextEditingController expectedDateOfReturnController =
-  TextEditingController();
+      TextEditingController();
   TextEditingController passValidFromController = TextEditingController();
-  TextEditingController passValidUntilController= TextEditingController();
+  TextEditingController passValidUntilController = TextEditingController();
   bool isReadOnly = false;
-  TextEditingController passTypeController =
-  TextEditingController();
+  TextEditingController passTypeController = TextEditingController();
   TextEditingController contactNumberController = TextEditingController();
-  TextEditingController visitorNameController =TextEditingController();
+  TextEditingController visitorNameController = TextEditingController();
   TextEditingController visitorComingFromController = TextEditingController();
   TextEditingController hostController = TextEditingController();
   TextEditingController purposeOfVisitController = TextEditingController();
-  TextEditingController photoIdentityController=TextEditingController();
-  TextEditingController updateStatusTextController =TextEditingController();
+  TextEditingController photoIdentityController = TextEditingController();
+  TextEditingController updateStatusTextController = TextEditingController();
   TextEditingController escortedByController = TextEditingController();
-  TextEditingController escortedByEmployeeIdController = TextEditingController();
+  TextEditingController escortedByEmployeeIdController =
+      TextEditingController();
   TextEditingController returnedTimeController = TextEditingController();
+  TextEditingController visitorLapSerialNumController = TextEditingController();
 
   final FocusNode sentToFocusNode = FocusNode();
 
   List<ImageContent>? uploadFiles;
+
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<VisitorPassManagementDetailsCubit>(context).initializeValues();
+    BlocProvider.of<VisitorPassManagementDetailsCubit>(context)
+        .initializeValues();
     //initializeDates(state);
   }
 
@@ -1156,9 +1159,8 @@ class _VisitorPassManagementDetailsViewState
             onPositivePressed: () {
               Navigator.pop(context);
               Navigator.pop(context);
-              Navigator.popAndPushNamed(
-                  context, visitorPassManagementListRoute, arguments: {
-              });
+              Navigator.popAndPushNamed(context, visitorPassManagementListRoute,
+                  arguments: {});
             },
           );
           showDialog(
@@ -1168,14 +1170,17 @@ class _VisitorPassManagementDetailsViewState
         }
       },
       builder: (context, state) {
-        contactNumberController.text = state.model.contactNo ??'';
+        contactNumberController.text = state.model.contactNo ?? '';
         visitorComingFromController.text = state.model.visitorComingFrom ?? '';
-        hostController.text = '${state.model.host?.firstName ?? ''} ${state.model.host?.lastName ?? ''}';
-        visitorNameController.text=  state.model.employeeName ??'';
-        purposeOfVisitController.text = state.model.visitingPurpose??'';
-        escortedByController.text = state.model.escortedBy??'';
+        hostController.text =
+            '${state.model.host?.firstName ?? ''} ${state.model.host?.lastName ?? ''}';
+        visitorNameController.text = state.model.employeeName ?? '';
+        purposeOfVisitController.text = state.model.visitingPurpose ?? '';
+        escortedByController.text = state.model.escortedBy ?? '';
+        visitorLapSerialNumController.text = state.model.otherIdInfo ?? '';
 
-        escortedByEmployeeIdController.text = state.model.escortedEmployeeId ??'';
+        escortedByEmployeeIdController.text =
+            state.model.escortedEmployeeId ?? '';
         if (state.model.status == 0 && !state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }
@@ -1183,30 +1188,33 @@ class _VisitorPassManagementDetailsViewState
           isReadOnly = true;
         }
 
-        if(state.model.status != null && state.model.status !=0){
+        if (state.model.status != null && state.model.status != 0) {
           isReadOnly = true;
         }
 
         showSaveSubmitButtons = (widget.model == null ||
-            state.model.status == 0 ||state.model.status == 1) && state.model.lock.isEmptyOrNull;
+                state.model.status == 0 ||
+                state.model.status == 1) &&
+            state.model.lock.isEmptyOrNull;
 
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: (widget.model == null ||
-                state.model.status == 0) && state.status != FormStatus.loading,
+            showSaveButton: (widget.model == null || state.model.status == 0) &&
+                state.status != FormStatus.loading,
             pdfAPIName:
-            '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=PM',
+                '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=PM',
             onTapSave: () {
               FocusScope.of(context).unfocus();
-              BlocProvider.of<VisitorPassManagementDetailsCubit>(context).submitForm(
+              BlocProvider.of<VisitorPassManagementDetailsCubit>(context)
+                  .submitForm(
                 isSaveOnly: true,
               );
             },
-            visitorPassId: state.model.status != null ?true : false,
-            showSubmitButton:  state.status != FormStatus.loading,
+            // visitorPassId: state.model.status != null ? true : false,
+            showSubmitButton: state.status != FormStatus.loading,
             // onTapSubmit: () {
             //   FocusScope.of(context).unfocus();
             //   BlocProvider.of<VisitorPassManagementDetailsCubit>(context).submitForm(
@@ -1264,13 +1272,16 @@ class _VisitorPassManagementDetailsViewState
               FocusScope.of(context).unfocus();
 
               final cubit =
-              BlocProvider.of<VisitorPassManagementDetailsCubit>(context);
+                  BlocProvider.of<VisitorPassManagementDetailsCubit>(context);
               final state = cubit.state;
 
               final validation = state.isValid;
               if (!validation.status) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(validation.message),backgroundColor: Colors.red,),
+                  SnackBar(
+                    content: Text(validation.message),
+                    backgroundColor: Colors.red,
+                  ),
                 );
                 return;
               }
@@ -1289,15 +1300,17 @@ class _VisitorPassManagementDetailsViewState
               await cubit.submitForm(isSaveOnly: false);
 
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Record submitted successfully'), backgroundColor: Colors.green,),
+                const SnackBar(
+                  content: Text('Record submitted successfully'),
+                  backgroundColor: Colors.green,
+                ),
               );
             },
 
             showLikeButton: false,
             showDisLikeButton: false,
-
           ),
-          backgroundColor: AppColors.lavender,
+          backgroundColor: Colors.transparent,
           body: getBodybuilder(state, height),
         );
       },
@@ -1305,8 +1318,7 @@ class _VisitorPassManagementDetailsViewState
   }
 
   void initializeDates(VisitorPassManagementDetailsState state) {
-
-    passValidFromController.text =  Utils.timestampToDateConversion(
+    passValidFromController.text = Utils.timestampToDateConversion(
         int.tryParse(state.model.startTime ?? '') ??
             DateTime.now().millisecondsSinceEpoch,
         Constants.fulldateFormat);
@@ -1327,29 +1339,62 @@ class _VisitorPassManagementDetailsViewState
     int startTimestamp = int.tryParse(state.model.startTime ?? '') ??
         DateTime.now().millisecondsSinceEpoch ~/ 1000; // in seconds
 
-// Convert start timestamp to formatted date string for "Valid From"
-    passValidFromController.text =
-        Utils.timestampToDateConversion(startTimestamp, Constants.fulldateFormat);
+// // Convert start timestamp to formatted date string for "Valid From"
+//     passValidFromController.text = Utils.timestampToDateConversion(
+//         startTimestamp, Constants.fulldateFormat);
 
-// Calculate "Valid Until" as 12 hours after start
-    int untilTimestamp = startTimestamp + 12 * 60 * 60; // 12 hours in seconds
 
-// Convert until timestamp to formatted date string
-    passValidUntilController.text =
-        Utils.timestampToDateConversion(untilTimestamp, Constants.fulldateFormat);
+    // Convert start timestamp to DateTime
+    DateTime validFrom =
+    DateTime.fromMillisecondsSinceEpoch(startTimestamp * 1000);
+
+// Set Valid Until to 8:00 PM of the same day
+    DateTime validUntil = DateTime(
+      validFrom.year,
+      validFrom.month,
+      validFrom.day,
+      20, // 8 PM
+      0,
+      0,
+    );
+
+// Set text fields
+    passValidFromController.text = Utils.timestampToDateConversion(
+        startTimestamp, Constants.fulldateFormat);
+
+
+    passValidUntilController.text = Utils.timestampToDateConversion(
+      validUntil.millisecondsSinceEpoch ~/ 1000,
+      Constants.fulldateFormat,
+    );
+
+    // Convert back to timestamp (seconds)
+    int untilTimestamp = validUntil.millisecondsSinceEpoch ~/ 1000;
 
 // Update model endTime as string
     state.model.endTime = untilTimestamp.toString();
 
 
-    if( (state.model.status == 2||state.model.status == 8 || state.model.status == 9)) {
+// Calculate "Valid Until" as 12 hours after start
+//     int untilTimestamp = startTimestamp + 12 * 60 * 60; // 12 hours in seconds
+//
+// // Convert until timestamp to formatted date string
+//     passValidUntilController.text = Utils.timestampToDateConversion(
+//         untilTimestamp, Constants.fulldateFormat);
+//
+// // Update model endTime as string
+//     state.model.endTime = untilTimestamp.toString();
+
+    if ((state.model.status == 2 ||
+        state.model.status == 8 ||
+        state.model.status == 9)) {
       returnedTimeController.text = state.model.returnedTime != null
           ? Utils.timestampToDateConversion(
-          int.tryParse(state.model.returnedTime ?? '') ??
-              DateTime
-                  .now()
-                  .millisecondsSinceEpoch, // Fallback to current timestamp
-          Constants.fulldateFormat) : '';
+              int.tryParse(state.model.returnedTime ?? '') ??
+                  DateTime.now()
+                      .millisecondsSinceEpoch, // Fallback to current timestamp
+              Constants.fulldateFormat)
+          : '';
     }
 
     // state.model.endTime == passValidUntilController.text;
@@ -1365,847 +1410,892 @@ class _VisitorPassManagementDetailsViewState
         state.status == FormStatus.initial) {
       getFiles = state.loadAttachments ?? [];
     }
-    return Container(
-      color: AppColors.lavender,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: height * 0.01,
-              color: AppColors.lavender,
+    return Stack(
+      children: [
+        // 🔹 Background Image
+        Positioned.fill(
+          child: Image.asset(
+            'assets/images/bg2.png',
+            fit: BoxFit.cover,
+          ),
+        ),
+
+        // 🔹 Blur Layer
+        Positioned.fill(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 200, sigmaY: 200),
+            child: Container(
+              color: Colors.black.withValues(alpha: 0.08), // optional tint
             ),
-            Container(
-              decoration: const ShapeDecoration(
-                  color: AppColors.lavender,
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                    BorderRadius.vertical(top: Radius.circular(20.0)),
-                  )),
-              child: Form(
-                key: _formKey,
-                autovalidateMode: isReadOnly
-                    ? AutovalidateMode.disabled
-                    : AutovalidateMode.onUserInteraction,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 20.0, right: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      AbsorbPointer(
-                        absorbing: !showSaveSubmitButtons && IgnorePointer == false,
-                        child: Column(
-                          children: [
-                            if (!state.model.lock.isEmptyOrNull) ...[
-                              RecordLockedWidget(text: '${state.model.lock}'),
-                            ],
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: const Text(
-                                Constants.generalinformation,
-                                style: Styles.textStyleRegularNormalWhite18,
+          ),
+        ),
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                color: Colors.transparent,
+                child: Form(
+                  key: _formKey,
+                  autovalidateMode: isReadOnly
+                      ? AutovalidateMode.disabled
+                      : AutovalidateMode.onUserInteraction,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20.0, right: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        AbsorbPointer(
+                          absorbing:
+                              !showSaveSubmitButtons && IgnorePointer == false,
+                          child: Column(
+                            children: [
+                              if (!state.model.lock.isEmptyOrNull) ...[
+                                RecordLockedWidget(text: '${state.model.lock}'),
+                              ],
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              Container(
+                                alignment: Alignment.topLeft,
+                                child: const Text(
+                                  Constants.generalinformation,
+                                  style: Styles.textStyleRegularNormalWhite18,
+                                ),
                               ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Status
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.status ??
-                                  state.labels?.defaultLocale.status ??
-                                  Constants.status,
-                              Styles.textStyleWhite16,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            BaseDropDown().getDropDown(
-                              isDisabled: true,
-                              textController: statusController,
-                              items: passManagementStatusValues,
-                              initialValue: '${state.model.status ?? 0}',
-                              onTap: () {
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Created By
-                            CommonWidgets.horizentaltextHandling(
-                                state.labels?.locale.entrySecurity ??
-                                    state.labels?.defaultLocale.entrySecurity ??
-                                    Constants.createdby,
-                                isMandatory: true,
-                                '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-
-
-                            /// Updated Status
-                            if(widget.model?.status == 0 || widget.model?.status == 1)...[
+                              /// Status
                               CommonWidgets.textDisplay(
-                                  isMandatory: true,
-                                  state.labels?.locale.updateStatus ??
-                                      state.labels?.defaultLocale
-                                          .updateStatus ??
-                                      Constants.updatestatus,
-                                  Styles.textStyleWhite16),
+                                state.labels?.locale.status ??
+                                    state.labels?.defaultLocale.status ??
+                                    Constants.status,
+                                Styles.textStyleWhite16,
+                                isMandatory: true,
+                              ),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
-                              TextFieldAddButton(
-                                title: updateStatusTextController.text,
-                                height: 70,
-                                isDisableColor: widget.model != null &&
-                                    !widget.model!.lock.isEmptyOrNull,
-                                onTap: () {
-                                  BaseOrganisationDialog()
-                                      .departmentDialog(
-                                    context: context,
-                                    organisations:
-                                    state.getStatus ?? [],
-                                    onTap: (Organisation org) {
-                                      if(org.name == "Lost") {
-                                        Future.delayed(const Duration(
-                                            milliseconds: 200), () {
-                                          var dialog = CustomAlertDialog(
-                                            title: Constants.updatestatus,
-                                            message: "Are you sure you want to select \"${org
-                                                .name}\"?",
-                                            onPositivePressed: () {
-                                              Navigator.pop(context);
-                                              updateStatusTextController.text =
-                                              org.name!;
-                                              setState(() {});
-                                              BlocProvider.of<
-                                                  VisitorPassManagementDetailsCubit>(
-                                                  context)
-                                                  .updateDropdownValues(
-                                                  updatedStatus: org);
-                                            },
-                                            positiveBtnText: Constants.yes,
-                                            negativeBtnText: Constants.no,
-                                          );
-
-                                          showDialog(
-                                            context: context,
-                                            builder: (
-                                                BuildContext context) => dialog,
-                                          );
-                                        });
-                                      }
-                                      else{
-                                        updateStatusTextController.text =
-                                        org.name!;
-                                        setState(() {});
-                                        BlocProvider.of<
-                                            VisitorPassManagementDetailsCubit>(
-                                            context)
-                                            .updateDropdownValues(
-                                            updatedStatus: org);
-                                      }
-                                    },
-                                  );
-                                  // }
-                                },
-                              ),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.01),
-                            ],
-                            /// Location
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.location ??
-                                  state.labels?.defaultLocale.location ??
-                                  Constants.location,
-                              Styles.textStyleWhite16,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            BaseLocationDropdown().locationWidgetDisplay(
-                                isEnabled: (!isReadOnly) &&
-                                    !lock,
-                                context: context,
-                                locations: state.locations ?? Locations(),
-                                selectedLocationName:
-                                state.model.location?.name ?? '',
-                                onTap: (Organisation? location) {
-                                  BlocProvider.of<VisitorPassManagementDetailsCubit>(
-                                      context)
-                                      .updateLocationDropdownValue(
-                                      location: location);
-                                }),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Date of creation
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.inputDate ??
-                                  state.labels?.defaultLocale.inputDate ??
-                                  Constants.dateofcreation,
-                              Styles.textStyleWhite16,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            dateCreateWidgetDisplay(
-                                state.model.inputDate ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Sl No.
-                            CommonWidgets.horizentaltextHandling(
-                              state.labels?.locale.slNo ??
-                                  state.labels?.defaultLocale.slNo ??
-                                  Constants.slno,
-                              state.model.slNo ?? '',
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Entity
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.entity ??
-                                    state.labels?.defaultLocale.entity ??
-                                    Constants.entity,
-                                Styles.textStyleWhite16,
-                                isMandatory: true),
-                            BaseEntitiesSelection().entityDropDownSelection(
-                              context: context,
-                              selectedValues: state.model.entities ?? [],
-                              all: state.listOfEntities ?? [],
-                              enabled: !isReadOnly,
-                              onTap: (List<Organisation> selectedEntities) {
-                                log('--selectedEntities----${selectedEntities.length}');
-                                BlocProvider.of<VisitorPassManagementDetailsCubit>(
-                                    context)
-                                    .updateDropdownValues(
-                                    entities: selectedEntities);
-                                Navigator.of(context).pop(); // Close the dialog
-                              },
-                              orgName: 'ATOM_ENTITIES',
-                              functionToCall: () {
-                                // refresh the list
-                                BlocProvider.of<VisitorPassManagementDetailsCubit>(
-                                    context)
-                                    .refreshList();
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-
-                            /// Pass Type
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.passType ??
-                                    state.labels?.defaultLocale
-                                        .passType ??
-                                    Constants.passtype,
-                                Styles.textStyleWhite16,
-                                isMandatory: true),
-                            TextFieldAddButton(
-                              title: state.model.passTypeName,
-                              height: 70,
-                              isDisableColor:  isReadOnly,
-                              onTap: () {
-                                if(!isReadOnly) {
-                                  BaseOrganisationDialog().departmentDialog(
-                                    context: context,
-                                    organisations: state.passType!,
-                                    onTap: (Organisation passType) {
-                                      state.model.passTypeName = passType.name;
-                                      BlocProvider.of<
-                                          VisitorPassManagementDetailsCubit>(
-                                          context)
-                                          .updateDropdownValues(
-                                          passType: passType);
-                                    },
-                                    leftImage: false,
-                                    orgName: '',
-                                    functionToCall: () {
-                                      // refresh the list
-                                      BlocProvider.of<
-                                          VisitorPassManagementDetailsCubit>(
-                                          context)
-                                          .refreshList();
-                                    },
-                                  );
-                                }
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Visitor Name
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.visitorName ??
-                                  state.labels?.defaultLocale.visitorName ??
-                                  Constants.visitorName,
-                              Styles.textStyleWhite16,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              textInputType: TextInputType.text,
-                              textFormKey: Keys.challanKey,
-                              controller: visitorNameController,
-                              characterLimit:
-                              Constants.characterLimitIdTextFormField,
-                              hintText: '',
-                              isEnable: !isReadOnly,
-                              isDisableColor:false,
-                              onChange: (String value) {
-                                state.model.employeeName = value;
-                                context
-                                    .read<VisitorPassManagementDetailsCubit>()
-                                    .onModelValueChange(state.model);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-
-                            ///Contact no
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.contactNo ??
-                                    state.labels?.defaultLocale
-                                        .contactNo ??
-                                    Constants.contactNo,
-                                isMandatory: true,
-                                Styles.textStyleWhite16),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.001),
-                            FlutterInputField(
-                              controller: contactNumberController,
-                              textInputType: TextInputType.number,
-                              textFormKey: Keys.contactNoKey,
-                              characterLimit: 17,
-                              hintText: '',
-                              isEnable: !isReadOnly,
-                              isDisableColor: isReadOnly,
-                              onChange: (String value) {
-                                state.model.contactNo = value;
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.01),
-
-                            ///Visitor Coming From
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.visitorComingFrom ??
-                                    state.labels?.defaultLocale
-                                        .visitorComingFrom ??
-                                    Constants.visitorComingFrom,
-                                isMandatory: true,
-                                Styles.textStyleWhite16),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.001),
-                            FlutterInputField(
-                              controller: visitorComingFromController,
-                              textInputType: TextInputType.text,
-                              textFormKey: Keys.contactNoKey,
-                              hintText: '',
-                              isEnable: !isReadOnly,
-                              isDisableColor: isReadOnly,
-                              onChange: (String value) {
-                                state.model.visitorComingFrom = value;
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.01),
-
-                            /// Photo Identity Validation Type
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.visitorImage ??
-                                    state.labels?.defaultLocale
-                                        .visitorImage ??
-                                    Constants.photoIdentityType,
-                                isMandatory: true,
-                                Styles.textStyleWhite16),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.001),
-                            BaseDropDown().getDropDown(
+                              BaseDropDown().getDropDown(
                                 isDisabled: true,
-                                textController: photoIdentityController,
-                                items: photoIdentityValidationValues,
-                                initialValue: state.model.idValidationType.toString(),
-                                onTap: () {
-                                  if (!isReadOnly) {
-                                    BaseDropDown().assetTypeDialog(
+                                textController: statusController,
+                                items: passManagementStatusValues,
+                                initialValue: '${state.model.status ?? 0}',
+                                onTap: () {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              /// Created By
+                              CommonWidgets.horizentaltextHandling(
+                                  state.labels?.locale.entrySecurity ??
+                                      state.labels?.defaultLocale
+                                          .entrySecurity ??
+                                      Constants.createdby,
+                                  isMandatory: true,
+                                  '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              /// Updated Status
+                              if (widget.model?.status == 0 ||
+                                  widget.model?.status == 1) ...[
+                                CommonWidgets.textDisplay(
+                                    isMandatory: true,
+                                    state.labels?.locale.updateStatus ??
+                                        state.labels?.defaultLocale
+                                            .updateStatus ??
+                                        Constants.updatestatus,
+                                    Styles.textStyleWhite16),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                TextFieldAddButton(
+                                  title: updateStatusTextController.text,
+                                  height: 70,
+                                  isDisableColor: widget.model != null &&
+                                      !widget.model!.lock.isEmptyOrNull,
+                                  onTap: () {
+                                    BaseOrganisationDialog().departmentDialog(
                                       context: context,
-                                      dropDownValues: photoIdentityValidationValues
-                                          .map((label) => label.key)
-                                          .toList(),
-                                      onTap: (String value) {
-                                        Label? selectedLabel;
-                                        selectedLabel =
-                                            photoIdentityValidationValues.firstWhere(
-                                                  (label) => label.key == value,
-                                              orElse: () =>
-                                              const Label(key: '', value: ''),
+                                      organisations: state.getStatus ?? [],
+                                      onTap: (Organisation org) {
+                                        if (org.name == "Lost") {
+                                          Future.delayed(
+                                              const Duration(milliseconds: 200),
+                                              () {
+                                            var dialog = CustomAlertDialog(
+                                              title: Constants.updatestatus,
+                                              message:
+                                                  "Are you sure you want to select \"${org.name}\"?",
+                                              onPositivePressed: () {
+                                                Navigator.pop(context);
+                                                updateStatusTextController
+                                                    .text = org.name!;
+                                                setState(() {});
+                                                BlocProvider.of<
+                                                            VisitorPassManagementDetailsCubit>(
+                                                        context)
+                                                    .updateDropdownValues(
+                                                        updatedStatus: org);
+                                              },
+                                              positiveBtnText: Constants.yes,
+                                              negativeBtnText: Constants.no,
                                             );
-                                        BlocProvider.of<VisitorPassManagementDetailsCubit>(
-                                            context)
-                                            .updateDropdownValues(
-                                            validateType: int.tryParse(
-                                                selectedLabel.value));
+
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) =>
+                                                  dialog,
+                                            );
+                                          });
+                                        } else {
+                                          updateStatusTextController.text =
+                                              org.name!;
+                                          setState(() {});
+                                          BlocProvider.of<
+                                                      VisitorPassManagementDetailsCubit>(
+                                                  context)
+                                              .updateDropdownValues(
+                                                  updatedStatus: org);
+                                        }
                                       },
                                     );
-                                  }
-                                }),
+                                    // }
+                                  },
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+                              ],
 
-                            ///Purpose of Visit
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.visitingPurpose ??
-                                    state.labels?.defaultLocale
-                                        .visitingPurpose ??
-                                    Constants.purposeOfVisit,
-                                isMandatory: true,
-                                Styles.textStyleWhite16),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.001),
-                            FlutterInputField(
-                              controller: purposeOfVisitController,
-                              textInputType: TextInputType.text,
-                              textFormKey: Keys.contactNoKey,
-                              hintText: '',
-                              isEnable: !isReadOnly,
-                              isDisableColor: isReadOnly,
-                              onChange: (String value) {
-                                state.model.visitingPurpose= value;
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.01),
-
-                            ///Host Employee Id
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.hostEmployeeId ??
-                                    state.labels?.defaultLocale
-                                        .hostEmployeeId ??
-                                    Constants.hostemployeeid,
+                              /// Location
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.location ??
+                                    state.labels?.defaultLocale.location ??
+                                    Constants.location,
                                 Styles.textStyleWhite16,
-                                isMandatory: true),
-                            TextFieldAddButton(
-                              title: state.model.hostEmployeeId,
-                              height: 70,
-                              isDisableColor: isReadOnly,
-                              onTap: () {
-                                if (!isReadOnly) {
-                                  BaseOrganisationDialog().userDialog(
-                                    employeeId: true,
-                                    context: context,
-                                    users: state.host!,
-                                    isDbUser: true,
-                                    onTap: (BaseUser user) {
-                                      BlocProvider.of<
-                                          VisitorPassManagementDetailsCubit>(
-                                          context)
-                                          .updateDropdownValues(
-                                        host: user,
-                                      );
-                                    },
-                                    roleName:
-                                    ConstantUserRoles.atomStaticUser,
-                                    locationId: state.model.location!.id!,
-                                    functionToCall: (BaseUser user) {
-                                      BlocProvider.of<
-                                          VisitorPassManagementDetailsCubit>(
-                                          context)
-                                          .updateDropdownValues(
-                                        host: user,
-                                      );
-                                      // refresh the list
-                                      BlocProvider.of<
-                                          VisitorPassManagementDetailsCubit>(
-                                          context)
-                                          .refreshList();
-                                    },
-                                  );
-                                }
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.01),
-
-                            ///Host
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.host ??
-                                    state.labels?.defaultLocale
-                                        .host ??
-                                    Constants.host,
                                 isMandatory: true,
-                                Styles.textStyleWhite16),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.001),
-                            FlutterInputField(
-                              controller: hostController,
-                              textInputType: TextInputType.text,
-                              textFormKey: Keys.contactNoKey,
-                              hintText: '',
-                              isEnable: false,
-                              isDisableColor: true,
-                              onChange: (String value) {},
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.01),
-
-
-
-                            ///  Visiting Department
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.visitingDepartment ??
-                                  state.labels?.defaultLocale
-                                      .visitingDepartment ??
-                                  Constants.visitingDepartment,
-                              Styles.textStyleWhite16,
-                              isMandatory: true,
-                            ),
-                            TextFieldAddButton(
-                              title: state.model.department?.name,
-                              height: 70,
-                              isDisableColor: isReadOnly,
-                              onTap: () {
-                                if (!isReadOnly) {
-                                  BaseOrganisationDialog().departmentDialog(
-                                      context: context,
-                                      organisations: state.departments,
-                                      onTap: (Organisation department) {
-                                        state.model.department
-                                            ?.name = department.name;
-                                        BlocProvider.of<
-                                            VisitorPassManagementDetailsCubit>(
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              BaseLocationDropdown().locationWidgetDisplay(
+                                  isEnabled: (!isReadOnly) && !lock,
+                                  context: context,
+                                  locations: state.locations ?? Locations(),
+                                  selectedLocationName:
+                                      state.model.location?.name ?? '',
+                                  onTap: (Organisation? location) {
+                                    BlocProvider.of<
+                                                VisitorPassManagementDetailsCubit>(
                                             context)
+                                        .updateLocationDropdownValue(
+                                            location: location);
+                                  }),
+
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              /// Date of creation
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.inputDate ??
+                                    state.labels?.defaultLocale.inputDate ??
+                                    Constants.dateofcreation,
+                                Styles.textStyleWhite16,
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              dateCreateWidgetDisplay(
+                                  state.model.inputDate ?? ''),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              /// Sl No.
+                              CommonWidgets.horizentaltextHandling(
+                                state.labels?.locale.slNo ??
+                                    state.labels?.defaultLocale.slNo ??
+                                    Constants.slno,
+                                state.model.slNo ?? '',
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              /// Entity
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.entity ??
+                                      state.labels?.defaultLocale.entity ??
+                                      Constants.entity,
+                                  Styles.textStyleWhite16,
+                                  isMandatory: true),
+                              BaseEntitiesSelection().entityDropDownSelection(
+                                context: context,
+                                selectedValues: state.model.entities ?? [],
+                                all: state.listOfEntities ?? [],
+                                enabled: !isReadOnly,
+                                onTap: (List<Organisation> selectedEntities) {
+                                  log('--selectedEntities----${selectedEntities.length}');
+                                  BlocProvider.of<
+                                              VisitorPassManagementDetailsCubit>(
+                                          context)
+                                      .updateDropdownValues(
+                                          entities: selectedEntities);
+                                  Navigator.of(context)
+                                      .pop(); // Close the dialog
+                                },
+                                orgName: 'ATOM_ENTITIES',
+                                functionToCall: () {
+                                  // refresh the list
+                                  BlocProvider.of<
+                                              VisitorPassManagementDetailsCubit>(
+                                          context)
+                                      .refreshList();
+                                },
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              /// Pass Type
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.passType ??
+                                      state.labels?.defaultLocale.passType ??
+                                      Constants.passtype,
+                                  Styles.textStyleWhite16,
+                                  isMandatory: true),
+                              TextFieldAddButton(
+                                title: state.model.passTypeName,
+                                height: 70,
+                                isDisableColor: isReadOnly,
+                                onTap: () {
+                                  if (!isReadOnly) {
+                                    BaseOrganisationDialog().departmentDialog(
+                                      context: context,
+                                      organisations: state.passType!,
+                                      onTap: (Organisation passType) {
+                                        state.model.passTypeName =
+                                            passType.name;
+                                        BlocProvider.of<
+                                                    VisitorPassManagementDetailsCubit>(
+                                                context)
                                             .updateDropdownValues(
-                                            department:
-                                            department);
+                                                passType: passType);
                                       },
-                                      orgName: 'EMPLOYEE_DEPARTMENTS',
-                                      createEntity: false,
-                                      title: '',
+                                      leftImage: false,
+                                      orgName: '',
                                       functionToCall: () {
                                         // refresh the list
                                         BlocProvider.of<
-                                            VisitorPassManagementDetailsCubit>(
-                                            context)
+                                                    VisitorPassManagementDetailsCubit>(
+                                                context)
                                             .refreshList();
-                                      });
-                                  FocusScope.of(context)
-                                      .requestFocus(sentToFocusNode);
-                                }
-                              },
-                            ),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-
-                            /// Visitor Pass No
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.visitorPassInfo ??
-                                  state.labels?.defaultLocale
-                                      .visitorPassInfo ??
-                                  Constants.visitorPassNo,
-                              Styles.textStyleWhite16,
-                              isMandatory: true,
-                            ),
-                            TextFieldAddButton(
-                              title: state.model.passNo,
-                              height: 70,
-                              isDisableColor: isReadOnly,
-                              onTap: () {
-                                if (!isReadOnly) {
-                                  BaseOrganisationDialog().departmentDialog(
-                                    context: context,
-                                    organisations: state.passNo!,
-                                    onTap: (Organisation department) {
-                                      state.model.passNo = department.name;
-                                      log('PassNo ${state.model.passNo }');
-                                      BlocProvider.of<VisitorPassManagementDetailsCubit>(
-                                          context)
-                                          .updateDropdownValues(
-                                          passNo: department);
-                                    },
-                                  );
-                                }
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-
-                            /// Pass Valid From
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.startTime ??
-                                  state.labels?.defaultLocale
-                                      .startTime ??
-                                  Constants.passvlidfrom,
-                              isMandatory: true,
-                              Styles.textStyleWhite16,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.001),
-
-                            BaseDate().datePickerWidgetLoading(
-                              textController: passValidFromController,
-                              isDisabled:  state.model.status == 0 ||state.model.status == null ? false : true,
-                              onlyDate: false,
-                              showPastDate: false,
-                              showFutureDate: true,
-                              // nextDateOnly: true,
-                              onChange: (String value) {
-                                passValidFromController.text = value;
-
-                                int startTimestamp = Utils.dateToTimestampConversion(value, Constants.fulldateFormat);
-                                state.model.startTime = startTimestamp.toString();
-                                int untilTimestamp = startTimestamp + 12 * 60 * 60;
-
-                                passValidUntilController.text =
-                                    Utils.timestampToDateConversion(untilTimestamp * 1000, Constants.fulldateFormat);
-
-                                state.model.endTime = untilTimestamp.toString();
-                                BlocProvider.of<
-                                    VisitorPassManagementDetailsCubit>(
-                                    context)
-                                    .onModelValueChange(state.model);
-                              },
-                              context: context,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.01),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-
-                            /// Pass Valid Until
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.endTime ??
-                                  state.labels?.defaultLocale
-                                      .endTime ??
-                                  Constants.passvliduntil,
-                              isMandatory: true,
-                              Styles.textStyleWhite16,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.001),
-
-                            BaseDate().datePickerWidgetLoading(
-                              textController: passValidUntilController,
-                              isDisabled: true,
-                              onlyDate: false,
-                              onChange: (String value) {
-                              },
-                              context: context,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(
-                                height * 0.01),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Escorted By
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.escortedByHost ??
-                                    state.labels?.defaultLocale
-                                        .escortedByHost ??
-                                    Constants.escortedByHost,
-                                isMandatory: true,
-                                Styles.textStyleWhite16),
-                            RadioButtonsYesNo(
-                                status: state.model.status ?? 0,
-                                selectedValue:
-                                state.model.escortedByHost  ? 1 : 0,
-                                onChangedYes: isReadOnly
-                                    ? null
-                                    : (val) {
-                                  state.model.escortedByHost= true;
-                                  BlocProvider.of<
-                                      VisitorPassManagementDetailsCubit>(
-                                      context)
-                                      .onCheckBoxChange(state.model);
+                                      },
+                                    );
+                                  }
                                 },
-                                onChangedNo: isReadOnly
-                                    ? null
-                                    : (val) {
-                                  state.model.escortedByHost = false;
-                                  BlocProvider.of<
-                                      VisitorPassManagementDetailsCubit>(
-                                      context)
-                                      .onCheckBoxChange(state.model);
-                                }),
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-
-                            if(state.model.escortedByHost == false)...[
-
-                              /// Escorted By
+                              /// Visitor Name
                               CommonWidgets.textDisplay(
-                                  state.labels?.locale.escortedBy ??
-                                      state.labels?.defaultLocale
-                                          .escortedBy ??
-                                      Constants.escortedby,
+                                state.labels?.locale.visitorName ??
+                                    state.labels?.defaultLocale.visitorName ??
+                                    Constants.visitorName,
+                                Styles.textStyleWhite16,
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                textInputType: TextInputType.text,
+                                textFormKey: Keys.challanKey,
+                                controller: visitorNameController,
+                                characterLimit:
+                                    Constants.characterLimitIdTextFormField,
+                                hintText: '',
+                                isEnable: !isReadOnly,
+                                isDisableColor: false,
+                                onChange: (String value) {
+                                  state.model.employeeName = value;
+                                  context
+                                      .read<VisitorPassManagementDetailsCubit>()
+                                      .onModelValueChange(state.model);
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+
+                              ///Contact no
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.contactNo ??
+                                      state.labels?.defaultLocale.contactNo ??
+                                      Constants.contactNo,
                                   isMandatory: true,
                                   Styles.textStyleWhite16),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
-                                controller: escortedByController,
+                                controller: contactNumberController,
+                                textInputType: TextInputType.number,
+                                textFormKey: Keys.contactNoKey,
+                                characterLimit: 17,
+                                hintText: '',
+                                isEnable: !isReadOnly,
+                                isDisableColor: isReadOnly,
+                                onChange: (String value) {
+                                  state.model.contactNo = value;
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              ///Visitor Coming From
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.visitorComingFrom ??
+                                      state.labels?.defaultLocale
+                                          .visitorComingFrom ??
+                                      Constants.visitorComingFrom,
+                                  isMandatory: true,
+                                  Styles.textStyleWhite16),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                controller: visitorComingFromController,
                                 textInputType: TextInputType.text,
                                 textFormKey: Keys.contactNoKey,
                                 hintText: '',
                                 isEnable: !isReadOnly,
                                 isDisableColor: isReadOnly,
                                 onChange: (String value) {
-                                  state.model.escortedBy= value;
+                                  state.model.visitorComingFrom = value;
                                 },
                                 validateTextField: (String? user) {},
                               ),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                              /// Escorted By Employee Id
+                              /// Photo Identity Validation Type
                               CommonWidgets.textDisplay(
-                                  state.labels?.locale.escortedEmployeeId ??
+                                  state.labels?.locale.visitorImage ??
+                                      state
+                                          .labels?.defaultLocale.visitorImage ??
+                                      Constants.photoIdentityType,
+                                  isMandatory: true,
+                                  Styles.textStyleWhite16),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              BaseDropDown().getDropDown(
+                                  isDisabled: true,
+                                  textController: photoIdentityController,
+                                  items: photoIdentityValidationValues,
+                                  initialValue:
+                                      state.model.idValidationType.toString(),
+                                  onTap: () {
+                                    if (!isReadOnly) {
+                                      BaseDropDown().assetTypeDialog(
+                                        context: context,
+                                        dropDownValues:
+                                            photoIdentityValidationValues
+                                                .map((label) => label.key)
+                                                .toList(),
+                                        onTap: (String value) {
+                                          Label? selectedLabel;
+                                          selectedLabel =
+                                              photoIdentityValidationValues
+                                                  .firstWhere(
+                                            (label) => label.key == value,
+                                            orElse: () =>
+                                                const Label(key: '', value: ''),
+                                          );
+                                          BlocProvider.of<
+                                                      VisitorPassManagementDetailsCubit>(
+                                                  context)
+                                              .updateDropdownValues(
+                                                  validateType: int.tryParse(
+                                                      selectedLabel.value));
+                                        },
+                                      );
+                                    }
+                                  }),
+
+                              ///Purpose of Visit
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.visitingPurpose ??
                                       state.labels?.defaultLocale
-                                          .escortedEmployeeId ??
-                                      Constants.escortedbyemployeeid,
+                                          .visitingPurpose ??
+                                      Constants.purposeOfVisit,
                                   isMandatory: true,
                                   Styles.textStyleWhite16),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               FlutterInputField(
-                                controller: escortedByEmployeeIdController,
-                                textInputType: TextInputType.number,
+                                controller: purposeOfVisitController,
+                                textInputType: TextInputType.text,
                                 textFormKey: Keys.contactNoKey,
                                 hintText: '',
                                 isEnable: !isReadOnly,
                                 isDisableColor: isReadOnly,
                                 onChange: (String value) {
-                                  state.model.escortedEmployeeId= value;
+                                  state.model.visitingPurpose = value;
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              ///Host Employee Id
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.hostEmployeeId ??
+                                      state.labels?.defaultLocale
+                                          .hostEmployeeId ??
+                                      Constants.hostemployeeid,
+                                  Styles.textStyleWhite16,
+                                  isMandatory: true),
+                              TextFieldAddButton(
+                                title: state.model.hostEmployeeId,
+                                height: 70,
+                                isDisableColor: isReadOnly,
+                                onTap: () {
+                                  if (!isReadOnly) {
+                                    BaseOrganisationDialog().userDialog(
+                                      employeeId: true,
+                                      context: context,
+                                      users: state.host!,
+                                      isDbUser: true,
+                                      onTap: (BaseUser user) {
+                                        BlocProvider.of<
+                                                    VisitorPassManagementDetailsCubit>(
+                                                context)
+                                            .updateDropdownValues(
+                                          host: user,
+                                        );
+                                      },
+                                      roleName:
+                                          ConstantUserRoles.atomStaticUser,
+                                      locationId: state.model.location!.id!,
+                                      functionToCall: (BaseUser user) {
+                                        BlocProvider.of<
+                                                    VisitorPassManagementDetailsCubit>(
+                                                context)
+                                            .updateDropdownValues(
+                                          host: user,
+                                        );
+                                        // refresh the list
+                                        BlocProvider.of<
+                                                    VisitorPassManagementDetailsCubit>(
+                                                context)
+                                            .refreshList();
+                                      },
+                                    );
+                                  }
+                                },
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              ///Host
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.host ??
+                                      state.labels?.defaultLocale.host ??
+                                      Constants.host,
+                                  isMandatory: true,
+                                  Styles.textStyleWhite16),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                controller: hostController,
+                                textInputType: TextInputType.text,
+                                textFormKey: Keys.contactNoKey,
+                                hintText: '',
+                                isEnable: false,
+                                isDisableColor: true,
+                                onChange: (String value) {},
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              ///  Visiting Department
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.visitingDepartment ??
+                                    state.labels?.defaultLocale
+                                        .visitingDepartment ??
+                                    Constants.visitingDepartment,
+                                Styles.textStyleWhite16,
+                                isMandatory: true,
+                              ),
+                              TextFieldAddButton(
+                                title: state.model.department?.name,
+                                height: 70,
+                                isDisableColor: isReadOnly,
+                                onTap: () {
+                                  if (!isReadOnly) {
+                                    BaseOrganisationDialog().departmentDialog(
+                                        context: context,
+                                        organisations: state.departments,
+                                        onTap: (Organisation department) {
+                                          state.model.department?.name =
+                                              department.name;
+                                          BlocProvider.of<
+                                                      VisitorPassManagementDetailsCubit>(
+                                                  context)
+                                              .updateDropdownValues(
+                                                  department: department);
+                                        },
+                                        orgName: 'EMPLOYEE_DEPARTMENTS',
+                                        createEntity: false,
+                                        title: '',
+                                        functionToCall: () {
+                                          // refresh the list
+                                          BlocProvider.of<
+                                                      VisitorPassManagementDetailsCubit>(
+                                                  context)
+                                              .refreshList();
+                                        });
+                                    FocusScope.of(context)
+                                        .requestFocus(sentToFocusNode);
+                                  }
+                                },
+                              ),
+
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              /// Visitor Pass No
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.visitorPassInfo ??
+                                    state.labels?.defaultLocale
+                                        .visitorPassInfo ??
+                                    Constants.visitorPassNo,
+                                Styles.textStyleWhite16,
+                                isMandatory: true,
+                              ),
+                              TextFieldAddButton(
+                                title: state.model.passNo,
+                                height: 70,
+                                isDisableColor: isReadOnly,
+                                onTap: () {
+                                  if (!isReadOnly) {
+                                    BaseOrganisationDialog().departmentDialog(
+                                      context: context,
+                                      organisations: state.passNo!,
+                                      onTap: (Organisation department) {
+                                        state.model.passNo = department.name;
+                                        log('PassNo ${state.model.passNo}');
+                                        BlocProvider.of<
+                                                    VisitorPassManagementDetailsCubit>(
+                                                context)
+                                            .updateDropdownValues(
+                                                passNo: department);
+                                      },
+                                    );
+                                  }
+                                },
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              /// Visitor's laptop serial number
+                              CommonWidgets.textDisplay(
+                                  // state.labels?.locale.escortedBy ??
+                                  //     state
+                                  //         .labels?.defaultLocale.escortedBy ??
+                                      Constants.visitorsLapSerialNum,
+                                  isMandatory: false,
+                                  Styles.textStyleWhite16),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                controller: visitorLapSerialNumController,
+                                textInputType: TextInputType.text,
+                                textFormKey: Keys.contactNoKey,
+                                hintText: '',
+                                isEnable: !isReadOnly,
+                                isDisableColor: isReadOnly,
+                                onChange: (String value) {
+                                  state.model.otherIdInfo = value;
                                 },
                                 validateTextField: (String? user) {},
                               ),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.01),
-                            ],
 
-
-                            if(state.model.status ==2 || state.model.status ==8 || state.model.status ==9)...[
-                              ///Pass Collected By
-                              CommonWidgets.horizentaltextHandling(
-                                  state.labels?.locale.handoverSecurity ??
-                                      state.labels?.defaultLocale.handoverSecurity ??
-                                      Constants.passCollectedBy,
-                                  isMandatory: true,
-                                  '${state.model.handoverSecurity?.firstName ?? ''} ${state.model.handoverSecurity?.lastName ?? ''}'),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                              ///Pass Returned On
+                              /// Pass Valid From
                               CommonWidgets.textDisplay(
-                                state.labels?.locale.returnedTime ??
-                                    state.labels?.defaultLocale.returnedTime ??
-                                    Constants.passReturnedOn,
-                                Styles.textStyleWhite16,
+                                state.labels?.locale.startTime ??
+                                    state.labels?.defaultLocale.startTime ??
+                                    Constants.passvlidfrom,
                                 isMandatory: true,
+                                Styles.textStyleWhite16,
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.001),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+
                               BaseDate().datePickerWidgetLoading(
-                                textController: returnedTimeController,
+                                textController: passValidFromController,
                                 isDisabled: true,
+                                // state.model.status == 0 ||
+                                //         state.model.status == null
+                                //     ? false
+                                //     : true,
                                 onlyDate: false,
+                                showPastDate: false,
+                                showFutureDate: true,
+                                // nextDateOnly: true,
                                 onChange: (String value) {
+                                  passValidFromController.text = value;
+
+                                  int startTimestamp =
+                                      Utils.dateToTimestampConversion(
+                                          value, Constants.fulldateFormat);
+                                  state.model.startTime =
+                                      startTimestamp.toString();
+                                  int untilTimestamp =
+                                      startTimestamp + 12 * 60 * 60;
+
+                                  passValidUntilController.text =
+                                      Utils.timestampToDateConversion(
+                                          untilTimestamp * 1000,
+                                          Constants.fulldateFormat);
+
+                                  state.model.endTime =
+                                      untilTimestamp.toString();
                                   BlocProvider.of<
-                                      VisitorPassManagementDetailsCubit>(
-                                      context)
+                                              VisitorPassManagementDetailsCubit>(
+                                          context)
                                       .onModelValueChange(state.model);
                                 },
                                 context: context,
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            ],
-                            ///Attachments
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.visitorImage ??
-                                    state.labels?.defaultLocale.visitorImage ??
-                                    Constants.photoOfVisitor,
-                                Styles.textStyleWhite16),
-                            widget.model == null
-                                ? CommonWidgets.verticalSpacerWidget(
-                                height * 0.001)
-                                : Container(),
-                            if (state.model.status == 0 ||
-                                state.model.status == null) ...[
-                              BaseImageUpload().uploadWidget(
-                                context: context,
-                                isDisabled: isReadOnly,
-                                loggedInUserDetails:
-                                state.loggedInUserDetails!,
-                                getFiles: uploadFiles,
-                                onImageSelected: (ImageContent data) {
-                                  List<ImageContent>? files = [];
-                                  files.add(data);
-                                  for (ImageContent image
-                                  in uploadFiles ?? []) {
-                                    files.add(image);
-                                  }
-                                  BlocProvider.of<
-                                      VisitorPassManagementDetailsCubit>(
-                                      context)
-                                      .addAttachment(
-                                    data: files,
-                                    images: files,
-                                  );
-                                },
-                              ),
-                            ],
-                            /// Attachments
-                            IgnorePointer(
-                              ignoring: false,
-                              child:
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20.0),
-                                child: BaseImageUpload().getAttachment(
-                                  height: height,
-                                  attachments: state.loadAttachments,
-                                  files: uploadFiles,
-                                  moduleCode: Constants.passManagementModuleCode,
-                                  isDisabled: false,
-                                  showDeleteIcon: state.model.status == null || state.model.status == 0 ,
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              // /// Pass Valid Until
+                              // CommonWidgets.textDisplay(
+                              //   state.labels?.locale.endTime ??
+                              //       state.labels?.defaultLocale.endTime ??
+                              //       Constants.passvliduntil,
+                              //   isMandatory: true,
+                              //   Styles.textStyleWhite16,
+                              // ),
+                              // CommonWidgets.verticalSpacerWidget(
+                              //     height * 0.001),
+                              //
+                              // BaseDate().datePickerWidgetLoading(
+                              //   textController: passValidUntilController,
+                              //   isDisabled: true,
+                              //   onlyDate: false,
+                              //   onChange: (String value) {},
+                              //   context: context,
+                              // ),
+                              // CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              // CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                              /// Escorted By
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.escortedByHost ??
+                                      state.labels?.defaultLocale
+                                          .escortedByHost ??
+                                      Constants.escortedByHost,
+                                  isMandatory: true,
+                                  Styles.textStyleWhite16),
+                              RadioButtonsYesNo(
+                                  status: state.model.status ?? 0,
+                                  selectedValue:
+                                      state.model.escortedByHost ? 1 : 0,
+                                  onChangedYes: isReadOnly
+                                      ? null
+                                      : (val) {
+                                          state.model.escortedByHost = true;
+                                          BlocProvider.of<
+                                                      VisitorPassManagementDetailsCubit>(
+                                                  context)
+                                              .onCheckBoxChange(state.model);
+                                        },
+                                  onChangedNo: isReadOnly
+                                      ? null
+                                      : (val) {
+                                          state.model.escortedByHost = false;
+                                          BlocProvider.of<
+                                                      VisitorPassManagementDetailsCubit>(
+                                                  context)
+                                              .onCheckBoxChange(state.model);
+                                        }),
+
+                              if (state.model.escortedByHost == false) ...[
+                                /// Escorted By
+                                CommonWidgets.textDisplay(
+                                    state.labels?.locale.escortedBy ??
+                                        state
+                                            .labels?.defaultLocale.escortedBy ??
+                                        Constants.escortedby,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                FlutterInputField(
+                                  controller: escortedByController,
+                                  textInputType: TextInputType.text,
+                                  textFormKey: Keys.contactNoKey,
+                                  hintText: '',
+                                  isEnable: !isReadOnly,
+                                  isDisableColor: isReadOnly,
+                                  onChange: (String value) {
+                                    state.model.escortedBy = value;
+                                  },
+                                  validateTextField: (String? user) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                /// Escorted By Employee Id
+                                CommonWidgets.textDisplay(
+                                    state.labels?.locale.escortedEmployeeId ??
+                                        state.labels?.defaultLocale
+                                            .escortedEmployeeId ??
+                                        Constants.escortedbyemployeeid,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                FlutterInputField(
+                                  controller: escortedByEmployeeIdController,
+                                  textInputType: TextInputType.number,
+                                  textFormKey: Keys.contactNoKey,
+                                  hintText: '',
+                                  isEnable: !isReadOnly,
+                                  isDisableColor: isReadOnly,
+                                  onChange: (String value) {
+                                    state.model.escortedEmployeeId = value;
+                                  },
+                                  validateTextField: (String? user) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+                              ],
+
+                              if (state.model.status == 2 ||
+                                  state.model.status == 8 ||
+                                  state.model.status == 9) ...[
+                                ///Pass Collected By
+                                CommonWidgets.horizentaltextHandling(
+                                    state.labels?.locale.handoverSecurity ??
+                                        state.labels?.defaultLocale
+                                            .handoverSecurity ??
+                                        Constants.passCollectedBy,
+                                    isMandatory: true,
+                                    '${state.model.handoverSecurity?.firstName ?? ''} ${state.model.handoverSecurity?.lastName ?? ''}'),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                ///Pass Returned On
+                                CommonWidgets.textDisplay(
+                                  state.labels?.locale.returnedTime ??
+                                      state
+                                          .labels?.defaultLocale.returnedTime ??
+                                      Constants.passReturnedOn,
+                                  Styles.textStyleWhite16,
+                                  isMandatory: true,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                BaseDate().datePickerWidgetLoading(
+                                  textController: returnedTimeController,
+                                  isDisabled: true,
+                                  onlyDate: false,
+                                  onChange: (String value) {
+                                    BlocProvider.of<
+                                                VisitorPassManagementDetailsCubit>(
+                                            context)
+                                        .onModelValueChange(state.model);
+                                  },
+                                  context: context,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+                              ],
+
+                              ///Attachments
+                              CommonWidgets.textDisplay(
+                                  state.labels?.locale.visitorImage ??
+                                      state
+                                          .labels?.defaultLocale.visitorImage ??
+                                      Constants.photoOfVisitor,
+                                  Styles.textStyleWhite16),
+                              widget.model == null
+                                  ? CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001)
+                                  : Container(),
+                              if (state.model.status == 0 ||
+                                  state.model.status == null) ...[
+                                BaseImageUpload().uploadWidget(
+                                  context: context,
+                                  isDisabled: isReadOnly,
+                                  loggedInUserDetails:
+                                      state.loggedInUserDetails!,
+                                  getFiles: uploadFiles,
+                                  onImageSelected: (ImageContent data) {
+                                    List<ImageContent>? files = [];
+                                    files.add(data);
+                                    for (ImageContent image
+                                        in uploadFiles ?? []) {
+                                      files.add(image);
+                                    }
+                                    BlocProvider.of<
+                                                VisitorPassManagementDetailsCubit>(
+                                            context)
+                                        .addAttachment(
+                                      data: files,
+                                      images: files,
+                                    );
+                                  },
+                                ),
+                              ],
+
+                              /// Attachments
+                              IgnorePointer(
+                                ignoring: false,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20.0),
+                                  child: BaseImageUpload().getAttachment(
+                                    height: height,
+                                    attachments: state.loadAttachments,
+                                    files: uploadFiles,
+                                    moduleCode:
+                                        Constants.passManagementModuleCode,
+                                    isDisabled: false,
+                                    showDeleteIcon:
+                                        state.model.status == null ||
+                                            state.model.status == 0,
+                                  ),
                                 ),
                               ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// SubmitButton
-                            if (showSaveSubmitButtons) ...[
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  cancelButtonDisplay(),
-                                  submitButtonDisplay(state)
-                                ],
-                              ),
+                              /// SubmitButton
+                              if (showSaveSubmitButtons) ...[
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    cancelButtonDisplay(),
+                                    submitButtonDisplay(state)
+                                  ],
+                                ),
+                              ],
+                              CommonWidgets.verticalSpacerWidget(height * 0.04),
                             ],
-                            CommonWidgets.verticalSpacerWidget(height * 0.04),
-                          ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),),),
-            if (!showSaveSubmitButtons) ...[
-              Container(
-                padding: const EdgeInsets.all(5.0),
-                decoration: const ShapeDecoration(
-                  color: AppColors.backgroundWhiteColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                    BorderRadius.vertical(top: Radius.circular(00.0)),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    cancelButtonDisplay(),
-                  ],
                 ),
               ),
+              if (!showSaveSubmitButtons) ...[
+                Container(
+                  padding: const EdgeInsets.all(5.0),
+                  color: Colors.transparent,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      cancelButtonDisplay(),
+                    ],
+                  ),
+                ),
+              ],
             ],
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 
@@ -2231,8 +2321,8 @@ class _VisitorPassManagementDetailsViewState
       buttonTextKey: Keys.submitButton,
       onTap: () async {
         FocusScope.of(context).unfocus();
-        BlocProvider.of<VisitorPassManagementDetailsCubit>(context).submitForm(
-        );
+        BlocProvider.of<VisitorPassManagementDetailsCubit>(context)
+            .submitForm();
       },
     );
   }

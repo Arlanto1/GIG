@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import '../../../../../../index.dart';
 
 class AddCommentPopUp extends StatefulWidget {
@@ -25,85 +27,104 @@ class AddCommentPopUpState extends State<AddCommentPopUp> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      insetPadding: const EdgeInsets.symmetric(
-        horizontal: 12,
-      ),
-      backgroundColor: Colors.transparent,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      content: Builder(builder: (context) {
-        // Get available height and width of the build area of this widget. Make a choice depending on the size.
-        var height = MediaQuery.of(context).size.height;
-        var width = MediaQuery.of(context).size.width;
-        return Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  AppColors.newColor3.withValues(alpha: 0.7),
-                  AppColors.newColor,
-                  AppColors.newColor3.withValues(alpha: 0.7),
-                  // Color(0xFF6474C6).withOpacity(0.14)
-                ],
-                stops: [0.02, 0.35, 1],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-              borderRadius: BorderRadius.circular(27),
-              border: Border.all(
-                color: Colors.white.withValues(alpha: 0.6),
-                width: 0.7,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.white.withValues(alpha: 0.0),
-                  blurRadius: 12,
-                  offset: const Offset(0, 2),
-                ),
-              ],
+    return Stack(
+      children: [
+        // 🔹 BLUR THE ENTIRE BACKGROUND PAGE
+        BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+          child: Container(
+            color: Colors.black.withOpacity(0.25), // dim + blur
+          ),
+        ),
+
+        // 🔹 YOUR ALERT DIALOG
+        Center(
+          child: AlertDialog(
+            insetPadding: const EdgeInsets.symmetric(
+              horizontal: 12,
             ),
-            child: SizedBox(
-              height: height / 4.9,
-              width: width,
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: <Widget>[
-                  Form(
-                    key: _formKey,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          ///Comments
-                          CommonWidgets.textDisplay(
-                            Constants.comments,
-                            Styles.textStyleBlack14,
-                            isMandatory: true,
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          FlutterInputField(
-                            lineHeight: 1,
-                            controller: commentController,
-                            textFormKey: Keys.equipmentNoKey,
-                            hintText: '',
-                            isEnable: true,
-                            isDisableColor: false,
-                            onChange: (String value) {
-                              commentController.text = value;
-                            },
-                            validateTextField: (String value) {},
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-                          buttonViews(widget.mainContext, width),
-                          CommonWidgets.verticalSpacerWidget(height * 0.02),
-                        ],
-                      ),
+            backgroundColor: Colors.transparent,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            content: Builder(builder: (context) {
+              // Get available height and width of the build area of this widget. Make a choice depending on the size.
+              var height = MediaQuery.of(context).size.height;
+              var width = MediaQuery.of(context).size.width;
+              return Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        AppColors.newColor3.withValues(alpha: 0.7),
+                        AppColors.newColor,
+                        AppColors.newColor3.withValues(alpha: 0.7),
+                        // Color(0xFF6474C6).withOpacity(0.14)
+                      ],
+                      stops: [0.02, 0.35, 1],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
                     ),
+                    borderRadius: BorderRadius.circular(27),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.6),
+                      width: 0.7,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.white.withValues(alpha: 0.0),
+                        blurRadius: 12,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ));
-      }),
+                  child: SizedBox(
+                    height: height / 4.9,
+                    width: width,
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: <Widget>[
+                        Form(
+                          key: _formKey,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                ///Comments
+                                CommonWidgets.textDisplay(
+                                  Constants.comments,
+                                  Styles.textStyleBlack14,
+                                  isMandatory: true,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+                                FlutterInputField(
+                                  lineHeight: 1,
+                                  controller: commentController,
+                                  textFormKey: Keys.equipmentNoKey,
+                                  hintText: '',
+                                  isEnable: true,
+                                  isDisableColor: false,
+                                  onChange: (String value) {
+                                    commentController.text = value;
+                                  },
+                                  validateTextField: (String value) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+                                buttonViews(widget.mainContext, width),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ));
+            }),
+          ),
+        ),
+      ],
     );
   }
 

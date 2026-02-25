@@ -1,9 +1,204 @@
+//{
+//  "project_info": {
+//    "project_number": "150357996074",
+//    "firebase_url": "https://atomedge-29920-default-rtdb.firebaseio.com",
+//    "project_id": "atomedge-29920",
+//    "storage_bucket": "atomedge-29920.appspot.com"
+//  },
+//  "client": [
+//    {
+//      "client_info": {
+//        "mobilesdk_app_id": "1:150357996074:android:20c35c93799326f4a64953",
+//        "android_client_info": {
+//          "package_name": "com.arlanto.atomedge"
+//        }
+//      },
+//      "oauth_client": [
+//        {
+//          "client_id": "150357996074-i0b8g5bompa8o9pe42b2vb2fkv7eajc8.apps.googleusercontent.com",
+//          "client_type": 1,
+//          "android_info": {
+//            "package_name": "com.arlanto.atomedge",
+//            "certificate_hash": "2cda598e6e844b106f7a4fd5dbef29d62a4bf6ac"
+//          }
+//        },
+//        {
+//          "client_id": "150357996074-j1nehpbi8onvledpcr7mf9osi2t3molg.apps.googleusercontent.com",
+//          "client_type": 3
+//        }
+//      ],
+//      "api_key": [
+//        {
+//          "current_key": "AIzaSyBNfHBXhpOZ4QoViXLRnLfQybZcS6rrRCU"
+//        }
+//      ],
+//      "services": {
+//        "appinvite_service": {
+//          "other_platform_oauth_client": [
+//            {
+//              "client_id": "150357996074-j1nehpbi8onvledpcr7mf9osi2t3molg.apps.googleusercontent.com",
+//              "client_type": 3
+//            }
+//          ]
+//        }
+//      }
+//    },
+//    {
+//      "client_info": {
+//        "mobilesdk_app_id": "1:150357996074:android:7cc0ba4ed7435177a64953",
+//        "android_client_info": {
+//          "package_name": "com.arlanto.atomedge.dev"
+//        }
+//      },
+//      "oauth_client": [
+//        {
+//          "client_id": "150357996074-j1nehpbi8onvledpcr7mf9osi2t3molg.apps.googleusercontent.com",
+//          "client_type": 3
+//        }
+//      ],
+//      "api_key": [
+//        {
+//          "current_key": "AIzaSyBNfHBXhpOZ4QoViXLRnLfQybZcS6rrRCU"
+//        }
+//      ],
+//      "services": {
+//        "appinvite_service": {
+//          "other_platform_oauth_client": [
+//            {
+//              "client_id": "150357996074-j1nehpbi8onvledpcr7mf9osi2t3molg.apps.googleusercontent.com",
+//              "client_type": 3
+//            }
+//          ]
+//        }
+//      }
+//    },
+//    {
+//      "client_info": {
+//        "mobilesdk_app_id": "1:150357996074:android:da233c83e7cff714a64953",
+//        "android_client_info": {
+//          "package_name": "com.arlanto.atomedge.qa"
+//        }
+//      },
+//      "oauth_client": [
+//        {
+//          "client_id": "150357996074-j1nehpbi8onvledpcr7mf9osi2t3molg.apps.googleusercontent.com",
+//          "client_type": 3
+//        }
+//      ],
+//      "api_key": [
+//        {
+//          "current_key": "AIzaSyBNfHBXhpOZ4QoViXLRnLfQybZcS6rrRCU"
+//        }
+//      ],
+//      "services": {
+//        "appinvite_service": {
+//          "other_platform_oauth_client": [
+//            {
+//              "client_id": "150357996074-j1nehpbi8onvledpcr7mf9osi2t3molg.apps.googleusercontent.com",
+//              "client_type": 3
+//            }
+//          ]
+//        }
+//      }
+//    }
+//  ],
+//  "configuration_version": "1"
+//}
+//
+////{
+////  "project_info": {
+////    "project_number": "150357996074",
+////    "firebase_url": "https://atomedge-29920-default-rtdb.firebaseio.com",
+////    "project_id": "atomedge-29920",
+////    "storage_bucket": "atomedge-29920.firebasestorage.app"
+////  },
+////  "client": [
+////    {
+////      "client_info": {
+////        "mobilesdk_app_id": "1:150357996074:android:20c35c93799326f4a64953",
+////        "android_client_info": {
+////          "package_name": "com.arlanto.atomedge"
+////        }
+////      },
+////      "oauth_client": [],
+////      "api_key": [
+////        {
+////          "current_key": "AIzaSyBNfHBXhpOZ4QoViXLRnLfQybZcS6rrRCU"
+////        }
+////      ],
+////      "services": {
+////        "appinvite_service": {
+////          "other_platform_oauth_client": []
+////        }
+////      }
+////    },
+////    {
+////      "client_info": {
+////        "mobilesdk_app_id": "1:150357996074:android:7cc0ba4ed7435177a64953",
+////        "android_client_info": {
+////          "package_name": "com.arlanto.atomedge.dev"
+////        }
+////      },
+////      "oauth_client": [],
+////      "api_key": [
+////        {
+////          "current_key": "AIzaSyBNfHBXhpOZ4QoViXLRnLfQybZcS6rrRCU"
+////        }
+////      ],
+////      "services": {
+////        "appinvite_service": {
+////          "other_platform_oauth_client": []
+////        }
+////      }
+////    },
+////    {
+////      "client_info": {
+////        "mobilesdk_app_id": "1:150357996074:android:da233c83e7cff714a64953",
+////        "android_client_info": {
+////          "package_name": "com.arlanto.atomedge.qa"
+////        }
+////      },
+////      "oauth_client": [],
+////      "api_key": [
+////        {
+////          "current_key": "AIzaSyBNfHBXhpOZ4QoViXLRnLfQybZcS6rrRCU"
+////        }
+////      ],
+////      "services": {
+////        "appinvite_service": {
+////          "other_platform_oauth_client": []
+////        }
+////      }
+////    },
+////    {
+////      "client_info": {
+////        "mobilesdk_app_id": "1:150357996074:android:c68d1603808d8d5ba64953",
+////        "android_client_info": {
+////          "package_name": "com.arlanto.atomedge.uat"
+////        }
+////      },
+////      "oauth_client": [],
+////      "api_key": [
+////        {
+////          "current_key": "AIzaSyBNfHBXhpOZ4QoViXLRnLfQybZcS6rrRCU"
+////        }
+////      ],
+////      "services": {
+////        "appinvite_service": {
+////          "other_platform_oauth_client": []
+////        }
+////      }
+////    }
+////  ],
+////  "configuration_version": "1"
+////}
+
 {
   "project_info": {
     "project_number": "150357996074",
     "firebase_url": "https://atomedge-29920-default-rtdb.firebaseio.com",
     "project_id": "atomedge-29920",
-    "storage_bucket": "atomedge-29920.appspot.com"
+    "storage_bucket": "atomedge-29920.firebasestorage.app"
   },
   "client": [
     {
@@ -13,20 +208,7 @@
           "package_name": "com.arlanto.atomedge"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "150357996074-i0b8g5bompa8o9pe42b2vb2fkv7eajc8.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.arlanto.atomedge",
-            "certificate_hash": "2cda598e6e844b106f7a4fd5dbef29d62a4bf6ac"
-          }
-        },
-        {
-          "client_id": "150357996074-j1nehpbi8onvledpcr7mf9osi2t3molg.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
           "current_key": "AIzaSyBNfHBXhpOZ4QoViXLRnLfQybZcS6rrRCU"
@@ -34,12 +216,7 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "150357996074-j1nehpbi8onvledpcr7mf9osi2t3molg.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     },
@@ -50,12 +227,7 @@
           "package_name": "com.arlanto.atomedge.dev"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "150357996074-j1nehpbi8onvledpcr7mf9osi2t3molg.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
           "current_key": "AIzaSyBNfHBXhpOZ4QoViXLRnLfQybZcS6rrRCU"
@@ -63,12 +235,7 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "150357996074-j1nehpbi8onvledpcr7mf9osi2t3molg.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     },
@@ -79,12 +246,7 @@
           "package_name": "com.arlanto.atomedge.qa"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "150357996074-j1nehpbi8onvledpcr7mf9osi2t3molg.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
           "current_key": "AIzaSyBNfHBXhpOZ4QoViXLRnLfQybZcS6rrRCU"
@@ -92,12 +254,26 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "150357996074-j1nehpbi8onvledpcr7mf9osi2t3molg.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:150357996074:android:c68d1603808d8d5ba64953",
+        "android_client_info": {
+          "package_name": "com.arlanto.atomedge.uat"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNfHBXhpOZ4QoViXLRnLfQybZcS6rrRCU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
         }
       }
     }

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const Color buttonThemeColor = Color(0xFF163A44);
+  // static const Color buttonThemeColor = Color(0xFF163A44);
   static const Color textGreyThemeColor = Color(0xFF5A585D);
   static const Color backgroundWhiteColor = Color(0xFFFFFFFF);
   static const Color divideLineGreyColor = Color(0xFFDFE7ED);
   static const Color chatDarkThemeColor = Color(0xFF081D22);
   static const Color lavender = Color(0xFF6474C6);
   static const Color lightLavender = Color(0xFF9F9FDF);
-  // static const Color navigationSkyBlueColor = Color(0xFF2CAAE0);
-  static const Color navigationSkyBlueColor = Color(0xFF425563);
+  static const Color navigationSkyBlueColor = const Color(0xFF071B2E);
+  // static const Color navigationSkyBlueColor = Color(0xFF425563);
   static const Color cardBorder = Color(0XFFF0F0F0);
   static const Color black = Color(0xFF000000);
   static const Color textColor = Color(0xFF6B6B6B);
@@ -55,7 +55,7 @@ class AppColors {
   static Color newColor18 = const Color(0xFFE58774);
   static Color newColor19 = const Color(0xFFF6AD6E);
   static Color fedexColor = const Color(0xFFff6200);
-  // static Color newColor = const Color(0xFF4d148c);
+  static Color blue = const Color(0xFF2F3753);
 
   static const white = MaterialColor(
     0xFFFFFFFF,

@@ -2514,9 +2514,9 @@ class BasePieChartState extends State<BasePieChart> {
         decoration: BoxDecoration(
           gradient: const LinearGradient(
             colors: [
-              Colors.white,
-              Colors.white,
-              Colors.white,
+              Colors.transparent,
+              Colors.transparent,
+              Colors.transparent
             ],
             stops: [0.02, 0.35, 1],
             begin: Alignment.topCenter,
@@ -2524,7 +2524,7 @@ class BasePieChartState extends State<BasePieChart> {
           ),
           borderRadius: BorderRadius.circular(27),
           border: Border.all(
-            color: Colors.black.withValues(alpha: 0.80),
+            color: Colors.white.withValues(alpha: 0.80),
             width: 0.8,
           ),
           // boxShadow: [
@@ -2549,7 +2549,7 @@ class BasePieChartState extends State<BasePieChart> {
                       widget.chartTitle,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                        color: Colors.white,
                         fontSize: 19,
                       ),
                     ),
@@ -2602,21 +2602,21 @@ class BasePieChartState extends State<BasePieChart> {
             Stack(
               alignment: Alignment.center,
               children: [
-                Center(
-                  child: ClipOval(
-                    child: BackdropFilter(
-                      filter: ui.ImageFilter.blur(sigmaX: 14, sigmaY: 14),
-                      child: Container(
-                        // width: 300,
-                        // height: 300,
-                        width: MediaQuery.of(context).size.width * 0.6,
-                        height: MediaQuery.of(context).size.height * 0.278,
-                        color:
-                        Colors.white.withOpacity(0.30), // Slight tint
-                      ),
-                    ),
-                  ),
-                ),
+                // Center(
+                //   child: ClipOval(
+                //     child: BackdropFilter(
+                //       filter: ui.ImageFilter.blur(sigmaX: 14, sigmaY: 14),
+                //       child: Container(
+                //         // width: 300,
+                //         // height: 300,
+                //         width: MediaQuery.of(context).size.width * 0.6,
+                //         height: MediaQuery.of(context).size.height * 0.278,
+                //         color:
+                //         Colors.white.withOpacity(0.30), // Slight tint
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 // 3. The actual PieChart, with translucent colors
                 SfCircularChart(
                   backgroundColor: Colors.transparent,
@@ -2648,7 +2648,7 @@ class BasePieChartState extends State<BasePieChart> {
 
                       dataLabelSettings: const DataLabelSettings(
                         isVisible: true,
-                        textStyle: TextStyle(color: Colors.black),
+                        textStyle: TextStyle(color: Colors.white),
                       ),
                     )
                   ],

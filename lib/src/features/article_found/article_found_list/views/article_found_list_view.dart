@@ -2676,6 +2676,9 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
       builder: (context, state) {
         log('plus ${state.extraProperties?.hasWritePermission}');
         return Scaffold(
+          backgroundColor: Colors.transparent,
+          extendBody: true,
+          extendBodyBehindAppBar: true,
           bottomNavigationBar: CustomBottomNavigationBar(
             hasAddPermission: true,
             scaffoldKey: scaffoldKey,
@@ -2692,7 +2695,6 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
           ),
           // backgroundColor: const Color(0xFF071130),
           // backgroundColor: AppColors.newColor,
-          backgroundColor: Colors.transparent,
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: Constants.foundListTitle,
@@ -2704,49 +2706,53 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
             excelAPIName: 'exportFoundExcel',
             pdfAPIName: 'exportFoundPDF',
           ),
-          body: Stack(
-            children: [
-              // 🌌 Background image
-              // Positioned.fill(
-              //   child: Image.asset(
-              //     'assets/images/bc.png',
-              //     fit: BoxFit.cover,
-              //   ),
-              // ),
-
-              // 🌫️ Foreground content (blur + list)
-              Container(
-                width: double.infinity,
-                height: double.infinity,
-                color: AppColors.newColor3,
-
-                // optional overlay tint
-                child: Column(
+            body: BlocBuilder<ArticleFoundBloc, ArticleFoundState>(
+              builder: (context, state) {
+                return Stack(
                   children: [
-                    const SizedBox(height: 10),
-                    BaseSearchWidget(
-                      applySearchFilters: applySearchFilters,
-                      applyFilters: applyFilters,
-                      commonFilters: state.commonFilters ??
-                          CommonFilters(statuses: [], regions: []),
+                    // 🔹 Background
+                    Positioned.fill(
+                      child: Image.asset(
+                        'assets/images/bg2.png',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Positioned.fill(
+                      child: ClipRect(
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
+                          child: Container(
+                            color: Colors.black.withOpacity(0.2),
+                          ),
+                        ),
+                      ),
                     ),
 
-                    // if (state.status == FormStatus.loading) ...[
-                    //   CommonWidgets.verticalSpacerWidget(height * 0.01),
-                    //   const BaseLoader(),
-                    //   CommonWidgets.verticalSpacerWidget(height * 0.01),
-                    // ],
-                    if (state.items.isEmptyOrNull &&
-                        state.status != FormStatus.loading) ...[
-                      CommonWidgets.verticalSpacerWidget(height * 0.1),
-                      const NoRecordFoundWidget(),
-                    ],
+                    // 🔹 Search Bar - positioned safely at the top
+                    Positioned(
+                      top: MediaQuery.of(context).padding.top + kToolbarHeight + -40, // below AppBar
+                      left: 3,
+                      right: 3,
+                      child: BaseSearchWidget(
+                        applySearchFilters: applySearchFilters,
+                        applyFilters: applyFilters,
+                        commonFilters: state.commonFilters ??
+                            CommonFilters(
+                              statuses: [],
+                              regions: [],
+                            ),
+                      ),
+                    ),
 
-                    // 🧊 Glassmorphism List
-                    Expanded(
+                    // 🔹 ListView - start immediately below search bar
+                    Positioned(
+                      top: MediaQuery.of(context).padding.top + kToolbarHeight + 2, // search bar height ~64+padding
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
                       child: CustomMaterialIndicator(
-                        onRefresh: _onRefresh,
-                        backgroundColor: Colors.transparent,
+                        onRefresh: () => _onRefresh(),
+                        backgroundColor: Colors.white,
                         indicatorBuilder: (context, controller) {
                           return const Padding(
                             padding: EdgeInsets.all(6.0),
@@ -2755,6 +2761,7 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
                         },
                         child: ListView.builder(
                           controller: _scrollController,
+                          padding: EdgeInsets.zero,
                           itemCount: state.hasReachedMax
                               ? state.items.length
                               : state.items.length + 1,
@@ -2905,11 +2912,11 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
                       ),
                     ),
                   ],
-                ),
-              ),
-            ],
-          ),
+                );
+              },
+            ),
         );
+
       },
     );
   }

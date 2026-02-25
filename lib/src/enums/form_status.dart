@@ -15,5 +15,7 @@ enum FormStatus {
   navigateToNextScreen, // Navigate to Next Screen
   sessionExpired, // Token Expired
   popOnly,
-  sendEmail
+  sendEmail,
+  templateLoading,
+  templateLoaded,
 }

@@ -38,6 +38,7 @@ class BaseDropDown {
             // disabledBorder: true,
             suffixIcon: Icons.arrow_drop_down,
             // isDisableColor: false,
+            showCounter: false,
             onChange: (String value) {},
             validateTextField: (String? user) {},
             // suffixWidget: IconButton(

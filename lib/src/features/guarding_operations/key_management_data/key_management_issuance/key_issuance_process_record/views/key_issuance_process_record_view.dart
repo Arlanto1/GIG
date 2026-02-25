@@ -88,7 +88,9 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
       log('-k desc--${state.keyDescriptions?.length}---');
 
       return Scaffold(
-        backgroundColor: AppColors.newColor,
+        backgroundColor: Colors.transparent,
+        extendBodyBehindAppBar: true,
+        extendBody: true,
         // floatingActionButton: !(widget.extraProperties != null &&
         //             !widget.extraProperties!.hasWritePermission!) &&
         //         widget.parentStatus == 0 &&
@@ -128,7 +130,8 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                 scaffoldKey: scaffoldKey,
                 context: context,
                 // displayMenu: state.displayMenu,
-                list: true, // 🔥 only "+" button mode
+                list: true,
+                // 🔥 only "+" button mode
                 onAddPressed: () async {
                   KeyIssuanceProcessRecord keyIssuanceProcessModel =
                       KeyIssuanceProcessRecord();
@@ -221,416 +224,448 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
     //   });
     //   return const NoRecordFoundWidget();
     // }
-
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      color: AppColors.newColor3,
-      child: ListView.builder(
-        controller: _scrollController,
-        itemCount:
-            state.hasReachedMax ? state.items.length : state.items.length + 1,
-        itemBuilder: (context, index) {
-          List<Label> labels = [];
-          if (index < state.items.length) {
-            labels.add(
-              Label(
-                key: state.labels?.locale.noKeysIssued ??
-                    state.labels?.defaultLocale.noKeysIssued ??
-                    Constants.noKeysIssued,
-                value: state.items[index].noKeysIssued.toString(),
+    return Stack(
+      children: [
+        // 🔹 Background
+        Positioned.fill(
+          child: Image.asset(
+            'assets/images/bg2.png',
+            fit: BoxFit.cover,
+          ),
+        ),
+        Positioned.fill(
+          child: ClipRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
+              child: Container(
+                color: Colors.black.withValues(alpha: 0.2),
               ),
-            );
-            labels.add(
-              Label(
-                key: state.labels?.locale.available ??
-                    state.labels?.defaultLocale.available ??
-                    Constants.available,
-                value: state.items[index].available.toString(),
-              ),
-            );
-            labels.add(
-              Label(
-                key: state.labels?.locale.keysReturned ??
-                    state.labels?.defaultLocale.keysReturned ??
-                    Constants.keysReturned,
-                value: state.items[index].returned.toString(),
-              ),
-            );
-            labels.add(
-              Label(
-                key: state.labels?.locale.keysNotReturned ??
-                    state.labels?.defaultLocale.keysNotReturned ??
-                    Constants.keysNotReturned,
-                value: state.items[index].notReturned.toString(),
-              ),
-            );
-            labels.add(
-              Label(
-                key: state.labels?.locale.keysLost ??
-                    state.labels?.defaultLocale.keysLost ??
-                    Constants.keysLost,
-                value: state.items[index].lost.toString(),
-              ),
-            );
-            labels.add(
-              Label(
-                key: state.labels?.locale.keysDamaged ??
-                    state.labels?.defaultLocale.keysDamaged ??
-                    Constants.keysDamaged,
-                value: state.items[index].damaged.toString(),
-              ),
-            );
-            return
-                // index >= state.items.length
-                //   ? const BaseLoader()
-                Container(
-                    decoration: const BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          // Color(0xFF6474C6),
-                          // Color(0xFF6474C6),
-                          Colors.transparent,
-                          Colors.transparent,
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
+            ),
+          ),
+        ),
+        ListView.builder(
+          controller: _scrollController,
+          itemCount:
+              state.hasReachedMax ? state.items.length : state.items.length + 1,
+          itemBuilder: (context, index) {
+            List<Label> labels = [];
+            if (index < state.items.length) {
+              labels.add(
+                Label(
+                  key: state.labels?.locale.noKeysIssued ??
+                      state.labels?.defaultLocale.noKeysIssued ??
+                      Constants.noKeysIssued,
+                  value: state.items[index].noKeysIssued.toString(),
+                ),
+              );
+              labels.add(
+                Label(
+                  key: state.labels?.locale.available ??
+                      state.labels?.defaultLocale.available ??
+                      Constants.available,
+                  value: state.items[index].available.toString(),
+                ),
+              );
+              labels.add(
+                Label(
+                  key: state.labels?.locale.keysReturned ??
+                      state.labels?.defaultLocale.keysReturned ??
+                      Constants.keysReturned,
+                  value: state.items[index].returned.toString(),
+                ),
+              );
+              labels.add(
+                Label(
+                  key: state.labels?.locale.keysNotReturned ??
+                      state.labels?.defaultLocale.keysNotReturned ??
+                      Constants.keysNotReturned,
+                  value: state.items[index].notReturned.toString(),
+                ),
+              );
+              labels.add(
+                Label(
+                  key: state.labels?.locale.keysLost ??
+                      state.labels?.defaultLocale.keysLost ??
+                      Constants.keysLost,
+                  value: state.items[index].lost.toString(),
+                ),
+              );
+              labels.add(
+                Label(
+                  key: state.labels?.locale.keysDamaged ??
+                      state.labels?.defaultLocale.keysDamaged ??
+                      Constants.keysDamaged,
+                  value: state.items[index].damaged.toString(),
+                ),
+              );
+              return
+                  // index >= state.items.length
+                  //   ? const BaseLoader()
+                  Container(
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            // Color(0xFF6474C6),
+                            // Color(0xFF6474C6),
+                            Colors.transparent,
+                            Colors.transparent,
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
                       ),
-                    ),
-                    margin:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    child: ClipRRect(
-                        borderRadius: BorderRadius.circular(18),
-                        child: BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
-                            child: Container(
-                                decoration: BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      Colors.white.withValues(alpha: 0.09),
-                                      Colors.transparent,
-                                      Colors.white.withValues(alpha: 0.09),
-                                      // Color(0xFF6474C6).withOpacity(0.14)
-                                    ],
-                                    stops: [0.02, 0.35, 1],
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                  ),
-                                  borderRadius: BorderRadius.circular(27),
-                                  border: Border.all(
-                                    color: Colors.white.withValues(alpha: 0.6),
-                                    width: 0.7,
-                                  ),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color:
-                                          Colors.white.withValues(alpha: 0.0),
-                                      blurRadius: 12,
-                                      offset: const Offset(0, 2),
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 8),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(18),
+                          child: BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+                              child: Container(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Colors.white.withValues(alpha: 0.09),
+                                        Colors.transparent,
+                                        Colors.white.withValues(alpha: 0.09),
+                                        // Color(0xFF6474C6).withOpacity(0.14)
+                                      ],
+                                      stops: [0.02, 0.35, 1],
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
                                     ),
-                                  ],
-                                ),
-                                // index >= state.list.length
-                                //   ? null
-                                child: BaseListTileItem(
-                                  id: state.items[index].id,
-                                  labels: labels,
-                                  isKeyManagementIssuanceStatus: true,
-                                  onTap: (selectedIndex) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (BuildContext dialogContext) {
-                                        return BasePopUpItems(
-                                          id: state.items[selectedIndex].id
-                                              .toString(),
-                                          labels: labels,
-                                        );
-                                      },
-                                    );
-                                  },
-                                  showEditButton: !showNonEditIcon,
-                                  onEditTap: (selectedIndex) async {
-                                    KeyIssuanceProcessRecord
-                                        keyIssuanceProcessModel =
-                                        await KeyManagementIssuanceServices()
-                                            .getIssuanceProcessById(
-                                                state.items[index].id ?? 0);
-
-                                    /// Get Key Description
-                                    bool isMasterKey =
-                                        keyIssuanceProcessModel.kmId == 1
-                                            ? true
-                                            : false;
-                                    Organisation selectedKeyDescription =
-                                        await KeyManagementIssuanceServices()
-                                            .getKeyDescById(
-                                                id: keyIssuanceProcessModel
-                                                    .kmId!,
-                                                isMasterKey: isMasterKey);
-
-                                    List<Organisation> keyDescriptions =
-                                        await KeyManagementIssuanceServices()
-                                            .getKeyDescriptions(
-                                      locationId: widget.locationId,
-                                      isMasterKey: isMasterKey,
-                                      kmIssuanceId: widget.parentId,
-                                    );
-
-                                    log('--state.keyDescriptions--onEditTap--${state.keyDescriptions?.length}---');
-
-                                    showAddKeyIssuanceProcessPopUp(
-                                        context: context,
-                                        keyIssuanceProcessRecord:
-                                            keyIssuanceProcessModel,
-                                        keyDescriptions: keyDescriptions,
-                                        selectedKeyDescription:
-                                            selectedKeyDescription,
-                                        parentStatus: widget.parentStatus,
-                                        lock: widget.lock,
-                                        state: state);
-                                  },
-                                  showViewButton: showIcons ? true : false,
-                                  onViewTap: (selectedIndex) {
-                                    getById(
-                                        state.extraProperties
-                                                ?.hasWritePermission ??
-                                            false,
-                                        state.items[index].kmId);
-                                  },
-                                  showLinkOffButton: showIcons ? true : false,
-                                  onLinkOffTap: (selectedIndex) async {
-                                    if (state.items[selectedIndex].lost == 0) {
+                                    borderRadius: BorderRadius.circular(27),
+                                    border: Border.all(
+                                      color:
+                                          Colors.white.withValues(alpha: 0.6),
+                                      width: 0.7,
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color:
+                                            Colors.white.withValues(alpha: 0.0),
+                                        blurRadius: 12,
+                                        offset: const Offset(0, 2),
+                                      ),
+                                    ],
+                                  ),
+                                  // index >= state.list.length
+                                  //   ? null
+                                  child: BaseListTileItem(
+                                    id: state.items[index].id,
+                                    labels: labels,
+                                    isKeyManagementIssuanceStatus: true,
+                                    onTap: (selectedIndex) {
                                       showDialog(
                                         context: context,
-                                        builder: (BuildContext context) {
-                                          return Dialog(
-                                            backgroundColor: Colors.transparent,
-                                            elevation: 0,
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              child: BackdropFilter(
-                                                filter: ImageFilter.blur(
-                                                    sigmaX: 12, sigmaY: 12),
-                                                child: Container(
-                                                  padding:
-                                                      const EdgeInsets.all(20),
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white
-                                                        .withOpacity(
-                                                            0.12), // glass layer
-                                                    borderRadius:
-                                                        BorderRadius.circular(
+                                        builder: (BuildContext dialogContext) {
+                                          return BasePopUpItems(
+                                            id: state.items[selectedIndex].id
+                                                .toString(),
+                                            labels: labels,
+                                          );
+                                        },
+                                      );
+                                    },
+                                    showEditButton: !showNonEditIcon,
+                                    onEditTap: (selectedIndex) async {
+                                      KeyIssuanceProcessRecord
+                                          keyIssuanceProcessModel =
+                                          await KeyManagementIssuanceServices()
+                                              .getIssuanceProcessById(
+                                                  state.items[index].id ?? 0);
+
+                                      /// Get Key Description
+                                      bool isMasterKey =
+                                          keyIssuanceProcessModel.kmId == 1
+                                              ? true
+                                              : false;
+                                      Organisation selectedKeyDescription =
+                                          await KeyManagementIssuanceServices()
+                                              .getKeyDescById(
+                                                  id: keyIssuanceProcessModel
+                                                      .kmId!,
+                                                  isMasterKey: isMasterKey);
+
+                                      List<Organisation> keyDescriptions =
+                                          await KeyManagementIssuanceServices()
+                                              .getKeyDescriptions(
+                                        locationId: widget.locationId,
+                                        isMasterKey: isMasterKey,
+                                        kmIssuanceId: widget.parentId,
+                                      );
+
+                                      log('--state.keyDescriptions--onEditTap--${state.keyDescriptions?.length}---');
+
+                                      showAddKeyIssuanceProcessPopUp(
+                                          context: context,
+                                          keyIssuanceProcessRecord:
+                                              keyIssuanceProcessModel,
+                                          keyDescriptions: keyDescriptions,
+                                          selectedKeyDescription:
+                                              selectedKeyDescription,
+                                          parentStatus: widget.parentStatus,
+                                          lock: widget.lock,
+                                          state: state);
+                                    },
+                                    showViewButton: showIcons ? true : false,
+                                    onViewTap: (selectedIndex) {
+                                      getById(
+                                          state.extraProperties
+                                                  ?.hasWritePermission ??
+                                              false,
+                                          state.items[index].kmId);
+                                    },
+                                    showLinkOffButton: showIcons ? true : false,
+                                    onLinkOffTap: (selectedIndex) async {
+                                      if (state.items[selectedIndex].lost ==
+                                          0) {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return Dialog(
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              elevation: 0,
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                child: BackdropFilter(
+                                                  filter: ImageFilter.blur(
+                                                      sigmaX: 12, sigmaY: 12),
+                                                  child: Container(
+                                                    padding:
+                                                        const EdgeInsets.all(
                                                             20),
-                                                    border: Border.all(
+                                                    decoration: BoxDecoration(
                                                       color: Colors.white
-                                                          .withOpacity(
-                                                              0.35), // glass border
-                                                      width: 1.3,
+                                                          .withValues(alpha:
+                                                              0.12), // glass layer
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20),
+                                                      border: Border.all(
+                                                        color: Colors.white
+                                                            .withValues(
+                                                                alpha: 0.35), // glass border
+                                                        width: 1.3,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      Text(
-                                                        Constants
-                                                            .valueNotAccepted,
-                                                        style: const TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.white,
-                                                        ),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                      ),
-                                                      const SizedBox(
-                                                          height: 12),
-                                                      Text(
-                                                        Constants
-                                                            .enteredKeyLostValueNotAccepted,
-                                                        style: const TextStyle(
-                                                          fontSize: 15,
-                                                          color: Colors.white70,
-                                                        ),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                      ),
-                                                      const SizedBox(
-                                                          height: 20),
-                                                      TextButton(
-                                                        onPressed: () {
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                        },
-                                                        child: const Text(
-                                                          Constants.ok,
-                                                          style: TextStyle(
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        const Text(
+                                                          Constants
+                                                              .valueNotAccepted,
+                                                          style:
+                                                              TextStyle(
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight.bold,
                                                             color: Colors.white,
+                                                          ),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ),
+                                                        const SizedBox(
+                                                            height: 12),
+                                                        Text(
+                                                          Constants
+                                                              .enteredKeyLostValueNotAccepted,
+                                                          style:
+                                                              const TextStyle(
                                                             fontSize: 15,
+                                                            color:
+                                                                Colors.white70,
+                                                          ),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ),
+                                                        const SizedBox(
+                                                            height: 20),
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                          child: const Text(
+                                                            Constants.ok,
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 15,
+                                                            ),
                                                           ),
                                                         ),
-                                                      ),
-                                                    ],
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                          );
-                                          //   AlertDialog(
-                                          //   title: const Text(
-                                          //       Constants.valueNotAccepted),
-                                          //   content: const Text(Constants
-                                          //       .enteredKeyLostValueNotAccepted),
-                                          //   actions: <Widget>[
-                                          //     TextButton(
-                                          //       child: const Text(Constants.ok),
-                                          //       onPressed: () {
-                                          //         Navigator.of(context).pop();
-                                          //       },
-                                          //     ),
-                                          //   ],
-                                          // );
-                                        },
-                                      );
-                                    } else {
-                                      getKeyHistoryById(
-                                        state.extraProperties
-                                                ?.hasWritePermission ??
-                                            false,
-                                        state.isEligibleToEdit ?? false,
-                                        state.items[index].kmId,
-                                        widget.parentId,
-                                        state.items[selectedIndex].id,
-                                        Constants.keyLostHistory,
-                                        ConstantsIntValue.keyLostHistoryInt,
-                                        keyIssuanceProcessModel:
-                                            state.items[index],
-                                      );
-                                    }
-                                  },
-                                  showDeleteButton: showIcons ? true : false,
-                                  onDeleteTap: (selectedIndex) async {
-                                    if (state.items[selectedIndex].damaged ==
-                                        0) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return Dialog(
-                                            backgroundColor: Colors.transparent,
-                                            elevation: 0,
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              child: BackdropFilter(
-                                                filter: ImageFilter.blur(
-                                                    sigmaX: 12, sigmaY: 12),
-                                                child: Container(
-                                                  padding:
-                                                      const EdgeInsets.all(20),
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.white.withValues(
-                                                        alpha:
-                                                            0.12), // glass layer
-                                                    borderRadius:
-                                                        BorderRadius.circular(
+                                            );
+                                            //   AlertDialog(
+                                            //   title: const Text(
+                                            //       Constants.valueNotAccepted),
+                                            //   content: const Text(Constants
+                                            //       .enteredKeyLostValueNotAccepted),
+                                            //   actions: <Widget>[
+                                            //     TextButton(
+                                            //       child: const Text(Constants.ok),
+                                            //       onPressed: () {
+                                            //         Navigator.of(context).pop();
+                                            //       },
+                                            //     ),
+                                            //   ],
+                                            // );
+                                          },
+                                        );
+                                      } else {
+                                        getKeyHistoryById(
+                                          state.extraProperties
+                                                  ?.hasWritePermission ??
+                                              false,
+                                          state.isEligibleToEdit ?? false,
+                                          state.items[index].kmId,
+                                          widget.parentId,
+                                          state.items[selectedIndex].id,
+                                          Constants.keyLostHistory,
+                                          ConstantsIntValue.keyLostHistoryInt,
+                                          keyIssuanceProcessModel:
+                                              state.items[index],
+                                        );
+                                      }
+                                    },
+                                    showDeleteButton: showIcons ? true : false,
+                                    onDeleteTap: (selectedIndex) async {
+                                      if (state.items[selectedIndex].damaged ==
+                                          0) {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return Dialog(
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              elevation: 0,
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                child: BackdropFilter(
+                                                  filter: ImageFilter.blur(
+                                                      sigmaX: 12, sigmaY: 12),
+                                                  child: Container(
+                                                    padding:
+                                                        const EdgeInsets.all(
                                                             20),
-                                                    border: Border.all(
+                                                    decoration: BoxDecoration(
                                                       color: Colors.white
                                                           .withValues(
                                                               alpha:
-                                                                  0.35), // glass border
-                                                      width: 1.3,
+                                                                  0.12), // glass layer
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              20),
+                                                      border: Border.all(
+                                                        color: Colors.white
+                                                            .withValues(
+                                                                alpha:
+                                                                    0.35), // glass border
+                                                        width: 1.3,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      const Text(
-                                                        Constants
-                                                            .valueNotAccepted,
-                                                        style: const TextStyle(
-                                                          fontSize: 18,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.white,
-                                                        ),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                      ),
-                                                      const SizedBox(
-                                                          height: 12),
-                                                      const Text(
-                                                        Constants
-                                                            .enteredKeyDamageValueNotAccepted,
-                                                        style: const TextStyle(
-                                                          fontSize: 15,
-                                                          color: Colors.white70,
-                                                        ),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                      ),
-                                                      const SizedBox(
-                                                          height: 20),
-                                                      TextButton(
-                                                        onPressed: () {
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                        },
-                                                        child: const Text(
-                                                          Constants.ok,
-                                                          style: TextStyle(
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        const Text(
+                                                          Constants
+                                                              .valueNotAccepted,
+                                                          style:
+                                                              TextStyle(
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight.bold,
                                                             color: Colors.white,
+                                                          ),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ),
+                                                        const SizedBox(
+                                                            height: 12),
+                                                        const Text(
+                                                          Constants
+                                                              .enteredKeyDamageValueNotAccepted,
+                                                          style:
+                                                              const TextStyle(
                                                             fontSize: 15,
+                                                            color:
+                                                                Colors.white70,
+                                                          ),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ),
+                                                        const SizedBox(
+                                                            height: 20),
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                          child: const Text(
+                                                            Constants.ok,
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontSize: 15,
+                                                            ),
                                                           ),
                                                         ),
-                                                      ),
-                                                    ],
+                                                      ],
+                                                    ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                          );
-                                          //   AlertDialog(
-                                          //   title: const Text(
-                                          //       Constants.valueNotAccepted),
-                                          //   content: const Text(Constants
-                                          //       .enteredKeyDamageValueNotAccepted),
-                                          //   actions: <Widget>[
-                                          //     TextButton(
-                                          //       child: const Text(Constants.ok),
-                                          //       onPressed: () {
-                                          //         Navigator.of(context).pop();
-                                          //       },
-                                          //     ),
-                                          //   ],
-                                          // );
-                                        },
-                                      );
-                                    } else {
-                                      getKeyHistoryById(
-                                        state.extraProperties
-                                                ?.hasWritePermission ??
-                                            false,
-                                        state.isEligibleToEdit,
-                                        state.items[index].kmId,
-                                        widget.parentId,
-                                        state.items[selectedIndex].id,
-                                        Constants.keyDamageHistory,
-                                        ConstantsIntValue.keyDamageHistoryInt,
-                                        keyIssuanceProcessModel:
-                                            state.items[index],
-                                      );
-                                    }
-                                  },
-                                  index: index,
-                                )))));
-          }
-          return const SizedBox();
-        },
-      ),
+                                            );
+                                            //   AlertDialog(
+                                            //   title: const Text(
+                                            //       Constants.valueNotAccepted),
+                                            //   content: const Text(Constants
+                                            //       .enteredKeyDamageValueNotAccepted),
+                                            //   actions: <Widget>[
+                                            //     TextButton(
+                                            //       child: const Text(Constants.ok),
+                                            //       onPressed: () {
+                                            //         Navigator.of(context).pop();
+                                            //       },
+                                            //     ),
+                                            //   ],
+                                            // );
+                                          },
+                                        );
+                                      } else {
+                                        getKeyHistoryById(
+                                          state.extraProperties
+                                                  ?.hasWritePermission ??
+                                              false,
+                                          state.isEligibleToEdit,
+                                          state.items[index].kmId,
+                                          widget.parentId,
+                                          state.items[selectedIndex].id,
+                                          Constants.keyDamageHistory,
+                                          ConstantsIntValue.keyDamageHistoryInt,
+                                          keyIssuanceProcessModel:
+                                              state.items[index],
+                                        );
+                                      }
+                                    },
+                                    index: index,
+                                  )))));
+            }
+            return const SizedBox();
+          },
+        ),
+      ],
     );
   }
 

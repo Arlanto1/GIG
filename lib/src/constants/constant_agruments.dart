@@ -37,4 +37,10 @@ class ConstantsArgument {
   static const String returnable = "returnable";
   static const String keyType = "keyType";
   static const String isEligibleToEdit = "isEligibleToEdit";
+  static const String units = "units";
+  static const String unit = "unit";
+  static const String isInward = "isInward";
+  static const String isCSREvent = "isCSREvent";
+
+
 }

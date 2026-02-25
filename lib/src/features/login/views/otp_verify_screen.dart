@@ -785,23 +785,23 @@ class _OtpVerifyState extends State<OtpVerify> {
                       ),
                     ),
                     // Background Gradient + Wavy Image
-                    Container(
+                    SizedBox(
                       width: double.infinity,
                       height: double.infinity,
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Color(0xFF845EF7),
-                            Color(0xFF6A89CC),
-                            Color(0xFF7589E9),
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                      ),
+                      // decoration: const BoxDecoration(
+                      //   gradient: LinearGradient(
+                      //     colors: [
+                      //       Color(0xFF845EF7),
+                      //       Color(0xFF6A89CC),
+                      //       Color(0xFF7589E9),
+                      //     ],
+                      //     begin: Alignment.topLeft,
+                      //     end: Alignment.bottomRight,
+                      //   ),
+                      // ),
                       child: Image.asset(
                         'assets/images/login4.png',
-                        fit: BoxFit.fitHeight,
+                        fit: BoxFit.cover,
                         width: double.infinity,
                       ),
                     ),

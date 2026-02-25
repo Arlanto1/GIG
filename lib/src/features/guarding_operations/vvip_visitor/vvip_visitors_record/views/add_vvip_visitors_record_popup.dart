@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:db_atom/index.dart';
 
 import '../../models/vvip_visitor_record_model.dart';
@@ -54,7 +56,19 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
+    return Stack(
+        children: [
+    // 🔹 BLUR THE ENTIRE BACKGROUND PAGE
+    BackdropFilter(
+    filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+    child: Container(
+    color: Colors.black.withOpacity(0.25), // dim + blur
+    ),
+    ),
+
+    // 🔹 YOUR ALERT DIALOG
+    Center(
+    child: AlertDialog(
       title: null,
       insetPadding: const EdgeInsets.symmetric(
         horizontal: 12,
@@ -69,11 +83,13 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
         return Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              gradient: LinearGradient(
+              gradient: const LinearGradient(
                 colors: [
-                  AppColors.newColor3.withValues(alpha: 2),
-                  AppColors.newColor,
-                  AppColors.newColor3.withValues(alpha: 2),
+                  // AppColors.white.withValues(alpha: 2),
+               Colors.transparent,
+                  Colors.transparent,
+                  Colors.transparent,
+                  // AppColors.white.withValues(alpha: 2),
                   // Color(0xFF6474C6).withOpacity(0.14)
                 ],
                 stops: [0.02, 0.35, 1],
@@ -348,7 +364,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
               ),
             ));
       }),
-    );
+    ),),],);
   }
 
   Widget buttonViews(BuildContext context, double width) {

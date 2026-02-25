@@ -27,3 +27,25 @@ class InitializeValuesMM extends MaterialMovementEvent {
 class RefreshList extends MaterialMovementEvent {
   const RefreshList();
 }
+
+
+class FetchApprovalById extends MaterialMovementEvent {
+  final int apStepId;
+  // final String objectId;
+
+  const FetchApprovalById({required this.apStepId,});
+
+  @override
+  List<Object?> get props => [apStepId];
+}
+
+
+class SaveRecord extends MaterialMovementEvent {
+  final ApprovalModel model;
+  // final int apStepId;
+
+  const SaveRecord({
+    required this.model,
+    // required this.apStepId,
+  });
+}

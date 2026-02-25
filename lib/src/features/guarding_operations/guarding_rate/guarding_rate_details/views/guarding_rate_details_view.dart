@@ -361,6 +361,8 @@
 //
 //
 
+import 'dart:ui';
+
 import 'package:db_atom/index.dart';
 import 'package:flutter/material.dart';
 
@@ -386,7 +388,9 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: AppColors.newColor3,
+      backgroundColor: Colors.transparent,
+      extendBodyBehindAppBar: true,
+      extendBody: true,
       appBar: BaseAppBar().buildAppHeader(
         context: context,
         title: widget.title,
@@ -405,150 +409,334 @@ class GuardingRateDetailsViewState extends State<GuardingRateDetailsView> {
             Navigator.pop(context);
           }
         },
+        // builder: (context, state) {
+        //   return Padding(
+        //     padding: const EdgeInsets.all(18.0),
+        //     child: Column(
+        //       crossAxisAlignment: CrossAxisAlignment.start,
+        //       children: [
+        //         const Text(
+        //           Constants.guardingOfficialRatingCards,
+        //           style: Styles.textStyleRegularNormalWhite18,
+        //         ),
+        //         const SizedBox(height: 20),
+        //         Expanded(
+        //           child: ListView(
+        //             physics: const BouncingScrollPhysics(),
+        //             children: [
+        //               _rowCard(
+        //                 icon: 'assets/images/dollar1.png',
+        //                 label: Constants.guardingRatingInformation,
+        //                 onTap: () {
+        //                   BlocProvider.of<PayRateCubit>(context)
+        //                       .updateModelValue();
+        //                   Navigator.pushNamed(
+        //                     context,
+        //                     guardingRatesGRIRoute,
+        //                     arguments: {
+        //                       "title": Constants.createGuardingRatingCards,
+        //                       "gmRate": widget.rate,
+        //                     },
+        //                   );
+        //                 },
+        //               ),
+        //               _rowCard(
+        //                 icon: 'assets/images/security1.png',
+        //                 label: state.labels?.locale.securityGuard ??
+        //                     "Security Guard",
+        //                 onTap: () {
+        //                   BlocProvider.of<PayRateCubit>(context)
+        //                       .updateModelValue();
+        //                   Navigator.pushNamed(
+        //                     context,
+        //                     payRateRoute,
+        //                     arguments: {
+        //                       "title": Constants.createSecurityGuard,
+        //                       "payRates": widget.rate.securityGuardRates ?? [],
+        //                       "gmRate": widget.rate,
+        //                     },
+        //                   );
+        //                 },
+        //               ),
+        //               _rowCard(
+        //                 icon: 'assets/images/security1.png',
+        //                 label: state.labels?.locale.securitySupervisor ??
+        //                     "Security Supervisor",
+        //                 onTap: () {
+        //                   BlocProvider.of<PayRateCubit>(context)
+        //                       .updateModelValue();
+        //                   Navigator.pushNamed(
+        //                     context,
+        //                     payRateRoute,
+        //                     arguments: {
+        //                       "title": Constants.createSecuritySupervisor,
+        //                       "payRates":
+        //                           widget.rate.securitySupervisorRates ?? [],
+        //                       "gmRate": widget.rate,
+        //                     },
+        //                   );
+        //                 },
+        //               ),
+        //               _rowCard(
+        //                 icon: 'assets/images/security1.png',
+        //                 label: state.labels?.locale.securityOfficer ??
+        //                     "Security Officer",
+        //                 onTap: () {
+        //                   BlocProvider.of<PayRateCubit>(context)
+        //                       .updateModelValue();
+        //                   Navigator.pushNamed(
+        //                     context,
+        //                     payRateRoute,
+        //                     arguments: {
+        //                       "title": Constants.createSecurityOfficer,
+        //                       "payRates": widget.rate.securityGuardRates ?? [],
+        //                       "gmRate": widget.rate,
+        //                     },
+        //                   );
+        //                 },
+        //               ),
+        //               _rowCard(
+        //                 icon: 'assets/images/security1.png',
+        //                 label: state.labels?.locale.securityFacilitator ??
+        //                     "Security Facilitator",
+        //                 onTap: () {
+        //                   BlocProvider.of<PayRateCubit>(context)
+        //                       .updateModelValue();
+        //                   Navigator.pushNamed(
+        //                     context,
+        //                     payRateRoute,
+        //                     arguments: {
+        //                       "title": Constants.createSecurityFacilitator,
+        //                       "payRates":
+        //                           widget.rate.securityFacilitatorRates ?? [],
+        //                       "gmRate": widget.rate,
+        //                     },
+        //                   );
+        //                 },
+        //               ),
+        //               _rowCard(
+        //                 icon: 'assets/images/gunMan1.png',
+        //                 label: state.labels?.locale.gunMan ?? "Gun Man",
+        //                 onTap: () {
+        //                   BlocProvider.of<PayRateCubit>(context)
+        //                       .updateModelValue();
+        //                   Navigator.pushNamed(
+        //                     context,
+        //                     payRateRoute,
+        //                     arguments: {
+        //                       "title": Constants.createGunMan,
+        //                       "payRates": widget.rate.securityGunManRates ?? [],
+        //                       "gmRate": widget.rate,
+        //                     },
+        //                   );
+        //                 },
+        //               ),
+        //               _rowCard(
+        //                 icon: 'assets/images/security1.png',
+        //                 label: state.labels?.locale.other ?? "Others",
+        //                 onTap: () {
+        //                   BlocProvider.of<PayRateCubit>(context)
+        //                       .updateModelValue();
+        //                   Navigator.pushNamed(
+        //                     context,
+        //                     payRateRoute,
+        //                     arguments: {
+        //                       "title": Constants.createOthers,
+        //                       "payRates": widget.rate.otherRates ?? [],
+        //                       "gmRate": widget.rate,
+        //                     },
+        //                   );
+        //                 },
+        //               ),
+        //             ],
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //   );
+        // },
         builder: (context, state) {
-          return Padding(
-            padding: const EdgeInsets.all(18.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  Constants.guardingOfficialRatingCards,
-                  style: Styles.textStyleRegularNormalWhite18,
+          return Stack(
+            children: [
+              /// 🔹 BACKGROUND IMAGE
+              Positioned.fill(
+                child: Image.asset(
+                  'assets/images/bg2.png',
+                  fit: BoxFit.cover,
                 ),
-                const SizedBox(height: 20),
-                Expanded(
-                  child: ListView(
-                    physics: const BouncingScrollPhysics(),
+              ),
+
+              /// 🔹 OPTIONAL DARK / GLASS OVERLAY (recommended for readability)
+              Positioned.fill(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(
+                    sigmaX: 50,
+                    sigmaY: 50,
+                  ),
+                  child: Container(
+                    color: Colors.black
+                        .withValues(alpha: 0.25), // tint for readability
+                  ),
+                ),
+              ),
+
+              SafeArea(
+                child:
+
+                    /// 🔹 MAIN CONTENT
+                    Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _rowCard(
-                        icon: 'assets/images/dollar1.png',
-                        label: Constants.guardingRatingInformation,
-                        onTap: () {
-                          BlocProvider.of<PayRateCubit>(context)
-                              .updateModelValue();
-                          Navigator.pushNamed(
-                            context,
-                            guardingRatesGRIRoute,
-                            arguments: {
-                              "title": Constants.createGuardingRatingCards,
-                              "gmRate": widget.rate,
-                            },
-                          );
-                        },
+                      const Text(
+                        Constants.guardingOfficialRatingCards,
+                        style: Styles.textStyleRegularNormalWhite18,
                       ),
-                      _rowCard(
-                        icon: 'assets/images/security1.png',
-                        label: state.labels?.locale.securityGuard ??
-                            "Security Guard",
-                        onTap: () {
-                          BlocProvider.of<PayRateCubit>(context)
-                              .updateModelValue();
-                          Navigator.pushNamed(
-                            context,
-                            payRateRoute,
-                            arguments: {
-                              "title": Constants.createSecurityGuard,
-                              "payRates": widget.rate.securityGuardRates ?? [],
-                              "gmRate": widget.rate,
-                            },
-                          );
-                        },
-                      ),
-                      _rowCard(
-                        icon: 'assets/images/security1.png',
-                        label: state.labels?.locale.securitySupervisor ??
-                            "Security Supervisor",
-                        onTap: () {
-                          BlocProvider.of<PayRateCubit>(context)
-                              .updateModelValue();
-                          Navigator.pushNamed(
-                            context,
-                            payRateRoute,
-                            arguments: {
-                              "title": Constants.createSecuritySupervisor,
-                              "payRates":
-                                  widget.rate.securitySupervisorRates ?? [],
-                              "gmRate": widget.rate,
-                            },
-                          );
-                        },
-                      ),
-                      _rowCard(
-                        icon: 'assets/images/security1.png',
-                        label: state.labels?.locale.securityOfficer ??
-                            "Security Officer",
-                        onTap: () {
-                          BlocProvider.of<PayRateCubit>(context)
-                              .updateModelValue();
-                          Navigator.pushNamed(
-                            context,
-                            payRateRoute,
-                            arguments: {
-                              "title": Constants.createSecurityOfficer,
-                              "payRates": widget.rate.securityGuardRates ?? [],
-                              "gmRate": widget.rate,
-                            },
-                          );
-                        },
-                      ),
-                      _rowCard(
-                        icon: 'assets/images/security1.png',
-                        label: state.labels?.locale.securityFacilitator ??
-                            "Security Facilitator",
-                        onTap: () {
-                          BlocProvider.of<PayRateCubit>(context)
-                              .updateModelValue();
-                          Navigator.pushNamed(
-                            context,
-                            payRateRoute,
-                            arguments: {
-                              "title": Constants.createSecurityFacilitator,
-                              "payRates":
-                                  widget.rate.securityFacilitatorRates ?? [],
-                              "gmRate": widget.rate,
-                            },
-                          );
-                        },
-                      ),
-                      _rowCard(
-                        icon: 'assets/images/gunMan1.png',
-                        label: state.labels?.locale.gunMan ?? "Gun Man",
-                        onTap: () {
-                          BlocProvider.of<PayRateCubit>(context)
-                              .updateModelValue();
-                          Navigator.pushNamed(
-                            context,
-                            payRateRoute,
-                            arguments: {
-                              "title": Constants.createGunMan,
-                              "payRates": widget.rate.securityGunManRates ?? [],
-                              "gmRate": widget.rate,
-                            },
-                          );
-                        },
-                      ),
-                      _rowCard(
-                        icon: 'assets/images/security1.png',
-                        label: state.labels?.locale.other ?? "Others",
-                        onTap: () {
-                          BlocProvider.of<PayRateCubit>(context)
-                              .updateModelValue();
-                          Navigator.pushNamed(
-                            context,
-                            payRateRoute,
-                            arguments: {
-                              "title": Constants.createOthers,
-                              "payRates": widget.rate.otherRates ?? [],
-                              "gmRate": widget.rate,
-                            },
-                          );
-                        },
+                      const SizedBox(height: 20),
+                      Expanded(
+                        child: ListView(
+                          physics: const BouncingScrollPhysics(),
+                          children: [
+                            _rowCard(
+                              icon: 'assets/images/dollar1.png',
+                              label: Constants.guardingRatingInformation,
+                              onTap: () {
+                                BlocProvider.of<PayRateCubit>(context)
+                                    .updateModelValue();
+                                Navigator.pushNamed(
+                                  context,
+                                  guardingRatesGRIRoute,
+                                  arguments: {
+                                    "title":
+                                        Constants.createGuardingRatingCards,
+                                    "gmRate": widget.rate,
+                                  },
+                                );
+                              },
+                            ),
+                            _rowCard(
+                              icon: 'assets/images/security1.png',
+                              label: state.labels?.locale.securityGuard ??
+                                  "Security Guard",
+                              onTap: () {
+                                BlocProvider.of<PayRateCubit>(context)
+                                    .updateModelValue();
+                                Navigator.pushNamed(
+                                  context,
+                                  payRateRoute,
+                                  arguments: {
+                                    "title": Constants.createSecurityGuard,
+                                    "payRates":
+                                        widget.rate.securityGuardRates ?? [],
+                                    "gmRate": widget.rate,
+                                  },
+                                );
+                              },
+                            ),
+                            _rowCard(
+                              icon: 'assets/images/security1.png',
+                              label: state.labels?.locale.securitySupervisor ??
+                                  "Security Supervisor",
+                              onTap: () {
+                                BlocProvider.of<PayRateCubit>(context)
+                                    .updateModelValue();
+                                Navigator.pushNamed(
+                                  context,
+                                  payRateRoute,
+                                  arguments: {
+                                    "title": Constants.createSecuritySupervisor,
+                                    "payRates":
+                                        widget.rate.securitySupervisorRates ??
+                                            [],
+                                    "gmRate": widget.rate,
+                                  },
+                                );
+                              },
+                            ),
+                            _rowCard(
+                              icon: 'assets/images/security1.png',
+                              label: state.labels?.locale.securityOfficer ??
+                                  "Security Officer",
+                              onTap: () {
+                                BlocProvider.of<PayRateCubit>(context)
+                                    .updateModelValue();
+                                Navigator.pushNamed(
+                                  context,
+                                  payRateRoute,
+                                  arguments: {
+                                    "title": Constants.createSecurityOfficer,
+                                    "payRates":
+                                        widget.rate.securityGuardRates ?? [],
+                                    "gmRate": widget.rate,
+                                  },
+                                );
+                              },
+                            ),
+                            _rowCard(
+                              icon: 'assets/images/security1.png',
+                              label: state.labels?.locale.securityFacilitator ??
+                                  "Security Facilitator",
+                              onTap: () {
+                                BlocProvider.of<PayRateCubit>(context)
+                                    .updateModelValue();
+                                Navigator.pushNamed(
+                                  context,
+                                  payRateRoute,
+                                  arguments: {
+                                    "title":
+                                        Constants.createSecurityFacilitator,
+                                    "payRates":
+                                        widget.rate.securityFacilitatorRates ??
+                                            [],
+                                    "gmRate": widget.rate,
+                                  },
+                                );
+                              },
+                            ),
+                            _rowCard(
+                              icon: 'assets/images/gunMan1.png',
+                              label: state.labels?.locale.gunMan ?? "Gun Man",
+                              onTap: () {
+                                BlocProvider.of<PayRateCubit>(context)
+                                    .updateModelValue();
+                                Navigator.pushNamed(
+                                  context,
+                                  payRateRoute,
+                                  arguments: {
+                                    "title": Constants.createGunMan,
+                                    "payRates":
+                                        widget.rate.securityGunManRates ?? [],
+                                    "gmRate": widget.rate,
+                                  },
+                                );
+                              },
+                            ),
+                            _rowCard(
+                              icon: 'assets/images/security1.png',
+                              label: state.labels?.locale.other ?? "Others",
+                              onTap: () {
+                                BlocProvider.of<PayRateCubit>(context)
+                                    .updateModelValue();
+                                Navigator.pushNamed(
+                                  context,
+                                  payRateRoute,
+                                  arguments: {
+                                    "title": Constants.createOthers,
+                                    "payRates": widget.rate.otherRates ?? [],
+                                    "gmRate": widget.rate,
+                                  },
+                                );
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           );
         },
       ),

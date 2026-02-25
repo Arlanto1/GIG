@@ -80,6 +80,10 @@ class SLAViolationPenaltyDetailsCubit
       isDbUser: true,
     );
 
+    Organisation? location;
+    List<Organisation> dutyPostNames = await commonServices.getDutyPostsByLocation(
+        locationId: location!.id.toString());
+
     Vendors vendors = await commonServices.getVendors(name: 'ATOM_VENDORS');
 
     TypeOfServices typeOfService = await commonServices.getTypeOfService(
@@ -92,6 +96,7 @@ class SLAViolationPenaltyDetailsCubit
         status: FormStatus.initial,
         emailUsers: emailUsers,
         vendors: vendors.items,
+        dutyPosts: dutyPostNames,
         typeOfServices: typeOfService.items,
       ),
     );
@@ -101,7 +106,7 @@ class SLAViolationPenaltyDetailsCubit
     log('-status-1-${state.status}--');
     log('-attId-1-${state.model.attdShiftInfoId}--');
 
-
+    List<Organisation> dutyPostNames = [];
     //Show Loader and emit loading state
     emit(
       state.copyWith(
@@ -128,10 +133,14 @@ class SLAViolationPenaltyDetailsCubit
           locationId: defaultLocation.id.toString(),
           moduleCode: Constants.slaViolationPenaltyDetailsModuleCode,
         );
+        dutyPostNames = await commonServices
+            .getDutyPostsByLocation(
+            locationId: defaultLocation.id.toString());
         state.model.location = defaultLocation;
         state.model.slNo = slNo.serialNo;
       }
     }
+
 
     try {
       Locations getLocationsData =
@@ -154,9 +163,13 @@ class SLAViolationPenaltyDetailsCubit
         isDbUser: true,
       );
 
-      if (location != null) {
-        state.model.location = location;
+      if (state.model.location != null) {
+        dutyPostNames = await commonServices
+            .getDutyPostsByLocation(
+            locationId: state.model.location!.id.toString());
+
       }
+
       if (locationRegion != null) {
         state.model.locationRegion = locationRegion;
       }
@@ -188,9 +201,14 @@ class SLAViolationPenaltyDetailsCubit
           locationId: location!.id.toString(),
           moduleCode: Constants.slaViolationPenaltyDetailsModuleCode,
         );
+         dutyPostNames = await commonServices
+            .getDutyPostsByLocation(
+            locationId: location!.id.toString());
         state.model.location = location;
         state.model.slNo = slNo.serialNo;
+
       }
+
 
       List<String> pocs = Utils().splitStringAfterComma(state.model.poc ?? '');
       log('-typeOfService.items---${typeOfService.items}---');
@@ -206,6 +224,7 @@ class SLAViolationPenaltyDetailsCubit
           listOfEntities: entities.atomEntities,
           vendors: vendors.items,
           typeOfServices: typeOfService.items,
+          dutyPosts: dutyPostNames,
           pocs: pocs,
           labels: labels,
         ),
@@ -223,6 +242,9 @@ class SLAViolationPenaltyDetailsCubit
     }
   }
 
+
+
+
   Future<void> updateLocationDropdownValue({
     Organisation? location,
   }) async {
@@ -233,6 +255,7 @@ class SLAViolationPenaltyDetailsCubit
     );
 
     List<BaseUser> emailUsers = [];
+    List<Organisation> dutyPostNames = [];
 
     /// Get Sl No from API
     if (location != null) {
@@ -249,6 +272,10 @@ class SLAViolationPenaltyDetailsCubit
         locationId: location.id,
         isDbUser: true,
       );
+
+      dutyPostNames = await commonServices
+          .getDutyPostsByLocation(
+          locationId: location.id.toString());
     }
 
     state.model.approver = null;
@@ -256,6 +283,7 @@ class SLAViolationPenaltyDetailsCubit
     emit(state.copyWith(
       model: state.model,
       emailUsers: emailUsers,
+      dutyPosts: dutyPostNames,
       status: FormStatus.initial,
     ));
   }
@@ -264,7 +292,7 @@ class SLAViolationPenaltyDetailsCubit
     List<Organisation>? entities,
     List<Organisation>? vendors,
     List<Organisation>? typeOfServices,
-    // Organisation? location,
+    Organisation? dutyPostName,
     BaseUser? user,
     BaseUser? approver,
     int? status,
@@ -303,6 +331,9 @@ class SLAViolationPenaltyDetailsCubit
     }
     if (typeOfServices != null) {
       state.model.typeOfService = typeOfServices;
+    }
+    if (dutyPostName != null) {
+      state.model.dutyPostLocation = dutyPostName;
     }
 
     if (user != null) {

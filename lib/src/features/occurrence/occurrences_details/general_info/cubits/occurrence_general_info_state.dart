@@ -9,7 +9,6 @@ class OccurrenceGeneralInfoState extends Equatable {
   final List<BaseUser>? shiftTakenOverBy;
   final List<Organisation>? listOfEntities;
   final List<Organisation> departments;
-  final AddEntities? getEntitiesResponse;
   final List<PowerFailureModel>? participationDates;
   final int? eventId;
   final String? message;
@@ -17,35 +16,36 @@ class OccurrenceGeneralInfoState extends Equatable {
   final bool? isReadOnly;
   final OCCUiLabels? labels;
   final bool? isOnGoingPowerFailure;
+  final List<Organisation>? dutyPosts;
+  final List<Organisation>? ipadSerialNum;
 
-  factory OccurrenceGeneralInfoState.initial({
+
+      factory OccurrenceGeneralInfoState.initial({
     required OccurrenceModel model,
     required Locations locations,
     required List<BaseUser>? users,
     required User? loggedInUserDetails,
     final List<BaseUser>? shiftTakenOverBy,
-    required final List<Organisation>? listOfEntities,
-    required final AddEntities? getEntitiesResponse,
     required final List<Organisation> departments,
     required String errorMessage,
     required List<ImageContent> loadAttachments,
     List<User>? entrySecurities,
     required int? eventId,
     List<PowerFailureModel>? participationDate,
+    required final List<Organisation>? ipadSerialNum,
   }) {
     return OccurrenceGeneralInfoState(
       status: FormStatus.initial,
       model: model,
       locations: locations,
-      listOfEntities: listOfEntities,
       departments: departments,
-      getEntitiesResponse: getEntitiesResponse,
       users: users,
       shiftTakenOverBy: shiftTakenOverBy,
       message: errorMessage,
       eventId: eventId,
       participationDates: participationDate,
       entrySecurities: entrySecurities,
+      ipadSerialNum:ipadSerialNum,
     );
   }
 
@@ -175,7 +175,6 @@ class OccurrenceGeneralInfoState extends Equatable {
     this.shiftTakenOverBy,
     this.listOfEntities,
     required this.departments,
-    this.getEntitiesResponse,
     this.participationDates,
     this.eventId,
     this.message,
@@ -184,6 +183,8 @@ class OccurrenceGeneralInfoState extends Equatable {
     this.isReadOnly,
     this.labels,
     this.isOnGoingPowerFailure,
+    this.dutyPosts,
+    this.ipadSerialNum,
   });
 
   OccurrenceGeneralInfoState copyWith({
@@ -193,15 +194,15 @@ class OccurrenceGeneralInfoState extends Equatable {
     User? loggedInUserDetails,
     List<BaseUser>? users,
     List<BaseUser>? shiftTakenOverBy,
-    List<Organisation>? listOfEntities,
     List<Organisation>? departments,
-    AddEntities? getEntitiesResponse,
+    List<Organisation>? ipadSerialNum,
     List<PowerFailureModel>? participationDates,
     int? eventId,
     String? message,
     List<User>? entrySecurities,
     bool? isReadOnly,
     bool? isOnGoingPowerFailure,
+    List<Organisation>? dutyPosts,
   }) {
     return OccurrenceGeneralInfoState(
       status: status ?? this.status,
@@ -212,7 +213,6 @@ class OccurrenceGeneralInfoState extends Equatable {
       shiftTakenOverBy: shiftTakenOverBy ?? this.shiftTakenOverBy,
       listOfEntities: listOfEntities ?? this.listOfEntities,
       departments: departments ?? this.departments,
-      getEntitiesResponse: getEntitiesResponse ?? this.getEntitiesResponse,
       participationDates: participationDates ?? this.participationDates,
       eventId: eventId ?? this.eventId,
       message: message ?? this.message,
@@ -220,6 +220,8 @@ class OccurrenceGeneralInfoState extends Equatable {
       isReadOnly: isReadOnly ?? this.isReadOnly,
       isOnGoingPowerFailure:
           isOnGoingPowerFailure ?? this.isOnGoingPowerFailure,
+      dutyPosts: dutyPosts ?? this.dutyPosts,
+        ipadSerialNum:ipadSerialNum??this.ipadSerialNum,
     );
   }
 }

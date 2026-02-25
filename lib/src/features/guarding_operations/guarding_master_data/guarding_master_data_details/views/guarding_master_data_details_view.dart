@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:db_atom/index.dart';
 
@@ -39,6 +40,7 @@ class _GuardingMasterDataDetailsViewState
   TextEditingController participationDateController = TextEditingController();
   TextEditingController pvcIssuedDateController = TextEditingController();
   TextEditingController pvcExpiryDateController = TextEditingController();
+  TextEditingController greenBGVDateController = TextEditingController();
   TextEditingController medicalCertificateValidUntilController =
       TextEditingController();
   TextEditingController dateOfFirstCovidDoseController =
@@ -77,10 +79,8 @@ class _GuardingMasterDataDetailsViewState
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final height = size.height;
-    return BlocConsumer<
-      GuardingMasterDataDetailsCubit,
-      GuardingMasterDataDetailsState
-    >(
+    return BlocConsumer<GuardingMasterDataDetailsCubit,
+        GuardingMasterDataDetailsState>(
       listener: (context, state) {
         log('-state.status---${state.status}----');
         log(
@@ -153,7 +153,9 @@ class _GuardingMasterDataDetailsViewState
               ).submitForm(isSaveOnly: false);
             },
           ),
-          backgroundColor: AppColors.newColor,
+          backgroundColor: Colors.transparent,
+          // extendBody: true,
+          // extendBodyBehindAppBar: true,
           body: getBodybuilder(state, height),
         );
       },
@@ -170,11 +172,11 @@ class _GuardingMasterDataDetailsViewState
 
     dateOfJoiningController.text =
         widget.guardingMasterData?.dateOfJoining != null
-        ? Utils.timestampToDateConversion(
-            int.parse(widget.guardingMasterData?.dateOfJoining ?? '0'),
-            Constants.dateFormat,
-          )
-        : '';
+            ? Utils.timestampToDateConversion(
+                int.parse(widget.guardingMasterData?.dateOfJoining ?? '0'),
+                Constants.dateFormat,
+              )
+            : '';
 
     mSGBExemptionDateController.text = Utils.timestampToDateConversion(
       int.parse(widget.guardingMasterData?.msgbExemptionDate ?? '0'),
@@ -183,11 +185,11 @@ class _GuardingMasterDataDetailsViewState
 
     pvcIssuedDateController.text =
         widget.guardingMasterData?.pvcIssuedDate != null
-        ? Utils.timestampToDateConversion(
-            int.parse(widget.guardingMasterData?.pvcIssuedDate ?? '0'),
-            Constants.dateFormat,
-          )
-        : '';
+            ? Utils.timestampToDateConversion(
+                int.parse(widget.guardingMasterData?.pvcIssuedDate ?? '0'),
+                Constants.dateFormat,
+              )
+            : '';
     // pvcExpiryDateController.text = Utils.timestamptoDateConversion(
     //     int.parse(widget.guardingMasterData?.pvcExpiryDate ?? '0'),
     //     Constants.dateFormat);
@@ -198,11 +200,19 @@ class _GuardingMasterDataDetailsViewState
 
     pvcExpiryDateController.text =
         widget.guardingMasterData?.pvcExpiryDate != null
-        ? Utils.timestampToDateConversion(
-            int.parse(widget.guardingMasterData?.pvcExpiryDate ?? '0'),
-            Constants.dateFormat,
-          )
-        : '';
+            ? Utils.timestampToDateConversion(
+                int.parse(widget.guardingMasterData?.pvcExpiryDate ?? '0'),
+                Constants.dateFormat,
+              )
+            : '';
+
+    greenBGVDateController.text =
+        widget.guardingMasterData?.greenBgvDate != null
+            ? Utils.timestampToDateConversion(
+                int.parse(widget.guardingMasterData?.greenBgvDate ?? '0'),
+                Constants.dateFormat,
+              )
+            : '';
     // widget.guardingMasterData?.expiryDate?
     //     DateFormat(Constants.dateFormat).format(expiryDate):'';
     // pvcExpiryDateController.text = DateFormat(Constants.dateFormat).format(
@@ -212,24 +222,26 @@ class _GuardingMasterDataDetailsViewState
     // );
     medicalCertificateValidUntilController.text =
         widget.guardingMasterData?.medicalCertificateValidUntil != null
-        ? Utils.timestampToDateConversion(
-            int.parse(
-              widget.guardingMasterData?.medicalCertificateValidUntil ?? '0',
-            ),
-            Constants.dateFormat,
-          )
-        : '';
+            ? Utils.timestampToDateConversion(
+                int.parse(
+                  widget.guardingMasterData?.medicalCertificateValidUntil ??
+                      '0',
+                ),
+                Constants.dateFormat,
+              )
+            : '';
 
     dateOfFirstCovidDoseController.text =
         widget.guardingMasterData?.covidFirstDoseDate != null
-        ? Utils.timestampToDateConversion(
-            int.parse(widget.guardingMasterData?.covidFirstDoseDate ?? '0'),
-            Constants.dateFormat,
-          )
-        : '';
+            ? Utils.timestampToDateConversion(
+                int.parse(widget.guardingMasterData?.covidFirstDoseDate ?? '0'),
+                Constants.dateFormat,
+              )
+            : '';
 
-    dateOfSecondCovidDoseController.text =
-        widget.guardingMasterData?.covidSecondDoseDate != null
+    dateOfSecondCovidDoseController.text = widget
+                .guardingMasterData?.covidSecondDoseDate !=
+            null
         ? Utils.timestampToDateConversion(
             int.parse(widget.guardingMasterData?.covidSecondDoseDate ?? '0'),
             Constants.dateFormat,
@@ -238,16 +250,17 @@ class _GuardingMasterDataDetailsViewState
 
     dateOfPrecautionaryCovidDose.text =
         widget.guardingMasterData?.covidPrecautionaryDoseDate != null
-        ? Utils.timestampToDateConversion(
-            int.parse(
-              widget.guardingMasterData?.covidPrecautionaryDoseDate ?? '0',
-            ),
-            Constants.dateFormat,
-          )
-        : '';
+            ? Utils.timestampToDateConversion(
+                int.parse(
+                  widget.guardingMasterData?.covidPrecautionaryDoseDate ?? '0',
+                ),
+                Constants.dateFormat,
+              )
+            : '';
 
-    ertCertificationDate.text =
-        widget.guardingMasterData?.ertCertificationDate != null
+    ertCertificationDate.text = widget
+                .guardingMasterData?.ertCertificationDate !=
+            null
         ? Utils.timestampToDateConversion(
             int.parse(widget.guardingMasterData?.ertCertificationDate ?? '0'),
             Constants.dateFormat,
@@ -255,13 +268,14 @@ class _GuardingMasterDataDetailsViewState
         : '';
     firstAidTrainingCompletionDate.text =
         widget.guardingMasterData?.firstAidTrainingCompletionDate != null
-        ? Utils.timestampToDateConversion(
-            int.parse(
-              widget.guardingMasterData?.firstAidTrainingCompletionDate ?? '0',
-            ),
-            Constants.dateFormat,
-          )
-        : '';
+            ? Utils.timestampToDateConversion(
+                int.parse(
+                  widget.guardingMasterData?.firstAidTrainingCompletionDate ??
+                      '0',
+                ),
+                Constants.dateFormat,
+              )
+            : '';
   }
 
   getBodybuilder(GuardingMasterDataDetailsState state, height) {
@@ -289,944 +303,268 @@ class _GuardingMasterDataDetailsViewState
       medicalFiles = state.medicalAttachments;
     }
 
-    return Container(
-      color: AppColors.newColor3,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(height: height * 0.01, color: AppColors.newColor3),
-            Container(
-              decoration: ShapeDecoration(
-                color: AppColors.newColor3,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(20.0),
-                  ),
-                ),
-              ),
-              child: Column(
-                children: [
-                  AbsorbPointer(
-                    absorbing: false,
-                    child: Form(
-                      key: _formKey,
-                      autovalidateMode: state.model.status == 4
-                          ? AutovalidateMode.disabled
-                          : AutovalidateMode.onUserInteraction,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              left: 20.0,
-                              right: 20,
-                            ),
-                            child: Column(
-                              children: [
-                                if (!state.model.lock.isEmptyOrNull) ...[
-                                  RecordLockedWidget(
-                                    text: '${state.model.lock}',
-                                  ),
-                                ],
-                                Container(
-                                  alignment: Alignment.topLeft,
-                                  child: const Text(
-                                    Constants.generalinformation,
-                                    style: Styles.textStyleRegularNormalWhite18,
-                                  ),
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.01,
-                                ),
+    return Stack(
+      children: [
+        // 🔹 Background Image
+        Positioned.fill(
+          child: Image.asset(
+            'assets/images/bg2.png',
+            fit: BoxFit.cover,
+          ),
+        ),
 
-                                /// Status
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.status ??
-                                      state.labels?.defaultLocale.status ??
-                                      Constants.status,
-                                  Styles.textStyleWhite16,
-                                  isMandatory: true,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-                                BaseDropDown().getDropDown(
-                                  isDisabled: true,
-                                  textController: statusController,
-                                  items: statusDropDownValues,
-                                  initialValue: '${state.model.status ?? 1}',
-                                  onTap: () {
-                                    //   if (widget.guardingMasterData != null) {
-                                    //     BaseDropDown().assetTypeDialog(
-                                    //       context: context,
-                                    //       dropDownValues: statusDropDownValues
-                                    //           .map((label) => label.key)
-                                    //           .toList(),
-                                    //       onTap: (String value) {
-                                    //         Label? selectedLabel;
-                                    //         selectedLabel =
-                                    //             statusDropDownValues.firstWhere(
-                                    //           (label) => label.key == value,
-                                    //           orElse: () =>
-                                    //               const Label(key: '', value: ''),
-                                    //         );
-                                    //         BlocProvider.of<
-                                    //                     GuardingMasterDataDetailsCubit>(
-                                    //                 context)
-                                    //             .updateDropdownValues(
-                                    //                 status: int.tryParse(
-                                    //                     selectedLabel.value));
-                                    //       },
-                                    //     );
-                                    //   }
-                                  },
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// Created By
-                                CommonWidgets.horizentaltextHandling(
-                                  state.labels?.locale.entrySecurity ??
-                                      state
-                                          .labels
-                                          ?.defaultLocale
-                                          .entrySecurity ??
-                                      Constants.createdby,
-                                  isMandatory: true,
-                                  '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}',
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// Date of creation
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.inputDate ??
-                                      state.labels?.defaultLocale.inputDate ??
-                                      Constants.dateofcreation,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-                                BaseDate().creationDateDisplay(
-                                  state.model.inputDate ?? '',
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                ///Building  Location
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.location ??
-                                      state.labels?.defaultLocale.location ??
-                                      Constants.buildingLocation,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-                                locationWidgetdislay(state),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// Entity
-                                CommonWidgets.textDisplay(
-                                  Constants.entity,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-
-                                TextFieldAddButton(
-                                  title: state.model.entity?.name ?? '',
-                                  height: 70,
-                                  isDisableColor: true,
-                                  onTap: () {
-                                    //   BaseOrganisationDialog().departmentDialog(
-                                    //     context: context,
-                                    //     organisations:
-                                    //         state.listOfEntities ?? [],
-                                    //     onTap: (Organisation entity) {
-                                    //       BlocProvider.of<
-                                    //                   GuardingMasterDataDetailsCubit>(
-                                    //               context)
-                                    //           .updateDropdownValues(
-                                    //         entity: entity,
-                                    //       );
-                                    //     },
-                                    //     title: 'Add Entity',
-                                    //     orgName: 'ATOM_ENTITIES',
-                                    //     functionToCall: () {
-                                    //       // refresh the list
-                                    //       BlocProvider.of<
-                                    //                   GuardingMasterDataDetailsCubit>(
-                                    //               context)
-                                    //           .refreshList();
-                                    //     },
-                                    //   );
-                                  },
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// Sl No.
-                                CommonWidgets.horizentaltextHandling(
-                                  state.labels?.locale.slNo ??
-                                      state.labels?.defaultLocale.slNo ??
-                                      Constants.slno,
-                                  state.model.slNo ?? '',
-                                  isMandatory: true,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// Guard Name
-                                Column(
-                                  children: [
-                                    CommonWidgets.textDisplay(
-                                      state.labels?.locale.guard ??
-                                          state.labels?.defaultLocale.guard ??
-                                          Constants.name,
-                                      isMandatory: true,
-                                      Styles.textStyleWhite16,
-                                    ),
-                                    TextFieldAddButton(
-                                      title: state.model.guard?.userInfo,
-                                      height: 70,
-                                      isDisableColor: true,
-                                      onTap: () {
-                                        // BaseOrganisationDialog().userDialog(
-                                        //   context: context,
-                                        //   users: state.emailUsers!,
-                                        //   // TODO: Need to change EntrySecurity to BaseUser
-                                        //   onTap: (BaseUser user) {
-                                        //     BlocProvider.of<
-                                        //                 GuardingMasterDataDetailsCubit>(
-                                        //             context)
-                                        //         .updateDropdownValues(
-                                        //       guard: user,
-                                        //     );
-                                        //   },
-                                        //   functionToCall: () {
-                                        //     // refresh the list
-                                        //     BlocProvider.of<
-                                        //                 GuardingMasterDataDetailsCubit>(
-                                        //             context)
-                                        //         .refreshList();
-                                        //   },
-                                        // );
-                                      },
-                                    ),
-                                    CommonWidgets.verticalSpacerWidget(
-                                      height * 0.02,
+        // 🔹 Blur Layer
+        Positioned.fill(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 200, sigmaY: 200),
+            child: Container(
+              color: Colors.black.withValues(alpha: 0.08), // optional tint
+            ),
+          ),
+        ),
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                color: Colors.transparent,
+                child: Column(
+                  children: [
+                    AbsorbPointer(
+                      absorbing: false,
+                      child: Form(
+                        key: _formKey,
+                        autovalidateMode: state.model.status == 4
+                            ? AutovalidateMode.disabled
+                            : AutovalidateMode.onUserInteraction,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                left: 20.0,
+                                right: 20,
+                              ),
+                              child: Column(
+                                children: [
+                                  if (!state.model.lock.isEmptyOrNull) ...[
+                                    RecordLockedWidget(
+                                      text: '${state.model.lock}',
                                     ),
                                   ],
-                                ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01,
+                                  ),
+                                  Container(
+                                    alignment: Alignment.topLeft,
+                                    child: const Text(
+                                      Constants.generalinformation,
+                                      style:
+                                          Styles.textStyleRegularNormalWhite18,
+                                    ),
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01,
+                                  ),
 
-                                /// upload Photo
-                                CommonWidgets.textDisplay(
-                                  Constants.uploadPhoto,
-                                  Styles.textStyleWhite16,
-                                ),
-                                widget.guardingMasterData == null
-                                    ? CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001,
-                                      )
-                                    : Container(),
-                                AbsorbPointer(
-                                  absorbing: true,
-                                  child: BaseImageUpload().uploadWidget(
+                                  /// Status
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.status ??
+                                        state.labels?.defaultLocale.status ??
+                                        Constants.status,
+                                    Styles.textStyleWhite16,
+                                    isMandatory: true,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+                                  BaseDropDown().getDropDown(
                                     isDisabled: true,
-                                    context: context,
-                                    loggedInUserDetails:
-                                        state.loggedInUserDetails ?? User(),
-                                    getFiles: guardFiles,
-                                    onImageSelected: (ImageContent data) {
-                                      log(
-                                        '-------function---onImageSelected---------',
-                                      );
-                                      List<ImageContent>? files = [];
-                                      guardFiles = [data];
-                                      files.add(data);
-                                      for (ImageContent image
-                                          in guardFiles ?? []) {
-                                        files.add(image);
-                                      }
-                                      BlocProvider.of<
-                                            GuardingMasterDataDetailsCubit
-                                          >(context)
-                                          .addAttachment(
-                                            data: files,
-                                            guardImages: guardFiles,
-                                          );
+                                    textController: statusController,
+                                    items: statusDropDownValues,
+                                    initialValue: '${state.model.status ?? 1}',
+                                    onTap: () {
+                                      //   if (widget.guardingMasterData != null) {
+                                      //     BaseDropDown().assetTypeDialog(
+                                      //       context: context,
+                                      //       dropDownValues: statusDropDownValues
+                                      //           .map((label) => label.key)
+                                      //           .toList(),
+                                      //       onTap: (String value) {
+                                      //         Label? selectedLabel;
+                                      //         selectedLabel =
+                                      //             statusDropDownValues.firstWhere(
+                                      //           (label) => label.key == value,
+                                      //           orElse: () =>
+                                      //               const Label(key: '', value: ''),
+                                      //         );
+                                      //         BlocProvider.of<
+                                      //                     GuardingMasterDataDetailsCubit>(
+                                      //                 context)
+                                      //             .updateDropdownValues(
+                                      //                 status: int.tryParse(
+                                      //                     selectedLabel.value));
+                                      //       },
+                                      //     );
+                                      //   }
                                     },
                                   ),
-                                ),
-                                // // Attachments
-                                // IgnorePointer(
-                                //   ignoring: false,
-                                BaseImageUpload().getAttachment(
-                                  height: height,
-                                  attachments: state.guardAttachments,
-                                  files: guardFiles,
-                                  // showDownloadIcon: widget.guardingMasterData
-                                  //             ?.photoGraph?.imageContent !=
-                                  //         null
-                                  //     ? true
-                                  //     : false,
-                                  showDeleteIcon: false,
-                                  moduleCode:
-                                      Constants.guardingMasterModuleCode,
-                                ),
-                                //),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
 
-                                /// Guarding Vendor
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.vendor ??
-                                      state.labels?.defaultLocale.vendor ??
-                                      Constants.guardingVendor,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-                                TextFieldAddButton(
-                                  title: state.model.vendor?.name,
-                                  height: 70,
-                                  isDisableColor: true,
-                                  onTap: () {
-                                    // BaseOrganisationDialog().departmentDialog(
-                                    //     context: context,
-                                    //     organisations: state.departments,
-                                    //     onTap: (Organisation department) {
-                                    //       BlocProvider.of<
-                                    //                   GuardingMasterDataDetailsCubit>(
-                                    //               context)
-                                    //           .updateDropdownValues(
-                                    //               vendor: department);
-                                    //     },
-                                    //     orgName: 'ATOM_VENDORS',
-                                    //     createEntity: false,
-                                    //     title: 'Add Vendor',
-                                    //     functionToCall: () {
-                                    //       // refresh the list
-                                    //       BlocProvider.of<
-                                    //                   GuardingMasterDataDetailsCubit>(
-                                    //               context)
-                                    //           .refreshList();
-                                    //     });
-                                  },
-                                ),
+                                  /// Created By
+                                  CommonWidgets.horizentaltextHandling(
+                                    state.labels?.locale.entrySecurity ??
+                                        state.labels?.defaultLocale
+                                            .entrySecurity ??
+                                        Constants.createdby,
+                                    isMandatory: true,
+                                    '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}',
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
 
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// Guarding Partner POC
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.guardingPOC ??
-                                      state.labels?.defaultLocale.guardingPOC ??
-                                      Constants.guardingPoc,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-                                FlutterInputField(
-                                  textInputType: TextInputType.text,
-                                  initialValue: state.model.guardingPOC,
-                                  textFormKey: Keys.guardingPOCKey,
-                                  hintText: '',
-                                  isEnable: false,
-                                  isDisableColor: true,
-                                  onChange: (String value) {
-                                    state.model.guardingPOC = value;
-                                    context
-                                        .read<GuardingMasterDataDetailsCubit>()
-                                        .onModelValueChange(state.model);
-                                  },
-                                  validateTextField: (String? user) {},
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// Rank
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.guardRank ??
-                                      state.labels?.defaultLocale.guardRank ??
-                                      Constants.rank,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-                                BaseDropDown().getDropDown(
-                                  isDisabled: state.model.status != 6,
-                                  textController: rankController,
-                                  items: guardRankDropDownValues,
-                                  initialValue: state.model.guardRank
-                                      .toString(),
-                                  onTap: () {
-                                    // if (isDisabled) {
-                                    //   BaseDropDown().assetTypeDialog(
-                                    //       context: context,
-                                    //       dropDownValues:
-                                    //           guardRankDropDownValues
-                                    //               .map((label) => label.key)
-                                    //               .toList(),
-                                    //       onTap: (String value) {
-                                    //         Label? selectedLabel;
-                                    //         selectedLabel =
-                                    //             guardRankDropDownValues
-                                    //                 .firstWhere(
-                                    //           (label) => label.key == value,
-                                    //           orElse: () => const Label(
-                                    //               key: '', value: ''),
-                                    //         );
-                                    //         BlocProvider.of<
-                                    //                     GuardingMasterDataDetailsCubit>(
-                                    //                 context)
-                                    //             .updateDropdownValues(
-                                    //                 guardRank: int.tryParse(
-                                    //                     selectedLabel.value));
-                                    //       });
-                                    // }
-                                  },
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// Guarding Agency Employee Code
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.employeeCode ??
-                                      state
-                                          .labels
-                                          ?.defaultLocale
-                                          .employeeCode ??
-                                      Constants.guardingAgencyEmpCode,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-                                FlutterInputField(
-                                  textInputType: TextInputType.number,
-                                  initialValue: state.model.employeeCode,
-                                  textFormKey: Keys.guardingAgencyKey,
-                                  hintText: '',
-                                  isEnable: false,
-                                  // widget.guardingMasterData == null
-                                  //     ? true
-                                  //     : (widget.guardingMasterData != null &&
-                                  //             (widget.guardingMasterData
-                                  //                     ?.employeeCode ==
-                                  //                 null))
-                                  //         ? false
-                                  //         : true,
-                                  isDisableColor: true,
-                                  onChange: (String value) {
-                                    state.model.employeeCode = value;
-                                    context
-                                        .read<GuardingMasterDataDetailsCubit>()
-                                        .onModelValueChange(state.model);
-                                  },
-                                  validateTextField: (String? user) {},
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// DB Employee ID
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.dbEmployeeId ??
-                                      state
-                                          .labels
-                                          ?.defaultLocale
-                                          .dbEmployeeId ??
-                                      Constants.dbEmployeeId,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-                                FlutterInputField(
-                                  textInputType: TextInputType.number,
-                                  initialValue: state.model.dbEmployeeId,
-                                  textFormKey: Keys.dbEmployeeIDKey,
-                                  hintText: '',
-                                  isEnable: false,
-                                  // widget.guardingMasterData == null
-                                  //     ? true
-                                  //     : (widget.guardingMasterData != null &&
-                                  //             (widget.guardingMasterData
-                                  //                     ?.dbEmployeeId ==
-                                  //                 null))
-                                  //         ? false
-                                  //         : true,
-                                  isDisableColor: true,
-                                  onChange: (String value) {
-                                    state.model.dbEmployeeId = value;
-                                    context
-                                        .read<GuardingMasterDataDetailsCubit>()
-                                        .onModelValueChange(state.model);
-                                  },
-                                  validateTextField: (String? user) {},
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// Type of Duty
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.dutyType ??
-                                      state.labels?.defaultLocale.dutyType ??
-                                      Constants.typeOfDuty,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-                                BaseDropDown().getDropDown(
-                                  isDisabled: state.model.status != 6,
-                                  textController: dutyTypeController,
-                                  items: dutyTypeDropDownValues,
-                                  initialValue: state.model.dutyType.toString(),
-                                  onTap: () {
-                                    // if (isDisabled) {
-                                    //   BaseDropDown().assetTypeDialog(
-                                    //       context: context,
-                                    //       dropDownValues:
-                                    //           dutyTypeDropDownValues
-                                    //               .map((label) => label.key)
-                                    //               .toList(),
-                                    //       onTap: (String value) {
-                                    //         Label? selectedLabel;
-                                    //         selectedLabel =
-                                    //             dutyTypeDropDownValues
-                                    //                 .firstWhere(
-                                    //           (label) => label.key == value,
-                                    //           orElse: () => const Label(
-                                    //               key: '', value: ''),
-                                    //         );
-                                    //         BlocProvider.of<
-                                    //                     GuardingMasterDataDetailsCubit>(
-                                    //                 context)
-                                    //             .updateDropdownValues(
-                                    //                 dutyType: int.tryParse(
-                                    //                     selectedLabel.value));
-                                    //       });
-                                    // }
-                                  },
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// Gender
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.gender ??
-                                      state.labels?.defaultLocale.gender ??
-                                      Constants.gender,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-                                BaseDropDown().getDropDown(
-                                  isDisabled: true,
-                                  textController: genderController,
-                                  items: genderDropDownValues,
-                                  initialValue: state.model.gender.toString(),
-                                  onTap: () {
-                                    // if (isDisabled) {
-                                    //   BaseDropDown().assetTypeDialog(
-                                    //     context: context,
-                                    //     dropDownValues: genderDropDownValues
-                                    //         .map((label) => label.key)
-                                    //         .toList(),
-                                    //     onTap: (String value) {
-                                    //       Label? selectedLabel;
-                                    //       selectedLabel =
-                                    //           genderDropDownValues.firstWhere(
-                                    //         (label) => label.key == value,
-                                    //         orElse: () =>
-                                    //             const Label(key: '', value: ''),
-                                    //       );
-                                    //
-                                    //       physicallyFitModel.gender =
-                                    //           int.tryParse(selectedLabel.value);
-                                    //       checkPhysicallyFit(
-                                    //           physicallyFitModel:
-                                    //               physicallyFitModel,
-                                    //           state: state);
-                                    //
-                                    //       BlocProvider.of<
-                                    //                   GuardingMasterDataDetailsCubit>(
-                                    //               context)
-                                    //           .updateDropdownValues(
-                                    //               gender: int.tryParse(
-                                    //                   selectedLabel.value));
-                                    //     },
-                                    //   );
-                                    // }
-                                  },
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// Marital Status
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.maritalStatus ??
-                                      state
-                                          .labels
-                                          ?.defaultLocale
-                                          .maritalStatus ??
-                                      Constants.maritalStatus,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-                                BaseDropDown().getDropDown(
-                                  isDisabled: true,
-                                  textController: maritalStatusController,
-                                  items: maritalStatusDropDownValues,
-                                  initialValue: state.model.maritalStatus
-                                      .toString(),
-                                  onTap: () {
-                                    // if (isDisabled) {
-                                    //   BaseDropDown().assetTypeDialog(
-                                    //       context: context,
-                                    //       dropDownValues:
-                                    //           maritalStatusDropDownValues
-                                    //               .map((label) => label.key)
-                                    //               .toList(),
-                                    //       onTap: (String value) {
-                                    //         Label? selectedLabel;
-                                    //         selectedLabel =
-                                    //             maritalStatusDropDownValues
-                                    //                 .firstWhere(
-                                    //           (label) => label.key == value,
-                                    //           orElse: () => const Label(
-                                    //               key: '', value: ''),
-                                    //         );
-                                    //         BlocProvider.of<
-                                    //                     GuardingMasterDataDetailsCubit>(
-                                    //                 context)
-                                    //             .updateDropdownValues(
-                                    //                 maritalStatus:
-                                    //                     int.tryParse(
-                                    //                         selectedLabel
-                                    //                             .value));
-                                    //       });
-                                    // }
-                                  },
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// Contact Num
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.contactNo ??
-                                      state.labels?.defaultLocale.contactNo ??
-                                      Constants.mobileNum,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-                                FlutterInputField(
-                                  textInputType: TextInputType.number,
-                                  initialValue: state.model.contactNo,
-                                  textFormKey: Keys.contactNoKey,
-                                  hintText: '',
-                                  characterLimit:
-                                      Constants.characterLimitContactNo,
-                                  isEnable: false,
-                                  // widget.guardingMasterData == null
-                                  //     ? true
-                                  //     : (widget.guardingMasterData != null &&
-                                  //             (widget.guardingMasterData?.contactNo ==
-                                  //                 null))
-                                  //         ? false
-                                  //         : true,
-                                  isDisableColor: true,
-                                  onChange: (String value) {
-                                    state.model.contactNo = value;
-                                    context
-                                        .read<GuardingMasterDataDetailsCubit>()
-                                        .onModelValueChange(state.model);
-                                  },
-                                  validateTextField: (String? user) {},
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// Dependents No
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.dependentsNo ??
-                                      state
-                                          .labels
-                                          ?.defaultLocale
-                                          .dependentsNo ??
-                                      Constants.dependentsNo,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-                                FlutterInputField(
-                                  textInputType: TextInputType.number,
-                                  initialValue:
-                                      '${state.model.dependentsNo ?? ''}',
-                                  textFormKey: Keys.dependentsKey,
-                                  hintText: '',
-                                  isEnable: false,
-                                  isDisableColor: true,
-                                  onChange: (String value) {
-                                    state.model.dependentsNo = int.tryParse(
-                                      value,
-                                    );
-                                    context
-                                        .read<GuardingMasterDataDetailsCubit>()
-                                        .onModelValueChange(state.model);
-                                  },
-                                  validateTextField: (String? user) {},
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// Date of Birth
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.dateOfBirth ??
-                                      state.labels?.defaultLocale.dateOfBirth ??
-                                      Constants.dateOfBirth,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-
-                                // BaseDate().datePickerWidgetLoading(
-                                //   textController: dateOfBirthController,
-                                //   onlyDate: true,
-                                //   showFutureDate: false,
-                                //   onChange: (String value) {
-                                //     state.model.dateOfBirth =
-                                //         Utils().formatTime(value);
-                                //     BlocProvider.of<GuardingMasterDataDetailsCubit>(
-                                //             context)
-                                //         .onModelValueChange(state.model);
-                                //   },
-                                //   context: context,
-                                // ),
-                                // CommonWidgets.verticalSpacerWidget(height * 0.01),
-                                BaseDate().datePickerWidgetLoading(
-                                  isDisabled: true,
-                                  textController: dateOfBirthController,
-                                  onlyDate: false,
-                                  showFutureDate: false,
-                                  onChange: (String value) {
-                                    log('---value-$value------');
-                                    state.model.dateOfBirth = Utils()
-                                        .formatTime(value);
-                                    BlocProvider.of<
-                                          GuardingMasterDataDetailsCubit
-                                        >(context)
-                                        .onModelValueChange(state.model);
-                                  },
-                                  context: context,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// Date Of Joining
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.dateOfJoining ??
-                                      state
-                                          .labels
-                                          ?.defaultLocale
-                                          .dateOfJoining ??
-                                      Constants.dateOfJoining,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-
-                                BaseDate().datePickerWidgetLoading(
-                                  isDisabled: true,
-                                  onlyDate: true,
-                                  textController: dateOfJoiningController,
-                                  onChange: (String value) {
-                                    state.model.dateOfJoining = Utils()
-                                        .formatTime(value);
-
-                                    BlocProvider.of<
-                                          GuardingMasterDataDetailsCubit
-                                        >(context)
-                                        .onModelValueChange(state.model);
-                                    // pvcIssuedDateController.text = state.guardingMasterData.pvcIssuedDate??'';
-                                  },
-                                  context: context,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// Type of Deployment
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.typeOfDeployment ??
-                                      state
-                                          .labels
-                                          ?.defaultLocale
-                                          .typeOfDeployment ??
-                                      Constants.typeOfDeployment,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-                                BaseDropDown().getDropDown(
-                                  isDisabled: state.model.status != 6,
-                                  textController: deploymentTypeController,
-                                  items: deploymentTypeDropDownValues,
-                                  initialValue:
-                                      '${widget.guardingMasterData?.typeOfDeployment ?? 1}',
-                                  onTap: () {
-                                    // if (state.model.id != null) {
-                                    //   BaseDropDown().assetTypeDialog(
-                                    //     context: context,
-                                    //     dropDownValues:
-                                    //         deploymentTypeDropDownValues
-                                    //             .map((label) => label.key)
-                                    //             .toList(),
-                                    //     onTap: (String value) {
-                                    //       Label? selectedLabel;
-                                    //       selectedLabel =
-                                    //           deploymentTypeDropDownValues
-                                    //               .firstWhere(
-                                    //         (label) => label.key == value,
-                                    //         orElse: () =>
-                                    //             const Label(key: '', value: ''),
-                                    //       );
-                                    //       BlocProvider.of<
-                                    //                   GuardingMasterDataDetailsCubit>(
-                                    //               context)
-                                    //           .updateDropdownValues(
-                                    //         typeOfDeployment: int.tryParse(
-                                    //             selectedLabel.value),
-                                    //       );
-                                    //     },
-                                    //   );
-                                    // }
-                                  },
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// Deployment order Submitted?
-                                CommonWidgets.textDisplay(
-                                  state
-                                          .labels
-                                          ?.locale
-                                          .deploymentOrderSubmitted ??
-                                      state
-                                          .labels
-                                          ?.defaultLocale
-                                          .deploymentOrderSubmitted ??
-                                      Constants.deploymentOrderSubmitted,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-                                RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue:
-                                      state.model.deploymentOrderSubmitted
-                                      ? 1
-                                      : 0,
-                                  onChangedYes: null,
-                                  // widget.guardingMasterData?.status == 6
-                                  //     ? null
-                                  // : (val) {
-                                  //     state.model.deploymentOrderSubmitted = true;
-                                  //     BlocProvider.of<
-                                  //                 GuardingMasterDataDetailsCubit>(
-                                  //             context)
-                                  //         .showFields(
-                                  //             deploymentOrderSubmitted: true);
-                                  //     .onModelValueChange(state.guardingMasterData
-                                  //     );
-                                  //  },
-                                  onChangedNo: null,
-                                  // widget.guardingMasterData?.status == 4
-                                  //                               ? null
-                                  //                               : (val) {
-                                  //                                   state.model.deploymentOrderSubmitted =
-                                  //                                       false;
-                                  //                                   BlocProvider.of<
-                                  //                                               GuardingMasterDataDetailsCubit>(
-                                  //                                           context)
-                                  //                                       .showFields(
-                                  //                                           deploymentOrderSubmitted: false);
-                                  //                                 },
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-                                if (state.model.deploymentOrderSubmitted) ...[
-                                  /// upload Deployment Order File
+                                  /// Date of creation
                                   CommonWidgets.textDisplay(
-                                    Constants.uploadDeploymentOrderFile,
+                                    state.labels?.locale.inputDate ??
+                                        state.labels?.defaultLocale.inputDate ??
+                                        Constants.dateofcreation,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+                                  BaseDate().creationDateDisplay(
+                                    state.model.inputDate ?? '',
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  ///Building  Location
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.location ??
+                                        state.labels?.defaultLocale.location ??
+                                        Constants.buildingLocation,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+                                  locationWidgetdislay(state),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// Entity
+                                  CommonWidgets.textDisplay(
+                                    Constants.entity,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+
+                                  TextFieldAddButton(
+                                    title: state.model.entity?.name ?? '',
+                                    height: 70,
+                                    isDisableColor: true,
+                                    onTap: () {
+                                      //   BaseOrganisationDialog().departmentDialog(
+                                      //     context: context,
+                                      //     organisations:
+                                      //         state.listOfEntities ?? [],
+                                      //     onTap: (Organisation entity) {
+                                      //       BlocProvider.of<
+                                      //                   GuardingMasterDataDetailsCubit>(
+                                      //               context)
+                                      //           .updateDropdownValues(
+                                      //         entity: entity,
+                                      //       );
+                                      //     },
+                                      //     title: 'Add Entity',
+                                      //     orgName: 'ATOM_ENTITIES',
+                                      //     functionToCall: () {
+                                      //       // refresh the list
+                                      //       BlocProvider.of<
+                                      //                   GuardingMasterDataDetailsCubit>(
+                                      //               context)
+                                      //           .refreshList();
+                                      //     },
+                                      //   );
+                                    },
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// Sl No.
+                                  CommonWidgets.horizentaltextHandling(
+                                    state.labels?.locale.slNo ??
+                                        state.labels?.defaultLocale.slNo ??
+                                        Constants.slno,
+                                    state.model.slNo ?? '',
+                                    isMandatory: true,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// Guard Name
+                                  Column(
+                                    children: [
+                                      CommonWidgets.textDisplay(
+                                        state.labels?.locale.guard ??
+                                            state.labels?.defaultLocale.guard ??
+                                            Constants.name,
+                                        isMandatory: true,
+                                        Styles.textStyleWhite16,
+                                      ),
+                                      TextFieldAddButton(
+                                        title: state.model.guard?.userInfo,
+                                        height: 70,
+                                        isDisableColor: true,
+                                        onTap: () {
+                                          // BaseOrganisationDialog().userDialog(
+                                          //   context: context,
+                                          //   users: state.emailUsers!,
+                                          //   // TODO: Need to change EntrySecurity to BaseUser
+                                          //   onTap: (BaseUser user) {
+                                          //     BlocProvider.of<
+                                          //                 GuardingMasterDataDetailsCubit>(
+                                          //             context)
+                                          //         .updateDropdownValues(
+                                          //       guard: user,
+                                          //     );
+                                          //   },
+                                          //   functionToCall: () {
+                                          //     // refresh the list
+                                          //     BlocProvider.of<
+                                          //                 GuardingMasterDataDetailsCubit>(
+                                          //             context)
+                                          //         .refreshList();
+                                          //   },
+                                          // );
+                                        },
+                                      ),
+                                      CommonWidgets.verticalSpacerWidget(
+                                        height * 0.02,
+                                      ),
+                                    ],
+                                  ),
+
+                                  /// upload Photo
+                                  CommonWidgets.textDisplay(
+                                    Constants.uploadPhoto,
                                     Styles.textStyleWhite16,
                                   ),
                                   widget.guardingMasterData == null
@@ -1241,7 +579,998 @@ class _GuardingMasterDataDetailsViewState
                                       context: context,
                                       loggedInUserDetails:
                                           state.loggedInUserDetails ?? User(),
-                                      getFiles: deploymentFiles,
+                                      getFiles: guardFiles,
+                                      onImageSelected: (ImageContent data) {
+                                        log(
+                                          '-------function---onImageSelected---------',
+                                        );
+                                        List<ImageContent>? files = [];
+                                        guardFiles = [data];
+                                        files.add(data);
+                                        for (ImageContent image
+                                            in guardFiles ?? []) {
+                                          files.add(image);
+                                        }
+                                        BlocProvider.of<
+                                                    GuardingMasterDataDetailsCubit>(
+                                                context)
+                                            .addAttachment(
+                                          data: files,
+                                          guardImages: guardFiles,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  // // Attachments
+                                  // IgnorePointer(
+                                  //   ignoring: false,
+                                  BaseImageUpload().getAttachment(
+                                    height: height,
+                                    attachments: state.guardAttachments,
+                                    files: guardFiles,
+                                    // showDownloadIcon: widget.guardingMasterData
+                                    //             ?.photoGraph?.imageContent !=
+                                    //         null
+                                    //     ? true
+                                    //     : false,
+                                    showDeleteIcon: false,
+                                    moduleCode:
+                                        Constants.guardingMasterModuleCode,
+                                  ),
+                                  //),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// Guarding Vendor
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.vendor ??
+                                        state.labels?.defaultLocale.vendor ??
+                                        Constants.guardingVendor,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  TextFieldAddButton(
+                                    title: state.model.vendor?.name,
+                                    height: 70,
+                                    isDisableColor: true,
+                                    onTap: () {
+                                      // BaseOrganisationDialog().departmentDialog(
+                                      //     context: context,
+                                      //     organisations: state.departments,
+                                      //     onTap: (Organisation department) {
+                                      //       BlocProvider.of<
+                                      //                   GuardingMasterDataDetailsCubit>(
+                                      //               context)
+                                      //           .updateDropdownValues(
+                                      //               vendor: department);
+                                      //     },
+                                      //     orgName: 'ATOM_VENDORS',
+                                      //     createEntity: false,
+                                      //     title: 'Add Vendor',
+                                      //     functionToCall: () {
+                                      //       // refresh the list
+                                      //       BlocProvider.of<
+                                      //                   GuardingMasterDataDetailsCubit>(
+                                      //               context)
+                                      //           .refreshList();
+                                      //     });
+                                    },
+                                  ),
+
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// Guarding Partner POC
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.guardingPOC ??
+                                        state.labels?.defaultLocale
+                                            .guardingPOC ??
+                                        Constants.guardingPoc,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+                                  FlutterInputField(
+                                    textInputType: TextInputType.text,
+                                    initialValue: state.model.guardingPOC,
+                                    textFormKey: Keys.guardingPOCKey,
+                                    hintText: '',
+                                    isEnable: false,
+                                    isDisableColor: true,
+                                    onChange: (String value) {
+                                      state.model.guardingPOC = value;
+                                      context
+                                          .read<
+                                              GuardingMasterDataDetailsCubit>()
+                                          .onModelValueChange(state.model);
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// Rank
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.guardRank ??
+                                        state.labels?.defaultLocale.guardRank ??
+                                        Constants.rank,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+                                  BaseDropDown().getDropDown(
+                                    isDisabled: state.model.status != 6,
+                                    textController: rankController,
+                                    items: guardRankDropDownValues,
+                                    initialValue:
+                                        state.model.guardRank.toString(),
+                                    onTap: () {
+                                      // if (isDisabled) {
+                                      //   BaseDropDown().assetTypeDialog(
+                                      //       context: context,
+                                      //       dropDownValues:
+                                      //           guardRankDropDownValues
+                                      //               .map((label) => label.key)
+                                      //               .toList(),
+                                      //       onTap: (String value) {
+                                      //         Label? selectedLabel;
+                                      //         selectedLabel =
+                                      //             guardRankDropDownValues
+                                      //                 .firstWhere(
+                                      //           (label) => label.key == value,
+                                      //           orElse: () => const Label(
+                                      //               key: '', value: ''),
+                                      //         );
+                                      //         BlocProvider.of<
+                                      //                     GuardingMasterDataDetailsCubit>(
+                                      //                 context)
+                                      //             .updateDropdownValues(
+                                      //                 guardRank: int.tryParse(
+                                      //                     selectedLabel.value));
+                                      //       });
+                                      // }
+                                    },
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// Guarding Agency Employee Code
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.employeeCode ??
+                                        state.labels?.defaultLocale
+                                            .employeeCode ??
+                                        Constants.guardingAgencyEmpCode,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+                                  FlutterInputField(
+                                    textInputType: TextInputType.number,
+                                    initialValue: state.model.employeeCode,
+                                    textFormKey: Keys.guardingAgencyKey,
+                                    hintText: '',
+                                    isEnable: false,
+                                    // widget.guardingMasterData == null
+                                    //     ? true
+                                    //     : (widget.guardingMasterData != null &&
+                                    //             (widget.guardingMasterData
+                                    //                     ?.employeeCode ==
+                                    //                 null))
+                                    //         ? false
+                                    //         : true,
+                                    isDisableColor: true,
+                                    onChange: (String value) {
+                                      state.model.employeeCode = value;
+                                      context
+                                          .read<
+                                              GuardingMasterDataDetailsCubit>()
+                                          .onModelValueChange(state.model);
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// DB Employee ID
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.dbEmployeeId ??
+                                        state.labels?.defaultLocale
+                                            .dbEmployeeId ??
+                                        Constants.dbEmployeeId,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+                                  FlutterInputField(
+                                    textInputType: TextInputType.number,
+                                    initialValue: state.model.dbEmployeeId,
+                                    textFormKey: Keys.dbEmployeeIDKey,
+                                    hintText: '',
+                                    isEnable: false,
+                                    // widget.guardingMasterData == null
+                                    //     ? true
+                                    //     : (widget.guardingMasterData != null &&
+                                    //             (widget.guardingMasterData
+                                    //                     ?.dbEmployeeId ==
+                                    //                 null))
+                                    //         ? false
+                                    //         : true,
+                                    isDisableColor: true,
+                                    onChange: (String value) {
+                                      state.model.dbEmployeeId = value;
+                                      context
+                                          .read<
+                                              GuardingMasterDataDetailsCubit>()
+                                          .onModelValueChange(state.model);
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// Type of Duty
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.dutyType ??
+                                        state.labels?.defaultLocale.dutyType ??
+                                        Constants.typeOfDuty,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+                                  BaseDropDown().getDropDown(
+                                    isDisabled: state.model.status != 6,
+                                    textController: dutyTypeController,
+                                    items: dutyTypeDropDownValues,
+                                    initialValue:
+                                        state.model.dutyType.toString(),
+                                    onTap: () {
+                                      // if (isDisabled) {
+                                      //   BaseDropDown().assetTypeDialog(
+                                      //       context: context,
+                                      //       dropDownValues:
+                                      //           dutyTypeDropDownValues
+                                      //               .map((label) => label.key)
+                                      //               .toList(),
+                                      //       onTap: (String value) {
+                                      //         Label? selectedLabel;
+                                      //         selectedLabel =
+                                      //             dutyTypeDropDownValues
+                                      //                 .firstWhere(
+                                      //           (label) => label.key == value,
+                                      //           orElse: () => const Label(
+                                      //               key: '', value: ''),
+                                      //         );
+                                      //         BlocProvider.of<
+                                      //                     GuardingMasterDataDetailsCubit>(
+                                      //                 context)
+                                      //             .updateDropdownValues(
+                                      //                 dutyType: int.tryParse(
+                                      //                     selectedLabel.value));
+                                      //       });
+                                      // }
+                                    },
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// Gender
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.gender ??
+                                        state.labels?.defaultLocale.gender ??
+                                        Constants.gender,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+                                  BaseDropDown().getDropDown(
+                                    isDisabled: true,
+                                    textController: genderController,
+                                    items: genderDropDownValues,
+                                    initialValue: state.model.gender.toString(),
+                                    onTap: () {
+                                      // if (isDisabled) {
+                                      //   BaseDropDown().assetTypeDialog(
+                                      //     context: context,
+                                      //     dropDownValues: genderDropDownValues
+                                      //         .map((label) => label.key)
+                                      //         .toList(),
+                                      //     onTap: (String value) {
+                                      //       Label? selectedLabel;
+                                      //       selectedLabel =
+                                      //           genderDropDownValues.firstWhere(
+                                      //         (label) => label.key == value,
+                                      //         orElse: () =>
+                                      //             const Label(key: '', value: ''),
+                                      //       );
+                                      //
+                                      //       physicallyFitModel.gender =
+                                      //           int.tryParse(selectedLabel.value);
+                                      //       checkPhysicallyFit(
+                                      //           physicallyFitModel:
+                                      //               physicallyFitModel,
+                                      //           state: state);
+                                      //
+                                      //       BlocProvider.of<
+                                      //                   GuardingMasterDataDetailsCubit>(
+                                      //               context)
+                                      //           .updateDropdownValues(
+                                      //               gender: int.tryParse(
+                                      //                   selectedLabel.value));
+                                      //     },
+                                      //   );
+                                      // }
+                                    },
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// Marital Status
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.maritalStatus ??
+                                        state.labels?.defaultLocale
+                                            .maritalStatus ??
+                                        Constants.maritalStatus,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+                                  BaseDropDown().getDropDown(
+                                    isDisabled: true,
+                                    textController: maritalStatusController,
+                                    items: maritalStatusDropDownValues,
+                                    initialValue:
+                                        state.model.maritalStatus.toString(),
+                                    onTap: () {
+                                      // if (isDisabled) {
+                                      //   BaseDropDown().assetTypeDialog(
+                                      //       context: context,
+                                      //       dropDownValues:
+                                      //           maritalStatusDropDownValues
+                                      //               .map((label) => label.key)
+                                      //               .toList(),
+                                      //       onTap: (String value) {
+                                      //         Label? selectedLabel;
+                                      //         selectedLabel =
+                                      //             maritalStatusDropDownValues
+                                      //                 .firstWhere(
+                                      //           (label) => label.key == value,
+                                      //           orElse: () => const Label(
+                                      //               key: '', value: ''),
+                                      //         );
+                                      //         BlocProvider.of<
+                                      //                     GuardingMasterDataDetailsCubit>(
+                                      //                 context)
+                                      //             .updateDropdownValues(
+                                      //                 maritalStatus:
+                                      //                     int.tryParse(
+                                      //                         selectedLabel
+                                      //                             .value));
+                                      //       });
+                                      // }
+                                    },
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// Contact Num
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.contactNo ??
+                                        state.labels?.defaultLocale.contactNo ??
+                                        Constants.mobileNum,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+                                  FlutterInputField(
+                                    textInputType: TextInputType.number,
+                                    initialValue: state.model.contactNo,
+                                    textFormKey: Keys.contactNoKey,
+                                    hintText: '',
+                                    characterLimit:
+                                        Constants.characterLimitContactNo,
+                                    isEnable: false,
+                                    // widget.guardingMasterData == null
+                                    //     ? true
+                                    //     : (widget.guardingMasterData != null &&
+                                    //             (widget.guardingMasterData?.contactNo ==
+                                    //                 null))
+                                    //         ? false
+                                    //         : true,
+                                    isDisableColor: true,
+                                    onChange: (String value) {
+                                      state.model.contactNo = value;
+                                      context
+                                          .read<
+                                              GuardingMasterDataDetailsCubit>()
+                                          .onModelValueChange(state.model);
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// Dependents No
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.dependentsNo ??
+                                        state.labels?.defaultLocale
+                                            .dependentsNo ??
+                                        Constants.dependentsNo,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+                                  FlutterInputField(
+                                    textInputType: TextInputType.number,
+                                    initialValue:
+                                        '${state.model.dependentsNo ?? ''}',
+                                    textFormKey: Keys.dependentsKey,
+                                    hintText: '',
+                                    isEnable: false,
+                                    isDisableColor: true,
+                                    onChange: (String value) {
+                                      state.model.dependentsNo = int.tryParse(
+                                        value,
+                                      );
+                                      context
+                                          .read<
+                                              GuardingMasterDataDetailsCubit>()
+                                          .onModelValueChange(state.model);
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// Date of Birth
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.dateOfBirth ??
+                                        state.labels?.defaultLocale
+                                            .dateOfBirth ??
+                                        Constants.dateOfBirth,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+
+                                  // BaseDate().datePickerWidgetLoading(
+                                  //   textController: dateOfBirthController,
+                                  //   onlyDate: true,
+                                  //   showFutureDate: false,
+                                  //   onChange: (String value) {
+                                  //     state.model.dateOfBirth =
+                                  //         Utils().formatTime(value);
+                                  //     BlocProvider.of<GuardingMasterDataDetailsCubit>(
+                                  //             context)
+                                  //         .onModelValueChange(state.model);
+                                  //   },
+                                  //   context: context,
+                                  // ),
+                                  // CommonWidgets.verticalSpacerWidget(height * 0.01),
+                                  BaseDate().datePickerWidgetLoading(
+                                    isDisabled: true,
+                                    textController: dateOfBirthController,
+                                    onlyDate: false,
+                                    showFutureDate: false,
+                                    onChange: (String value) {
+                                      log('---value-$value------');
+                                      state.model.dateOfBirth =
+                                          Utils().formatTime(value);
+                                      BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                              context)
+                                          .onModelValueChange(state.model);
+                                    },
+                                    context: context,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// Date Of Joining
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.dateOfJoining ??
+                                        state.labels?.defaultLocale
+                                            .dateOfJoining ??
+                                        Constants.dateOfJoining,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+
+                                  BaseDate().datePickerWidgetLoading(
+                                    isDisabled: true,
+                                    onlyDate: true,
+                                    textController: dateOfJoiningController,
+                                    onChange: (String value) {
+                                      state.model.dateOfJoining =
+                                          Utils().formatTime(value);
+
+                                      BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                              context)
+                                          .onModelValueChange(state.model);
+                                      // pvcIssuedDateController.text = state.guardingMasterData.pvcIssuedDate??'';
+                                    },
+                                    context: context,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// Type of Deployment
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.typeOfDeployment ??
+                                        state.labels?.defaultLocale
+                                            .typeOfDeployment ??
+                                        Constants.typeOfDeployment,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+                                  BaseDropDown().getDropDown(
+                                    isDisabled: state.model.status != 6,
+                                    textController: deploymentTypeController,
+                                    items: deploymentTypeDropDownValues,
+                                    initialValue:
+                                        '${widget.guardingMasterData?.typeOfDeployment ?? 1}',
+                                    onTap: () {
+                                      // if (state.model.id != null) {
+                                      //   BaseDropDown().assetTypeDialog(
+                                      //     context: context,
+                                      //     dropDownValues:
+                                      //         deploymentTypeDropDownValues
+                                      //             .map((label) => label.key)
+                                      //             .toList(),
+                                      //     onTap: (String value) {
+                                      //       Label? selectedLabel;
+                                      //       selectedLabel =
+                                      //           deploymentTypeDropDownValues
+                                      //               .firstWhere(
+                                      //         (label) => label.key == value,
+                                      //         orElse: () =>
+                                      //             const Label(key: '', value: ''),
+                                      //       );
+                                      //       BlocProvider.of<
+                                      //                   GuardingMasterDataDetailsCubit>(
+                                      //               context)
+                                      //           .updateDropdownValues(
+                                      //         typeOfDeployment: int.tryParse(
+                                      //             selectedLabel.value),
+                                      //       );
+                                      //     },
+                                      //   );
+                                      // }
+                                    },
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// Deployment order Submitted?
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale
+                                            .deploymentOrderSubmitted ??
+                                        state.labels?.defaultLocale
+                                            .deploymentOrderSubmitted ??
+                                        Constants.deploymentOrderSubmitted,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  RadioButtonsYesNo(
+                                    status: state.model.status ?? 0,
+                                    selectedValue:
+                                        state.model.deploymentOrderSubmitted
+                                            ? 1
+                                            : 0,
+                                    onChangedYes: null,
+                                    // widget.guardingMasterData?.status == 6
+                                    //     ? null
+                                    // : (val) {
+                                    //     state.model.deploymentOrderSubmitted = true;
+                                    //     BlocProvider.of<
+                                    //                 GuardingMasterDataDetailsCubit>(
+                                    //             context)
+                                    //         .showFields(
+                                    //             deploymentOrderSubmitted: true);
+                                    //     .onModelValueChange(state.guardingMasterData
+                                    //     );
+                                    //  },
+                                    onChangedNo: null,
+                                    // widget.guardingMasterData?.status == 4
+                                    //                               ? null
+                                    //                               : (val) {
+                                    //                                   state.model.deploymentOrderSubmitted =
+                                    //                                       false;
+                                    //                                   BlocProvider.of<
+                                    //                                               GuardingMasterDataDetailsCubit>(
+                                    //                                           context)
+                                    //                                       .showFields(
+                                    //                                           deploymentOrderSubmitted: false);
+                                    //                                 },
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+                                  if (state.model.deploymentOrderSubmitted) ...[
+                                    /// upload Deployment Order File
+                                    CommonWidgets.textDisplay(
+                                      Constants.uploadDeploymentOrderFile,
+                                      Styles.textStyleWhite16,
+                                    ),
+                                    widget.guardingMasterData == null
+                                        ? CommonWidgets.verticalSpacerWidget(
+                                            height * 0.001,
+                                          )
+                                        : Container(),
+                                    AbsorbPointer(
+                                      absorbing: true,
+                                      child: BaseImageUpload().uploadWidget(
+                                        isDisabled: true,
+                                        context: context,
+                                        loggedInUserDetails:
+                                            state.loggedInUserDetails ?? User(),
+                                        getFiles: deploymentFiles,
+                                        onImageSelected: (ImageContent data) {
+                                          log(
+                                            '-------function---onImageSelected---------',
+                                          );
+                                          List<ImageContent>? files = [];
+                                          files.add(data);
+                                          for (ImageContent image
+                                              in deploymentFiles ?? []) {
+                                            files.add(image);
+                                          }
+                                          BlocProvider.of<
+                                                      GuardingMasterDataDetailsCubit>(
+                                                  context)
+                                              .addAttachment(
+                                            data: files,
+                                            deploymentFiles: files,
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    // Attachments
+                                    BaseImageUpload().getAttachment(
+                                      height: height,
+                                      attachments: state.deploymentAttachments,
+                                      files: deploymentFiles,
+                                      // showDownloadIcon:
+                                      //     widget.guardingMasterData != null
+                                      //         ? true
+                                      //         : false,
+                                      showDeleteIcon: false,
+                                      moduleCode:
+                                          Constants.guardingMasterModuleCode,
+                                    ),
+                                  ],
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// Height
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.height ??
+                                        state.labels?.defaultLocale.height ??
+                                        Constants.height,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+                                  FlutterInputField(
+                                    textInputType: TextInputType.number,
+                                    initialValue: '${state.model.height ?? ''}',
+                                    textFormKey: Keys.heightKey,
+                                    hintText: '',
+                                    isEnable: false,
+                                    isDisableColor: true,
+                                    onChange: (String value) {
+                                      state.model.height = int.tryParse(value);
+
+                                      physicallyFitModel.height =
+                                          state.model.height;
+                                      checkPhysicallyFit(
+                                        physicallyFitModel: physicallyFitModel,
+                                        state: state,
+                                      );
+                                      context
+                                          .read<
+                                              GuardingMasterDataDetailsCubit>()
+                                          .onModelValueChange(state.model);
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// Weight
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.weight ??
+                                        state.labels?.defaultLocale.weight ??
+                                        Constants.weight,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+                                  FlutterInputField(
+                                    textInputType: TextInputType.number,
+                                    initialValue: '${state.model.weight ?? ''}',
+                                    textFormKey: Keys.weightKey,
+                                    hintText: '',
+                                    isEnable: false,
+                                    isDisableColor: true,
+                                    onChange: (String value) {
+                                      state.model.weight = int.tryParse(value);
+                                      physicallyFitModel.weight =
+                                          state.model.weight;
+                                      checkPhysicallyFit(
+                                        physicallyFitModel: physicallyFitModel,
+                                        state: state,
+                                      );
+                                      context
+                                          .read<
+                                              GuardingMasterDataDetailsCubit>()
+                                          .onModelValueChange(state.model);
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// Show Chest Parameter only for Males and Transgenders
+                                  if (genderController.text.toLowerCase() !=
+                                      'female') ...[
+                                    /// Chest
+                                    CommonWidgets.textDisplay(
+                                      state.labels?.locale.chest ??
+                                          state.labels?.defaultLocale.chest ??
+                                          Constants.chest,
+                                      Styles.textStyleWhite16,
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001,
+                                    ),
+                                    FlutterInputField(
+                                      textInputType: TextInputType.number,
+                                      initialValue:
+                                          '${state.model.chest ?? ''}',
+                                      textFormKey: Keys.chestKey,
+                                      hintText: '',
+                                      isEnable: false,
+                                      isDisableColor: true,
+                                      onChange: (String value) {
+                                        state.model.chest = int.tryParse(value);
+
+                                        physicallyFitModel.chest =
+                                            state.model.chest;
+                                        checkPhysicallyFit(
+                                          physicallyFitModel:
+                                              physicallyFitModel,
+                                          state: state,
+                                        );
+
+                                        context
+                                            .read<
+                                                GuardingMasterDataDetailsCubit>()
+                                            .onModelValueChange(state.model);
+                                      },
+                                      validateTextField: (String? user) {},
+                                    ),
+                                  ],
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// Local Language
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.localLanguage ??
+                                        state.labels?.defaultLocale
+                                            .localLanguage ??
+                                        Constants.localLanguage,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+                                  FlutterInputField(
+                                    textInputType: TextInputType.text,
+                                    initialValue: state.model.localLanguage,
+                                    textFormKey: Keys.languageKey,
+                                    hintText: '',
+                                    isEnable: false,
+                                    // widget.guardingMasterData == null
+                                    //     ? true
+                                    //     : (widget.guardingMasterData != null &&
+                                    //             (widget.guardingMasterData
+                                    //                     ?.localLanguage ==
+                                    //                 null))
+                                    //         ? false
+                                    //         : true,
+                                    isDisableColor: true,
+                                    // (widget.guardingMasterData !=
+                                    //             null &&
+                                    //         (widget.guardingMasterData?.localLanguage !=
+                                    //             null))
+                                    //     ? true
+                                    //     : false,
+                                    onChange: (String value) {
+                                      state.model.localLanguage = value;
+                                      context
+                                          .read<
+                                              GuardingMasterDataDetailsCubit>()
+                                          .onModelValueChange(state.model);
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  ///Local Language Proficiency
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.localLangProficiency ??
+                                        state.labels?.defaultLocale
+                                            .localLangProficiency ??
+                                        Constants.localLanguageProficiency,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+
+                                  localLanguageProficiency(state),
+
+                                  ///Hindi Language Proficiency
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.hindiLangProficiency ??
+                                        state.labels?.defaultLocale
+                                            .hindiLangProficiency ??
+                                        Constants.hindiLanguageProficiency,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  hindiLanguageProficiency(state),
+
+                                  ///English Language Proficiency
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale
+                                            .englishLangProficiency ??
+                                        state.labels?.defaultLocale
+                                            .englishLangProficiency ??
+                                        Constants.englishLanguageProficiency,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  englishLanguageProficiency(state),
+
+                                  /// Physically Fit
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.physicallyFit ??
+                                        state.labels?.defaultLocale
+                                            .physicallyFit ??
+                                        Constants.physicallyFit,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  RadioButtonsYesNo(
+                                    status: state.model.status ?? 0,
+                                    selectedValue:
+                                        state.model.physicallyFit == true
+                                            ? 1
+                                            : 0,
+                                    onChangedYes: null,
+                                    onChangedNo: null,
+                                  ),
+
+                                  /// Security Experience
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.securityExperience ??
+                                        state.labels?.defaultLocale
+                                            .securityExperience ??
+                                        Constants.securityExperience,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+                                  FlutterInputField(
+                                    lineHeight: 6,
+                                    characterLimit: Constants
+                                        .characterLimitDescTextFormField,
+                                    initialValue:
+                                        state.model.securityExperience,
+                                    textFormKey: Keys.securityExperienceKey,
+                                    hintText: Constants.informationhere,
+                                    isEnable: false,
+                                    //state.model.status != 6,
+                                    isDisableColor: true,
+                                    //state.model.status == 6,
+                                    showBorder: true,
+                                    onChange: (String value) {
+                                      state.model.securityExperience = value;
+                                      context
+                                          .read<
+                                              GuardingMasterDataDetailsCubit>()
+                                          .onModelValueChange(state.model);
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// upload Bio Data
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.bopData ??
+                                        state.labels?.defaultLocale.bopData ??
+                                        Constants.uploadBioData,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+                                  AbsorbPointer(
+                                    absorbing: true,
+                                    child: BaseImageUpload().uploadWidget(
+                                      isDisabled: true,
+                                      context: context,
+                                      loggedInUserDetails:
+                                          state.loggedInUserDetails ?? User(),
+                                      getFiles: bioDataFiles,
                                       onImageSelected: (ImageContent data) {
                                         log(
                                           '-------function---onImageSelected---------',
@@ -1249,24 +1578,24 @@ class _GuardingMasterDataDetailsViewState
                                         List<ImageContent>? files = [];
                                         files.add(data);
                                         for (ImageContent image
-                                            in deploymentFiles ?? []) {
+                                            in bioDataFiles ?? []) {
                                           files.add(image);
                                         }
                                         BlocProvider.of<
-                                              GuardingMasterDataDetailsCubit
-                                            >(context)
+                                                    GuardingMasterDataDetailsCubit>(
+                                                context)
                                             .addAttachment(
-                                              data: files,
-                                              deploymentFiles: files,
-                                            );
+                                          data: files,
+                                          bioDataFiles: files,
+                                        );
                                       },
                                     ),
                                   ),
                                   // Attachments
                                   BaseImageUpload().getAttachment(
                                     height: height,
-                                    attachments: state.deploymentAttachments,
-                                    files: deploymentFiles,
+                                    attachments: state.bioDataAttachments,
+                                    files: bioDataFiles,
                                     // showDownloadIcon:
                                     //     widget.guardingMasterData != null
                                     //         ? true
@@ -1275,765 +1604,90 @@ class _GuardingMasterDataDetailsViewState
                                     moduleCode:
                                         Constants.guardingMasterModuleCode,
                                   ),
-                                ],
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
 
-                                /// Height
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.height ??
-                                      state.labels?.defaultLocale.height ??
-                                      Constants.height,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-                                FlutterInputField(
-                                  textInputType: TextInputType.number,
-                                  initialValue: '${state.model.height ?? ''}',
-                                  textFormKey: Keys.heightKey,
-                                  hintText: '',
-                                  isEnable: false,
-                                  isDisableColor: true,
-                                  onChange: (String value) {
-                                    state.model.height = int.tryParse(value);
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
 
-                                    physicallyFitModel.height =
-                                        state.model.height;
-                                    checkPhysicallyFit(
-                                      physicallyFitModel: physicallyFitModel,
-                                      state: state,
-                                    );
-                                    context
-                                        .read<GuardingMasterDataDetailsCubit>()
-                                        .onModelValueChange(state.model);
-                                  },
-                                  validateTextField: (String? user) {},
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
+                                  // CommonWidgets.textDisplay(Constants.uploadBioData,
+                                  //     Styles.textStyleBlack14),
+                                  // widget.guardingMasterData == null
+                                  //     ? CommonWidgets.verticalSpacerWidget(
+                                  //         height * 0.001)
+                                  //     : Container(),
+                                  // BaseImageUpload().uploadWidget(
+                                  //   context: context,
+                                  //   loggedInUserDetails:
+                                  //       state.loggedInUserDetails ?? User(),
+                                  //   getFiles: bioDataFiles,
+                                  //   onImageSelected: (ImageContent data) {
+                                  //     log('-------function---onImageSelected---------');
+                                  //     List<ImageContent>? files = [];
+                                  //     files.add(data);
+                                  //     for (ImageContent image in bioDataFiles ?? []) {
+                                  //       files.add(image);
+                                  //     }
+                                  //     BlocProvider.of<GuardingMasterDataDetailsCubit>(
+                                  //             context)
+                                  //         .addAttachment(bioDataFiles: files);
+                                  //   },
+                                  // ),
+                                  // // Attachments
+                                  // BaseImageUpload().getAttachment(
+                                  //   height: height,
+                                  //   attachments: state.bioDataAttachments,
+                                  //   files: bioDataFiles,
+                                  //   showDownloadIcon:
+                                  //       widget.guardingMasterData != null
+                                  //           ? true
+                                  //           : false,
+                                  // ),
+                                  //
+                                  // CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                                /// Weight
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.weight ??
-                                      state.labels?.defaultLocale.weight ??
-                                      Constants.weight,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-                                FlutterInputField(
-                                  textInputType: TextInputType.number,
-                                  initialValue: '${state.model.weight ?? ''}',
-                                  textFormKey: Keys.weightKey,
-                                  hintText: '',
-                                  isEnable: false,
-                                  isDisableColor: true,
-                                  onChange: (String value) {
-                                    state.model.weight = int.tryParse(value);
-                                    physicallyFitModel.weight =
-                                        state.model.weight;
-                                    checkPhysicallyFit(
-                                      physicallyFitModel: physicallyFitModel,
-                                      state: state,
-                                    );
-                                    context
-                                        .read<GuardingMasterDataDetailsCubit>()
-                                        .onModelValueChange(state.model);
-                                  },
-                                  validateTextField: (String? user) {},
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// Show Chest Parameter only for Males and Transgenders
-                                if (genderController.text.toLowerCase() !=
-                                    'female') ...[
-                                  /// Chest
+                                  /// permanent Address
                                   CommonWidgets.textDisplay(
-                                    state.labels?.locale.chest ??
-                                        state.labels?.defaultLocale.chest ??
-                                        Constants.chest,
+                                    state.labels?.locale.permanentAddress ??
+                                        state.labels?.defaultLocale
+                                            .permanentAddress ??
+                                        Constants.permanentAddress,
+                                    isMandatory: true,
                                     Styles.textStyleWhite16,
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
                                     height * 0.001,
                                   ),
                                   FlutterInputField(
-                                    textInputType: TextInputType.number,
-                                    initialValue: '${state.model.chest ?? ''}',
-                                    textFormKey: Keys.chestKey,
-                                    hintText: '',
+                                    lineHeight: 6,
+                                    characterLimit: Constants
+                                        .characterLimitDescTextFormField,
+                                    initialValue: state.model.permanentAddress,
+                                    textFormKey: Keys.permanentAddressKey,
+                                    showBorder: true,
+                                    hintText: Constants.informationhere,
                                     isEnable: false,
+                                    //state.model.status != 6,
                                     isDisableColor: true,
+                                    //state.model.status == 6,
                                     onChange: (String value) {
-                                      state.model.chest = int.tryParse(value);
-
-                                      physicallyFitModel.chest =
-                                          state.model.chest;
-                                      checkPhysicallyFit(
-                                        physicallyFitModel: physicallyFitModel,
-                                        state: state,
-                                      );
-
+                                      state.model.permanentAddress = value;
                                       context
                                           .read<
-                                            GuardingMasterDataDetailsCubit
-                                          >()
+                                              GuardingMasterDataDetailsCubit>()
                                           .onModelValueChange(state.model);
                                     },
                                     validateTextField: (String? user) {},
                                   ),
-                                ],
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// Local Language
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.localLanguage ??
-                                      state
-                                          .labels
-                                          ?.defaultLocale
-                                          .localLanguage ??
-                                      Constants.localLanguage,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-                                FlutterInputField(
-                                  textInputType: TextInputType.text,
-                                  initialValue: state.model.localLanguage,
-                                  textFormKey: Keys.languageKey,
-                                  hintText: '',
-                                  isEnable: false,
-                                  // widget.guardingMasterData == null
-                                  //     ? true
-                                  //     : (widget.guardingMasterData != null &&
-                                  //             (widget.guardingMasterData
-                                  //                     ?.localLanguage ==
-                                  //                 null))
-                                  //         ? false
-                                  //         : true,
-                                  isDisableColor: true,
-                                  // (widget.guardingMasterData !=
-                                  //             null &&
-                                  //         (widget.guardingMasterData?.localLanguage !=
-                                  //             null))
-                                  //     ? true
-                                  //     : false,
-                                  onChange: (String value) {
-                                    state.model.localLanguage = value;
-                                    context
-                                        .read<GuardingMasterDataDetailsCubit>()
-                                        .onModelValueChange(state.model);
-                                  },
-                                  validateTextField: (String? user) {},
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                ///Local Language Proficiency
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.localLangProficiency ??
-                                      state
-                                          .labels
-                                          ?.defaultLocale
-                                          .localLangProficiency ??
-                                      Constants.localLanguageProficiency,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-
-                                localLanguageProficiency(state),
-
-                                ///Hindi Language Proficiency
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.hindiLangProficiency ??
-                                      state
-                                          .labels
-                                          ?.defaultLocale
-                                          .hindiLangProficiency ??
-                                      Constants.hindiLanguageProficiency,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-                                hindiLanguageProficiency(state),
-
-                                ///English Language Proficiency
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.englishLangProficiency ??
-                                      state
-                                          .labels
-                                          ?.defaultLocale
-                                          .englishLangProficiency ??
-                                      Constants.englishLanguageProficiency,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-                                englishLanguageProficiency(state),
-
-                                /// Physically Fit
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.physicallyFit ??
-                                      state
-                                          .labels
-                                          ?.defaultLocale
-                                          .physicallyFit ??
-                                      Constants.physicallyFit,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-                                RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue:
-                                      state.model.physicallyFit == true ? 1 : 0,
-                                  onChangedYes: null,
-                                  onChangedNo: null,
-                                ),
-
-                                /// Security Experience
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.securityExperience ??
-                                      state
-                                          .labels
-                                          ?.defaultLocale
-                                          .securityExperience ??
-                                      Constants.securityExperience,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-                                FlutterInputField(
-                                  lineHeight: 6,
-                                  characterLimit:
-                                      Constants.characterLimitDescTextFormField,
-                                  initialValue: state.model.securityExperience,
-                                  textFormKey: Keys.securityExperienceKey,
-                                  hintText: Constants.informationhere,
-                                  isEnable: false,
-                                  //state.model.status != 6,
-                                  isDisableColor: true,
-                                  //state.model.status == 6,
-                                  showBorder: true,
-                                  onChange: (String value) {
-                                    state.model.securityExperience = value;
-                                    context
-                                        .read<GuardingMasterDataDetailsCubit>()
-                                        .onModelValueChange(state.model);
-                                  },
-                                  validateTextField: (String? user) {},
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// upload Bio Data
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.bopData ??
-                                      state.labels?.defaultLocale.bopData ??
-                                      Constants.uploadBioData,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-                                AbsorbPointer(
-                                  absorbing: true,
-                                  child: BaseImageUpload().uploadWidget(
-                                    isDisabled: true,
-                                    context: context,
-                                    loggedInUserDetails:
-                                        state.loggedInUserDetails ?? User(),
-                                    getFiles: bioDataFiles,
-                                    onImageSelected: (ImageContent data) {
-                                      log(
-                                        '-------function---onImageSelected---------',
-                                      );
-                                      List<ImageContent>? files = [];
-                                      files.add(data);
-                                      for (ImageContent image
-                                          in bioDataFiles ?? []) {
-                                        files.add(image);
-                                      }
-                                      BlocProvider.of<
-                                            GuardingMasterDataDetailsCubit
-                                          >(context)
-                                          .addAttachment(
-                                            data: files,
-                                            bioDataFiles: files,
-                                          );
-                                    },
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
                                   ),
-                                ),
-                                // Attachments
-                                BaseImageUpload().getAttachment(
-                                  height: height,
-                                  attachments: state.bioDataAttachments,
-                                  files: bioDataFiles,
-                                  // showDownloadIcon:
-                                  //     widget.guardingMasterData != null
-                                  //         ? true
-                                  //         : false,
-                                  showDeleteIcon: false,
-                                  moduleCode:
-                                      Constants.guardingMasterModuleCode,
-                                ),
 
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                // CommonWidgets.textDisplay(Constants.uploadBioData,
-                                //     Styles.textStyleBlack14),
-                                // widget.guardingMasterData == null
-                                //     ? CommonWidgets.verticalSpacerWidget(
-                                //         height * 0.001)
-                                //     : Container(),
-                                // BaseImageUpload().uploadWidget(
-                                //   context: context,
-                                //   loggedInUserDetails:
-                                //       state.loggedInUserDetails ?? User(),
-                                //   getFiles: bioDataFiles,
-                                //   onImageSelected: (ImageContent data) {
-                                //     log('-------function---onImageSelected---------');
-                                //     List<ImageContent>? files = [];
-                                //     files.add(data);
-                                //     for (ImageContent image in bioDataFiles ?? []) {
-                                //       files.add(image);
-                                //     }
-                                //     BlocProvider.of<GuardingMasterDataDetailsCubit>(
-                                //             context)
-                                //         .addAttachment(bioDataFiles: files);
-                                //   },
-                                // ),
-                                // // Attachments
-                                // BaseImageUpload().getAttachment(
-                                //   height: height,
-                                //   attachments: state.bioDataAttachments,
-                                //   files: bioDataFiles,
-                                //   showDownloadIcon:
-                                //       widget.guardingMasterData != null
-                                //           ? true
-                                //           : false,
-                                // ),
-                                //
-                                // CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                                /// permanent Address
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.permanentAddress ??
-                                      state
-                                          .labels
-                                          ?.defaultLocale
-                                          .permanentAddress ??
-                                      Constants.permanentAddress,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-                                FlutterInputField(
-                                  lineHeight: 6,
-                                  characterLimit:
-                                      Constants.characterLimitDescTextFormField,
-                                  initialValue: state.model.permanentAddress,
-                                  textFormKey: Keys.permanentAddressKey,
-                                  showBorder: true,
-                                  hintText: Constants.informationhere,
-                                  isEnable: false,
-                                  //state.model.status != 6,
-                                  isDisableColor: true,
-                                  //state.model.status == 6,
-                                  onChange: (String value) {
-                                    state.model.permanentAddress = value;
-                                    context
-                                        .read<GuardingMasterDataDetailsCubit>()
-                                        .onModelValueChange(state.model);
-                                  },
-                                  validateTextField: (String? user) {},
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// upload Permanent Address Proof
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.permanentAddressProof ??
-                                      state
-                                          .labels
-                                          ?.defaultLocale
-                                          .permanentAddressProof ??
-                                      Constants.uploadPermanentAddressProof,
-                                  Styles.textStyleWhite16,
-                                ),
-                                widget.guardingMasterData == null
-                                    ? CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001,
-                                      )
-                                    : Container(),
-                                AbsorbPointer(
-                                  absorbing: true,
-                                  child: BaseImageUpload().uploadWidget(
-                                    isDisabled: true,
-                                    context: context,
-                                    loggedInUserDetails:
-                                        state.loggedInUserDetails ?? User(),
-                                    getFiles: permanentAddressFiles,
-                                    onImageSelected: (ImageContent data) {
-                                      log(
-                                        '-------function---onImageSelected---------',
-                                      );
-                                      List<ImageContent>? files = [];
-                                      files.add(data);
-                                      for (ImageContent image
-                                          in permanentAddressFiles ?? []) {
-                                        files.add(image);
-                                      }
-                                      BlocProvider.of<
-                                            GuardingMasterDataDetailsCubit
-                                          >(context)
-                                          .addAttachment(
-                                            data: files,
-                                            permanentAddressFiles: files,
-                                          );
-                                    },
-                                  ),
-                                ),
-                                // Attachments
-                                BaseImageUpload().getAttachment(
-                                  height: height,
-                                  attachments:
-                                      state.permanentAddressAttachments,
-                                  files: permanentAddressFiles,
-                                  // showDownloadIcon:
-                                  //     widget.guardingMasterData != null
-                                  //         ? true
-                                  //         : false,
-                                  showDeleteIcon: false,
-                                  moduleCode:
-                                      Constants.guardingMasterModuleCode,
-                                ),
-
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.01,
-                                ),
-
-                                /// Local Address
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.localAddress ??
-                                      state
-                                          .labels
-                                          ?.defaultLocale
-                                          .localAddress ??
-                                      Constants.localAddress,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-                                FlutterInputField(
-                                  lineHeight: 6,
-                                  characterLimit:
-                                      Constants.characterLimitDescTextFormField,
-                                  initialValue: state.model.localAddress,
-                                  textFormKey: Keys.localAddressKey,
-                                  hintText: Constants.informationhere,
-                                  showBorder: true,
-                                  isEnable: false,
-                                  // state.model.status != 6,
-                                  isDisableColor: true,
-                                  // state.model.status == 6,
-                                  onChange: (String value) {
-                                    state.model.localAddress = value;
-                                    context
-                                        .read<GuardingMasterDataDetailsCubit>()
-                                        .onModelValueChange(state.model);
-                                  },
-                                  validateTextField: (String? user) {},
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// upload Local Address Proof
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.localAddressProof ??
-                                      state
-                                          .labels
-                                          ?.defaultLocale
-                                          .localAddressProof ??
-                                      Constants.uploadLocalAddressProof,
-                                  Styles.textStyleWhite16,
-                                ),
-                                widget.guardingMasterData == null
-                                    ? CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001,
-                                      )
-                                    : Container(),
-                                AbsorbPointer(
-                                  absorbing: true,
-                                  child: BaseImageUpload().uploadWidget(
-                                    isDisabled: true,
-                                    context: context,
-                                    loggedInUserDetails:
-                                        state.loggedInUserDetails ?? User(),
-                                    getFiles: localAddressFiles,
-                                    onImageSelected: (ImageContent data) {
-                                      log(
-                                        '-------function---onImageSelected---------',
-                                      );
-                                      List<ImageContent>? files = [];
-                                      files.add(data);
-                                      for (ImageContent image
-                                          in localAddressFiles ?? []) {
-                                        files.add(image);
-                                      }
-                                      BlocProvider.of<
-                                            GuardingMasterDataDetailsCubit
-                                          >(context)
-                                          .addAttachment(
-                                            data: files,
-                                            localAddressFiles: files,
-                                          );
-                                    },
-                                  ),
-                                ),
-                                // Attachments
-                                BaseImageUpload().getAttachment(
-                                  height: height,
-                                  attachments: state.localAddressAttachments,
-                                  files: localAddressFiles,
-                                  showDeleteIcon: false,
-                                  moduleCode:
-                                      Constants.guardingMasterModuleCode,
-                                ),
-
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// Qualifications
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.qualifications ??
-                                      state
-                                          .labels
-                                          ?.defaultLocale
-                                          .qualifications ??
-                                      Constants.qualifications,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-
-                                qualificationAddButtonWidgetLoading(
-                                  context: context,
-                                  state: state,
-                                  selectedValues:
-                                      state.model.qualifications ?? [],
-                                  all: state.listOfQualifications ?? [],
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// PVC Issued Date
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.pvcIssuedDate ??
-                                      state
-                                          .labels
-                                          ?.defaultLocale
-                                          .pvcIssuedDate ??
-                                      Constants.pvcIssuedDate,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-
-                                BaseDate().datePickerWidgetLoading(
-                                  isDisabled: true,
-                                  textController: pvcIssuedDateController,
-                                  onlyDate: true,
-                                  onChange: (String value) {
-                                    log('---value-$value------');
-                                    log(
-                                      '-----pvcIssuedDateController---value-${pvcIssuedDateController.text}------',
-                                    );
-                                    state.model.pvcIssuedDate = Utils()
-                                        .formatTime(value);
-                                    BlocProvider.of<
-                                          GuardingMasterDataDetailsCubit
-                                        >(context)
-                                        .onModelValueChange(state.model);
-                                  },
-                                  context: context,
-                                ),
-
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// PVC Expiry Date
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.pvcExpiryDate ??
-                                      state
-                                          .labels
-                                          ?.defaultLocale
-                                          .pvcExpiryDate ??
-                                      Constants.pvcExpiryDate,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-
-                                BaseDate().datePickerWidgetLoading(
-                                  textController: pvcExpiryDateController,
-                                  isDisabled: true,
-                                  onChange: (String value) {
-                                    // log('--fr-value-${pvcExpiryDateController
-                                    //     .text}------');
-                                    // state.model.pvcExpiryDate =
-                                    //     Utils().formatTime(value);
-                                    //
-                                    //   BlocProvider.of<GuardingMasterDataDetailsCubit>(
-                                    //       context
-                                    //   ).onModelValueChange(state.model);
-                                    // //},
-                                  },
-                                  context: context,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// upload File
-                                widget.guardingMasterData == null
-                                    ? CommonWidgets.textDisplay(
-                                        Constants.uploadfile,
-                                        Styles.textStyleWhite16,
-                                      )
-                                    : Container(),
-                                widget.guardingMasterData == null
-                                    ? CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001,
-                                      )
-                                    : Container(),
-                                widget.guardingMasterData == null
-                                    ? BaseImageUpload().uploadWidget(
-                                        isDisabled: true,
-                                        context: context,
-                                        loggedInUserDetails:
-                                            state.loggedInUserDetails ?? User(),
-                                        getFiles: pVCFiles,
-                                        onImageSelected: (ImageContent data) {
-                                          log(
-                                            '-------function---onImageSelected---------',
-                                          );
-                                          List<ImageContent>? files = [];
-                                          files.add(data);
-                                          for (ImageContent image
-                                              in pVCFiles ?? []) {
-                                            files.add(image);
-                                          }
-                                          BlocProvider.of<
-                                                GuardingMasterDataDetailsCubit
-                                              >(context)
-                                              .addAttachment(
-                                                data: files,
-                                                pVCFiles: files,
-                                              );
-                                        },
-                                      )
-                                    : Container(),
-
-                                // Attachments
-                                BaseImageUpload().getAttachment(
-                                  height: height,
-                                  attachments: state.pVCAttachments,
-                                  files: pVCFiles,
-                                  showDeleteIcon: false,
-                                  moduleCode:
-                                      Constants.guardingMasterModuleCode,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// Training Certificate
-                                CommonWidgets.textDisplay(
-                                  state
-                                          .labels
-                                          ?.locale
-                                          .trainingCertificateProvided ??
-                                      state
-                                          .labels
-                                          ?.defaultLocale
-                                          .trainingCertificateProvided ??
-                                      Constants.trainingCertificate,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-                                RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue:
-                                      state.model.trainingCertificateProvided
-                                      ? 1
-                                      : 0,
-                                  onChangedYes: null,
-                                  // widget.guardingMasterData?.status ==
-                                  //         6
-                                  //     ? null
-                                  //     : (val) {
-                                  //         state.model.trainingCertificateProvided =
-                                  //             true;
-                                  //         BlocProvider.of<
-                                  //                     GuardingMasterDataDetailsCubit>(
-                                  //                 context)
-                                  //             .onCheckBoxChange(state.model);
-                                  //       },
-                                  onChangedNo: null,
-                                  // widget.guardingMasterData?.status ==
-                                  //         6
-                                  //     ? null
-                                  //     : (val) {
-                                  //         state.model.trainingCertificateProvided =
-                                  //             false;
-                                  //         BlocProvider.of<
-                                  //                     GuardingMasterDataDetailsCubit>(
-                                  //                 context)
-                                  //             .onCheckBoxChange(state.model);
-                                  //       }
-                                ),
-                                if (state
-                                    .model
-                                    .trainingCertificateProvided) ...[
-                                  /// upload Training Certificate
+                                  /// upload Permanent Address Proof
                                   CommonWidgets.textDisplay(
-                                    state.labels?.locale.trainingCertificates ??
-                                        state
-                                            .labels
-                                            ?.defaultLocale
-                                            .trainingCertificates ??
-                                        Constants.uploadTrainingCertificate,
+                                    state.labels?.locale.permanentAddressProof ??
+                                        state.labels?.defaultLocale
+                                            .permanentAddressProof ??
+                                        Constants.uploadPermanentAddressProof,
                                     Styles.textStyleWhite16,
                                   ),
                                   widget.guardingMasterData == null
@@ -2041,939 +1695,1295 @@ class _GuardingMasterDataDetailsViewState
                                           height * 0.001,
                                         )
                                       : Container(),
-                                  BaseImageUpload().uploadWidget(
-                                    isDisabled: true,
-                                    context: context,
-                                    loggedInUserDetails:
-                                        state.loggedInUserDetails ?? User(),
-                                    getFiles: trainingFiles,
-                                    onImageSelected: (ImageContent data) {
-                                      log(
-                                        '-------function---onImageSelected---------',
-                                      );
-                                      List<ImageContent>? files = [];
-                                      files.add(data);
-                                      for (ImageContent image
-                                          in trainingFiles ?? []) {
-                                        files.add(image);
-                                      }
-                                      BlocProvider.of<
-                                            GuardingMasterDataDetailsCubit
-                                          >(context)
-                                          .addAttachment(
-                                            data: files,
-                                            trainingFiles: files,
-                                          );
-                                    },
+                                  AbsorbPointer(
+                                    absorbing: true,
+                                    child: BaseImageUpload().uploadWidget(
+                                      isDisabled: true,
+                                      context: context,
+                                      loggedInUserDetails:
+                                          state.loggedInUserDetails ?? User(),
+                                      getFiles: permanentAddressFiles,
+                                      onImageSelected: (ImageContent data) {
+                                        log(
+                                          '-------function---onImageSelected---------',
+                                        );
+                                        List<ImageContent>? files = [];
+                                        files.add(data);
+                                        for (ImageContent image
+                                            in permanentAddressFiles ?? []) {
+                                          files.add(image);
+                                        }
+                                        BlocProvider.of<
+                                                    GuardingMasterDataDetailsCubit>(
+                                                context)
+                                            .addAttachment(
+                                          data: files,
+                                          permanentAddressFiles: files,
+                                        );
+                                      },
+                                    ),
                                   ),
                                   // Attachments
                                   BaseImageUpload().getAttachment(
                                     height: height,
-                                    attachments: state.trainingAttachments,
-                                    files: trainingFiles,
+                                    attachments:
+                                        state.permanentAddressAttachments,
+                                    files: permanentAddressFiles,
+                                    // showDownloadIcon:
+                                    //     widget.guardingMasterData != null
+                                    //         ? true
+                                    //         : false,
                                     showDeleteIcon: false,
                                     moduleCode:
                                         Constants.guardingMasterModuleCode,
                                   ),
-                                ],
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
 
-                                /// Medical Certificate Valid Until
-                                CommonWidgets.textDisplay(
-                                  state
-                                          .labels
-                                          ?.locale
-                                          .medicalCertificateValidUntil ??
-                                      state
-                                          .labels
-                                          ?.defaultLocale
-                                          .medicalCertificateValidUntil ??
-                                      Constants.medicalCertificateValidUntil,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-
-                                BaseDate().datePickerWidgetLoading(
-                                  isDisabled: true,
-                                  onlyDate: false,
-                                  showPastDate: false,
-                                  textController:
-                                      medicalCertificateValidUntilController,
-                                  onChange: (String value) {
-                                    log(
-                                      '--fr-value-${medicalCertificateValidUntilController.text}------',
-                                    );
-                                    state.model.medicalCertificateValidUntil =
-                                        Utils().formatTime(value);
-                                    BlocProvider.of<
-                                          GuardingMasterDataDetailsCubit
-                                        >(context)
-                                        .onModelValueChange(state.model);
-                                  },
-                                  context: context,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// upload Medical Certificates
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.medicalCertificates ??
-                                      state
-                                          .labels
-                                          ?.defaultLocale
-                                          .medicalCertificates ??
-                                      Constants.uploadMedicalCertificate,
-                                  Styles.textStyleWhite16,
-                                ),
-                                widget.guardingMasterData == null
-                                    ? CommonWidgets.verticalSpacerWidget(
-                                        height * 0.001,
-                                      )
-                                    : Container(),
-                                AbsorbPointer(
-                                  absorbing: true,
-                                  child: BaseImageUpload().uploadWidget(
-                                    isDisabled: true,
-                                    context: context,
-                                    loggedInUserDetails:
-                                        state.loggedInUserDetails ?? User(),
-                                    getFiles: medicalFiles,
-                                    onImageSelected: (ImageContent data) {
-                                      log(
-                                        '-------function---onImageSelected---------',
-                                      );
-                                      List<ImageContent>? files = [];
-                                      files.add(data);
-                                      for (ImageContent image
-                                          in medicalFiles ?? []) {
-                                        files.add(image);
-                                      }
-                                      BlocProvider.of<
-                                            GuardingMasterDataDetailsCubit
-                                          >(context)
-                                          .addAttachment(
-                                            data: files,
-                                            medicalFiles: files,
-                                          );
-                                    },
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01,
                                   ),
-                                ),
-                                // Attachments
-                                BaseImageUpload().getAttachment(
-                                  height: height,
-                                  attachments: state.medicalAttachments,
-                                  files: medicalFiles,
-                                  showDeleteIcon: false,
-                                  moduleCode:
-                                      Constants.guardingMasterModuleCode,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
 
-                                /// System Access
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.systemAccess ??
-                                      state
-                                          .labels
-                                          ?.defaultLocale
-                                          .systemAccess ??
-                                      Constants.systemAccess,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-                                BaseDropDown().getDropDown(
-                                  isDisabled: state.model.status != 6,
-                                  textController: systemAccessController,
-                                  items: systemAccessDropDownValues,
-                                  initialValue: state.model.systemAccess
-                                      .toString(),
-                                  onTap: () {
-                                    // if (isDisabled) {
-                                    //   BaseDropDown().assetTypeDialog(
-                                    //       context: context,
-                                    //       dropDownValues:
-                                    //           systemAccessDropDownValues
-                                    //               .map((label) => label.key)
-                                    //               .toList(),
-                                    //       onTap: (String value) {
-                                    //         Label? selectedLabel;
-                                    //         selectedLabel =
-                                    //             systemAccessDropDownValues
-                                    //                 .firstWhere(
-                                    //           (label) => label.key == value,
-                                    //           orElse: () => const Label(
-                                    //               key: '', value: ''),
-                                    //         );
-                                    //         BlocProvider.of<
-                                    //                     GuardingMasterDataDetailsCubit>(
-                                    //                 context)
-                                    //             .updateDropdownValues(
-                                    //                 systemAccess:
-                                    //                     int.tryParse(
-                                    //                         selectedLabel
-                                    //                             .value));
-                                    //       });
-                                    // }
-                                  },
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// OnBoarded
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.onboarded ??
-                                      state.labels?.defaultLocale.onboarded ??
-                                      Constants.onBoarded,
-                                  Styles.textStyleWhite16,
-                                ),
-                                RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue: state.model.onboarded ? 1 : 0,
-                                  onChangedYes: null,
-                                  // widget.guardingMasterData?.status == 6
-                                  //     ? null
-                                  //     : (val) {
-                                  //         state.model.onboarded = true;
-                                  //         BlocProvider.of<
-                                  //                     GuardingMasterDataDetailsCubit>(
-                                  //                 context)
-                                  //             .onCheckBoxChange(state.model);
-                                  //       },
-                                  onChangedNo: null,
-                                  // widget.guardingMasterData?.status == 6
-                                  //     ? null
-                                  //     : (val) {
-                                  //         state.model.onboarded = false;
-                                  //         BlocProvider.of<
-                                  //                     GuardingMasterDataDetailsCubit>(
-                                  //                 context)
-                                  //             .onCheckBoxChange(state.model);
-                                  //       }
-                                ),
-
-                                /// ESIC No
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.esicNo ??
-                                      state.labels?.defaultLocale.esicNo ??
-                                      Constants.esicNo,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-                                FlutterInputField(
-                                  textInputType: TextInputType.number,
-                                  initialValue: state.model.esicNo,
-                                  textFormKey: Keys.esicKey,
-                                  hintText: '',
-                                  isEnable: false,
-                                  // widget.guardingMasterData == null
-                                  //     ? true
-                                  //     : (widget.guardingMasterData != null &&
-                                  //             (widget.guardingMasterData?.esicNo ==
-                                  //                 null))
-                                  //         ? false
-                                  //         : true,
-                                  isDisableColor: true,
-                                  // (widget.guardingMasterData !=
-                                  //             null &&
-                                  //         (widget.guardingMasterData?.esicNo != null))
-                                  //     ? true
-                                  //     : false,
-                                  onChange: (String value) {
-                                    state.model.esicNo = value;
-                                    context
-                                        .read<GuardingMasterDataDetailsCubit>()
-                                        .onModelValueChange(state.model);
-                                  },
-                                  validateTextField: (String? user) {},
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// UAN  No
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.uanNo ??
-                                      state.labels?.defaultLocale.uanNo ??
-                                      Constants.uanNo,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-                                FlutterInputField(
-                                  textInputType: TextInputType.number,
-                                  initialValue: state.model.uanNo,
-                                  textFormKey: Keys.uanNoKey,
-                                  hintText: '',
-                                  isEnable: false,
-                                  // widget.guardingMasterData == null
-                                  //     ? true
-                                  //     : (widget.guardingMasterData != null &&
-                                  //             (widget.guardingMasterData?.uanNo ==
-                                  //                 null))
-                                  //         ? false
-                                  //         : true,
-                                  isDisableColor: true,
-                                  // (widget.guardingMasterData !=
-                                  //             null &&
-                                  //         (widget.guardingMasterData?.uanNo != null))
-                                  //     ? true
-                                  //     : false,
-                                  onChange: (String value) {
-                                    state.model.uanNo = value;
-                                    context
-                                        .read<GuardingMasterDataDetailsCubit>()
-                                        .onModelValueChange(state.model);
-                                  },
-                                  validateTextField: (String? user) {},
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                // Text('-${state.model.showMsgbData}--'),
-                                if (state.model.showMsgbData ?? false) ...[
-                                  ///MSGB Exempted
+                                  /// Local Address
                                   CommonWidgets.textDisplay(
-                                    state.labels?.locale.msgbExempted ??
-                                        state
-                                            .labels
-                                            ?.defaultLocale
-                                            .msgbExempted ??
-                                        Constants.mSGBExempted,
-                                    Styles.textStyleWhite16,
-                                  ),
-                                  RadioButtonsYesNo(
-                                    status: state.model.status ?? 0,
-                                    selectedValue: state.model.msgbExempted
-                                        ? 1
-                                        : 0,
-                                    onChangedYes: null,
-                                    // onChangedYes:
-                                    //     widget.guardingMasterData?.status == 6
-                                    //         ? null
-                                    //         : (val) {
-                                    //             state.model.msgbExempted = true;
-                                    //             BlocProvider.of<
-                                    //                         GuardingMasterDataDetailsCubit>(
-                                    //                     context)
-                                    //                 .showFields(
-                                    //                     msgbExempted: true);
-                                    //             //.onModelValueChange(state.guardingMasterData
-                                    //             //);
-                                    //           },
-                                    onChangedNo: null,
-                                    // onChangedNo:
-                                    //     widget.guardingMasterData?.status == 4
-                                    //         ? null
-                                    //         : (val) {
-                                    //             state.model.msgbExempted =
-                                    //                 false;
-                                    //             BlocProvider.of<
-                                    //                         GuardingMasterDataDetailsCubit>(
-                                    //                     context)
-                                    //                 .showFields(
-                                    //                     msgbExempted: false);
-                                    //           }
-                                  ),
-
-                                  if (state.model.msgbExempted) ...[
-                                    /// MSGB Exemption Date
-                                    CommonWidgets.textDisplay(
-                                      state.labels?.locale.msgbExemptionDate ??
-                                          state
-                                              .labels
-                                              ?.defaultLocale
-                                              .msgbExemptionDate ??
-                                          Constants.mSGBExemptionDate,
-                                      Styles.textStyleWhite16,
-                                    ),
-                                    CommonWidgets.verticalSpacerWidget(
-                                      height * 0.001,
-                                    ),
-
-                                    BaseDate().datePickerWidgetLoading(
-                                      isDisabled: true,
-                                      onlyDate: true,
-                                      textController:
-                                          mSGBExemptionDateController,
-                                      onChange: (String value) {
-                                        state.model.msgbExemptionDate = Utils()
-                                            .formatTime(value);
-
-                                        BlocProvider.of<
-                                              GuardingMasterDataDetailsCubit
-                                            >(context)
-                                            .onModelValueChange(state.model);
-                                      },
-                                      context: context,
-                                    ),
-                                    CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01,
-                                    ),
-                                  ],
-
-                                  if (!state.model.msgbExempted) ...[
-                                    CommonWidgets.textDisplay(
-                                      state.labels?.locale.msgbFormBSubmitted ??
-                                          state
-                                              .labels
-                                              ?.defaultLocale
-                                              .msgbFormBSubmitted ??
-                                          Constants.mSGBFormBSubmitted,
-                                      Styles.textStyleWhite16,
-                                    ),
-                                    CommonWidgets.verticalSpacerWidget(
-                                      height * 0.001,
-                                    ),
-                                    CommonWidgets.verticalSpacerWidget(
-                                      height * 0.001,
-                                    ),
-                                    BaseDropDown().getDropDown(
-                                      isDisabled: state.model.status != 6,
-                                      textController:
-                                          mSGbFormBSubmittedController,
-                                      items: mSGBFormBSubmittedDropDownValues,
-                                      initialValue: state
-                                          .model
-                                          .msgbFormBSubmitted
-                                          .toString(),
-                                      onTap: () {},
-                                    ),
-                                    CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01,
-                                    ),
-                                  ],
-
-                                  CommonWidgets.textDisplay(
-                                    state.labels?.locale.staffMsgbCompliant ??
-                                        state
-                                            .labels
-                                            ?.defaultLocale
-                                            .msgbFormBSubmitted ??
-                                        Constants.mSGBFormBSubmitted,
-                                    Styles.textStyleWhite16,
-                                  ),
-
-                                  BaseDropDown().getDropDown(
-                                    isDisabled: state.model.status != 6,
-                                    textController:
-                                        staffMSFBComplaintController,
-                                    textFormFieldBackgroundColor: getColor(
-                                      state.model,
-                                    ),
-                                    items: staffMsgbCompliantDropDownValues,
-                                    initialValue: state.model.staffMsgbCompliant
-                                        .toString(),
-                                    onTap: () {},
-                                  ),
-                                ],
-
-                                /// Date of First Covid Dose
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.covidFirstDoseDate ??
-                                      state
-                                          .labels
-                                          ?.defaultLocale
-                                          .covidFirstDoseDate ??
-                                      Constants.dateOfFirstCovidDose,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-
-                                BaseDate().datePickerWidgetLoading(
-                                  isDisabled: true,
-                                  onlyDate: false,
-                                  showFutureDate: false,
-                                  textController:
-                                      dateOfFirstCovidDoseController,
-                                  onChange: (String value) {
-                                    log(
-                                      '--fr-value-${dateOfFirstCovidDoseController.text}------',
-                                    );
-                                    state.model.covidFirstDoseDate = Utils()
-                                        .formatTime(value);
-                                    BlocProvider.of<
-                                          GuardingMasterDataDetailsCubit
-                                        >(context)
-                                        .onModelValueChange(state.model);
-                                  },
-                                  context: context,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// Date of Second Covid Dose
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.covidSecondDoseDate ??
-                                      state
-                                          .labels
-                                          ?.defaultLocale
-                                          .covidSecondDoseDate ??
-                                      Constants.dateOfSecondCovidDose,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-
-                                BaseDate().datePickerWidgetLoading(
-                                  isDisabled: true,
-                                  onlyDate: false,
-                                  showFutureDate: false,
-                                  textController:
-                                      dateOfSecondCovidDoseController,
-                                  onChange: (String value) {
-                                    log(
-                                      '--fr-value-${dateOfSecondCovidDoseController.text}------',
-                                    );
-                                    state.model.covidSecondDoseDate = Utils()
-                                        .formatTime(value);
-                                    BlocProvider.of<
-                                          GuardingMasterDataDetailsCubit
-                                        >(context)
-                                        .onModelValueChange(state.model);
-                                  },
-                                  context: context,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// Date of Precautionary Covid Dose
-                                CommonWidgets.textDisplay(
-                                  state
-                                          .labels
-                                          ?.locale
-                                          .covidPrecautionaryDoseDate ??
-                                      state
-                                          .labels
-                                          ?.defaultLocale
-                                          .covidPrecautionaryDoseDate ??
-                                      Constants.dateOfPrecautionaryCovidDose,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-
-                                BaseDate().datePickerWidgetLoading(
-                                  isDisabled: true,
-                                  onlyDate: false,
-                                  showFutureDate: false,
-                                  textController: dateOfPrecautionaryCovidDose,
-                                  onChange: (String value) {
-                                    log(
-                                      '--fr-value-${dateOfPrecautionaryCovidDose.text}------',
-                                    );
-                                    state.model.covidPrecautionaryDoseDate =
-                                        Utils().formatTime(value);
-                                    BlocProvider.of<
-                                          GuardingMasterDataDetailsCubit
-                                        >(context)
-                                        .onModelValueChange(state.model);
-                                  },
-                                  context: context,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// ERT Certification Date
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.ertCertificationDate ??
-                                      state
-                                          .labels
-                                          ?.defaultLocale
-                                          .ertCertificationDate ??
-                                      Constants.ertCertificationDate,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-
-                                BaseDate().datePickerWidgetLoading(
-                                  isDisabled: true,
-                                  onlyDate: false,
-                                  showFutureDate: false,
-                                  textController: ertCertificationDate,
-                                  onChange: (String value) {
-                                    log(
-                                      '--fr-value-${ertCertificationDate.text}------',
-                                    );
-                                    state.model.ertCertificationDate = Utils()
-                                        .formatTime(value);
-                                    BlocProvider.of<
-                                          GuardingMasterDataDetailsCubit
-                                        >(context)
-                                        .onModelValueChange(state.model);
-                                  },
-                                  context: context,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                /// First Aid Training Completion Date
-                                CommonWidgets.textDisplay(
-                                  state
-                                          .labels
-                                          ?.locale
-                                          .firstAidTrainingCompletionDate ??
-                                      state
-                                          .labels
-                                          ?.defaultLocale
-                                          .firstAidTrainingCompletionDate ??
-                                      Constants.firstAidTrainingCompletionDate,
-                                  Styles.textStyleWhite16,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001,
-                                ),
-
-                                BaseDate().datePickerWidgetLoading(
-                                  isDisabled: true,
-                                  onlyDate: false,
-                                  showFutureDate: false,
-                                  textController:
-                                      firstAidTrainingCompletionDate,
-                                  onChange: (String value) {
-                                    log(
-                                      '--fr-value-${firstAidTrainingCompletionDate.text}------',
-                                    );
-                                    state.model.firstAidTrainingCompletionDate =
-                                        Utils().formatTime(value);
-                                    BlocProvider.of<
-                                          GuardingMasterDataDetailsCubit
-                                        >(context)
-                                        .onModelValueChange(state.model);
-                                  },
-                                  context: context,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-
-                                // /// CSR Participation
-                                // CommonWidgets.textDisplay(
-                                //     state.labels?.locale.csrParticipation ??
-                                //         state.labels?.defaultLocale
-                                //             .csrParticipation ??
-                                //         Constants.csrParticipation,
-                                //     Styles.textStyleBlack14),
-                                // RadioButtonsYesNo(
-                                //     status: state.model.status ?? 0,
-                                //     selectedValue:
-                                //         state.model.csrParticipation ? 1 : 0,
-                                //     onChangedYes:
-                                //         widget.guardingMasterData?.status == 6
-                                //             ? null
-                                //             : (val) {
-                                //                 state.model.csrParticipation = true;
-                                //                 BlocProvider.of<
-                                //                             GuardingMasterDataDetailsCubit>(
-                                //                         context)
-                                //                     .showFields(
-                                //                         csrParticipation: true);
-                                //               },
-                                //     onChangedNo:
-                                //         widget.guardingMasterData?.status == 4
-                                //             ? null
-                                //             : (val) {
-                                //                 state.model.csrParticipation =
-                                //                     false;
-                                //                 BlocProvider.of<
-                                //                             GuardingMasterDataDetailsCubit>(
-                                //                         context)
-                                //                     .showFields(
-                                //                         csrParticipation: false);
-                                //               }),
-
-                                // if (state.model.csrParticipation) ...[
-                                //   CommonWidgets.textDisplay(
-                                //       state.labels?.locale.csrParticipationDates ??
-                                //           state.labels?.defaultLocale
-                                //               .csrParticipationDates ??
-                                //           Constants.csrParticipationDate,
-                                //       Styles.textStyleBlack14),
-                                //   CommonWidgets.verticalSpacerWidget(height * 0.01),
-                                //   GestureDetector(
-                                //     onTap: () {
-                                //       showDialog(
-                                //           context: context,
-                                //           builder: (BuildContext dialogContext) {
-                                //             return AddDatePopUp(
-                                //               guardingMasterData:
-                                //                   guardingMasterData,
-                                //               mainContext: context,
-                                //               onSubmit: (GuardingMastersDataModel
-                                //                   guardingMasterData) {
-                                //                 //loginFormKey.currentState!.validate();
-                                //                 FocusScope.of(context).unfocus();
-                                //                 BlocProvider.of<
-                                //                             GuardingMasterDataDetailsCubit>(
-                                //                         context)
-                                //                     .submitForm(isSaveOnly: true);
-                                //               },
-                                //             );
-                                //           });
-                                //     },
-                                //     child: Row(
-                                //       children: <Widget>[
-                                //         // Expanded(
-                                //         //child:
-                                //         const SizedBox(width: 14),
-                                //         SvgPicture.asset(
-                                //           AppIcon.pluscircle,
-                                //           //color: AppColors.navigationSkybluecolor,
-                                //         ),
-                                //         // ),
-                                //         const SizedBox(width: 10),
-                                //         const Text(
-                                //           Constants.addParticipationDates,
-                                //           style: TextStyle(
-                                //             color: AppColors.navigationSkybluecolor,
-                                //             decoration: TextDecoration.underline,
-                                //           ),
-                                //         ),
-                                //       ],
-                                //     ),
-                                //   ),
-                                // ],
-                                //
-                                // CommonWidgets.verticalSpacerWidget(height * 0.01),
-                                // Column(
-                                //   children: getParticipationDates(state, height),
-                                // ),
-                                // CommonWidgets.verticalSpacerWidget(height * 0.01),
-                                //
-                                // /// Special Achivements
-                                // CommonWidgets.textDisplay(
-                                //     state.labels?.locale.specialAchievement ??
-                                //         state.labels?.defaultLocale
-                                //             .specialAchievement ??
-                                //         Constants.specialAchievements,
-                                //     Styles.textStyleBlack14),
-                                // RadioButtonsYesNo(
-                                //     status: state.model.status ?? 0,
-                                //     selectedValue:
-                                //         state.model.specialAchievement ? 1 : 0,
-                                //     onChangedYes:
-                                //         widget.guardingMasterData?.status == 6
-                                //             ? null
-                                //             : (val) {
-                                //                 state.model.specialAchievement =
-                                //                     true;
-                                //                 BlocProvider.of<
-                                //                             GuardingMasterDataDetailsCubit>(
-                                //                         context)
-                                //                     .showFields(
-                                //                         specialAchievement: true);
-                                //                 // .onModelValueChange(state.guardingMasterData
-                                //                 // );
-                                //               },
-                                //     onChangedNo:
-                                //         widget.guardingMasterData?.status == 6
-                                //             ? null
-                                //             : (val) {
-                                //                 state.model.specialAchievement =
-                                //                     false;
-                                //                 BlocProvider.of<
-                                //                             GuardingMasterDataDetailsCubit>(
-                                //                         context)
-                                //                     .showFields(
-                                //                         specialAchievement: false);
-                                //               }),
-                                //
-                                // if (state.model.specialAchievement) ...[
-                                //   CommonWidgets.verticalSpacerWidget(
-                                //       height * 0.001),
-                                //   FlutterInputField(
-                                //     lineHeight: 6,
-                                //     initialValue:
-                                //         state.model.specialAchievementText,
-                                //     textFormKey: Keys.specialAchievementsKey,
-                                //     hintText: Constants.informationhere,
-                                //     isEnable: state.model.status != 6,
-                                //     isDisableColor: state.model.status == 6,
-                                //     onChange: (String value) {
-                                //       state.model.specialAchievementText = value;
-                                //       context
-                                //           .read<GuardingMasterDataDetailsCubit>()
-                                //           .onModelValueChange(state.model);
-                                //     },
-                                //     validateTextField: (String? user) {},
-                                //   ),
-                                //   CommonWidgets.verticalSpacerWidget(height * 0.01),
-                                // ],
-                                //
-                                // /// Additional Initiatives Info
-                                // CommonWidgets.textDisplay(
-                                //     state.labels?.locale.additionalInitiatives ??
-                                //         state.labels?.defaultLocale
-                                //             .additionalInitiatives ??
-                                //         Constants.additionalInitiativesInfo,
-                                //     isMandatory: true,
-                                //     Styles.textStyleBlack14),
-                                // CommonWidgets.verticalSpacerWidget(height * 0.001),
-                                // FlutterInputField(
-                                //   lineHeight: 6,
-                                //   initialValue: state.model.additionalInitiatives,
-                                //   textFormKey: Keys.additionInitiativesKey,
-                                //   hintText: Constants.informationhere,
-                                //   showBorder: true,
-                                //   isEnable: state.model.status != 6,
-                                //   isDisableColor: state.model.status == 6,
-                                //   onChange: (String value) {
-                                //     state.model.additionalInitiatives = value;
-                                //     context
-                                //         .read<GuardingMasterDataDetailsCubit>()
-                                //         .onModelValueChange(state.model);
-                                //   },
-                                //   validateTextField: (String? user) {},
-                                // ),
-                                getLabelAndDate(
-                                  list: state.model.csrParticipations ?? [],
-                                  descLabel: Constants.csrParticipation,
-                                  dateLabel: Constants.participationDate,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-                                getLabelAndDate(
-                                  list:
-                                      state.model.additionalQualifications ??
-                                      [],
-                                  descLabel: Constants.additionalQualification,
-                                  dateLabel:
-                                      Constants.qualificationCompletionDate,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-                                getLabelAndDate(
-                                  list: state.model.specialAchievements ?? [],
-                                  descLabel: Constants.specialAchievementsInfo,
-                                  dateLabel: Constants.achievementsDate,
-                                ),
-
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-                                getLabelAndDate(
-                                  list: state.model.additionalInitiatives ?? [],
-                                  descLabel:
-                                      Constants.additionalInitiativesInfo,
-                                  dateLabel: Constants.initiativesDate,
-                                ),
-
-                                CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02,
-                                ),
-                                if (state.model.id != null) ...[
-                                  /// Modified Date
-                                  CommonWidgets.textDisplay(
-                                    // state.labels?.locale.date ??
-                                    //     state.labels?.defaultLocale.date ??
-                                    Constants.modifiedOn,
-                                    Styles.textStyleWhite16,
+                                    state.labels?.locale.localAddress ??
+                                        state.labels?.defaultLocale
+                                            .localAddress ??
+                                        Constants.localAddress,
                                     isMandatory: true,
+                                    Styles.textStyleWhite16,
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
                                     height * 0.001,
                                   ),
-                                  datecreateWidgetdisplay(
-                                    state.model.modifiedDate ?? '',
+                                  FlutterInputField(
+                                    lineHeight: 6,
+                                    characterLimit: Constants
+                                        .characterLimitDescTextFormField,
+                                    initialValue: state.model.localAddress,
+                                    textFormKey: Keys.localAddressKey,
+                                    hintText: Constants.informationhere,
+                                    showBorder: true,
+                                    isEnable: false,
+                                    // state.model.status != 6,
+                                    isDisableColor: true,
+                                    // state.model.status == 6,
+                                    onChange: (String value) {
+                                      state.model.localAddress = value;
+                                      context
+                                          .read<
+                                              GuardingMasterDataDetailsCubit>()
+                                          .onModelValueChange(state.model);
+                                    },
+                                    validateTextField: (String? user) {},
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
                                     height * 0.02,
                                   ),
 
-                                  /// Modified By
-                                  CommonWidgets.horizentaltextHandling(
-                                    // state.labels?.locale.entrySecurity ??
-                                    //     state.labels?.defaultLocale.entrySecurity ??
-                                    Constants.modifiedBy,
+                                  /// upload Local Address Proof
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.localAddressProof ??
+                                        state.labels?.defaultLocale
+                                            .localAddressProof ??
+                                        Constants.uploadLocalAddressProof,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  widget.guardingMasterData == null
+                                      ? CommonWidgets.verticalSpacerWidget(
+                                          height * 0.001,
+                                        )
+                                      : Container(),
+                                  AbsorbPointer(
+                                    absorbing: true,
+                                    child: BaseImageUpload().uploadWidget(
+                                      isDisabled: true,
+                                      context: context,
+                                      loggedInUserDetails:
+                                          state.loggedInUserDetails ?? User(),
+                                      getFiles: localAddressFiles,
+                                      onImageSelected: (ImageContent data) {
+                                        log(
+                                          '-------function---onImageSelected---------',
+                                        );
+                                        List<ImageContent>? files = [];
+                                        files.add(data);
+                                        for (ImageContent image
+                                            in localAddressFiles ?? []) {
+                                          files.add(image);
+                                        }
+                                        BlocProvider.of<
+                                                    GuardingMasterDataDetailsCubit>(
+                                                context)
+                                            .addAttachment(
+                                          data: files,
+                                          localAddressFiles: files,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  // Attachments
+                                  BaseImageUpload().getAttachment(
+                                    height: height,
+                                    attachments: state.localAddressAttachments,
+                                    files: localAddressFiles,
+                                    showDeleteIcon: false,
+                                    moduleCode:
+                                        Constants.guardingMasterModuleCode,
+                                  ),
+
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// Qualifications
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.qualifications ??
+                                        state.labels?.defaultLocale
+                                            .qualifications ??
+                                        Constants.qualifications,
                                     isMandatory: true,
-                                    state.model.modifiedBy ?? '',
+                                    Styles.textStyleWhite16,
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01,
+                                    height * 0.001,
                                   ),
+
+                                  qualificationAddButtonWidgetLoading(
+                                    context: context,
+                                    state: state,
+                                    selectedValues:
+                                        state.model.qualifications ?? [],
+                                    all: state.listOfQualifications ?? [],
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// PVC Issued Date
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.pvcIssuedDate ??
+                                        state.labels?.defaultLocale
+                                            .pvcIssuedDate ??
+                                        Constants.pvcIssuedDate,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+
+                                  BaseDate().datePickerWidgetLoading(
+                                    isDisabled: true,
+                                    textController: pvcIssuedDateController,
+                                    onlyDate: true,
+                                    onChange: (String value) {
+                                      log('---value-$value------');
+                                      log(
+                                        '-----pvcIssuedDateController---value-${pvcIssuedDateController.text}------',
+                                      );
+                                      state.model.pvcIssuedDate =
+                                          Utils().formatTime(value);
+                                      BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                              context)
+                                          .onModelValueChange(state.model);
+                                    },
+                                    context: context,
+                                  ),
+
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// PVC Expiry Date
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.pvcExpiryDate ??
+                                        state.labels?.defaultLocale
+                                            .pvcExpiryDate ??
+                                        Constants.pvcExpiryDate,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+
+                                  BaseDate().datePickerWidgetLoading(
+                                    textController: pvcExpiryDateController,
+                                    isDisabled: true,
+                                    onChange: (String value) {
+                                      // log('--fr-value-${pvcExpiryDateController
+                                      //     .text}------');
+                                      // state.model.pvcExpiryDate =
+                                      //     Utils().formatTime(value);
+                                      //
+                                      //   BlocProvider.of<GuardingMasterDataDetailsCubit>(
+                                      //       context
+                                      //   ).onModelValueChange(state.model);
+                                      // //},
+                                    },
+                                    context: context,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// upload File
+                                  widget.guardingMasterData == null
+                                      ? CommonWidgets.textDisplay(
+                                          Constants.uploadfile,
+                                          Styles.textStyleWhite16,
+                                        )
+                                      : Container(),
+                                  widget.guardingMasterData == null
+                                      ? CommonWidgets.verticalSpacerWidget(
+                                          height * 0.001,
+                                        )
+                                      : Container(),
+                                  widget.guardingMasterData == null
+                                      ? BaseImageUpload().uploadWidget(
+                                          isDisabled: true,
+                                          context: context,
+                                          loggedInUserDetails:
+                                              state.loggedInUserDetails ??
+                                                  User(),
+                                          getFiles: pVCFiles,
+                                          onImageSelected: (ImageContent data) {
+                                            log(
+                                              '-------function---onImageSelected---------',
+                                            );
+                                            List<ImageContent>? files = [];
+                                            files.add(data);
+                                            for (ImageContent image
+                                                in pVCFiles ?? []) {
+                                              files.add(image);
+                                            }
+                                            BlocProvider.of<
+                                                        GuardingMasterDataDetailsCubit>(
+                                                    context)
+                                                .addAttachment(
+                                              data: files,
+                                              pVCFiles: files,
+                                            );
+                                          },
+                                        )
+                                      : Container(),
+
+                                  // Attachments
+                                  BaseImageUpload().getAttachment(
+                                    height: height,
+                                    attachments: state.pVCAttachments,
+                                    files: pVCFiles,
+                                    showDeleteIcon: false,
+                                    moduleCode:
+                                        Constants.guardingMasterModuleCode,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// Green BGV Date
+                                  CommonWidgets.textDisplay(
+                                    // state.labels?.locale.pvcExpiryDate ??
+                                    //     state.labels?.defaultLocale
+                                    //         .pvcExpiryDate ??
+                                    Constants.greenBGVDate,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+
+                                  BaseDate().datePickerWidgetLoading(
+                                    textController: greenBGVDateController,
+                                    isDisabled: true,
+                                    onChange: (String value) {
+                                      // log('--fr-value-${pvcExpiryDateController
+                                      //     .text}------');
+                                      // state.model.pvcExpiryDate =
+                                      //     Utils().formatTime(value);
+                                      //
+                                      //   BlocProvider.of<GuardingMasterDataDetailsCubit>(
+                                      //       context
+                                      //   ).onModelValueChange(state.model);
+                                      // //},
+                                    },
+                                    context: context,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// Training Certificate
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale
+                                            .trainingCertificateProvided ??
+                                        state.labels?.defaultLocale
+                                            .trainingCertificateProvided ??
+                                        Constants.trainingCertificate,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  RadioButtonsYesNo(
+                                    status: state.model.status ?? 0,
+                                    selectedValue:
+                                        state.model.trainingCertificateProvided
+                                            ? 1
+                                            : 0,
+                                    onChangedYes: null,
+                                    // widget.guardingMasterData?.status ==
+                                    //         6
+                                    //     ? null
+                                    //     : (val) {
+                                    //         state.model.trainingCertificateProvided =
+                                    //             true;
+                                    //         BlocProvider.of<
+                                    //                     GuardingMasterDataDetailsCubit>(
+                                    //                 context)
+                                    //             .onCheckBoxChange(state.model);
+                                    //       },
+                                    onChangedNo: null,
+                                    // widget.guardingMasterData?.status ==
+                                    //         6
+                                    //     ? null
+                                    //     : (val) {
+                                    //         state.model.trainingCertificateProvided =
+                                    //             false;
+                                    //         BlocProvider.of<
+                                    //                     GuardingMasterDataDetailsCubit>(
+                                    //                 context)
+                                    //             .onCheckBoxChange(state.model);
+                                    //       }
+                                  ),
+                                  if (state
+                                      .model.trainingCertificateProvided) ...[
+                                    /// upload Training Certificate
+                                    CommonWidgets.textDisplay(
+                                      state.labels?.locale
+                                              .trainingCertificates ??
+                                          state.labels?.defaultLocale
+                                              .trainingCertificates ??
+                                          Constants.uploadTrainingCertificate,
+                                      Styles.textStyleWhite16,
+                                    ),
+                                    widget.guardingMasterData == null
+                                        ? CommonWidgets.verticalSpacerWidget(
+                                            height * 0.001,
+                                          )
+                                        : Container(),
+                                    BaseImageUpload().uploadWidget(
+                                      isDisabled: true,
+                                      context: context,
+                                      loggedInUserDetails:
+                                          state.loggedInUserDetails ?? User(),
+                                      getFiles: trainingFiles,
+                                      onImageSelected: (ImageContent data) {
+                                        log(
+                                          '-------function---onImageSelected---------',
+                                        );
+                                        List<ImageContent>? files = [];
+                                        files.add(data);
+                                        for (ImageContent image
+                                            in trainingFiles ?? []) {
+                                          files.add(image);
+                                        }
+                                        BlocProvider.of<
+                                                    GuardingMasterDataDetailsCubit>(
+                                                context)
+                                            .addAttachment(
+                                          data: files,
+                                          trainingFiles: files,
+                                        );
+                                      },
+                                    ),
+                                    // Attachments
+                                    BaseImageUpload().getAttachment(
+                                      height: height,
+                                      attachments: state.trainingAttachments,
+                                      files: trainingFiles,
+                                      showDeleteIcon: false,
+                                      moduleCode:
+                                          Constants.guardingMasterModuleCode,
+                                    ),
+                                  ],
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// Medical Certificate Valid Until
+                                  CommonWidgets.textDisplay(
+                                    state.labels
+                                            ?.locale.medicalCertificateValidUntil ??
+                                        state.labels?.defaultLocale
+                                            .medicalCertificateValidUntil ??
+                                        Constants.medicalCertificateValidUntil,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+
+                                  BaseDate().datePickerWidgetLoading(
+                                    isDisabled: true,
+                                    onlyDate: false,
+                                    showPastDate: false,
+                                    textController:
+                                        medicalCertificateValidUntilController,
+                                    onChange: (String value) {
+                                      log(
+                                        '--fr-value-${medicalCertificateValidUntilController.text}------',
+                                      );
+                                      state.model.medicalCertificateValidUntil =
+                                          Utils().formatTime(value);
+                                      BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                              context)
+                                          .onModelValueChange(state.model);
+                                    },
+                                    context: context,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// upload Medical Certificates
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.medicalCertificates ??
+                                        state.labels?.defaultLocale
+                                            .medicalCertificates ??
+                                        Constants.uploadMedicalCertificate,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  widget.guardingMasterData == null
+                                      ? CommonWidgets.verticalSpacerWidget(
+                                          height * 0.001,
+                                        )
+                                      : Container(),
+                                  AbsorbPointer(
+                                    absorbing: true,
+                                    child: BaseImageUpload().uploadWidget(
+                                      isDisabled: true,
+                                      context: context,
+                                      loggedInUserDetails:
+                                          state.loggedInUserDetails ?? User(),
+                                      getFiles: medicalFiles,
+                                      onImageSelected: (ImageContent data) {
+                                        log(
+                                          '-------function---onImageSelected---------',
+                                        );
+                                        List<ImageContent>? files = [];
+                                        files.add(data);
+                                        for (ImageContent image
+                                            in medicalFiles ?? []) {
+                                          files.add(image);
+                                        }
+                                        BlocProvider.of<
+                                                    GuardingMasterDataDetailsCubit>(
+                                                context)
+                                            .addAttachment(
+                                          data: files,
+                                          medicalFiles: files,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  // Attachments
+                                  BaseImageUpload().getAttachment(
+                                    height: height,
+                                    attachments: state.medicalAttachments,
+                                    files: medicalFiles,
+                                    showDeleteIcon: false,
+                                    moduleCode:
+                                        Constants.guardingMasterModuleCode,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// System Access
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.systemAccess ??
+                                        state.labels?.defaultLocale
+                                            .systemAccess ??
+                                        Constants.systemAccess,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+                                  BaseDropDown().getDropDown(
+                                    isDisabled: state.model.status != 6,
+                                    textController: systemAccessController,
+                                    items: systemAccessDropDownValues,
+                                    initialValue:
+                                        state.model.systemAccess.toString(),
+                                    onTap: () {
+                                      // if (isDisabled) {
+                                      //   BaseDropDown().assetTypeDialog(
+                                      //       context: context,
+                                      //       dropDownValues:
+                                      //           systemAccessDropDownValues
+                                      //               .map((label) => label.key)
+                                      //               .toList(),
+                                      //       onTap: (String value) {
+                                      //         Label? selectedLabel;
+                                      //         selectedLabel =
+                                      //             systemAccessDropDownValues
+                                      //                 .firstWhere(
+                                      //           (label) => label.key == value,
+                                      //           orElse: () => const Label(
+                                      //               key: '', value: ''),
+                                      //         );
+                                      //         BlocProvider.of<
+                                      //                     GuardingMasterDataDetailsCubit>(
+                                      //                 context)
+                                      //             .updateDropdownValues(
+                                      //                 systemAccess:
+                                      //                     int.tryParse(
+                                      //                         selectedLabel
+                                      //                             .value));
+                                      //       });
+                                      // }
+                                    },
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// OnBoarded
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.onboarded ??
+                                        state.labels?.defaultLocale.onboarded ??
+                                        Constants.onBoarded,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  RadioButtonsYesNo(
+                                    status: state.model.status ?? 0,
+                                    selectedValue:
+                                        state.model.onboarded ? 1 : 0,
+                                    onChangedYes: null,
+                                    // widget.guardingMasterData?.status == 6
+                                    //     ? null
+                                    //     : (val) {
+                                    //         state.model.onboarded = true;
+                                    //         BlocProvider.of<
+                                    //                     GuardingMasterDataDetailsCubit>(
+                                    //                 context)
+                                    //             .onCheckBoxChange(state.model);
+                                    //       },
+                                    onChangedNo: null,
+                                    // widget.guardingMasterData?.status == 6
+                                    //     ? null
+                                    //     : (val) {
+                                    //         state.model.onboarded = false;
+                                    //         BlocProvider.of<
+                                    //                     GuardingMasterDataDetailsCubit>(
+                                    //                 context)
+                                    //             .onCheckBoxChange(state.model);
+                                    //       }
+                                  ),
+
+                                  /// ESIC No
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.esicNo ??
+                                        state.labels?.defaultLocale.esicNo ??
+                                        Constants.esicNo,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+                                  FlutterInputField(
+                                    textInputType: TextInputType.number,
+                                    initialValue: state.model.esicNo,
+                                    textFormKey: Keys.esicKey,
+                                    hintText: '',
+                                    isEnable: false,
+                                    // widget.guardingMasterData == null
+                                    //     ? true
+                                    //     : (widget.guardingMasterData != null &&
+                                    //             (widget.guardingMasterData?.esicNo ==
+                                    //                 null))
+                                    //         ? false
+                                    //         : true,
+                                    isDisableColor: true,
+                                    // (widget.guardingMasterData !=
+                                    //             null &&
+                                    //         (widget.guardingMasterData?.esicNo != null))
+                                    //     ? true
+                                    //     : false,
+                                    onChange: (String value) {
+                                      state.model.esicNo = value;
+                                      context
+                                          .read<
+                                              GuardingMasterDataDetailsCubit>()
+                                          .onModelValueChange(state.model);
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// UAN  No
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.uanNo ??
+                                        state.labels?.defaultLocale.uanNo ??
+                                        Constants.uanNo,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+                                  FlutterInputField(
+                                    textInputType: TextInputType.number,
+                                    initialValue: state.model.uanNo,
+                                    textFormKey: Keys.uanNoKey,
+                                    hintText: '',
+                                    isEnable: false,
+                                    // widget.guardingMasterData == null
+                                    //     ? true
+                                    //     : (widget.guardingMasterData != null &&
+                                    //             (widget.guardingMasterData?.uanNo ==
+                                    //                 null))
+                                    //         ? false
+                                    //         : true,
+                                    isDisableColor: true,
+                                    // (widget.guardingMasterData !=
+                                    //             null &&
+                                    //         (widget.guardingMasterData?.uanNo != null))
+                                    //     ? true
+                                    //     : false,
+                                    onChange: (String value) {
+                                      state.model.uanNo = value;
+                                      context
+                                          .read<
+                                              GuardingMasterDataDetailsCubit>()
+                                          .onModelValueChange(state.model);
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  // Text('-${state.model.showMsgbData}--'),
+                                  if (state.model.showMsgbData ?? false) ...[
+                                    ///MSGB Exempted
+                                    CommonWidgets.textDisplay(
+                                      state.labels?.locale.msgbExempted ??
+                                          state.labels?.defaultLocale
+                                              .msgbExempted ??
+                                          Constants.mSGBExempted,
+                                      Styles.textStyleWhite16,
+                                    ),
+                                    RadioButtonsYesNo(
+                                      status: state.model.status ?? 0,
+                                      selectedValue:
+                                          state.model.msgbExempted ? 1 : 0,
+                                      onChangedYes: null,
+                                      // onChangedYes:
+                                      //     widget.guardingMasterData?.status == 6
+                                      //         ? null
+                                      //         : (val) {
+                                      //             state.model.msgbExempted = true;
+                                      //             BlocProvider.of<
+                                      //                         GuardingMasterDataDetailsCubit>(
+                                      //                     context)
+                                      //                 .showFields(
+                                      //                     msgbExempted: true);
+                                      //             //.onModelValueChange(state.guardingMasterData
+                                      //             //);
+                                      //           },
+                                      onChangedNo: null,
+                                      // onChangedNo:
+                                      //     widget.guardingMasterData?.status == 4
+                                      //         ? null
+                                      //         : (val) {
+                                      //             state.model.msgbExempted =
+                                      //                 false;
+                                      //             BlocProvider.of<
+                                      //                         GuardingMasterDataDetailsCubit>(
+                                      //                     context)
+                                      //                 .showFields(
+                                      //                     msgbExempted: false);
+                                      //           }
+                                    ),
+
+                                    if (state.model.msgbExempted) ...[
+                                      /// MSGB Exemption Date
+                                      CommonWidgets.textDisplay(
+                                        state.labels?.locale.msgbExemptionDate ??
+                                            state.labels?.defaultLocale
+                                                .msgbExemptionDate ??
+                                            Constants.mSGBExemptionDate,
+                                        Styles.textStyleWhite16,
+                                      ),
+                                      CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001,
+                                      ),
+
+                                      BaseDate().datePickerWidgetLoading(
+                                        isDisabled: true,
+                                        onlyDate: true,
+                                        textController:
+                                            mSGBExemptionDateController,
+                                        onChange: (String value) {
+                                          state.model.msgbExemptionDate =
+                                              Utils().formatTime(value);
+
+                                          BlocProvider.of<
+                                                      GuardingMasterDataDetailsCubit>(
+                                                  context)
+                                              .onModelValueChange(state.model);
+                                        },
+                                        context: context,
+                                      ),
+                                      CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01,
+                                      ),
+                                    ],
+
+                                    if (!state.model.msgbExempted) ...[
+                                      CommonWidgets.textDisplay(
+                                        state.labels?.locale
+                                                .msgbFormBSubmitted ??
+                                            state.labels?.defaultLocale
+                                                .msgbFormBSubmitted ??
+                                            Constants.mSGBFormBSubmitted,
+                                        Styles.textStyleWhite16,
+                                      ),
+                                      CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001,
+                                      ),
+                                      CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001,
+                                      ),
+                                      BaseDropDown().getDropDown(
+                                        isDisabled: state.model.status != 6,
+                                        textController:
+                                            mSGbFormBSubmittedController,
+                                        items: mSGBFormBSubmittedDropDownValues,
+                                        initialValue: state
+                                            .model.msgbFormBSubmitted
+                                            .toString(),
+                                        onTap: () {},
+                                      ),
+                                      CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01,
+                                      ),
+                                    ],
+
+                                    CommonWidgets.textDisplay(
+                                      state.labels?.locale.staffMsgbCompliant ??
+                                          state.labels?.defaultLocale
+                                              .msgbFormBSubmitted ??
+                                          Constants.mSGBFormBSubmitted,
+                                      Styles.textStyleWhite16,
+                                    ),
+
+                                    BaseDropDown().getDropDown(
+                                      isDisabled: state.model.status != 6,
+                                      textController:
+                                          staffMSFBComplaintController,
+                                      textFormFieldBackgroundColor: getColor(
+                                        state.model,
+                                      ),
+                                      items: staffMsgbCompliantDropDownValues,
+                                      initialValue: state
+                                          .model.staffMsgbCompliant
+                                          .toString(),
+                                      onTap: () {},
+                                    ),
+                                  ],
+
+                                  /// Date of First Covid Dose
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.covidFirstDoseDate ??
+                                        state.labels?.defaultLocale
+                                            .covidFirstDoseDate ??
+                                        Constants.dateOfFirstCovidDose,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+
+                                  BaseDate().datePickerWidgetLoading(
+                                    isDisabled: true,
+                                    onlyDate: false,
+                                    showFutureDate: false,
+                                    textController:
+                                        dateOfFirstCovidDoseController,
+                                    onChange: (String value) {
+                                      log(
+                                        '--fr-value-${dateOfFirstCovidDoseController.text}------',
+                                      );
+                                      state.model.covidFirstDoseDate =
+                                          Utils().formatTime(value);
+                                      BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                              context)
+                                          .onModelValueChange(state.model);
+                                    },
+                                    context: context,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// Date of Second Covid Dose
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.covidSecondDoseDate ??
+                                        state.labels?.defaultLocale
+                                            .covidSecondDoseDate ??
+                                        Constants.dateOfSecondCovidDose,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+
+                                  BaseDate().datePickerWidgetLoading(
+                                    isDisabled: true,
+                                    onlyDate: false,
+                                    showFutureDate: false,
+                                    textController:
+                                        dateOfSecondCovidDoseController,
+                                    onChange: (String value) {
+                                      log(
+                                        '--fr-value-${dateOfSecondCovidDoseController.text}------',
+                                      );
+                                      state.model.covidSecondDoseDate =
+                                          Utils().formatTime(value);
+                                      BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                              context)
+                                          .onModelValueChange(state.model);
+                                    },
+                                    context: context,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// Date of Precautionary Covid Dose
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale
+                                            .covidPrecautionaryDoseDate ??
+                                        state.labels?.defaultLocale
+                                            .covidPrecautionaryDoseDate ??
+                                        Constants.dateOfPrecautionaryCovidDose,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+
+                                  BaseDate().datePickerWidgetLoading(
+                                    isDisabled: true,
+                                    onlyDate: false,
+                                    showFutureDate: false,
+                                    textController:
+                                        dateOfPrecautionaryCovidDose,
+                                    onChange: (String value) {
+                                      log(
+                                        '--fr-value-${dateOfPrecautionaryCovidDose.text}------',
+                                      );
+                                      state.model.covidPrecautionaryDoseDate =
+                                          Utils().formatTime(value);
+                                      BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                              context)
+                                          .onModelValueChange(state.model);
+                                    },
+                                    context: context,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// ERT Certification Date
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.ertCertificationDate ??
+                                        state.labels?.defaultLocale
+                                            .ertCertificationDate ??
+                                        Constants.ertCertificationDate,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+
+                                  BaseDate().datePickerWidgetLoading(
+                                    isDisabled: true,
+                                    onlyDate: false,
+                                    showFutureDate: false,
+                                    textController: ertCertificationDate,
+                                    onChange: (String value) {
+                                      log(
+                                        '--fr-value-${ertCertificationDate.text}------',
+                                      );
+                                      state.model.ertCertificationDate =
+                                          Utils().formatTime(value);
+                                      BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                              context)
+                                          .onModelValueChange(state.model);
+                                    },
+                                    context: context,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// First Aid Training Completion Date
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale
+                                            .firstAidTrainingCompletionDate ??
+                                        state.labels?.defaultLocale
+                                            .firstAidTrainingCompletionDate ??
+                                        Constants
+                                            .firstAidTrainingCompletionDate,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+
+                                  BaseDate().datePickerWidgetLoading(
+                                    isDisabled: true,
+                                    onlyDate: false,
+                                    showFutureDate: false,
+                                    textController:
+                                        firstAidTrainingCompletionDate,
+                                    onChange: (String value) {
+                                      log(
+                                        '--fr-value-${firstAidTrainingCompletionDate.text}------',
+                                      );
+                                      state.model
+                                              .firstAidTrainingCompletionDate =
+                                          Utils().formatTime(value);
+                                      BlocProvider.of<
+                                                  GuardingMasterDataDetailsCubit>(
+                                              context)
+                                          .onModelValueChange(state.model);
+                                    },
+                                    context: context,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  // /// CSR Participation
+                                  // CommonWidgets.textDisplay(
+                                  //     state.labels?.locale.csrParticipation ??
+                                  //         state.labels?.defaultLocale
+                                  //             .csrParticipation ??
+                                  //         Constants.csrParticipation,
+                                  //     Styles.textStyleBlack14),
+                                  // RadioButtonsYesNo(
+                                  //     status: state.model.status ?? 0,
+                                  //     selectedValue:
+                                  //         state.model.csrParticipation ? 1 : 0,
+                                  //     onChangedYes:
+                                  //         widget.guardingMasterData?.status == 6
+                                  //             ? null
+                                  //             : (val) {
+                                  //                 state.model.csrParticipation = true;
+                                  //                 BlocProvider.of<
+                                  //                             GuardingMasterDataDetailsCubit>(
+                                  //                         context)
+                                  //                     .showFields(
+                                  //                         csrParticipation: true);
+                                  //               },
+                                  //     onChangedNo:
+                                  //         widget.guardingMasterData?.status == 4
+                                  //             ? null
+                                  //             : (val) {
+                                  //                 state.model.csrParticipation =
+                                  //                     false;
+                                  //                 BlocProvider.of<
+                                  //                             GuardingMasterDataDetailsCubit>(
+                                  //                         context)
+                                  //                     .showFields(
+                                  //                         csrParticipation: false);
+                                  //               }),
+
+                                  // if (state.model.csrParticipation) ...[
+                                  //   CommonWidgets.textDisplay(
+                                  //       state.labels?.locale.csrParticipationDates ??
+                                  //           state.labels?.defaultLocale
+                                  //               .csrParticipationDates ??
+                                  //           Constants.csrParticipationDate,
+                                  //       Styles.textStyleBlack14),
+                                  //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                                  //   GestureDetector(
+                                  //     onTap: () {
+                                  //       showDialog(
+                                  //           context: context,
+                                  //           builder: (BuildContext dialogContext) {
+                                  //             return AddDatePopUp(
+                                  //               guardingMasterData:
+                                  //                   guardingMasterData,
+                                  //               mainContext: context,
+                                  //               onSubmit: (GuardingMastersDataModel
+                                  //                   guardingMasterData) {
+                                  //                 //loginFormKey.currentState!.validate();
+                                  //                 FocusScope.of(context).unfocus();
+                                  //                 BlocProvider.of<
+                                  //                             GuardingMasterDataDetailsCubit>(
+                                  //                         context)
+                                  //                     .submitForm(isSaveOnly: true);
+                                  //               },
+                                  //             );
+                                  //           });
+                                  //     },
+                                  //     child: Row(
+                                  //       children: <Widget>[
+                                  //         // Expanded(
+                                  //         //child:
+                                  //         const SizedBox(width: 14),
+                                  //         SvgPicture.asset(
+                                  //           AppIcon.pluscircle,
+                                  //           //color: AppColors.navigationSkybluecolor,
+                                  //         ),
+                                  //         // ),
+                                  //         const SizedBox(width: 10),
+                                  //         const Text(
+                                  //           Constants.addParticipationDates,
+                                  //           style: TextStyle(
+                                  //             color: AppColors.navigationSkybluecolor,
+                                  //             decoration: TextDecoration.underline,
+                                  //           ),
+                                  //         ),
+                                  //       ],
+                                  //     ),
+                                  //   ),
+                                  // ],
+                                  //
+                                  // CommonWidgets.verticalSpacerWidget(height * 0.01),
+                                  // Column(
+                                  //   children: getParticipationDates(state, height),
+                                  // ),
+                                  // CommonWidgets.verticalSpacerWidget(height * 0.01),
+                                  //
+                                  // /// Special Achivements
+                                  // CommonWidgets.textDisplay(
+                                  //     state.labels?.locale.specialAchievement ??
+                                  //         state.labels?.defaultLocale
+                                  //             .specialAchievement ??
+                                  //         Constants.specialAchievements,
+                                  //     Styles.textStyleBlack14),
+                                  // RadioButtonsYesNo(
+                                  //     status: state.model.status ?? 0,
+                                  //     selectedValue:
+                                  //         state.model.specialAchievement ? 1 : 0,
+                                  //     onChangedYes:
+                                  //         widget.guardingMasterData?.status == 6
+                                  //             ? null
+                                  //             : (val) {
+                                  //                 state.model.specialAchievement =
+                                  //                     true;
+                                  //                 BlocProvider.of<
+                                  //                             GuardingMasterDataDetailsCubit>(
+                                  //                         context)
+                                  //                     .showFields(
+                                  //                         specialAchievement: true);
+                                  //                 // .onModelValueChange(state.guardingMasterData
+                                  //                 // );
+                                  //               },
+                                  //     onChangedNo:
+                                  //         widget.guardingMasterData?.status == 6
+                                  //             ? null
+                                  //             : (val) {
+                                  //                 state.model.specialAchievement =
+                                  //                     false;
+                                  //                 BlocProvider.of<
+                                  //                             GuardingMasterDataDetailsCubit>(
+                                  //                         context)
+                                  //                     .showFields(
+                                  //                         specialAchievement: false);
+                                  //               }),
+                                  //
+                                  // if (state.model.specialAchievement) ...[
+                                  //   CommonWidgets.verticalSpacerWidget(
+                                  //       height * 0.001),
+                                  //   FlutterInputField(
+                                  //     lineHeight: 6,
+                                  //     initialValue:
+                                  //         state.model.specialAchievementText,
+                                  //     textFormKey: Keys.specialAchievementsKey,
+                                  //     hintText: Constants.informationhere,
+                                  //     isEnable: state.model.status != 6,
+                                  //     isDisableColor: state.model.status == 6,
+                                  //     onChange: (String value) {
+                                  //       state.model.specialAchievementText = value;
+                                  //       context
+                                  //           .read<GuardingMasterDataDetailsCubit>()
+                                  //           .onModelValueChange(state.model);
+                                  //     },
+                                  //     validateTextField: (String? user) {},
+                                  //   ),
+                                  //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                                  // ],
+                                  //
+                                  // /// Additional Initiatives Info
+                                  // CommonWidgets.textDisplay(
+                                  //     state.labels?.locale.additionalInitiatives ??
+                                  //         state.labels?.defaultLocale
+                                  //             .additionalInitiatives ??
+                                  //         Constants.additionalInitiativesInfo,
+                                  //     isMandatory: true,
+                                  //     Styles.textStyleBlack14),
+                                  // CommonWidgets.verticalSpacerWidget(height * 0.001),
+                                  // FlutterInputField(
+                                  //   lineHeight: 6,
+                                  //   initialValue: state.model.additionalInitiatives,
+                                  //   textFormKey: Keys.additionInitiativesKey,
+                                  //   hintText: Constants.informationhere,
+                                  //   showBorder: true,
+                                  //   isEnable: state.model.status != 6,
+                                  //   isDisableColor: state.model.status == 6,
+                                  //   onChange: (String value) {
+                                  //     state.model.additionalInitiatives = value;
+                                  //     context
+                                  //         .read<GuardingMasterDataDetailsCubit>()
+                                  //         .onModelValueChange(state.model);
+                                  //   },
+                                  //   validateTextField: (String? user) {},
+                                  // ),
+                                  getLabelAndDate(
+                                    list: state.model.csrParticipations ?? [],
+                                    descLabel: Constants.csrParticipation,
+                                    dateLabel: Constants.participationDate,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+                                  getLabelAndDate(
+                                    list:
+                                        state.model.additionalQualifications ??
+                                            [],
+                                    descLabel:
+                                        Constants.additionalQualification,
+                                    dateLabel:
+                                        Constants.qualificationCompletionDate,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+                                  getLabelAndDate(
+                                    list: state.model.specialAchievements ?? [],
+                                    descLabel:
+                                        Constants.specialAchievementsInfo,
+                                    dateLabel: Constants.achievementsDate,
+                                  ),
+
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+                                  getLabelAndDate(
+                                    list:
+                                        state.model.additionalInitiatives ?? [],
+                                    descLabel:
+                                        Constants.additionalInitiativesInfo,
+                                    dateLabel: Constants.initiativesDate,
+                                  ),
+
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+                                  if (state.model.id != null) ...[
+                                    /// Modified Date
+                                    CommonWidgets.textDisplay(
+                                      // state.labels?.locale.date ??
+                                      //     state.labels?.defaultLocale.date ??
+                                      Constants.modifiedOn,
+                                      Styles.textStyleWhite16,
+                                      isMandatory: true,
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001,
+                                    ),
+                                    datecreateWidgetdisplay(
+                                      state.model.modifiedDate ?? '',
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02,
+                                    ),
+
+                                    /// Modified By
+                                    CommonWidgets.horizentaltextHandling(
+                                      // state.labels?.locale.entrySecurity ??
+                                      //     state.labels?.defaultLocale.entrySecurity ??
+                                      Constants.modifiedBy,
+                                      isMandatory: true,
+                                      state.model.modifiedBy ?? '',
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(
+                                      height * 0.01,
+                                    ),
+                                  ],
                                 ],
-                              ],
+                              ),
                             ),
-                          ),
-                          CommonWidgets.verticalSpacerWidget(height * 0.01),
-                        ],
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
 
-                  // if(state.model.id != null) ...[
-                  //   /// Modified Date
-                  //   CommonWidgets.textDisplay(
-                  //     // state.labels?.locale.date ??
-                  //     //     state.labels?.defaultLocale.date ??
-                  //     Constants.modifiedOn,
-                  //     Styles.textStyleWhite16,
-                  //     isMandatory: true,
-                  //   ),
-                  //   CommonWidgets.verticalSpacerWidget(
-                  //       height * 0.001),
-                  //   datecreateWidgetdisplay(
-                  //       state.model.modifiedDate ?? ''),
-                  //   CommonWidgets.verticalSpacerWidget(height * 0.01),
-                  //
-                  //   /// Modified By
-                  //   CommonWidgets.horizentaltextHandling(
-                  //     // state.labels?.locale.entrySecurity ??
-                  //     //     state.labels?.defaultLocale.entrySecurity ??
-                  //       Constants.modifiedBy,
-                  //       isMandatory: true,
-                  //       state.model.modifiedBy ?? ''),
-                  //   CommonWidgets.verticalSpacerWidget(height * 0.01),
-                  // ],
+                    // if(state.model.id != null) ...[
+                    //   /// Modified Date
+                    //   CommonWidgets.textDisplay(
+                    //     // state.labels?.locale.date ??
+                    //     //     state.labels?.defaultLocale.date ??
+                    //     Constants.modifiedOn,
+                    //     Styles.textStyleWhite16,
+                    //     isMandatory: true,
+                    //   ),
+                    //   CommonWidgets.verticalSpacerWidget(
+                    //       height * 0.001),
+                    //   datecreateWidgetdisplay(
+                    //       state.model.modifiedDate ?? ''),
+                    //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                    //
+                    //   /// Modified By
+                    //   CommonWidgets.horizentaltextHandling(
+                    //     // state.labels?.locale.entrySecurity ??
+                    //     //     state.labels?.defaultLocale.entrySecurity ??
+                    //       Constants.modifiedBy,
+                    //       isMandatory: true,
+                    //       state.model.modifiedBy ?? ''),
+                    //   CommonWidgets.verticalSpacerWidget(height * 0.01),
+                    // ],
 
-                  /// SubmitButton
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      cancelButtonDisplay(state),
+                    /// SubmitButton
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        cancelButtonDisplay(state),
 
-                      // submitButtonDisplay()
-                    ],
-                  ),
+                        // submitButtonDisplay()
+                      ],
+                    ),
 
-                  CommonWidgets.verticalSpacerWidget(height * 0.04),
-                ],
+                    CommonWidgets.verticalSpacerWidget(height * 0.04),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
+      ],
     );
   }
 
@@ -3295,8 +3305,8 @@ class _GuardingMasterDataDetailsViewState
       title: title,
       height: (selectedValues.length) > 4
           ? (selectedValues.length) > 9
-                ? 140
-                : 100
+              ? 140
+              : 100
           : 60,
       isDisableColor: true,
       onTap: () {

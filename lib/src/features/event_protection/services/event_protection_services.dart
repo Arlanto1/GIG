@@ -3,6 +3,9 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
 
+import '../event_protection_details/event_info/models/notification_model.dart';
+import '../event_protection_details/event_info/models/request_models/notification_email_request.dart';
+
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
@@ -20,6 +23,11 @@ class Apis {
   static final String _createEventGeneralInformation = '$baseUrl/createEPGI?';
   static final String _createEventEi = '$baseUrl/createEventEi';
   static final String _showEpGrids = '$baseUrl/showEpGrids';
+  static final String _createNotification = '$baseUrl/createEpNoty';
+  static final String _getNotificationById = '$baseUrl/getEpNotyById';
+  static final String _getNotificationList = '$baseUrl/getEpNotyLists';
+
+
 }
 
 class EventProtectionServices {
@@ -135,5 +143,53 @@ class EventProtectionServices {
       url: url,
     );
     return FoundListModel.fromJson(response);
+  }
+
+
+
+  // Future<EventNotificationResponse> getNotificationList({
+  //   required BaseFilterModel filters,
+  //   required String eventId,
+  // }) async {
+  //   String url =
+  //       '${Apis._getNotificationList}?epId=$eventId';
+  //
+  //   var response = await BaseApiService().postRequest(
+  //     requestedData: filters.toJson(),
+  //     isAuthenticated: true,
+  //     url: url,
+  //   );
+  //   return EventNotificationResponse.fromJson(response);
+  // }
+
+  Future<EventNotificationResponse> getNotificationList(String id) async {
+    final String url = '${Apis._getNotificationList}?epId=$id';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return EventNotificationResponse.fromJson(response);
+  }
+
+  Future<EventNotificationModel> getNotificationById(String id) async {
+    final String url = '${Apis._getNotificationById}/$id';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return EventNotificationModel.fromJson(response);
+  }
+
+  Future<GenericResponse> createEventNotification({
+    required NotificationEmailRequest body,
+    required int eventDuration,
+  required int epId,
+  }) async {
+    final String url =
+        "${Apis._createNotification}?epId=$epId&type=$eventDuration";
+    log("API URL------2-2-2-2-2-: $url");
+    final response = await BaseApiService().postRequest(
+      url: url,
+      requestedData: body.toJson(),
+    );
+    return GenericResponse.fromJson(response);
   }
 }

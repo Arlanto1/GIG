@@ -117,13 +117,17 @@ class BottomMenuHandler {
     switch (index) {
       case 0:
         Navigator.pushNamed(context, materialMovementInwardsOutwardsRoute,
-            arguments: {"isInward": true});
+            arguments: {"isInward": true, "returnable" : true});
         break;
       case 1:
         Navigator.pushNamed(context, materialMovementInwardsOutwardsRoute,
-            arguments: {"isInward": false, "returnable": true});
+            arguments: {"isInward": true, "returnable": false});
         break;
       case 2:
+        Navigator.pushNamed(context, materialMovementInwardsOutwardsRoute,
+            arguments: {"isInward": false, "returnable": true});
+        break;
+      case 3:
         Navigator.pushNamed(context, materialMovementInwardsOutwardsRoute,
             arguments: {"isInward": false, "returnable": false});
         break;

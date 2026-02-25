@@ -2216,7 +2216,7 @@ class _FilterDrawerWidgetState extends State<FilterDrawerWidget> {
         labelText: label,
         labelStyle: const TextStyle(color: Colors.white),
         filled: true,
-        fillColor: AppColors.newColor.withValues(alpha: 0.15),
+        fillColor: Colors.transparent.withValues(alpha: 0.15),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.4)),
@@ -2241,27 +2241,15 @@ class _FilterDrawerWidgetState extends State<FilterDrawerWidget> {
         child: Stack(
           children: [
             Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    AppColors.newColor.withValues(alpha: 0.7),
-                    AppColors.newColor.withValues(alpha: 0.4),
-                    // const Color(0xFF071130).withOpacity(0.1),
-                    // const Color(0xFF071130).withOpacity(0.1),
-
-                    // AppColors.lavender.withOpacity(0.1),
-                    // Colors.black.withOpacity(0.01),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
+              decoration: const BoxDecoration(
+                color: Colors.transparent,
               ),
             ),
             BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
               child: Container(
                 decoration: BoxDecoration(
-                  color: AppColors.newColor.withValues(alpha: 0.2),
+                  color: Colors.transparent.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
                 ),
@@ -2342,25 +2330,66 @@ class _FilterDrawerWidgetState extends State<FilterDrawerWidget> {
                           ),
 
                           // Right tab content
+                          // Expanded(
+                          //   child: LayoutBuilder(
+                          //     builder: (context, constraints) {
+                          //       return SingleChildScrollView(
+                          //         padding: const EdgeInsets.all(16),
+                          //         child: ConstrainedBox(
+                          //           constraints: BoxConstraints(minHeight: constraints.maxHeight),
+                          //           child: IntrinsicHeight(
+                          //             child: Container(
+                          //               padding: const EdgeInsets.all(0),
+                          //               decoration: BoxDecoration(
+                          //                 color: AppColors.newColor.withValues(alpha: 0.08),
+                          //                 borderRadius: BorderRadius.circular(16),
+                          //                 border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                          //               ),
+                          //               child:
+                          //               Column(
+                          //                 mainAxisAlignment: MainAxisAlignment.start,
+                          //                 // crossAxisAlignment: CrossAxisAlignmentgnment.start,
+                          //                 children: [_buildTabContent()],
+                          //               ),
+                          //                 // SingleChildScrollView(
+                          //                 //   child: Column(
+                          //                 //     mainAxisAlignment: MainAxisAlignment.start,
+                          //                 //     children: [
+                          //                 //       _buildTabContent(),
+                          //                 //     ],
+                          //                 //   ),
+                          //                 // )
+                          //
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       );
+                          //     },
+                          //   ),
+                          // ),
                           Expanded(
                             child: LayoutBuilder(
                               builder: (context, constraints) {
                                 return SingleChildScrollView(
                                   padding: const EdgeInsets.all(16),
                                   child: ConstrainedBox(
-                                    constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                                    child: IntrinsicHeight(
-                                      child: Container(
-                                        padding: const EdgeInsets.all(20),
-                                        decoration: BoxDecoration(
-                                          color: AppColors.newColor.withValues(alpha: 0.08),
-                                          borderRadius: BorderRadius.circular(16),
-                                          border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+                                    constraints: BoxConstraints(
+                                      minHeight: constraints.maxHeight,
+                                    ),
+                                    child: Container(
+                                      padding: const EdgeInsets.all(0),
+                                      decoration: BoxDecoration(
+                                        color: AppColors.newColor.withValues(alpha: 0.08),
+                                        borderRadius: BorderRadius.circular(16),
+                                        border: Border.all(
+                                          color: Colors.white.withValues(alpha: 0.3),
                                         ),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [_buildTabContent()],
-                                        ),
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          _buildTabContent(),
+                                        ],
                                       ),
                                     ),
                                   ),
@@ -2368,6 +2397,7 @@ class _FilterDrawerWidgetState extends State<FilterDrawerWidget> {
                               },
                             ),
                           ),
+
                         ],
                       ),
                     ),
@@ -2376,7 +2406,7 @@ class _FilterDrawerWidgetState extends State<FilterDrawerWidget> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       decoration: BoxDecoration(
-                        color: AppColors.newColor.withValues(alpha: 0.99),
+                        color: AppColors.newColor.withValues(alpha: 0.1),
                         border: Border(top: BorderSide(color: Colors.white.withValues(alpha: 0.3))),
                       ),
                       child: Row(
@@ -2397,7 +2427,7 @@ class _FilterDrawerWidgetState extends State<FilterDrawerWidget> {
                           Expanded(
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.newColor7.withValues(alpha: 0.5),
+                                backgroundColor: AppColors.newColor.withValues(alpha: 0.5),
                                 foregroundColor: Colors.white,
                                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8),   side: const BorderSide(
                                   color: Colors.white,   // 👈 WHITE BORDER
@@ -2475,81 +2505,160 @@ class DropdownWidgetState extends State<DropdownWidget> {
   }
 
   @override
+  // Widget build(BuildContext context) {
+  //   // return Expanded(
+  //   //   child: DropdownButtonFormField<Organisation>(
+  //   //     initialValue: selectedElement,
+  //   //     hint: Text(widget.label),
+  //   //     // onChanged: widget.onChange,
+  //   //     onChanged: (Organisation? newValue) {
+  //   //       if (widget.shouldUpdate ?? false) {
+  //   //         setState(() {
+  //   //           selectedElement = newValue;
+  //   //         });
+  //   //       }
+  //   //       if (widget.onChange != null) {
+  //   //         widget.onChange!(newValue);
+  //   //       }
+  //   //     },
+  //   //     items: widget.items.map((item) {
+  //   //       return DropdownMenuItem<Organisation>(
+  //   //         value: item,
+  //   //         child: Text(item.name ?? ''),
+  //   //       );
+  //   //     }).toList(),
+  //   //     decoration: const InputDecoration(
+  //   //       focusedBorder: UnderlineInputBorder(
+  //   //         borderSide: BorderSide(
+  //   //           color: AppColors.navigationSkyBlueColor,
+  //   //         ),
+  //   //       ),
+  //   //     ),
+  //   //
+  //   //   ),
+  //   // );
+  //   return Expanded(
+  //     child: Container(
+  //       decoration: BoxDecoration(
+  //         color: Colors.transparent, // Frosted white tint
+  //         borderRadius: BorderRadius.circular(18),
+  //         border: Border.all(
+  //           color: Colors.white.withValues(alpha: 0.45),
+  //           width: 1.2,
+  //         ),
+  //         boxShadow: [
+  //           BoxShadow(
+  //             color: Colors.white.withValues(alpha: 0.05),
+  //             blurRadius: 12,
+  //             spreadRadius: 0.6,
+  //             offset: const Offset(0, 4),
+  //           ),
+  //         ],
+  //         // Glass blur
+  //         backgroundBlendMode: BlendMode.overlay,
+  //       ),
+  //       child: ClipRRect(
+  //         borderRadius: BorderRadius.circular(18),
+  //         child: BackdropFilter(
+  //           filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+  //           child: Padding(
+  //             padding: const EdgeInsets.symmetric(horizontal: 12),
+  //             child: DropdownButtonFormField<Organisation>(
+  //               value: selectedElement,
+  //               hint: Text(
+  //                 widget.label,
+  //                 style: const TextStyle(color: Colors.white),
+  //               ),
+  //               dropdownColor: Colors.white.withValues(alpha: 0.1), // glass dropdown
+  //               iconEnabledColor: Colors.white,
+  //               style: const TextStyle(
+  //                 color: Colors.white,
+  //                 fontWeight: FontWeight.w600,
+  //               ),
+  //               onChanged: (Organisation? newValue) {
+  //                 if (widget.shouldUpdate ?? false) {
+  //                   setState(() {
+  //                     selectedElement = newValue;
+  //                   });
+  //                 }
+  //                 widget.onChange?.call(newValue);
+  //               },
+  //               items: widget.items.map((item) {
+  //                 return DropdownMenuItem<Organisation>(
+  //                   value: item,
+  //                   child: Text(
+  //                     item.name ?? '',
+  //                     style: const TextStyle(color: Colors.white),
+  //                   ),
+  //                 );
+  //               }).toList(),
+  //               decoration: const InputDecoration(
+  //                 border: InputBorder.none,
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  //
+  // }
+  @override
   Widget build(BuildContext context) {
-    // return Expanded(
-    //   child: DropdownButtonFormField<Organisation>(
-    //     initialValue: selectedElement,
-    //     hint: Text(widget.label),
-    //     // onChanged: widget.onChange,
-    //     onChanged: (Organisation? newValue) {
-    //       if (widget.shouldUpdate ?? false) {
-    //         setState(() {
-    //           selectedElement = newValue;
-    //         });
-    //       }
-    //       if (widget.onChange != null) {
-    //         widget.onChange!(newValue);
-    //       }
-    //     },
-    //     items: widget.items.map((item) {
-    //       return DropdownMenuItem<Organisation>(
-    //         value: item,
-    //         child: Text(item.name ?? ''),
-    //       );
-    //     }).toList(),
-    //     decoration: const InputDecoration(
-    //       focusedBorder: UnderlineInputBorder(
-    //         borderSide: BorderSide(
-    //           color: AppColors.navigationSkyBlueColor,
-    //         ),
-    //       ),
-    //     ),
-    //
-    //   ),
-    // );
     return Expanded(
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.12), // Frosted white tint
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(
-            color: Colors.white.withValues(alpha: 0.25),
-            width: 1.2,
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.white.withValues(alpha: 0.15),
-              blurRadius: 12,
-              spreadRadius: 1,
-              offset: const Offset(0, 4),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(18),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(18),
+              color: Colors.white.withValues(alpha: 0.08), // ✅ glass tint
+              border: Border.all(
+                color: Colors.white.withValues(alpha: 0.35),
+                width: 1.2,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.15),
+                  blurRadius: 20,
+                  offset: const Offset(0, 8),
+                ),
+              ],
             ),
-          ],
-          // Glass blur
-          backgroundBlendMode: BlendMode.overlay,
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(18),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 14),
+            child: Theme(
+              // 🔹 removes ugly default dropdown background
+              data: Theme.of(context).copyWith(
+                // ❌ DO NOT use white here
+                canvasColor: Colors.white,
+                splashColor: Colors.white,
+                highlightColor: Colors.white,
+              ),
               child: DropdownButtonFormField<Organisation>(
                 value: selectedElement,
+                isExpanded: false,
+                iconEnabledColor: Colors.white,
+                dropdownColor: AppColors.newColor3.withValues(alpha: 0.6),
                 hint: Text(
                   widget.label,
-                  style: const TextStyle(color: Colors.white),
+                  style: const TextStyle(
+                    color: Colors.white70,
+                    fontSize: 14,
+                  ),
                 ),
-                dropdownColor: Colors.white.withValues(alpha: 0.1), // glass dropdown
-                iconEnabledColor: Colors.white,
                 style: const TextStyle(
                   color: Colors.white,
+                  fontSize: 15,
                   fontWeight: FontWeight.w600,
+                ),
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(vertical: 14),
                 ),
                 onChanged: (Organisation? newValue) {
                   if (widget.shouldUpdate ?? false) {
-                    setState(() {
-                      selectedElement = newValue;
-                    });
+                    setState(() => selectedElement = newValue);
                   }
                   widget.onChange?.call(newValue);
                 },
@@ -2558,20 +2667,21 @@ class DropdownWidgetState extends State<DropdownWidget> {
                     value: item,
                     child: Text(
                       item.name ?? '',
-                      style: const TextStyle(color: Colors.white),
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   );
                 }).toList(),
-                decoration: const InputDecoration(
-                  border: InputBorder.none,
-                ),
               ),
             ),
           ),
         ),
       ),
     );
-
   }
+
 }
 

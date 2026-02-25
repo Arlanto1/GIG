@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/key_issuance_process_record/bloc/key_issuance_process_record_bloc.dart';
@@ -49,6 +50,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
   Organisation? selectedKeyDescription;
 
   late bool isReadOnly;
+
   @override
   void initState() {
     super.initState();
@@ -149,439 +151,488 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
         !(widget.extraProperties != null &&
             !widget.extraProperties!.hasWritePermission!);
 
-    return AlertDialog(
-      insetPadding: const EdgeInsets.symmetric(
-        horizontal: 12,
-      ),
-      title: null,
-      backgroundColor: Colors.transparent,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      content: Builder(builder: (context) {
-        // Get available height and width of the build area of this widget. Make a choice depending on the size.
-        var height = MediaQuery.of(context).size.height;
-        var width = MediaQuery.of(context).size.width;
+    return Stack(
+      children: [
+        // 🔹 BLUR THE ENTIRE BACKGROUND PAGE
+        BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+          child: Container(
+            color: Colors.black.withOpacity(0.25), // dim + blur
+          ),
+        ),
 
-        return Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  AppColors.newColor3.withValues(alpha: 0.7),
-                  AppColors.newColor,
-                  AppColors.newColor3.withValues(alpha: 0.7),
-                  // Color(0xFF6474C6).withOpacity(0.14)
-                ],
-                stops: [0.02, 0.35, 1],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-              borderRadius: BorderRadius.circular(27),
-              border: Border.all(
-                color: Colors.white.withValues(alpha: 0.6),
-                width: 0.7,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.white.withValues(alpha: 0.0),
-                  blurRadius: 12,
-                  offset: const Offset(0, 2),
-                ),
-              ],
+        // 🔹 YOUR ALERT DIALOG
+        Center(
+          child: AlertDialog(
+            insetPadding: const EdgeInsets.symmetric(
+              horizontal: 12,
             ),
-            child: SizedBox(
-              height: height / 1.8,
-              width: width,
-              child: Column(
-                // clipBehavior: Clip.none,
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      widget.title,
-                      style: Styles.textFontSet(
-                          18,
-                          AppColors.white,
-                          FontWeight.normal,
-                          Constants.customFontSemiBoldFamily),
+            title: null,
+            backgroundColor: Colors.transparent,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            content: Builder(builder: (context) {
+              // Get available height and width of the build area of this widget. Make a choice depending on the size.
+              var height = MediaQuery.of(context).size.height;
+              var width = MediaQuery.of(context).size.width;
+
+              return Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                  color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(27),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.6),
+                      width: 0.7,
                     ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.white.withValues(alpha: 0.0),
+                        blurRadius: 12,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
                   ),
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                  const Divider(
-                    thickness: 0.5,
-                  ),
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            ///Key Description
-                            Column(
-                              children: [
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.keyDescription ??
-                                      state.labels?.defaultLocale
-                                          .keyDescription ??
-                                      Constants.keyDescription,
-                                  Styles.textStyleWhite14,
-                                  isMandatory: true,
-                                ),
-                                TextFieldAddButton(
-                                  title: keyDescriptionController.text,
-                                  height: 70,
-                                  isDisableColor: !(widget.parentStatus == 0 &&
-                                      !(widget.extraProperties != null &&
-                                          !widget.extraProperties!
-                                              .hasWritePermission! &&
-                                          widget.lock.isEmptyOrNull)),
-                                  onTap: () {
-                                    if (isReadOnly) {
-                                      return;
-                                    }
-                                    if (widget.parentStatus == 0 &&
+                  child: SizedBox(
+                    height: height / 1.8,
+                    width: width,
+                    child: Column(
+                      // clipBehavior: Clip.none,
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            widget.title,
+                            style: Styles.textFontSet(
+                                18,
+                                AppColors.white,
+                                FontWeight.normal,
+                                Constants.customFontSemiBoldFamily),
+                          ),
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        const Divider(
+                          thickness: 0.5,
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Form(
+                              key: _formKey,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  ///Key Description
+                                  Column(
+                                    children: [
+                                      CommonWidgets.textDisplay(
+                                        state.labels?.locale.keyDescription ??
+                                            state.labels?.defaultLocale
+                                                .keyDescription ??
+                                            Constants.keyDescription,
+                                        Styles.textStyleWhite14,
+                                        isMandatory: true,
+                                      ),
+                                      TextFieldAddButton(
+                                        title: keyDescriptionController.text,
+                                        height: 70,
+                                        isDisableColor: !(widget.parentStatus ==
+                                                0 &&
+                                            !(widget.extraProperties != null &&
+                                                !widget.extraProperties!
+                                                    .hasWritePermission! &&
+                                                widget.lock.isEmptyOrNull)),
+                                        onTap: () {
+                                          if (isReadOnly) {
+                                            return;
+                                          }
+                                          if (widget.parentStatus == 0 &&
+                                              !(widget.extraProperties !=
+                                                      null &&
+                                                  !widget.extraProperties!
+                                                      .hasWritePermission! &&
+                                                  widget.lock.isEmptyOrNull)) {
+                                            BaseOrganisationDialog()
+                                                .departmentDialog(
+                                              context: context,
+                                              organisations:
+                                                  widget.keyDescriptions,
+                                              onTap: (Organisation org) {
+                                                selectedKeyDescription = org;
+                                                keyDescriptionController.text =
+                                                    org.keyDescription ?? '';
+                                                widget.model.kmId = org.id;
+
+                                                //TODO: need to set key description in model
+                                                // widget.model.
+                                                log('-org.keyName----${org.id}-');
+                                                log('-org.keyName----${org.keyDescription}-');
+                                                log('-org.keyName----${org.noKeys}-');
+                                                log('-org.keyName----${org.noKeysIssued}-');
+
+                                                keyDescriptionController.text =
+                                                    org.keyDescription ?? '';
+
+                                                setState(() {
+                                                  log('-setstate-');
+                                                  keyDescriptionController
+                                                          .text =
+                                                      org.keyDescription ?? '';
+                                                  selectedKeyDescription = org;
+                                                  keyTypeController.clear();
+                                                  noOfKeysController.clear();
+                                                  alreadyIssuedKeysController
+                                                      .clear();
+                                                  availableKeysController
+                                                      .clear();
+                                                  numberOfKeysIssuedController
+                                                      .clear();
+                                                });
+                                              },
+                                            );
+                                          }
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
+
+                                  /// Key Type
+                                  CommonWidgets.textDisplay(
+                                      state.labels?.locale.keyType ??
+                                          state.labels?.defaultLocale.keyType ??
+                                          Constants.keyType,
+                                      isMandatory: true,
+                                      Styles.textStyleWhite14),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.002),
+
+                                  BaseDropDown().getDropDown(
+                                    isDisabled: !(widget.parentStatus == 0 &&
                                         !(widget.extraProperties != null &&
                                             !widget.extraProperties!
-                                                .hasWritePermission! &&
-                                            widget.lock.isEmptyOrNull)) {
-                                      BaseOrganisationDialog().departmentDialog(
-                                        context: context,
-                                        organisations: widget.keyDescriptions,
-                                        onTap: (Organisation org) {
-                                          selectedKeyDescription = org;
-                                          keyDescriptionController.text =
-                                              org.keyDescription ?? '';
-                                          widget.model.kmId = org.id;
+                                                .hasWritePermission!)),
+                                    textController: keyTypeController,
+                                    items: keyTypeDropDownValues,
+                                    onTap: () {
+                                      if (isReadOnly) {
+                                        return;
+                                      }
+                                      if (widget.parentStatus == 0 &&
+                                          !(widget.extraProperties != null &&
+                                              !widget.extraProperties!
+                                                  .hasWritePermission!)) {
+                                        BaseDropDown().assetTypeDialog(
+                                          context: context,
+                                          dropDownValues: keyTypeDropDownValues
+                                              .map((label) => label.key)
+                                              .toList(),
+                                          onTap: (String value) async {
+                                            Label? selectedLabel;
+                                            selectedLabel =
+                                                keyTypeDropDownValues
+                                                    .firstWhere(
+                                              (label) => label.key == value,
+                                              orElse: () => const Label(
+                                                  key: '', value: ''),
+                                            );
+                                            keyTypeController.text =
+                                                selectedLabel.key;
+                                            widget.model.keyType = int.tryParse(
+                                                selectedLabel.value);
+                                            // Call the API
+                                            bool isMasterKey =
+                                                selectedLabel.value == '1'
+                                                    ? false
+                                                    : true;
+                                            // Call the API
 
-                                          //TODO: need to set key description in model
-                                          // widget.model.
-                                          log('-org.keyName----${org.id}-');
-                                          log('-org.keyName----${org.keyDescription}-');
-                                          log('-org.keyName----${org.noKeys}-');
-                                          log('-org.keyName----${org.noKeysIssued}-');
+                                            log('---selectedKeyDescription---$selectedKeyDescription---');
 
-                                          keyDescriptionController.text =
-                                              org.keyDescription ?? '';
+                                            if (selectedKeyDescription !=
+                                                null) {
+                                              Organisation keyDescription =
+                                                  await KeyManagementIssuanceServices()
+                                                      .getKeyDescById(
+                                                          id: selectedKeyDescription!
+                                                                  .id ??
+                                                              0,
+                                                          isMasterKey:
+                                                              isMasterKey);
 
-                                          setState(() {
-                                            log('-setstate-');
-                                            keyDescriptionController.text =
-                                                org.keyDescription ?? '';
-                                            selectedKeyDescription = org;
-                                            keyTypeController.clear();
-                                            noOfKeysController.clear();
-                                            alreadyIssuedKeysController.clear();
-                                            availableKeysController.clear();
-                                            numberOfKeysIssuedController
-                                                .clear();
-                                          });
-                                        },
-                                      );
-                                    }
-                                  },
-                                )
-                              ],
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                                              setState(() {
+                                                widget.model.available =
+                                                    keyDescription.available;
 
-                            /// Key Type
-                            CommonWidgets.textDisplay(
-                                state.labels?.locale.keyType ??
-                                    state.labels?.defaultLocale.keyType ??
-                                    Constants.keyType,
-                                isMandatory: true,
-                                Styles.textStyleWhite14),
-                            CommonWidgets.verticalSpacerWidget(height * 0.002),
+                                                noOfKeysController.text =
+                                                    keyDescription.noKeys
+                                                        .toString();
 
-                            BaseDropDown().getDropDown(
-                              isDisabled: !(widget.parentStatus == 0 &&
-                                  !(widget.extraProperties != null &&
-                                      !widget.extraProperties!
-                                          .hasWritePermission!)),
-                              textController: keyTypeController,
-                              items: keyTypeDropDownValues,
-                              onTap: () {
-                                if (isReadOnly) {
-                                  return;
-                                }
-                                if (widget.parentStatus == 0 &&
-                                    !(widget.extraProperties != null &&
-                                        !widget.extraProperties!
-                                            .hasWritePermission!)) {
-                                  BaseDropDown().assetTypeDialog(
-                                    context: context,
-                                    dropDownValues: keyTypeDropDownValues
-                                        .map((label) => label.key)
-                                        .toList(),
-                                    onTap: (String value) async {
-                                      Label? selectedLabel;
-                                      selectedLabel =
-                                          keyTypeDropDownValues.firstWhere(
-                                        (label) => label.key == value,
-                                        orElse: () =>
-                                            const Label(key: '', value: ''),
-                                      );
-                                      keyTypeController.text =
-                                          selectedLabel.key;
-                                      widget.model.keyType =
-                                          int.tryParse(selectedLabel.value);
-                                      // Call the API
-                                      bool isMasterKey =
-                                          selectedLabel.value == '1'
-                                              ? false
-                                              : true;
-                                      // Call the API
+                                                widget.model.noKeysIssued =
+                                                    keyDescription.noKeysIssued;
+                                                alreadyIssuedKeysController
+                                                        .text =
+                                                    keyDescription.noKeysIssued
+                                                        .toString();
 
-                                      log('---selectedKeyDescription---$selectedKeyDescription---');
+                                                // widget.model.available =
+                                                //     keyDescription.noKeys! -
+                                                //         keyDescription.noKeysIssued!;
 
-                                      if (selectedKeyDescription != null) {
-                                        Organisation keyDescription =
-                                            await KeyManagementIssuanceServices()
-                                                .getKeyDescById(
-                                                    id: selectedKeyDescription!
-                                                            .id ??
-                                                        0,
-                                                    isMasterKey: isMasterKey);
-
-                                        setState(() {
-                                          widget.model.available =
-                                              keyDescription.available;
-
-                                          noOfKeysController.text =
-                                              keyDescription.noKeys.toString();
-
-                                          widget.model.noKeysIssued =
-                                              keyDescription.noKeysIssued;
-                                          alreadyIssuedKeysController.text =
-                                              keyDescription.noKeysIssued
-                                                  .toString();
-
-                                          // widget.model.available =
-                                          //     keyDescription.noKeys! -
-                                          //         keyDescription.noKeysIssued!;
-
-                                          // availableKeysController.text =
-                                          //     (keyDescription.noKeys! -
-                                          //             keyDescription.noKeysIssued!)
-                                          //         .toString();
-                                          widget.model.available =
-                                              keyDescription.available;
-                                          availableKeysController.text =
-                                              keyDescription.available
-                                                  .toString();
-                                        });
+                                                // availableKeysController.text =
+                                                //     (keyDescription.noKeys! -
+                                                //             keyDescription.noKeysIssued!)
+                                                //         .toString();
+                                                widget.model.available =
+                                                    keyDescription.available;
+                                                availableKeysController.text =
+                                                    keyDescription.available
+                                                        .toString();
+                                              });
+                                            }
+                                          },
+                                        );
                                       }
                                     },
-                                  );
-                                }
-                              },
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
 
-                            /// No of Keys
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.noKeys ??
-                                  state.labels?.defaultLocale.noKeys ??
-                                  Constants.noOfKeys,
-                              Styles.textStyleWhite14,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-                            FlutterInputField(
-                              textInputType: TextInputType.number,
-                              textFormKey: Keys.phoneNumberKey,
-                              controller: noOfKeysController,
-                              hintText: '',
-                              isEnable: false,
-                              isDisableColor: true,
-                              onChange: (String value) {},
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                                  /// No of Keys
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.noKeys ??
+                                        state.labels?.defaultLocale.noKeys ??
+                                        Constants.noOfKeys,
+                                    Styles.textStyleWhite14,
+                                    isMandatory: true,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
+                                  FlutterInputField(
+                                    textInputType: TextInputType.number,
+                                    textFormKey: Keys.phoneNumberKey,
+                                    controller: noOfKeysController,
+                                    hintText: '',
+                                    isEnable: false,
+                                    isDisableColor: true,
+                                    onChange: (String value) {},
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
 
-                            /// Already Issued Keys
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.alreadyIssued ??
-                                  state.labels?.defaultLocale.alreadyIssued ??
-                                  Constants.alreadyIssuedKeys,
-                              Styles.textStyleWhite14,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-                            FlutterInputField(
-                              textInputType: TextInputType.number,
-                              textFormKey: Keys.phoneNumberKey,
-                              controller: alreadyIssuedKeysController,
-                              hintText: '',
-                              isEnable: false,
-                              isDisableColor: true,
-                              onChange: (String value) {},
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                                  /// Already Issued Keys
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.alreadyIssued ??
+                                        state.labels?.defaultLocale
+                                            .alreadyIssued ??
+                                        Constants.alreadyIssuedKeys,
+                                    Styles.textStyleWhite14,
+                                    isMandatory: true,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
+                                  FlutterInputField(
+                                    textInputType: TextInputType.number,
+                                    textFormKey: Keys.phoneNumberKey,
+                                    controller: alreadyIssuedKeysController,
+                                    hintText: '',
+                                    isEnable: false,
+                                    isDisableColor: true,
+                                    onChange: (String value) {},
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
 
-                            /// Keys Available
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.keysAvailable ??
-                                  state.labels?.defaultLocale.keysAvailable ??
-                                  Constants.keysAvailable,
-                              Styles.textStyleWhite14,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-                            FlutterInputField(
-                              textInputType: TextInputType.number,
-                              textFormKey: Keys.aprrover1DepartmentKey,
-                              controller: availableKeysController,
-                              hintText: '',
-                              isEnable: false,
-                              isDisableColor: true,
-                              onChange: (String value) {},
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                                  /// Keys Available
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.keysAvailable ??
+                                        state.labels?.defaultLocale
+                                            .keysAvailable ??
+                                        Constants.keysAvailable,
+                                    Styles.textStyleWhite14,
+                                    isMandatory: true,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
+                                  FlutterInputField(
+                                    textInputType: TextInputType.number,
+                                    textFormKey: Keys.aprrover1DepartmentKey,
+                                    controller: availableKeysController,
+                                    hintText: '',
+                                    isEnable: false,
+                                    isDisableColor: true,
+                                    onChange: (String value) {},
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
 
-                            /// No. Keys Issued
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.noKeysIssued ??
-                                  state.labels?.defaultLocale.noKeysIssued ??
-                                  Constants.noKeysIssued,
-                              Styles.textStyleWhite14,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-                            FlutterInputField(
-                              textInputType: TextInputType.number,
-                              textFormKey: Keys.bu2ContactNOKey,
-                              controller: numberOfKeysIssuedController,
-                              hintText: '',
-                              isEnable: widget.parentStatus == 0 &&
-                                  !(widget.extraProperties != null &&
-                                      !widget.extraProperties!
-                                          .hasWritePermission!),
-                              isDisableColor: true,
-                              onChange: (String value) {
-                                widget.model.noKeysIssued = int.tryParse(value);
-                                // num sum = (selectedKeyDescription!.noKeys ?? 0) -
-                                //     (widget.model.noKeysIssued ?? 0);
-                                // availableKeysController.text = sum.toString();
-                                // widget.model.available = sum.toInt();
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                                  /// No. Keys Issued
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.noKeysIssued ??
+                                        state.labels?.defaultLocale
+                                            .noKeysIssued ??
+                                        Constants.noKeysIssued,
+                                    Styles.textStyleWhite14,
+                                    isMandatory: true,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
+                                  FlutterInputField(
+                                    textInputType: TextInputType.number,
+                                    textFormKey: Keys.bu2ContactNOKey,
+                                    controller: numberOfKeysIssuedController,
+                                    hintText: '',
+                                    isEnable: widget.parentStatus == 0 &&
+                                        !(widget.extraProperties != null &&
+                                            !widget.extraProperties!
+                                                .hasWritePermission!),
+                                    isDisableColor: true,
+                                    onChange: (String value) {
+                                      widget.model.noKeysIssued =
+                                          int.tryParse(value);
+                                      // num sum = (selectedKeyDescription!.noKeys ?? 0) -
+                                      //     (widget.model.noKeysIssued ?? 0);
+                                      // availableKeysController.text = sum.toString();
+                                      // widget.model.available = sum.toInt();
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
 
-                            /// keys Returned
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.keysReturned ??
-                                  state.labels?.defaultLocale.keysReturned ??
-                                  Constants.keysReturned,
-                              Styles.textStyleWhite14,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-                            FlutterInputField(
-                              textInputType: TextInputType.number,
-                              textFormKey: Keys.bu2ContactNOKey,
-                              controller: returnedKeysController,
-                              hintText: '',
-                              isEnable: editableFieldsHandOverStatus &&
-                                  widget.lock.isEmptyOrNull,
-                              isDisableColor: true,
-                              onChange: (String value) {
-                                widget.model.returned = int.tryParse(value);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                                  /// keys Returned
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.keysReturned ??
+                                        state.labels?.defaultLocale
+                                            .keysReturned ??
+                                        Constants.keysReturned,
+                                    Styles.textStyleWhite14,
+                                    isMandatory: true,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
+                                  FlutterInputField(
+                                    textInputType: TextInputType.number,
+                                    textFormKey: Keys.bu2ContactNOKey,
+                                    controller: returnedKeysController,
+                                    hintText: '',
+                                    isEnable: editableFieldsHandOverStatus &&
+                                        widget.lock.isEmptyOrNull,
+                                    isDisableColor: true,
+                                    onChange: (String value) {
+                                      widget.model.returned =
+                                          int.tryParse(value);
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
 
-                            /// keys Not Returned
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.keysNotReturned ??
-                                  state.labels?.defaultLocale.keysNotReturned ??
-                                  Constants.keysNotReturned,
-                              Styles.textStyleWhite14,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-                            FlutterInputField(
-                              textInputType: TextInputType.number,
-                              textFormKey: Keys.addressKey,
-                              controller: notReturnedKeysController,
-                              hintText: '',
-                              isEnable: editableFieldsHandOverStatus &&
-                                  widget.lock.isEmptyOrNull,
-                              isDisableColor: true,
-                              onChange: (String value) {
-                                widget.model.notReturned = int.tryParse(value);
-                                notReturnedKeysController.text = value;
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                                  /// keys Not Returned
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.keysNotReturned ??
+                                        state.labels?.defaultLocale
+                                            .keysNotReturned ??
+                                        Constants.keysNotReturned,
+                                    Styles.textStyleWhite14,
+                                    isMandatory: true,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
+                                  FlutterInputField(
+                                    textInputType: TextInputType.number,
+                                    textFormKey: Keys.addressKey,
+                                    controller: notReturnedKeysController,
+                                    hintText: '',
+                                    isEnable: editableFieldsHandOverStatus &&
+                                        widget.lock.isEmptyOrNull,
+                                    isDisableColor: true,
+                                    onChange: (String value) {
+                                      widget.model.notReturned =
+                                          int.tryParse(value);
+                                      notReturnedKeysController.text = value;
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
 
-                            /// keys Lost
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.keysLost ??
-                                  state.labels?.defaultLocale.keysLost ??
-                                  Constants.keysLost,
-                              Styles.textStyleWhite14,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-                            FlutterInputField(
-                              textInputType: TextInputType.number,
-                              textFormKey: Keys.phoneNumberKey,
-                              controller: lostKeysController,
-                              hintText: '',
-                              isEnable: editableFieldsHandOverStatus &&
-                                  widget.lock.isEmptyOrNull,
-                              isDisableColor: true,
-                              onChange: (String value) {
-                                widget.model.lost = int.tryParse(value);
-                                lostKeysController.text = value;
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                                  /// keys Lost
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.keysLost ??
+                                        state.labels?.defaultLocale.keysLost ??
+                                        Constants.keysLost,
+                                    Styles.textStyleWhite14,
+                                    isMandatory: true,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
+                                  FlutterInputField(
+                                    textInputType: TextInputType.number,
+                                    textFormKey: Keys.phoneNumberKey,
+                                    controller: lostKeysController,
+                                    hintText: '',
+                                    isEnable: editableFieldsHandOverStatus &&
+                                        widget.lock.isEmptyOrNull,
+                                    isDisableColor: true,
+                                    onChange: (String value) {
+                                      widget.model.lost = int.tryParse(value);
+                                      lostKeysController.text = value;
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
 
-                            /// keys Damaged
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.keysDamaged ??
-                                  state.labels?.defaultLocale.keysDamaged ??
-                                  Constants.keysDamaged,
-                              Styles.textStyleWhite14,
-                              isMandatory: true,
+                                  /// keys Damaged
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.keysDamaged ??
+                                        state.labels?.defaultLocale
+                                            .keysDamaged ??
+                                        Constants.keysDamaged,
+                                    Styles.textStyleWhite14,
+                                    isMandatory: true,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
+                                  FlutterInputField(
+                                    textInputType: TextInputType.number,
+                                    textFormKey: Keys.phoneNumberKey,
+                                    controller: damagedKeysController,
+                                    hintText: '',
+                                    isEnable: editableFieldsHandOverStatus &&
+                                        widget.lock.isEmptyOrNull,
+                                    isDisableColor: true,
+                                    onChange: (String value) {
+                                      widget.model.damaged =
+                                          int.tryParse(value);
+                                      damagedKeysController.text = value;
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
+                                  buttonViews(widget.mainContext, width, state),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
+                                ],
+                              ),
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-                            FlutterInputField(
-                              textInputType: TextInputType.number,
-                              textFormKey: Keys.phoneNumberKey,
-                              controller: damagedKeysController,
-                              hintText: '',
-                              isEnable: editableFieldsHandOverStatus &&
-                                  widget.lock.isEmptyOrNull,
-                              isDisableColor: true,
-                              onChange: (String value) {
-                                widget.model.damaged = int.tryParse(value);
-                                damagedKeysController.text = value;
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-                            buttonViews(widget.mainContext, width, state),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-                          ],
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-            ));
-      }),
+                  ));
+            }),
+          ),
+        ),
+      ],
     );
   }
 

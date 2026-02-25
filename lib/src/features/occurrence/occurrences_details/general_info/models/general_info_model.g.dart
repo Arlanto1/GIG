@@ -65,6 +65,20 @@ OccurrenceModel _$OccurrenceModelFromJson(Map<String, dynamic> json) =>
       powerFailures: (json['powerFailures'] as List<dynamic>?)
           ?.map((e) => PowerFailureModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      shifts: (json['shifts'] as num?)?.toInt(),
+      ipadSerialNo: json['ipadSerialNo'] == null
+          ? null
+          : Organisation.fromJson(json['ipadSerialNo'] as Map<String, dynamic>),
+      dutyPostLocation: json['dutyPostLocation'] == null
+          ? null
+          : Organisation.fromJson(
+              json['dutyPostLocation'] as Map<String, dynamic>),
+      privacyScreenComments: json['privacyScreenComments'] as String?,
+      monsoon: json['monsoon'] as bool? ?? false,
+      privacyScreenPresent: json['privacyScreenPresent'] as bool? ?? false,
+      lsmUpdateList: (json['lsmUpdateList'] as List<dynamic>?)
+          ?.map((e) => LsmSituationalModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
       lock: json['lock'] as String?,
     );
 
@@ -73,10 +87,10 @@ Map<String, dynamic> _$OccurrenceModelToJson(OccurrenceModel instance) =>
       'id': instance.id,
       'slNo': instance.slNo,
       'inputDate': instance.inputDate,
-      'entrySecurity': instance.entrySecurity,
-      'handoverSecurity': instance.handoverSecurity,
-      'location': instance.location,
-      'locationRegion': instance.locationRegion,
+      'entrySecurity': instance.entrySecurity?.toJson(),
+      'handoverSecurity': instance.handoverSecurity?.toJson(),
+      'location': instance.location?.toJson(),
+      'locationRegion': instance.locationRegion?.toJson(),
       'shiftBrfngAttnded': instance.shiftBrfngAttnded,
       'premisesRoundTkn': instance.premisesRoundTkn,
       'premisesRoundTknComments': instance.premisesRoundTknComments,
@@ -109,10 +123,17 @@ Map<String, dynamic> _$OccurrenceModelToJson(OccurrenceModel instance) =>
       'dgWrking': instance.dgWrking,
       'modifiedDate': instance.modifiedDate,
       'modifiedBy': instance.modifiedBy,
-      'powerFailures': instance.powerFailures,
-      'incidentItems': instance.incidentItems,
+      'powerFailures': instance.powerFailures?.map((e) => e.toJson()).toList(),
+      'incidentItems': instance.incidentItems?.map((e) => e.toJson()).toList(),
       'secSysFailureIncident': instance.secSysFailureIncident,
       'followedUp': instance.followedUp,
       'status': instance.status,
+      'shifts': instance.shifts,
+      'ipadSerialNo': instance.ipadSerialNo?.toJson(),
+      'dutyPostLocation': instance.dutyPostLocation?.toJson(),
+      'privacyScreenComments': instance.privacyScreenComments,
+      'monsoon': instance.monsoon,
+      'privacyScreenPresent': instance.privacyScreenPresent,
+      'lsmUpdateList': instance.lsmUpdateList?.map((e) => e.toJson()).toList(),
       'lock': instance.lock,
     };

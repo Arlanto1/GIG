@@ -71,6 +71,7 @@ class VisitorPassManagementModel {
   String? escortedBy;
   String? escortedEmployeeId;
   String? returnedTime;
+  String? otherIdInfo;
   String? lock;
 
   VisitorPassManagementModel({
@@ -114,6 +115,7 @@ class VisitorPassManagementModel {
     this.escortedBy,
     this.escortedEmployeeId,
     this.returnedTime,
+    this.otherIdInfo,
     this.lock,
   });
 
@@ -161,6 +163,7 @@ class VisitorPassManagementModel {
         escortedBy=json['escortedBy'] as String?,
         escortedEmployeeId=json['escortedEmployeeId'] as String?,
         returnedTime=json['returnedTime'] as String?,
+        otherIdInfo = json['otherIdInfo'] as String?,
         lock = json['lock'] as String?;
 
   Map<String, dynamic> toJson() => {
@@ -204,6 +207,7 @@ class VisitorPassManagementModel {
     'escortedBy':escortedBy,
     'escortedEmployeeId':escortedEmployeeId,
     'returnedTime':returnedTime,
+    'otherIdInfo': otherIdInfo,
     'lock':lock};
 }
 

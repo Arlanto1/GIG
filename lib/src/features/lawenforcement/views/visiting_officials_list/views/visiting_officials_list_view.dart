@@ -81,7 +81,9 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
           await backButtonFunction(context);
         },
         child: Scaffold(
-          backgroundColor: AppColors.newColor,
+          backgroundColor: Colors.transparent,
+          extendBody: true,
+          extendBodyBehindAppBar: true,
           // floatingActionButton: widget.showSaveButton && widget.parentIsEligibleToEdit
           //     ? Flutterfloatingbutton(
           //         backgroundColor: AppColors.navigationSkyBlueColor,
@@ -102,7 +104,10 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
           //       )
           //     : Container(),
           bottomNavigationBar: CustomBottomNavigationBar(
-            hasAddPermission: widget.showSaveButton && widget.parentIsEligibleToEdit ? true : false,
+            hasAddPermission:
+                widget.showSaveButton && widget.parentIsEligibleToEdit
+                    ? true
+                    : false,
             scaffoldKey: scaffoldKey,
             context: context,
             // displayMenu: state.displayMenu,
@@ -176,173 +181,191 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
       });
       return const NoRecordFoundWidget();
     }
-    return Container(
-      // margin: allMargin16,
-      width: double.infinity,
-      height: double.infinity,
-      color: AppColors.newColor3,
-      child: ListView.builder(
-        controller: _scrollController,
-        itemCount:
-            state.hasReachedMax ? state.items?.length : state.items!.length + 1,
-        itemBuilder: (context, index) {
-          List<Label> labels = [];
-          if (index < state.items!.length) {
-            labels.add(
-              Label(
-                key: state.labels?.locale.visitingOfficialName ??
-                    state.labels?.defaultLocale.visitingOfficialName ??
-                    Constants.name,
-                value: state.items![index].name ?? '',
+    return Stack(
+      children: [
+        // 🔹 Background
+        Positioned.fill(
+          child: Image.asset(
+            'assets/images/bg2.png',
+            fit: BoxFit.cover,
+          ),
+        ),
+        Positioned.fill(
+          child: ClipRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
+              child: Container(
+                color: Colors.black.withOpacity(0.2),
               ),
-            );
-            labels.add(
-              Label(
-                key: state.labels?.locale.visitingOfficialDesignation ??
-                    state.labels?.defaultLocale.visitingOfficialDesignation ??
-                    Constants.designation,
-                value: state.items![index].designation ?? '',
-              ),
-            );
-            labels.add(
-              Label(
-                key: state.labels?.locale.visitingOfficialDepartment ??
-                    state.labels?.defaultLocale.visitingOfficialDepartment ??
-                    Constants.department,
-                value: state.items![index].department?.name ?? '',
-              ),
-            );
-            labels.add(
-              Label(
-                key: state.labels?.locale.visitingOfficialContactNo ??
-                    state.labels?.defaultLocale.visitingOfficialContactNo ??
-                    Constants.phoneNumber,
-                value: state.items![index].contactNo ?? '',
-              ),
-            );
-            labels.add(
-              Label(
-                key: state.labels?.locale.visitingOfficialAddress ??
-                    state.labels?.defaultLocale.visitingOfficialAddress ??
-                    Constants.officeAddress,
-                value: state.items![index].address ?? '',
-              ),
-            );
-            labels.add(
-              Label(
-                key: state.labels?.locale.visitingOfficialEmail ??
-                    state.labels?.defaultLocale.visitingOfficialEmail ??
-                    Constants.visitingOfficialsEmailId,
-                value: state.items![index].email ?? '',
-              ),
-            );
-            return Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      // Color(0xFF6474C6),
-                      // Color(0xFF6474C6),
-                      Colors.transparent,
-                      Colors.transparent,
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
+            ),
+          ),
+        ),
+        ListView.builder(
+          controller: _scrollController,
+          itemCount: state.hasReachedMax
+              ? state.items?.length
+              : state.items!.length + 1,
+          itemBuilder: (context, index) {
+            List<Label> labels = [];
+            if (index < state.items!.length) {
+              labels.add(
+                Label(
+                  key: state.labels?.locale.visitingOfficialName ??
+                      state.labels?.defaultLocale.visitingOfficialName ??
+                      Constants.name,
+                  value: state.items![index].name ?? '',
                 ),
-                margin: const EdgeInsets.symmetric(
-                    horizontal: 12, vertical: 8),
-
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(18),
-                    child: BackdropFilter(
-                        filter: ImageFilter.blur(
-                            sigmaX: 18, sigmaY: 18),
-                        child: Container(
-                            decoration:
-                            BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Colors.white.withValues(alpha: 0.09),
-                                  Colors.transparent,
-                                  Colors.white.withValues(alpha: 0.09),
-                                  // Color(0xFF6474C6).withOpacity(0.14)
-                                ],
-                                stops: [0.02, 0.35, 1],
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                              ),
-                              borderRadius: BorderRadius.circular(27),
-                              border: Border.all(
-                                color: Colors.white
-                                    .withValues(alpha: 0.6),
-                                width: 0.7,
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.white
-                                      .withValues(alpha: 0.0),
-                                  blurRadius: 12,
-                                  offset: const Offset(0, 2),
+              );
+              labels.add(
+                Label(
+                  key: state.labels?.locale.visitingOfficialDesignation ??
+                      state.labels?.defaultLocale.visitingOfficialDesignation ??
+                      Constants.designation,
+                  value: state.items![index].designation ?? '',
+                ),
+              );
+              labels.add(
+                Label(
+                  key: state.labels?.locale.visitingOfficialDepartment ??
+                      state.labels?.defaultLocale.visitingOfficialDepartment ??
+                      Constants.department,
+                  value: state.items![index].department?.name ?? '',
+                ),
+              );
+              labels.add(
+                Label(
+                  key: state.labels?.locale.visitingOfficialContactNo ??
+                      state.labels?.defaultLocale.visitingOfficialContactNo ??
+                      Constants.phoneNumber,
+                  value: state.items![index].contactNo ?? '',
+                ),
+              );
+              labels.add(
+                Label(
+                  key: state.labels?.locale.visitingOfficialAddress ??
+                      state.labels?.defaultLocale.visitingOfficialAddress ??
+                      Constants.officeAddress,
+                  value: state.items![index].address ?? '',
+                ),
+              );
+              labels.add(
+                Label(
+                  key: state.labels?.locale.visitingOfficialEmail ??
+                      state.labels?.defaultLocale.visitingOfficialEmail ??
+                      Constants.visitingOfficialsEmailId,
+                  value: state.items![index].email ?? '',
+                ),
+              );
+              return Container(
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        // Color(0xFF6474C6),
+                        // Color(0xFF6474C6),
+                        Colors.transparent,
+                        Colors.transparent,
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                  ),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(18),
+                      child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+                          child: Container(
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Colors.white.withValues(alpha: 0.09),
+                                    Colors.transparent,
+                                    Colors.white.withValues(alpha: 0.09),
+                                    // Color(0xFF6474C6).withOpacity(0.14)
+                                  ],
+                                  stops: [0.02, 0.35, 1],
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
                                 ),
-                              ],
-                            ),
-                            child: BaseListTileItem(
-                    id: state.items?[index].id,
-                    labels: labels,
-                    onTap: (selectedIndex) {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext dialogContext) {
-                          return BasePopUpItems(
-                            id: state.items?[selectedIndex].id.toString(),
-                            labels: labels,
-                          );
-                        },
-                      );
-                    },
-                    showEditButton:
-                        widget.showSaveButton && widget.lock.isEmptyOrNull
-                            ? true
-                            : false,
-                    onEditTap: (selectedIndex) async {
-                      LawVisitingOfficial model = await LawEnforcementServices()
-                          .getLeoVisitingOfficialById(
-                              id: state.items?[index].id ?? 0);
+                                borderRadius: BorderRadius.circular(27),
+                                border: Border.all(
+                                  color: Colors.white.withValues(alpha: 0.6),
+                                  width: 0.7,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.white.withValues(alpha: 0.0),
+                                    blurRadius: 12,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: BaseListTileItem(
+                                id: state.items?[index].id,
+                                labels: labels,
+                                onTap: (selectedIndex) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext dialogContext) {
+                                      return BasePopUpItems(
+                                        id: state.items?[selectedIndex].id
+                                            .toString(),
+                                        labels: labels,
+                                      );
+                                    },
+                                  );
+                                },
+                                showEditButton: widget.showSaveButton &&
+                                        widget.lock.isEmptyOrNull
+                                    ? true
+                                    : false,
+                                onEditTap: (selectedIndex) async {
+                                  LawVisitingOfficial model =
+                                      await LawEnforcementServices()
+                                          .getLeoVisitingOfficialById(
+                                              id: state.items?[index].id ?? 0);
 
-                      log('--state.users--llen--${state.departments.length}---');
+                                  log('--state.users--llen--${state.departments.length}---');
 
-                      showAddContactPopUp(
-                        context: context,
-                        visitingOfficialDetails: model,
-                        departments: state.departments,
-                      );
-                      // getDetails(state.items?[index].id ?? 0);
-                    },
-                    onViewTap: (selectedIndex) {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext dialogContext) {
-                          return BasePopUpItems(
-                            id: state.items?[selectedIndex].id.toString(),
-                            labels: labels,
-                          );
-                        },
-                      );
-                    },
-                    showDeleteButton:
-                        widget.showSaveButton && widget.lock.isEmptyOrNull && widget.parentIsEligibleToEdit,
-                    onDeleteTap: (selectedIndex) async {
-                      // Call Delete API
-                      BlocProvider.of<VisitingOfficialListBloc>(context).add(
-                          DeleteRecord(state.items![selectedIndex].id!.toInt(),
-                              widget.id));
-                    },
-                    index: index,
-                            )))) );
-          }
-          return null;
-        },
-      ),
+                                  showAddContactPopUp(
+                                    context: context,
+                                    visitingOfficialDetails: model,
+                                    departments: state.departments,
+                                  );
+                                  // getDetails(state.items?[index].id ?? 0);
+                                },
+                                onViewTap: (selectedIndex) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext dialogContext) {
+                                      return BasePopUpItems(
+                                        id: state.items?[selectedIndex].id
+                                            .toString(),
+                                        labels: labels,
+                                      );
+                                    },
+                                  );
+                                },
+                                showDeleteButton: widget.showSaveButton &&
+                                    widget.lock.isEmptyOrNull &&
+                                    widget.parentIsEligibleToEdit,
+                                onDeleteTap: (selectedIndex) async {
+                                  // Call Delete API
+                                  BlocProvider.of<VisitingOfficialListBloc>(
+                                          context)
+                                      .add(DeleteRecord(
+                                          state.items![selectedIndex].id!
+                                              .toInt(),
+                                          widget.id));
+                                },
+                                index: index,
+                              )))));
+            }
+            return null;
+          },
+        ),
+      ],
     );
   }
 
@@ -360,7 +383,9 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
           model: visitingOfficialDetails,
           mainContext: context,
           departments: departments,
-          showSaveButton: widget.showSaveButton && widget.lock.isEmptyOrNull && widget.parentIsEligibleToEdit,
+          showSaveButton: widget.showSaveButton &&
+              widget.lock.isEmptyOrNull &&
+              widget.parentIsEligibleToEdit,
           onSubmit: (LawVisitingOfficial model) {
             //loginFormKey.currentState!.validate();
             FocusScope.of(context).unfocus();
@@ -382,7 +407,8 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
   getDetails(int id) async {
     showLoadingDialog(context);
 
-    LawVisitingOfficial contactsModel = await LawEnforcementServices().getLeoVisitingOfficialById(id:id);
+    LawVisitingOfficial contactsModel =
+        await LawEnforcementServices().getLeoVisitingOfficialById(id: id);
 
     editDataLoading(contactsModel);
   }

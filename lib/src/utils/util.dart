@@ -306,6 +306,28 @@ class Utils {
         borderColor =const Color(0xFF42A5F5);
         textColor = Colors.white;
         break;
+      case 3:
+        statusText = 'Article Ready for Disposal';
+        // bgColor = const Color(0xFFFFC107); // light yellow
+        // borderColor = const Color(0xFFFFECB3); // amber border
+        // textColor = const Color(0xFF795548); // brown text
+        // bgColor = const Color(0xFF1E40AF); //
+        bgColor = const Color(0xFFF0F4C3);      // Light Lime
+        borderColor = const Color(0xFF9E9D24);  // Lime Border
+        textColor = const Color(0xFF827717);
+        textColor = Colors.white;
+        break;
+      case 4:
+        statusText = 'Article Disposed';
+        // bgColor = const Color(0xFFFFC107); // light yellow
+        // borderColor = const Color(0xFFFFECB3); // amber border
+        // textColor = const Color(0xFF795548); // brown text
+        // bgColor = const Color(0xFF1E40AF); //
+        bgColor = const Color(0xFFFFF9C4);      // Light Yellow
+        borderColor = const Color(0xFFFBC02D);  // Yellow Border
+        textColor = const Color(0xFFF57F17);
+        textColor = Colors.white;
+        break;
       case -1:
         statusText = 'Cancelled';
         bgColor = const Color(0xFFFFCDD2); // light red
@@ -607,6 +629,18 @@ class Utils {
         textColor = const Color(0xFF1B5E20);// Brown Text
         break;
 
+      case 12:
+        statusText = 'Material Return Pending';
+        bgColor = const Color(0xFFE0F7FA);
+        borderColor = const Color(0xFF00ACC1);
+        textColor = const Color(0xFF006064);
+        break;
+      case 11:
+        statusText = 'Material Return Overdue';
+        bgColor = const Color(0xFFD7CCC8);      // Light Brown
+        borderColor = const Color(0xFF6D4C91);  // Brown Border
+        textColor = const Color(0xFF4E349E);  // Brown Text
+        break;
       case -1:
         statusText = 'Cancelled';
         bgColor = const Color(0xFFFFCDD2);      // Light Red
@@ -837,6 +871,41 @@ class Utils {
       child: Row(
         children: [
           textHandling('GuardRank : ', guardRankText),
+        ],
+      ),
+    );
+  }
+
+
+  dynamic buildWorkShift({required int workShift, bool? returnTextOnly}) {
+    String workShiftText;
+
+    switch (workShift) {
+      case 0:
+        workShiftText = 'A Shift (7AM-3PM)';
+        break;
+      case 1:
+        workShiftText = 'B Shift (3PM-11PM)';
+        break;
+      case 2:
+        workShiftText = 'C Shift (11PM-7AM)';
+        break;
+      case 3:
+        workShiftText = 'G Shift (9AM-6PM)';
+        break;
+      default:
+        workShiftText = ''; // Handle the default case if needed
+    }
+
+
+    if (returnTextOnly ?? false) {
+      return workShiftText;
+    }
+
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Work Shift : ', workShiftText),
         ],
       ),
     );
@@ -1464,19 +1533,19 @@ class Utils {
         textColor = const Color(0xFFB71C1C);    // Dark Red
         break;
 
-      case 5:
-        statusText = 'Damaged/De-Activated';
-        bgColor = const Color(0xFFFFF3E0);      // Light Orange
-        borderColor = const Color(0xFFFB8C00);  // Deep Orange Border
-        textColor = const Color(0xFFE65100);    // Dark Orange
-        break;
-
-      case 6:
-        statusText = 'Defaced/De-Activated';
-        bgColor = const Color(0xFFEFEBE9);      // Light Brown
-        borderColor = const Color(0xFF8D6E63);  // Brown Border
-        textColor = const Color(0xFF5D4037);    // Dark Brown
-        break;
+      // case 5:
+      //   statusText = 'Damaged/De-Activated';
+      //   bgColor = const Color(0xFFFFF3E0);      // Light Orange
+      //   borderColor = const Color(0xFFFB8C00);  // Deep Orange Border
+      //   textColor = const Color(0xFFE65100);    // Dark Orange
+      //   break;
+      //
+      // case 6:
+      //   statusText = 'Defaced/De-Activated';
+      //   bgColor = const Color(0xFFEFEBE9);      // Light Brown
+      //   borderColor = const Color(0xFF8D6E63);  // Brown Border
+      //   textColor = const Color(0xFF5D4037);    // Dark Brown
+      //   break;
 
       case 7:
         statusText = 'Cancelled';
@@ -1735,15 +1804,15 @@ class Utils {
       default:
         statusText = '';
     }
-    return IntrinsicWidth(
-      child: Row(
-        children: [
-          textHandling('Status : ', statusText),
-        ],
-      ),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Flexible(
+          child: textHandling('Status : ', statusText),
+        ),
+      ],
     );
   }
-
   Widget keyManagementMasterHistoryStatus(int status) {
     String statusText;
 
@@ -2302,7 +2371,121 @@ class Utils {
         ],
       ),
     );
+
   }
+
+  dynamic buildLSMStatus(int status, {bool? returnTextOnly}) {
+    String statusText;
+
+    switch (status) {
+      case 1:
+        statusText = 'Draft';
+        break;
+      case 2:
+        statusText = 'Submitted';
+        break;
+      case 3:
+        statusText = 'Distributed';
+        break;
+      case 4:
+        statusText = 'Closed';
+        break;
+      case -1:
+        statusText = 'Cancelled';
+        break;
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+
+    if (returnTextOnly ?? false) {
+      return statusText;
+    }
+
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Status : ', statusText),
+        ],
+      ),
+    );
+  }
+
+  dynamic buildWarning(int status, {bool? returnTextOnly}) {
+    String statusText;
+
+    switch (status) {
+      case 0:
+        statusText = 'Red';
+        break;
+      case 1:
+        statusText = 'Orange';
+        break;
+      case 2:
+        statusText = 'Yellow';
+        break;
+      case 3:
+        statusText = 'Green';
+        break;
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+
+    if (returnTextOnly ?? false) {
+      return statusText;
+    }
+
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Warning/Alert : ', statusText),
+        ],
+      ),
+    );
+  }
+
+
+  dynamic buildForecastType(int status, {bool? returnTextOnly}) {
+    String statusText;
+
+    switch (status) {
+      case 0:
+        statusText = 'Next Day';
+        break;
+      case 1:
+        statusText = 'Next Week';
+        break;
+      default:
+        statusText = ''; // Handle the default case if needed
+    }
+
+    if (returnTextOnly ?? false) {
+      return statusText;
+    }
+
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Forecast Type : ', statusText),
+        ],
+      ),
+    );
+  }
+
+  Color getStatusColor(int status) {
+    switch (status) {
+      case 0:
+        return Colors.red;
+      case 1:
+        return Colors.orange;
+      case 2:
+        return Colors.yellow;
+      case 3:
+        return Colors.green;
+      default:
+        return Colors.grey;
+    }
+  }
+
 
   Widget leoVisit(bool status) {
     String statusText;
@@ -2832,12 +3015,12 @@ class Utils {
       maxLines: 1,                      // 👈 optional (limit lines)
       overflow: TextOverflow.ellipsis,  // 👈 show "..."
       text: TextSpan(
-        style: Styles.textStyleWhite16,
+        style: Styles.textStyleWhite14,
         children: [
           TextSpan(text: title),
           TextSpan(
             text: desc,
-            style: Styles.textStyleWhite16,
+            style: Styles.textStyleWhite14,
           ),
         ],
       ),

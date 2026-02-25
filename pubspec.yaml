@@ -1422,7 +1422,7 @@ dependencies:
   flutter_svg:
   flutter_typeahead:
   flutter_keyboard_visibility:
-  image_picker:
+  image_picker: ^1.0.7
   permission_handler:  ^11.0.0
   app_settings:
   dotted_border:
@@ -1442,7 +1442,7 @@ dependencies:
   mime:
 #  quill_html_editor:
   html_editor_enhanced: ^2.6.0
-
+  flutter_inappwebview: ^6.0.0
   bloc_concurrency:
   email_validator:
   local_session_timeout:
@@ -1477,7 +1477,8 @@ dependencies:
   floating_bottom_navigation_bar: ^1.5.2
   fluttertoast: ^8.2.8
   flutter_otp_text_field: ^1.1.0+2
-
+  image_cropper:
+  saver_gallery: ^3.0.5
 dev_dependencies:
   #  flutter_launcher_icons:
   #  flutter_native_splash: ^2.4.0
@@ -1489,7 +1490,7 @@ dev_dependencies:
   get: ^4.6.1
   #  image_gallery_saver: ^2.0.3
   json_serializable: ^6.7.1
-  saver_gallery: ^3.0.5
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -1530,6 +1531,7 @@ flutter:
     - assets/app_icon/
     - assets/images/
     - assets/images/login4.png
+    - assets/images/bg2.png
     - assets/translation/
 
   fonts:
@@ -1635,3 +1637,4 @@ flutter:
 
 dependency_overrides:
   uuid: ^4.4.0
+  flutter_inappwebview: ^6.0.0

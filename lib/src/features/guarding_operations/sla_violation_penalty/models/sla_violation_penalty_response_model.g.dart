@@ -26,6 +26,10 @@ SLAViolationPenaltyModel _$SLAViolationPenaltyModelFromJson(
       entity: (json['entity'] as List<dynamic>?)
           ?.map((e) => Organisation.fromJson(e as Map<String, dynamic>))
           .toList(),
+      dutyPostLocation: json['dutyPostLocation'] == null
+          ? null
+          : Organisation.fromJson(
+              json['dutyPostLocation'] as Map<String, dynamic>),
       vendor: (json['vendor'] as List<dynamic>?)
           ?.map((e) => Organisation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -56,6 +60,7 @@ Map<String, dynamic> _$SLAViolationPenaltyModelToJson(
       'vendor': instance.vendor,
       'typeOfService': instance.typeOfService,
       'entity': instance.entity,
+      'dutyPostLocation': instance.dutyPostLocation,
       'approver': instance.approver,
       'poc': instance.poc,
       'attdShiftInfoId': instance.attdShiftInfoId,

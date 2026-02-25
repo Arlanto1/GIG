@@ -4,6 +4,9 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/material_movement/models/material_movements_model.dart';
 
+import '../../models/approval_model.dart';
+import '../../models/requestModels/approval_request.dart';
+
 part 'material_movement_event.dart';
 part 'material_movement_state.dart';
 
@@ -25,21 +28,22 @@ class MaterialMovementBloc
       _refreshList,
       transformer: droppable(),
     );
+    on<SaveRecord>(_saveRecord);
+    on<FetchApprovalById>(_fetchApprovalById);
   }
 
   final MaterialMovementServices services = MaterialMovementServices();
 
   final CommonServices commonServices = CommonServices();
 
-  FutureOr<void> _initializeValues(
-      InitializeValuesMM event, Emitter<MaterialMovementState> emit) async {
+  FutureOr<void> _initializeValues(InitializeValuesMM event,
+      Emitter<MaterialMovementState> emit) async {
     try {
-
       log('Retu${returnable}');
       emit(state.copyWith(status: FormStatus.loading));
 
       ExtraProperties extraProperties =
-          await UtilsCommon().checkWritePermission(
+      await UtilsCommon().checkWritePermission(
         moduleCode: Constants.materialMovementModuleCode,
         commonServices: commonServices,
       );
@@ -48,13 +52,13 @@ class MaterialMovementBloc
           module: Constants.materialMovementModuleCode);
 
       List<Organisation> regions =
-          await commonServices.getRegionsOrLocationsByRegionId();
+      await commonServices.getRegionsOrLocationsByRegionId();
 
       CommonFilters commonFilters =
-          CommonFilters(regions: regions, statuses: statuses);
+      CommonFilters(regions: regions, statuses: statuses);
 
       Locations locations =
-          await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+      await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
@@ -86,11 +90,11 @@ class MaterialMovementBloc
     }
   }
 
-  FutureOr<void> _refreshList(
-      RefreshList event, Emitter<MaterialMovementState> emit) async {
+  FutureOr<void> _refreshList(RefreshList event,
+      Emitter<MaterialMovementState> emit) async {
     try {
       final MaterialMovementsModel response =
-          await services.getMaterialMovementsWithFilters(
+      await services.getMaterialMovementsWithFilters(
         startPosition: '0',
         maximumRecords: '20',
         mmType: isInward ? 1 : 0,
@@ -110,8 +114,8 @@ class MaterialMovementBloc
     }
   }
 
-  FutureOr<void> _fetchMaterialMovements(
-      FetchData event, Emitter<MaterialMovementState> emit) async {
+  FutureOr<void> _fetchMaterialMovements(FetchData event,
+      Emitter<MaterialMovementState> emit) async {
     log('-_fetchMaterialMovements--');
 
     emit(
@@ -165,7 +169,8 @@ class MaterialMovementBloc
       }
       return emit(
         state.copyWith(
-          items: List.of(state.items)..addAll(response.items ?? []),
+          items: List.of(state.items)
+            ..addAll(response.items ?? []),
           hasReachedMax: false,
           status: FormStatus.success,
         ),
@@ -182,4 +187,89 @@ class MaterialMovementBloc
       return emit(state.copyWith(status: FormStatus.failure));
     }
   }
-}
+
+  //
+  // FutureOr<void> _saveRecord(
+  //     SaveRecord event, Emitter<MaterialMovementState> emit) async {
+  //   emit(
+  //     state.copyWith(
+  //       status: FormStatus.loading,
+  //     ),
+  //   );
+  //   try {
+  //     MaterialApprovalRequest request = MaterialApprovalRequest();
+  //
+  //     request.items = event.model;
+  //     await MaterialMovementServices()
+  //         .createMaterialApproval(body: request);
+  //   } on GenericResponse catch (e) {
+  //     emit(
+  //       state.copyWith(
+  //         message: e.message,
+  //         status: FormStatus.formError,
+  //       ),
+  //     );
+  //     return;
+  //   } on Exception catch (e) {
+  //     return UtilsCommon().exceptionHandling(e, emit, state);
+  //   }
+  // }
+
+
+  FutureOr<void> _fetchApprovalById(FetchApprovalById event,
+      Emitter<MaterialMovementState> emit,) async {
+    emit(state.copyWith(status: FormStatus.loading));
+
+    try {
+
+      final approval = await services.getApprovalById(event.apStepId);
+
+      emit(
+        state.copyWith(
+            status: FormStatus.success,
+            approvalModel: approval,
+            selectedId: event.apStepId
+        ),
+      );
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          status: FormStatus.failure,
+          message: e.toString(),
+        ),
+      );
+    }
+  }
+
+  FutureOr<void> _saveRecord(SaveRecord event,
+      Emitter<MaterialMovementState> emit,) async {
+    emit(state.copyWith(status: FormStatus.loading));
+
+    try {
+
+      log('GET objectId: ${state.approvalModel?.objectId}');
+      log('POST objectId: ${event.model.objectId}');
+      event.model.apStepId =
+          state.selectedId ?? state.approvalModel?.apStepId;
+      // event.model.objectId =
+      //     state.approvalModel?.objectId ?? state.objectId?.toString();
+      if (event.model.apStepId == null) {
+        throw Exception('apStepId is null');
+      }
+
+      final request = MaterialApprovalRequest()
+        ..items = event.model;
+
+      await services.createMaterialApproval(body: request);
+
+      emit(state.copyWith(status: FormStatus.success));
+    } on GenericResponse catch (e) {
+      emit(state.copyWith(
+        message: e.message,
+        status: FormStatus.formError,
+      ));
+    } on Exception catch (e) {
+      UtilsCommon().exceptionHandling(e, emit, state);
+    }
+  }
+  }

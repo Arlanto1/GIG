@@ -11,6 +11,7 @@ class SLAViolationPenaltyDetailsState extends Equatable {
   final List<Organisation>? getEntitiesResponse;
   final List<Organisation> vendors;
   final List<Organisation> typeOfServices;
+  final List<Organisation>? dutyPosts;
   final String? message;
   final List<String>? pocs;
   final SlaUiLabels? labels;
@@ -106,6 +107,7 @@ class SLAViolationPenaltyDetailsState extends Equatable {
     this.getEntitiesResponse,
     required this.vendors,
     required this.typeOfServices,
+    this.dutyPosts,
     this.users,
     this.emailUsers,
     this.message,
@@ -124,6 +126,7 @@ class SLAViolationPenaltyDetailsState extends Equatable {
     List<Organisation>? getEntitiesResponse,
     List<Organisation>? vendors,
     List<Organisation>? typeOfServices,
+    List<Organisation>? dutyPosts,
     List<String>? pocs,
     String? message,
     SlaUiLabels? labels,
@@ -137,6 +140,7 @@ class SLAViolationPenaltyDetailsState extends Equatable {
       listOfEntities: listOfEntities ?? this.listOfEntities,
       vendors: vendors ?? this.vendors,
       typeOfServices: typeOfServices ?? this.typeOfServices,
+      dutyPosts: dutyPosts ?? this.dutyPosts,
       message: message ?? this.message,
       pocs: pocs ?? this.pocs,
       labels: labels ?? this.labels,

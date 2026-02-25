@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:db_atom/index.dart';
 import 'package:intl/intl.dart';
@@ -216,19 +217,38 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
     }
     log('-state.status--222-${state.status}-incidentType--2----${state.model.incidentType}--');
 
-    return Container(
-      color: AppColors.newColor3,
-      child: SingleChildScrollView(
+    return Stack(
+      children: [
+    // 🔹 Background Image
+    Positioned.fill(
+    child: Image.asset(
+      'assets/images/bg2.png',
+      fit: BoxFit.cover,
+    ),
+    ),
+
+    // 🔹 Blur Layer
+    Positioned.fill(
+    child: BackdropFilter(
+    filter: ImageFilter.blur(sigmaX: 200, sigmaY: 200),
+    child: Container(
+    color: Colors.black.withValues(alpha: 0.08), // optional tint
+    ),
+    ),
+    ),
+
+    SingleChildScrollView(
         child: Column(
           children: [
-            Container(height: height * 0.01, color: AppColors.newColor3),
+            // Container(height: height * 0.01, color: AppColors.newColor3),
             Container(
-              decoration: ShapeDecoration(
-                  color: AppColors.newColor3,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20.0)),
-                  )),
+              color: Colors.transparent,
+              // decoration: ShapeDecoration(
+              //     color: AppColors.newColor3,
+              //     shape: const RoundedRectangleBorder(
+              //       borderRadius:
+              //           BorderRadius.vertical(top: Radius.circular(20.0)),
+              //     )),
               child: Form(
                 key: _formKey,
                 autovalidateMode: disableForm
@@ -660,7 +680,10 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                       validateTextField: (String? user) {},
                                     ),
                                   ),
-                                  const Text('@db.com')
+                                  const Text('@db.com',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),)
                                 ],
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
@@ -1025,7 +1048,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
           ],
         ),
       ),
-    );
+    ],);
   }
 
   Widget cancelButtonDisplay() {

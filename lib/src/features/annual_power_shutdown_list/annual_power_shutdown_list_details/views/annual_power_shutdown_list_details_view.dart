@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/cubits/annual_power_shutdown_list_details_cubit.dart';
@@ -135,6 +136,9 @@ class _AnnualPowerShutdownListDetailsViewState
               BlocProvider.of<AnnualPowerShutdownListDetailsCubit>(context)
                   .submitForm(isSaveOnly: false);
             },
+            popAndReplace: () {
+              Navigator.pop(context);
+            },
           ),
           backgroundColor: AppColors.newColor,
           body: getBodybuilder(state, height),
@@ -164,22 +168,48 @@ class _AnnualPowerShutdownListDetailsViewState
       return const BaseLoader();
     }
 
-    return Container(
-      color: AppColors.newColor3,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: height * 0.01,
-              color: AppColors.newColor3,
+
+    // return Container(
+    //   color: Colors.transparent,
+    //   child: SingleChildScrollView(
+    //     child: Column(
+    //       children: [
+    //         // Container(
+    //         //   height: height * 0.01,
+    //         //   color: AppColors.newColor3,
+    //         // ),
+    //         Container(
+    //           decoration: ShapeDecoration(
+    //               color: AppColors.newColor3,
+    //               shape: const RoundedRectangleBorder(
+    //                 borderRadius:
+    //                     BorderRadius.vertical
+        return Stack(children: [
+          // 🔹 Background Image
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/bg2.png',
+              fit: BoxFit.cover,
             ),
-            Container(
-              decoration: ShapeDecoration(
-                  color: AppColors.newColor3,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20.0)),
-                  )),
+          ),
+
+          // 🔹 Blur Layer
+          Positioned.fill(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 200, sigmaY: 200),
+              child: Container(
+                color: Colors.black.withValues(alpha: 0.08), // optional tint
+              ),
+            ),
+          ),
+
+          // color: AppColors.newColor3,
+          // color: AppColors.navigationSkyBlueColor,
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  color: Colors.transparent,
               child: Form(
                 key: _formKey,
                 autovalidateMode: disableForm
@@ -199,6 +229,8 @@ class _AnnualPowerShutdownListDetailsViewState
                               if (!state.model.lock.isEmptyOrNull) ...[
                                 RecordLockedWidget(text: '${state.model.lock}'),
                               ],
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.01),
                               Container(
                                 alignment: Alignment.topLeft,
                                 child: const Text(
@@ -1671,7 +1703,7 @@ class _AnnualPowerShutdownListDetailsViewState
           ],
         ),
       ),
-    );
+   ], );
   }
 
   Widget cancelButtonDisplay() {

@@ -14,9 +14,11 @@ ViolationPenaltyRecord _$ViolationPenaltyRecordFromJson(
       violation: json['violation'] == null
           ? null
           : Organisation.fromJson(json['violation'] as Map<String, dynamic>),
+      comments: json['comments'] as String?,
       penaltyAmount: (json['penaltyAmount'] as num?)?.toDouble(),
       totalViolations: json['totalViolations'] as num?,
       staffCategory: (json['staffCategory'] as num?)?.toInt(),
+      shifts: (json['shifts'] as num?)?.toInt(),
       totalPenaltyAmount: json['totalPenaltyAmount'] as num?,
     );
 
@@ -26,8 +28,10 @@ Map<String, dynamic> _$ViolationPenaltyRecordToJson(
       'id': instance.id,
       'svpId': instance.svpId,
       'violation': instance.violation,
+      'comments': instance.comments,
       'penaltyAmount': instance.penaltyAmount,
       'totalViolations': instance.totalViolations,
       'staffCategory': instance.staffCategory,
+      'shifts': instance.shifts,
       'totalPenaltyAmount': instance.totalPenaltyAmount,
     };

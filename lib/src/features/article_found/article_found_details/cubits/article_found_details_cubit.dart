@@ -352,7 +352,7 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
         firstName: firstName,
         lastName: lastName,
       );
-      state.model.claimant = userDetails;
+      state.model.idCardEmployee = userDetails;
       emit(
         state.copyWith(
           model: state.model,
@@ -360,7 +360,6 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
         ),
       );
     }
-
 
     emit(state.copyWith(
       model: state.model,
@@ -403,6 +402,54 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
       ),
     );
 
+  }
+
+  void makeSignEditable(
+      {bool? receiverSign, bool? securitySignatureSignEditable}) {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+    emit(
+      state.copyWith(
+        isReceiverSignEditable: receiverSign,
+        status: FormStatus.initial,
+      ),
+    );
+  }
+
+  Future<void> pushSignature({
+    required SignatureController controller,
+    required bool isReceiverSignature,
+  }) async {
+    String imageBytes = await SignatureController().exportSignature(controller);
+
+    // Check for null explicitly
+    if (imageBytes.isEmpty) {
+      return;
+    }
+
+    ImageContent imageContent = ImageContent();
+    imageContent.imageContent = imageBytes;
+
+    log('--imageBytes--$imageBytes--');
+    // if (isReceiverSignature) {
+      imageContent.type =
+          ConstantsIntValue.keyIssuanceReceiverSignImageContentType;
+      state.model.claimantSign = imageContent;
+      emit(state.copyWith(
+        model: state.model,
+      ));
+    // }
+    // else {
+    //   imageContent.type =
+    //       ConstantsIntValue.keyIssuanceSecuritySignImageContentType;
+    //   state.model.claimantSign = imageContent;
+    //   emit(state.copyWith(
+    //     model: state.model,
+    //   ));
+    // }
   }
 
 

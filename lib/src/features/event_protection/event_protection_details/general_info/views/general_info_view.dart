@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:db_atom/index.dart';
 
@@ -138,22 +139,48 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
       return const BaseLoader();
     }
 
-    return Container(
-      color: AppColors.newColor3,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: height * 0.01,
-              color: AppColors.newColor3,
-            ),
-            Container(
-              decoration: ShapeDecoration(
-                  color: AppColors.newColor3,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(20.0)),
-                  )),
+    // return Container(
+    //   color: AppColors.white,
+    //   child: SingleChildScrollView(
+    //     child: Column(
+    //       children: [
+    //         Container(
+    //           height: height * 0.01,
+    //           color: AppColors.newColor3,
+    //         ),
+    //         Container(
+    //           decoration: ShapeDecoration(
+    //               color: AppColors.newColor3,
+    //               shape: const RoundedRectangleBorder(
+    //                 borderRadius:
+    //                     BorderRadius.vertical(top: Radius.circular(20.0)),
+    //               )),
+    return Stack(children: [
+    // 🔹 Background Image
+    Positioned.fill(
+    child: Image.asset(
+      'assets/images/bg2.png',
+      fit: BoxFit.cover,
+    ),
+    ),
+
+    // 🔹 Blur Layer
+    Positioned.fill(
+    child: BackdropFilter(
+    filter: ImageFilter.blur(sigmaX: 200, sigmaY: 200),
+    child: Container(
+    color: Colors.black.withValues(alpha: 0.08), // optional tint
+    ),
+    ),
+    ),
+
+    // color: AppColors.newColor3,
+    // color: AppColors.navigationSkyBlueColor,
+    SingleChildScrollView(
+    child: Column(
+    children: [
+    Container(
+    color: Colors.transparent,
               child: Form(
                 key: _formKey,
                 autovalidateMode: disableForm
@@ -172,6 +199,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             if (!state.model.lock.isEmptyOrNull) ...[
                               RecordLockedWidget(text: '${state.model.lock}'),
                             ],
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
                             Container(
                               alignment: Alignment.topLeft,
                               child: const Text(
@@ -1732,7 +1760,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
           ],
         ),
       ),
-    );
+    ],);
   }
 
   Widget cancelButtonDisplay() {

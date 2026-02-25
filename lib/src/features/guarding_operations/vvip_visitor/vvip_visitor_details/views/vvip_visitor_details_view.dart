@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:db_atom/index.dart';
 
@@ -119,7 +120,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
               );
             },
           ),
-          backgroundColor: AppColors.newColor3,
+          backgroundColor: Colors.transparent,
           body: getBodybuilder(state, height),
         );
       },
@@ -135,235 +136,251 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
       return const BaseLoader();
     }
 
-    return Container(
-      color: AppColors.newColor3,
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: height * 0.01,
-              color: AppColors.newColor3,
+    return Stack(
+      children: [
+        // 🔹 Background Image
+        Positioned.fill(
+          child: Image.asset(
+            'assets/images/bg2.png',
+            fit: BoxFit.cover,
+          ),
+        ),
+
+        // 🔹 Blur Layer
+        Positioned.fill(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 200, sigmaY: 200),
+            child: Container(
+              color: Colors.black.withValues(alpha: 0.08), // optional tint
             ),
-            Container(
-              decoration: ShapeDecoration(
-                color: AppColors.newColor3,
-                shape: const RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(20.0)),
-                ),
-              ),
-              child: AbsorbPointer(
-                absorbing: false,
-                child: Form(
-                  key: _formKey,
-                  autovalidateMode: isReadOnly
-                      ? AutovalidateMode.disabled
-                      : AutovalidateMode.onUserInteraction,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 20.0, right: 20),
-                        child: Column(
-                          children: [
-                            if (!state.model.lock.isEmptyOrNull) ...[
-                              RecordLockedWidget(text: '${state.model.lock}'),
-                            ],
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: const Text(
-                                Constants.generalinformation,
-                                style: Styles.textStyleRegularNormalWhite18,
+          ),
+        ),
+
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                color: Colors.transparent,
+                child: AbsorbPointer(
+                  absorbing: false,
+                  child: Form(
+                    key: _formKey,
+                    autovalidateMode: isReadOnly
+                        ? AutovalidateMode.disabled
+                        : AutovalidateMode.onUserInteraction,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20.0, right: 20),
+                          child: Column(
+                            children: [
+                              if (!state.model.lock.isEmptyOrNull) ...[
+                                RecordLockedWidget(text: '${state.model.lock}'),
+                              ],
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+                              Container(
+                                alignment: Alignment.topLeft,
+                                child: const Text(
+                                  Constants.generalinformation,
+                                  style: Styles.textStyleRegularNormalWhite18,
+                                ),
                               ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            /// Created By
-                            CommonWidgets.horizentaltextHandling(
-                                state.labels?.locale.entrySecurity ??
-                                    state.labels?.defaultLocale.entrySecurity ??
-                                    Constants.createdby,
-                                isMandatory: true,
-                                '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                              /// Created By
+                              CommonWidgets.horizentaltextHandling(
+                                  state.labels?.locale.entrySecurity ??
+                                      state.labels?.defaultLocale
+                                          .entrySecurity ??
+                                      Constants.createdby,
+                                  isMandatory: true,
+                                  '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                            /// Status
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.status ??
-                                  state.labels?.defaultLocale.status ??
-                                  Constants.status,
-                              Styles.textStyleWhite16,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              isEnable: false,
-                              isDisableColor: true,
-                              textFormKey: Keys.statusTextController,
-                              hintText: '',
-                              initialValue:
-                                  getStatusString(state.model.status ?? 0),
-                              onChange: (String value) {},
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            /// Date of creation
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.inputDate ??
-                                  state.labels?.defaultLocale.inputDate ??
-                                  Constants.dateofcreation,
-                              Styles.textStyleWhite16,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            datecreateWidgetdisplay(
-                                state.model.inputDate ?? ''),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            /// Location
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.location ??
-                                  state.labels?.defaultLocale.location ??
-                                  Constants.location,
-                              Styles.textStyleWhite16,
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            locationWidgetdislay(state),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                            /// Sl No.
-                            CommonWidgets.horizentaltextHandling(
-                              state.labels?.locale.slNo ??
-                                  state.labels?.defaultLocale.slNo ??
-                                  Constants.slno,
-                              state.model.slNo ?? '',
-                              isMandatory: true,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-                            if (state.model.status != null) ...[
-                              /// Modified Date
+                              /// Status
                               CommonWidgets.textDisplay(
-                                // state.labels?.locale.date ??
-                                //     state.labels?.defaultLocale.date ??
-                                Constants.modifiedOn,
+                                state.labels?.locale.status ??
+                                    state.labels?.defaultLocale.status ??
+                                    Constants.status,
+                                Styles.textStyleWhite16,
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                isEnable: false,
+                                isDisableColor: true,
+                                textFormKey: Keys.statusTextController,
+                                hintText: '',
+                                initialValue:
+                                    getStatusString(state.model.status ?? 0),
+                                onChange: (String value) {},
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              /// Date of creation
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.inputDate ??
+                                    state.labels?.defaultLocale.inputDate ??
+                                    Constants.dateofcreation,
                                 Styles.textStyleWhite16,
                                 isMandatory: true,
                               ),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               datecreateWidgetdisplay(
-                                  state.model.modifiedDate ?? ''),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                                  state.model.inputDate ?? ''),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                              /// Modified By
+                              /// Location
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.location ??
+                                    state.labels?.defaultLocale.location ??
+                                    Constants.location,
+                                Styles.textStyleWhite16,
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              locationWidgetdislay(state),
+
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              /// Sl No.
                               CommonWidgets.horizentaltextHandling(
-                                  // state.labels?.locale.entrySecurity ??
-                                  //     state.labels?.defaultLocale.entrySecurity ??
-                                  Constants.modifiedBy,
+                                state.labels?.locale.slNo ??
+                                    state.labels?.defaultLocale.slNo ??
+                                    Constants.slno,
+                                state.model.slNo ?? '',
+                                isMandatory: true,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+                              if (state.model.status != null) ...[
+                                /// Modified Date
+                                CommonWidgets.textDisplay(
+                                  // state.labels?.locale.date ??
+                                  //     state.labels?.defaultLocale.date ??
+                                  Constants.modifiedOn,
+                                  Styles.textStyleWhite16,
                                   isMandatory: true,
-                                  state.loggedInUserDetails?.email ?? ''),
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                datecreateWidgetdisplay(
+                                    state.model.modifiedDate ?? ''),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                /// Modified By
+                                CommonWidgets.horizentaltextHandling(
+                                    // state.labels?.locale.entrySecurity ??
+                                    //     state.labels?.defaultLocale.entrySecurity ??
+                                    Constants.modifiedBy,
+                                    isMandatory: true,
+                                    state.loggedInUserDetails?.email ?? ''),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+                              ],
+
+                              /// VVIP Visitors
+                              Container(
+                                alignment: Alignment.topLeft,
+                                child: const Text(
+                                  Constants.listVvipVisitors,
+                                  style: Styles.textStyleWhite16,
+                                ),
+                              ),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            ],
 
-                            /// VVIP Visitors
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: const Text(
-                                Constants.listVvipVisitors,
-                                style: Styles.textStyleWhite16,
-                              ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              GestureDetector(
+                                onTap: () async {
+                                  NavigatorState nav = Navigator.of(context);
+                                  if (state.model.status == 0 ||
+                                      state.model.status == null) {
+                                    bool isSaveSuccess = await BlocProvider.of<
+                                            VVIPVisitorDetailsCubit>(context)
+                                        .submitForm(
+                                      isSaveOnly: true,
+                                      navigateToNextScreen: true,
+                                    );
 
-                            GestureDetector(
-                              onTap: () async {
-                                NavigatorState nav = Navigator.of(context);
-                                if (state.model.status == 0 ||
-                                    state.model.status == null) {
-                                  bool isSaveSuccess = await BlocProvider.of<
-                                          VVIPVisitorDetailsCubit>(context)
-                                      .submitForm(
-                                    isSaveOnly: true,
-                                    navigateToNextScreen: true,
-                                  );
-
-                                  if (!isSaveSuccess) {
-                                    return;
+                                    if (!isSaveSuccess) {
+                                      return;
+                                    }
+                                    log('--state.model.id---${state.model.id}--');
                                   }
-                                  log('--state.model.id---${state.model.id}--');
-                                }
-                                nav.pushNamed(
-                                  vipVisitorsRecordsRoute,
-                                  arguments: {
-                                    ConstantsArgument.title:
-                                        Constants.vVipVisitorsTitle,
-                                    ConstantsArgument.id: state.model.id,
-                                    ConstantsArgument.isLocked:
-                                        state.model.lock,
-                                    ConstantsArgument.parentStatus:
-                                        state.model.status,
-                                    // ConstantsArgument.violationDescription:
-                                    //     Constants.slaViolation,
-                                  },
-                                );
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  SvgPicture.asset(
-                                    AppIcon.pluscircle,
-                                    colorFilter: const ColorFilter.mode(
-                                      AppColors.white,
-                                      BlendMode.srcIn,
+                                  nav.pushNamed(
+                                    vipVisitorsRecordsRoute,
+                                    arguments: {
+                                      ConstantsArgument.title:
+                                          Constants.vVipVisitorsTitle,
+                                      ConstantsArgument.id: state.model.id,
+                                      ConstantsArgument.isLocked:
+                                          state.model.lock,
+                                      ConstantsArgument.parentStatus:
+                                          state.model.status,
+                                      // ConstantsArgument.violationDescription:
+                                      //     Constants.slaViolation,
+                                    },
+                                  );
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    SvgPicture.asset(
+                                      AppIcon.pluscircle,
+                                      colorFilter: const ColorFilter.mode(
+                                        AppColors.white,
+                                        BlendMode.srcIn,
+                                      ),
+                                      // color: AppColors.navigationSkyBlueColor,
                                     ),
-                                    // color: AppColors.navigationSkyBlueColor,
-                                  ),
-                                  const SizedBox(width: 10),
-                                  const Text(
-                                    'Add/View VVIP Visitors',
-                                    style: TextStyle(
-                                      color: AppColors.white,
-                                      decoration: TextDecoration.underline,
-                                      decorationColor: AppColors.white,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
+                                    const SizedBox(width: 10),
+                                    const Text(
+                                      'Add/View VVIP Visitors',
+                                      style: TextStyle(
+                                        color: AppColors.white,
+                                        decoration: TextDecoration.underline,
+                                        decorationColor: AppColors.white,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+                            ],
+                          ),
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                        /// SubmitButton
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            cancelButtonDisplay(),
+                            if ((state.model.status != -1 &&
+                                        state.model.status != 1) &&
+                                    showSaveSubmitButton
+                                ? true
+                                : false) ...[submitButtonDisplay()],
                           ],
                         ),
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                      /// SubmitButton
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          cancelButtonDisplay(),
-                          if ((state.model.status != -1 &&
-                                      state.model.status != 1) &&
-                                  showSaveSubmitButton
-                              ? true
-                              : false) ...[submitButtonDisplay()],
-                        ],
-                      ),
-                      CommonWidgets.verticalSpacerWidget(height * 0.04),
-                    ],
+                        CommonWidgets.verticalSpacerWidget(height * 0.04),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
+      ],
     );
   }
 

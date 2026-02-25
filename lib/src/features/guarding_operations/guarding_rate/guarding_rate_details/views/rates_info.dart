@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:db_atom/index.dart';
 
@@ -55,7 +56,7 @@ class _RatesInfoState extends State<RatesInfo> {
             pdfAPIName:
                 '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.guardingRatesModule}',
           ),
-          backgroundColor: AppColors.newColor3,
+          backgroundColor: Colors.transparent,
           body: getBody(context, state, height),
         );
       },
@@ -68,224 +69,238 @@ class _RatesInfoState extends State<RatesInfo> {
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
     }
-    return Container(
-      color: AppColors.newColor3,
-      child: SingleChildScrollView(
-        child: Column(children: [
-          Container(
-            height: height * 0.01,
-            color: AppColors.newColor3,
-          ),
-          Container(
-            decoration: ShapeDecoration(
-                color: AppColors.newColor3,
-                shape: const RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(20.0)),
-                )),
-            child: Form(
-              key: _formKey,
-              // autovalidateMode: state.rate.status == 6
-              //     ? AutovalidateMode.disabled
-              //     : AutovalidateMode.onUserInteraction,
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20.0, right: 20),
-                      child: Column(children: [
-                        CommonWidgets.verticalSpacerWidget(height * 0.02),
-                        if (!state.model.lock.isEmptyOrNull) ...[
-                          RecordLockedWidget(text: '${state.model.lock}'),
-                        ],
-                        CommonWidgets.horizentaltextHandling(
-                            state.labels?.locale.entrySecurity ??
-                                state.labels?.defaultLocale.entrySecurity ??
-                                Constants.createdby,
-                            isMandatory: true,
-                            '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
-                        CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                        /// Created By
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //   children: [
-                        //     CommonWidgets.verticalTextHandling(
-                        //         state.labels?.locale.entrySecurity ??
-                        //             state.labels?.defaultLocale.entrySecurity ??
-                        //             Constants.createdby,
-                        //         isMandatory: true,
-                        //         '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
-                        //     CommonWidgets.verticalSpacerWidget(height * 0.01),
-                        //
-                        //     //
-                        //     // Row(
-                        //     //   children: [
-                        //     //     CommonWidgets.horizentaltextHandling(
-                        //     //         state.labels?.locale.entrySecurity ??
-                        //     //             state.labels?.defaultLocale
-                        //     //                 .entrySecurity ??
-                        //     //             Constants.createdby,
-                        //     //         isMandatory: true,
-                        //     //         '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
-                        //     //     CommonWidgets.verticalSpacerWidget(
-                        //     //         height * 0.01),
-                        //     //   ],
-                        //     // ),
-                        //
-                        //     // const Spacer(),
-                        //   ],
-                        // ),
-                        CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                        /// Location
-                        CommonWidgets.textDisplay(
-                            state.labels?.locale.location ??
-                                state.labels?.defaultLocale.location ??
-                                Constants.location,
-                            isMandatory: true,
-                            Styles.textStyleWhite16),
-                        CommonWidgets.verticalSpacerWidget(height * 0.001),
-                        locationWidgetdislay(state),
-
-                        CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                        /// Date of creation
-                        CommonWidgets.textDisplay(
-                            state.labels?.locale.inputDate ??
-                                state.labels?.defaultLocale.inputDate ??
-                                Constants.dateofcreation,
-                            isMandatory: true,
-                            Styles.textStyleWhite16),
-                        CommonWidgets.verticalSpacerWidget(height * 0.001),
-                        datecreateWidgetdisplay(state.model.inputDate ?? ''),
-                        CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                        /// Sl No.
-                        CommonWidgets.horizentaltextHandling(
-                            state.labels?.locale.slNo ??
-                                state.labels?.defaultLocale.slNo ??
-                                Constants.slno,
-                            isMandatory: true,
-                            state.model.slNo ?? ''),
-                        CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                        /// Entity
-                        CommonWidgets.textDisplay(
-                          state.labels?.locale.entity ??
-                              state.labels?.defaultLocale.entity ??
-                              Constants.entity,
-                          isMandatory: true,
-                          Styles.textStyleWhite16,
-                        ),
-                        CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                        BaseEntitiesSelection().entityDropDownSelection(
-                          enabled: false,
-                          context: context,
-                          selectedValues: state.model.entities ?? [],
-                          all: state.listOfEntities ?? [],
-                          onTap: (List<Organisation> selectedEntities) {
-                            log('--selectedEntities----${selectedEntities.length}');
-                            BlocProvider.of<PayRateCubit>(context)
-                                .updateDropdownValues(
-                                    entities: selectedEntities);
-                            Navigator.of(context).pop(); // Close the dialog
-                          },
-                          addTitle: 'Add Entity',
-                          orgName: 'ATOM_ENTITIES',
-                          functionToCall: () {
-                            // refresh the list
-                            BlocProvider.of<PayRateCubit>(context)
-                                .refreshList();
-                          },
-                        ),
-                        CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                        /// Vendor
-                        CommonWidgets.textDisplay(
-                          state.labels?.locale.vendor ??
-                              state.labels?.defaultLocale.vendor ??
-                              Constants.vendor,
-                          isMandatory: true,
-                          Styles.textStyleWhite16,
-                        ),
-                        widget.rate == null
-                            ? FlutterInputField(
-                                initialValue: state.model.vendor?.name,
-                                textFormKey: Keys.vendorDepartmentKey,
-                                hintText: '',
-                                isEnable: false,
-                                isDisableColor: true,
-                                onChange: (String value) {},
-                                validateTextField: (String? user) {},
-                              )
-                            : TextFieldAddButton(
-                                title: state.model.vendor?.name,
-                                height: 60,
-                                isDisableColor: true,
-                                onTap: () {
-                                  if (isReadonly) {
-                                    BaseOrganisationDialog().departmentDialog(
-                                        context: context,
-                                        organisations: state.departments,
-                                        onTap: (Organisation department) {
-                                          BlocProvider.of<PayRateCubit>(context)
-                                              .updateDropdownValues(
-                                                  vendor: department);
-                                        },
-                                        orgName: 'ATOM_VENDORS',
-                                        createEntity: false,
-                                        title: 'Add Vendor',
-                                        functionToCall: () {
-                                          // refresh the list
-                                          BlocProvider.of<PayRateCubit>(context)
-                                              .refreshList();
-                                        });
-                                  }
-                                },
-                              ),
-
-                        // quantityUnitPopUp(state),
-                        CommonWidgets.verticalSpacerWidget(height * 0.01),
-                      ]),
-                    ),
-                    CommonWidgets.verticalSpacerWidget(height * 0.01),
-                    CommonWidgets.verticalSpacerWidget(height * 0.04),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        cancelButtonDisplay(),
-                        // submitButtonDisplay(
-                        //   onTap: () {
-                        //     log('-onTapSubmit--${state.model.vendor?.name}----');
-                        //     FocusScope.of(context).unfocus();
-                        //     BlocProvider.of<PayRateCubit>(context).onSave(
-                        //       isSubmit: false,
-                        //     );
-                        //
-                        //     // BlocProvider.of<PayRateCubit>(context)
-                        //     //     .onModelValueChange(state.);
-                        //
-                        //     Navigator.pushReplacementNamed(
-                        //       context,
-                        //       payRateRoute,
-                        //       arguments: {
-                        //         "payRates": state.model.securityGuardRates,
-                        //         "gmRate": state.model,
-                        //         "title": Constants.createSecurityGuard,
-                        //       },
-                        //     );
-                        //   },
-                        // ),
-                      ],
-                    )
-                  ]),
+    return SizedBox.expand(
+      child: Stack(
+        children: [
+          // 🔹 Background Image
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/bg2.png',
+              fit: BoxFit.cover,
             ),
           ),
-        ]),
+
+          // 🔹 Blur Layer
+          Positioned.fill(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 200, sigmaY: 200),
+              child: Container(
+                color: Colors.black.withValues(alpha: 0.08), // optional tint
+              ),
+            ),
+          ),
+
+          SingleChildScrollView(
+            child: Column(children: [
+              Container(
+                color: Colors.transparent,
+                child: Form(
+                  key: _formKey,
+                  // autovalidateMode: state.rate.status == 6
+                  //     ? AutovalidateMode.disabled
+                  //     : AutovalidateMode.onUserInteraction,
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20.0, right: 20),
+                          child: Column(children: [
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                            if (!state.model.lock.isEmptyOrNull) ...[
+                              RecordLockedWidget(text: '${state.model.lock}'),
+                            ],
+                            CommonWidgets.horizentaltextHandling(
+                                state.labels?.locale.entrySecurity ??
+                                    state.labels?.defaultLocale.entrySecurity ??
+                                    Constants.createdby,
+                                isMandatory: true,
+                                '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Created By
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //   children: [
+                            //     CommonWidgets.verticalTextHandling(
+                            //         state.labels?.locale.entrySecurity ??
+                            //             state.labels?.defaultLocale.entrySecurity ??
+                            //             Constants.createdby,
+                            //         isMandatory: true,
+                            //         '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
+                            //     CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            //
+                            //     //
+                            //     // Row(
+                            //     //   children: [
+                            //     //     CommonWidgets.horizentaltextHandling(
+                            //     //         state.labels?.locale.entrySecurity ??
+                            //     //             state.labels?.defaultLocale
+                            //     //                 .entrySecurity ??
+                            //     //             Constants.createdby,
+                            //     //         isMandatory: true,
+                            //     //         '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
+                            //     //     CommonWidgets.verticalSpacerWidget(
+                            //     //         height * 0.01),
+                            //     //   ],
+                            //     // ),
+                            //
+                            //     // const Spacer(),
+                            //   ],
+                            // ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Location
+                            CommonWidgets.textDisplay(
+                                state.labels?.locale.location ??
+                                    state.labels?.defaultLocale.location ??
+                                    Constants.location,
+                                isMandatory: true,
+                                Styles.textStyleWhite16),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            locationWidgetdislay(state),
+
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Date of creation
+                            CommonWidgets.textDisplay(
+                                state.labels?.locale.inputDate ??
+                                    state.labels?.defaultLocale.inputDate ??
+                                    Constants.dateofcreation,
+                                isMandatory: true,
+                                Styles.textStyleWhite16),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            datecreateWidgetdisplay(state.model.inputDate ?? ''),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Sl No.
+                            CommonWidgets.horizentaltextHandling(
+                                state.labels?.locale.slNo ??
+                                    state.labels?.defaultLocale.slNo ??
+                                    Constants.slno,
+                                isMandatory: true,
+                                state.model.slNo ?? ''),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Entity
+                            CommonWidgets.textDisplay(
+                              state.labels?.locale.entity ??
+                                  state.labels?.defaultLocale.entity ??
+                                  Constants.entity,
+                              isMandatory: true,
+                              Styles.textStyleWhite16,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            BaseEntitiesSelection().entityDropDownSelection(
+                              enabled: false,
+                              context: context,
+                              selectedValues: state.model.entities ?? [],
+                              all: state.listOfEntities ?? [],
+                              onTap: (List<Organisation> selectedEntities) {
+                                log('--selectedEntities----${selectedEntities.length}');
+                                BlocProvider.of<PayRateCubit>(context)
+                                    .updateDropdownValues(
+                                        entities: selectedEntities);
+                                Navigator.of(context).pop(); // Close the dialog
+                              },
+                              addTitle: 'Add Entity',
+                              orgName: 'ATOM_ENTITIES',
+                              functionToCall: () {
+                                // refresh the list
+                                BlocProvider.of<PayRateCubit>(context)
+                                    .refreshList();
+                              },
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Vendor
+                            CommonWidgets.textDisplay(
+                              state.labels?.locale.vendor ??
+                                  state.labels?.defaultLocale.vendor ??
+                                  Constants.vendor,
+                              isMandatory: true,
+                              Styles.textStyleWhite16,
+                            ),
+                            widget.rate == null
+                                ? FlutterInputField(
+                                    initialValue: state.model.vendor?.name,
+                                    textFormKey: Keys.vendorDepartmentKey,
+                                    hintText: '',
+                                    isEnable: false,
+                                    isDisableColor: true,
+                                    onChange: (String value) {},
+                                    validateTextField: (String? user) {},
+                                  )
+                                : TextFieldAddButton(
+                                    title: state.model.vendor?.name,
+                                    height: 60,
+                                    isDisableColor: true,
+                                    onTap: () {
+                                      if (isReadonly) {
+                                        BaseOrganisationDialog().departmentDialog(
+                                            context: context,
+                                            organisations: state.departments,
+                                            onTap: (Organisation department) {
+                                              BlocProvider.of<PayRateCubit>(
+                                                      context)
+                                                  .updateDropdownValues(
+                                                      vendor: department);
+                                            },
+                                            orgName: 'ATOM_VENDORS',
+                                            createEntity: false,
+                                            title: 'Add Vendor',
+                                            functionToCall: () {
+                                              // refresh the list
+                                              BlocProvider.of<PayRateCubit>(
+                                                      context)
+                                                  .refreshList();
+                                            });
+                                      }
+                                    },
+                                  ),
+
+                            // quantityUnitPopUp(state),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                          ]),
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
+                        CommonWidgets.verticalSpacerWidget(height * 0.04),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            cancelButtonDisplay(),
+                            // submitButtonDisplay(
+                            //   onTap: () {
+                            //     log('-onTapSubmit--${state.model.vendor?.name}----');
+                            //     FocusScope.of(context).unfocus();
+                            //     BlocProvider.of<PayRateCubit>(context).onSave(
+                            //       isSubmit: false,
+                            //     );
+                            //
+                            //     // BlocProvider.of<PayRateCubit>(context)
+                            //     //     .onModelValueChange(state.);
+                            //
+                            //     Navigator.pushReplacementNamed(
+                            //       context,
+                            //       payRateRoute,
+                            //       arguments: {
+                            //         "payRates": state.model.securityGuardRates,
+                            //         "gmRate": state.model,
+                            //         "title": Constants.createSecurityGuard,
+                            //       },
+                            //     );
+                            //   },
+                            // ),
+                          ],
+                        )
+                      ]),
+                ),
+              ),
+            ]),
+          ),
+        ],
       ),
     );
   }
