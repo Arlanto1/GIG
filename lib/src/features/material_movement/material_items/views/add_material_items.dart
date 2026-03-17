@@ -1,13 +1,7 @@
-
-
-import 'dart:developer';
-
 import 'package:db_atom/index.dart';
 
 import '../../../../common_widgets/base_widget/base_add_organisation_dialog.dart';
 import '../../models/material_items_model.dart';
-import '../bloc/material_items_bloc.dart';
-
 
 class AddMaterialItemsPopUp extends StatefulWidget {
   const AddMaterialItemsPopUp({
@@ -64,8 +58,6 @@ class AddMaterialItemsPopUpState extends State<AddMaterialItemsPopUp> {
 
   @override
   Widget build(BuildContext context) {
-    MaterialItemsState state = const MaterialItemsState();
-
     return AlertDialog(
       title: Align(
         alignment: Alignment.center,
@@ -220,11 +212,9 @@ class AddMaterialItemsPopUpState extends State<AddMaterialItemsPopUp> {
                               onTap: () {
                                 BaseOrganisationDialog().departmentDialog(
                                   context: context,
-                                  organisations: widget.users ?? [],
+                                  organisations: widget.users,
                                   onTap: (Organisation org) {
                                     unitController.text = org.name ?? '';
-
-
                                     setState(() {
                                       widget.model.unit = org;
                                     });

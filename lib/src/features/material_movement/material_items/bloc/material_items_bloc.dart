@@ -2,7 +2,6 @@ import 'dart:async';
 
 import '../../../../../index.dart';
 import '../../models/material_items_model.dart';
-import '../../models/material_items_response_model.dart';
 import '../../models/requestModels/material_items_request.dart';
 
 part 'material_items_event.dart';

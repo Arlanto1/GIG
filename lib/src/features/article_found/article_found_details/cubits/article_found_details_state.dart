@@ -92,6 +92,22 @@ class ArticleFoundDetailsState extends Equatable {
       return const ErrorResponse(status: false, message: 'Please enter SL No');
     }
 
+
+    if (model.claimantSign == null && model.status == 1) {
+      return const ErrorResponse(status: false, message: 'Claimant Signature is Mandatory');
+    }
+
+    if(model.idCardManager?.employeeId == model.idCardEmployee?.employeeId){
+      return const ErrorResponse(status: false, message: 'Manager Name and Employee Name should be different, Please select other user');
+    }
+
+    if(model.idCardManager?.employeeId == model.claimant?.employeeId){
+      return const ErrorResponse(status: false, message: 'Manager Name and Claimant Name should be different, Please select other user');
+    }
+
+    if(model.idCardEmployee?.employeeId == model.claimant?.employeeId){
+      return const ErrorResponse(status: false, message: 'Employee Name and Claimant Name should be different, Please select other user');
+    }
     // if (model.entities.isEmptyOrNull) {
     //   return const ErrorResponse(status: false, message: 'Please enter Entities');
     // }

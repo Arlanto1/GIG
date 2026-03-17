@@ -34,7 +34,7 @@ final ApprovalModel? approvalModel;
       departments: const [],
       loadAttachments: const [],
       quantityUnits: const [],
-      eventId: null, materialItems: [],
+      eventId: null, materialItems: const [],
         approvalModel:approvalModel?? ApprovalModel(),
     ),
   );
@@ -106,7 +106,7 @@ final ApprovalModel? approvalModel;
 
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
-    log('returnable-${returnable}--');
+    log('returnable-$returnable--');
 
     // Show Loader and emit loading state
     emit(
@@ -164,6 +164,7 @@ final ApprovalModel? approvalModel;
           : Utils.timestampToDateConversion(
           int.tryParse(state.model.inputDate ?? '0'),
           Constants.fulldateFormat);
+
       state.model.modifiedDate = state.model.modifiedDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
@@ -545,7 +546,7 @@ final ApprovalModel? approvalModel;
     }
   }
 
-  void addAttchment(List<ImageContent>? data) async {
+  void addAttachment(List<ImageContent>? data) async {
     log('--state.status-1---${state.status}----');
     emit(
       state.copyWith(
@@ -891,18 +892,62 @@ final ApprovalModel? approvalModel;
     emit(state.copyWith(status: FormStatus.loading));
 
     try {
-      // ---------- Helper function to convert date string to timestamp ----------
-      String convertToTimestamp(String? dateString) {
-        if (dateString == null || Utils().isTimestamp(dateString)) return dateString ?? '';
-        DateTime dateTime = DateFormat("dd/MM/yyyy HH:mm:ss").parse(dateString);
-        return (dateTime.toUtc().millisecondsSinceEpoch ~/ 1000).toString();
+      // DateTime dateTime =
+      //     DateFormat("dd/MM/yyyy a HH:mm:ss").parse(state.model.inputDate!);
+      // int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      // state.model.inputDate = inputDate.toString();
+
+      DateTime dateTime;
+      if (!Utils().isTimestamp(state.model.inputDate!)) {
+        dateTime =
+            DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
+        int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+        state.model.inputDate = inputDate.toString();
       }
 
-      // ---------- Update all relevant dates ----------
-      state.model.inputDate = convertToTimestamp(state.model.inputDate);
+      if(state.model.approvedDate !=null) {
+        if (!Utils().isTimestamp(state.model.approvedDate!)) {
+          dateTime =
+              DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.approvedDate!);
+          int inputDate = dateTime
+              .toUtc()
+              .millisecondsSinceEpoch ~/ 1000;
+          state.model.approvedDate = inputDate.toString();
+        }
+      }
+
       state.model.modifiedDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
-      state.model.approvedDate = convertToTimestamp(state.model.approvedDate);
-      state.model.rejectedDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+
+      // if (!Utils().isTimestamp(state.model.approvedDate!)) {
+      //   dateTime =
+      //       DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.approvedDate!);
+      //   int approvedDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      //   state.model.approvedDate = approvedDate.toString();
+      // }
+
+      // if(state.model.approvedDate !=null) {
+      //   DateTime date =
+      //   DateFormat("dd/MM/yyyy a HH:mm:ss").parse(state.model.approvedDate!);
+      //   int approvedDate = date
+      //       .toUtc()
+      //       .millisecondsSinceEpoch ~/ 1000;
+      //   state.model.approvedDate = approvedDate.toString();
+      // }
+
+
+
+      // ---------- Helper function to convert date string to timestamp ----------
+      // String convertToTimestamp(String? dateString) {
+      //   if (dateString == null || Utils().isTimestamp(dateString)) return dateString ?? '';
+      //   DateTime dateTime = DateFormat("dd/MM/yyyy HH:mm:ss").parse(dateString);
+      //   return (dateTime.toUtc().millisecondsSinceEpoch ~/ 1000).toString();
+      // }
+      //
+      // // ---------- Update all relevant dates ----------
+      // state.model.inputDate = convertToTimestamp(state.model.inputDate);
+      // state.model.modifiedDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+      // state.model.approvedDate = convertToTimestamp(state.model.approvedDate);
+      // state.model.rejectedDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
       // ---------- Push signatures ----------
       await pushSignature(controller: receiverSignatureController, isReceiverSignature: true);
@@ -948,20 +993,20 @@ final ApprovalModel? approvalModel;
         }
         response = await materialMovementServices.createMaterialMovement(body: request, flow: 3);
       } else {
-        state.model.inputDate = Utils.timestampToDateConversion(
-            int.tryParse(state.model.inputDate ?? '0'), Constants.fulldateFormat);
+        // state.model.inputDate = Utils.timestampToDateConversion(
+        //     int.tryParse(state.model.inputDate ?? '0'), Constants.fulldateFormat);
         state.model.modifiedDate = Utils.timestampToDateConversion(
             int.tryParse(state.model.modifiedDate ?? '0'), Constants.fulldateFormat);
         if (!state.isValid.status) {
-          state.model.inputDate = Utils.timestampToDateConversion(
-              int.tryParse(state.model.inputDate ?? '0'), Constants.fulldateFormat);
+          // state.model.inputDate = Utils.timestampToDateConversion(
+          //     int.tryParse(state.model.inputDate ?? '0'), Constants.fulldateFormat);
           state.model.modifiedDate = Utils.timestampToDateConversion(
               int.tryParse(state.model.modifiedDate ?? '0'), Constants.fulldateFormat);
           emit(state.copyWith(status: FormStatus.formError, message: state.isValid.message));
           return false;
         }
-        state.model.inputDate = Utils.timestampToDateConversion(
-            int.tryParse(state.model.inputDate ?? '0'), Constants.fulldateFormat);
+        // state.model.inputDate = Utils.timestampToDateConversion(
+        //     int.tryParse(state.model.inputDate ?? '0'), Constants.fulldateFormat);
         state.model.modifiedDate = Utils.timestampToDateConversion(
             int.tryParse(state.model.modifiedDate ?? '0'), Constants.fulldateFormat);
         response = await materialMovementServices.createMaterialMovement(body: request, flow: 2);
@@ -974,14 +1019,16 @@ final ApprovalModel? approvalModel;
       }
 
       // ---------- Convert timestamps back to readable dates ----------
-      state.model.inputDate = Utils.timestampToDateConversion(
-          int.tryParse(state.model.inputDate ?? '0'), Constants.fulldateFormat);
+      // state.model.inputDate = Utils.timestampToDateConversion(
+      //     int.tryParse(state.model.inputDate ?? '0'), Constants.fulldateFormat);
+      // state.model.modifiedDate = Utils.timestampToDateConversion(
+      //     int.tryParse(state.model.modifiedDate ?? '0'), Constants.fulldateFormat);
+      // if (state.model.approvedDate != null) {
+      //   state.model.approvedDate = Utils.timestampToDateConversion(
+      //       int.tryParse(state.model.approvedDate ?? '0'), Constants.fulldateFormat);
+      // }
       state.model.modifiedDate = Utils.timestampToDateConversion(
           int.tryParse(state.model.modifiedDate ?? '0'), Constants.fulldateFormat);
-      if (state.model.approvedDate != null) {
-        state.model.approvedDate = Utils.timestampToDateConversion(
-            int.tryParse(state.model.approvedDate ?? '0'), Constants.fulldateFormat);
-      }
 
       // ---------- Emit success ----------
       emit(state.copyWith(

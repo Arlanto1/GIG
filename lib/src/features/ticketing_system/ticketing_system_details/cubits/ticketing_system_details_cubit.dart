@@ -2,14 +2,9 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/ticketing_system/models/assignee_model.dart';
-import 'package:db_atom/src/features/ticketing_system/models/priority_model.dart';
-import 'package:db_atom/src/features/ticketing_system/models/projects_model.dart';
+import 'package:db_atom/src/features/ticketing_system/models/activityNote_model.dart';
 import 'package:db_atom/src/features/ticketing_system/models/requestModel/ticketing_system_request_model.dart';
-import 'package:db_atom/src/features/ticketing_system/models/trackers_model.dart';
 import 'package:intl/intl.dart';
-
-// import '../../models/requestModels/ticketing_system_request_model.dart';
 import '../../models/ticketing_system_model.dart';
 import '../../services/ticketing_system_services.dart';
 
@@ -33,7 +28,7 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
             priorities: const [],
             projects: const [],
             trackers: const [],
-            eventId: null,
+            eventId: null, locations: Locations(), listOfModules: const [], getStatus: const [],
           ),
         );
 
@@ -47,44 +42,85 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
+
   Future<void> initializeValues() async {
-    log('-status-1-${state.status}--');
+
     // Show Loader and emit loading state
-    emit(state.copyWith(status: FormStatus.loading));
-
-log('StartDate ${state.model.startDate}');
-    log('StartDate1 ${Utils().getCurrentDate()}');
-
-    // state.model.startDate = state.model.startDate ?? Utils().getCurrentDate();
-    state.model.startDate = state.model.startDate == null
-        ? Utils().getCurrentDate()
-        : Utils().formatUnixTimestamp(state.model.startDate ?? '');
+    emit(
+      state.copyWith(status: FormStatus.loading),
+    );
 
     var userId = await SharedPrefs.getUserId();
-    try {
-      // Perform multiple asynchronous operations concurrently
-      final List<dynamic> results = await Future.wait([
-        services.getProjects(),
-        services.getPriorities(),
-        services.getAssignee(),
-        services.getTrackers(),
-      ]);
 
-      // Assign results to variables with explicit data types
-      Projects projects = results[0];
-      Priorities priorities = results[1];
-      Assignee assignee = results[2];
-      Trackers trackers = results[3];
-      emit(state.copyWith(
-        model: model,
-        status: FormStatus.initial,
-        projects: projects.items,
-        priorities: priorities.items,
-        assignee: assignee.items,
-        trackers: trackers.items,
-      ));
+    Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+
+    if (state.model.location == null && defaultLocation != null) {
+      String moduleCode = Constants.ticketingSystemModuleCode;
+      SerialNumberModel slNo = await commonServices.getSlNo(
+        locationId: defaultLocation.id.toString(),
+        moduleCode: moduleCode,
+      );
+      state.model.location = defaultLocation;
+      state.model.ticketNo = slNo.serialNo;
+    }
+
+    try {
+      // Use Future.wait to call API functions concurrently
+      final futures = await Future.wait([
+        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
+        commonServices.getUserDetails(userId: userId),
+        commonServices.getUiLabels(
+            language: await SharedPrefs.getLanguageCode(),
+            moduleCode: Constants.ticketingSystemModuleCode),
+        SharedPrefs.getDefaultLocation(),
+        commonServices.getOrganisations(name: 'ATOM_MODULES_NAME_LIST'),
+        commonServices.getStatusesByModuleId(
+            module: Constants.ticketingSystemModuleCode,),
+      ]);
+      Locations locations = futures[0];
+      User loggedInUserDetails = futures[1];
+      dynamic responseLabels = futures[2];
+      Organisation? defaultLocation = futures[3];
+      List<Organisation> listOfModules = futures[4];
+      List<Organisation> getStatus = futures[5];
+      // Get Date of Creation
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model.inputDate ?? '0'),
+          Constants.fulldateFormat);
+
+      state.model.fromDate = state.model.fromDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model.fromDate ?? '0'),
+          Constants.fulldateFormat);
+
+      state.model.modifiedDate = state.model.modifiedDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model.modifiedDate ?? '0'),
+          Constants.fulldateFormat);
+
+      // PMUiLabels labels = PMUiLabels.fromJson(responseLabels);
+
+
+      state.model.createdBy ??= loggedInUserDetails;
+      state.model.assignee ??= 'support@arlanto.com';
+
+      emit(
+        state.copyWith(
+          locations: locations,
+          loggedInUserDetails: loggedInUserDetails,
+          status: FormStatus.initial,
+          model: state.model,
+          listOfModules:listOfModules,
+          getStatus :getStatus,
+        ),
+      );
     } catch (e) {
-      log('initialization issue', error: e, name: 'General Information Cubit');
+      log('Initialization issue',
+          error: e, name: 'Article Found Details Cubit');
       emit(
         state.copyWith(
           message: Constants.errorText,
@@ -95,12 +131,21 @@ log('StartDate ${state.model.startDate}');
     }
   }
 
-  Future<void> updateDropdownValues({
+  Future<void> refreshList() async {
+    emit(state.copyWith(status: FormStatus.loading));
+    List<Organisation>? listOfModules =
+    await commonServices.getOrganisations(name: 'ATOM_MODULES_NAME_LIST');
+    emit(
+      state.copyWith(
+        listOfModules: listOfModules,
+        status: FormStatus.initial,
+      ),
+    );
+  }
+
+
+  Future<void> updateLocationDropdownValue({
     Organisation? location,
-    Organisation? projects,
-    Organisation? priority,
-    Organisation? trackers,
-    BaseUser? assignee,
   }) async {
     emit(
       state.copyWith(
@@ -108,40 +153,104 @@ log('StartDate ${state.model.startDate}');
       ),
     );
 
-    state.model.project = projects ?? state.model.project;
-    if (projects == null && state.model.project == null) {
-      state.model.project =
-          Organisation(id: 8); // Set default Organisation if needed
-    }
 
-    state.model.priority = priority ?? state.model.priority;
-
-    if (priority == null && state.model.priority == null) {
-      state.model.priority =
-          Organisation(id: 1); // Set default Organisation if needed
-    }
-    state.model.tracker = trackers ?? state.model.tracker;
-
-    if (trackers == null && state.model.tracker == null) {
-      state.model.tracker =
-          Organisation(id: 1); // Set default Organisation if needed
-    }
-
-    if (assignee != null) {
-      User userDetails = User(
-        name: assignee.name,
-        userId: assignee.id,
-        // userName: assignee.name,
+    // Get Sl No from API
+    if (location != null) {
+      SerialNumberModel slNo = await commonServices.getSlNo(
+        locationId: location.id.toString(),
+        moduleCode: Constants.dayPassManagementModule,
       );
-      state.model.assignee = userDetails;
+      state.model.location = location;
+      state.model.ticketNo = slNo.serialNo;
+
     }
+
     emit(state.copyWith(
       model: state.model,
       status: FormStatus.initial,
     ));
   }
 
-  void submitForm() async {
+  Future<void> updateDropdownValues({
+    Organisation? location,
+    Organisation? projects,
+    Organisation? priority,
+    Organisation? trackers,
+    BaseUser? assignee,
+    int? status,
+    int? ticketType,
+    int? priorityType,
+    int? ticketRaisedFor,
+    int? ragStatus,
+    List<Organisation>? modulesName,
+
+
+  }) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+
+
+// Get Sl No from API
+    if (location != null) {
+      SerialNumberModel slNo = await commonServices.getSlNo(
+        locationId: location.id.toString(),
+        moduleCode: Constants.ticketingSystemModuleCode,
+      );
+
+      state.model.location = location;
+      state.model.ticketNo = slNo.serialNo ?? '';
+    }
+    if (status != null) {
+      state.model.status = status;
+    }
+
+    if (ticketType != null) {
+      state.model.ticketType = ticketType;
+    }
+
+    if (priorityType != null) {
+      state.model.priorityType = priorityType;
+    }
+
+
+    if (ticketRaisedFor != null) {
+      state.model.issuedForm = ticketRaisedFor;
+    }
+
+    if (ragStatus != null) {
+      state.model.ragStatus = ragStatus;
+    }
+
+
+    if (modulesName != null) {
+      state.model.modulesName = modulesName;
+    }
+
+    emit(state.copyWith(
+      model: state.model,
+      status: FormStatus.initial,
+    ));
+  }
+
+  void updateActivityNotes(List<ActivityNote> notes) {
+    emit(state.copyWith(
+      model: model,
+      status: FormStatus.loading,
+    ));
+    state.model.activityNotes = notes;
+    emit(
+      state.copyWith(
+        status: FormStatus.initial,
+        model: state.model,
+      ),
+    );
+  }
+
+
+  void submitForm({bool isSaveOnly = false}) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -151,13 +260,22 @@ log('StartDate ${state.model.startDate}');
     if (state.model.status == 0 || state.model.status == null) {
       state.model.status = 0;
     }
+
+    DateTime dateTime;
+    if (!Utils().isTimestamp(state.model.inputDate!)) {
+      dateTime =
+          DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
+      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      state.model.inputDate = inputDate.toString();
+    }
+
     // Setting time in milliseconds
 
     // state.model.startDate = state.model.startDate == null
     //     ? Utils().getCurrentDate()
     //     : Utils().formatUnixTimestamp(state.model.startDate ?? '');
 
-    state.model.startDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+    state.model.fromDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
 
     // Create/Update API Call
@@ -165,18 +283,75 @@ log('StartDate ${state.model.startDate}');
         TicketingSystemRequest(ticketingSystemModel: state.model);
 
     GenericResponse response = GenericResponse();
+
     try {
-      if (!state.isValidDraft.status) {
-        emit(
-          state.copyWith(
-            status: FormStatus.formError,
-            message: state.isValidDraft.message,
-          ),
-        );
-        return;
+      if (isSaveOnly) {
+        if (!state.isValidDraft.status) {
+          emit(
+            state.copyWith(
+              status: FormStatus.formError,
+              message: state.isValidDraft.message,
+            ),
+          );
+          state.model.inputDate = state.model.inputDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
+          state.model.fromDate = state.model.fromDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+              int.tryParse(state.model.fromDate ?? '0'),
+              Constants.fulldateFormat);
+          return;
+        }
+        response = (await services.createTicketingSystem(body: request, isSubmit: false));
+      } else {
+        //Validating Fields
+        if (!state.isValid.status) {
+          emit(
+            state.copyWith(
+              status: FormStatus.formError,
+              message: state.isValid.message,
+            ),
+          );
+          state.model.inputDate = state.model.inputDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
+          state.model.fromDate = state.model.fromDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+              int.tryParse(state.model.fromDate ?? '0'),
+              Constants.fulldateFormat);
+          return;
+        }
+        response = (await services.createTicketingSystem(
+            body: request, isSubmit: true));
       }
-      response = (await services.createTicketingSystem(body: request));
-    } on GenericResponse catch (e) {
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model.inputDate ?? '0'),
+          Constants.fulldateFormat);
+      state.model.fromDate = state.model.fromDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model.fromDate ?? '0'),
+          Constants.fulldateFormat);
+    }
+    on GenericResponse catch (e) {
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model.inputDate ?? '0'),
+          Constants.fulldateFormat);
+      state.model.fromDate = state.model.fromDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model.fromDate ?? '0'),
+          Constants.fulldateFormat);
       emit(
         state.copyWith(
           message: e.message,

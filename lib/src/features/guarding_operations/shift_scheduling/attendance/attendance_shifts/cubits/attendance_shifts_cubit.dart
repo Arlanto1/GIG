@@ -45,7 +45,7 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
 
     // model = DutyPostModel.fromJson(json.decode(jsonStringold));
 
-    var userId = await SharedPrefs.getUserId();
+    await SharedPrefs.getUserId();
     try {
       Organisation selectedRank;
       List<Organisation> ranks = await services.getAttendanceRanksByDutyPostId(

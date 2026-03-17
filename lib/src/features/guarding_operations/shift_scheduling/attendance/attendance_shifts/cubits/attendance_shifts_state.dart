@@ -78,7 +78,7 @@ class AttendanceShiftsState extends Equatable {
     return AttendanceShiftsState(
       status: status ?? this.status,
       model: model ?? this.model,
-      locationNames: locationNames ?? this.locationNames,
+      locationNames: locationNames ?? locationNames,
       message: message ?? this.message,
       briefingPoints: briefingPoints ?? this.briefingPoints,
       labels: labels ?? this.labels,

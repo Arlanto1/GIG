@@ -83,10 +83,6 @@ class AddContactPopUpState extends State<AddContactPopUp> {
 
   @override
   Widget build(BuildContext context) {
-    bool isInteractionDisabled = widget.parentStatus != null &&
-        widget.parentStatus != 0 &&
-        widget.parentStatus != 1 &&
-        widget.lock != null;
 
     return Stack(
       children: [
@@ -94,7 +90,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
         BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
           child: Container(
-            color: Colors.black.withOpacity(0.25), // dim + blur
+            color: Colors.black.withValues(alpha: 0.25), // dim + blur
           ),
         ),
 
@@ -162,6 +158,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                               children: <Widget>[
                                 Column(
                                   children: [
+                                    if(widget.rankType != Constants.contactZone)...[
                                     /// Rank
                                     CommonWidgets.textDisplay(
                                       rank,
@@ -235,6 +232,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                                       },
                                     )
                                   ],
+                          ],
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
@@ -242,30 +240,30 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                                 /// State
                                 if (widget.rankType ==
                                     Constants.contactZone) ...[
-                                  CommonWidgets.textDisplay(
-                                    Constants.state,
-                                    //isMandatory: true,
-                                    Styles.textStyleWhite16,
-                                  ),
-                                  CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01),
-                                  FlutterInputField(
-                                    initialValue: stateController.text,
-                                    textInputType: TextInputType.text,
-                                    textFormKey: Keys.nameKey,
-                                    hintText: '',
-                                    focusNode: nameFocusNode,
-                                    isEnable: false,
-                                    isDisableColor: true,
-                                    onChange: (String value) {
-                                      log('-widget.contact.rank?.state--value--$value-');
-                                      widget.model.state = value;
-                                      log('-widget.contact.rank?.state----${widget.model.state}-');
-                                    },
-                                    validateTextField: (String? user) {},
-                                  ),
-                                  CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01),
+                                  // CommonWidgets.textDisplay(
+                                  //   Constants.state,
+                                  //   //isMandatory: true,
+                                  //   Styles.textStyleWhite16,
+                                  // ),
+                                  // CommonWidgets.verticalSpacerWidget(
+                                  //     height * 0.01),
+                                  // FlutterInputField(
+                                  //   initialValue: stateController.text,
+                                  //   textInputType: TextInputType.text,
+                                  //   textFormKey: Keys.nameKey,
+                                  //   hintText: '',
+                                  //   focusNode: nameFocusNode,
+                                  //   isEnable: false,
+                                  //   isDisableColor: true,
+                                  //   onChange: (String value) {
+                                  //     log('-widget.contact.rank?.state--value--$value-');
+                                  //     widget.model.state = value;
+                                  //     log('-widget.contact.rank?.state----${widget.model.state}-');
+                                  //   },
+                                  //   validateTextField: (String? user) {},
+                                  // ),
+                                  // CommonWidgets.verticalSpacerWidget(
+                                  //     height * 0.01),
 
                                   /// Escalation Level
                                   CommonWidgets.textDisplay(

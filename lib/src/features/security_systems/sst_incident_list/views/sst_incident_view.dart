@@ -183,7 +183,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                       child: BackdropFilter(
                         filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
                         child: Container(
-                          color: Colors.black.withOpacity(0.2),
+                          color: Colors.black.withValues(alpha: 0.2),
                         ),
                       ),
                     ),
@@ -227,7 +227,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                       },
                       child: ListView.builder(
                         controller: _scrollController,
-                        padding: EdgeInsets.zero,
+                        padding: const EdgeInsets.only(bottom: 100),
                         itemCount: state.hasReachedMax
                             ? state.items.length
                             : state.items.length + 1,
@@ -311,7 +311,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                                                           alpha: 0.09),
                                                       // Color(0xFF6474C6).withOpacity(0.14)
                                                     ],
-                                                    stops: [0.02, 0.35, 1],
+                                                    stops: const [0.02, 0.35, 1],
                                                     begin: Alignment.topCenter,
                                                     end: Alignment.bottomCenter,
                                                   ),
@@ -482,7 +482,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                                                                       Constants
                                                                           .sentReminder,
                                                                       style:
-                                                                          const TextStyle(
+                                                                           TextStyle(
                                                                         fontSize:
                                                                             18,
                                                                         fontWeight:
@@ -501,7 +501,7 @@ class _SstIncidentViewState extends State<SstIncidentView> {
                                                                       Constants
                                                                           .sentRemindertoVendor,
                                                                       style:
-                                                                          const TextStyle(
+                                                                           TextStyle(
                                                                         fontSize:
                                                                             15,
                                                                         color: Colors

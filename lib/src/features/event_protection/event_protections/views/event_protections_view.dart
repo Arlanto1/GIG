@@ -36,21 +36,6 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
     super.dispose();
   }
 
-  // void _onScroll() {
-  //   if (!_scrollController.hasClients) return;
-  //   final maxScroll = _scrollController.position.maxScrollExtent;
-  //   final currentScroll = _scrollController.position.pixels;
-  //
-  //   // Set a threshold value, e.g., 100 pixels from the end
-  //   const threshold = 1000.0;
-  //
-  //   if (maxScroll - currentScroll <= threshold) {
-  //     pageNumber = pageNumber + 20;
-  //     context
-  //         .read<EventProtectionsBloc>()
-  //         .add(InwardFetch(startPos: pageNumber, maxPos: 20));
-  //   }
-  // }
 
   void _onScroll() {
     if (!_scrollController.hasClients) return;
@@ -77,8 +62,6 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
   @override
   Widget build(BuildContext context) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
-    final size = MediaQuery.of(context).size;
-    double height = size.height;
     return BlocConsumer<EventProtectionsBloc, EventProtectionsState>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -86,20 +69,6 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
           backgroundColor:AppColors.newColor,
           extendBody: true,
           extendBodyBehindAppBar: true,
-          // backgroundColor: AppColors.cardBgColor,
-          // floatingActionButton:
-          //     state.extraProperties?.hasWritePermission ?? false
-          //         ? Flutterfloatingbutton(
-          //             backgroundColor: AppColors.navigationSkyBlueColor,
-          //             foregroundColor: AppColors.backgroundWhiteColor,
-          //             onPressed: () => {
-          //               Navigator.pushNamed(
-          //                 context,
-          //                 eventProtectionDetailsTabRoute,
-          //               )
-          //             },
-          //           )
-          //         : const SizedBox(),
           bottomNavigationBar: CustomBottomNavigationBar(
             hasAddPermission: false,
             scaffoldKey: scaffoldKey,
@@ -147,7 +116,7 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                       child: BackdropFilter(
                         filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
                         child: Container(
-                          color: Colors.black.withOpacity(0.2),
+                          color: Colors.black.withValues(alpha: 0.2),
                         ),
                       ),
                     ),
@@ -186,7 +155,7 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                       },
                         child: ListView.builder(
                           controller: _scrollController,
-                          padding: EdgeInsets.zero,
+                          padding: const EdgeInsets.only(bottom: 100),
                           itemCount: state.hasReachedMax
                               ? state.items.length
                               : state.items.length + 1,
@@ -284,7 +253,7 @@ class _EventProtectionsViewState extends State<EventProtectionsView> {
                                                   Colors.white.withValues(alpha: 0.09),
                                                   // Color(0xFF6474C6).withOpacity(0.14)
                                                 ],
-                                                stops: [0.02, 0.35, 1],
+                                                stops: const [0.02, 0.35, 1],
                                                 begin: Alignment.topCenter,
                                                 end: Alignment.bottomCenter,
                                               ),

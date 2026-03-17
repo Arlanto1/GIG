@@ -41,6 +41,7 @@ class ConstantsArgument {
   static const String unit = "unit";
   static const String isInward = "isInward";
   static const String isCSREvent = "isCSREvent";
+  static const String isTransport = "isTransport";
 
 
 }

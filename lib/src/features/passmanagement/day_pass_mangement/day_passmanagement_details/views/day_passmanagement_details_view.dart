@@ -421,6 +421,69 @@ class _DayPassManagementDetailsViewState
                                 all: state.listOfEntities ?? [],
                                 enabled: !isReadOnly,
                                 onTap: (List<Organisation> selectedEntities) {
+
+
+                                  bool hasDws = selectedEntities.any((e) => e.name == 'DWS');
+
+                                  if (hasDws && selectedEntities.length > 1) {
+                                    showDialog(
+                                      context: context,
+                                      barrierColor: Colors.black.withValues(alpha: 0.3),
+                                      builder: (context) {
+                                        return Dialog(
+                                          backgroundColor: Colors.transparent,
+                                          elevation: 0,
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(20),
+                                            child: BackdropFilter(
+                                              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                                              child: Container(
+                                                padding: const EdgeInsets.all(20),
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(20),
+                                                  color: Colors.black.withValues(alpha: 0.15),
+                                                  border: Border.all(
+                                                    color: Colors.white.withValues(alpha: 0.3),
+                                                  ),
+                                                ),
+                                                child: Column(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: [
+                                                    const Text(
+                                                      "Validation",
+                                                      style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight: FontWeight.bold,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(height: 10),
+                                                    const Text(
+                                                      "Multiple entities selection is restricted, when DWS entity is selected.",
+                                                      textAlign: TextAlign.center,
+                                                      style: TextStyle(color: Colors.white),
+                                                    ),
+                                                    const SizedBox(height: 20),
+                                                    ElevatedButton(
+                                                      style: ElevatedButton.styleFrom(
+                                                        backgroundColor: Colors.white.withValues(alpha: 0.3),
+                                                        elevation: 0,
+                                                      ),
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: const Text("OK"),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                    return;
+                                  }
                                   BlocProvider.of<
                                               DayPassManagementDetailsCubit>(
                                           context)

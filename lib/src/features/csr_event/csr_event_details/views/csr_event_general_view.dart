@@ -8,11 +8,13 @@ import 'package:db_atom/src/features/csr_event/models/csr_event_model.dart';
 class CSRGeneralInfoView extends StatefulWidget {
   final CSREventGiModel? model;
   final ExtraProperties? extraProperties;
+  final bool isCSREvent;
 
   const CSRGeneralInfoView({
     this.model,
     super.key,
     this.extraProperties,
+    required this.isCSREvent,
   });
 
   @override
@@ -25,12 +27,16 @@ class _CSRGeneralInfoViewState extends State<CSRGeneralInfoView> {
   TextEditingController eventEndDateController = TextEditingController();
   TextEditingController statusController = TextEditingController();
   bool disableForm = false;
+  TextEditingController sensitiveInfoController = TextEditingController();
+  TextEditingController mediaExposureController = TextEditingController();
 
   final FocusNode lSM1ContactNoFocusNode = FocusNode();
   final FocusNode lSM2ContactNoFocusNode = FocusNode();
   final FocusNode pocContactNoFocusNode = FocusNode();
   final FocusNode pocEscalationContactNoFocusNode = FocusNode();
   List<ImageContent> uploadFiles = [];
+  List<ImageContent> uploadPhotographyFiles = [];
+  List<ImageContent> uploadVendorStaffFiles = [];
 
   @override
   void initState() {
@@ -45,8 +51,8 @@ class _CSRGeneralInfoViewState extends State<CSRGeneralInfoView> {
     return BlocConsumer<CSRGeneralInfoCubit, CSRGeneralInfoState>(
       listener: (context, state) {
         debugPrint('ID12345');
-
-        log('-state.status---${state.status}----');
+log('widget.isCSREvent ${widget.isCSREvent}');
+        log('state.model.photographyApproved${state.model.photographyApproved}----');
         Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
 
@@ -63,7 +69,8 @@ class _CSRGeneralInfoViewState extends State<CSRGeneralInfoView> {
               Navigator.popAndPushNamed(
                 context,
                 csrEventListRoute,
-                arguments: {},
+                arguments: {
+                  "isCSREvent": widget.isCSREvent                },
               );
             },
           );
@@ -97,7 +104,7 @@ class _CSRGeneralInfoViewState extends State<CSRGeneralInfoView> {
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
-            title: Constants.cSREventList,
+            title: widget.isCSREvent == true ? Constants.cSREventList : Constants.sportEventList,
             showPopUp: false,
             showSaveButton: false,
             showSubmitButton: false,
@@ -144,12 +151,26 @@ class _CSRGeneralInfoViewState extends State<CSRGeneralInfoView> {
       return const BaseLoader();
     }
 
+    mediaExposureController.text = state.model.mediaExposure.toString();
+    sensitiveInfoController.text = state.model.sensitiveInfoRisk.toString();
+
 
     if (state.status == FormStatus.addAttachment ||
         state.status == FormStatus.initial) {
-      uploadFiles = state.loadAttachments;
-      // uploadFiles = state.model.images ?? [];
+
+      uploadFiles = [...state.loadAttachments];
+
+      if (state.model.map != null) {
+        uploadFiles.add(state.model.map!);
+      }
     }
+    if (state.status == FormStatus.addAttachment ||
+        state.status == FormStatus.initial) {
+      uploadPhotographyFiles = state.loadAttachments;
+      uploadPhotographyFiles = state.model.photographyApprovedProof!;
+      uploadVendorStaffFiles = state.model.vendorStaffDetails!;
+    }
+
 
     // return Container(
     //   color: AppColors.white,
@@ -208,9 +229,10 @@ class _CSRGeneralInfoViewState extends State<CSRGeneralInfoView> {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 20.0, right: 20),
                           child: Column(children: [
-                            if (!state.model.lock.isEmptyOrNull) ...[
-                              RecordLockedWidget(text: '${state.model.lock}'),
-                            ],
+
+                            // if (!state.model.lock.isEmptyOrNull) ...[
+                            //   RecordLockedWidget(text: '${state.model.lock}'),
+                            // ],
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                             Container(
                               alignment: Alignment.topLeft,
@@ -412,30 +434,11 @@ class _CSRGeneralInfoViewState extends State<CSRGeneralInfoView> {
                               Styles.textStyleWhite14,
                             ),
                             RadioButtonsYesNo(
+                              isEvent: true,
                               status: state.model.status ?? 0,
-                                // selectedValue: 0,
                               selectedValue: state.model.eventType ? 1 : 0,
                               onChangedYes: null,
-                              // !showSaveSubmitButtons
-                              //     ? null
-                              //     : (val) {
-                              //   state.model.anyEvent = true;
-                              //   state.model.notifyScri = null;
-                              //   BlocProvider.of<OccurrenceGeneralInfoCubit>(
-                              //     context,
-                              //   ).showFields(anyEvent: true);
-                              //   //.onModelValueChange(state.guardingMasterData
-                              //   //);
-                              // },
                               onChangedNo: null
-                              //     ? null
-                              //     : (val) {
-                              //   state.model.anyEvent = false;
-                              //   state.model.notifyScri = null;
-                              //   BlocProvider.of<OccurrenceGeneralInfoCubit>(
-                              //     context,
-                              //   ).showFields(anyEvent: false);
-                              // },
                             ),
 
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
@@ -477,7 +480,7 @@ class _CSRGeneralInfoViewState extends State<CSRGeneralInfoView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                             FlutterInputField(
                               textInputType: TextInputType.text,
-                              initialValue: state.model.lsm1ContactNo,
+                              initialValue: state.model.eventLocation,
                               textFormKey: Keys.lsm1ContactNOKey,
                               hintText: '',
                               focusNode: lSM1ContactNoFocusNode,
@@ -533,7 +536,7 @@ class _CSRGeneralInfoViewState extends State<CSRGeneralInfoView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                             FlutterInputField(
                               textInputType: TextInputType.text,
-                              initialValue: state.model.lsm1ContactNo,
+                              initialValue: '${state.model.externalVipAttendance}',
                               textFormKey: Keys.lsm1ContactNOKey,
                               hintText: '',
                               focusNode: lSM1ContactNoFocusNode,
@@ -541,16 +544,40 @@ class _CSRGeneralInfoViewState extends State<CSRGeneralInfoView> {
                               characterLimit: Constants.characterLimitContactNo,
                               isDisableColor: true,
                               onChange: (String value) {
-                                // state.model.lsm1ContactNo = value;
-                                // context
-                                //     .read<CSRGeneralInfoCubit>()
-                                //     .onModelValueChange(state.model);
                               },
                               validateTextField: (String? user) {},
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
 
 
+                            if(widget.isCSREvent == false)...[
+                            ///Is Extra Security Deployment Required
+                            Row(children: [
+                              CommonWidgets.textDisplay(
+                                // state.labels?.locale.extraSecurityDeployed ??
+                                //     state.labels?.defaultLocale
+                                //         .extraSecurityDeployed ??
+                                    Constants
+                                        .isAmbulanceStationed,
+                                Styles.textStyleWhite16,
+                              ),
+                              Opacity(
+                                opacity: disableForm ? 0.5 : 1,
+                                child: Checkbox(
+                                    activeColor: const Color(0xFF071130),
+                                    focusColor: const Color(0xFF071130),
+                                    value: state.model.ambulanceStationed,
+                                    onChanged: (bool? value) {
+                                      state.model.ambulanceStationed =
+                                      value!;
+                                      BlocProvider.of<
+                                          CSRGeneralInfoCubit>(
+                                          context)
+                                          .onCheckBoxChange(state.model);
+                                    }),
+                              )
+                            ]),
+],
                             /// Event Coordinator Primary
                             CommonWidgets.textDisplay(
                                 // state.labels?.locale.lsm1 ??
@@ -838,6 +865,45 @@ class _CSRGeneralInfoViewState extends State<CSRGeneralInfoView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
 
+                            /// is there media exposure to the event?
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.staffCategory ??
+                              //     state.labels?.defaultLocale.staffCategory ??
+                                Constants.mediaExposure,
+                                //isMandatory: true,
+                                Styles.textStyleWhite14),
+                            CommonWidgets.verticalSpacerWidget(
+                                height * 0.01),
+
+                            BaseDropDown().getDropDown(
+                                isDisabled: true,
+                                textController: mediaExposureController,
+                                initialValue:
+                                state.model.mediaExposure.toString(),
+                                items: mediaExposure,
+                                onTap: () {
+                                }),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+                            /// Sensitive information Risk
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.staffCategory ??
+                              //     state.labels?.defaultLocale.staffCategory ??
+                                Constants.senstitiveInfoRisk,
+                                //isMandatory: true,
+                                Styles.textStyleWhite14),
+                            CommonWidgets.verticalSpacerWidget(
+                                height * 0.01),
+
+                            BaseDropDown().getDropDown(
+                                isDisabled: true,
+                                textController: sensitiveInfoController,
+                                initialValue:
+                                state.model.sensitiveInfoRisk.toString(),
+                                items: riskInfo,
+                                onTap: () {
+                                }),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Name of NGO/Vendors Engaged for event
                             CommonWidgets.textDisplay(
@@ -876,120 +942,23 @@ class _CSRGeneralInfoViewState extends State<CSRGeneralInfoView> {
                                 Styles.textStyleWhite16,
                                 isMandatory: true),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            //if (!disableForm) ...[
-                            // Column(
-                            //   crossAxisAlignment: CrossAxisAlignment.start,
-                            //   children: [
-                            //     ...state.model.vendorPocName
-                            //         ?.asMap()
-                            //         .entries
-                            //         .map((entry) {
-                            //       final index = entry.key;
-                            //       final officer = entry.value;
-                            //       return Row(
-                            //         mainAxisAlignment:
-                            //         MainAxisAlignment.spaceBetween,
-                            //         children: <Widget>[
-                            //           Row(
-                            //             children: <Widget>[
-                            //               const SizedBox(width: 10),
-                            //               BasicWidgetFunctions()
-                            //                   .getStringText(
-                            //                 strings: [officer],
-                            //               ),
-                            //             ],
-                            //           ),
-                            //           GestureDetector(
-                            //             onTap: () {
-                            //               // // Remove the officer from the list
-                            //               // state.model.vendorPocName
-                            //               //     ?.removeAt(index);
-                            //               // Trigger UI update
-                            //               BlocProvider.of<CSRGeneralInfoCubit>(
-                            //                   context)
-                            //                   .onCheckBoxChange(
-                            //                   state.model);
-                            //             },
-                            //             // child: Row(
-                            //             //   children: <Widget>[
-                            //             //     const SizedBox(width: 10),
-                            //             //     SvgPicture.asset(
-                            //             //       AppIcon.closeicon,
-                            //             //       // Add your close
-                            //             //       // icon asset here
-                            //             //       colorFilter:
-                            //             //       const ColorFilter.mode(
-                            //             //         AppColors.white,
-                            //             //         BlendMode.srcIn,
-                            //             //       ),
-                            //             //       // color: Colors
-                            //             //       //     .black, // Set color as per your design
-                            //             //     ),
-                            //             //     const SizedBox(width: 14),
-                            //             //   ],
-                            //             // ),
-                            //           ),
-                            //         ],
-                            //       );
-                            //     }).toList() ??
-                            //         [],
-                            //     GestureDetector(
-                            //       onTap: () {
-                            //         BaseOrganisationDialog().userDialog(
-                            //           context: context,
-                            //           enabled: !disableForm,
-                            //           users: state.emailUsers!,
-                            //           isDbUser: true,
-                            //           onTap: (BaseUser user) {
-                            //             // state.model.vendorPocName ??= [];
-                            //             state.model.vendorPocName ??= '';
-                            //             if (state.model.vendorPocName!
-                            //                 .contains(user.email!)) {
-                            //               ScaffoldMessenger.of(context)
-                            //                   .showSnackBar(
-                            //                 const SnackBar(
-                            //                   content: Text(
-                            //                       'Officer already added! Please add another officer.'),
-                            //                 ),
-                            //               );
-                            //               return;
-                            //             }
-                            //
-                            //             // state.model.vendorPocName
-                            //             //     ?.add(user.email ?? '');
-                            //             log('--eventProtectionGi--22-${state.model.vendorPocName}-');
-                            //             BlocProvider.of<CSRGeneralInfoCubit>(
-                            //                 context)
-                            //                 .onCheckBoxChange(state.model);
-                            //           },
-                            //           locationId: state.model.location!.id!,
-                            //         );
-                            //       },
-                            //       // child: Row(
-                            //       //   children: <Widget>[
-                            //       //     const SizedBox(width: 14),
-                            //       //     // SvgPicture.asset(
-                            //       //     //   AppIcon.pluscircle,
-                            //       //     //   colorFilter: const ColorFilter.mode(
-                            //       //     //     AppColors.boldGreyBackground,
-                            //       //     //     BlendMode.srcIn,
-                            //       //     //   ),
-                            //       //     //   // color: AppColors.navigationSkyBlueColor,
-                            //       //     // ),
-                            //       //     const SizedBox(width: 10),
-                            //       //     const Text(
-                            //       //       'Add Officer',
-                            //       //       style: TextStyle(
-                            //       //           color: AppColors.white,
-                            //       //           decoration:
-                            //       //           TextDecoration.underline,
-                            //       //           decorationColor: AppColors.white),
-                            //       //     ),
-                            //       //   ],
-                            //       // ),
-                            //     ),
-                            //   ],
-                            // ),
+                            ListView.builder(
+                              itemCount: state.model.vendorPocName?.length ?? 0,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                final officer = state.model.vendorPocName![index];
+
+                                return Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 10),
+                                  child: BasicWidgetFunctions().getStringText(
+                                    strings: [officer],
+                                  ),
+                                );
+                              },
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+
                             /// Event Management Vendor POC Mobile NO
                             CommonWidgets.textDisplay(
                                 // state.labels?.locale.bu2ContactNo ??
@@ -1020,162 +989,213 @@ class _CSRGeneralInfoViewState extends State<CSRGeneralInfoView> {
 
                             /// Event Management Vendor Staff List
                             CommonWidgets.textDisplay(
-                                // state.labels?.locale.epOfficers ??
-                                //     state.labels?.defaultLocale.epOfficers ??
-                                    Constants.eventMgmtVendorStaffList,
+                              Constants.eventMgmtVendorStaffList,
+                              Styles.textStyleWhite16,
+                              isMandatory: true,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                           ListView.builder(
+                                itemCount: state.model.vendorStaffList?.length ?? 0,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  final officer = state.model.vendorStaffList![index];
+
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 10),
+                                    child: BasicWidgetFunctions().getStringText(
+                                      strings: [officer],
+                                    ),
+                                  );
+                                },
+                              ),
+
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.evidenceInfo ??
+                              //     state.labels?.defaultLocale.evidenceInfo ??
+                                Constants.vendorStaffDetailsUpload,
+                                Styles.textStyleWhite16),
+                            BaseImageUpload().getAttachment(
+                              height: height,
+                              attachments: state.loadAttachments,
+                              files: uploadVendorStaffFiles,
+                              moduleCode: '',
+                              isDisabled: true,
+                              showDeleteIcon: false,
+                            ),
+
+                            Row(children: [
+                              CommonWidgets.textDisplay(
+                                // state.labels?.locale.extraSecurityDeployed ??
+                                //     state.labels?.defaultLocale
+                                //         .extraSecurityDeployed ??
+                                Constants
+                                    .photoGraPhyReqired,
                                 Styles.textStyleWhite16,
-                                isMandatory: true),
+                              ),
+                              Opacity(
+                                opacity: disableForm ? 0.5 : 1,
+                                child: Checkbox(
+                                    activeColor: const Color(0xFF071130),
+                                    focusColor: const Color(0xFF071130),
+                                    value: state.model.photographyApproved,
+                                    onChanged: (bool? value) {
+                                      state.model.photographyApproved =
+                                      value!;
+                                      BlocProvider.of<
+                                          CSRGeneralInfoCubit>(
+                                          context)
+                                          .onCheckBoxChange(state.model);
+                                    }),
+                              )
+                            ]),
+
+                            if(state.model.photographyApproved == true)...[
+                              CommonWidgets.textDisplay(
+                                // state.labels?.locale.evidenceInfo ??
+                                //     state.labels?.defaultLocale.evidenceInfo ??
+                                  Constants.photoGraPhyReqiredEvidence,
+                                  Styles.textStyleWhite16),
+                              BaseImageUpload().getAttachment(
+                                height: height,
+                                attachments: state.loadAttachments,
+                                files: uploadPhotographyFiles,
+                                moduleCode: '',
+                                isDisabled: true,
+                                showDeleteIcon: false,
+                              ),
+                            ],
+
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
-                            //if (!disableForm) ...[
-                            // Column(
-                            //   crossAxisAlignment: CrossAxisAlignment.start,
-                            //   children: [
-                            //     ...state.model.epOfficers
-                            //         ?.asMap()
-                            //         .entries
-                            //         .map((entry) {
-                            //       final index = entry.key;
-                            //       final officer = entry.value;
-                            //       return Row(
-                            //         mainAxisAlignment:
-                            //         MainAxisAlignment.spaceBetween,
-                            //         children: <Widget>[
-                            //           Row(
-                            //             children: <Widget>[
-                            //               const SizedBox(width: 10),
-                            //               BasicWidgetFunctions()
-                            //                   .getStringText(
-                            //                 strings: [officer],
-                            //               ),
-                            //             ],
-                            //           ),
-                            //           GestureDetector(
-                            //             onTap: () {
-                            //               // Remove the officer from the list
-                            //               state.model.epOfficers
-                            //                   ?.removeAt(index);
-                            //               // Trigger UI update
-                            //               BlocProvider.of<CSRGeneralInfoCubit>(
-                            //                   context)
-                            //                   .onCheckBoxChange(
-                            //                   state.model);
-                            //             },
-                            //             // child: Row(
-                            //             //   children: <Widget>[
-                            //             //     const SizedBox(width: 10),
-                            //             //     SvgPicture.asset(
-                            //             //       AppIcon.closeicon,
-                            //             //       // Add your close
-                            //             //       // icon asset here
-                            //             //       colorFilter:
-                            //             //       const ColorFilter.mode(
-                            //             //         AppColors.white,
-                            //             //         BlendMode.srcIn,
-                            //             //       ),
-                            //             //       // color: Colors
-                            //             //       //     .black, // Set color as per your design
-                            //             //     ),
-                            //             //     const SizedBox(width: 14),
-                            //             //   ],
-                            //             // ),
-                            //           ),
-                            //         ],
-                            //       );
-                            //     }).toList() ??
-                            //         [],
-                            //     GestureDetector(
-                            //       onTap: () {
-                            //         BaseOrganisationDialog().userDialog(
-                            //           context: context,
-                            //           enabled: !disableForm,
-                            //           users: state.emailUsers!,
-                            //           isDbUser: true,
-                            //           onTap: (BaseUser user) {
-                            //             state.model.epOfficers ??= [];
-                            //
-                            //             if (state.model.epOfficers!
-                            //                 .contains(user.email!)) {
-                            //               ScaffoldMessenger.of(context)
-                            //                   .showSnackBar(
-                            //                 const SnackBar(
-                            //                   content: Text(
-                            //                       'Officer already added! Please add another officer.'),
-                            //                 ),
-                            //               );
-                            //               return;
-                            //             }
-                            //
-                            //             state.model.epOfficers
-                            //                 ?.add(user.email ?? '');
-                            //             log('--eventProtectionGi--22-${state.model.epOfficers}-');
-                            //             BlocProvider.of<CSRGeneralInfoCubit>(
-                            //                 context)
-                            //                 .onCheckBoxChange(state.model);
-                            //           },
-                            //           locationId: state.model.location!.id!,
-                            //         );
-                            //       },
-                            //       // child: Row(
-                            //       //   children: <Widget>[
-                            //       //     const SizedBox(width: 14),
-                            //       //     SvgPicture.asset(
-                            //       //       AppIcon.pluscircle,
-                            //       //       colorFilter: const ColorFilter.mode(
-                            //       //         AppColors.boldGreyBackground,
-                            //       //         BlendMode.srcIn,
-                            //       //       ),
-                            //       //       // color: AppColors.navigationSkyBlueColor,
-                            //       //     ),
-                            //       //     const SizedBox(width: 10),
-                            //       //     const Text(
-                            //       //       'Add Officer',
-                            //       //       style: TextStyle(
-                            //       //           color: AppColors.white,
-                            //       //           decoration:
-                            //       //           TextDecoration.underline,
-                            //       //           decorationColor: AppColors.white),
-                            //       //     ),
-                            //       //   ],
-                            //       // ),
-                            //     ),
-                            //   ],
-                            // ),
-                            // CommonWidgets.verticalSpacerWidget(height * 0.02),
                             ///Upload Image
                             CommonWidgets.textDisplay(
                                 // state.labels?.locale.evidenceInfo ??
                                 //     state.labels?.defaultLocale.evidenceInfo ??
                                     Constants.map,
                                 Styles.textStyleWhite16),
-                              BaseImageUpload().uploadWidget(
-                                context: context,
-                                isDisabled: true,
-                                loggedInUserDetails: state.loggedInUserDetails!,
-                                getFiles: uploadFiles,
-                                onImageSelected: (ImageContent data) {
-                                  List<ImageContent>? files = [];
-                                  files.add(data);
-                                  for (ImageContent image in uploadFiles) {
-                                    files.add(image);
-                                  }
-                                  BlocProvider.of<CSRGeneralInfoCubit>(
-                                      context)
-                                      .addAttachment(
-                                    data: files,
-                                    images: files,
-                                  );
-                                },
-                              ),
                             BaseImageUpload().getAttachment(
                               height: height,
                               attachments: state.loadAttachments,
                               files: uploadFiles,
-                              moduleCode: Constants.articleFoundModuleCode,
+                              moduleCode: '',
                               isDisabled: true,
                               showDeleteIcon: false,
-                            ), ]),),
+                            ),
+                      CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+
+                      if(state.model.status != 0 && state.model.status != 1 && state.model.status != 2 && state.model.status !=null)...[
+                      /// Additional Information
+                      CommonWidgets.textDisplay(
+                        // state.labels?.locale.lsm1ContactNo ??
+                        //     state.labels?.defaultLocale.lsm1ContactNo ??
+                          Constants.additionalinformation,
+                          Styles.textStyleWhite16,
+                          isMandatory: true),
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      FlutterInputField(
+                        textInputType: TextInputType.text,
+                        initialValue: state.model.additionalInfo,
+                        textFormKey: Keys.lsm1ContactNOKey,
+                        hintText: '',
+                        focusNode: lSM1ContactNoFocusNode,
+                        isEnable: false,
+                        characterLimit: Constants.characterLimitContactNo,
+                        isDisableColor: true,
+                        onChange: (String value) {
+                        },
+                        validateTextField: (String? user) {},
+                      ),
+                      CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.lsm1ContactNo ??
+                              //     state.labels?.defaultLocale.lsm1ContactNo ??
+                                Constants.assistanceInfo,
+                                Styles.textStyleWhite16,
+                                isMandatory: true),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+                            Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(7),
+                          border: Border.all(color: Colors.white, width: .7),
+                        ),
+                        child: Column(
+                          children: [
+                            /// HEADER
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                              color: Colors.white.withValues(alpha: 0.1),
+                              child: const Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      "Type",
+                                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      "Name",
+                                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                  Text(
+                                    "Contact No",
+                                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            /// RECORDS
+                            ...?state.model.commandSupport?.map((item) {
+                              return Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                decoration: BoxDecoration(
+                                  border: Border(
+                                    top: BorderSide(color: Colors.white.withValues(alpha: 0.2)),
+                                  ),
+                                ),
+                                child: Row(
+                                  children: [
+                                    /// Type
+                                    Expanded(
+                                      child: Text(
+                                        '${item.type}',
+                                        style: const TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+
+                                    /// Name
+                                    Expanded(
+                                      child: Text(
+                                        item.name!,
+                                        style: const TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+
+                                    /// Contact Num
+                                    Expanded(
+                                      child: Text(
+                                        item.contactNo!,
+                                        style: const TextStyle(color: Colors.white),
+                                      ),
+                                    ),
+
+                                  ],
+                                ),
+                              );
+                            }),
+                          ],
+                        ),
+                      ),
+                      ],
+                          ]),),
 
                       ),
+                      CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                       /// SubmitButton
                       // if (state.model.status != 0) ...[
@@ -1295,3 +1315,5 @@ class _CSRGeneralInfoViewState extends State<CSRGeneralInfoView> {
     );
   }
 }
+
+

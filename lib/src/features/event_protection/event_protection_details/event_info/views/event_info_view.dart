@@ -32,6 +32,7 @@ class _EventInfoViewState extends State<EventInfoView> {
 
   User? userDetails;
   List<ImageContent>? guardFiles;
+  List<ImageContent> getFiles = [];
   TextEditingController dateController = TextEditingController();
   TextEditingController addEmailController = TextEditingController();
 
@@ -74,19 +75,19 @@ class _EventInfoViewState extends State<EventInfoView> {
       Utils().formError(state, context);
       Utils().errorAndLogout(state, context);
 
-      final template = state.emailTemplates?.last;
-
-      if (template == null) return;
-
-      final html = template["html"] as String?;
-      final id = template["id"] as int?;
-
-      if (html == null || html.isEmpty) return;
-
-      openTemplatePreview(
-        html: html,
-        templateId: id,
-      );
+      // final template = state.emailTemplates?.last;
+      //
+      // if (template == null) return;
+      //
+      // final html = template["html"] as String?;
+      // final id = template["id"] as int?;
+      //
+      // if (html == null || html.isEmpty) return;
+      //
+      // openTemplatePreview(
+      //   html: html,
+      //   templateId: id,
+      // );
       // final firstTemplate = state.emailTemplates?.first;
       //
       // final html = firstTemplate?["html"] as String?;
@@ -139,6 +140,12 @@ class _EventInfoViewState extends State<EventInfoView> {
       if (state.status == FormStatus.addAttachment ||
           state.status == FormStatus.initial) {
         guardFiles = state.guardAttachments ?? [];
+        // guardFiles = state.model.images;
+      }
+
+      if (state.status == FormStatus.addAttachment ||
+          state.status == FormStatus.initial) {
+        getFiles = state.loadAttachments ?? [];
       }
       if (state.eventDuration == ConstantsIntValue.eventDurationBefore) {
         if (!state.model.eventStartedAt.isEmptyOrNull &&
@@ -218,41 +225,6 @@ class _EventInfoViewState extends State<EventInfoView> {
           },
         ),
         backgroundColor: Colors.transparent,
-        // body:
-
-        //         getBodybuilder(state, height),
-        //       );
-        //     },
-        //   ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
-        // }
-
-        // /// 🔹 TEMPLATE DATA
-        // List<Map<String, dynamic>> emailTemplateList = [
-        //   {
-        //     "id": 380,
-        //     "html": "<p>This is email template for ID 380</p>",
-        //   },
-        //   {
-        //     "id": 381,
-        //     "html": "<p>This is email template for ID 381</p>",
-        //   },
-        // ];
-        //
-        // String selectedTemplateHtml = "";
-        // String? updatedEmailText;
-
-        // getBodybuilder(EventInfoState state, height) {
-        // if (state.status == FormStatus.loading) {
-        //   return const BaseLoader();
-        // }
-
-        // if (state.status == FormStatus.addAttachment ||
-        //     state.status == FormStatus.initial) {
-        //   guardFiles = state.guardAttachments ?? [];
-        // }
-
-        // Scaffold(
-        //    backgroundColor: Colors.transparent,
         body: Stack(
           children: [
             /// 🔹 FULL SCREEN BACKGROUND IMAGE
@@ -308,7 +280,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                                             CommonWidgets.verticalSpacerWidget(
                                                 height * 0.01),
 
-                                            /// Event Started At
+                                            /// Event Started At / Event Concluded At
                                             if (state.eventDuration != 1) ...[
                                               CommonWidgets.textDisplay(
                                                 state.eventDuration == 0
@@ -355,6 +327,8 @@ class _EventInfoViewState extends State<EventInfoView> {
                                                   .verticalSpacerWidget(
                                                       height * 0.02),
                                             ],
+
+                                            ///Additional Emails
                                             CommonWidgets.textDisplay(
                                                 Constants.additionalEmails,
                                                 Styles.textStyleWhite14),
@@ -403,411 +377,50 @@ class _EventInfoViewState extends State<EventInfoView> {
                                                 ),
                                               ),
                                             ),
+                                            ///Get email
                                             getEmail(
                                                 state.additionalEmails ?? []),
                                             CommonWidgets.verticalSpacerWidget(
                                                 height * 0.02),
-                                            //                             Container(
-                                            //                               // height: 100,
-                                            //                               // width: double.infinity,
-                                            //                               decoration: BoxDecoration(
-                                            //                                 borderRadius: BorderRadius.circular(7),
-                                            //                                 border: Border.all(
-                                            //                                   color: Colors.white, // Border color
-                                            //                                   width: .7, // Bor
-                                            //                                   // der width
-                                            //                                 ),
-                                            //                               ),
-                                            //                               child:
-                                            //
-                                            //                                   // Column(
-                                            //                                   //   children: [
-                                            //                                   //     EditorHtml(
-                                            //                                   //       mainContext: context,
-                                            //                                   //       text: state.model.email ?? '',
-                                            //                                   //       eventInfoState: state,
-                                            //                                   //     ),
-                                            //                                   //   ],
-                                            //                                   // ),
-                                            //
-                                            //                                   Column(
-                                            //                                 children: [
-                                            //                                   // ToolBar(
-                                            //                                   //   toolBarColor: toolbarColor,
-                                            //                                   //   padding: const EdgeInsets.all(8),
-                                            //                                   //   iconSize: 25,
-                                            //                                   //   iconColor: toolbarIconColor,
-                                            //                                   //   activeIconColor:
-                                            //                                   //       Colors.greenAccent.shade400,
-                                            //                                   //   controller: quillController,
-                                            //                                   //   crossAxisAlignment:
-                                            //                                   //       WrapCrossAlignment.start,
-                                            //                                   //   direction: Axis.horizontal,
-                                            //                                   //   // customButtons: [
-                                            //                                   //   //   Container(
-                                            //                                   //   //     width: 25,
-                                            //                                   //   //     height: 25,
-                                            //                                   //   //     decoration: BoxDecoration(
-                                            //                                   //   //         color: _hasFocus ? Colors.green : Colors.grey,
-                                            //                                   //   //         borderRadius: BorderRadius.circular(15)),
-                                            //                                   //   //   ),
-                                            //                                   //   //   InkWell(
-                                            //                                   //   //       onTap: () => unFocusEditor(),
-                                            //                                   //   //       child: const Icon(
-                                            //                                   //   //         Icons.favorite,
-                                            //                                   //   //         color: Colors.black,
-                                            //                                   //   //       )),
-                                            //                                   //   //   InkWell(
-                                            //                                   //   //       onTap: () async {
-                                            //                                   //   //         var selectedText = await controller.getSelectedText();
-                                            //                                   //   //         debugPrint('selectedText $selectedText');
-                                            //                                   //   //         var selectedHtmlText = await controller.getSelectedHtmlText();
-                                            //                                   //   //         debugPrint('selectedHtmlText $selectedHtmlText');
-                                            //                                   //   //       },
-                                            //                                   //   //       child: const Icon(
-                                            //                                   //   //         Icons.add_circle,
-                                            //                                   //   //         color: Colors.black,
-                                            //                                   //   //       )),
-                                            //                                   //   // ],
-                                            //                                   // ),
-                                            //                                   // HtmlToolbar(
-                                            //                                   //   controller: quillController,
-                                            //                                   //   toolbarType: ToolbarType.nativeScrollable,
-                                            //                                   // ),
-                                            //                                   // HtmlEditor(
-                                            //                                   //   controller: quillController, // your HtmlEditorController
-                                            //                                   //   htmlEditorOptions: HtmlEditorOptions(
-                                            //                                   //     hint: "Type here...",
-                                            //                                   //     initialText: state.model.email ?? '',
-                                            //                                   //     shouldEnsureVisible: true,
-                                            //                                   //   ),
-                                            //                                   //   otherOptions: OtherOptions(
-                                            //                                   //     height: 400,
-                                            //                                   //   ),
-                                            //                                   //   callbacks: Callbacks(
-                                            //                                   //     onTextChanged: (text) {
-                                            //                                   //       updatedEmailText = text;
-                                            //                                   //     },
-                                            //                                   //     onEditorCreated: () {
-                                            //                                   //       setHtmlText(state.model.email ?? '');
-                                            //                                   //     },
-                                            //                                   //   ),
-                                            //                                   // ),
-                                            //                                   //                                     HtmlEditor(
-                                            //                                   //                                       controller: quillController,
-                                            //                                   //                                       // htmlEditorOptions: HtmlEditorOptions(
-                                            //                                   //                                       //   hint: "Type here...",
-                                            //                                   //                                       //   initialText: state.model.email ?? '',
-                                            //                                   //                                       //   shouldEnsureVisible: true,
-                                            //                                   //                                       //
-                                            //                                   //                                       // ),
-                                            //                                   //                                       htmlEditorOptions: HtmlEditorOptions(
-                                            //                                   //                                         hint: "Type here...",
-                                            //                                   //                                         initialText: """
-                                            //                                   //   <style>
-                                            //                                   //     body {
-                                            //                                   //       color: white;
-                                            //                                   //       background-color: transparent;
-                                            //                                   //     }
-                                            //                                   //     p, span, div {
-                                            //                                   //       color: white !important;
-                                            //                                   //     }
-                                            //                                   //   </style>
-                                            //                                   //   ${state.model.email ?? ''}
-                                            //                                   // """,
-                                            //                                   //                                         shouldEnsureVisible: true,
-                                            //                                   //                                       ),
-                                            //                                   //
-                                            //                                   //                                       htmlToolbarOptions:
-                                            //                                   //                                           const HtmlToolbarOptions(
-                                            //                                   //                                         defaultToolbarButtons: [
-                                            //                                   //                                           FontButtons(),
-                                            //                                   //                                           ColorButtons(),
-                                            //                                   //                                           ParagraphButtons(),
-                                            //                                   //                                           InsertButtons(),
-                                            //                                   //                                         ],
-                                            //                                   //                                       ),
-                                            //                                   //                                       otherOptions: OtherOptions(height: 400),
-                                            //                                   //                                       callbacks: Callbacks(
-                                            //                                   //                                         onInit: () {
-                                            //                                   //                                           quillController.setText(
-                                            //                                   //                                               state.model.email ?? '');
-                                            //                                   //                                         },
-                                            //                                   //                                         onChangeContent: (String? text) {
-                                            //                                   //                                           updatedEmailText = text ?? '';
-                                            //                                   //                                         },
-                                            //                                   //                                       ),
-                                            //                                   //                                     ),
-                                            //
-                                            //                                   HtmlEditor(
-                                            //                                     controller: quillController,
-                                            //                                     htmlEditorOptions: HtmlEditorOptions(
-                                            //                                       hint: "Type here...",
-                                            //                                       initialText: """
-                                            //   <style>
-                                            //     body {
-                                            //       color: white;
-                                            //       background-color: transparent;
-                                            //     }
-                                            //     p, span, div {
-                                            //       color: white !important;
-                                            //     }
-                                            //   </style>
-                                            //   ${state.model.email ?? ''}
-                                            // """,
-                                            //                                       shouldEnsureVisible: true,
-                                            //                                     ),
-                                            //                                     htmlToolbarOptions:
-                                            //                                         const HtmlToolbarOptions(
-                                            //                                       defaultToolbarButtons: [
-                                            //                                         FontButtons(),
-                                            //                                         // ❌ Remove ColorButtons to lock white text
-                                            //                                         ParagraphButtons(),
-                                            //                                         InsertButtons(),
-                                            //                                       ],
-                                            //                                     ),
-                                            //                                     otherOptions: const OtherOptions(
-                                            //                                       height: 400,
-                                            //                                     ),
-                                            //                                     callbacks: Callbacks(
-                                            //                                       onInit: () {
-                                            //                                         quillController.setText(
-                                            //                                             state.model.email ?? '');
-                                            //                                       },
-                                            //                                       onChangeContent: (String? text) {
-                                            //                                         updatedEmailText = text ?? '';
-                                            //                                       },
-                                            //                                     ),
-                                            //                                   ),
-                                            //
-                                            //                                   // SizedBox(
-                                            //                                   //   height: 0,
-                                            //                                   //   width: double.infinity,
-                                            //                                   //   child: SingleChildScrollView(
-                                            //                                   // child: QuillHtmlEditor(
-                                            //                                   //   // text: widget.text,
-                                            //                                   //   hintText: 'Hint text goes here',
-                                            //                                   //   controller: quillController,
-                                            //                                   //   isEnabled: showSaveButtons,
-                                            //                                   //   ensureVisible: true,
-                                            //                                   //   minHeight: 500,
-                                            //                                   //   autoFocus: true,
-                                            //                                   //   textStyle: editorTextStyle,
-                                            //                                   //   hintTextStyle: hintTextStyle,
-                                            //                                   //   hintTextAlign: TextAlign.start,
-                                            //                                   //   padding: const EdgeInsets.only(
-                                            //                                   //       left: 10, top: 10),
-                                            //                                   //   hintTextPadding:
-                                            //                                   //       const EdgeInsets.only(left: 20),
-                                            //                                   //   backgroundColor: backgroundColor,
-                                            //                                   //   inputAction: InputAction.newline,
-                                            //                                   //   onEditingComplete: (s) async {
-                                            //                                   //     debugPrint('Editing completed $s');
-                                            //                                   //     state.model.email = s;
-                                            //                                   //     BlocProvider.of<EventInfoCubit>(
-                                            //                                   //             context)
-                                            //                                   //         .onModelValueChange(
-                                            //                                   //             state.model);
-                                            //                                   //   },
-                                            //                                   //   loadingBuilder: (context) {
-                                            //                                   //     return const Center(
-                                            //                                   //         child:
-                                            //                                   //             CircularProgressIndicator(
-                                            //                                   //       strokeWidth: 1,
-                                            //                                   //       color: Colors.red,
-                                            //                                   //     ));
-                                            //                                   //   },
-                                            //                                   //   onFocusChanged: (focus) {
-                                            //                                   //     debugPrint(
-                                            //                                   //         'has focus-----SSSS---- $focus');
-                                            //                                   //   },
-                                            //                                   //   onTextChanged: (text) {
-                                            //                                   //     debugPrint(
-                                            //                                   //         'widget text change $text');
-                                            //                                   //     updatedEmailText = text;
-                                            //                                   //   },
-                                            //                                   //   onEditorCreated: () {
-                                            //                                   //     debugPrint(
-                                            //                                   //         'Editor has been loaded--------');
-                                            //                                   //     // setHtmlText(widget.text);
-                                            //                                   //     quillController.setText(
-                                            //                                   //         state.model.email ?? '');
-                                            //                                   //   },
-                                            //                                   //   onEditorResized: (height) => debugPrint(
-                                            //                                   //       'Editor resized----------- $height'),
-                                            //                                   //   onSelectionChanged: (sel) => debugPrint(
-                                            //                                   //       'index---- ${sel.index}, range ${sel.length}'),
-                                            //                                   // ),
-                                            //                                   // child: HtmlEditor(
-                                            //                                   //   controller: quillController,
-                                            //                                   //   htmlEditorOptions:
-                                            //                                   //       HtmlEditorOptions(
-                                            //                                   //     hint: 'Hint text goes here',
-                                            //                                   //     initialText:
-                                            //                                   //         state.model.email ?? '',
-                                            //                                   //     autoAdjustHeight: true,
-                                            //                                   //     disabled: !showSaveButtons,
-                                            //                                   //   ),
-                                            //                                   //   htmlToolbarOptions:
-                                            //                                   //       const HtmlToolbarOptions(
-                                            //                                   //     toolbarPosition:
-                                            //                                   //         ToolbarPosition.aboveEditor,
-                                            //                                   //   ),
-                                            //                                   //   callbacks: Callbacks(
-                                            //                                   //     onChangeContent: (text) {
-                                            //                                   //       updatedEmailText = text;
-                                            //                                   //     },
-                                            //                                   //     onBlur: () async {
-                                            //                                   //       final text =
-                                            //                                   //           await quillController
-                                            //                                   //               .getText();
-                                            //                                   //       state.model.email = text;
-                                            //                                   //       BlocProvider.of<EventInfoCubit>(
-                                            //                                   //               context)
-                                            //                                   //           .onModelValueChange(
-                                            //                                   //               state.model);
-                                            //                                   //     },
-                                            //                                   //     onInit: () {
-                                            //                                   //       quillController.setText(
-                                            //                                   //           state.model.email ?? '');
-                                            //                                   //     },
-                                            //                                   //   ),
-                                            //                                   // ),
-                                            //                                   //   ),
-                                            //                                   // ),
-                                            //                                 ],
-                                            //                               ),
-                                            //                             ),
-                                            //                                 Container(
-                                            //                                   decoration: BoxDecoration(
-                                            //                                     borderRadius: BorderRadius.circular(7),
-                                            //                                     border: Border.all(color: Colors.white, width: .7),
-                                            //                                   ),
-                                            //                                   child: HtmlEditor(
-                                            //                                     controller: quillController,
-                                            //                                     htmlEditorOptions: HtmlEditorOptions(
-                                            //                                       hint: "Type here...",
-                                            //                                       initialText: """
-                                            // <style>
-                                            // body { color: white; background-color: transparent; }
-                                            // p, span, div { color: white !important; }
-                                            // </style>
-                                            // ${state.model.email ?? ''}
-                                            // """,
-                                            //                                     ),
-                                            //                                     htmlToolbarOptions: const HtmlToolbarOptions(
-                                            //                                       defaultToolbarButtons: [
-                                            //                                         FontButtons(),
-                                            //                                         ParagraphButtons(),
-                                            //                                         InsertButtons(),
-                                            //                                       ],
-                                            //                                     ),
-                                            //                                     otherOptions: const OtherOptions(height: 400),
-                                            //                                     callbacks: Callbacks(
-                                            //                                       onInit: () {
-                                            //                                         quillController.setText(state.model.email ?? '');
-                                            //                                       },
-                                            //                                       onChangeContent: (text) {
-                                            //                                         updatedEmailText = text ?? '';
-                                            //                                       },
-                                            //                                     ),
-                                            //                                   ),
-                                            //                                 ),
-
                                             CommonWidgets.verticalSpacerWidget(
                                                 height * 0.02),
 
 
+
+                                           if(state.eventDuration == ConstantsIntValue.eventDurationAfter)...[
+                                           ///Total Attendies
                                             CommonWidgets.textDisplay(
-                                               'View Notification',
+                                                Constants.totalAttendies,
+                                                Styles.textStyleWhite14),
+                                            CommonWidgets.verticalSpacerWidget(
+                                                height * 0.01),
+                                            FlutterInputField(
+                                              textInputType: TextInputType.text,
+                                              initialValue: '${state.model.totalAttendies ?? ''}',
+                                              textFormKey: Keys.lsm1ContactNOKey,
+                                              hintText: '',
+                                              isEnable: false,
+                                              characterLimit: Constants.characterLimitContactNo,
+                                              isDisableColor: true,
+                                              onChange: (String value) {
+                                                state.model.totalAttendies = int.tryParse(value);
+                                                context
+                                                    .read<EventInfoCubit>()
+                                                    .onModelValueChange(state.model);
+                                              },
+                                              validateTextField: (String? user) {},
+                                            ),
+                                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+],
+                                            /// View Email Notification List
+                                            CommonWidgets.textDisplay(
+                                               'View Notifications',
                                                 Styles.textStyleWhite14),
 
+                                            CommonWidgets.verticalSpacerWidget(
+                                                height * 0.02),
 
-                                            // /// 🔹 TEMPLATE LIST
-                                            // Container(
-                                            //   decoration: BoxDecoration(
-                                            //     borderRadius:
-                                            //         BorderRadius.circular(7),
-                                            //     border: Border.all(
-                                            //         color: Colors.white,
-                                            //         width: .7),
-                                            //   ),
-                                            //   child: Column(
-                                            //     children: [
-                                            //       Container(
-                                            //         padding: const EdgeInsets
-                                            //             .symmetric(
-                                            //             horizontal: 16,
-                                            //             vertical: 12),
-                                            //         color: Colors.white
-                                            //             .withValues(alpha: 0.1),
-                                            //         child: Row(
-                                            //           children: [
-                                            //             const Expanded(
-                                            //               child: Text("Id",
-                                            //                   style: TextStyle(
-                                            //                       color: Colors
-                                            //                           .white,
-                                            //                       fontWeight:
-                                            //                           FontWeight
-                                            //                               .bold)),
-                                            //             ),
-                                            //             IconButton(
-                                            //               icon: const Icon(
-                                            //                 Icons.add,
-                                            //                 color: Colors.white,
-                                            //               ),
-                                            //               tooltip: 'Create Record',
-                                            //               onPressed: () {
-                                            //               },
-                                            //             ),
-                                            //           ],
-                                            //         ),
-                                            //       ),
-                                            //       ...emailTemplateList
-                                            //           .map((item) {
-                                            //         return Container(
-                                            //           padding: const EdgeInsets
-                                            //               .symmetric(
-                                            //               horizontal: 20,
-                                            //               vertical: 10),
-                                            //           decoration:
-                                            //               const BoxDecoration(
-                                            //             border: Border(
-                                            //                 bottom: BorderSide(
-                                            //                     color: Colors
-                                            //                         .white24)),
-                                            //           ),
-                                            //           child: Row(
-                                            //             children: [
-                                            //               Expanded(
-                                            //                 child: Text(
-                                            //                     item["id"]
-                                            //                         .toString(),
-                                            //                     style: Styles
-                                            //                         .textStyleWhite14),
-                                            //               ),
-                                            //               IconButton(
-                                            //                 icon: const Icon(
-                                            //                     Icons
-                                            //                         .remove_red_eye,
-                                            //                     color: Colors
-                                            //                         .white),
-                                            //                 onPressed: () {
-                                            //                   openTemplatePreview(
-                                            //                       item["html"]);
-                                            //                 },
-                                            //               ),
-                                            //             ],
-                                            //           ),
-                                            //         );
-                                            //       }),
-                                            //     ],
-                                            //   ),
-                                            // ),
-
-
-                                            /// 🔹 TEMPLATE LIST
+                                            ///  TEMPLATE LIST
                                             Container(
                                               decoration: BoxDecoration(
                                                 borderRadius: BorderRadius.circular(7),
@@ -831,37 +444,56 @@ class _EventInfoViewState extends State<EventInfoView> {
                                                           ),
                                                         ),
                                                         IconButton(
-                                                          icon: const Icon(Icons.add, color: Colors.white),
+                                                          icon: showSaveButtons? const Icon(Icons.add, color: Colors.white) : const SizedBox(),
                                                           tooltip: 'Fetch Template',
-                                                          onPressed: () {
-                                                            context
-                                                                .read<EventInfoCubit>()
-                                                                .getEPEmailInfoById(widget.eventProtectionId);
 
+                                                          onPressed: () async {
+                                                            try {
+                                                              final cubit = context.read<EventInfoCubit>();
+                                                              cubit.clearAttachments();
+                                                              context.read<EventInfoCubit>().clearAttachments();
+                                                              final response =
+                                                              await context.read<EventInfoCubit>().getNotificationDetailsById(
+                                                                widget.eventProtectionId,
+                                                              );
+
+                                                              // context.read<EventInfoCubit>().addAttachment(response.images ?? []);
+                                                              final html = response.notification;
+                                                              if (html == null || html.trim().isEmpty) {
+                                                                debugPrint("HTML is empty");
+                                                                return;
+                                                              }
+                                                              openTemplatePreview(
+                                                                html: html,
+                                                                templateId: null,
+                                                              );
+                                                            } catch (e, s) {
+                                                              debugPrint("Failed to load template: $e");
+                                                              debugPrintStack(stackTrace: s);
+                                                            }
                                                           },
-
                                                         ),
                                                       ],
                                                     ),
                                                   ),
 
                                                   /// ===== LOADER =====
-                                                  if (state.isTemplateLoading == true)
-                                                    const Padding(
-                                                      padding: EdgeInsets.all(12),
-                                                      child: CircularProgressIndicator(color: Colors.white),
-                                                    ),
+                                                  // if (state.isTemplateLoading == true)
+                                                  //   const Padding(
+                                                  //     padding: EdgeInsets.all(12),
+                                                  //     child: CircularProgressIndicator(color: Colors.white),
+                                                  //   ),
 
-                                                  /// ===== EMPTY STATE =====
-                                                  if (state.isTemplateLoading == false &&
-                                                      (state.emailTemplates!.isEmpty))
-                                                    const Padding(
-                                                      padding: EdgeInsets.all(12),
-                                                      child: Text(
-                                                        "No templates loaded",
-                                                        style: TextStyle(color: Colors.white70),
-                                                      ),
-                                                    ),
+                                                  // /// ===== EMPTY STATE =====
+                                                  // if (state.isTemplateLoading == false &&
+                                                  //     (state.emailTemplates!.isEmpty))
+                                                  //   const Padding(
+                                                  //     padding: EdgeInsets.all(12),
+                                                  //     child: Text(
+                                                  //       "No templates loaded",
+                                                  //       style: TextStyle(color: Colors.white70),
+                                                  //     ),
+                                                  //   ),
 
                                                   /// ===== TEMPLATE LIST =====
                                                   ...?state.emailTemplates?.map((item) {
@@ -898,41 +530,96 @@ class _EventInfoViewState extends State<EventInfoView> {
 
                                                                 if (id == null) return;
 
+                                                                // try {
+                                                                //   final response =
+                                                                //   await context.read<EventInfoCubit>().getNotificationById(
+                                                                //     id.toString(),
+                                                                //   );
+                                                                //
+                                                                //   final html = response.notification; // 👈 adjust field name if different
+                                                                //   if (html == null || html.trim().isEmpty) {
+                                                                //     debugPrint("HTML is empty");
+                                                                //     return;
+                                                                //   }
+                                                                //
+                                                                //   openTemplatePreview(
+                                                                //     html: html,
+                                                                //     templateId: id as int?,
+                                                                //   );
+                                                                // } catch (e, s) {
+                                                                //   debugPrint("Failed to load template: $e");
+                                                                //   debugPrintStack(stackTrace: s);
+                                                                // }
+
                                                                 try {
-                                                                  // Optional: show loader
-                                                                  // showLoading();
+                                                                  // final cubit = context.read<EventInfoCubit>();
+                                                                  // //
+                                                                  // final response = await cubit.getNotificationById(id.toString());
+                                                                  //
+                                                                  // debugPrint("API images: ${response.images}");
+                                                                  // debugPrint("API images length: ${response.images?.length}");
+                                                                  //
+                                                                  // cubit.addAttachment(response.images); // important
+                                                                  //
+                                                                  // final html = response.notification;
+                                                                  // if (html == null || html.trim().isEmpty) {
+                                                                  //   debugPrint("HTML is empty");
+                                                                  //   return;
+                                                                  // }
+                                                                  //
+                                                                  // openTemplatePreview(
+                                                                  //   html: html,
+                                                                  //   templateId: id as int?,
+                                                                  //   // images: response.images,
+                                                                  // );
 
-                                                                  final response =
-                                                                  await context.read<EventInfoCubit>().getNotificationById(
-                                                                    id.toString(),
-                                                                  );
+                                                                  final cubit = context.read<EventInfoCubit>();
 
-                                                                  final html = response.notification; // 👈 adjust field name if different
+                                                                  cubit.clearAttachments();
 
+                                                                  final response = await cubit.getNotificationById(id.toString());
+
+                                                                  debugPrint("API images: ${response.images}");
+                                                                  debugPrint("API images length: ${response.images?.length}");
+
+                                                                  cubit.addAttachment(response.images);
+
+                                                                  final html = response.notification;
                                                                   if (html == null || html.trim().isEmpty) {
                                                                     debugPrint("HTML is empty");
                                                                     return;
                                                                   }
 
+                                                                  await Future.delayed(const Duration(milliseconds: 50));
+
+                                                                  if (!context.mounted) return;
+
                                                                   openTemplatePreview(
                                                                     html: html,
                                                                     templateId: id as int?,
                                                                   );
+                                                                //   cubit.clearAttachments();
+                                                                //
+                                                                //   final response = await cubit.getNotificationById(id.toString());
+                                                                //
+                                                                //   cubit.setAttachmentsFromApi(response.images);
+                                                                //   final html = response.notification;
+                                                                //   if (html == null || html.trim().isEmpty) {
+                                                                //     debugPrint("HTML is empty");
+                                                                //     return;
+                                                                //   }
+                                                                //   openTemplatePreview(html: html);
                                                                 } catch (e, s) {
                                                                   debugPrint("Failed to load template: $e");
                                                                   debugPrintStack(stackTrace: s);
-                                                                } finally {
-                                                                  // Optional: hide loader
-                                                                  // hideLoading();
                                                                 }
                                                               },
-                                                            // ),
 
                                                           ),
                                                         ],
                                                       ),
                                                     );
-                                                  }).toList(),
+                                                  }),
                                                 ],
                                               ),
                                             ),
@@ -1129,454 +816,16 @@ class _EventInfoViewState extends State<EventInfoView> {
     });
   }
 
-  /// 🔹 EYE CLICK HANDLER
-//   void openTemplatePreview(String html) {
-//     selectedTemplateHtml = html;
-//
-//     showModalBottomSheet(
-//       context: context,
-//       isScrollControlled: true,
-//       backgroundColor: Colors.transparent,
-//       builder: (_) {
-//         return Container(
-//           height: MediaQuery.of(context).size.height * 0.85,
-//           margin: const EdgeInsets.all(16),
-//           decoration: BoxDecoration(
-//             color: AppColors.newColor.withValues(alpha: 0.8),
-//             borderRadius: BorderRadius.circular(12),
-//             border: Border.all(color: Colors.white, width: .7),
-//           ),
-//           child: Column(
-//             children: [
-//               Padding(
-//                 padding: const EdgeInsets.all(12),
-//                 child: Row(
-//                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                   children: [
-//                     const Text("Event Information Email",
-//                         style: TextStyle(color: Colors.white, fontSize: 16)),
-//                     // IconButton(
-//                     //   icon: const Icon(Icons.close, color: Colors.white),
-//                     //   onPressed: () => Navigator.pop(context),
-//                     // ),
-//                     Row(
-//                       children: [
-//                         IconButton(
-//                           tooltip: "Submit",
-//                           icon: const Icon(
-//                             Icons.send,
-//                             color: Colors.white,
-//                           ),
-//                           onPressed: () {
-//                             FocusScope.of(context).unfocus();
-//
-//                             BlocProvider.of<EventInfoCubit>(context).submitForm(
-//                               isSaveOnly: false,
-//                               updatedEmailText: selectedTemplateHtml,
-//                             );
-//
-//                             Navigator.pop(context);
-//                           },
-//                         ),
-//                         IconButton(
-//                           tooltip: "Close",
-//                           icon: const Icon(Icons.close, color: Colors.white),
-//                           onPressed: () => Navigator.pop(context),
-//                         ),
-//                       ],
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//               //     ],
-//               //   ),
-//               // ),
-//               Expanded(
-//                 child: HtmlEditor(
-//                   controller: quillController,
-//                   htmlToolbarOptions: const HtmlToolbarOptions(
-//                     toolbarPosition: ToolbarPosition.aboveEditor,
-//                     textStyle: Styles.textStyleWhite16,
-//                   ),
-//                   htmlEditorOptions: HtmlEditorOptions(
-//                     darkMode: false,
-//                     initialText: """
-//
-//
-// $selectedTemplateHtml
-// """,
-//                   ),
-//
-//                   otherOptions: const OtherOptions(
-//                     height: 400,
-//                   ),
-//
-//                   callbacks: Callbacks(
-//                     onInit: () {
-//                       quillController.setText("""
-// <style>
-// body {
-//   background-color: transparent !important;
-//   color: white !important;
-// }
-//
-// * {
-//   color: white !important;
-// }
-// </style>
-//
-// $selectedTemplateHtml
-// """);
-//                     },
-//                   ),
-//                 ),
-//               ),
-//
-//             ],
-//           ),
-//         );
-//       },
-//     );
-//   }
-  /// 🔹 EYE CLICK HANDLER
-//   void openTemplatePreview(String html) {
-//     selectedTemplateHtml = html;
-//
-//     showModalBottomSheet(
-//       context: context,
-//       isScrollControlled: true,
-//       backgroundColor: Colors.transparent,
-//       builder: (_) {
-//         return Container(
-//           height: MediaQuery.of(context).size.height * 0.9,
-//           margin: const EdgeInsets.all(16),
-//           decoration: BoxDecoration(
-//             color: AppColors.newColor.withValues(alpha: 0.8),
-//             borderRadius: BorderRadius.circular(12),
-//             border: Border.all(color: Colors.white, width: .7),
-//           ),
-//           child: Column(
-//             children: [
-//               /// ===== HEADER =====
-//               Padding(
-//                 padding: const EdgeInsets.all(12),
-//                 child: Row(
-//                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                   children: [
-//                     const Text(
-//                       "Event Information Email",
-//                       style: TextStyle(color: Colors.white, fontSize: 16),
-//                     ),
-//                     Row(
-//                       children: [
-//                         IconButton(
-//                           tooltip: "Submit",
-//                           icon: const Icon(Icons.send, color: Colors.white),
-//                           onPressed: () {
-//                             FocusScope.of(context).unfocus();
-//
-//                             BlocProvider.of<EventInfoCubit>(context).submitForm(
-//                               isSaveOnly: false,
-//                               updatedEmailText: selectedTemplateHtml,
-//                             );
-//
-//                             Navigator.pop(context);
-//                           },
-//                         ),
-//                         IconButton(
-//                           tooltip: "Close",
-//                           icon: const Icon(Icons.close, color: Colors.white),
-//                           onPressed: () => Navigator.pop(context),
-//                         ),
-//                       ],
-//                     ),
-//                   ],
-//                 ),
-//               ),
-//
-//               /// ===== HTML EDITOR =====
-//               Expanded(
-//                 child: HtmlEditor(
-//                   controller: quillController,
-//                   htmlToolbarOptions: const HtmlToolbarOptions(
-//                     toolbarPosition: ToolbarPosition.aboveEditor,
-//                   ),
-//                   htmlEditorOptions: HtmlEditorOptions(
-//                     darkMode: false,
-//                     initialText: selectedTemplateHtml,
-//                   ),
-//                   otherOptions: const OtherOptions(height: 350),
-//                   callbacks: Callbacks(
-//                     onInit: () {
-//                       quillController.setText("""
-// <style>
-// body {
-//   background-color: transparent !important;
-//   color: white !important;
-// }
-// * {
-//   color: white !important;
-// }
-// </style>
-//
-// $selectedTemplateHtml
-// """);
-//                     },
-//                   ),
-//                 ),
-//               ),
-//
-//               /// ===== ATTACHMENTS SECTION =====
-//               Padding(
-//                 padding: const EdgeInsets.symmetric(horizontal: 12),
-//                 child: Column(
-//                   crossAxisAlignment: CrossAxisAlignment.start,
-//                   children: [
-//                     CommonWidgets.verticalSpacerWidget(height * 0.015),
-//
-//                     /// Upload Photo Title
-//                     CommonWidgets.textDisplay(
-//                       Constants.uploadPhoto,
-//                       Styles.textStyleWhite14,
-//                     ),
-//
-//                     CommonWidgets.verticalSpacerWidget(height * 0.01),
-//
-//                     /// Upload Widget
-//                     BaseImageUpload().uploadWidget(
-//                       context: context,
-//                       isDisabled: !showSaveButtons,
-//                       loggedInUserDetails:
-//                       state.loggedInUserDetails ?? User(),
-//                       getFiles: guardFiles,
-//                       onImageSelected: (ImageContent data) {
-//                         List<ImageContent> files = [];
-//                         files.add(data);
-//                         for (ImageContent image in guardFiles ?? []) {
-//                           files.add(image);
-//                         }
-//
-//                         BlocProvider.of<EventInfoCubit>(context)
-//                             .addAttachment(guardImages: files);
-//                       },
-//                     ),
-//
-//                     CommonWidgets.verticalSpacerWidget(height * 0.02),
-//                   ],
-//                 ),
-//               ),
-//
-//               /// ===== ATTACHMENT LIST =====
-//               Padding(
-//                 padding: const EdgeInsets.symmetric(horizontal: 12),
-//                 child: BaseImageUpload().getAttachment(
-//                   height: height,
-//                   attachments: state.guardAttachments,
-//                   files: guardFiles,
-//                   isDisabled: !showSaveButtons,
-//                   moduleCode: widget.isEventProtection
-//                       ? Constants.eventProtectionModuleCode
-//                       : Constants.annualPowerShutDownModuleCode,
-//                 ),
-//               ),
-//
-//               CommonWidgets.verticalSpacerWidget(height * 0.015),
-//             ],
-//           ),
-//         );
-//       },
-//     );
-//   }
-  /// 🔹 EYE CLICK HANDLER
-//   void openTemplatePreview(String html) {
-//     selectedTemplateHtml = html;
-//
-//     showModalBottomSheet(
-//       context: context,
-//       isScrollControlled: true,
-//       showDragHandle: false,
-//       backgroundColor: Colors.transparent,
-//       builder: (_) {
-//         final height = MediaQuery.of(context).size.height;
-//         final state = context.read<EventInfoCubit>().state;
-//
-//         return ClipRRect(
-//             borderRadius: BorderRadius.circular(12),
-//             child: BackdropFilter(
-//                 filter: ImageFilter.blur(
-//                   sigmaX: 50,
-//                   sigmaY: 50,
-//                 ),
-//                 child: Container(
-//                   height: height * 0.9,
-//                   margin: const EdgeInsets.all(16),
-//                   decoration: BoxDecoration(
-//                     color: AppColors.newColor3.withValues(alpha: 0.1), // transparency
-//                     borderRadius: BorderRadius.circular(12),
-//                     border: Border.all(
-//                       color: Colors.white.withValues(alpha: 0.4),
-//                       width: 0.7,
-//                     ),
-//                   ),
-//                   child: Column(
-//                     children: [
-//                       /// ===== HEADER =====
-//                       Padding(
-//                         padding: const EdgeInsets.all(2),
-//                         child: Row(
-//                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                           children: [
-//                             const Text(
-//                               "Event Information Email",
-//                               style:
-//                                   TextStyle(color: Colors.white, fontSize: 16),
-//                             ),
-//                             Row(
-//                               children: [
-//                                 // IconButton(
-//                                 //   tooltip: "Submit",
-//                                 //   icon: const Icon(Icons.send,
-//                                 //       color: Colors.white),
-//                                 //   onPressed: () {
-//                                 //   },
-//                                 // ),
-//                                 // IconButton(
-//                                 //   tooltip: "Submit",
-//                                 //   icon: const Icon(Icons.send, color: Colors.white),
-//                                 //   onPressed: () async {
-//                                 //     // 1️⃣ Get latest edited HTML from editor
-//                                 //     final html = await quillController.getText();
-//                                 //
-//                                 //     if (html == null || html.trim().isEmpty) {
-//                                 //       ScaffoldMessenger.of(context).showSnackBar(
-//                                 //         const SnackBar(content: Text("Template content is empty")),
-//                                 //       );
-//                                 //       return;
-//                                 //     }
-//                                 //
-//                                 //     // 2️⃣ Call API via Cubit
-//                                 //     context.read<EventInfoCubit>().createNotification(
-//                                 //       html: html,
-//                                 //     );
-//                                 //
-//                                 //     // 3️⃣ Close bottom sheet
-//                                 //     Navigator.pop(context);
-//                                 //   },
-//                                 // ),
-//
-//                                 IconButton(
-//                                   tooltip: "Submit",
-//                                   icon: const Icon(Icons.send, color: Colors.white),
-//                                   onPressed: () async {
-//                                     final html = await quillController.getText();
-//
-//                                     if (html.trim().isEmpty) return;
-//
-//                                     // 🔥 Call Cubit method
-//                                     context.read<EventInfoCubit>().submitTemplateAndRefresh(
-//                                       html: html,
-//                                       id: id
-//                                     );
-//
-//                                     // ✅ Close popup immediately
-//                                     Navigator.pop(context);
-//                                   },
-//                                 ),
-//
-//                                 IconButton(
-//                                   tooltip: "Close",
-//                                   icon: const Icon(Icons.close,
-//                                       color: Colors.white),
-//                                   onPressed: () => Navigator.pop(context),
-//                                 ),
-//                               ],
-//                             ),
-//                           ],
-//                         ),
-//                       ),
-//
-//                       /// ===== HTML EDITOR =====
-//                       SizedBox(
-//                         child: HtmlEditor(
-//                           controller: quillController,
-//                           htmlToolbarOptions: const HtmlToolbarOptions(
-//                             toolbarPosition: ToolbarPosition.aboveEditor,
-//                             textStyle: Styles.textStyleBlack16,
-//                           ),
-//                           htmlEditorOptions: HtmlEditorOptions(
-//                             darkMode: false,
-//                             initialText: selectedTemplateHtml,
-//                           ),
-//                           callbacks: Callbacks(
-//                             onInit: () {
-//                               quillController.setText("""
-// <style>
-// body { background-color: transparent !important; color: white !important; }
-// * { color: white !important; }
-// </style>
-// $selectedTemplateHtml
-// """);
-//                             },
-//                           ),
-//                         ),
-//                       ),
-//
-//                       /// ===== ATTACHMENTS =====
-//                       Padding(
-//                         padding: const EdgeInsets.symmetric(horizontal: 12),
-//                         child: Column(
-//                           crossAxisAlignment: CrossAxisAlignment.start,
-//                           children: [
-//                             CommonWidgets.verticalSpacerWidget(height * 0.015),
-//                             CommonWidgets.textDisplay(
-//                               Constants.uploadPhoto,
-//                               Styles.textStyleWhite14,
-//                             ),
-//                             CommonWidgets.verticalSpacerWidget(height * 0.01),
-//                             BaseImageUpload().uploadWidget(
-//                               context: context,
-//                               isDisabled: !showSaveButtons,
-//                               loggedInUserDetails:
-//                                   state.loggedInUserDetails ?? User(),
-//                               getFiles: guardFiles,
-//                               onImageSelected: (ImageContent data) {
-//                                 final files = <ImageContent>[
-//                                   data,
-//                                   ...?guardFiles,
-//                                 ];
-//
-//                                 BlocProvider.of<EventInfoCubit>(context)
-//                                     .addAttachment(guardImages: files);
-//                               },
-//                             ),
-//                             CommonWidgets.verticalSpacerWidget(height * 0.02),
-//                             BaseImageUpload().getAttachment(
-//                               height: height,
-//                               attachments: state.guardAttachments,
-//                               files: guardFiles,
-//                               isDisabled: !showSaveButtons,
-//                               moduleCode: widget.isEventProtection
-//                                   ? Constants.eventProtectionModuleCode
-//                                   : Constants.annualPowerShutDownModuleCode,
-//                             ),
-//                           ],
-//                         ),
-//                       ),
-//
-//                       CommonWidgets.verticalSpacerWidget(height * 0.015),
-//                     ],
-//                   ),
-//                 )));
-//       },
-//     );
-//   }
-
 //   void openTemplatePreview({
 //     required String html,
-//     int? templateId, // 👈 NEW
+//     int? templateId,
+//     // required images,
 //   }) {
 //     selectedTemplateHtml = html;
-//     final int? currentTemplateId = templateId; // 👈 LOCAL SAFE COPY
+//
+//     // ✅ Capture the cubit from the correct context BEFORE opening the sheet
+//     final eventInfoCubit = context.read<EventInfoCubit>();
+//     final int? currentTemplateId = templateId;
 //
 //     showModalBottomSheet(
 //       context: context,
@@ -1585,147 +834,171 @@ class _EventInfoViewState extends State<EventInfoView> {
 //       backgroundColor: Colors.transparent,
 //       builder: (bottomSheetContext) {
 //         final height = MediaQuery.of(bottomSheetContext).size.height;
-//         final state = bottomSheetContext.read<EventInfoCubit>().state;
 //
-//         return ClipRRect(
-//           borderRadius: BorderRadius.circular(12),
-//           child: BackdropFilter(
-//             filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
-//             child: Container(
-//               height: height * 0.9,
-//               margin: const EdgeInsets.all(16),
-//               decoration: BoxDecoration(
-//                 color: AppColors.newColor3.withValues(alpha: 0.1),
+//         return BlocProvider.value(
+//           value: eventInfoCubit, // ✅ reuse same cubit instance
+//           child: Builder(
+//             builder: (context) {
+//               final state = context.watch<EventInfoCubit>().state;
+//
+//               return ClipRRect(
 //                 borderRadius: BorderRadius.circular(12),
-//                 border: Border.all(
-//                   color: Colors.white.withValues(alpha: 0.4),
-//                   width: 0.7,
-//                 ),
-//               ),
-//               child: Column(
-//                 children: [
-//                   /// ===== HEADER =====
-//                   Padding(
-//                     padding: const EdgeInsets.all(8),
-//                     child: Row(
-//                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                 child: BackdropFilter(
+//                   filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+//                   child: Container(
+//                     height: height * 0.9,
+//                     margin: const EdgeInsets.all(16),
+//                     decoration: BoxDecoration(
+//                       color: AppColors.newColor3.withValues(alpha: 0.1),
+//                       borderRadius: BorderRadius.circular(12),
+//                       border: Border.all(
+//                         color: Colors.white.withValues(alpha: 0.4),
+//                         width: 0.7,
+//                       ),
+//                     ),
+//                     child: Column(
 //                       children: [
-//                         Text(
-//                           currentTemplateId == null
-//                               ? "Create Email Template"
-//                               : "Edit Email Template #$currentTemplateId",
-//                           style: const TextStyle(
-//                             color: Colors.white,
-//                             fontSize: 16,
+//                         /// ===== HEADER =====
+//                         Padding(
+//                           padding: const EdgeInsets.all(8),
+//                           child: Row(
+//                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                             children: [
+//                               Text(
+//                                 currentTemplateId == null
+//                                     ? "Create Email Template"
+//                                     : "Edit Email Template #$currentTemplateId",
+//                                 style: const TextStyle(
+//                                   color: Colors.white,
+//                                   fontSize: 16,
+//                                 ),
+//                               ),
+//                               Row(
+//                                 children: [
+//                                   /// ===== SUBMIT =====
+//                                   showSaveButtons ? IconButton(
+//                                     tooltip: "Submit",
+//                                     icon: const Icon(Icons.send,
+//                                         color: Colors.white),
+//                                     onPressed: () async {
+//                                       final html =
+//                                       await quillController.getText();
+//
+//                                       if (html.trim().isEmpty) return;
+//                                       context
+//                                           .read<EventInfoCubit>()
+//                                           .submitTemplateAndRefresh(
+//                                         html: html,
+//                                         id: currentTemplateId,
+//                                       );
+//
+//                                       await context.read<EventInfoCubit>().getNotificationDetailsById(
+//                                         widget.eventProtectionId,  // Reload current/fresh data
+//                                       );
+//                                       // await context
+//                                       //     .read<EventInfoCubit>()
+//                                       //     .getNotificationById(widget.eventProtectionId);
+//
+//                                       Navigator.pop(context);
+//                                     },
+//
+//                                   ): const SizedBox(),
+//                                   /// ===== CLOSE =====
+//                                   IconButton(
+//                                     tooltip: "Close",
+//                                     icon: const Icon(Icons.close,
+//                                         color: Colors.white),
+//                                     onPressed: () async {
+//                                       await context
+//                                           .read<EventInfoCubit>()
+//                                           .getNotificationDetailsById(
+//                                         widget
+//                                             .eventProtectionId, // Reload current/fresh data
+//                                       );
+//                                       Navigator.pop(context);
+//                                     }
+//                                   ),
+//                                 ],
+//                               ),
+//                             ],
 //                           ),
 //                         ),
-//                         Row(
-//                           children: [
-//                             /// ===== SUBMIT =====
-//                             IconButton(
-//                               tooltip: "Submit",
-//                               icon: const Icon(Icons.send, color: Colors.white),
-//                               onPressed: () async {
-//                                 final html = await quillController.getText();
-//                                 if (html.trim().isEmpty) return;
 //
-//                                 bottomSheetContext
-//                                     .read<EventInfoCubit>()
-//                                     .submitTemplateAndRefresh(
-//                                   html: html,
-//                                   id: currentTemplateId, // ✅ NULL OR ID
-//                                 );
-//
-//                                 Navigator.pop(bottomSheetContext);
-//                               },
-//                             ),
-//
-//                             /// ===== CLOSE =====
-//                             IconButton(
-//                               tooltip: "Close",
-//                               icon: const Icon(Icons.close, color: Colors.white),
-//                               onPressed: () =>
-//                                   Navigator.pop(bottomSheetContext),
-//                             ),
-//                           ],
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//
-//                   /// ===== HTML EDITOR =====
-//                   Expanded(
-//                     child: HtmlEditor(
-//                       controller: quillController,
-//                       htmlToolbarOptions: const HtmlToolbarOptions(
-//                         toolbarPosition: ToolbarPosition.aboveEditor,
-//                         textStyle: Styles.textStyleBlack16,
-//                       ),
-//                       htmlEditorOptions: HtmlEditorOptions(
-//                         darkMode: false,
-//                         initialText: selectedTemplateHtml,
-//                       ),
-//                       callbacks: Callbacks(
-//                         onInit: () {
-//                           quillController.setText("""
+//                         /// ===== HTML EDITOR =====
+//                         Expanded(
+//                           child: SizedBox.expand(
+//                                 child:
+//                                 HtmlEditor(
+//                                   controller: quillController,
+//                                   htmlToolbarOptions: const HtmlToolbarOptions(
+//                                     toolbarPosition:
+//                                     ToolbarPosition.aboveEditor,
+//                                     textStyle: Styles.textStyleBlack16,
+//                                   ),
+//                                   htmlEditorOptions: HtmlEditorOptions(
+//                                     darkMode: false,
+//                                     initialText: selectedTemplateHtml,
+//                                     autoAdjustHeight: false,
+//                                     // height: MediaQuery.of(context).size.height * 0.55,
+//                                   ),
+//                                   otherOptions: OtherOptions(
+//                                     height: MediaQuery.of(context).size.height * 0.65,
+//                                   ),
+//                                   callbacks: Callbacks(
+//                                     onInit: () {
+//                                       quillController.setText("""
 // <style>
 // body { background-color: transparent !important; color: white !important; }
 // * { color: white !important; }
 // </style>
-// $selectedTemplateHtml
+//                           $selectedTemplateHtml
 // """);
-//                         },
-//                       ),
-//                     ),
+//                                     },
+//                                   ),
+//                                 ),
+//                               ),
+//                           ),
+//
+//                         // ),
+//
+//                         /// ===== ATTACHMENTS =====
+//                         Padding(
+//                           padding:
+//                           const EdgeInsets.symmetric(horizontal: 12),
+//                           child: Column(
+//                             crossAxisAlignment: CrossAxisAlignment.start,
+//                             children: [
+//
+//                               /// upload
+//                               CommonWidgets.textDisplay(
+//                                   Constants.upload, Styles.textStyleWhite16),
+//                                   uploadWidget(state),
+//
+//                               CommonWidgets.verticalSpacerWidget(height * 0.02),
+//
+//                   /// Attachments
+//                   BaseImageUpload().getAttachment(
+//                     height: height,
+//                     attachments: state.loadAttachments,
+//                     files: getFiles,
+//                     moduleCode: '',
+//                     isDisabled: !showSaveButtons,
+//                     showDeleteIcon: true,
 //                   ),
+//                   CommonWidgets.verticalSpacerWidget(height * 0.02),
 //
-//                   /// ===== ATTACHMENTS =====
-//                   Padding(
-//                     padding: const EdgeInsets.symmetric(horizontal: 12),
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: [
-//                         CommonWidgets.verticalSpacerWidget(height * 0.015),
-//                         CommonWidgets.textDisplay(
-//                           Constants.uploadPhoto,
-//                           Styles.textStyleWhite14,
+//                             ],
+//                           )
 //                         ),
-//                         CommonWidgets.verticalSpacerWidget(height * 0.01),
-//                         BaseImageUpload().uploadWidget(
-//                           context: bottomSheetContext,
-//                           isDisabled: !showSaveButtons,
-//                           loggedInUserDetails:
-//                           state.loggedInUserDetails ?? User(),
-//                           getFiles: guardFiles,
-//                           onImageSelected: (ImageContent data) {
-//                             final files = <ImageContent>[
-//                               data,
-//                               ...?guardFiles,
-//                             ];
 //
-//                             bottomSheetContext
-//                                 .read<EventInfoCubit>()
-//                                 .addAttachment(guardImages: files);
-//                           },
-//                         ),
-//                         CommonWidgets.verticalSpacerWidget(height * 0.02),
-//                         BaseImageUpload().getAttachment(
-//                           height: height,
-//                           attachments: state.guardAttachments,
-//                           files: guardFiles,
-//                           isDisabled: !showSaveButtons,
-//                           moduleCode: widget.isEventProtection
-//                               ? Constants.eventProtectionModuleCode
-//                               : Constants.annualPowerShutDownModuleCode,
-//                         ),
+//                         CommonWidgets.verticalSpacerWidget(
+//                             height * 0.015),
 //                       ],
 //                     ),
 //                   ),
-//
-//                   CommonWidgets.verticalSpacerWidget(height * 0.015),
-//                 ],
-//               ),
-//             ),
+//                 ),
+//               );
+//             },
 //           ),
 //         );
 //       },
@@ -1738,7 +1011,6 @@ class _EventInfoViewState extends State<EventInfoView> {
   }) {
     selectedTemplateHtml = html;
 
-    // ✅ Capture the cubit from the correct context BEFORE opening the sheet
     final eventInfoCubit = context.read<EventInfoCubit>();
     final int? currentTemplateId = templateId;
 
@@ -1749,13 +1021,12 @@ class _EventInfoViewState extends State<EventInfoView> {
       backgroundColor: Colors.transparent,
       builder: (bottomSheetContext) {
         final height = MediaQuery.of(bottomSheetContext).size.height;
+        final width = MediaQuery.of(bottomSheetContext).size.width;
 
         return BlocProvider.value(
-          value: eventInfoCubit, // ✅ reuse same cubit instance
-          child: Builder(
-            builder: (context) {
-              final state = context.watch<EventInfoCubit>().state;
-
+          value: eventInfoCubit,
+          child: BlocBuilder<EventInfoCubit, EventInfoState>(
+            builder: (context, state) {
               return ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: BackdropFilter(
@@ -1790,34 +1061,54 @@ class _EventInfoViewState extends State<EventInfoView> {
                               ),
                               Row(
                                 children: [
-                                  /// ===== SUBMIT =====
-                                  IconButton(
+                                  showSaveButtons
+                                      ? IconButton(
                                     tooltip: "Submit",
-                                    icon: const Icon(Icons.send,
-                                        color: Colors.white),
+                                    icon: const Icon(
+                                      Icons.send,
+                                      color: Colors.white,
+                                    ),
                                     onPressed: () async {
                                       final html =
                                       await quillController.getText();
 
                                       if (html.trim().isEmpty) return;
 
-                                      context
+                                      await context
                                           .read<EventInfoCubit>()
                                           .submitTemplateAndRefresh(
                                         html: html,
                                         id: currentTemplateId,
                                       );
 
-                                      Navigator.pop(context);
-                                    },
-                                  ),
+                                      await context
+                                          .read<EventInfoCubit>()
+                                          .getNotificationDetailsById(
+                                        widget.eventProtectionId,
+                                      );
 
-                                  /// ===== CLOSE =====
+                                      if (context.mounted) {
+                                        Navigator.pop(context);
+                                      }
+                                    },
+                                  )
+                                      : const SizedBox(),
                                   IconButton(
                                     tooltip: "Close",
-                                    icon: const Icon(Icons.close,
-                                        color: Colors.white),
-                                    onPressed: () => Navigator.pop(context),
+                                    icon: const Icon(
+                                      Icons.close,
+                                      color: Colors.white,
+                                    ),
+                                    onPressed: () async {
+                                      await context
+                                          .read<EventInfoCubit>()
+                                          .getNotificationDetailsById(
+                                        widget.eventProtectionId,
+                                      );
+                                      if (context.mounted) {
+                                        Navigator.pop(context);
+                                      }
+                                    },
                                   ),
                                 ],
                               ),
@@ -1825,89 +1116,339 @@ class _EventInfoViewState extends State<EventInfoView> {
                           ),
                         ),
 
-                        /// ===== HTML EDITOR =====
-                        Expanded(
-                          child: HtmlEditor(
-                            controller: quillController,
-                            htmlToolbarOptions: const HtmlToolbarOptions(
-                              toolbarPosition:
-                              ToolbarPosition.aboveEditor,
-                              textStyle: Styles.textStyleBlack16,
-                            ),
-                            htmlEditorOptions: HtmlEditorOptions(
-                              darkMode: false,
-                              initialText: selectedTemplateHtml,
-                            ),
-                            callbacks: Callbacks(
-                              onInit: () {
-                                quillController.setText("""
+                        /// ===== FIXED HTML EDITOR AREA =====
+                        SizedBox(
+                          height: height * 0.5,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            child: HtmlEditor(
+                              controller: quillController,
+                              htmlToolbarOptions: const HtmlToolbarOptions(
+                                toolbarPosition: ToolbarPosition.aboveEditor,
+                                textStyle: Styles.textStyleBlack16,
+                              ),
+                              htmlEditorOptions: HtmlEditorOptions(
+                                darkMode: false,
+                                initialText: selectedTemplateHtml,
+                                autoAdjustHeight: false,
+                              ),
+                              otherOptions: OtherOptions(
+                                height: height * 1.2,
+                              ),
+                              callbacks: Callbacks(
+                                onInit: () {
+                                  quillController.setText("""
 <style>
 body { background-color: transparent !important; color: white !important; }
 * { color: white !important; }
 </style>
 $selectedTemplateHtml
 """);
-                              },
+                                },
+                              ),
                             ),
                           ),
                         ),
 
-                        /// ===== ATTACHMENTS =====
+                        const SizedBox(height: 20),
+
+                        /// ===== UPLOAD LABEL + BUTTON =====
                         Padding(
-                          padding:
-                          const EdgeInsets.symmetric(horizontal: 12),
+                          padding: const EdgeInsets.symmetric(horizontal: 1),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.015),
                               CommonWidgets.textDisplay(
-                                Constants.uploadPhoto,
-                                Styles.textStyleWhite14,
+                                Constants.upload,
+                                Styles.textStyleWhite16,
                               ),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.01),
-                              BaseImageUpload().uploadWidget(
-                                context: context,
-                                isDisabled: !showSaveButtons,
-                                loggedInUserDetails:
-                                state.loggedInUserDetails ?? User(),
-                                getFiles: guardFiles,
-                                onImageSelected: (ImageContent data) {
-                                  final files = <ImageContent>[
-                                    data,
-                                    ...?guardFiles,
-                                  ];
-
-                                  context
-                                      .read<EventInfoCubit>()
-                                      .addAttachment(
-                                    guardImages: files,
-                                  );
-                                },
-                              ),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02),
-                              BaseImageUpload().getAttachment(
-                                height: height,
-                                attachments:
-                                state.guardAttachments,
-                                files: guardFiles,
-                                isDisabled: !showSaveButtons,
-                                moduleCode: widget.isEventProtection
-                                    ? Constants
-                                    .eventProtectionModuleCode
-                                    : Constants
-                                    .annualPowerShutDownModuleCode,
-                              ),
+                              uploadWidget(state),
                             ],
                           ),
                         ),
 
-                        CommonWidgets.verticalSpacerWidget(
-                            height * 0.015),
+                        const SizedBox(height: 12),
+
+                        /// ===== SCROLLABLE ATTACHMENT CONTAINER =====
+                        if(state.loadAttachments!.isNotEmpty)...[
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            child: Container(
+                              width: width,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: Colors.white.withValues(alpha: 0.35),
+                                  width: 0.8,
+                                ),
+                                color: Colors.white.withValues(alpha: 0.03),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: SingleChildScrollView(
+                                  padding: const EdgeInsets.all(8),
+                                  child: BaseImageUpload().getAttachment(
+                                    height: height,
+                                    attachments: List<ImageContent>.from(state.loadAttachments ?? []),                                      files: getFiles,
+                                    // files: getFiles,
+                                    moduleCode: '',
+                                    isDisabled: !showSaveButtons,
+                                    showDeleteIcon: true,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        ],
+                        // if (state.loadAttachments != null && state.loadAttachments!.isNotEmpty) ...[
+                        //   const SizedBox(height: 12),
+                        //   SizedBox(
+                        //     height: height * 0.22,
+                        //     child: Padding(
+                        //       padding: const EdgeInsets.symmetric(horizontal: 12),
+                        //       child: KeyedSubtree(
+                        //         key: ValueKey(
+                        //           state.loadAttachments!
+                        //               .map((e) => e.toString())
+                        //               .join('_'),
+                        //         ),
+                        //         child: Container(
+                        //           width: width,
+                        //           decoration: BoxDecoration(
+                        //             borderRadius: BorderRadius.circular(12),
+                        //             border: Border.all(
+                        //               color: Colors.white.withValues(alpha: 0.35),
+                        //               width: 0.8,
+                        //             ),
+                        //             color: Colors.white.withValues(alpha: 0.03),
+                        //           ),
+                        //           child: ClipRRect(
+                        //             borderRadius: BorderRadius.circular(12),
+                        //             child: BaseImageUpload().getAttachment(
+                        //               height: height,
+                        //               attachments: List<ImageContent>.from(state.loadAttachments ?? []),                                      files: getFiles,
+                        //               moduleCode: '',
+                        //               isDisabled: !showSaveButtons,
+                        //               showDeleteIcon: true,
+                        //             ),
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ],
+                        CommonWidgets.verticalSpacerWidget(height * 0.015),
                       ],
                     ),
+//                     child: SafeArea(
+//                       child: SingleChildScrollView(
+//                         child: ConstrainedBox(
+//                           constraints: BoxConstraints(
+//                             minHeight: height * 0.9,
+//                           ),
+//                           child: IntrinsicHeight(
+//                             child: Column(
+//                               crossAxisAlignment: CrossAxisAlignment.start,
+//                               children: [
+//                                 /// ===== HEADER =====
+//                                 Padding(
+//                                   padding: const EdgeInsets.all(8),
+//                                   child: Row(
+//                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                                     children: [
+//                                       Text(
+//                                         currentTemplateId == null
+//                                             ? "Create Email Template"
+//                                             : "Edit Email Template #$currentTemplateId",
+//                                         style: const TextStyle(
+//                                           color: Colors.white,
+//                                           fontSize: 16,
+//                                         ),
+//                                       ),
+//                                       Row(
+//                                         children: [
+//                                           showSaveButtons
+//                                               ? IconButton(
+//                                             tooltip: "Submit",
+//                                             icon: const Icon(Icons.send, color: Colors.white),
+//                                             onPressed: () async {
+//                                               final html = await quillController.getText();
+//
+//                                               if (html.trim().isEmpty) return;
+//
+//                                               await context
+//                                                   .read<EventInfoCubit>()
+//                                                   .submitTemplateAndRefresh(
+//                                                 html: html,
+//                                                 id: currentTemplateId,
+//                                               );
+//
+//                                               await context
+//                                                   .read<EventInfoCubit>()
+//                                                   .getNotificationDetailsById(
+//                                                 widget.eventProtectionId,
+//                                               );
+//
+//                                               if (context.mounted) {
+//                                                 Navigator.pop(context);
+//                                               }
+//                                             },
+//                                           )
+//                                               : const SizedBox(),
+//                                           IconButton(
+//                                             tooltip: "Close",
+//                                             icon: const Icon(Icons.close, color: Colors.white),
+//                                             onPressed: () async {
+//                                               await context
+//                                                   .read<EventInfoCubit>()
+//                                                   .getNotificationDetailsById(
+//                                                 widget.eventProtectionId,
+//                                               );
+//                                               if (context.mounted) {
+//                                                 Navigator.pop(context);
+//                                               }
+//                                             },
+//                                           ),
+//                                         ],
+//                                       ),
+//                                     ],
+//                                   ),
+//                                 ),
+//
+//                                 /// ===== HTML EDITOR =====
+//                                 Padding(
+//                                   padding: const EdgeInsets.symmetric(horizontal: 12),
+//                                   child: SizedBox(
+//                                     height: height * 0.42,
+//                                     child: HtmlEditor(
+//                                       controller: quillController,
+//                                       htmlToolbarOptions: const HtmlToolbarOptions(
+//                                         toolbarPosition: ToolbarPosition.aboveEditor,
+//                                         textStyle: Styles.textStyleBlack16,
+//                                       ),
+//                                       htmlEditorOptions: HtmlEditorOptions(
+//                                         darkMode: false,
+//                                         initialText: selectedTemplateHtml,
+//                                         autoAdjustHeight: false,
+//                                       ),
+//                                       otherOptions: OtherOptions(
+//                                         height: height * 0.42,
+//                                       ),
+//                                       callbacks: Callbacks(
+//                                         onInit: () {
+//                                           quillController.setText("""
+// <style>
+// body { background-color: transparent !important; color: white !important; }
+// * { color: white !important; }
+// </style>
+// $selectedTemplateHtml
+// """);
+//                                         },
+//                                       ),
+//                                     ),
+//                                   ),
+//                                 ),
+//
+//                                 const SizedBox(height: 12),
+//
+//                                 /// ===== UPLOAD =====
+//                                 Padding(
+//                                   padding: const EdgeInsets.symmetric(horizontal: 12),
+//                                   child: Column(
+//                                     crossAxisAlignment: CrossAxisAlignment.start,
+//                                     children: [
+//                                       CommonWidgets.textDisplay(
+//                                         Constants.upload,
+//                                         Styles.textStyleWhite16,
+//                                       ),
+//                                       uploadWidget(state),
+//                                     ],
+//                                   ),
+//                                 ),
+//
+//                                 // if (state.loadAttachments != null &&
+//                                 //     state.loadAttachments!.isNotEmpty) ...[
+//                                 //   const SizedBox(height: 12),
+//                                 //   Padding(
+//                                 //     padding: const EdgeInsets.symmetric(horizontal: 12),
+//                                 //     child: SizedBox(
+//                                 //       height: height * 0.18,
+//                                 //       child: Container(
+//                                 //         width: width,
+//                                 //         decoration: BoxDecoration(
+//                                 //           borderRadius: BorderRadius.circular(12),
+//                                 //           border: Border.all(
+//                                 //             color: Colors.white.withValues(alpha: 0.35),
+//                                 //             width: 0.8,
+//                                 //           ),
+//                                 //           color: Colors.white.withValues(alpha: 0.03),
+//                                 //         ),
+//                                 //         child: ClipRRect(
+//                                 //           borderRadius: BorderRadius.circular(12),
+//                                 //           child: KeyedSubtree(
+//                                 //             key: ValueKey(
+//                                 //               state.loadAttachments!
+//                                 //                   .map((e) => e.toString())
+//                                 //                   .join('_'),
+//                                 //             ),
+//                                 //             child: BaseImageUpload().getAttachment(
+//                                 //               height: height,
+//                                 //               attachments: state.loadAttachments,
+//                                 //               files: getFiles,
+//                                 //               moduleCode: '',
+//                                 //               isDisabled: !showSaveButtons,
+//                                 //               showDeleteIcon: true,
+//                                 //             ),
+//                                 //           ),
+//                                 //         ),
+//                                 //       ),
+//                                 //     ),
+//                                 //   ),
+//                                 // ],
+//                                 if (state.loadAttachments != null && state.loadAttachments!.isNotEmpty) ...[
+//                                   const SizedBox(height: 12),
+//                                   Padding(
+//                                     padding: const EdgeInsets.symmetric(horizontal: 12),
+//                                     child: SizedBox(
+//                                       height: height * 0.18,
+//                                       child: Container(
+//                                         width: width,
+//                                         decoration: BoxDecoration(
+//                                           borderRadius: BorderRadius.circular(12),
+//                                           border: Border.all(
+//                                             color: Colors.white.withValues(alpha: 0.35),
+//                                             width: 0.8,
+//                                           ),
+//                                           color: Colors.white.withValues(alpha: 0.03),
+//                                         ),
+//                                         child: ClipRRect(
+//                                           borderRadius: BorderRadius.circular(12),
+//                                           child: KeyedSubtree(
+//                                             key: ValueKey(
+//                                               '${state.loadAttachments!.length}_${state.loadAttachments!.map((e) => e.toString()).join('_')}',
+//                                             ),
+//                                             child: BaseImageUpload().getAttachment(
+//                                               height: height,
+//                                               attachments: List<ImageContent>.from(state.loadAttachments ?? []),                                              files: getFiles,
+//                                               moduleCode: '',
+//                                               isDisabled: !showSaveButtons,
+//                                               showDeleteIcon: true,
+//                                             ),
+//                                           ),
+//                                         ),
+//                                       ),
+//                                     ),
+//                                   ),
+//                                 ],
+//                                 const SizedBox(height: 16),
+//                               ],
+//                             ),
+//                           ),
+//                         ),
+//                       ),
+//                     ),
                   ),
                 ),
               );
@@ -1917,7 +1458,6 @@ $selectedTemplateHtml
       },
     );
   }
-
   void addEmail() {
     final exampleCubit = context.read<EventInfoCubit>();
     showDialog(
@@ -2031,7 +1571,7 @@ $selectedTemplateHtml
           Opacity(
             opacity: showSaveButtons ? 1 : 0.5,
             child: IconButton(
-              icon: const Icon(Icons.delete),
+              icon: const Icon(Icons.delete, color: Colors.white,),
               onPressed: () {
                 if (!showSaveButtons) {
                   return;
@@ -2078,4 +1618,69 @@ $selectedTemplateHtml
   void enableEditor(bool enable) {
     quillController.enable(); // call directly
   }
+
+
+  Widget uploadWidget(EventInfoState state) {
+    return  Container(
+      height: 60,
+      decoration: BoxDecoration(
+          border: Border.all(
+            color: const Color(0xFFCACACA),
+            width: 1.0,
+          ),
+          borderRadius: const BorderRadius.all(Radius.circular(8))),
+      child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+        Padding(
+          padding: const EdgeInsets.only(right: 5.0),
+          child: ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(
+              fixedSize: const Size(120, 50),
+              backgroundColor: Colors.transparent,
+            ),
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext dialogContext) {
+                    return UploadAttachment(
+                      // userdetails: state.loggedInUserDetails ?? User(),
+                      // getFiles: getFiles,
+                      // inwardState: state,
+                      onImageSelected: (ImageContent data) {
+                        log('-------function---onImageSelected---------');
+                        List<ImageContent>? files = [];
+                        files.add(data);
+                        for (ImageContent image in getFiles.toList()) {
+                          files.add(image);
+                        }
+                        BlocProvider.of<EventInfoCubit>(
+                            context)
+                            .addAttachment(files);
+                      },
+                    );
+                  });
+            },
+
+            icon: SvgPicture.asset(
+              //AppIcon.dropdownicon,
+              AppIcon.uploadicon,
+              //fit: BoxFit.,
+              colorFilter: const ColorFilter.mode(
+                AppColors.backgroundWhiteColor,
+                BlendMode.srcIn,
+              ),
+              // color: AppColors.backgroundWhiteColor,
+              width: 13,
+              height: 13,
+              key: const Key(Keys.userIcon),
+            ),
+            label: const Text(
+              Constants.clicktoupload,
+              style: Styles.textStyleRegularNormalWhite12,
+            ), // <-- Text
+          ),
+        ),
+      ]),
+    );
+  }
+
 }

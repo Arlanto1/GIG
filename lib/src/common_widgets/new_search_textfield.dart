@@ -33,6 +33,8 @@ class FlutterInputField extends StatelessWidget {
   final bool isLoginScreen;
   final Color? backgroundColor;
   final bool fillColor;
+  final int? maxVisibleLines;
+  final bool readOnly;
 
   const FlutterInputField({
     super.key,
@@ -66,127 +68,10 @@ class FlutterInputField extends StatelessWidget {
     this.isLoginScreen = false,
     this.backgroundColor,
     this.fillColor = false,
+    this.maxVisibleLines,
+    this.readOnly = false,
   });
-  //
-  // @override
-  // Widget build(BuildContext context) {
-  //   // log('-controller?.text-----${controller?.text}--');
-  //   return TextFormField(
-  //     key: Key(textFormKey),
-  //     controller: controller,
-  //     textInputAction: textInputAction,
-  //     textCapitalization: textCapitalization ?? true
-  //         ? TextCapitalization.sentences
-  //         : TextCapitalization.none,
-  //     obscureText: isSecure,
-  //     initialValue: initialValue,
-  //     enabled: isEnable,
-  //     maxLines: isEnable == true ? lineHeight : null, // Allow scrolling if not editable
-  //     // maxLines: lineHeight,
-  //     minLines: isEnable == true ? null : lineHeight, // Adjust min lines when not editable
-  //     autofocus: autoFocus!,
-  //     // autocorrect: false,
-  //     spellCheckConfiguration: const SpellCheckConfiguration(),
-  //     enableSuggestions: true,
-  //     keyboardType: textInputType,
-  //     focusNode: focusNode,
-  //     style: const TextStyle(color: Colors.white),
-  //     decoration: showBorder ?? true
-  //         ? InputDecoration(
-  //             fillColor: (isDisableColor ?? false)
-  //                 ? Colors.transparent
-  //                 : Colors.white12,
-  //             filled: true,
-  //             border: const OutlineInputBorder(),
-  //             focusedBorder: OutlineInputBorder(
-  //               borderSide: const BorderSide(
-  //                   color: AppColors.white, width: 1.0),
-  //               borderRadius: BorderRadius.circular(8.0),
-  //             ),
-  //             enabledBorder: OutlineInputBorder(
-  //               //<-- SEE HERE
-  //               borderSide: const BorderSide(
-  //                   color: AppColors.white, width: 1.0),
-  //               borderRadius: BorderRadius.circular(8.0),
-  //             ),
-  //             disabledBorder: OutlineInputBorder(
-  //               //<-- SEE HERE
-  //               borderSide: const BorderSide(
-  //                   color: Colors.white, width: 1.0),
-  //               borderRadius: BorderRadius.circular(8.0),
-  //             ),
-  //             hintText: hintText,
-  //             prefixIcon: prefixWidget,
-  //             suffixIcon: suffixWidget,
-  //             // suffixText: '${textFieldController?.text.length}/$characterLimit',
-  //             hintStyle: TextStyle(
-  //               fontSize: hintFontSize,
-  //             ),
-  //           )
-  //         : InputDecoration(
-  //             fillColor: (textFormFieldBackgroundColor != null)
-  //                 ? Colors.white
-  //                 : Colors.white ,
-  //             filled: true,
-  //             labelText: labelText,
-  //             labelStyle: const TextStyle(
-  //               color: Colors.white,
-  //             ),
-  //             // Initial label color
-  //             focusedBorder: const UnderlineInputBorder(
-  //               borderSide:
-  //                   BorderSide(color: Colors.white), // Color when focused
-  //             ),
-  //             suffixIcon: Icon(suffixIcon),
-  //           ),
-  //
-  //     onChanged: (String str) {
-  //       onChange(str);
-  //     },
-  //     inputFormatters: [
-  //       if (textInputType == TextInputType.number) ...[
-  //         FilteringTextInputFormatter.digitsOnly
-  //       ]
-  //     ],
-  //     maxLength: characterLimit,
-  //     validator: (String? value) {
-  //       if (validateTextField != null) {
-  //         return validateTextField!(value);
-  //       }
-  //       return null;
-  //     },
-  //     onTap: () {
-  //       onTap != null ? onTap!() : null;
-  //     },
-  //     onFieldSubmitted: (value) {
-  //       onFieldSubmitted != null
-  //           ? onFieldSubmitted!(value)
-  //           : FocusScope.of(context).nextFocus();
-  //     },
-  //     onEditingComplete: () {
-  //       FocusScope.of(context).unfocus();
-  //     },
-  //   );
 
-
-// Wrap with gradient background container
-//     return Container(
-//       decoration: BoxDecoration(
-//         gradient: const LinearGradient(
-//           colors: [
-//             Color(0xFFDB2777), // main pink shade
-//             Color(0xFFF472B6), // light pink
-//             Color(0xFFE9D5FF), // lavender tint
-//           ],
-//           begin: Alignment.topLeft,
-//           end: Alignment.bottomRight,
-//         ),
-//         borderRadius: BorderRadius.circular(8.0),
-//       ),
-//       child: textFormField, // the widget above
-//     );
-
-  // }
   @override
   Widget build(BuildContext context) {
     final textFormField = TextFormField(
@@ -198,10 +83,14 @@ class FlutterInputField extends StatelessWidget {
           : TextCapitalization.none,
       obscureText: isSecure,
       initialValue: initialValue,
+      readOnly: readOnly,
       enabled: isEnable,
-      maxLines: isEnable == true ? lineHeight : null,
-      minLines: isEnable == true ? null : lineHeight,
+      maxLines: isEnable == true ? lineHeight : maxVisibleLines,
+      // maxLines: maxVisibleLines ?? lineHeight,
+      minLines: isEnable == true ? maxVisibleLines : lineHeight,
+      // minLines: isEnable == true ? null : lineHeight,
       autofocus: autoFocus!,
+      scrollPhysics: const BouncingScrollPhysics(),
       textAlign: TextAlign.start,
       spellCheckConfiguration: const SpellCheckConfiguration(),
       enableSuggestions: true,

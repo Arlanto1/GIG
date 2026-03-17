@@ -20,6 +20,10 @@ class Organisation {
   String? dutyPostName;
   bool? transportShift;
 
+  ///
+  String? activityNotes;
+  String? submittedDate;
+  bool? submitted;
   /// For Dropdown
   bool? isSelected;
 
@@ -35,6 +39,9 @@ class Organisation {
     this.dutyPostName,
     this.transportShift,
     this.isSelected = false,
+    this.activityNotes,
+    this.submitted,
+    this.submittedDate,
   });
 
   // factory Organisation.fromJson(Map<String, dynamic> json) => _$OrganisationFromJson(json);
@@ -54,7 +61,11 @@ class Organisation {
         dutyPostName = json['dutyPostName'] ?? json['dutyPostName'] as String?,
         transportShift =
             json['transportShift'] ?? json['transportShift'] as bool?,
-        keyName = json['keyname'] as String?;
+        keyName = json['keyname'] as String?,
+  activityNotes = json['activityNotes'] as String?,
+        submitted = json['submitted'] as bool?,
+        submittedDate = json['submittedDate'] as String?;
+
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -66,6 +77,9 @@ class Organisation {
         'dutyPostName': dutyPostName,
         'transportShift': transportShift,
         'keyname': keyName,
+    'activityNotes':activityNotes,
+    'submitted':submitted,
+    'submittedDate':submittedDate,
       };
 
   @override

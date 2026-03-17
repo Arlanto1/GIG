@@ -367,7 +367,6 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
 
       // Format the name and email for receiverEmail
       String name = passNo.name ?? '';
-      int id = passNo.id ?? 0;
       PassInfo userDetails = PassInfo(
         passNo:name,
         id: passNo.id,
@@ -417,7 +416,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
         status: FormStatus.loading,
       ),
     );
-    int eventIds = math.Random.secure().nextInt(5);
+    math.Random.secure().nextInt(5);
     if (data != null) {
       for (ImageContent image in data) {
         image.type = 1;

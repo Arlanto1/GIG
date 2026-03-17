@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import '../../../../../../index.dart';
 
 class AddPOCPopUp extends StatefulWidget {
@@ -105,7 +103,7 @@ class AddPOCPopUpState extends State<AddPOCPopUp> {
                     AppColors.newColor3.withValues(alpha: 0.6),
                     // Color(0xFF6474C6).withOpacity(0.14)
                   ],
-                  stops: [0.02, 0.35, 1],
+                  stops: const [0.02, 0.35, 1],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),

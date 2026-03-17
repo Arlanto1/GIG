@@ -1657,7 +1657,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                         ],
                                       ),
                                     );
-                                  }).toList(),
+                                  }),
                                 ],
                               ),
                             ),
@@ -2131,7 +2131,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                   child: Container(
                     padding: const EdgeInsets.all(15.0),
                     decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.0), // 👈 allows bg to show
+                      color: Colors.black.withValues(alpha: 0.0), // 👈 allows bg to show
                       borderRadius: const BorderRadius.vertical(
                         top: Radius.circular(0),
                       ),

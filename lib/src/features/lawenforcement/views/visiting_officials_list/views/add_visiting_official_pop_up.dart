@@ -75,12 +75,12 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
              color: Colors.transparent,
               borderRadius: BorderRadius.circular(27),
               border: Border.all(
-                color: Colors.white.withValues(alpha: 0.6),
+                color: Colors.white.withValues(alpha: 0.9),
                 width: 0.7,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.white.withValues(alpha: 0.0),
+                  color: Colors.black.withValues(alpha: 0.2),
                   blurRadius: 12,
                   offset: const Offset(0, 2),
                 ),

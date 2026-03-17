@@ -58,8 +58,6 @@ class _KeyManagementMasterListViewState
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    double height = size.height;
     final scaffoldKey = GlobalKey<ScaffoldState>();
     return BlocConsumer<KeyManagementMasterListBloc,
         KeyManagementMasterListState>(
@@ -134,7 +132,7 @@ class _KeyManagementMasterListViewState
                       child: BackdropFilter(
                         filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
                         child: Container(
-                          color: Colors.black.withOpacity(0.2),
+                          color: Colors.black.withValues(alpha: 0.2),
                         ),
                       ),
                     ),
@@ -180,7 +178,7 @@ class _KeyManagementMasterListViewState
                       },
                         child: ListView.builder(
                           controller: _scrollController,
-                          padding: EdgeInsets.zero,
+                          padding: const EdgeInsets.only(bottom: 100),
                           itemCount: state.hasReachedMax
                               ? state.list.length
                               : state.list.length + 1,
@@ -275,7 +273,7 @@ class _KeyManagementMasterListViewState
                                                       .withValues(alpha: 0.09),
                                                   // Color(0xFF6474C6).withOpacity(0.14)
                                                 ],
-                                                stops: [0.02, 0.35, 1],
+                                                stops: const [0.02, 0.35, 1],
                                                 begin: Alignment.topCenter,
                                                 end: Alignment.bottomCenter,
                                               ),

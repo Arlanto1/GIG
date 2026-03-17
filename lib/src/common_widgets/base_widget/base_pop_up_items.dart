@@ -93,6 +93,7 @@ class BasePopUpItems extends StatefulWidget {
   final bool isArticleFoundStatus;
   final bool isWorkShift;
   final int? workShift;
+  final bool isTicketStatus;
 
   @override
   State<BasePopUpItems> createState() => _BasePopUpItemsState();
@@ -189,6 +190,7 @@ class BasePopUpItems extends StatefulWidget {
     this.isArticleFoundStatus = false,
     this.isWorkShift = false,
     this.workShift,
+    this.isTicketStatus = false
   });
 }
 
@@ -671,6 +673,16 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
+
+      if (widget.isTicketStatus == true &&
+          widget.status != null ) ...[
+        Row(
+          children: [
+            CommonWidgets.verticalSpacerWidget(5),
+            Utils().buildTicketStatusRow(widget.status ?? 0),
+          ],
+        ),
+      ],
       if (widget.guardCount != null) ...[
         // CommonWidgets.verticalSpacerWidget(8),
         Row(
@@ -1133,43 +1145,109 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         continue;
       }
       widgets.add(CommonWidgets.verticalSpacerWidget(5));
+      // widgets.add(Row(
+      //     children: [
+      //       textHandling('${label.key} : ', label.value, this.context),
+      //     ],
+      //   ),
+      // );
       widgets.add(
         Row(
           children: [
-            textHandling('${label.key} : ', label.value, this.context),
+            Expanded(
+              child: textHandling('${label.key} : ', label.value, this.context),
+            ),
           ],
         ),
       );
     }
     return widgets;
   }
+  //
+  // Widget textHandling(String title, String desc, BuildContext context) {
+  //   double width = MediaQuery.of(context).size.width;
+  //   double textWidth =
+  //       width > Constants.tabletScreenWidth ? width / 1.3 : width / 1.17;
+  //   return SizedBox(
+  //     width: textWidth,
+  //     child: Row(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       mainAxisAlignment: MainAxisAlignment.start,
+  //       children: [
+  //         Text(
+  //           title,
+  //           overflow: TextOverflow.visible,
+  //           softWrap: true,
+  //           style: Styles.textStyleNavigator,
+  //         ),
+  //         Flexible(
+  //           child: Text(
+  //             desc,
+  //             overflow: TextOverflow.visible,
+  //             softWrap: true,
+  //             style: Styles.textStyleNavigator600,
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+
+  // Widget textHandling(String title, String desc, BuildContext context) {
+  //   double width = MediaQuery.of(context).size.width;
+  //   double textWidth =
+  //   width > Constants.tabletScreenWidth ? width / 1.3 : width / 1.17;
+  //
+  //   return SizedBox(
+  //     width: textWidth,
+  //     child: Row(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         Flexible(
+  //           flex: 2,
+  //           child: Text(
+  //             title,
+  //             softWrap: true,
+  //             overflow: TextOverflow.visible,
+  //             style: Styles.textStyleNavigator,
+  //           ),
+  //         ),
+  //         Flexible(
+  //           flex: 3,
+  //           child: Text(
+  //             desc,
+  //             softWrap: true,
+  //             overflow: TextOverflow.visible,
+  //             style: Styles.textStyleNavigator600,
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget textHandling(String title, String desc, BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double textWidth =
-        width > Constants.tabletScreenWidth ? width / 1.3 : width / 1.17;
-    return SizedBox(
-      width: textWidth,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Text(
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Flexible(
+          flex: 2,
+          child: Text(
             title,
-            overflow: TextOverflow.visible,
             softWrap: true,
             style: Styles.textStyleNavigator,
           ),
-          Flexible(
-            child: Text(
-              desc,
-              overflow: TextOverflow.visible,
-              softWrap: true,
-              style: Styles.textStyleNavigator600,
-            ),
+        ),
+        const SizedBox(width: 4),
+        Flexible(
+          flex: 3,
+          child: Text(
+            desc,
+            softWrap: true,
+            style: Styles.textStyleNavigator600,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

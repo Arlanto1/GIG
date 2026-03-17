@@ -57,8 +57,8 @@ class CSREventGiModel extends BaseObject {
   User? bu2;
   String? bu2ContactNo;
   Organisation? requesterDepartment;
-  String? vendorPocName;
-  String? vendorStaffList;
+  List<String>? vendorPocName;
+  List<String>?  vendorStaffList;
   User? srh1;
   User? srh2;
   Organisation? bu1Dept;
@@ -90,7 +90,16 @@ class CSREventGiModel extends BaseObject {
   double? budget;
   String? poNumber;
   String? vendorCompanyName;
-  MapImage? map;
+  ImageContent? map;
+  bool? ambulanceStationed;
+  bool? photographyApproved;
+  List<ImageContent>? photographyApprovedProof;
+  List<ImageContent>? vendorStaffDetails;
+  int? mediaExposure;
+  int? sensitiveInfoRisk;
+  String? additionalInfo;
+  List<AssistanceSuppModel>? commandSupport;
+
 
   CSREventGiModel({
     this.id,
@@ -149,6 +158,14 @@ class CSREventGiModel extends BaseObject {
     this.vendorContactNo,
     this.vendorCompanyName,
     this.map,
+    this.ambulanceStationed = false,
+    this.photographyApproved = false,
+    this.photographyApprovedProof,
+    this.vendorStaffDetails,
+    this.mediaExposure,
+    this.sensitiveInfoRisk,
+    this.additionalInfo,
+    this.commandSupport
   });
 
   factory CSREventGiModel.fromJson(Map<String, dynamic> json) =>
@@ -159,66 +176,34 @@ class CSREventGiModel extends BaseObject {
 }
 
 
-class MapImage {
-  MapImage({
-    required this.id,
-    required this.ownerName,
-    required this.contentType,
-    required this.uploadDate,
-    required this.title,
-    required this.eventProtectionId,
-    required this.type,
-    required this.deletable,
-    required this.imageStreamData,
-    required this.fileSize,
+class AssistanceSuppModel {
+  int? id;
+  int? type;
+  String? contactNo;
+  String? name;
+  int? role;
+
+  AssistanceSuppModel({
+    this.id,
+    this.type,
+    this.contactNo,
+    this.name,
+    this.role
   });
-  late final int id;
-  late final String ownerName;
-  late final String contentType;
-  late final int uploadDate;
-  late final String title;
-  late final int eventProtectionId;
-  late final int type;
-  late final bool deletable;
-  late final ImageStreamData imageStreamData;
-  late final int fileSize;
 
-  MapImage.fromJson(Map<String, dynamic> json){
-    id = json['id'];
-    ownerName = json['ownerName'];
-    contentType = json['contentType'];
-    uploadDate = json['uploadDate'];
-    title = json['title'];
-    eventProtectionId = json['eventProtectionId'];
-    type = json['type'];
-    deletable = json['deletable'];
-    imageStreamData = ImageStreamData.fromJson(json['imageStreamData']);
-    fileSize = json['fileSize'];
-  }
+  AssistanceSuppModel.fromJson(Map<String, dynamic> json)
+      : id = json['id'] as int?,
+        type = json['type'] as int?,
+        name= json['name'] as String?,
+        contactNo= json['contactNo'] as String?,
+        role = json['role'] as int?;
 
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['id'] = id;
-    _data['ownerName'] = ownerName;
-    _data['contentType'] = contentType;
-    _data['uploadDate'] = uploadDate;
-    _data['title'] = title;
-    _data['eventProtectionId'] = eventProtectionId;
-    _data['type'] = type;
-    _data['deletable'] = deletable;
-    _data['imageStreamData'] = imageStreamData.toJson();
-    _data['fileSize'] = fileSize;
-    return _data;
-  }
-}
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'type': type,
+    'name':name,
+    'contactNo':contactNo,
+    'role':role,
 
-class ImageStreamData {
-  ImageStreamData();
-
-  ImageStreamData.fromJson(Map json);
-
-  Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    return _data;
-  }
+  };
 }

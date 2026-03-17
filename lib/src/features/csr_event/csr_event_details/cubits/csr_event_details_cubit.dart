@@ -12,11 +12,13 @@ class CSRGeneralInfoCubit extends Cubit<CSRGeneralInfoState> {
   final CSREventServices services;
   final int id;
   final CommonServices commonServices;
-
+final bool? isCSREvent;
   CSRGeneralInfoCubit({
     required this.services,
     required this.commonServices,
     required this.id,
+    required this.isCSREvent,
+
   }) : super(
     CSRGeneralInfoState.initial(
       model: CSREventGiModel(),
@@ -43,7 +45,6 @@ class CSRGeneralInfoCubit extends Cubit<CSRGeneralInfoState> {
     emit(state.copyWith(model: csrEventGi, status: FormStatus.loading));
 
     emit(state.copyWith(model: csrEventGi, status: FormStatus.initial));
-    log('--eventProtectionGi---${csrEventGi.vendorPocName}-');
   }
 
   Future<void> refreshList() async {
@@ -381,13 +382,13 @@ class CSRGeneralInfoCubit extends Cubit<CSRGeneralInfoState> {
     int eventIds = math.Random.secure().nextInt(5);
     if (data != null) {
       for (ImageContent image in data) {
-        image.type = 1;
+        image.type = 6;
       }
       log('--data----${data.length}----');
 
       emit(
         state.copyWith(
-          // eventId: eventIds,
+          eventId: eventIds,
           model: state.model,
           loadAttachments: data,
           status: FormStatus.initial,
@@ -397,7 +398,7 @@ class CSRGeneralInfoCubit extends Cubit<CSRGeneralInfoState> {
 
     emit(
       state.copyWith(
-        // eventId: eventIds,
+        eventId: eventIds,
         model: state.model,
         status: FormStatus.initial,
       ),

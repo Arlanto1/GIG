@@ -245,6 +245,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
         ),
         ListView.builder(
           controller: _scrollController,
+          padding: const EdgeInsets.only(bottom: 100),
           itemCount:
               state.hasReachedMax ? state.items.length : state.items.length + 1,
           itemBuilder: (context, index) {
@@ -329,7 +330,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                                         Colors.white.withValues(alpha: 0.09),
                                         // Color(0xFF6474C6).withOpacity(0.14)
                                       ],
-                                      stops: [0.02, 0.35, 1],
+                                      stops: const [0.02, 0.35, 1],
                                       begin: Alignment.topCenter,
                                       end: Alignment.bottomCenter,
                                     ),
@@ -469,11 +470,11 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                                                         ),
                                                         const SizedBox(
                                                             height: 12),
-                                                        Text(
+                                                        const Text(
                                                           Constants
                                                               .enteredKeyLostValueNotAccepted,
                                                           style:
-                                                              const TextStyle(
+                                                              TextStyle(
                                                             fontSize: 15,
                                                             color:
                                                                 Colors.white70,
@@ -525,7 +526,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                                           state.extraProperties
                                                   ?.hasWritePermission ??
                                               false,
-                                          state.isEligibleToEdit ?? false,
+                                          state.isEligibleToEdit,
                                           state.items[index].kmId,
                                           widget.parentId,
                                           state.items[selectedIndex].id,
@@ -596,7 +597,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                                                           Constants
                                                               .enteredKeyDamageValueNotAccepted,
                                                           style:
-                                                              const TextStyle(
+                                                               TextStyle(
                                                             fontSize: 15,
                                                             color:
                                                                 Colors.white70,

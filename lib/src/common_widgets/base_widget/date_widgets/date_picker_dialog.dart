@@ -920,21 +920,42 @@ class BaseDate {
 
     // from-to range present
     if (!fromDate.isEmptyOrNull && !toDate.isEmptyOrNull) {
-      DateTime from = DateTime.parse(fromDate!);
-      DateTime to = DateTime.parse(toDate!);
-      // clamp initial
-      if (initialPickerDate.isBefore(from)) initialPickerDate = from;
-      if (initialPickerDate.isAfter(to)) initialPickerDate = to;
+      // from-to range present - WITH SAFE PARSING
+      DateTime? rangeMinDate, rangeMaxDate;
+      if (!fromDate.isEmptyOrNull) {
+        try {
+          rangeMinDate = DateTime.parse(fromDate!);
+          log('End picker fromDate parsed: $rangeMinDate');
+        } catch (e) {
+          log('fromDate parse error: $e, value: $fromDate');
+        }
+      }
+      if (!toDate.isEmptyOrNull) {
+        try {
+          rangeMaxDate = DateTime.parse(toDate!);
+        } catch (e) {
+          log('toDate parse error: $e');
+        }
+      }
 
-      // show glass wheel picker with range
+      if (rangeMinDate != null) {
+        if (initialPickerDate.isBefore(rangeMinDate)) initialPickerDate = rangeMinDate;
+      }
+      if (rangeMaxDate != null && initialPickerDate.isAfter(rangeMaxDate)) {
+        initialPickerDate = rangeMaxDate;
+      }
+
       pickedDate = await showGlassWheelDatePicker(
         context: context,
         initialDateTime: initialPickerDate,
-        minDate: from,
-        maxDate: to,
+        minDate: rangeMinDate ?? minTime,
+        maxDate: rangeMaxDate ?? maxTime,
         onlyDate: onlyDate,
       );
-    } else if (onlyDate) {
+
+    }
+
+    else if (onlyDate) {
       // only date (without time)
       pickedDate = await showGlassWheelDatePicker(
         context: context,

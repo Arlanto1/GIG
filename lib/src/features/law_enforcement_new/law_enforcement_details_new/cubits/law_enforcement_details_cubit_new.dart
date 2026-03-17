@@ -256,9 +256,7 @@ class LawEnforcementDetailsCubit
       // Ensure employeeId is explicitly assigned to receiverEmployeeId
       state.model.dbOfficialAccompaniedEmail = dbOfficialEmail.name;
       // Format the name and email for receiverEmail
-      String name = dbOfficialEmail.name ?? '';
       String email = dbOfficialEmail.email ?? '';
-      String employeeId = dbOfficialEmail.employeeId ?? '';
       state.model.dbOfficialAccompaniedEmail = email;
       emit(
         state.copyWith(

@@ -758,11 +758,11 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
               filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
               child: Card(
                 elevation: 0,
-                color: Colors.white.withOpacity(0.06),
+                color: Colors.white.withValues(alpha: 0.06),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                   side: BorderSide(
-                    color: Colors.white.withOpacity(1),
+                    color: Colors.white.withValues(alpha: 1),
                     width: 1,
                   ),
                 ),
@@ -830,7 +830,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                               shape: BoxShape.rectangle,
                               color: Colors.transparent,
                               border: Border.all(
-                                color: Colors.white.withOpacity(0.6),
+                                color: Colors.white.withValues(alpha: 0.6),
                               ),
                             ),
                             child: BaseIcons().closeIcon(

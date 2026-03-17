@@ -2,7 +2,7 @@ import 'package:db_atom/src/configurations/base_config.dart';
 
 class DevConfig implements BaseConfig {
   @override
-  String get apiHost => "https://api.integration.dbatom.com/api/atomrestservice";
+  String get apiHost => "https://api.integration-v2.dbatom.arlanto.com/api/atomrestservice";
 
   @override
   bool get reportErrors => false;
@@ -26,7 +26,7 @@ class DevConfig implements BaseConfig {
   String get keyClockClientSecret => 'pEreyh84RiyY6at0deM3V8MGjlMzZgAO';
 
   @override
-  String get keyClockRealm => 'Atom-UAT';
+  String get keyClockRealm => 'Atom-DEV';
 
   @override
   String get aadClientId => 'de402f9d-d2b7-4660-8eaf-5bda3efed464';

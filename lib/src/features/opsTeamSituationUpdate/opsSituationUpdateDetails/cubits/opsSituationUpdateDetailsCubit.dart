@@ -204,7 +204,6 @@ class OpsSituationUpdateDetailsCubit
     emit(state.copyWith(status: FormStatus.loading));
 
     try {
-      final success =
       await services.dltDBLocUpdateById(deleteId.toString());
 
       // 🔁 Reload updated LSM
@@ -233,7 +232,6 @@ class OpsSituationUpdateDetailsCubit
     emit(state.copyWith(status: FormStatus.loading));
 
     try {
-      final success =
       await services.dltBuildingReportById(deleteId.toString());
 
       // 🔁 Reload updated LSM

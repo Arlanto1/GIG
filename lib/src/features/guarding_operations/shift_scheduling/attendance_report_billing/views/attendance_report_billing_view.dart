@@ -131,6 +131,7 @@ class _AttendanceReportBillingViewState
                     },
                     child: ListView.builder(
                         controller: _scrollController,
+                        padding: const EdgeInsets.only(bottom: 100),
                         itemCount: state.hasReachedMax
                             ? state.items.length
                             : state.items.length + 1,

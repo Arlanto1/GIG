@@ -135,3 +135,22 @@ const eventProtectionDrawerItems = [
     0,
   ),
 ];
+
+const incidentManagementDrawerItems = [
+  MenuItem(
+    Constants.incidentManagementTitle,
+    AppIcon.incidentManagementIcon,
+    0,
+  ),
+  MenuItem(
+    Constants.transportIncidentTitle,
+    AppIcon.transportIcon,
+    0,
+  ),
+
+  MenuItem(
+    Constants.medicalEmergencyTitle,
+    AppIcon.medicalIcon,
+    0,
+  ),
+];

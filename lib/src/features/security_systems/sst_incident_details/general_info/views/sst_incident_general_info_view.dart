@@ -136,6 +136,8 @@ class _SstIncidentGeneralInfoViewState
           log('--state.model.status----asd---${state.model.status}-');
           disableForm = true;
         }
+        log('lsm${state.model.lsm?.userInfo == state.model.asl?.userInfo}');
+
         if (state.model.status == -1) {
           disableForm = true;
         }
@@ -166,6 +168,19 @@ class _SstIncidentGeneralInfoViewState
         if (state.model.status ==
                 ConstantsIntValue.ticketLifeCycleSolveProposedStatus &&
             state.model.systemManager!.email
+                .equalsIgnoreCase(state.loggedInUserDetails.email)) {
+          isShowSubmitButtonForSecurityManager = true;
+        }
+        // if (state.model.status ==
+        //     ConstantsIntValue.submitted &&
+        //     state.model.vendorPoc
+        //         .equalsIgnoreCase(state.loggedInUserDetails.email)) {
+        //   isShowSubmitButtonForSecurityManager = true;
+        // }
+
+        if (state.model.status ==
+            ConstantsIntValue.ticketLifeCycleSolveProposedStatus &&
+            state.model.vendorPoc
                 .equalsIgnoreCase(state.loggedInUserDetails.email)) {
           isShowSubmitButtonForSecurityManager = true;
         }
@@ -771,7 +786,7 @@ class _SstIncidentGeneralInfoViewState
                                           BlocProvider.of<
                                                       SstIncidentGeneralInfoCubit>(
                                                   context)
-                                              .updateEmailsValue(
+                                              .updateDropdownValues(
                                             systemManager: user,
                                           );
                                         },
@@ -782,7 +797,7 @@ class _SstIncidentGeneralInfoViewState
                                           BlocProvider.of<
                                                       SstIncidentGeneralInfoCubit>(
                                                   context)
-                                              .updateEmailsValue(
+                                              .updateDropdownValues(
                                             systemManager: user,
                                           );
                                           // refresh the list
@@ -819,8 +834,8 @@ class _SstIncidentGeneralInfoViewState
                                           BlocProvider.of<
                                                       SstIncidentGeneralInfoCubit>(
                                                   context)
-                                              .updateEmailsValue(
-                                            securityManager: user,
+                                              .updateDropdownValues(
+                                            lsm: user,
                                           );
                                         },
                                         roleName: ConstantUserRoles
@@ -830,8 +845,8 @@ class _SstIncidentGeneralInfoViewState
                                           BlocProvider.of<
                                                       SstIncidentGeneralInfoCubit>(
                                                   context)
-                                              .updateEmailsValue(
-                                            securityManager: user,
+                                              .updateDropdownValues(
+                                            lsm: user,
                                           );
                                           // refresh the list
                                           BlocProvider.of<
@@ -867,8 +882,8 @@ class _SstIncidentGeneralInfoViewState
                                           BlocProvider.of<
                                                       SstIncidentGeneralInfoCubit>(
                                                   context)
-                                              .updateEmailsValue(
-                                            securityLead: user,
+                                              .updateDropdownValues(
+                                            asl: user,
                                           );
                                         },
                                         roleName: ConstantUserRoles
@@ -878,8 +893,8 @@ class _SstIncidentGeneralInfoViewState
                                           BlocProvider.of<
                                                       SstIncidentGeneralInfoCubit>(
                                                   context)
-                                              .updateEmailsValue(
-                                            securityLead: user,
+                                              .updateDropdownValues(
+                                            asl: user,
                                           );
                                           // refresh the list
                                           BlocProvider.of<
@@ -914,8 +929,8 @@ class _SstIncidentGeneralInfoViewState
                                           BlocProvider.of<
                                                       SstIncidentGeneralInfoCubit>(
                                                   context)
-                                              .updateEmailsValue(
-                                            locationTeam: user,
+                                              .updateDropdownValues(
+                                            lt: user,
                                           );
                                           FocusScope.of(context).requestFocus(
                                               descriptionFocusNode);
@@ -927,8 +942,8 @@ class _SstIncidentGeneralInfoViewState
                                           BlocProvider.of<
                                                       SstIncidentGeneralInfoCubit>(
                                                   context)
-                                              .updateEmailsValue(
-                                            locationTeam: user,
+                                              .updateDropdownValues(
+                                            lt: user,
                                           );
                                           FocusScope.of(context).requestFocus(
                                               descriptionFocusNode);
@@ -1840,8 +1855,9 @@ class _SstIncidentGeneralInfoViewState
             width: double.infinity,
             // Ensure container takes up full width
             decoration: BoxDecoration(
-              color: AppColors.lightGreyBackground,
+              color: Colors.transparent,
               borderRadius: BorderRadius.circular(5),
+              border: Border.all(color: Colors.white,width: 0.2)
             ),
             margin: const EdgeInsets.only(bottom: 10.0),
             // Space between each note
@@ -1864,7 +1880,7 @@ class _SstIncidentGeneralInfoViewState
                   '${Constants.date} - ${dateController.text}',
                   style: const TextStyle(
                     fontSize: 14,
-                    color: Colors.grey,
+                    color: Colors.white,
                   ),
                 ),
                 const SizedBox(height: 20),

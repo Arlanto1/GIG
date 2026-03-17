@@ -321,8 +321,8 @@ const List<Label> materialMovementStatusValues = [
   Label(key: 'Return Pending', value: '8'),
   Label(key: 'Inward Pending', value: '9'),
   Label(key: 'Closed/Finalized', value: '10'),
-  Label(key: 'Material Return Overdue', value: '11'),
-  Label(key: 'Material Return Pending', value: '12'),
+  Label(key: 'Material Return Overdue', value: '12'),
+  Label(key: 'Material Return Pending', value: '11'),
   Label(key: 'Cancelled', value: '-1'),
 ];
 const List<Label> shiftScheduleStatusDropDownValues = [
@@ -402,3 +402,70 @@ const List<Label> approveReject = [
   Label(key: 'Approve', value: '1'),
   Label(key: 'Reject', value: '0'),
 ];
+
+
+const List<Label> mediaExposure = [
+  Label(key: 'No media / no public appearance', value: '0'),
+  Label(key: 'Only local media / or financial industry media exposure', value: '2'),
+  Label(key: 'Broad media and public exposure', value: '3'),
+
+];
+
+const List<Label> riskInfo = [
+  Label(key: 'No Sensitive Information', value: '0'),
+  Label(key: 'Sensitive but no confidential information discussed during event', value: '2'),
+  Label(key: 'Confidential information discussed during event', value: '3'),
+];
+
+
+const List<Label> assistanceInfo = [
+  Label(key: 'Escalation 1(SSM)', value: '8'),
+  Label(key: 'Escalation 2(ASL)', value: '9'),
+  Label(key: 'Escalation 3(SRH)', value: '10'),
+  Label(key: 'ROC', value: '11'),
+];
+
+
+
+const List<Label> ticketStatusDropDownValues = [
+  Label(key: 'Draft', value: '0'),
+  Label(key: 'Open', value: '1'),
+  Label(key: 'Duplicate', value: '2'),
+  Label(key: 'Invalid', value: '3'),
+  Label(key: 'In progress', value: '4'),
+  Label(key: 'Dev Completed', value: '5'),
+  Label(key: 'Testing', value: '6'),
+  Label(key: 'Done', value: '7'),
+  Label(key: 'Reopen', value: '8'),
+  Label(key: 'Released', value: '9'),
+  Label(key: 'Closed', value: '10'),
+  Label(key: 'Cancelled', value: '-1'),
+];
+
+
+
+const List<Label> ticketTypeDropDownValues = [
+  Label(key: 'Bugs', value: '1'),
+  Label(key: 'Improvements', value: '2'),
+  Label(key: 'Support', value: '3'),
+  Label(key: 'Feature', value: '4'),
+];
+const List<Label> priorityTypeDropDownValues = [
+  Label(key: 'Urgent', value: '1'),
+  Label(key: 'High', value: '2'),
+  Label(key: 'Medium', value: '3'),
+  Label(key: 'Low', value: '4'),
+];
+
+const List<Label> ticketRaisedForDropDownValues = [
+  Label(key: 'Web', value: '1'),
+  Label(key: 'ATOM App', value: '2'),
+  Label(key: 'Both App and Web', value: '3'),
+];
+
+const List<Label> ragStatusDropDownValues = [
+  Label(key: 'Green', value: '1'),
+  Label(key: 'Amber', value: '2'),
+  Label(key: 'Red', value: '3'),
+];
+

@@ -53,7 +53,6 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
       exportBackgroundColor: Colors.white,
     );
     BlocProvider.of<ContactDetailsCubit>(context).initializeValues();
-    initializeDates();
   }
 
   @override
@@ -145,15 +144,13 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
             },
           ),
           backgroundColor: Colors.transparent,
-          body: getBodybuilder(state, height),
+          body:
+          getBodybuilder(state, height),
         );
       },
     ); //BlocBuilder<CreateFoundArticleCubit, CreateFoundState>(
   }
 
-  void initializeDates() {
-    // TODO: Maybe we can remove this
-  }
 
   getBodybuilder(ContactDetailsState state, height) {
     if (state.status == FormStatus.loading) {

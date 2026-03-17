@@ -191,7 +191,6 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
     // Create/Update API Call
     AttendanceRequest request = AttendanceRequest(requestModel: state.model);
 
-    GenericResponse response = GenericResponse();
     try {
       GenericResponse response = GenericResponse();
       if (isSaveOnly) {

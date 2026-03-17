@@ -294,6 +294,46 @@ model.modifiedDate = model.modifiedDate == null
 
     state.model.systemSLA = systemSLA ?? state.model.systemSLA;
 
+    if (asl != null) {
+      User userDetails = User(
+        name: asl.name,
+        userId: asl.id,
+        userName: asl.name,
+        email: asl.email,
+      );
+      state.model.asl = userDetails;
+    }
+
+    if (systemManager != null) {
+      User userDetails = User(
+        name: systemManager.name,
+        userId: systemManager.id,
+        userName: systemManager.name,
+        email: systemManager.email,
+      );
+      state.model.systemManager = userDetails;
+    }
+
+
+    if (lsm != null) {
+      User userDetails = User(
+        name: lsm.name,
+        userId: lsm.id,
+        userName: lsm.name,
+        email: lsm.email,
+      );
+      state.model.lsm = userDetails;
+    }
+
+    if (lt != null) {
+      User userDetails = User(
+        name: lt.name,
+        userId: lt.id,
+        userName: lt.name,
+        email: lt.email,
+      );
+      state.model.lt = userDetails;
+    }
     if (vendor != null) {
       state.model.vendor = vendor;
 

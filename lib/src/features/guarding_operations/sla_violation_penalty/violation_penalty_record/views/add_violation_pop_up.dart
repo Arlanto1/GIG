@@ -89,7 +89,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
     BackdropFilter(
     filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
     child: Container(
-    color: Colors.black.withOpacity(0.25), // dim + blur
+    color: Colors.black.withValues(alpha: 0.25), // dim + blur
     ),
     ),
 
@@ -124,7 +124,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                   AppColors.white.withValues(alpha: 0.09),
                   // Color(0xFF6474C6).withOpacity(0.14)
                 ],
-                stops: [0.02, 0.35, 1],
+                stops: const [0.02, 0.35, 1],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),

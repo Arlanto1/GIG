@@ -130,7 +130,7 @@ class _AnnualPowerShutdownListViewState
                     child: BackdropFilter(
                       filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
                       child: Container(
-                        color: Colors.black.withOpacity(0.2),
+                        color: Colors.black.withValues(alpha: 0.2),
                       ),
                     ),
                   ),
@@ -169,7 +169,7 @@ class _AnnualPowerShutdownListViewState
                     },
                       child: ListView.builder(
                         controller: _scrollController,
-                        padding: EdgeInsets.zero,
+                        padding: const EdgeInsets.only(bottom: 100),
                         itemCount: state.hasReachedMax
                             ? state.items.length
                             : state.items.length + 1,
@@ -386,22 +386,6 @@ class _AnnualPowerShutdownListViewState
       },
     );
   }
-
-  // getId(
-  //   bool hasWritePermission, {
-  //   required int id,
-  //   required int eventStatus,
-  // }) async {
-  //   Navigator.pushNamed(
-  //     context,
-  //     annualPowerShutdownListDetailsRoute,
-  //     arguments: {
-  //       'id': id.toString(),
-  //       ConstantsArgument.extraProperties:
-  //           ExtraProperties(hasWritePermission: hasWritePermission),
-  //     },
-  //   );
-  // }
 
   void applySearchFilters(
     FilterCriteria model,

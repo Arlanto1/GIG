@@ -146,7 +146,9 @@ class SstIncidentGeneralInfoState extends Equatable {
       return const ErrorResponse(
           status: false, message: 'Please enter IPB Area');
     }
-
+    if(model.lsm?.email == model.asl?.email){
+      return const ErrorResponse(status: false, message: 'Security Manager and Security Lead should be different, Please select other user');
+    }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 

@@ -1079,7 +1079,6 @@ class BaseListTileItem extends StatefulWidget {
   final int? workShift;
   final bool isWorkShift;
 
-
   // final Item userItem;
   final int? index;
 
@@ -1108,6 +1107,8 @@ class BaseListTileItem extends StatefulWidget {
   final bool isPassManagementStatus;
   final bool isLawEnforcementStatus;
   final bool isArticleFoundStatus;
+  final bool isTicketStatus;
+  final bool isTransportStatus;
 
   const BaseListTileItem({
     super.key,
@@ -1163,6 +1164,8 @@ class BaseListTileItem extends StatefulWidget {
     this.isArticleFoundStatus = false,
     this.workShift,
     this.isWorkShift = false,
+    this.isTicketStatus = false,
+    this.isTransportStatus = false,
   });
 
   @override
@@ -1285,8 +1288,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           children: [
                             Expanded(
                               child: Utils().textHandling(
-                                  'Vendor: ','${widget.vendors?.name ?? ''}'
-                              ),
+                                  'Vendor: ', widget.vendors?.name ?? ''),
                             ),
                           ],
                         ),
@@ -1330,8 +1332,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           children: [
                             Expanded(
                               child: Utils().textHandling(
-                                  'Vendor: ','${widget.vendor?.toString()}'
-                              ),
+                                  'Vendor: ', '${widget.vendor?.toString()}'),
                             ),
                           ],
                         ),
@@ -1347,7 +1348,8 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                       //   CommonWidgets.horizontalSpacerWidget(5),
                       //   Utils().buildMasterDataStatusRow(widget.status ?? 0),
                       // ],
-                      if (widget.guardRank != -1 && widget.isMasterGuardRank == true) ...[
+                      if (widget.guardRank != -1 &&
+                          widget.isMasterGuardRank == true) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1358,7 +1360,8 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                         ),
                       ],
 
-                      if (widget.workShift != -1 && widget.isWorkShift == true) ...[
+                      if (widget.workShift != -1 &&
+                          widget.isWorkShift == true) ...[
                         CommonWidgets.horizontalSpacerWidget(5),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1489,11 +1492,9 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                     widget.isEventProtectionStatus &&
                     !widget.isMasterGuard) ...[
                   CommonWidgets.horizontalSpacerWidget(5),
-                  Utils()
-                      .buildEventProtectionStatusRow(widget.status ?? 0),
+                  Utils().buildEventProtectionStatusRow(widget.status ?? 0),
                 ],
-                if (widget.status != null &&
-                    widget.isIncident == true) ...[
+                if (widget.status != null && widget.isIncident == true) ...[
                   CommonWidgets.verticalSpacerWidget(5),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1509,11 +1510,13 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                   Utils().buildLeoStatusRow(widget.status ?? 0),
                 ],
                 if ((widget.status != null &&
-                    widget.isMaterialMovementStatus == true) &&
+                        widget.isMaterialMovementStatus == true) &&
                     !widget.isMasterGuard) ...[
                   CommonWidgets.horizontalSpacerWidget(5),
-                  Utils()
-                      .buildMaterialMovementStatusRow(widget.status ?? 0),
+                  Flexible(
+                    child: Utils()
+                        .buildMaterialMovementStatusRow(widget.status ?? 0),
+                  )
                 ],
                 if (widget.status != 0 && widget.isMasterGuard) ...[
                   CommonWidgets.horizontalSpacerWidget(5),
@@ -1521,25 +1524,29 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                 ],
                 if (widget.status != null &&
                     widget.isKeyManagementIssuanceStatus) ...[
-                  CommonWidgets.horizontalSpacerWidget(5),
-                  Utils().keyManagementIssuanceStatus(widget.status ?? 0),
+                  Row(
+                    children: [
+                      CommonWidgets.horizontalSpacerWidget(5),
+                      Expanded(
+                        child: Utils()
+                            .keyManagementIssuanceStatus(widget.status ?? 0),
+                      ),
+                    ],
+                  )
                 ],
                 if (widget.status != null &&
                     widget.isAttendanceStatus == true) ...[
                   CommonWidgets.horizontalSpacerWidget(5),
-                  Utils().buildAttendanceStatusRow(
-                      status: widget.status ?? 0),
+                  Utils().buildAttendanceStatusRow(status: widget.status ?? 0),
                 ],
-                if (widget.status != null &&
-                    widget.isKeyManagementStatus) ...[
+                if (widget.status != null && widget.isKeyManagementStatus) ...[
                   CommonWidgets.horizontalSpacerWidget(5),
                   Utils().keyManagementStatus(widget.status ?? 0),
                 ],
                 if (widget.status != null &&
                     widget.isKeyManagementHistoryStatus) ...[
                   CommonWidgets.horizontalSpacerWidget(5),
-                  Utils().keyManagementMasterHistoryStatus(
-                      widget.status ?? 0),
+                  Utils().keyManagementMasterHistoryStatus(widget.status ?? 0),
                 ],
                 if (widget.status != null &&
                     widget.isOccurrenceStatus == true) ...[
@@ -1571,8 +1578,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                     widget.isEventProtectionStatus == false &&
                     widget.isSecuritySystemSLA == true) ...[
                   CommonWidgets.horizontalSpacerWidget(5),
-                  Utils()
-                      .buildSecuritySystemStatusRow(widget.status ?? 0),
+                  Utils().buildSecuritySystemStatusRow(widget.status ?? 0),
                 ],
                 if (widget.isVipStatus == true) ...[
                   CommonWidgets.horizontalSpacerWidget(5),
@@ -1589,13 +1595,23 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                   ),
                 ],
                 if (widget.status != null &&
+                    widget.isTransportStatus == true) ...[
+                  CommonWidgets.horizontalSpacerWidget(5),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Utils().transportMedicalStatus(widget.status ?? 0),
+                    ],
+                  )
+                ],
+
+                if (widget.status != null &&
                     widget.isDutyPostNameMasterStatus == true) ...[
                   CommonWidgets.horizontalSpacerWidget(5),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Utils()
-                          .dutyPostNameMasterStatus(widget.status ?? 0),
+                      Utils().dutyPostNameMasterStatus(widget.status ?? 0),
                     ],
                   )
                 ],
@@ -1603,8 +1619,11 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                     widget.isPassManagementStatus == true &&
                     !widget.isShiftScheduleStatus) ...[
                   CommonWidgets.horizontalSpacerWidget(5),
-                  Utils()
-                      .buildPassManagementStatusRow(widget.status ?? 0),
+                  Utils().buildPassManagementStatusRow(widget.status ?? 0),
+                ],
+                if (widget.status != null && widget.isTicketStatus) ...[
+                  CommonWidgets.horizontalSpacerWidget(5),
+                  Utils().buildTicketStatusRow(widget.status ?? 0),
                 ],
               ],
             ),
@@ -1620,8 +1639,9 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                         : null;
                   },
                   icon: widget.showEditButton ?? true
-                      ?  const Icon(Icons.edit, color: AppColors.white)
-                      :  const Icon(Icons.edit_off_outlined, color: AppColors.white),
+                      ? const Icon(Icons.edit, color: AppColors.white)
+                      : const Icon(Icons.edit_off_outlined,
+                          color: AppColors.white),
                 ),
 
                 // if (widget.showNonEditButton ?? true) ...[
@@ -1675,7 +1695,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                             ? widget.onEmailTap!(widget.index)
                             : null;
                       },
-                      icon: const Icon(Icons.email, color:  Color(0xFF0C4C99)),
+                      icon: const Icon(Icons.email, color: Color(0xFF0C4C99)),
                     ),
                   ],
                 ],
@@ -1686,7 +1706,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           ? widget.onLinkOffTap!(widget.index)
                           : null;
                     },
-                    icon: const Icon(Icons.link_off, color:  Colors.white),
+                    icon: const Icon(Icons.link_off, color: Colors.white),
                   ),
                 ],
                 if (widget.showDeleteButton ?? true) ...[
@@ -1698,7 +1718,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                             ? widget.onDeleteTap!(widget.index)
                             : null;
                       },
-                      icon: const Icon(Icons.delete, color:  Colors.white),
+                      icon: const Icon(Icons.delete, color: Colors.white),
                     ),
                   ]
                 ],
@@ -1706,9 +1726,11 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                 if (widget.showApproveButton ?? true) ...[
                   IconButton(
                     onPressed: () {
-                      widget.onApproveTap !=null ? widget.onApproveTap!(widget.index):null;
+                      widget.onApproveTap != null
+                          ? widget.onApproveTap!(widget.index)
+                          : null;
                     },
-                    icon: const Icon(Icons.approval, color:  Colors.white),
+                    icon: const Icon(Icons.approval, color: Colors.white),
                   ),
                 ],
               ],
@@ -1792,7 +1814,6 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
 
     return widgets;
   }
-
 
   // Widget _buildIconButton({
   //   required IconData icon,

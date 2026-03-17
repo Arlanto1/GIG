@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../utils/app_themes/colors/app_color.dart';
-
 class BasicWidgetFunctions {
   Widget getStringText({
     required List<String> strings,
@@ -16,6 +14,7 @@ class BasicWidgetFunctions {
           Text(
             email,
             textAlign: TextAlign.start,
+              style: const TextStyle(color: Colors.white)
           ),
           if (showDeleteIcon!) ...[
             IconButton(
@@ -31,9 +30,11 @@ class BasicWidgetFunctions {
     return widgets.isNotEmpty
         ? Container(
             decoration: BoxDecoration(
-              color: AppColors.lightGreyBackground,
+              color: Colors.transparent,
               borderRadius: BorderRadius.circular(5),
+              border: Border.all(color: Colors.white, width: 0.2),
             ),
+
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(

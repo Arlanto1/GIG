@@ -57,40 +57,6 @@ class BaseImageUpload {
         child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
           Padding(
             padding: const EdgeInsets.only(right: 5.0),
-            // child: ElevatedButton.icon(
-            //   style: ElevatedButton.styleFrom(
-            //     fixedSize: const Size(140, 50),
-            //     backgroundColor: const Color(0xFF2C3E7E),
-            //   ),
-            //   onPressed: () {
-            //     if (isDisabled ?? false) {
-            //       return;
-            //     }
-            //     showDialog(
-            //         context: context,
-            //         builder: (BuildContext dialogContext) {
-            //           return UploadAttachment(
-            //             userdetails: loggedInUserDetails,
-            //             getFiles: getFiles ?? [],
-            //             onImageSelected: onImageSelected,
-            //           );
-            //         });
-            //   },
-            //   icon: SvgPicture.asset(
-            //     AppIcon.uploadicon,
-            //     colorFilter: const ColorFilter.mode(
-            //       AppColors.backgroundWhiteColor,
-            //       BlendMode.srcIn,
-            //     ),
-            //     width: 13,
-            //     height: 13,
-            //     key: const Key(Keys.userIcon),
-            //   ),
-            //   label: const Text(
-            //     Constants.clicktoupload,
-            //     style: Styles.textStyleRegularNormalWhite12,
-            //   ),
-            // ),
             child: ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
                 fixedSize: const Size(140, 50),
@@ -306,19 +272,6 @@ class AttachmentListViewState extends State<AttachmentListView> {
                         },
                       )
                     ],
-                    // widget.showDeleteIcon == true
-                    //     ? IconButton(
-                    //   icon: BaseIcons().deleteIcon(),
-                    //   onPressed: () {
-                    //     // Delete logic here
-                    //     if (imageData != null) {
-                    //       setState(() {
-                    //         widget.attachmentListviews!.removeAt(index);
-                    //       });
-                    //     }
-                    //   },
-                    // )
-                    //     : const SizedBox(),
                   ],
                 ),
                 title: FlutterInputField(

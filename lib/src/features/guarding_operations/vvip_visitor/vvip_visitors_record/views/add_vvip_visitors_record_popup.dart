@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:db_atom/index.dart';
@@ -62,7 +63,7 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
     BackdropFilter(
     filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
     child: Container(
-    color: Colors.black.withOpacity(0.25), // dim + blur
+    color: Colors.black.withValues(alpha: 0.25), // dim + blur
     ),
     ),
 
@@ -316,6 +317,9 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                                 // widget.model.startDateVisit = value;
                                 widget.model.startDateVisit =
                                     Utils().formatTime(value);
+                                log('startDateVisit stored as: ${widget.model.startDateVisit}'); // ADD THIS
+                                if (mounted) setState(() {});  // ← ADD THIS LINE (triggers end picker refresh)
+
                               },
                               context: widget.mainContext,
                             ),
@@ -340,19 +344,19 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                               onlyDate: false,
                               notFlagDate: true,
                               showPastDate: false,
-
                               // showFutureDate: true,
-                              startDate: widget.model.startDateVisit,
-                              //fromDate: widget.model.startDateVisit,
+                              // fromDate: widget.model.startDateVisit,
+                              fromDate: widget.model.startDateVisit?.isNotEmpty == true
+                                  ? widget.model.startDateVisit!
+                                  : null,
                               onChange: (String value) {
                                 widget.model.endDateVisit =
                                     Utils().formatTime(value);
                               },
                               context: widget.mainContext,
                             ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
                             buttonViews(widget.mainContext, width),
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
                           ],

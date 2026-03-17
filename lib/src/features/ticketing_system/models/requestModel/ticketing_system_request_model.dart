@@ -9,12 +9,12 @@ class TicketingSystemRequest {
 
   TicketingSystemRequest.fromJson(Map<String, dynamic> json) {
     ticketingSystemModel =
-        TicketingSystemModel.fromJson(json['redmineIssue']);
+        TicketingSystemModel.fromJson(json['ticketingSystem']);
   }
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
-    data['redmineIssue'] = ticketingSystemModel.toJson();
+    data['ticketingSystem'] = ticketingSystemModel.toJson();
     return data;
   }
 }

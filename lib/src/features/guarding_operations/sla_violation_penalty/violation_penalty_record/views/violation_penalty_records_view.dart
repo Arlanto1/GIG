@@ -181,216 +181,254 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
               child: Container(
-                color: Colors.black.withOpacity(0.2),
+                color: Colors.black.withValues(alpha: 0.2),
               ),
             ),
           ),
         ),
-        ListView.builder(
-          controller: _scrollController,
-          itemCount: state.hasReachedMax
-              ? state.items?.length
-              : state.items!.length + 1,
-          itemBuilder: (context, index) {
-            List<Label> labels = [];
-            if (index < state.items!.length) {
-              labels.add(
-                Label(
-                  key: state.labels?.locale.penaltyAmount ??
-                      state.labels?.defaultLocale.penaltyAmount ??
-                      Constants.penaltyAmount,
-                  value: '${state.items![index].penaltyAmount ?? 0}',
-                ),
-              );
-              labels.add(
-                Label(
-                  key: state.labels?.locale.totalViolations ??
-                      state.labels?.defaultLocale.totalViolations ??
-                      Constants.totalNoOfViolations,
-                  value: '${state.items![index].totalViolations ?? ''}',
-                ),
-              );
-              labels.add(
-                Label(
-                  key: state.labels?.locale.totalPenaltyAmount ??
-                      state.labels?.defaultLocale.totalPenaltyAmount ??
-                      Constants.totalPenaltyAmount,
-                  value: '${state.items![index].totalPenaltyAmount ?? ''}',
-                ),
-              );
-              labels.add(
-                Label(
-                  key:
-                      // state.labels?.locale.totalPenaltyAmount ??
-                      //     state.labels?.defaultLocale.totalPenaltyAmount ??
-                      Constants.commentBox,
-                  value: state.items![index].comments ?? '',
-                ),
-              );
+        SafeArea(
+          child: Column(
+            children: [
+              Expanded(
+                  // <-- Wrap ListView.builder inside Expanded
+                  child: Stack(
+                children: [
+                  ListView.builder(
+                    controller: _scrollController,
+                    padding: const EdgeInsets.only(bottom: 100),
+                    itemCount: state.hasReachedMax
+                        ? state.items?.length
+                        : state.items!.length + 1,
+                    itemBuilder: (context, index) {
+                      List<Label> labels = [];
+                      if (index < state.items!.length) {
+                        labels.add(
+                          Label(
+                            key: state.labels?.locale.penaltyAmount ??
+                                state.labels?.defaultLocale.penaltyAmount ??
+                                Constants.penaltyAmount,
+                            value: '${state.items![index].penaltyAmount ?? 0}',
+                          ),
+                        );
+                        labels.add(
+                          Label(
+                            key: state.labels?.locale.totalViolations ??
+                                state.labels?.defaultLocale.totalViolations ??
+                                Constants.totalNoOfViolations,
+                            value:
+                                '${state.items![index].totalViolations ?? ''}',
+                          ),
+                        );
+                        labels.add(
+                          Label(
+                            key: state.labels?.locale.totalPenaltyAmount ??
+                                state
+                                    .labels?.defaultLocale.totalPenaltyAmount ??
+                                Constants.totalPenaltyAmount,
+                            value:
+                                '${state.items![index].totalPenaltyAmount ?? ''}',
+                          ),
+                        );
+                        labels.add(
+                          Label(
+                            key:
+                                // state.labels?.locale.totalPenaltyAmount ??
+                                //     state.labels?.defaultLocale.totalPenaltyAmount ??
+                                Constants.commentBox,
+                            value: state.items![index].comments ?? '',
+                          ),
+                        );
 
-              labels.add(
-                Label(
-                  key: Constants.violation,
-                  value: state.items![index].violation?.name ?? '',
-                ),
-              );
-              return index >= state.items!.length
-                  ? const BaseLoader()
-                  : Container(
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            // Color(0xFF6474C6),
-                            // Color(0xFF6474C6),
-                            Colors.transparent,
-                            Colors.transparent,
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                      ),
-                      margin: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 8),
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.circular(18),
-                          child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
-                              child: Container(
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        Colors.white.withValues(alpha: 0.09),
-                                        Colors.transparent,
-                                        Colors.white.withValues(alpha: 0.09),
-                                        // Color(0xFF6474C6).withOpacity(0.14)
-                                      ],
-                                      stops: [0.02, 0.35, 1],
-                                      begin: Alignment.topCenter,
-                                      end: Alignment.bottomCenter,
-                                    ),
-                                    borderRadius: BorderRadius.circular(27),
-                                    border: Border.all(
-                                      color:
-                                          Colors.white.withValues(alpha: 0.6),
-                                      width: 0.7,
-                                    ),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color:
-                                            Colors.white.withValues(alpha: 0.0),
-                                        blurRadius: 12,
-                                        offset: const Offset(0, 2),
-                                      ),
+                        labels.add(
+                          Label(
+                            key: Constants.violation,
+                            value: state.items![index].violation?.name ?? '',
+                          ),
+                        );
+                        return index >= state.items!.length
+                            ? const BaseLoader()
+                            : Container(
+                                decoration: const BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      // Color(0xFF6474C6),
+                                      // Color(0xFF6474C6),
+                                      Colors.transparent,
+                                      Colors.transparent,
                                     ],
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
                                   ),
-                                  child: BaseListTileItem(
-                                    id: state.items?[index].id,
-                                    labels: labels,
-                                    guardRank:
-                                        state.items?[index].staffCategory,
-                                    isMasterGuardRank: true,
-                                    isWorkShift: true,
-                                    onTap: (selectedIndex) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext dialogContext) {
-                                          return BasePopUpItems(
-                                            id: state.items?[selectedIndex].id
-                                                .toString(),
-                                            labels: labels,
-                                            guardRank: state
-                                                .items?[selectedIndex]
-                                                .staffCategory,
-                                            isMasterGuard: true,
-                                          );
-                                        },
-                                      );
-                                    },
-                                    showEditButton: widget.parentStatus !=
-                                            ConstantsIntValue
-                                                .slaStatusFinalized &&
-                                        widget.parentStatus !=
-                                            ConstantsIntValue.cancelledStatus,
-                                    onEditTap: (selectedIndex) async {
-                                      ViolationPenaltyRecord contactsModel =
-                                          await SLAViolationPenaltyServices()
-                                              .getVPById(
-                                                  state.items?[index].id ?? 0);
+                                ),
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 8),
+                                child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(18),
+                                    child: BackdropFilter(
+                                        filter: ImageFilter.blur(
+                                            sigmaX: 18, sigmaY: 18),
+                                        child: Container(
+                                            decoration: BoxDecoration(
+                                              gradient: LinearGradient(
+                                                colors: [
+                                                  Colors.white
+                                                      .withValues(alpha: 0.09),
+                                                  Colors.transparent,
+                                                  Colors.white
+                                                      .withValues(alpha: 0.09),
+                                                  // Color(0xFF6474C6).withOpacity(0.14)
+                                                ],
+                                                stops: const [0.02, 0.35, 1],
+                                                begin: Alignment.topCenter,
+                                                end: Alignment.bottomCenter,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(27),
+                                              border: Border.all(
+                                                color: Colors.white
+                                                    .withValues(alpha: 0.6),
+                                                width: 0.7,
+                                              ),
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  color: Colors.white
+                                                      .withValues(alpha: 0.0),
+                                                  blurRadius: 12,
+                                                  offset: const Offset(0, 2),
+                                                ),
+                                              ],
+                                            ),
+                                            child: BaseListTileItem(
+                                              id: state.items?[index].id,
+                                              labels: labels,
+                                              guardRank: state
+                                                  .items?[index].staffCategory,
+                                              isMasterGuardRank: true,
+                                              isWorkShift: true,
+                                              onTap: (selectedIndex) {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (BuildContext
+                                                      dialogContext) {
+                                                    return BasePopUpItems(
+                                                      id: state
+                                                          .items?[selectedIndex]
+                                                          .id
+                                                          .toString(),
+                                                      labels: labels,
+                                                      guardRank: state
+                                                          .items?[selectedIndex]
+                                                          .staffCategory,
+                                                      isMasterGuard: true,
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                              showEditButton: widget
+                                                          .parentStatus !=
+                                                      ConstantsIntValue
+                                                          .slaStatusFinalized &&
+                                                  widget.parentStatus !=
+                                                      ConstantsIntValue
+                                                          .cancelledStatus,
+                                              onEditTap: (selectedIndex) async {
+                                                ViolationPenaltyRecord
+                                                    contactsModel =
+                                                    await SLAViolationPenaltyServices()
+                                                        .getVPById(state
+                                                                .items?[index]
+                                                                .id ??
+                                                            0);
 
-                                      log('--state.users--llen--${state.violationDescriptions?.length}---');
+                                                log('--state.users--llen--${state.violationDescriptions?.length}---');
 
-                                      showAddContactPopUp(
-                                        context: context,
-                                        contact: contactsModel,
-                                        users:
-                                            state.violationDescriptions ?? [],
-                                        staffCategoriesValues:
-                                            state.staffCategoriesValues ??
-                                                <String, int>{},
-                                      );
-                                    },
-                                    onViewTap: (selectedIndex) {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext dialogContext) {
-                                          return BasePopUpItems(
-                                            id: state.items?[selectedIndex].id
-                                                .toString(),
-                                            labels: labels,
-                                            guardRank: state
-                                                .items?[selectedIndex]
-                                                .staffCategory,
-                                            isMasterGuard: true,
-                                            isWorkShift: true,
-                                          );
-                                        },
-                                      );
-                                    },
-                                    showDeleteButton: widget.parentStatus !=
-                                            ConstantsIntValue
-                                                .slaStatusFinalized &&
-                                        widget.parentStatus !=
-                                            ConstantsIntValue.cancelledStatus &&
-                                        !widget.isLocked,
-                                    onDeleteTap: (selectedIndex) async {
-                                      /// Delete Warning Dialog Box
-                                      var dialog = CustomAlertDialog(
-                                          title: Constants.deleteRecord,
-                                          message: Constants
-                                              .deleteRecordWarningMessage,
-                                          onPositivePressed: () {
-                                            Navigator.pop(context);
-                                            // Navigator.pop(context);
-                                            // Call Delete API
-                                            BlocProvider.of<
-                                                        ViolationPenaltyRecordBloc>(
-                                                    context)
-                                                .add(
-                                                    DeleteRecord(
-                                                        state
-                                                            .items![
-                                                                selectedIndex]
-                                                            .id!
-                                                            .toInt(),
-                                                        widget.id));
-                                          },
-                                          positiveBtnText: Constants.yes,
-                                          negativeBtnText: Constants.no);
-                                      showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) =>
-                                              dialog);
+                                                showAddContactPopUp(
+                                                  context: context,
+                                                  contact: contactsModel,
+                                                  users: state
+                                                          .violationDescriptions ??
+                                                      [],
+                                                  staffCategoriesValues: state
+                                                          .staffCategoriesValues ??
+                                                      <String, int>{},
+                                                );
+                                              },
+                                              onViewTap: (selectedIndex) {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (BuildContext
+                                                      dialogContext) {
+                                                    return BasePopUpItems(
+                                                      id: state
+                                                          .items?[selectedIndex]
+                                                          .id
+                                                          .toString(),
+                                                      labels: labels,
+                                                      guardRank: state
+                                                          .items?[selectedIndex]
+                                                          .staffCategory,
+                                                      isMasterGuard: true,
+                                                      isWorkShift: true,
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                              showDeleteButton: widget
+                                                          .parentStatus !=
+                                                      ConstantsIntValue
+                                                          .slaStatusFinalized &&
+                                                  widget.parentStatus !=
+                                                      ConstantsIntValue
+                                                          .cancelledStatus &&
+                                                  !widget.isLocked,
+                                              onDeleteTap:
+                                                  (selectedIndex) async {
+                                                /// Delete Warning Dialog Box
+                                                var dialog = CustomAlertDialog(
+                                                    title:
+                                                        Constants.deleteRecord,
+                                                    message: Constants
+                                                        .deleteRecordWarningMessage,
+                                                    onPositivePressed: () {
+                                                      Navigator.pop(context);
+                                                      // Navigator.pop(context);
+                                                      // Call Delete API
+                                                      BlocProvider.of<
+                                                                  ViolationPenaltyRecordBloc>(
+                                                              context)
+                                                          .add(DeleteRecord(
+                                                              state
+                                                                  .items![
+                                                                      selectedIndex]
+                                                                  .id!
+                                                                  .toInt(),
+                                                              widget.id));
+                                                    },
+                                                    positiveBtnText:
+                                                        Constants.yes,
+                                                    negativeBtnText:
+                                                        Constants.no);
+                                                showDialog(
+                                                    context: context,
+                                                    builder: (BuildContext
+                                                            context) =>
+                                                        dialog);
 
-                                      // // Call Delete API
-                                      // BlocProvider.of<ViolationPenaltyRecordBloc>(context).add(
-                                      //     DeleteRecord(state.items![selectedIndex].id!.toInt(),
-                                      //         widget.id));
-                                    },
-                                    index: index,
-                                  )))));
-            }
-            return null;
-          },
+                                                // // Call Delete API
+                                                // BlocProvider.of<ViolationPenaltyRecordBloc>(context).add(
+                                                //     DeleteRecord(state.items![selectedIndex].id!.toInt(),
+                                                //         widget.id));
+                                              },
+                                              index: index,
+                                            )))));
+                      }
+                      return null;
+                    },
+                  ),
+                ],
+              ))
+            ],
+          ),
         ),
       ],
     );

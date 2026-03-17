@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'dart:ui';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
 import 'package:db_atom/src/features/lawenforcement/services/law_enforcement_services.dart';
 
 import '../bloc/visiting_officials_list_bloc.dart';
@@ -73,36 +72,16 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
       Utils().errorAndLogout(state, context);
     }, builder: (context, state) {
       return PopScope(
-        canPop: false,
+        canPop: true,
         onPopInvoked: (bool didPop) async {
-          if (didPop) {
-            return;
-          }
+          if (didPop) return;
+
           await backButtonFunction(context);
         },
         child: Scaffold(
           backgroundColor: Colors.transparent,
           extendBody: true,
           extendBodyBehindAppBar: true,
-          // floatingActionButton: widget.showSaveButton && widget.parentIsEligibleToEdit
-          //     ? Flutterfloatingbutton(
-          //         backgroundColor: AppColors.navigationSkyBlueColor,
-          //         foregroundColor: AppColors.backgroundWhiteColor,
-          //         onPressed: () {
-          //           showAddContactPopUp(
-          //             context: context,
-          //             visitingOfficialDetails: LawVisitingOfficial(
-          //               id: null,
-          //               email: '',
-          //               contactNo: '',
-          //               department: Organisation(),
-          //               designation: '',
-          //             ),
-          //             departments: state.departments,
-          //           );
-          //         },
-          //       )
-          //     : Container(),
           bottomNavigationBar: CustomBottomNavigationBar(
             hasAddPermission:
                 widget.showSaveButton && widget.parentIsEligibleToEdit
@@ -195,7 +174,7 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
               child: Container(
-                color: Colors.black.withOpacity(0.2),
+                color: Colors.black.withValues(alpha: 0.2),
               ),
             ),
           ),

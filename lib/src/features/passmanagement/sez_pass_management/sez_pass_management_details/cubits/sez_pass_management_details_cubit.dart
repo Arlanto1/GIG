@@ -400,7 +400,7 @@ class SezPassManagementDetailsCubit extends Cubit<SezPassManagementDetailsState>
         status: FormStatus.loading,
       ),
     );
-    int eventIds = math.Random.secure().nextInt(5);
+    math.Random.secure().nextInt(5);
     if (data != null) {
       for (ImageContent image in data) {
         image.type = 0;

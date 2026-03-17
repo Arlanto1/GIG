@@ -64,8 +64,6 @@ class _DutyPostNameMasterListViewState
   @override
   Widget build(BuildContext context) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
-    final size = MediaQuery.of(context).size;
-    double height = size.height;
     return BlocConsumer<DutyPostNameMasterListBloc,
         DutyPostNameMasterListState>(
       listener: (context, state) {},
@@ -74,22 +72,6 @@ class _DutyPostNameMasterListViewState
             backgroundColor: Colors.transparent,
             extendBodyBehindAppBar: true,
             extendBody: true,
-            // floatingActionButton:
-            //     state.extraProperties?.hasWritePermission ?? false
-            //         ? Flutterfloatingbutton(
-            //             backgroundColor: AppColors.navigationSkyBlueColor,
-            //             foregroundColor: AppColors.backgroundWhiteColor,
-            //             onPressed: () => {
-            //               Navigator.pushNamed(
-            //                   context, dutyPostNameMasterDetailsRoute,
-            //                   arguments: {
-            //                     "title": Constants.createDutyPostNameMaster,
-            //                     "dutyPostNameMasterModel":
-            //                         DutyPostNameMasterModel(),
-            //                   }),
-            //             },
-            //           )
-            //         : const SizedBox(),
             bottomNavigationBar: CustomBottomNavigationBar(
                 scaffoldKey: scaffoldKey,
                 context: context,
@@ -122,9 +104,9 @@ class _DutyPostNameMasterListViewState
               // if (state.status == FormStatus.loading) {
               //   return const BaseLoader();
               // }
-              // if (state.list.isEmptyOrNull) {
-              //   return const NoRecordFoundWidget();
-              // }
+              if (state.list.isEmptyOrNull) {
+                return const NoRecordFoundWidget();
+              }
               // log('--labels-${state.labels?.locale.locationRegion}');
               return Stack(
                 children: [
@@ -140,7 +122,7 @@ class _DutyPostNameMasterListViewState
                       child: BackdropFilter(
                         filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
                         child: Container(
-                          color: Colors.black.withOpacity(0.2),
+                          color: Colors.black.withValues(alpha: 0.2),
                         ),
                       ),
                     ),
@@ -184,7 +166,8 @@ class _DutyPostNameMasterListViewState
                       },
                       child: ListView.builder(
                         controller: _scrollController,
-                        padding: EdgeInsets.zero,
+                        padding: const EdgeInsets.only(bottom: 100),
+                        // padding: EdgeInsets.zero,
                         itemCount: state.hasReachedMax
                             ? state.list.length
                             : state.list.length + 1,
@@ -246,7 +229,7 @@ class _DutyPostNameMasterListViewState
                                                         alpha: 0.09),
                                                     // Color(0xFF6474C6).withOpacity(0.14)
                                                   ],
-                                                  stops: [0.02, 0.35, 1],
+                                                  stops: const [0.02, 0.35, 1],
                                                   begin: Alignment.topCenter,
                                                   end: Alignment.bottomCenter,
                                                 ),

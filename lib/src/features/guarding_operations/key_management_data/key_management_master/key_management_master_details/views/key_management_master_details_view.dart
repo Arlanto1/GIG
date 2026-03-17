@@ -937,6 +937,7 @@ class _KeyManagementMasterDetailsViewState
                                           state.model.isEligibleToEdit,
                                       ConstantsArgument.parentStatus:
                                           state.model.status,
+                                      ConstantsArgument.locationId: state.model.location?.id
                                     },
                                   );
                                 },
@@ -1006,6 +1007,7 @@ class _KeyManagementMasterDetailsViewState
                                           state.model.isEligibleToEdit,
                                       ConstantsArgument.parentStatus:
                                           state.model.status,
+                                      ConstantsArgument.locationId: state.model.location?.id
                                     },
                                   );
                                 },

@@ -1949,6 +1949,7 @@ class _LoginState extends State<Login> {
                               ),
                             ),),
 
+                                if (Environment().config.apiHost.contains('api.integration.')) ...[
                           // Positioned OR + SSO block
                           Positioned(
                             top: size.height * 0.730,
@@ -2034,7 +2035,7 @@ class _LoginState extends State<Login> {
                               ],
                             ),
                           ),
-
+],
                           // Positioned Copyright and Version
                           Positioned(
                             bottom: 60,

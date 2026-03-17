@@ -75,7 +75,7 @@ class BuildingOccRepCubit
       User loggedInUserDetails =
       await commonServices.getUserDetails(userId: userId);
 
-      List<BaseUser> emailUsers = await commonServices.getBaseUsers(
+      await commonServices.getBaseUsers(
         roleName: ConstantUserRoles.atomAssistantSecurityLead,
         locationId: state.model.locationId?.id,
         isDbUser: true,

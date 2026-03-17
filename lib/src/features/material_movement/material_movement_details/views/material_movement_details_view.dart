@@ -198,21 +198,20 @@ class _MaterialMovementDetailsViewState
         log('editByRequester ${requesterEmailUser != null && requesterEmailUser == '${state.loggedInUserDetails?.firstName} ${state.loggedInUserDetails?.lastName} (${state.loggedInUserDetails?.email})'}');
         log('req $requesterEmailUser');
         log('req1 ${state.loggedInUserDetails?.firstName} ${state.loggedInUserDetails?.lastName} (${state.loggedInUserDetails?.email})');
-        editByCreatedByUser =
-            ((state.model.status == ConstantsIntValue.mmStatusApproved ||
-                    state.model.status ==
-                        ConstantsIntValue.mmStatusInwardWaiting || state.model.status == ConstantsIntValue.mmStatusOverDue) &&
-                ((state.model.entrySecurity!.email
-                        .equalsIgnoreCase(state.loggedInUserDetails?.email)) ||
-                    isEligibleToEdit));
+        editByCreatedByUser = ((state.model.status ==
+                    ConstantsIntValue.mmStatusApproved ||
+                state.model.status == ConstantsIntValue.mmStatusInwardWaiting ||
+                state.model.status == ConstantsIntValue.mmStatusOverDue) &&
+            ((state.model.entrySecurity!.email
+                    .equalsIgnoreCase(state.loggedInUserDetails?.email)) ||
+                isEligibleToEdit));
 
         showSaveSubmitButtons = widget.model == null ||
             state.model.status == 0 ||
             ((state.model.status != ConstantsIntValue.mmStatusLSMApproved &&
                     state.model.status !=
                         ConstantsIntValue.mmStatusLSMReview) &&
-                (editByRequester ||
-            editByCreatedByUser));
+                (editByRequester || editByCreatedByUser));
 
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
@@ -393,7 +392,7 @@ class _MaterialMovementDetailsViewState
           child: Column(
             children: [
               Container(
-                  color: Colors.transparent,
+                color: Colors.transparent,
                 child: Form(
                   key: _formKey,
                   autovalidateMode: isReadOnly
@@ -453,8 +452,7 @@ class _MaterialMovementDetailsViewState
                                 isDisabled: true,
                                 textController: returnableTextController,
                                 // initialValue: state.model.returnable.toString(),
-                                onTap: () {
-                                },
+                                onTap: () {},
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
@@ -473,8 +471,7 @@ class _MaterialMovementDetailsViewState
                                 textController: statusController,
                                 items: materialMovementStatusValues,
                                 initialValue: '${state.model.status ?? 0}',
-                                onTap: () {
-                                },
+                                onTap: () {},
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
@@ -655,13 +652,18 @@ class _MaterialMovementDetailsViewState
                               GestureDetector(
                                 onTap: () async {
                                   NavigatorState nav = Navigator.of(context);
-                                  if (state.model.status == 0 || state.model.status == null) {
+                                  if (state.model.status == 0 ||
+                                      state.model.status == null) {
                                     bool isSaveSuccess = await BlocProvider.of<
-                                        MaterialMovementDetailsCubit>(context)
+                                                MaterialMovementDetailsCubit>(
+                                            context)
                                         .submitForm(
                                       isSaveOnly: true,
-                                      navigateToNextScreen: true, receiverSignatureController: receiverSignatureController,
-                                      securitySignatureController: securitySignatureController,
+                                      navigateToNextScreen: true,
+                                      receiverSignatureController:
+                                          receiverSignatureController,
+                                      securitySignatureController:
+                                          securitySignatureController,
                                     );
 
                                     if (!isSaveSuccess) {
@@ -671,25 +673,23 @@ class _MaterialMovementDetailsViewState
                                   }
 
                                   List<Organisation> units =
-                                  await CommonServices().getOrganisations(
-                                      name: 'ATOM_MATERIAL_MOVEMENT_UNIT');
+                                      await CommonServices().getOrganisations(
+                                          name: 'ATOM_MATERIAL_MOVEMENT_UNIT');
                                   nav.pushNamed(
                                     materialItemsRoute,
                                     arguments: {
                                       ConstantsArgument.title:
-                                      'Material Items Description',
+                                          'Material Items Description',
                                       ConstantsArgument.id: state.model.id,
                                       ConstantsArgument.isLocked:
-                                      state.model.lock,
+                                          state.model.lock,
                                       ConstantsArgument.parentStatus:
-                                      state.model.status,
+                                          state.model.status,
                                       ConstantsArgument.unit:
-                                      'ATOM_MATERIAL_MOVEMENT_UNIT',
-                                      ConstantsArgument.units:
-                                      units,
-
-                                      ConstantsArgument.isInward: state.model.inwardMovement
-
+                                          'ATOM_MATERIAL_MOVEMENT_UNIT',
+                                      ConstantsArgument.units: units,
+                                      ConstantsArgument.isInward:
+                                          state.model.inwardMovement
                                     },
                                   );
                                 },
@@ -789,8 +789,8 @@ class _MaterialMovementDetailsViewState
                                       Constants.sentTo,
                                   Styles.textStyleWhite16,
                                   isMandatory: state.model.status !=
-                                      ConstantsIntValue.mmStatusDraft &&
-                                      widget.model != null
+                                              ConstantsIntValue.mmStatusDraft &&
+                                          widget.model != null
                                       ? true
                                       : false,
                                 ),
@@ -804,29 +804,29 @@ class _MaterialMovementDetailsViewState
                                   hintText: '',
                                   focusNode: sentToFocusNode,
                                   isEnable: state.model.status == 10 ||
-                                      state.model.status == -1 ||
-                                      state.model.status == 6 ||
-                                      state.model.status == 2 ||
-                                      state.model.status == 3 ||
-                                      state.model.status == 4 ||
-                                      state.model.status ==
-                                          ConstantsIntValue
-                                              .mmStatusInwardWaiting ||
-                                      isReadOnly ||
-                                      !showSaveSubmitButtons
+                                          state.model.status == -1 ||
+                                          state.model.status == 6 ||
+                                          state.model.status == 2 ||
+                                          state.model.status == 3 ||
+                                          state.model.status == 4 ||
+                                          state.model.status ==
+                                              ConstantsIntValue
+                                                  .mmStatusInwardWaiting ||
+                                          isReadOnly ||
+                                          !showSaveSubmitButtons
                                       ? false
                                       : true,
                                   isDisableColor: state.model.status == 10 ||
-                                      state.model.status == -1 ||
-                                      state.model.status == 6 ||
-                                      state.model.status == 2 ||
-                                      state.model.status == 3 ||
-                                      state.model.status == 4 ||
-                                      !showSaveSubmitButtons ||
-                                      state.model.status ==
-                                          ConstantsIntValue
-                                              .mmStatusInwardWaiting ||
-                                      !state.model.lock.isEmptyOrNull
+                                          state.model.status == -1 ||
+                                          state.model.status == 6 ||
+                                          state.model.status == 2 ||
+                                          state.model.status == 3 ||
+                                          state.model.status == 4 ||
+                                          !showSaveSubmitButtons ||
+                                          state.model.status ==
+                                              ConstantsIntValue
+                                                  .mmStatusInwardWaiting ||
+                                          !state.model.lock.isEmptyOrNull
                                       ? true
                                       : false,
                                   onChange: (String value) {
@@ -839,10 +839,7 @@ class _MaterialMovementDetailsViewState
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.02),
-
-                                ],
-
-
+                              ],
 
                               if (widget.isInward) ...[
                                 /// Senders Name
@@ -974,7 +971,6 @@ class _MaterialMovementDetailsViewState
                                     height * 0.02),
 
                                 if (state.model.originalReceiver == false) ...[
-
                                   ///Received For Employee Id
                                   Column(
                                     children: [
@@ -1295,14 +1291,15 @@ class _MaterialMovementDetailsViewState
                                   spaceHeight: height,
                                   state: state,
                                 ),
+
                                 /// Security Signature
                                 buildSignature(
                                   controller: securitySignatureController,
                                   label:
-                                  state.labels?.locale.entrySecuritySign ??
-                                      state.labels?.defaultLocale
-                                          .entrySecuritySign ??
-                                      Constants.securitySignature,
+                                      state.labels?.locale.entrySecuritySign ??
+                                          state.labels?.defaultLocale
+                                              .entrySecuritySign ??
+                                          Constants.securitySignature,
                                   spaceHeight: height,
                                   state: state,
                                 ),
@@ -1386,7 +1383,7 @@ class _MaterialMovementDetailsViewState
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.02),
                                 ],
-                                   if (state.model.returnable == true ) ...[
+                                if (state.model.returnable == true) ...[
                                   /// Expected Date Of Return
                                   CommonWidgets.textDisplay(
                                     state.labels?.locale.expectedDateOfReturn ??
@@ -1395,7 +1392,7 @@ class _MaterialMovementDetailsViewState
                                         Constants.expectedDateOfReturn,
                                     Styles.textStyleWhite16,
                                     isMandatory: state.model.status != 0 &&
-                                        state.model.status != null
+                                            state.model.status != null
                                         ? true
                                         : false,
                                   ),
@@ -1406,19 +1403,19 @@ class _MaterialMovementDetailsViewState
                                   BaseDate().datePickerWidgetLoading(
                                     showPastDate: false,
                                     textController:
-                                    expectedDateOfReturnController,
+                                        expectedDateOfReturnController,
                                     onlyDate: true,
                                     isDisabled: !showSaveSubmitButtons ||
-                                        state.model.status ==
-                                            ConstantsIntValue
-                                                .mmStatusClosed ||
-                                        // state.model.status ==
-                                        //     ConstantsIntValue
-                                        //         .mmStatusInwardWaiting ||
-                                        state.model.status ==
-                                            ConstantsIntValue
-                                                .mmStatusApproved ||
-                                        lock
+                                            state.model.status ==
+                                                ConstantsIntValue
+                                                    .mmStatusClosed ||
+                                            // state.model.status ==
+                                            //     ConstantsIntValue
+                                            //         .mmStatusInwardWaiting ||
+                                            state.model.status ==
+                                                ConstantsIntValue
+                                                    .mmStatusApproved ||
+                                            lock
                                         ? true
                                         : false,
                                     // isDisabled: true,
@@ -1426,8 +1423,8 @@ class _MaterialMovementDetailsViewState
                                       state.model.expectedDateOfReturn =
                                           Utils().formatTime(value);
                                       BlocProvider.of<
-                                          MaterialMovementDetailsCubit>(
-                                          context)
+                                                  MaterialMovementDetailsCubit>(
+                                              context)
                                           .onModelValueChange(state.model);
                                     },
                                     context: context,
@@ -1437,7 +1434,12 @@ class _MaterialMovementDetailsViewState
                                 ],
                               ],
 
-                              if(state.model.returnable == true && state.model.status !=0 && state.model.status !=null )...[
+                              if ((state.model.returnable == true &&
+                                      !widget.isInward) ||
+                                  (state.model.returnable == true &&
+                                      widget.isInward &&
+                                      state.model.status != 0 &&
+                                      state.model.status != null)) ...[
                                 /// Requester 1 Employee Id
                                 Column(
                                   children: [
@@ -1453,22 +1455,26 @@ class _MaterialMovementDetailsViewState
                                         title: state.model.requestorEmployeeId,
                                         height: 70,
                                         isDisableColor: (state.model.status ==
-                                            10 ||
-                                            state.model.status == -1 ||
-                                            state.model.status == 6 ||
-                                            state.model.status == 2 ||
-                                            state.model.status == 3 ||
-                                            state.model.status == 4 ||
-                                            state.model.status == 5 ||
-                                            state.model.status == 1 ||
-                                            state.model.status == 7 ||
-                                            state.model.status ==
-                                                ConstantsIntValue
-                                                    .mmStatusInwardWaiting) ||
+                                                    10 ||
+                                                state.model.status == -1 ||
+                                                state.model.status == 6 ||
+                                                state.model.status == 2 ||
+                                                state.model.status == 3 ||
+                                                state.model.status == 4 ||
+                                                state.model.status == 5 ||
+                                                state.model.status == 1 ||
+                                                state.model.status == 7 ||
+                                                state.model.status ==
+                                                    ConstantsIntValue
+                                                        .mmStatusInwardWaiting) ||
                                             lock,
                                         onTap: () {
-                                          if (isApproverRequesterEmailDepartment &&
-                                              !lock
+                                          if ((isApproverRequesterEmailDepartment &&
+                                                      !lock) ||
+                                                  (state.model.returnable ==
+                                                          true &&
+                                                      widget.isInward &&
+                                                      state.model.status == 11)
                                               ? true
                                               : false) {
                                             BaseOrganisationDialog().userDialog(
@@ -1478,32 +1484,32 @@ class _MaterialMovementDetailsViewState
                                               isDbUser: true,
                                               onTap: (BaseUser user) {
                                                 BlocProvider.of<
-                                                    MaterialMovementDetailsCubit>(
-                                                    context)
+                                                            MaterialMovementDetailsCubit>(
+                                                        context)
                                                     .updateApproverEmailsValue(
-                                                    requesterEmailUser:
-                                                    user);
+                                                        requesterEmailUser:
+                                                            user);
                                                 FocusScope.of(context).requestFocus(
                                                     requestorEmployeeIdFocusNode);
                                               },
                                               roleName: ConstantUserRoles
                                                   .atomStaticUser,
                                               locationId:
-                                              state.model.location!.id!,
+                                                  state.model.location!.id!,
                                               functionToCall: (BaseUser user) {
                                                 BlocProvider.of<
-                                                    MaterialMovementDetailsCubit>(
-                                                    context)
+                                                            MaterialMovementDetailsCubit>(
+                                                        context)
                                                     .updateApproverEmailsValue(
-                                                    requesterEmailUser:
-                                                    user);
+                                                        requesterEmailUser:
+                                                            user);
                                                 FocusScope.of(context).requestFocus(
                                                     requestorEmployeeIdFocusNode);
 
                                                 // refresh the list
                                                 BlocProvider.of<
-                                                    MaterialMovementDetailsCubit>(
-                                                    context)
+                                                            MaterialMovementDetailsCubit>(
+                                                        context)
                                                     .refreshList();
                                               },
                                             );
@@ -1553,8 +1559,8 @@ class _MaterialMovementDetailsViewState
                                       Constants.requestor1Department,
                                   Styles.textStyleWhite16,
                                   isMandatory: state.model.status !=
-                                      ConstantsIntValue.mmStatusDraft &&
-                                      widget.model != null
+                                              ConstantsIntValue.mmStatusDraft &&
+                                          widget.model != null
                                       ? true
                                       : false,
                                 ),
@@ -1562,29 +1568,29 @@ class _MaterialMovementDetailsViewState
                                   title: state.model.requestorDepartment?.name,
                                   height: 70,
                                   isDisableColor: state.model.status == 10 ||
-                                      state.model.status == -1 ||
-                                      state.model.status == 6 ||
-                                      state.model.status == 2 ||
-                                      state.model.status == 3 ||
-                                      state.model.status == 4 ||
-                                      !showSaveSubmitButtons ||
-                                      state.model.status ==
-                                          ConstantsIntValue
-                                              .mmStatusInwardWaiting ||
-                                      !state.model.lock.isEmptyOrNull
+                                          state.model.status == -1 ||
+                                          state.model.status == 6 ||
+                                          state.model.status == 2 ||
+                                          state.model.status == 3 ||
+                                          state.model.status == 4 ||
+                                          !showSaveSubmitButtons ||
+                                          state.model.status ==
+                                              ConstantsIntValue
+                                                  .mmStatusInwardWaiting ||
+                                          !state.model.lock.isEmptyOrNull
                                       ? true
                                       : false,
                                   onTap: () {
                                     if (state.model.status == 6 ||
-                                        state.model.status == 10 ||
-                                        state.model.status == -1 ||
-                                        state.model.status == 2 ||
-                                        state.model.status == 3 ||
-                                        state.model.status == 4 ||
-                                        state.model.status ==
-                                            ConstantsIntValue
-                                                .mmStatusInwardWaiting ||
-                                        !state.model.lock.isEmptyOrNull
+                                            state.model.status == 10 ||
+                                            state.model.status == -1 ||
+                                            state.model.status == 2 ||
+                                            state.model.status == 3 ||
+                                            state.model.status == 4 ||
+                                            state.model.status ==
+                                                ConstantsIntValue
+                                                    .mmStatusInwardWaiting ||
+                                            !state.model.lock.isEmptyOrNull
                                         ? false
                                         : true) {
                                       BaseOrganisationDialog().departmentDialog(
@@ -1595,11 +1601,11 @@ class _MaterialMovementDetailsViewState
                                                 ?.name = department.name;
 
                                             BlocProvider.of<
-                                                MaterialMovementDetailsCubit>(
-                                                context)
+                                                        MaterialMovementDetailsCubit>(
+                                                    context)
                                                 .updateDropdownValues(
-                                                requesterDepartment:
-                                                department);
+                                                    requesterDepartment:
+                                                        department);
                                           },
                                           orgName: 'EMPLOYEE_DEPARTMENTS',
                                           createEntity: false,
@@ -1607,8 +1613,8 @@ class _MaterialMovementDetailsViewState
                                           functionToCall: () {
                                             // refresh the list
                                             BlocProvider.of<
-                                                MaterialMovementDetailsCubit>(
-                                                context)
+                                                        MaterialMovementDetailsCubit>(
+                                                    context)
                                                 .refreshList();
                                           });
                                       FocusScope.of(context)
@@ -1636,22 +1642,26 @@ class _MaterialMovementDetailsViewState
                                         title: state.model.requestor2EmployeeId,
                                         height: 70,
                                         isDisableColor: (state.model.status ==
-                                            10 ||
-                                            state.model.status == -1 ||
-                                            state.model.status == 6 ||
-                                            state.model.status == 2 ||
-                                            state.model.status == 3 ||
-                                            state.model.status == 4 ||
-                                            state.model.status == 5 ||
-                                            state.model.status == 1 ||
-                                            state.model.status == 7 ||
-                                            state.model.status ==
-                                                ConstantsIntValue
-                                                    .mmStatusInwardWaiting) ||
+                                                    10 ||
+                                                state.model.status == -1 ||
+                                                state.model.status == 6 ||
+                                                state.model.status == 2 ||
+                                                state.model.status == 3 ||
+                                                state.model.status == 4 ||
+                                                state.model.status == 5 ||
+                                                state.model.status == 1 ||
+                                                state.model.status == 7 ||
+                                                state.model.status ==
+                                                    ConstantsIntValue
+                                                        .mmStatusInwardWaiting) ||
                                             lock,
                                         onTap: () {
-                                          if (isApproverRequesterEmailDepartment &&
-                                              !lock
+                                          if ((isApproverRequesterEmailDepartment &&
+                                                      !lock) ||
+                                                  (state.model.returnable ==
+                                                          true &&
+                                                      widget.isInward &&
+                                                      state.model.status == 11)
                                               ? true
                                               : false) {
                                             BaseOrganisationDialog().userDialog(
@@ -1661,32 +1671,32 @@ class _MaterialMovementDetailsViewState
                                               isDbUser: true,
                                               onTap: (BaseUser user) {
                                                 BlocProvider.of<
-                                                    MaterialMovementDetailsCubit>(
-                                                    context)
+                                                            MaterialMovementDetailsCubit>(
+                                                        context)
                                                     .updateApproverEmailsValue(
-                                                    requester2EmailUser:
-                                                    user);
+                                                        requester2EmailUser:
+                                                            user);
                                                 FocusScope.of(context).requestFocus(
                                                     requestorEmployeeIdFocusNode);
                                               },
                                               roleName: ConstantUserRoles
                                                   .atomStaticUser,
                                               locationId:
-                                              state.model.location!.id!,
+                                                  state.model.location!.id!,
                                               functionToCall: (BaseUser user) {
                                                 BlocProvider.of<
-                                                    MaterialMovementDetailsCubit>(
-                                                    context)
+                                                            MaterialMovementDetailsCubit>(
+                                                        context)
                                                     .updateApproverEmailsValue(
-                                                    requester2EmailUser:
-                                                    user);
+                                                        requester2EmailUser:
+                                                            user);
                                                 FocusScope.of(context).requestFocus(
                                                     requestorEmployeeIdFocusNode);
 
                                                 // refresh the list
                                                 BlocProvider.of<
-                                                    MaterialMovementDetailsCubit>(
-                                                    context)
+                                                            MaterialMovementDetailsCubit>(
+                                                        context)
                                                     .refreshList();
                                               },
                                             );
@@ -1736,8 +1746,8 @@ class _MaterialMovementDetailsViewState
                                   Constants.requestor2Department,
                                   Styles.textStyleWhite16,
                                   isMandatory: state.model.status !=
-                                      ConstantsIntValue.mmStatusDraft &&
-                                      widget.model != null
+                                              ConstantsIntValue.mmStatusDraft &&
+                                          widget.model != null
                                       ? true
                                       : false,
                                 ),
@@ -1745,29 +1755,29 @@ class _MaterialMovementDetailsViewState
                                   title: state.model.requestor2Department?.name,
                                   height: 70,
                                   isDisableColor: state.model.status == 10 ||
-                                      state.model.status == -1 ||
-                                      state.model.status == 6 ||
-                                      state.model.status == 2 ||
-                                      state.model.status == 3 ||
-                                      state.model.status == 4 ||
-                                      !showSaveSubmitButtons ||
-                                      state.model.status ==
-                                          ConstantsIntValue
-                                              .mmStatusInwardWaiting ||
-                                      !state.model.lock.isEmptyOrNull
+                                          state.model.status == -1 ||
+                                          state.model.status == 6 ||
+                                          state.model.status == 2 ||
+                                          state.model.status == 3 ||
+                                          state.model.status == 4 ||
+                                          !showSaveSubmitButtons ||
+                                          state.model.status ==
+                                              ConstantsIntValue
+                                                  .mmStatusInwardWaiting ||
+                                          !state.model.lock.isEmptyOrNull
                                       ? true
                                       : false,
                                   onTap: () {
                                     if (state.model.status == 6 ||
-                                        state.model.status == 10 ||
-                                        state.model.status == -1 ||
-                                        state.model.status == 2 ||
-                                        state.model.status == 3 ||
-                                        state.model.status == 4 ||
-                                        state.model.status ==
-                                            ConstantsIntValue
-                                                .mmStatusInwardWaiting ||
-                                        !state.model.lock.isEmptyOrNull
+                                            state.model.status == 10 ||
+                                            state.model.status == -1 ||
+                                            state.model.status == 2 ||
+                                            state.model.status == 3 ||
+                                            state.model.status == 4 ||
+                                            state.model.status ==
+                                                ConstantsIntValue
+                                                    .mmStatusInwardWaiting ||
+                                            !state.model.lock.isEmptyOrNull
                                         ? false
                                         : true) {
                                       BaseOrganisationDialog().departmentDialog(
@@ -1778,11 +1788,11 @@ class _MaterialMovementDetailsViewState
                                                 ?.name = department.name;
 
                                             BlocProvider.of<
-                                                MaterialMovementDetailsCubit>(
-                                                context)
+                                                        MaterialMovementDetailsCubit>(
+                                                    context)
                                                 .updateDropdownValues(
-                                                requester2Department:
-                                                department);
+                                                    requester2Department:
+                                                        department);
                                           },
                                           orgName: 'EMPLOYEE_DEPARTMENTS',
                                           createEntity: false,
@@ -1790,8 +1800,8 @@ class _MaterialMovementDetailsViewState
                                           functionToCall: () {
                                             // refresh the list
                                             BlocProvider.of<
-                                                MaterialMovementDetailsCubit>(
-                                                context)
+                                                        MaterialMovementDetailsCubit>(
+                                                    context)
                                                 .refreshList();
                                           });
                                       FocusScope.of(context)
@@ -1803,253 +1813,265 @@ class _MaterialMovementDetailsViewState
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.02),
 
-                                if(widget.isInward == false)...[
-                                /// Sent To
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.sentTo ??
-                                      state.labels?.defaultLocale.sentTo ??
-                                      Constants.sentTo,
-                                  Styles.textStyleWhite16,
-                                  isMandatory: state.model.status !=
-                                      ConstantsIntValue.mmStatusDraft &&
-                                      widget.model != null
-                                      ? true
-                                      : false,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
+                                if (widget.isInward == false) ...[
+                                  /// Sent To
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.sentTo ??
+                                        state.labels?.defaultLocale.sentTo ??
+                                        Constants.sentTo,
+                                    Styles.textStyleWhite16,
+                                    isMandatory: state.model.status !=
+                                                ConstantsIntValue
+                                                    .mmStatusDraft &&
+                                            widget.model != null
+                                        ? true
+                                        : false,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001),
 
-                                FlutterInputField(
-                                  textInputType: TextInputType.text,
-                                  initialValue: state.model.sentTo,
-                                  textFormKey: Keys.sentToKey,
-                                  hintText: '',
-                                  focusNode: sentToFocusNode,
-                                  isEnable: state.model.status == 10 ||
-                                      state.model.status == -1 ||
-                                      state.model.status == 6 ||
-                                      state.model.status == 2 ||
-                                      state.model.status == 3 ||
-                                      state.model.status == 4 ||
-                                      state.model.status ==
-                                          ConstantsIntValue
-                                              .mmStatusInwardWaiting ||
-                                      isReadOnly ||
-                                      !showSaveSubmitButtons
-                                      ? false
-                                      : true,
-                                  isDisableColor: state.model.status == 10 ||
-                                      state.model.status == -1 ||
-                                      state.model.status == 6 ||
-                                      state.model.status == 2 ||
-                                      state.model.status == 3 ||
-                                      state.model.status == 4 ||
-                                      !showSaveSubmitButtons ||
-                                      state.model.status ==
-                                          ConstantsIntValue
-                                              .mmStatusInwardWaiting ||
-                                      !state.model.lock.isEmptyOrNull
-                                      ? true
-                                      : false,
-                                  onChange: (String value) {
-                                    state.model.sentTo = value;
-                                    context
-                                        .read<MaterialMovementDetailsCubit>()
-                                        .onModelValueChange(state.model);
-                                  },
-                                  validateTextField: (String? user) {},
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.02),
-
-                                /// Purpose
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.purpose ??
-                                      state.labels?.defaultLocale.purpose ??
-                                      Constants.purpose,
-                                  Styles.textStyleWhite16,
-                                  isMandatory: state.model.status !=
-                                      ConstantsIntValue.mmStatusDraft &&
-                                      widget.model != null
-                                      ? true
-                                      : false,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
-
-                                FlutterInputField(
-                                  textInputType: TextInputType.text,
-                                  initialValue: state.model.purpose,
-                                  textFormKey: Keys.purposeKey,
-                                  hintText: '',
-                                  isEnable: state.model.status == 10 ||
-                                      state.model.status == -1 ||
-                                      state.model.status == 6 ||
-                                      state.model.status == 2 ||
-                                      state.model.status == 3 ||
-                                      state.model.status == 4 ||
-                                      state.model.status ==
-                                          ConstantsIntValue
-                                              .mmStatusInwardWaiting ||
-                                      !showSaveSubmitButtons ||
-                                      isReadOnly
-                                      ? false
-                                      : true,
-                                  isDisableColor: state.model.status == 10 ||
-                                      state.model.status == -1 ||
-                                      state.model.status == 6 ||
-                                      state.model.status == 2 ||
-                                      state.model.status == 3 ||
-                                      state.model.status == 4 ||
-                                      !showSaveSubmitButtons ||
-                                      state.model.status ==
-                                          ConstantsIntValue
-                                              .mmStatusInwardWaiting ||
-                                      !state.model.lock.isEmptyOrNull
-                                      ? true
-                                      : false,
-                                  onChange: (String value) {
-                                    state.model.purpose = value;
-                                    context
-                                        .read<MaterialMovementDetailsCubit>()
-                                        .onModelValueChange(state.model);
-                                  },
-                                  validateTextField: (String? user) {},
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.02),
-
-                                /// Prepared By
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.preparedBy ??
-                                      state.labels?.defaultLocale.preparedBy ??
-                                      Constants.preparedBy,
-                                  Styles.textStyleWhite16,
-                                  isMandatory: state.model.status !=
-                                      ConstantsIntValue.mmStatusDraft &&
-                                      widget.model != null
-                                      ? true
-                                      : false,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
-
-                                FlutterInputField(
-                                  // keyboardType: TextInputType.number,
-                                  initialValue: state.model.preparedBy,
-                                  textFormKey: Keys.preparedByKey,
-                                  hintText: '',
-                                  isEnable: state.model.status == 10 ||
-                                      state.model.status == -1 ||
-                                      state.model.status == 6 ||
-                                      state.model.status == 2 ||
-                                      state.model.status == 3 ||
-                                      state.model.status == 4 ||
-                                      state.model.status ==
-                                          ConstantsIntValue
-                                              .mmStatusInwardWaiting ||
-                                      !showSaveSubmitButtons ||
-                                      isReadOnly
-                                      ? false
-                                      : true,
-                                  isDisableColor: state.model.status == 10 ||
-                                      state.model.status == -1 ||
-                                      state.model.status == 6 ||
-                                      state.model.status == 2 ||
-                                      state.model.status == 3 ||
-                                      state.model.status == 4 ||
-                                      !showSaveSubmitButtons ||
-                                      state.model.status ==
-                                          ConstantsIntValue
-                                              .mmStatusInwardWaiting ||
-                                      !state.model.lock.isEmptyOrNull
-                                      ? true
-                                      : false,
-                                  onChange: (String value) {
-                                    state.model.preparedBy = value;
-                                    BlocProvider.of<
-                                        MaterialMovementDetailsCubit>(
-                                        context)
-                                        .onModelValueChange(state.model);
-                                  },
-                                  validateTextField: (String? user) {},
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.02),
-
-                                /// Prepared By Department
-                                CommonWidgets.textDisplay(
-                                  state.labels?.locale.preparedByDepartment ??
-                                      state.labels?.defaultLocale
-                                          .preparedByDepartment ??
-                                      Constants.preparedByDepartment,
-                                  Styles.textStyleWhite16,
-                                  isMandatory: state.model.status !=
-                                      ConstantsIntValue.mmStatusDraft &&
-                                      widget.model != null
-                                      ? true
-                                      : false,
-                                ),
-                                TextFieldAddButton(
-                                  title: state.model.preparedByDepartment?.name,
-                                  height: 70,
-                                  isDisableColor: state.model.status == 10 ||
-                                      state.model.status == -1 ||
-                                      state.model.status == 6 ||
-                                      state.model.status == 2 ||
-                                      state.model.status == 3 ||
-                                      state.model.status == 4 ||
-                                      !showSaveSubmitButtons ||
-                                      state.model.status ==
-                                          ConstantsIntValue
-                                              .mmStatusInwardWaiting ||
-                                      !state.model.lock.isEmptyOrNull
-                                      ? true
-                                      : false,
-                                  onTap: () {
-                                    if ((state.model.status == 6 ||
-                                        state.model.status == -1 ||
-                                        state.model.status == 10 ||
-                                        state.model.status == 2 ||
-                                        state.model.status == 3 ||
-                                        state.model.status == 4 ||
-                                        state.model.status ==
-                                            ConstantsIntValue
-                                                .mmStatusInwardWaiting ||
-                                        isReadOnly)
+                                  FlutterInputField(
+                                    textInputType: TextInputType.text,
+                                    initialValue: state.model.sentTo,
+                                    textFormKey: Keys.sentToKey,
+                                    hintText: '',
+                                    focusNode: sentToFocusNode,
+                                    isEnable: state.model.status == 10 ||
+                                            state.model.status == -1 ||
+                                            state.model.status == 6 ||
+                                            state.model.status == 2 ||
+                                            state.model.status == 3 ||
+                                            state.model.status == 4 ||
+                                            state.model.status ==
+                                                ConstantsIntValue
+                                                    .mmStatusInwardWaiting ||
+                                            isReadOnly ||
+                                            !showSaveSubmitButtons
                                         ? false
-                                        : true) {
-                                      BaseOrganisationDialog().departmentDialog(
-                                          context: context,
-                                          organisations: state.departments,
-                                          onTap: (Organisation department) {
-                                            state.model.preparedByDepartment
-                                                ?.name = department.name;
+                                        : true,
+                                    isDisableColor: state.model.status == 10 ||
+                                            state.model.status == -1 ||
+                                            state.model.status == 6 ||
+                                            state.model.status == 2 ||
+                                            state.model.status == 3 ||
+                                            state.model.status == 4 ||
+                                            !showSaveSubmitButtons ||
+                                            state.model.status ==
+                                                ConstantsIntValue
+                                                    .mmStatusInwardWaiting ||
+                                            !state.model.lock.isEmptyOrNull
+                                        ? true
+                                        : false,
+                                    onChange: (String value) {
+                                      state.model.sentTo = value;
+                                      context
+                                          .read<MaterialMovementDetailsCubit>()
+                                          .onModelValueChange(state.model);
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
 
-                                            BlocProvider.of<
-                                                MaterialMovementDetailsCubit>(
-                                                context)
-                                                .updateDropdownValues(
-                                                preparedByDepartment:
-                                                department);
-                                          },
-                                          orgName: 'EMPLOYEE_DEPARTMENTS',
-                                          createEntity: false,
-                                          title: 'Add Department',
-                                          functionToCall: () {
-                                            // refresh the list
-                                            BlocProvider.of<
-                                                MaterialMovementDetailsCubit>(
-                                                context)
-                                                .refreshList();
-                                          });
-                                      // leodepartmentsDialog(state);
-                                    }
-                                  },
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.02),
-],
+                                  /// Purpose
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.purpose ??
+                                        state.labels?.defaultLocale.purpose ??
+                                        Constants.purpose,
+                                    Styles.textStyleWhite16,
+                                    isMandatory: state.model.status !=
+                                                ConstantsIntValue
+                                                    .mmStatusDraft &&
+                                            widget.model != null
+                                        ? true
+                                        : false,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001),
+
+                                  FlutterInputField(
+                                    textInputType: TextInputType.text,
+                                    initialValue: state.model.purpose,
+                                    textFormKey: Keys.purposeKey,
+                                    hintText: '',
+                                    isEnable: state.model.status == 10 ||
+                                            state.model.status == -1 ||
+                                            state.model.status == 6 ||
+                                            state.model.status == 2 ||
+                                            state.model.status == 3 ||
+                                            state.model.status == 4 ||
+                                            state.model.status ==
+                                                ConstantsIntValue
+                                                    .mmStatusInwardWaiting ||
+                                            !showSaveSubmitButtons ||
+                                            isReadOnly
+                                        ? false
+                                        : true,
+                                    isDisableColor: state.model.status == 10 ||
+                                            state.model.status == -1 ||
+                                            state.model.status == 6 ||
+                                            state.model.status == 2 ||
+                                            state.model.status == 3 ||
+                                            state.model.status == 4 ||
+                                            !showSaveSubmitButtons ||
+                                            state.model.status ==
+                                                ConstantsIntValue
+                                                    .mmStatusInwardWaiting ||
+                                            !state.model.lock.isEmptyOrNull
+                                        ? true
+                                        : false,
+                                    onChange: (String value) {
+                                      state.model.purpose = value;
+                                      context
+                                          .read<MaterialMovementDetailsCubit>()
+                                          .onModelValueChange(state.model);
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
+
+                                  /// Prepared By
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.preparedBy ??
+                                        state
+                                            .labels?.defaultLocale.preparedBy ??
+                                        Constants.preparedBy,
+                                    Styles.textStyleWhite16,
+                                    isMandatory: state.model.status !=
+                                                ConstantsIntValue
+                                                    .mmStatusDraft &&
+                                            widget.model != null
+                                        ? true
+                                        : false,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001),
+
+                                  FlutterInputField(
+                                    // keyboardType: TextInputType.number,
+                                    initialValue: state.model.preparedBy,
+                                    textFormKey: Keys.preparedByKey,
+                                    hintText: '',
+                                    isEnable: state.model.status == 10 ||
+                                            state.model.status == -1 ||
+                                            state.model.status == 6 ||
+                                            state.model.status == 2 ||
+                                            state.model.status == 3 ||
+                                            state.model.status == 4 ||
+                                            state.model.status ==
+                                                ConstantsIntValue
+                                                    .mmStatusInwardWaiting ||
+                                            !showSaveSubmitButtons ||
+                                            isReadOnly
+                                        ? false
+                                        : true,
+                                    isDisableColor: state.model.status == 10 ||
+                                            state.model.status == -1 ||
+                                            state.model.status == 6 ||
+                                            state.model.status == 2 ||
+                                            state.model.status == 3 ||
+                                            state.model.status == 4 ||
+                                            !showSaveSubmitButtons ||
+                                            state.model.status ==
+                                                ConstantsIntValue
+                                                    .mmStatusInwardWaiting ||
+                                            !state.model.lock.isEmptyOrNull
+                                        ? true
+                                        : false,
+                                    onChange: (String value) {
+                                      state.model.preparedBy = value;
+                                      BlocProvider.of<
+                                                  MaterialMovementDetailsCubit>(
+                                              context)
+                                          .onModelValueChange(state.model);
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
+
+                                  /// Prepared By Department
+                                  CommonWidgets.textDisplay(
+                                    state.labels?.locale.preparedByDepartment ??
+                                        state.labels?.defaultLocale
+                                            .preparedByDepartment ??
+                                        Constants.preparedByDepartment,
+                                    Styles.textStyleWhite16,
+                                    isMandatory: state.model.status !=
+                                                ConstantsIntValue
+                                                    .mmStatusDraft &&
+                                            widget.model != null
+                                        ? true
+                                        : false,
+                                  ),
+                                  TextFieldAddButton(
+                                    title:
+                                        state.model.preparedByDepartment?.name,
+                                    height: 70,
+                                    isDisableColor: state.model.status == 10 ||
+                                            state.model.status == -1 ||
+                                            state.model.status == 6 ||
+                                            state.model.status == 2 ||
+                                            state.model.status == 3 ||
+                                            state.model.status == 4 ||
+                                            !showSaveSubmitButtons ||
+                                            state.model.status ==
+                                                ConstantsIntValue
+                                                    .mmStatusInwardWaiting ||
+                                            !state.model.lock.isEmptyOrNull
+                                        ? true
+                                        : false,
+                                    onTap: () {
+                                      if ((state.model.status == 6 ||
+                                              state.model.status == -1 ||
+                                              state.model.status == 10 ||
+                                              state.model.status == 2 ||
+                                              state.model.status == 3 ||
+                                              state.model.status == 4 ||
+                                              state.model.status ==
+                                                  ConstantsIntValue
+                                                      .mmStatusInwardWaiting ||
+                                              isReadOnly)
+                                          ? false
+                                          : true) {
+                                        BaseOrganisationDialog()
+                                            .departmentDialog(
+                                                context: context,
+                                                organisations:
+                                                    state.departments,
+                                                onTap:
+                                                    (Organisation department) {
+                                                  state
+                                                      .model
+                                                      .preparedByDepartment
+                                                      ?.name = department.name;
+
+                                                  BlocProvider.of<
+                                                              MaterialMovementDetailsCubit>(
+                                                          context)
+                                                      .updateDropdownValues(
+                                                          preparedByDepartment:
+                                                              department);
+                                                },
+                                                orgName: 'EMPLOYEE_DEPARTMENTS',
+                                                createEntity: false,
+                                                title: 'Add Department',
+                                                functionToCall: () {
+                                                  // refresh the list
+                                                  BlocProvider.of<
+                                                              MaterialMovementDetailsCubit>(
+                                                          context)
+                                                      .refreshList();
+                                                });
+                                        // leodepartmentsDialog(state);
+                                      }
+                                    },
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
+                                ],
+
                                 /// Approver1 Email
                                 Column(
                                   children: [
@@ -2065,25 +2087,25 @@ class _MaterialMovementDetailsViewState
                                         title: state.model.approver1Email,
                                         height: 70,
                                         isDisableColor: (state.model.status ==
-                                            6 ||
-                                            state.model.status == -1 ||
-                                            state.model.status == 10 ||
-                                            state.model.status == 2 ||
-                                            state.model.status == 3 ||
-                                            state.model.status == 4 ||
-                                            state.model.status == 5 ||
-                                            state.model.status == 1 ||
-                                            state.model.status == 7 ||
-                                            state.model.status ==
-                                                ConstantsIntValue
-                                                    .mmStatusInwardWaiting) ||
-                                            lock
+                                                        6 ||
+                                                    state.model.status == -1 ||
+                                                    state.model.status == 10 ||
+                                                    state.model.status == 2 ||
+                                                    state.model.status == 3 ||
+                                                    state.model.status == 4 ||
+                                                    state.model.status == 5 ||
+                                                    state.model.status == 1 ||
+                                                    state.model.status == 7 ||
+                                                    state.model.status ==
+                                                        ConstantsIntValue
+                                                            .mmStatusInwardWaiting) ||
+                                                lock
                                             ? true
                                             : false,
                                         onTap: () {
-                                          if (isApproverRequesterEmailDepartment &&
+                                          if ((isApproverRequesterEmailDepartment &&
                                               !lock
-                                              ? true
+                                          ) || (state.model.returnable == true  && widget.isInward && state.model.status == 11 )? true
                                               : false) {
                                             BaseOrganisationDialog().userDialog(
                                               context: context,
@@ -2091,33 +2113,32 @@ class _MaterialMovementDetailsViewState
                                               isDbUser: true,
                                               onTap: (BaseUser user) {
                                                 BlocProvider.of<
-                                                    MaterialMovementDetailsCubit>(
-                                                    context)
+                                                            MaterialMovementDetailsCubit>(
+                                                        context)
                                                     .updateApproverEmailsValue(
-                                                    approver1EmailUser:
-                                                    user);
+                                                        approver1EmailUser:
+                                                            user);
                                               },
                                               roleName: ConstantUserRoles
                                                   .atomStaticUser,
                                               locationId:
-                                              state.model.location!.id!,
+                                                  state.model.location!.id!,
                                               functionToCall: (BaseUser user) {
                                                 BlocProvider.of<
-                                                    MaterialMovementDetailsCubit>(
-                                                    context)
+                                                            MaterialMovementDetailsCubit>(
+                                                        context)
                                                     .updateApproverEmailsValue(
-                                                    approver1EmailUser:
-                                                    user);
+                                                        approver1EmailUser:
+                                                            user);
                                                 // refresh the list
                                                 BlocProvider.of<
-                                                    MaterialMovementDetailsCubit>(
-                                                    context)
+                                                            MaterialMovementDetailsCubit>(
+                                                        context)
                                                     .refreshList();
                                               },
                                             );
                                           }
                                         })
-
                                   ],
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
@@ -2136,24 +2157,24 @@ class _MaterialMovementDetailsViewState
                                   title: state.model.approver1Department?.name,
                                   height: 70,
                                   isDisableColor: (state.model.status == 6 ||
-                                      state.model.status == -1 ||
-                                      state.model.status == 10 ||
-                                      state.model.status == 2 ||
-                                      state.model.status == 3 ||
-                                      state.model.status == 4 ||
-                                      state.model.status == 5 ||
-                                      state.model.status == 1 ||
-                                      state.model.status == 7 ||
-                                      state.model.status ==
-                                          ConstantsIntValue
-                                              .mmStatusInwardWaiting) ||
-                                      lock
+                                              state.model.status == -1 ||
+                                              state.model.status == 10 ||
+                                              state.model.status == 2 ||
+                                              state.model.status == 3 ||
+                                              state.model.status == 4 ||
+                                              state.model.status == 5 ||
+                                              state.model.status == 1 ||
+                                              state.model.status == 7 ||
+                                              state.model.status ==
+                                                  ConstantsIntValue
+                                                      .mmStatusInwardWaiting) ||
+                                          lock
                                       ? true
                                       : false,
                                   onTap: () {
-                                    if (isApproverRequesterEmailDepartment &&
+                                    if ((isApproverRequesterEmailDepartment &&
                                         !lock
-                                        ? true
+                                    ) || (state.model.returnable == true  && widget.isInward && state.model.status == 11 )? true
                                         : false) {
                                       BaseOrganisationDialog().departmentDialog(
                                           context: context,
@@ -2163,11 +2184,11 @@ class _MaterialMovementDetailsViewState
                                                 ?.name = department.name;
 
                                             BlocProvider.of<
-                                                MaterialMovementDetailsCubit>(
-                                                context)
+                                                        MaterialMovementDetailsCubit>(
+                                                    context)
                                                 .updateDropdownValues(
-                                                approver1Department:
-                                                department);
+                                                    approver1Department:
+                                                        department);
                                           },
                                           orgName: 'EMPLOYEE_DEPARTMENTS',
                                           createEntity: false,
@@ -2175,8 +2196,8 @@ class _MaterialMovementDetailsViewState
                                           functionToCall: () {
                                             // refresh the list
                                             BlocProvider.of<
-                                                MaterialMovementDetailsCubit>(
-                                                context)
+                                                        MaterialMovementDetailsCubit>(
+                                                    context)
                                                 .refreshList();
                                           });
                                       // leodepartmentsDialog(state);
@@ -2201,25 +2222,25 @@ class _MaterialMovementDetailsViewState
                                         title: state.model.approver2Email,
                                         height: 70,
                                         isDisableColor: (state.model.status ==
-                                            6 ||
-                                            state.model.status == 10 ||
-                                            state.model.status == -1 ||
-                                            state.model.status == 2 ||
-                                            state.model.status == 3 ||
-                                            state.model.status == 4 ||
-                                            state.model.status == 5 ||
-                                            state.model.status == 1 ||
-                                            state.model.status == 7 ||
-                                            state.model.status ==
-                                                ConstantsIntValue
-                                                    .mmStatusInwardWaiting) ||
-                                            lock
+                                                        6 ||
+                                                    state.model.status == 10 ||
+                                                    state.model.status == -1 ||
+                                                    state.model.status == 2 ||
+                                                    state.model.status == 3 ||
+                                                    state.model.status == 4 ||
+                                                    state.model.status == 5 ||
+                                                    state.model.status == 1 ||
+                                                    state.model.status == 7 ||
+                                                    state.model.status ==
+                                                        ConstantsIntValue
+                                                            .mmStatusInwardWaiting) ||
+                                                lock
                                             ? true
                                             : false,
                                         onTap: () {
-                                          if (isApproverRequesterEmailDepartment &&
+                                          if ((isApproverRequesterEmailDepartment &&
                                               !lock
-                                              ? true
+                                          ) || (state.model.returnable == true  && widget.isInward && state.model.status == 11 )? true
                                               : false) {
                                             BaseOrganisationDialog().userDialog(
                                               context: context,
@@ -2227,33 +2248,32 @@ class _MaterialMovementDetailsViewState
                                               isDbUser: true,
                                               onTap: (BaseUser user) {
                                                 BlocProvider.of<
-                                                    MaterialMovementDetailsCubit>(
-                                                    context)
+                                                            MaterialMovementDetailsCubit>(
+                                                        context)
                                                     .updateApproverEmailsValue(
-                                                    approver2EmailUser:
-                                                    user);
+                                                        approver2EmailUser:
+                                                            user);
                                               },
                                               roleName: ConstantUserRoles
                                                   .atomStaticUser,
                                               locationId:
-                                              state.model.location!.id!,
+                                                  state.model.location!.id!,
                                               functionToCall: (BaseUser user) {
                                                 BlocProvider.of<
-                                                    MaterialMovementDetailsCubit>(
-                                                    context)
+                                                            MaterialMovementDetailsCubit>(
+                                                        context)
                                                     .updateApproverEmailsValue(
-                                                    approver2EmailUser:
-                                                    user);
+                                                        approver2EmailUser:
+                                                            user);
                                                 // refresh the list
                                                 BlocProvider.of<
-                                                    MaterialMovementDetailsCubit>(
-                                                    context)
+                                                            MaterialMovementDetailsCubit>(
+                                                        context)
                                                     .refreshList();
                                               },
                                             );
                                           }
                                         })
-
                                   ],
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
@@ -2272,24 +2292,24 @@ class _MaterialMovementDetailsViewState
                                   title: state.model.approver2Department?.name,
                                   height: 70,
                                   isDisableColor: (state.model.status == 6 ||
-                                      state.model.status == 10 ||
-                                      state.model.status == -1 ||
-                                      state.model.status == 2 ||
-                                      state.model.status == 3 ||
-                                      state.model.status == 4 ||
-                                      state.model.status == 5 ||
-                                      state.model.status == 1 ||
-                                      state.model.status == 7 ||
-                                      state.model.status ==
-                                          ConstantsIntValue
-                                              .mmStatusInwardWaiting) ||
-                                      lock
+                                              state.model.status == 10 ||
+                                              state.model.status == -1 ||
+                                              state.model.status == 2 ||
+                                              state.model.status == 3 ||
+                                              state.model.status == 4 ||
+                                              state.model.status == 5 ||
+                                              state.model.status == 1 ||
+                                              state.model.status == 7 ||
+                                              state.model.status ==
+                                                  ConstantsIntValue
+                                                      .mmStatusInwardWaiting) ||
+                                          lock
                                       ? true
                                       : false,
                                   onTap: () {
-                                    if (isApproverRequesterEmailDepartment &&
+                                    if ((isApproverRequesterEmailDepartment &&
                                         !lock
-                                        ? true
+                                    ) || (state.model.returnable == true  && widget.isInward && state.model.status == 11 )? true
                                         : false) {
                                       BaseOrganisationDialog().departmentDialog(
                                           context: context,
@@ -2299,11 +2319,11 @@ class _MaterialMovementDetailsViewState
                                                 ?.name = department.name;
 
                                             BlocProvider.of<
-                                                MaterialMovementDetailsCubit>(
-                                                context)
+                                                        MaterialMovementDetailsCubit>(
+                                                    context)
                                                 .updateDropdownValues(
-                                                approver2Department:
-                                                department);
+                                                    approver2Department:
+                                                        department);
                                           },
                                           orgName: 'EMPLOYEE_DEPARTMENTS',
                                           createEntity: false,
@@ -2311,8 +2331,8 @@ class _MaterialMovementDetailsViewState
                                           functionToCall: () {
                                             // refresh the list
                                             BlocProvider.of<
-                                                MaterialMovementDetailsCubit>(
-                                                context)
+                                                        MaterialMovementDetailsCubit>(
+                                                    context)
                                                 .refreshList();
                                           });
                                       // leodepartmentsDialog(state);
@@ -2331,7 +2351,7 @@ class _MaterialMovementDetailsViewState
                                         Constants.rejectionComment,
                                     Styles.textStyleWhite16,
                                     isMandatory:
-                                    widget.model == null ? false : true,
+                                        widget.model == null ? false : true,
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
@@ -2383,7 +2403,7 @@ class _MaterialMovementDetailsViewState
                                   //],
                                 ],
 
-                                if (state.model.returnable == true ) ...[
+                                if (state.model.returnable == true) ...[
                                   /// Expected Date Of Return
                                   CommonWidgets.textDisplay(
                                     state.labels?.locale.expectedDateOfReturn ??
@@ -2392,7 +2412,7 @@ class _MaterialMovementDetailsViewState
                                         Constants.expectedDateOfReturn,
                                     Styles.textStyleWhite16,
                                     isMandatory: state.model.status != 0 &&
-                                        state.model.status != null
+                                            state.model.status != null
                                         ? true
                                         : false,
                                   ),
@@ -2403,19 +2423,19 @@ class _MaterialMovementDetailsViewState
                                   BaseDate().datePickerWidgetLoading(
                                     showPastDate: false,
                                     textController:
-                                    expectedDateOfReturnController,
+                                        expectedDateOfReturnController,
                                     onlyDate: true,
                                     isDisabled: !showSaveSubmitButtons ||
-                                        state.model.status ==
-                                            ConstantsIntValue
-                                                .mmStatusClosed ||
-                                        // state.model.status ==
-                                        //     ConstantsIntValue
-                                        //         .mmStatusInwardWaiting ||
-                                        state.model.status ==
-                                            ConstantsIntValue
-                                                .mmStatusApproved ||
-                                        lock
+                                            state.model.status ==
+                                                ConstantsIntValue
+                                                    .mmStatusClosed ||
+                                            // state.model.status ==
+                                            //     ConstantsIntValue
+                                            //         .mmStatusInwardWaiting ||
+                                            state.model.status ==
+                                                ConstantsIntValue
+                                                    .mmStatusApproved ||
+                                            lock
                                         ? true
                                         : false,
                                     // isDisabled: true,
@@ -2423,8 +2443,8 @@ class _MaterialMovementDetailsViewState
                                       state.model.expectedDateOfReturn =
                                           Utils().formatTime(value);
                                       BlocProvider.of<
-                                          MaterialMovementDetailsCubit>(
-                                          context)
+                                                  MaterialMovementDetailsCubit>(
+                                              context)
                                           .onModelValueChange(state.model);
                                     },
                                     context: context,
@@ -2497,7 +2517,7 @@ class _MaterialMovementDetailsViewState
                                         state.model.takenOutEmail = value;
                                         context
                                             .read<
-                                            MaterialMovementDetailsCubit>()
+                                                MaterialMovementDetailsCubit>()
                                             .onModelValueChange(state.model);
                                       },
                                       validateTextField: (String? user) {},
@@ -2519,12 +2539,12 @@ class _MaterialMovementDetailsViewState
 
                                     FlutterInputField(
                                       initialValue:
-                                      state.model.takenOutContactNo,
+                                          state.model.takenOutContactNo,
                                       textFormKey: Keys.takenOutContactKey,
                                       hintText: '',
                                       textInputType: TextInputType.number,
                                       characterLimit:
-                                      Constants.characterLimitContactNo,
+                                          Constants.characterLimitContactNo,
                                       isEnable: showSaveSubmitButtons &&
                                           state.model.status !=
                                               ConstantsIntValue
@@ -2533,12 +2553,12 @@ class _MaterialMovementDetailsViewState
                                               ConstantsIntValue
                                                   .mmStatusInwardWaiting,
                                       isDisableColor:
-                                      showSaveSubmitButtons ? false : true,
+                                          showSaveSubmitButtons ? false : true,
                                       onChange: (String value) {
                                         state.model.takenOutContactNo = value;
                                         context
                                             .read<
-                                            MaterialMovementDetailsCubit>()
+                                                MaterialMovementDetailsCubit>()
                                             .onModelValueChange(state.model);
                                       },
                                       validateTextField: (String? user) {},
@@ -2571,12 +2591,12 @@ class _MaterialMovementDetailsViewState
                                               ConstantsIntValue
                                                   .mmStatusInwardWaiting,
                                       isDisableColor:
-                                      showSaveSubmitButtons ? false : true,
+                                          showSaveSubmitButtons ? false : true,
                                       onChange: (String value) {
                                         state.model.takenOutAddress = value;
                                         context
                                             .read<
-                                            MaterialMovementDetailsCubit>()
+                                                MaterialMovementDetailsCubit>()
                                             .onModelValueChange(state.model);
                                       },
                                       validateTextField: (String? user) {},
@@ -2600,12 +2620,12 @@ class _MaterialMovementDetailsViewState
                                     BaseDate().datePickerWidgetLoading(
                                       textController: takenOutOnDateController,
                                       isDisabled: showSaveSubmitButtons &&
-                                          state.model.status !=
-                                              ConstantsIntValue
-                                                  .mmStatusClosed &&
-                                          state.model.status !=
-                                              ConstantsIntValue
-                                                  .mmStatusInwardWaiting
+                                              state.model.status !=
+                                                  ConstantsIntValue
+                                                      .mmStatusClosed &&
+                                              state.model.status !=
+                                                  ConstantsIntValue
+                                                      .mmStatusInwardWaiting
                                           ? false
                                           : true,
                                       onlyDate: false,
@@ -2615,8 +2635,8 @@ class _MaterialMovementDetailsViewState
                                         state.model.takenOutDate =
                                             Utils().formatTime(value);
                                         BlocProvider.of<
-                                            MaterialMovementDetailsCubit>(
-                                            context)
+                                                    MaterialMovementDetailsCubit>(
+                                                context)
                                             .onModelValueChange(state.model);
                                       },
                                       context: context,
@@ -2768,7 +2788,6 @@ class _MaterialMovementDetailsViewState
                                           ConstantsIntValue.mmStatusClosed) &&
                                   !widget.isInward &&
                                   state.model.returnable == true) ...[
-
                                 /// Actual Date Of Return
                                 CommonWidgets.textDisplay(
                                   state.labels?.locale.actualDateOfReturn ??
@@ -3026,7 +3045,7 @@ class _MaterialMovementDetailsViewState
                               state.model.status ==
                                   ConstantsIntValue.mmStatusDraft,
                         ),
-                        CommonWidgets.verticalSpacerWidget(height * 0.02),
+                        // CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                         if (state.model.id != null) ...[
                           /// Modified Date
@@ -3060,6 +3079,7 @@ class _MaterialMovementDetailsViewState
                                     state.model.status == 7 ||
                                     state.model.status == 5 ||
                                     state.model.status == 9 ||
+                            state.model.status == 11 ||
                                     state.model.status == null) &&
                                 !lock)
                             ? true
@@ -3109,8 +3129,6 @@ class _MaterialMovementDetailsViewState
       ],
     );
   }
-
-
 
   AbsorbPointer buildSignature({
     required SignatureController controller,
@@ -3269,7 +3287,6 @@ class _MaterialMovementDetailsViewState
     );
   }
 
-
   Widget submitButtonDisplay(MaterialMovementDetailsState state) {
     return AppButton(
       width: 150,
@@ -3325,7 +3342,7 @@ class _MaterialMovementDetailsViewState
                               }
                               BlocProvider.of<MaterialMovementDetailsCubit>(
                                       context)
-                                  .addAttchment(files);
+                                  .addAttachment(files);
                             },
                           );
                         });
@@ -3367,5 +3384,3 @@ class _MaterialMovementDetailsViewState
     );
   }
 }
-
-

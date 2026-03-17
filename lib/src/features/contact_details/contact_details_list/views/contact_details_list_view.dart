@@ -76,8 +76,6 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    double height = size.height;
     final scaffoldKey = GlobalKey<ScaffoldState>();
     return BlocConsumer<ContactDetailsListBloc, ContactDetailsListState>(
       listener: (context, state) {},
@@ -145,7 +143,7 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                       child: BackdropFilter(
                         filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
                         child: Container(
-                          color: Colors.black.withOpacity(0.2),
+                          color: Colors.black.withValues(alpha: 0.2),
                         ),
                       ),
                     ),
@@ -184,7 +182,7 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                       },
                         child: ListView.builder(
                           controller: _scrollController,
-                          padding: EdgeInsets.zero,
+                          padding: const EdgeInsets.only(bottom: 100),
                           itemCount: state.hasReachedMax
                               ? state.items.length
                               : state.items.length + 1,

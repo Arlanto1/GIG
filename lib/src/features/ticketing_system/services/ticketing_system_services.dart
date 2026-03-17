@@ -1,6 +1,7 @@
+import 'dart:developer';
+
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/ticketing_system/models/assignee_model.dart';
-import 'package:db_atom/src/features/ticketing_system/models/priority_model.dart';
 import 'package:db_atom/src/features/ticketing_system/models/projects_model.dart';
 import 'package:db_atom/src/features/ticketing_system/models/requestModel/ticketing_system_request_model.dart';
 import 'package:db_atom/src/features/ticketing_system/models/ticketing_system_list_model.dart';
@@ -11,11 +12,11 @@ class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
   static final String _getTicketingSystemList =
-      '$baseUrl/getRedmineIssuesList?';
+      '$baseUrl/getTicketingSystemList?';
 
-  static final String _getTicketingSystemById = '$baseUrl/getIssueById';
+  static final String _getTicketingSystemById = '$baseUrl/getTicketingSystemById';
 
-  static final String _createTicketingSystem = '$baseUrl/createIssue';
+  static final String _createTicketingSystem = '$baseUrl/createTicketingSystemNew';
   static final String _getTrackers = '$baseUrl/getTrackerList';
   static final String _getProjects = '$baseUrl/getProjectList';
   static final String _getPriority = '$baseUrl/getPriorityList';
@@ -43,15 +44,18 @@ class TicketingSystemServices {
     final response = await BaseApiService().getRequest(
       url: url,
     );
+
+    log('url $url');
     return TicketingSystemModel.fromJson(response);
   }
 
   /// Create Services
   Future<GenericResponse> createTicketingSystem({
     required TicketingSystemRequest body,
+    required bool isSubmit,
   }) async {
     // var userId = await SharedPrefs.getUserId();
-    final String url = Apis._createTicketingSystem;
+    final String url = "${Apis._createTicketingSystem}?isSubmit=$isSubmit";
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),
@@ -66,14 +70,6 @@ class TicketingSystemServices {
       url: url,
     );
     return Projects.fromJson(response);
-  }
-
-  Future<Priorities> getPriorities() async {
-    String url = Apis._getPriority;
-    final response = await BaseApiService().getRequest(
-      url: url,
-    );
-    return Priorities.fromJson(response);
   }
 
   Future<Trackers> getTrackers() async {

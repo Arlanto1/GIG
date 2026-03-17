@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/login/services/key_clock_services.dart';
 import 'package:db_atom/src/features/login/services/login_services.dart';
-import 'package:msal_auth/msal_auth.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -30,21 +29,22 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     emit(LoginLoadingState(status: FormStatus.loading));
     LoginResponseModel loginData = LoginResponseModel();
     try {
-      var tokenData = await keyClockServices.authenticate(
-        event.requestModel.request!.userName!,
-        event.requestModel.request!.password!,
-      );
-      String accessToken = tokenData['access_token'];
+      if ((Environment().config.apiHost.contains('api.uat.')) || (Environment().config.apiHost.contains('api.qa.'))) {
+        var tokenData = await keyClockServices.authenticate(
+          event.requestModel.request!.userName!,
+          event.requestModel.request!.password!,
+        );
+        String accessToken = tokenData['access_token'];
 
-      if (accessToken.isEmptyOrNull) {
-        log('-Failure---');
+        if (accessToken.isEmptyOrNull) {
+          log('-Failure---');
 
-        // emit(LoginFailureState(
-        //   message: e.message ?? 'An unexpected error occurred.',
-        //   status: FormStatus.error,
-        // ));
+          // emit(LoginFailureState(
+          //   message: e.message ?? 'An unexpected error occurred.',
+          //   status: FormStatus.error,
+          // ));
+        }
       }
-
       loginData = await loginService.loginUser(event.requestModel);
 
       log('--loginData---${loginData.toString()}----');

@@ -59,8 +59,6 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
   @override
   Widget build(BuildContext context) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
-    final size = MediaQuery.of(context).size;
-    double height = size.height;
     return BlocConsumer<ShiftScheduleListBloc, ShiftScheduleListState>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -126,7 +124,7 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                       child: BackdropFilter(
                         filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
                         child: Container(
-                          color: Colors.black.withOpacity(0.2),
+                          color: Colors.black.withValues(alpha: 0.2),
                         ),
                       ),
                     ),
@@ -170,7 +168,8 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                       },
                       child: ListView.builder(
                           controller: _scrollController,
-                          padding: EdgeInsets.zero,
+                          // padding: EdgeInsets.zero,
+                          padding: const EdgeInsets.only(bottom: 100),
                           itemCount: state.hasReachedMax
                               ? state.items.length
                               : state.items.length + 1,
@@ -269,7 +268,7 @@ class _ShiftScheduleListViewState extends State<ShiftScheduleListView> {
                                                             alpha: 0.09),
                                                         // Color(0xFF6474C6).withOpacity(0.14)
                                                       ],
-                                                      stops: [0.02, 0.35, 1],
+                                                      stops: const [0.02, 0.35, 1],
                                                       begin:
                                                           Alignment.topCenter,
                                                       end: Alignment

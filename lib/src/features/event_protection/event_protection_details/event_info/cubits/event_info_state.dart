@@ -76,8 +76,8 @@ class EventInfoState extends Equatable {
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
-  @override
-  List<Object?> get props => [model, status];
+  // @override
+  // List<Object?> get props => [model, status, ];
 
   const EventInfoState({
     required this.status,
@@ -86,7 +86,7 @@ class EventInfoState extends Equatable {
     this.loggedInUserDetails,
     this.users,
     this.emailUsers,
-    this.loadAttachments,
+    this.loadAttachments = const [],
     this.guardAttachments,
     this.additionalEmails,
     this.eventId,
@@ -135,4 +135,25 @@ class EventInfoState extends Equatable {
       draftTemplateHtml:draftTemplateHtml?? this.draftTemplateHtml,
     );
   }
+
+  @override
+  List<Object?> get props => [
+    model,
+    status,
+    loadAttachments,
+    guardAttachments,
+    locations,
+    loggedInUserDetails,
+    users,
+    emailUsers,
+    additionalEmails,
+    eventId,
+    eventDuration,
+    message,
+    foundArticles,
+    emailTemplates,
+    isTemplateLoading,
+    draftTemplateHtml,
+  ];
+
 }

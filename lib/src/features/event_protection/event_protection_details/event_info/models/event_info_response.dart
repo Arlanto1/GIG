@@ -8,9 +8,16 @@ class EventInfoResponse {
     this.status,
     this.date,
     this.emails,
-    this.email,
-    this.image,
+    this.notification,
+    this.images,
     this.location,
+    this.email,
+    this.startDate,
+    this.lock,
+    this.endDate,
+    this.eventConcludedAt,
+    this.eventStartedAt,
+    this.totalAttendies
   });
 
   int? id;
@@ -18,13 +25,15 @@ class EventInfoResponse {
   String? date;
   String? emails;
   String? email;
-  List<ImageContent>? image;
+  String? notification;
+  List<ImageContent>? images;
   String? lock;
   String? startDate;
   String? endDate;
   String? eventStartedAt;
   String? eventConcludedAt;
   Organisation? location;
+  int? totalAttendies;
 
   EventInfoResponse.fromJson(Map<String, dynamic> json) {
     log('-json id--${json['id']}-');
@@ -33,6 +42,7 @@ class EventInfoResponse {
     status = json['status'];
     date = json['date'];
     emails = json['emails'];
+    email=json['email'];
     lock = json['lock'];
     location = json["location"] == null
         ? null
@@ -41,9 +51,10 @@ class EventInfoResponse {
     endDate = json['endDate'];
     eventStartedAt = json['eventStartedAt'];
     eventConcludedAt = json['eventConcludedAt'];
-    email = json['email'];
-    image =
-        List.from(json['image']).map((e) => ImageContent.fromJson(e)).toList();
+    notification = json['notification'];
+    totalAttendies = json['totalAttendies'];
+    images =
+        List.from(json['images']).map((e) => ImageContent.fromJson(e)).toList();
   }
 
   Map<String, dynamic> toJson() {
@@ -55,11 +66,13 @@ class EventInfoResponse {
     data['location'] = location;
     data['emails'] = emails;
     data['email'] = email;
+    data['notification'] = notification;
     data['startDate'] = startDate;
     data['endDate'] = endDate;
     data['eventStartedAt'] = eventStartedAt;
     data['eventConcludedAt'] = eventConcludedAt;
-    data['image'] = image?.map((e) => e.toJson()).toList();
+    data['totalAttendies'] = totalAttendies;
+    data['images'] = images?.map((e) => e.toJson()).toList();
     return data;
   }
 }

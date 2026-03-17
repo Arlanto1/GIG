@@ -59,8 +59,6 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    double height = size.height;
     final scaffoldKey = GlobalKey<ScaffoldState>();
     return BlocConsumer<GuardingMasterDataBloc, GuardingMasterDataState>(
         listener: (context, state) {},
@@ -69,14 +67,6 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
               backgroundColor:Colors.transparent,
               extendBody: true,
               extendBodyBehindAppBar: true,
-              // floatingActionButton: Flutterfloatingbutton(
-              //   backgroundColor: AppColors.navigationSkybluecolor,
-              //   foregroundColor: AppColors.backgroundWhitecolor,
-              //   onPressed: () => {
-              //     Navigator.pushNamed(context, guardingMasterDataDetailsRoute,
-              //         arguments: {"title": Constants.createGuardingMasterData}),
-              //   },
-              // ),
               bottomNavigationBar: CustomBottomNavigationBar(
                 hasAddPermission: false,
                 scaffoldKey: scaffoldKey,
@@ -125,7 +115,7 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
                         child: BackdropFilter(
                           filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
                           child: Container(
-                            color: Colors.black.withOpacity(0.2),
+                            color: Colors.black.withValues(alpha: 0.2),
                           ),
                         ),
                       ),
@@ -164,6 +154,7 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
                         },
                           child: ListView.builder(
                             controller: _scrollController,
+                            padding: const EdgeInsets.only(bottom: 100),
                             itemCount: state.hasReachedMax
                                 ? state.list.length
                                 : state.list.length + 1,
@@ -234,7 +225,7 @@ class _GuardingMasterDataViewState extends State<GuardingMasterDataView> {
                                                       Colors.white.withValues(alpha: 0.09),
                                                       // Color(0xFF6474C6).withOpacity(0.14)
                                                     ],
-                                                    stops: [0.02, 0.35, 1],
+                                                    stops: const [0.02, 0.35, 1],
                                                     begin: Alignment.topCenter,
                                                     end: Alignment.bottomCenter,
                                                   ),

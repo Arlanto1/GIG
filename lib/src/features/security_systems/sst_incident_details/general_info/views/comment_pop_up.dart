@@ -33,7 +33,7 @@ class AddCommentPopUpState extends State<AddCommentPopUp> {
         BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
           child: Container(
-            color: Colors.black.withOpacity(0.25), // dim + blur
+            color: Colors.black.withValues(alpha: 0.25), // dim + blur
           ),
         ),
 
@@ -60,7 +60,7 @@ class AddCommentPopUpState extends State<AddCommentPopUp> {
                         AppColors.newColor3.withValues(alpha: 0.7),
                         // Color(0xFF6474C6).withOpacity(0.14)
                       ],
-                      stops: [0.02, 0.35, 1],
+                      stops: const [0.02, 0.35, 1],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                     ),

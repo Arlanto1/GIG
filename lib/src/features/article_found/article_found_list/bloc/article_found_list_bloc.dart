@@ -110,7 +110,7 @@ class ArticleFoundBloc extends Bloc<ArticleFoundEvent, ArticleFoundState>{
         return emit(
           state.copyWith(
             items: response.list,
-            hasReachedMax: false,
+            hasReachedMax: (response.list?.length ?? 0) < event.maxPos,
             status: FormStatus.success,
           ),
         );

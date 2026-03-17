@@ -13,8 +13,7 @@ class KeyManagementIssuanceDetailsState extends Equatable {
   final KMUiLabels? labels;
   final bool isReceiverSignEditable;
   final bool isSecuritySignatureSignEditable;
-
-    List<BaseUser>? handedOverToUsers;
+  final List<BaseUser>? handedOverToUsers;
 
   factory KeyManagementIssuanceDetailsState.initial({
     required KeyManagementIssuanceModel model,
@@ -193,7 +192,7 @@ class KeyManagementIssuanceDetailsState extends Equatable {
   @override
   List<Object?> get props => [model, status];
 
-   KeyManagementIssuanceDetailsState({
+   const KeyManagementIssuanceDetailsState({
      required this.status,
     required this.model,
     this.locations,

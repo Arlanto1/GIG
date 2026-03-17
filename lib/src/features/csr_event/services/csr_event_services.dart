@@ -11,7 +11,7 @@ class Apis {
 
   static final String _getCSREvent = '$baseUrl/getOtherEPLists?';
 
-  static final String _getGI = '$baseUrl/getEPById';
+  static final String _getGI = '$baseUrl/getEPGIById';
 
   // static final String _getCI = '$baseUrl/getEPCIById';
   static final String _getGuardInfo = '$baseUrl/getEPGuardInfoById';
@@ -152,23 +152,6 @@ class CSREventServices {
     );
     return FoundListModel.fromJson(response);
   }
-
-
-
-  // Future<EventNotificationResponse> getNotificationList({
-  //   required BaseFilterModel filters,
-  //   required String eventId,
-  // }) async {
-  //   String url =
-  //       '${Apis._getNotificationList}?epId=$eventId';
-  //
-  //   var response = await BaseApiService().postRequest(
-  //     requestedData: filters.toJson(),
-  //     isAuthenticated: true,
-  //     url: url,
-  //   );
-  //   return EventNotificationResponse.fromJson(response);
-  // }
 
   Future<EventNotificationResponse> getNotificationList(String id) async {
     final String url = '${Apis._getNotificationList}?epId=$id';

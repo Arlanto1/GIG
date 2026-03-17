@@ -55,8 +55,12 @@ CSREventGiModel _$CSREventGiModelFromJson(Map<String, dynamic> json) =>
           ? null
           : Organisation.fromJson(
               json['requesterDepartment'] as Map<String, dynamic>),
-      vendorPocName: json['vendorPocName'] as String?,
-      vendorStaffList: json['vendorStaffList'] as String?,
+      vendorPocName: (json['vendorPocName'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      vendorStaffList: (json['vendorStaffList'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       srh1: json['srh1'] == null
           ? null
           : User.fromJson(json['srh1'] as Map<String, dynamic>),
@@ -104,7 +108,22 @@ CSREventGiModel _$CSREventGiModelFromJson(Map<String, dynamic> json) =>
       vendorCompanyName: json['vendorCompanyName'] as String?,
       map: json['map'] == null
           ? null
-          : MapImage.fromJson(json['map'] as Map<String, dynamic>),
+          : ImageContent.fromJson(json['map'] as Map<String, dynamic>),
+      ambulanceStationed: json['ambulanceStationed'] as bool? ?? false,
+      photographyApproved: json['photographyApproved'] as bool? ?? false,
+      photographyApprovedProof:
+          (json['photographyApprovedProof'] as List<dynamic>?)
+              ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
+              .toList(),
+      vendorStaffDetails: (json['vendorStaffDetails'] as List<dynamic>?)
+          ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      mediaExposure: (json['mediaExposure'] as num?)?.toInt(),
+      sensitiveInfoRisk: (json['sensitiveInfoRisk'] as num?)?.toInt(),
+      additionalInfo: json['additionalInfo'] as String?,
+      commandSupport: (json['commandSupport'] as List<dynamic>?)
+          ?.map((e) => AssistanceSuppModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     )..lock = json['lock'] as String?;
 
 Map<String, dynamic> _$CSREventGiModelToJson(CSREventGiModel instance) =>
@@ -166,4 +185,12 @@ Map<String, dynamic> _$CSREventGiModelToJson(CSREventGiModel instance) =>
       'poNumber': instance.poNumber,
       'vendorCompanyName': instance.vendorCompanyName,
       'map': instance.map,
+      'ambulanceStationed': instance.ambulanceStationed,
+      'photographyApproved': instance.photographyApproved,
+      'photographyApprovedProof': instance.photographyApprovedProof,
+      'vendorStaffDetails': instance.vendorStaffDetails,
+      'mediaExposure': instance.mediaExposure,
+      'sensitiveInfoRisk': instance.sensitiveInfoRisk,
+      'additionalInfo': instance.additionalInfo,
+      'commandSupport': instance.commandSupport,
     };

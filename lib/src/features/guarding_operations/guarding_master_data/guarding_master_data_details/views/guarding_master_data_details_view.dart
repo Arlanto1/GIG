@@ -3315,39 +3315,39 @@ class _GuardingMasterDataDetailsViewState
     );
   }
 
-  void _showQualificationSelectionDialog(
-    BuildContext context,
-    GuardingMasterDataDetailsState state,
-  ) {
-    showDialog(
-      context: context,
-      builder: (BuildContext dialogContext) {
-        return CustomMultipleSelectionListTexts(
-          onLeftButtonTap: () {
-            Navigator.pop(context);
-            showDialog(
-              context: context,
-              builder: (BuildContext dialogContext) {
-                return const AddNewFields(
-                  title: Constants.addQualificationType,
-                );
-              },
-            );
-          },
-          allItems: state.listOfQualifications ?? [],
-          selectedValues: state.model.qualifications ?? [],
-          onTap: (List<Organisation> selectedQualifications) {
-            log('--selectedEntities----${selectedQualifications.length}');
-            BlocProvider.of<GuardingMasterDataDetailsCubit>(
-              context,
-            ).updateDropdownValues(qualifications: selectedQualifications);
-            Navigator.of(context).pop(); // Close the dialog
-          },
-          leftImageName: AppIcon.addicon, // Provide your left button icon
-        );
-      },
-    );
-  }
+  // void _showQualificationSelectionDialog(
+  //   BuildContext context,
+  //   GuardingMasterDataDetailsState state,
+  // ) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext dialogContext) {
+  //       return CustomMultipleSelectionListTexts(
+  //         onLeftButtonTap: () {
+  //           Navigator.pop(context);
+  //           showDialog(
+  //             context: context,
+  //             builder: (BuildContext dialogContext) {
+  //               return const AddNewFields(
+  //                 title: Constants.addQualificationType,
+  //               );
+  //             },
+  //           );
+  //         },
+  //         allItems: state.listOfQualifications ?? [],
+  //         selectedValues: state.model.qualifications ?? [],
+  //         onTap: (List<Organisation> selectedQualifications) {
+  //           log('--selectedEntities----${selectedQualifications.length}');
+  //           BlocProvider.of<GuardingMasterDataDetailsCubit>(
+  //             context,
+  //           ).updateDropdownValues(qualifications: selectedQualifications);
+  //           Navigator.of(context).pop(); // Close the dialog
+  //         },
+  //         leftImageName: AppIcon.addicon, // Provide your left button icon
+  //       );
+  //     },
+  //   );
+  // }
 
   void checkPhysicallyFit({
     required PhysicallyFitModel physicallyFitModel,

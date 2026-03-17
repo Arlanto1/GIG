@@ -68,6 +68,7 @@ class ArticleFoundModel {
    User? idCardEmployee;
    User? idCardManager;
    String? lock;
+   String? modificationHistory;
 
   ArticleFoundModel({
     this.id,
@@ -110,6 +111,7 @@ class ArticleFoundModel {
     this.idCardEmployee,
     this.idCardManager,
     this.lock,
+    this.modificationHistory,
   });
 
   ArticleFoundModel.fromJson(Map<String, dynamic> json)
@@ -152,7 +154,7 @@ class ArticleFoundModel {
         safeStoragePlace = json['safeStoragePlace'] as String?,
         idCardEmployee = (json['idCardEmployee'] as Map<String,dynamic>?) != null ? User.fromJson(json['idCardEmployee'] as Map<String,dynamic>) : null,
         idCardManager = (json['idCardManager'] as Map<String,dynamic>?) != null ? User.fromJson(json['idCardManager'] as Map<String,dynamic>) : null,
-
+        modificationHistory = (json['modificationHistory']) as String?,
       lock = json['lock'] as String?;
 
   Map<String, dynamic> toJson() => {
@@ -196,6 +198,7 @@ class ArticleFoundModel {
     'idCardEmployee':idCardEmployee?.toJson(),
     'idCardManager':idCardManager?.toJson(),
     'lock':lock,
+    'modificationHistory':modificationHistory,
   };
 }
 

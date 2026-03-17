@@ -4,7 +4,6 @@ import 'dart:ui';
 import 'package:db_atom/index.dart';
 
 import '../../model/opsTeamSitutationModel.dart';
-import '../../model/requestmodel/buildingRepRequestModel.dart';
 import '../../services/opsSituationUpdateService.dart';
 import '../cubits/opsSituationUpdateDetailsCubit.dart';
 
@@ -840,7 +839,7 @@ class _OpsSituationUpdateDetailsViewState
                                       ],
                                     ),
                                   );
-                                }).toList(),
+                                }),
                               ],
                             ),
                           ),
@@ -1167,7 +1166,7 @@ class _OpsSituationUpdateDetailsViewState
                                       ],
                                     ),
                                   );
-                                }).toList(),
+                                }),
                               ],
                             ),
                           ),

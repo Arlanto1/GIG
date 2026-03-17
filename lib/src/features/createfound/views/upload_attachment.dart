@@ -624,6 +624,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:app_settings/app_settings.dart';
 import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
@@ -636,7 +637,6 @@ import 'package:db_atom/src/features/lawenforcement/controllers/law_enforcement_
 import 'package:db_atom/src/features/material_movement/material_movement_details/cubits/material_movement_details_cubit.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/createpassmgmt/controllers/create_pass_mgmt_state.dart';
 import 'package:db_atom/src/models/image_content.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -883,27 +883,102 @@ class UploadAttachmentState extends State<UploadAttachment> with WidgetsBindingO
     }
   }
 
+  // void showImagePicker(BuildContext context) {
+  //   showModalBottomSheet<void>(
+  //     shape: RoundedRectangleBorder(
+  //       borderRadius: BorderRadius.circular(8.0),
+  //     ),
+  //     backgroundColor: Colors.white,
+  //     context: context,
+  //     builder: (builder) {
+  //       return Card(
+  //         child: SingleChildScrollView(
+  //           child: Container(
+  //             height: 180,
+  //             padding: const EdgeInsets.all(12),
+  //             child: Column(
+  //               children: [
+  //                 const Text(
+  //                     Constants.captureOrUpload,
+  //                     style: Styles.textStyleRegularGrey16),
+  //                 const SizedBox(height: 10),
+  //                 Row(
+  //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                   children: [
+  //                     _pickerButton(
+  //                       icon: AppIcon.galleryIcon,
+  //                       label: Constants.gallery,
+  //                       onTap: () {
+  //                         _askPermission(FileDocumnets.Photo);
+  //                         Navigator.pop(context);
+  //                       },
+  //                     ),
+  //                     _pickerButton(
+  //                       icon: AppIcon.cameraIcon,
+  //                       label: Constants.camera,
+  //                       onTap: () {
+  //                         _askPermission(FileDocumnets.Camera);
+  //                         Navigator.pop(context);
+  //                       },
+  //                     ),
+  //                     _pickerButton(
+  //                       icon: AppIcon.documentsIcon,
+  //                       label: Constants.document,
+  //                       onTap: () {
+  //                         _getDocumentFileslist();
+  //                         Navigator.pop(context);
+  //                       },
+  //                     ),
+  //                   ],
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //         ),
+  //       );
+  //     },
+  //   ).then((value) => Navigator.pop(context));
+  // }
+
+  // import 'dart:ui';
+
   void showImagePicker(BuildContext context) {
     showModalBottomSheet<void>(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      backgroundColor: Colors.white,
       context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
       builder: (builder) {
-        return Card(
-          child: SingleChildScrollView(
+        return ClipRRect(
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(25)),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
             child: Container(
-              height: 180,
-              padding: const EdgeInsets.all(12),
+              height: 190,
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                borderRadius:
+                const BorderRadius.vertical(top: Radius.circular(25)),
+                border: Border.all(
+                  color: Colors.white.withValues(alpha: 0.30),
+                  width: 0.6,
+                ),
+              ),
+
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text(Constants.captureOrUpload,
-                      style: Styles.textStyleRegularGrey16),
-                  const SizedBox(height: 10),
+
+                  const Text(
+                    Constants.captureOrUpload,
+                    style: Styles.textStyleRegularGrey16,
+                  ),
+
+                  const SizedBox(height: 20),
+
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
+
                       _pickerButton(
                         icon: AppIcon.galleryIcon,
                         label: Constants.gallery,
@@ -912,6 +987,7 @@ class UploadAttachmentState extends State<UploadAttachment> with WidgetsBindingO
                           Navigator.pop(context);
                         },
                       ),
+
                       _pickerButton(
                         icon: AppIcon.cameraIcon,
                         label: Constants.camera,
@@ -920,6 +996,7 @@ class UploadAttachmentState extends State<UploadAttachment> with WidgetsBindingO
                           Navigator.pop(context);
                         },
                       ),
+
                       _pickerButton(
                         icon: AppIcon.documentsIcon,
                         label: Constants.document,
@@ -938,7 +1015,6 @@ class UploadAttachmentState extends State<UploadAttachment> with WidgetsBindingO
       },
     ).then((value) => Navigator.pop(context));
   }
-
   Widget _pickerButton({
     required String icon,
     required String label,

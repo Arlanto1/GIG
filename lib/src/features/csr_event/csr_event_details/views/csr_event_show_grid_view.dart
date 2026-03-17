@@ -3,14 +3,14 @@ import 'dart:ui';
 import '../../../../../index.dart';
 import '../../services/csr_event_services.dart';
 
-class CsrEventShowGridView extends StatelessWidget {
+class CsrEventShowGridView extends StatefulWidget {
   final int id;
   final String title;
   final int eventStatus;
   final bool isCSREvent;
   final ShowEPGridsModel showEPGridsModel;
 
-  CsrEventShowGridView({
+  const CsrEventShowGridView({
     super.key,
     required this.id,
     required this.title,
@@ -19,6 +19,11 @@ class CsrEventShowGridView extends StatelessWidget {
     required this.isCSREvent,
   });
 
+  @override
+  State<CsrEventShowGridView> createState() => _CsrEventShowGridViewState();
+}
+
+class _CsrEventShowGridViewState extends State<CsrEventShowGridView> {
   final CSREventServices services = CSREventServices();
 
   @override
@@ -29,9 +34,10 @@ class CsrEventShowGridView extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar: BaseAppBar().buildAppHeader(
         context: context,
-        title: title.isNotEmpty
-            ? title
-            : Constants.eventProtectionTitle,
+        title: widget.isCSREvent == true ? Constants.cSREventList : Constants.sportEventList,
+        // title.isNotEmpty
+        //     ? title
+        //     : Constants.eventProtectionTitle,
         showPopUp: false,
         showSaveButton: false,
         showSubmitButton: false,
@@ -89,26 +95,23 @@ class CsrEventShowGridView extends StatelessWidget {
                               bool? showGuardInfo = false;
 
                               final res =
-                              await services.showGuardInfo(id);
+                              await services.showGuardInfo(widget.id);
                               showGuardInfo =
                                   res.showGuardInfo;
 
                               nav.pushNamed(
-                                title ==
-                                    Constants
-                                        .annualPowerShutdownListDetails
-                                    ? annualPowerShutdownListDetailsRoute
-                                    : csrEventGeneralInfoRoute,
+                              csrEventGeneralInfoRoute,
                                 arguments: {
-                                  'id': id,
+                                  'id': widget.id,
                                   'showGuardInfo':
                                   showGuardInfo,
+                                  'isCSREvent': widget.isCSREvent
                                 },
                               );
                             },
                           ),
 
-                          if (showEPGridsModel.before ?? false)
+                          if (widget.showEPGridsModel.before ?? false)
                             _rowCard(
                               iconData: Icons.event,
                               label:
@@ -120,20 +123,20 @@ class CsrEventShowGridView extends StatelessWidget {
                                   arguments: {
                                     'title': Constants
                                         .beforeEventInformation,
-                                    'id': id,
+                                    'id': widget.id.toString(),
                                     'eventDuration': 0,
                                     ConstantsArgument
                                         .isCSREvent:
-                                    isCSREvent,
+                                    widget.isCSREvent,
                                     ConstantsArgument.editForm:
-                                    showEPGridsModel
+                                    widget.showEPGridsModel
                                         .editBefore,
                                   },
                                 );
                               },
                             ),
 
-                          if (showEPGridsModel.during ?? false)
+                          if (widget.showEPGridsModel.during ?? false)
                             _rowCard(
                               iconData: Icons.event,
                               label: Constants
@@ -145,39 +148,56 @@ class CsrEventShowGridView extends StatelessWidget {
                                   arguments: {
                                     'title': Constants
                                         .duringEventInformation,
-                                    'id': id,
+                                    'id': widget.id.toString(),
                                     'eventDuration': 1,
-                                    ConstantsArgument.editForm:
-                                    showEPGridsModel
-                                        .editDuring,
                                     ConstantsArgument
                                         .isCSREvent:
-                                    isCSREvent,
+                                    widget.isCSREvent,
+                                    ConstantsArgument.editForm:
+                                    widget.showEPGridsModel
+                                        .during,
                                   },
                                 );
                               },
                             ),
 
-                          if (showEPGridsModel.after ?? false)
+                          if (widget.showEPGridsModel.after ?? false)
                             _rowCard(
                               iconData: Icons.event,
                               label: Constants
                                   .afterEventInformation,
                               onTap: () {
+                                // Navigator.pushNamed(
+                                //   context,
+                                //   eventInfoRoute,
+                                //   arguments: {
+                                //     'title': Constants
+                                //         .afterEventInformation,
+                                //     'id': widget.id,
+                                //     'eventDuration': 2,
+                                //     ConstantsArgument.editForm:
+                                //     widget.showEPGridsModel
+                                //         .editAfter,
+                                //     ConstantsArgument
+                                //         .isCSREvent:
+                                //     widget.isCSREvent,
+                                //   },
+                                // );
+
                                 Navigator.pushNamed(
                                   context,
                                   eventInfoRoute,
                                   arguments: {
                                     'title': Constants
                                         .afterEventInformation,
-                                    'id': id,
+                                    'id': widget.id.toString(),
                                     'eventDuration': 2,
-                                    ConstantsArgument.editForm:
-                                    showEPGridsModel
-                                        .editAfter,
                                     ConstantsArgument
                                         .isCSREvent:
-                                    isCSREvent,
+                                    widget.isCSREvent,
+                                    ConstantsArgument.editForm:
+                                    widget.showEPGridsModel
+                                        .editAfter,
                                   },
                                 );
                               },

@@ -57,6 +57,7 @@ class Constants {
   static const String dutyPostNameMasterModuleCode = 'SSDP';
   static const String attendanceModuleCode = 'ATD';
   static const String annualPowerShutDownModuleCode = 'APS';
+  static const String ticketingSystemModuleCode = 'TS';
 
   /// Rank Types for Contact Details
   static const String contactGeneralRank = 'CONTACT_GENERAL_RANK';
@@ -159,8 +160,6 @@ class Constants {
   static const String copyrightText = "Copyright © 2024 Arlanto.";
   static const String submit = "Submit";
 
-  static const String ticketingSystem = "Ticketing System";
-  static const String ticketingSystemListTitle = "Bugs";
 
   static const String locationPermissionError =
       'Please enable location services!';
@@ -189,6 +188,8 @@ class Constants {
       'Annual Power Shutdown List Details';
   static const String sCRI = 'SCRI';
   static const String incidentManagementTitle = 'Incident Management';
+  static const String transportIncidentTitle = 'Transport Incident List';
+  static const String medicalEmergencyTitle = 'Medical Emergency List';
   static const String shiftOccurrence = 'Shift Occurrence';
   static const String occurrenceListTitle = 'Occurrence List';
   static const String materialMovement = 'Material Movement';
@@ -720,6 +721,7 @@ class Constants {
   static const String closureTargetDate = 'Target Date of Closure';
 
   static const String assetType = 'Asset Type';
+  static const String totalAttendies = 'Total Attendies';
 
   //Occurrence
   static const String createOccurrence = 'Create Occurrence';
@@ -1092,9 +1094,34 @@ class Constants {
   static const String eventMgmtVendorStaffList= 'Event Management Vendor Staff List';
   static const String nameNGOVendorsEngaged= 'Name of NGO/Vendors engaged for event';
   static const String map= 'Map';
+  static const String isAmbulanceStationed = 'Is Ambulance static const String map';
+  static const String photoGraPhyReqired = 'Photography/Videography required';
+  static const String photoGraPhyReqiredEvidence = 'Photography/Videography required Evidence';
+  static const String vendorStaffDetailsUpload = 'Upload Event Management Vendor Staff Details';
+  static const String mediaExposure = 'Is there media exposure to the event?';
+  static const String senstitiveInfoRisk = 'Sensitive Information Risk';
+  static const String assistanceInfo = 'Assistance and support Info';
 
 
+  /// Ticketing System
+  static const String ticketingSystem = "Ticketing System";
+  static const String ticketingSystemListTitle = "Bugs";
+  static const String ticketType = "Ticket Type";
+  static const String priorityType = "Priority Type";
+  static const String assignee = "Assignee To";
+  static const String ticketRaisedFor = "Ticket raised for";
+  static const String ragStatus = "Rag Status";
+  static const String subject = "Subject";
+  static const String issueDes = "Issue Description";
+  static const String affectedModules = "Affected Modules";
 
+
+  static const String modificationHistory = 'Modification History';
+
+
+  /// Transport/Medical Incident
+  static const String transportIncidentList = 'Transport Incident List';
+  static const String medicalEmergencyList = 'Medical Emergency List';
 
 }
 

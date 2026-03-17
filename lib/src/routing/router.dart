@@ -142,4 +142,5 @@ const String csrEventListRoute = '/csrEventListRoute';
 const String csrEventDetailsTabRoute = '/csrEventDetailsTabRoute';
 const String csrEventGeneralInfoRoute = '/csrEventGeneralInfoRoute';
 
-const String csrEventInfoRoute = '/csrEventInfoRoute';
+const String transportMedicalListRoute = '/transportMedicalListRoute';
+const String transportMedicalDetailsRoute = '/aiChatDetailsRoute';

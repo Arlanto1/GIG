@@ -39,6 +39,7 @@ class CSRGeneralInfoState extends Equatable {
     List<User>? entrySecurities,
     required int? eventId,
     List<String>? participationDate,
+
   }) {
     return CSRGeneralInfoState(
       status: FormStatus.initial,

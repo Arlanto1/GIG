@@ -690,7 +690,8 @@ class _OtpVerifyState extends State<OtpVerify> {
 
     final size = MediaQuery.of(context).size;
     final height = size.height;
-
+    double screenWidth = MediaQuery.of(context).size.width;
+    double fieldWidth = (screenWidth - 120) / 6; // subtract spacing
     return Scaffold(
       // appBar: AppHeader(
       //   isTitleCenter: false,
@@ -850,16 +851,16 @@ class _OtpVerifyState extends State<OtpVerify> {
                               // height: MediaQuery.of(context).size.width * 0.9,
                               padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 13.4),
                               decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.30),
+                                color: Colors.white.withValues(alpha: 0.30),
                                 borderRadius: BorderRadius.circular(20),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black.withOpacity(0.07),
+                                    color: Colors.black.withValues(alpha: 0.07),
                                     blurRadius: 16,
                                     offset: const Offset(0, 4),
                                   ),
                                 ],
-                                border: Border.all(color: Colors.white.withOpacity(0.25)),
+                                border: Border.all(color: Colors.white.withValues(alpha: 0.25)),
                               ),
                               child: SingleChildScrollView(
                                 child: Form(
@@ -895,12 +896,12 @@ class _OtpVerifyState extends State<OtpVerify> {
                                         numberOfFields: 6,
                                         borderColor: const Color(0xFF000080),
                                         showFieldAsBox: true,
-                                        fieldWidth: MediaQuery.of(context).size.width * 0.12,
+                                        fieldWidth: fieldWidth,
                                         fillColor: Colors.blueAccent,
                                         hasCustomInputDecoration: true,
                                         decoration: InputDecoration(
                                           filled: true,
-                                          fillColor: Colors.white.withOpacity(0.4),
+                                          fillColor: Colors.white.withValues(alpha: 0.4),
                                           border: OutlineInputBorder(
                                             borderRadius: BorderRadius.circular(4.0),
                                             // borderSide: BorderSide(color: const Color(0xFF512DA8)),
@@ -1031,11 +1032,11 @@ class _OtpVerifyState extends State<OtpVerify> {
                         children: [
                           Text(
                             Constants.copyrightText,
-                            style: Styles.textStyleRegularGrey14.copyWith(color: Colors.white.withOpacity(0.74)),
+                            style: Styles.textStyleRegularGrey14.copyWith(color: Colors.white.withValues(alpha: 0.74)),
                           ),
                           Text(
                             'Version: ${Platform.isIOS ? ConstantAppVersions.iOSVersion : ConstantAppVersions.androidVersion}',
-                            style: Styles.textStyleRegularGrey14.copyWith(color: Colors.white.withOpacity(0.74)),
+                            style: Styles.textStyleRegularGrey14.copyWith(color: Colors.white.withValues(alpha: 0.74)),
                           ),
                         ],
                       ),

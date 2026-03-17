@@ -383,7 +383,7 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
       }
       log('--data----${data.length}----');
 
-      // state.model.evidenceDocuments = data;
+      state.model.images = data;
       emit(
         state.copyWith(
           // eventId: eventIds,
@@ -441,19 +441,11 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
       emit(state.copyWith(
         model: state.model,
       ));
-    // }
-    // else {
-    //   imageContent.type =
-    //       ConstantsIntValue.keyIssuanceSecuritySignImageContentType;
-    //   state.model.claimantSign = imageContent;
-    //   emit(state.copyWith(
-    //     model: state.model,
-    //   ));
-    // }
   }
 
 
-  void submitForm({bool isSaveOnly = false}) async {
+  void submitForm({bool isSaveOnly = false, required SignatureController claimantSignatureController,
+  }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -468,6 +460,8 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
       int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
       state.model.inputDate = inputDate.toString();
     }
+
+    await pushSignature(controller: claimantSignatureController, isReceiverSignature: true);
 
     ArticleFoundRequest request =
     ArticleFoundRequest(articleFoundModel: state.model);

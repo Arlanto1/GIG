@@ -74,7 +74,9 @@ class _NotificationsViewState extends State<NotificationsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.lavender,
+      backgroundColor: Colors.transparent,
+      extendBody: true,
+      extendBodyBehindAppBar: true,
       appBar: BaseAppBar().buildAppHeader(
         context: context,
         title: Constants.notifications,
@@ -114,162 +116,53 @@ class _NotificationsViewState extends State<NotificationsView> {
           if (state.items.isEmptyOrNull) {
             return const NoRecordFoundWidget();
           }
-          return Container(
-            margin: allMargin4,
-            decoration: const ShapeDecoration(
-              color: AppColors.lavender,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
+          return Stack(
+            children: [
+              //  Background
+              Positioned.fill(
+                child: Image.asset(
+                  'assets/images/bg2.png',
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
-            child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Expanded(
-                  child: CustomMaterialIndicator(
-                    onRefresh: () => _onRefresh(),
-                    backgroundColor: Colors.white,
-                    indicatorBuilder: (context, controller) {
-                      return const Padding(
-                        padding: EdgeInsets.all(6.0),
-                        child: BaseLoader(),
-                      );
-                    },
-                    child: ListView.builder(
-                      controller: _scrollController,
-                      itemCount: state.hasReachedMax
-                          ? state.items.length
-                          : state.items.length + 1,
-                      itemBuilder: (context, index) {
-                        if (index < state.items.length) {
-                          return index >= state.items.length
-                              ? const BaseLoader()
-                              : NotificationTile(item: state.items[index]);
-                        }
-                        return null;
-                      },
+              Positioned.fill(
+                child: ClipRect(
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
+                    child: Container(
+                      color: Colors.black.withValues(alpha: 0.2),
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+
+              CustomMaterialIndicator(
+                onRefresh: () => _onRefresh(),
+                backgroundColor: Colors.white,
+                indicatorBuilder: (context, controller) {
+                  return const Padding(
+                    padding: EdgeInsets.all(6.0),
+                    child: BaseLoader(),
+                  );
+                },
+
+                child: ListView.separated(
+                  controller: _scrollController,
+                  itemCount: state.items.length,
+                  separatorBuilder: (context, index) =>
+                      const SizedBox(height: 12),
+                  itemBuilder: (context, index) {
+                    return NotificationTile(item: state.items[index]);
+                  },
+                ),
+              ),
+            ],
           );
         },
       ),
     );
   }
 }
-
-// class NotificationTile extends StatelessWidget {
-//   const NotificationTile({
-//     super.key,
-//     required this.item,
-//   });
-//
-//   final NotificationModel item;
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsets.all(0.5),
-//       child: Slidable(
-//         key: key,
-//         // The end action pane is the one at the right or the bottom side.
-//         endActionPane: ActionPane(
-//           motion: const ScrollMotion(),
-//           children: [
-//             SlidableAction(
-//               onPressed: deleteNotification,
-//               backgroundColor: const Color(0xFFFE4A49),
-//               foregroundColor: Colors.white,
-//               icon: Icons.delete,
-//               label: 'Remove',
-//             ),
-//           ],
-//         ),
-//         child: InkWell(
-//           onTap: () {
-//             // Mark Notification as Read
-//             // BlocProvider.of<nb.NotificationsBloc>(context).add(nb.ReadRecord(item.id!));
-//             Navigator.pushNamed(
-//               context,
-//               notificationDetailsViewRoute,
-//               arguments: {
-//                 ConstantsArgument.id: item.id.toString(),
-//               },
-//             );
-//             // Your onTap logic here
-//             // showDialog(
-//             //   context: context,
-//             //   builder: (BuildContext dialogContext) {
-//             //     return const NotificationPopUpItems();
-//             //   },
-//             // );
-//           },
-//           borderRadius: BorderRadius.circular(8),
-//           child: ColoredBox(
-//             color: item.status == 0
-//                 ? AppColors.white
-//                 : Colors.transparent,
-//             child: Padding(
-//               padding: const EdgeInsets.all(15),
-//               child: Column(
-//                 mainAxisAlignment: MainAxisAlignment.start,
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   Row(
-//                     children: [
-//                       Expanded(
-//                         flex: 9,
-//                         child: Text(
-//                           '${item.content?.subject}',
-//                           overflow: TextOverflow.ellipsis,
-//                           style: const TextStyle(
-//                             fontWeight: FontWeight.bold,
-//                           ),
-//                         ),
-//                       ),
-//                       const Spacer(),
-//                       Text(
-//                         Utils.timestampToDateConversion(
-//                           int.tryParse(item.createdDate ?? ''),
-//                           Constants.dateFormat,
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                   Row(
-//                     children: [
-//                       Expanded(
-//                         flex: 2,
-//                         child: Text(
-//                           '${item.email}',
-//                           overflow: TextOverflow.ellipsis,
-//                         ),
-//                       ),
-//                       const Spacer(),
-//                       Text(
-//                         Utils.timestampToDateConversion(
-//                           int.tryParse(item.createdDate ?? ''),
-//                           Constants.timeFormat,
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-//
-//   void deleteNotification(BuildContext context) {
-//     BlocProvider.of<nb.NotificationsBloc>(context)
-//         .add(nb.DeleteRecord(item.id!));
-//   }
-// }
 
 class NotificationTile extends StatelessWidget {
   const NotificationTile({
@@ -297,7 +190,7 @@ class NotificationTile extends StatelessWidget {
                 decoration: BoxDecoration(
                   // color: Colors.red.shade600,
                   gradient: LinearGradient(
-                    colors: [Colors.red, Colors.red[600]!,Colors.orange[600]!],
+                    colors: [Colors.red, Colors.red[600]!, Colors.orange[600]!],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
@@ -322,7 +215,6 @@ class NotificationTile extends StatelessWidget {
             ),
           ],
         ),
-
         child: InkWell(
           onTap: () {
             Navigator.pushNamed(
@@ -337,29 +229,7 @@ class NotificationTile extends StatelessWidget {
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
               child: Container(
-               margin: const EdgeInsets.symmetric(horizontal: 6),
-                // decoration: BoxDecoration(
-                //   gradient: LinearGradient(
-                //     colors: [
-                //       Colors.white.withValues(alpha: 0.15),
-                //       Colors.white.withValues(alpha: 0.20),
-                //     ],
-                //     begin: Alignment.topLeft,
-                //     end: Alignment.bottomRight,
-                //   ),
-                //   borderRadius: BorderRadius.circular(16),
-                //   border: Border.all(
-                //     color: Colors.white.withValues(alpha: 0.4),
-                //     width: 1,
-                //   ),
-                //   boxShadow: [
-                //     BoxShadow(
-                //       color: Colors.white.withValues(alpha: 0.05),
-                //       blurRadius: 8,
-                //       offset: const Offset(0, 4),
-                //     ),
-                //   ],
-                // ),
+                margin: const EdgeInsets.symmetric(horizontal: 6),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [

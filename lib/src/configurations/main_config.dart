@@ -4,11 +4,8 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/utils/device_infomation.dart';
 
 export 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../firebase_options.dart';
-import '../features/app_theme/themeController.dart';
-// import '../features/app_theme/themeController.dart';
 
 
 class MainConfig with WidgetsBindingObserver {

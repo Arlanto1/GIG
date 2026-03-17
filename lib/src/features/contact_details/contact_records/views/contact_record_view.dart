@@ -133,7 +133,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
               child: Container(
-                color: Colors.black.withOpacity(0.2),
+                color: Colors.black.withValues(alpha: 0.2),
               ),
             ),
           ),

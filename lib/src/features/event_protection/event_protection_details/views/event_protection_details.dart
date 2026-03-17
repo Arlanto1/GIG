@@ -428,7 +428,7 @@ class EventProtectionDetails extends StatelessWidget {
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
               child: Container(
-                color: Colors.black.withOpacity(0.15),
+                color: Colors.black.withValues(alpha: 0.15),
               ),
             ),
           ),

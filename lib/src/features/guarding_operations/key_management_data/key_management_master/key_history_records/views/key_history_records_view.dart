@@ -90,7 +90,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
 
         log('parentIsEligibleToEdit ${widget.parentIsEligibleToEdit}');
         log('hasPermission ${!hasPermission}');
-        log('lockEmpty ${lockEmpty}');
+        log('lockEmpty $lockEmpty');
         log('parentStatus ${widget.parentStatus != -1}');
         log('parentStatus ${widget.parentStatus == 0}');
         log('keyLostHistoryScreen ${!keyLostHistoryScreen}');
@@ -234,13 +234,23 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                       child: BackdropFilter(
                         filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
                         child: Container(
-                          color: Colors.black.withOpacity(0.2),
+                          color: Colors.black.withValues(alpha: 0.2),
                         ),
                       ),
                     ),
                   ),
-                  ListView.builder(
+                    Positioned(
+                    top: MediaQuery
+                        .of(context)
+                  .padding
+                  .top + kToolbarHeight + -40,
+              // search bar height ~64+padding
+              left: 0,
+              right: 0,
+              bottom: 0,
+                  child: ListView.builder(
                     controller: _scrollController,
+                    padding: const EdgeInsets.only(bottom: 100),
                     itemCount: state.hasReachedMax
                         ? state.list.length
                         : state.list.length + 1,
@@ -322,7 +332,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                                                 .withValues(alpha: 0.09),
                                             // Color(0xFF6474C6).withOpacity(0.14)
                                           ],
-                                          stops: [0.02, 0.35, 1],
+                                          stops: const [0.02, 0.35, 1],
                                           begin: Alignment.topCenter,
                                           end: Alignment.bottomCenter,
                                         ),
@@ -432,7 +442,7 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                       return const Center(child: SizedBox());
                     },
                   ),
-                ],
+                    ),],
               );
             },
           ),

@@ -119,8 +119,8 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
         //     (int.tryParse('${180}') ?? 0) * 1000)
         //     .toString();
         initialisedStartDate = DateTime.now().toString();
-        log('initialisedStartDate ${initialisedStartDate}');
-        log('initialisedToDate ${initialisedToDate}');
+        log('initialisedStartDate $initialisedStartDate');
+        log('initialisedToDate $initialisedToDate');
         handedOverToController.text = state.model.employeeID != null
             ? '${state.model.handedOverTo?.firstName ?? ''} ${state.model.handedOverTo?.lastName ?? ''}  (${state.model.handedOverTo?.email ?? ''})'
             : '';

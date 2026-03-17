@@ -66,7 +66,7 @@ class EventInfoCubit extends Cubit<EventInfoState> {
       List<String> emails = Utils().splitStringAfterComma(model.emails ?? '');
       /// 4️⃣ NOTIFICATION LIST (🔥 NEW)
       final notificationResponse =
-      await services.getNotificationList(eventProtectionId);
+      await services.getNotificationList(eventProtectionId, eventDurationType);
 
       final notificationItems = notificationResponse.data ?? [];
 
@@ -81,8 +81,8 @@ class EventInfoCubit extends Cubit<EventInfoState> {
             status: FormStatus.initial,
             model: model,
             additionalEmails: emails,
-            guardAttachments: model.image,
-            loadAttachments: model.image,
+            guardAttachments: model.images,
+            loadAttachments: model.images,
             foundArticles: foundArticles.items,
           emailTemplates: emailTemplates,
         ),
@@ -112,36 +112,73 @@ class EventInfoCubit extends Cubit<EventInfoState> {
         status: FormStatus.loading,
       ),
     );
-    log('-onModelValueChange--${model.email}-');
+    log('-onModelValueChange--${model.notification}-');
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
-  void addAttachment({
-    List<ImageContent>? data,
-    List<ImageContent>? guardImages,
-  }) async {
+  // void addAttachment({
+  //   // List<ImageContent>? data,
+  //   List<ImageContent>? guardImages,
+  // }) async {
+  //   emit(
+  //     state.copyWith(
+  //       status: FormStatus.addAttachment,
+  //     ),
+  //   );
+  //   int eventIds = math.Random.secure().nextInt(5);
+  //
+  //   log('--guardImages---${guardImages?.length}----');
+  //   // if (data != null) {
+  //   //   for (ImageContent image in data) {
+  //   //     image.eventProtectionId = int.tryParse(eventProtectionId);
+  //   //     // image.eventNotificationId = int.tryParse(ev)
+  //   //     image.type = 1;
+  //   //   }
+  //   //
+  //     if (guardImages != null) {
+  //       if (state.model.images == null) {
+  //         state.model.images == [];
+  //       }
+  //       state.model.images?.addAll(guardImages);
+  //       emit(
+  //         state.copyWith(
+  //           eventId: eventIds,
+  //           model: state.model,
+  //           guardAttachments: guardImages,
+  //           status: FormStatus.initial,
+  //         ),
+  //       );
+  //     // }
+  //   }
+  // }
+
+  void addAttachment(List<ImageContent>? data) async {
+    log('--state.status-1---${state.status}----');
     emit(
       state.copyWith(
-        status: FormStatus.addAttachment,
+        loadAttachments: [], // ✅ Clear first
+        status: FormStatus.loading,
       ),
     );
     int eventIds = math.Random.secure().nextInt(5);
-
-    log('--guardImages---${guardImages?.length}----');
-    if (guardImages != null) {
-      if (state.model.image == null) {
-        state.model.image == [];
+    if (data != null) {
+      for (ImageContent image in data) {
+        image.type = 0;
       }
-      state.model.image?.addAll(guardImages);
+      log('--data----${data.length}----');
 
+      state.model.images = data;
       emit(
         state.copyWith(
           eventId: eventIds,
           model: state.model,
-          guardAttachments: guardImages,
+          // loadAttachments: data,
+          loadAttachments: data,
           status: FormStatus.initial,
         ),
       );
+
+      log('--state.status--3--${state.status}----');
     }
   }
 
@@ -152,20 +189,8 @@ class EventInfoCubit extends Cubit<EventInfoState> {
     ));
 
     try {
-      final response =
-      await services.getEventInfo(id, eventDurationType);
-
-      // final exists = state.emailTemplates.any(
-      //       (e) => e["id"] == response.id,
-      // );
-      //
-      // if (!exists) {
-      //   final updatedTemplates = List<Map<String, dynamic>>.from(
-      //     state.emailTemplates,
-      //   )..add({
-      //     "id": response.id,
-      //     "html": response.email,
-      //   });
+      /// ✅ CALL CORRECT API
+      final response = await services.getEventInfo(id,eventDurationType);
 
       final exists = (state.emailTemplates ?? []).any(
             (e) => e["id"] == response.id,
@@ -176,17 +201,19 @@ class EventInfoCubit extends Cubit<EventInfoState> {
           state.emailTemplates ?? [],
         )..add({
           "id": response.id,
-          "html": response.email,
+          "html": response.notification,
         });
 
         emit(state.copyWith(
           emailTemplates: updatedTemplates,
+          draftTemplateHtml: response.notification,
           status: FormStatus.templateLoaded,
           isTemplateLoading: false,
         ));
       } else {
         emit(state.copyWith(
-          status: FormStatus.initial,
+          draftTemplateHtml: response.notification,
+          status: FormStatus.templateLoaded,
           isTemplateLoading: false,
         ));
       }
@@ -198,6 +225,60 @@ class EventInfoCubit extends Cubit<EventInfoState> {
       ));
     }
   }
+
+  // Future<void> getEPEmailInfoById(String id) async {
+  //   emit(state.copyWith(
+  //     status: FormStatus.templateLoading,
+  //     isTemplateLoading: true,
+  //   ));
+  //
+  //   try {
+  //     final response =
+  //     await services.getEventInfo(id, eventDurationType);
+  //
+  //     // final exists = state.emailTemplates.any(
+  //     //       (e) => e["id"] == response.id,
+  //     // );
+  //     //
+  //     // if (!exists) {
+  //     //   final updatedTemplates = List<Map<String, dynamic>>.from(
+  //     //     state.emailTemplates,
+  //     //   )..add({
+  //     //     "id": response.id,
+  //     //     "html": response.email,
+  //     //   });
+  //
+  //     final exists = (state.emailTemplates ?? []).any(
+  //           (e) => e["id"] == response.id,
+  //     );
+  //
+  //     if (!exists) {
+  //       final updatedTemplates = List<Map<String, dynamic>>.from(
+  //         state.emailTemplates ?? [],
+  //       )..add({
+  //         "id": response.id,
+  //         "html": response.email,
+  //       });
+  //
+  //       emit(state.copyWith(
+  //         emailTemplates: updatedTemplates,
+  //         status: FormStatus.templateLoaded,
+  //         isTemplateLoading: false,
+  //       ));
+  //     } else {
+  //       emit(state.copyWith(
+  //         status: FormStatus.initial,
+  //         isTemplateLoading: false,
+  //       ));
+  //     }
+  //   } catch (e) {
+  //     emit(state.copyWith(
+  //       status: FormStatus.error,
+  //       isTemplateLoading: false,
+  //       message: e.toString(),
+  //     ));
+  //   }
+  // }
   // Future<void> getEPEmailInfoById(String id) async {
   //   emit(state.copyWith(
   //     isTemplateLoading: true,
@@ -305,19 +386,39 @@ class EventInfoCubit extends Cubit<EventInfoState> {
     return await services.getNotificationById(id);
   }
 
+  // Future<EventInfoResponse> getNotificationDetailsById(String id) async {
+  //   return await services.getEventInfo(id,eventDurationType);
+  // }
+
+  // In EventInfoCubit
+  Future<EventInfoResponse> getNotificationDetailsById(String id) async {
+    final response = await services.getEventInfo(id, eventDurationType);
+
+
+    log("API images: ${response.images}");
+    log("API images length: ${response.images?.length}");
+    // ✅ Always sync attachments from the response
+    emit(
+      state.copyWith(
+        loadAttachments: response.images ?? [], // clears old images if API returns []
+      ),
+    );
+
+    return response;
+  }
+
   Future<void> submitTemplateAndRefresh({
     required String html,
-     int? id,
+    int? id,
   }) async {
     emit(state.copyWith(status: FormStatus.loading));
 
     try {
-      /// 1️⃣ SUBMIT TEMPLATE
       final eventInfo = EventInfoResponse(
         id: id,
-        email: html,
+        notification: html,
         emails: state.model.emails,
-        image: state.guardAttachments,
+        images: state.model.images, // ✅ FIXED
       );
 
       final request = NotificationEmailRequest(
@@ -330,18 +431,16 @@ class EventInfoCubit extends Cubit<EventInfoState> {
         epId: int.parse(eventProtectionId),
       );
 
-      /// 2️⃣ FETCH LIST (GET API)
       final listResponse =
-      await services.getNotificationList(eventProtectionId);
+      await services.getNotificationList(eventProtectionId,eventDurationType);
 
       final items = listResponse.data ?? [];
 
-      /// 3️⃣ UPDATE STATE
       emit(state.copyWith(
         status: FormStatus.success,
         emailTemplates: items.map((e) => {
-          "id": e.id,                   // ✅ 385, 386, etc
-          "html": e.notification,       // ✅ HTML
+          "id": e.id,
+          "html": e.notification,
         }).toList(),
       ));
     } catch (e) {
@@ -351,6 +450,52 @@ class EventInfoCubit extends Cubit<EventInfoState> {
       ));
     }
   }
+  // Future<void> submitTemplateAndRefresh({
+  //   required String html,
+  //    int? id,
+  // }) async {
+  //   emit(state.copyWith(status: FormStatus.loading));
+  //
+  //   try {
+  //     /// 1️⃣ SUBMIT TEMPLATE
+  //     final eventInfo = EventInfoResponse(
+  //       id: id,
+  //       email: html,
+  //       emails: state.model.emails,
+  //       image: state.guardAttachments,
+  //     );
+  //
+  //     final request = NotificationEmailRequest(
+  //       eventProtectionInfo: eventInfo,
+  //     );
+  //
+  //     await services.createEventNotification(
+  //       body: request,
+  //       eventDuration: eventDurationType,
+  //       epId: int.parse(eventProtectionId),
+  //     );
+  //
+  //     /// 2️⃣ FETCH LIST (GET API)
+  //     final listResponse =
+  //     await services.getNotificationList(eventProtectionId);
+  //
+  //     final items = listResponse.data ?? [];
+  //
+  //     /// 3️⃣ UPDATE STATE
+  //     emit(state.copyWith(
+  //       status: FormStatus.success,
+  //       emailTemplates: items.map((e) => {
+  //         "id": e.id,                   // ✅ 385, 386, etc
+  //         "html": e.notification,       // ✅ HTML
+  //       }).toList(),
+  //     ));
+  //   } catch (e) {
+  //     emit(state.copyWith(
+  //       status: FormStatus.error,
+  //       message: e.toString(),
+  //     ));
+  //   }
+  // }
 
 
 
@@ -365,10 +510,10 @@ class EventInfoCubit extends Cubit<EventInfoState> {
       ),
     );
 
-    log('-state.email####--${state.model.email}-----');
+    log('-state.email####--${state.model.notification}-----');
 
     if (!updatedEmailText.isEmptyOrNull) {
-      state.model.email = updatedEmailText;
+      state.model.notification = updatedEmailText;
     }
 
     DateTime dateTime;
@@ -436,6 +581,19 @@ class EventInfoCubit extends Cubit<EventInfoState> {
         ),
       );
     }
+  }
+  void clearAttachments() {
+    state.model.images = [];
+
+    emit(
+      state.copyWith(
+        loadAttachments: [],
+        model: state.model,
+        status: FormStatus.initial,
+      ),
+    );
+
+    debugPrint("Attachments cleared");
   }
 
   void onAddEmail(String email) {

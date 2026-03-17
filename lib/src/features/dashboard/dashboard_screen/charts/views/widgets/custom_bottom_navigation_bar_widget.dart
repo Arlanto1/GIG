@@ -2622,9 +2622,6 @@
 
 
 import 'dart:ui';
-
-import 'package:db_atom/app.dart';
-
 import '../../../../../../../index.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
@@ -2661,21 +2658,14 @@ class _CustomBottomNavigationBarState
     /// ================================
     if (widget.list) {
       return SizedBox(
-        height: 90,
+        // height: 120,
+        height: kBottomNavigationBarHeight + 60,
+        // height: MediaQuery.of(context).size.height * 0.14,
         width: double.infinity,
         child: ClipRect(
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 25, sigmaY: 25),
             child: Container(
-              // color: Colors.transparent,
-              // decoration: BoxDecoration(
-              //   color: Colors.transparent,
-              //   borderRadius: BorderRadius.circular(20),
-              //   border: Border.all(
-              //     color: Colors.white.withValues(alpha: 0.8), // WHITE BORDER
-              //     width: 1,
-              //   ),
-              // ),
               decoration: const BoxDecoration(
                 color: Colors.transparent,
                 border: Border(
@@ -2697,7 +2687,7 @@ class _CustomBottomNavigationBarState
               child: SafeArea(
                 top: false,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: List.generate(3, (index) {
                     final items = [
                       {'icon': Icons.home_rounded, 'label': 'Home'},
@@ -2738,13 +2728,14 @@ class _CustomBottomNavigationBarState
                           }
                         },
                         child: Column(
+                          mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             AnimatedContainer(
                               duration:
                               const Duration(milliseconds: 200),
                               padding:
-                              EdgeInsets.all(isSelected ? 12 : 8),
+                              EdgeInsets.all(isSelected ? 12 : 6),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: AppColors.newColor.withValues(alpha:
@@ -2757,17 +2748,28 @@ class _CustomBottomNavigationBarState
                               child: Icon(
                                 item['icon'] as IconData,
                                 color: Colors.white,
-                                size: isSelected ? 28 : 24,
+                                size: isSelected ? 28 : 22,
                               ),
                             ),
-                            const SizedBox(height: 4),
-                            Text(
-                              item['label'] as String,
-                              style: const TextStyle(
-                                fontSize: 10,
-                                color: Colors.white,
+                            const SizedBox(height: 2),
+                            FittedBox(
+                              child: Text(
+                                item['label'] as String,
+                                textAlign: TextAlign.center,
+                                maxLines: 2,
+                                style: TextStyle(
+                                  fontSize: MediaQuery.of(context).size.width * 0.028,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
+                            // Text(
+                            //   item['label'] as String,
+                            //   style: const TextStyle(
+                            //     fontSize: 10,
+                            //     color: Colors.white,
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),
@@ -2883,7 +2885,7 @@ class _CustomBottomNavigationBarState
     ];
 
     return SizedBox(
-      height: 90,
+      height: 125,
       width: double.infinity,
       child: ClipRect(
         child: BackdropFilter(
@@ -2901,7 +2903,7 @@ class _CustomBottomNavigationBarState
             child: SafeArea(
               top: false,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: List.generate(visibleItems.length, (index) {
                   final item = visibleItems[index];
                   final isSelected = selectedIndex == index;

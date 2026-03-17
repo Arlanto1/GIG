@@ -64,8 +64,6 @@ class _LawEnforcementListViewState extends State<LawEnforcementListView> {
   @override
   Widget build(BuildContext context) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
-    final size = MediaQuery.of(context).size;
-    double height = size.height;
     return BlocConsumer<LawEnforcementBloc, LawEnforcementNewState>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -74,19 +72,6 @@ class _LawEnforcementListViewState extends State<LawEnforcementListView> {
               backgroundColor: Colors.transparent,
               extendBodyBehindAppBar: true,
               extendBody: true,
-              // floatingActionButton: state.extraProperties?.hasWritePermission ??
-              //     false
-              //     ? Flutterfloatingbutton(
-              //   backgroundColor: AppColors.navigationSkyBlueColor,
-              //   foregroundColor: AppColors.backgroundWhiteColor,
-              //   onPressed: () => {
-              //     Navigator.pushNamed(context, lawEnforcementNewDetailsViewRoute,
-              //         arguments: {
-              //           "title": Constants.createlawenforcement
-              //         }),
-              //   },
-              // )
-              //     : const SizedBox(),
               bottomNavigationBar: CustomBottomNavigationBar(
                 hasAddPermission: state.extraProperties?.hasWritePermission ??
                     false ? true : false,
@@ -175,7 +160,7 @@ class _LawEnforcementListViewState extends State<LawEnforcementListView> {
                             },
                               child: ListView.builder(
                                 controller: _scrollController,
-                                padding: EdgeInsets.zero,
+                                padding: const EdgeInsets.only(bottom: 100),
                                 itemCount: state.hasReachedMax
                                     ? state.items.length
                                     : state.items.length + 1,
@@ -262,7 +247,7 @@ class _LawEnforcementListViewState extends State<LawEnforcementListView> {
                                                       Colors.white.withValues(alpha: 0.09),
                                                       // Color(0xFF6474C6).withOpacity(0.14)
                                                     ],
-                                                    stops: [0.02, 0.35, 1],
+                                                    stops: const [0.02, 0.35, 1],
                                                     begin: Alignment.topCenter,
                                                     end: Alignment.bottomCenter,
                                                   ),

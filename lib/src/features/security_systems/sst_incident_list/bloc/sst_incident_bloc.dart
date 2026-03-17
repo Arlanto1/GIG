@@ -186,8 +186,6 @@ class SstIncidentBloc extends Bloc<SstIncidentEvent, SstIncidentState> {
       SendReminderEmail event, Emitter<SstIncidentState> emit) async {
     // SstIncident sstIncident;
     SstIncidentServices services = SstIncidentServices();
-    SecuritySystemTicketIncidentRequest request =
-        SecuritySystemTicketIncidentRequest(sstIncident: model);
 
     GenericResponse response;
     try {

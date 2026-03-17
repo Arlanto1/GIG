@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'dart:ui';
 
 import '../../../../../index.dart';
-import '../../../contact_details/contact_records/views/add_contact_pop_up.dart';
 import '../../models/material_items_model.dart';
 import '../bloc/material_items_bloc.dart';
 import 'add_material_items.dart';
@@ -13,7 +12,7 @@ class MaterialItemsView extends StatefulWidget {
     required this.id,
     required this.title,
     this.model,
-    this.MMModel,
+    this.mMModel,
     this.extraProperties,
     this.lock,
     required this.parentStatus,
@@ -23,7 +22,7 @@ class MaterialItemsView extends StatefulWidget {
   final int id;
   final String title;
   final MaterialMovementItem? model;
-  final MaterialMovementModel? MMModel;
+  final MaterialMovementModel? mMModel;
   final ExtraProperties? extraProperties;
   final String? lock;
   final int parentStatus;
@@ -163,7 +162,7 @@ class _MaterialItemsViewView extends State<MaterialItemsView> {
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
               child: Container(
-                color: Colors.black.withOpacity(0.2),
+                color: Colors.black.withValues(alpha: 0.2),
               ),
             ),
           ),
@@ -237,7 +236,7 @@ class _MaterialItemsViewView extends State<MaterialItemsView> {
                                       Colors.white.withValues(alpha: 0.09),
                                       // Color(0xFF6474C6).withOpacity(0.14)
                                     ],
-                                    stops: [0.02, 0.35, 1],
+                                    stops: const [0.02, 0.35, 1],
                                     begin: Alignment.topCenter,
                                     end: Alignment.bottomCenter,
                                   ),

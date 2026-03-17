@@ -74,8 +74,6 @@ class _TicketingSystemViewState extends State<TicketingSystemView> {
   @override
   Widget build(BuildContext context) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
-    final size = MediaQuery.of(context).size;
-    double height = size.height;
     return BlocConsumer<TicketingSystemBloc, TicketingSystemState>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -83,17 +81,6 @@ class _TicketingSystemViewState extends State<TicketingSystemView> {
           backgroundColor:Colors.transparent,
           extendBody: true,
           extendBodyBehindAppBar: true,
-          // floatingActionButton: Flutterfloatingbutton(
-          //   backgroundColor: AppColors.navigationSkyBlueColor,
-          //   foregroundColor: AppColors.backgroundWhiteColor,
-          //   onPressed: () => {
-          //     Navigator.pushNamed(
-          //       context,
-          //       ticketingSystemDetailsRoute,
-          //       arguments: {"title": Constants.ticketLifeCycle},
-          //     )
-          //   },
-          // ),
           bottomNavigationBar: CustomBottomNavigationBar(
             hasAddPermission: true,
             scaffoldKey: scaffoldKey,
@@ -104,13 +91,13 @@ class _TicketingSystemViewState extends State<TicketingSystemView> {
               Navigator.pushNamed(
                 context,
                 ticketingSystemDetailsRoute,
-                arguments: {"title": Constants.ticketLifeCycle},
+                arguments: {"title": Constants.ticketingSystem},
               );
             },
           ),
           appBar: BaseAppBar().buildAppHeader(
             context: context,
-            title: Constants.ticketingSystemListTitle,
+            title: Constants.ticketingSystem,
             showPopUp: true,
             showSaveButton: false,
             showSubmitButton: false,
@@ -150,7 +137,7 @@ class _TicketingSystemViewState extends State<TicketingSystemView> {
                       child: BackdropFilter(
                         filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
                         child: Container(
-                          color: Colors.black.withOpacity(0.2),
+                          color: Colors.black.withValues(alpha: 0.2),
                         ),
                       ),
                     ),
@@ -194,155 +181,123 @@ class _TicketingSystemViewState extends State<TicketingSystemView> {
                           child: BaseLoader(),
                         );
                       },
-                        child: ListView.builder(
-                          controller: _scrollController,
-                          padding: EdgeInsets.zero,
-                          itemCount: state.hasReachedMax
-                              ? state.items.length
-                              : state.items.length + 1,
-                          itemBuilder: (context, index) {
-                            List<Label> labels = [];
-                            if (index < state.items.length) {
-                              labels.add(Label(
+                      child: ListView.builder(
+                        controller: _scrollController,
+                        padding: const EdgeInsets.only(bottom: 100),
+                        itemCount: state.hasReachedMax
+                            ? state.items.length
+                            : state.items.length + 1,
+                        itemBuilder: (context, index) {
+                          if (index >= state.items.length) return const SizedBox();
+
+                          final item = state.items[index];
+
+                          // Build labels
+                          List<Label> labels = [
+                            Label(
+                                key:
+                                // state.labels?.locale.i ??
+                                //     statee.labels?.defaultLocale.inputDate ??
+                                    Constants.dateofcreation,
+                                value: item.inputDate != null
+                                    ? Utils.timestampToDateConversion(
+                                    int.parse(item.inputDate ?? '0'),
+                                    Constants.twentyFourHourDateTimeFormat)
+                                    : ''),
+                            Label(
                                 key: state.labels?.locale.location ??
                                     state.labels?.defaultLocale.location ??
-                                    Constants.status,
-                                value: state.items[index].statusName ?? '',
-                              ));
-                              labels.add(Label(
-                                key: state.labels?.locale.location ??
-                                    state.labels?.defaultLocale.location ??
-                                    Constants.assigneeName,
-                                value: state.items[index].assigneeName ?? '',
-                              ));
-                              labels.add(Label(
-                                key: state.labels?.locale.location ??
-                                    state.labels?.defaultLocale.location ??
-                                    Constants.priority,
-                                value: state.items[index].priorityName ?? '',
-                              ));
-                              labels.add(Label(
-                                key: state.labels?.locale.location ??
-                                    state.labels?.defaultLocale.location ??
-                                    Constants.title,
-                                value: state.items[index].title ?? '',
-                              ));
-                              labels.add(Label(
-                                key: state.labels?.locale.location ??
-                                    state.labels?.defaultLocale.location ??
-                                    Constants.project,
-                                value: state.items[index].projectName ?? '',
-                              ));
-                              return index >= state.items.length
-                                  ? const BaseLoader()
-                                  : Container(
-                                  decoration: const BoxDecoration(
+                                    Constants.location,
+                                value: item.location?.name ?? ''),
+                            Label(
+                                key: state.labels?.locale.createdBy ??
+                                    state.labels?.defaultLocale.createdBy ??
+                                    Constants.createdby,
+                                value:
+                                '${item.createdBy?.firstName ?? ''} ${item.createdBy?.lastName ?? ''}'),
+                          ];
+
+                          return Container(
+                            margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(18),
+                              child: BackdropFilter(
+                                filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+                                child: Container(
+                                  decoration: BoxDecoration(
                                     gradient: LinearGradient(
                                       colors: [
-                                        // Color(0xFF6474C6),
-                                        // Color(0xFF6474C6),
+                                        Colors.white.withValues(alpha: 0.09),
                                         Colors.transparent,
-                                        Colors.transparent,
+                                        Colors.white.withValues(alpha: 0.09),
                                       ],
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight,
+                                      stops: const [0.02, 0.35, 1],
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
                                     ),
+                                    borderRadius: BorderRadius.circular(27),
+                                    border: Border.all(
+                                      color: Colors.white.withValues(alpha: 0.6),
+                                      width: 1.5,
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.white.withValues(alpha: 0.0),
+                                        blurRadius: 12,
+                                        offset: const Offset(0, 2),
+                                      ),
+                                    ],
                                   ),
-                                  margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-
-                                  child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(18),
-                                      child: BackdropFilter(
-                                        filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
-                                        child: Container(
-                                            decoration:
-                                            BoxDecoration(
-                                              gradient: LinearGradient(
-                                                colors: [
-                                                  Colors.white.withValues(alpha: 0.09),
-                                                  Colors.transparent,
-                                                  Colors.white.withValues(alpha: 0.09),
-                                                  // Color(0xFF6474C6).withOpacity(0.14)
-                                                ],
-                                                stops: [0.02, 0.35, 1],
-                                                begin: Alignment.topCenter,
-                                                end: Alignment.bottomCenter,
-                                              ),
-                                              borderRadius: BorderRadius.circular(27),
-                                              border: Border.all(
-                                                color: Colors.white
-                                                    .withValues(alpha: 0.6),
-                                                width: 0.7,
-                                              ),
-                                              boxShadow: [
-                                                BoxShadow(
-                                                  color: Colors.white
-                                                      .withValues(alpha: 0.0),
-                                                  blurRadius: 12,
-                                                  offset: const Offset(0, 2),
-                                                ),
-                                              ],
-                                            ),
-                                            child: BaseListTileItem(
-                                      id: state.items[index].id,
-                                      labels: labels,
-                                      // status: state.items[index].status,
-                                      // isMasterGuard: false,
-                                      //         isEventProtectionStatus: false,
-                                      // isSLAViolationStatus: false,
-                                      // isSecuritySystemSLA: false,
-                                      onTap: (selectedIndex) {
-                                        showDialog(
-                                          context: context,
-                                          builder:
-                                              (BuildContext dialogContext) {
-                                            return BasePopUpItems(
-                                              id: state.items[selectedIndex].id
-                                                  .toString(),
-                                              labels: labels,
-                                              // slNo: state.items[selectedIndex].slNo,
-                                              // status: state.items[selectedIndex].status,
-                                              // isMasterGuard: false,
-                                              // isEventProtectionStatus: false,
-                                              // isSecuritySystemSLAStatus: false,
-                                            );
-                                          },
-                                        );
-                                      },
-                                      showEditButton: true,
-                                      onEditTap: (selectedIndex) {
-                                        getById(
-                                            // state.extraProperties
-                                            //         ?.hasWritePermission ??
-                                            //     false,
-                                            state.items[index].id ?? 0);
-                                      },
-                                      onViewTap: (selectedIndex) {
-                                        showDialog(
-                                          context: context,
-                                          builder:
-                                              (BuildContext dialogContext) {
-                                            return BasePopUpItems(
-                                              id: state.items[selectedIndex].id
-                                                  .toString(),
-                                              labels: labels,
-                                              // slNo: state.items[selectedIndex].slNo,
-                                              // status: state.items[selectedIndex].status,
-                                              isMasterGuard: false,
-                                              isEventProtectionStatus: false,
-                                              isSecuritySystemSLAStatus: true,
-                                            );
-                                          },
-                                        );
-                                      },
-                                      index: index,
-                                            )))) );
-                            }
-                            return const Center(
-                              child: SizedBox(),
-                            );
-                          },
-                        ),
+                                  child: BaseListTileItem(
+                                    id: item.id,
+                                    labels: labels,
+                                    status: item.status,
+                                    isOccurrenceStatus: false,
+                                    isEventProtectionStatus: false,
+                                    isTicketStatus: true,
+                                    index: index,
+                                    onTap: (selectedIndex) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (dialogContext) => BasePopUpItems(
+                                          id: state.items[selectedIndex].id.toString(),
+                                          slNo: state.items[selectedIndex].ticketNo,
+                                          status: state.items[selectedIndex].status,
+                                          labels: labels,
+                                          isOccurrenceStatus: false,
+                                          isTicketStatus: true,
+                                          isMasterGuard: false,
+                                          isEventProtectionStatus: false,
+                                        ),
+                                      );
+                                    },
+                                    showEditButton: true,
+                                    onEditTap: (selectedIndex) {
+                                      getById(
+                                          state.items[index].id ?? 0);
+                                    },
+                                    onViewTap: (selectedIndex) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (dialogContext) => BasePopUpItems(
+                                          id: state.items[selectedIndex].id.toString(),
+                                          slNo: state.items[selectedIndex].ticketNo,
+                                          status: state.items[selectedIndex].status,
+                                          labels: labels,
+                                          isEventProtectionStatus: false,
+                                          isMasterGuard: false,
+                                          isOccurrenceStatus: false,
+                                            isTicketStatus: true
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
                       ),
                     ),
                   ],
@@ -366,11 +321,26 @@ class _TicketingSystemViewState extends State<TicketingSystemView> {
   Future<void> editDataLoading(TicketingSystemModel? ticketingSystemModel) async {
     dismissLoadingDialog(context);
     Navigator.pushNamed(context, ticketingSystemDetailsRoute, arguments: {
-      "redmineIssue": ticketingSystemModel,
+      "ticketingSystem": ticketingSystemModel,
       "title": 'Edit Ticketing System',
     });
   }
 
+  // getId(
+  //     bool hasWritePermission, {
+  //       required int id,
+  //     }) async {
+  //   Navigator.pushNamed(
+  //     context,
+  //     ticketingSystemDetailsRoute,
+  //     arguments: {
+  //       'id': id.toString(),
+  //       "title": 'edit Ticket',
+  //       // ConstantsArgument.extraProperties:
+  //       // ExtraProperties(hasWritePermission: hasWritePermission),
+  //     },
+  //   );
+  // }
   void applySearchFilters(
     FilterCriteria model,
   ) {

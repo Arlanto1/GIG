@@ -8,12 +8,14 @@ class RadioButtonsYesNo extends StatelessWidget {
     required this.selectedValue,
     required this.onChangedYes,
     required this.onChangedNo,
+    this.isEvent
   });
 
   final int status;
   final int? selectedValue;
   final Function(int?)? onChangedYes;
   final Function(int?)? onChangedNo;
+  final bool? isEvent;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,7 @@ class RadioButtonsYesNo extends StatelessWidget {
             ),
           ),
           Text(
-            Constants.yes,
+            isEvent == true ? 'Internal': Constants.yes,
             style: isDisabled
                 ? Styles.textStyleBlack14.copyWith(color: Colors.grey)
                 : Styles.textStyleWhite14,
@@ -66,7 +68,7 @@ class RadioButtonsYesNo extends StatelessWidget {
             ),
           ),
           Text(
-            Constants.no,
+            isEvent == true ? 'External': Constants.no,
             style: isDisabled
                 ? Styles.textStyleBlack14.copyWith(color: Colors.grey)
                 : Styles.textStyleWhite14,

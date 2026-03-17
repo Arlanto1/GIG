@@ -89,7 +89,7 @@ class EventProtectionServices {
       url: url,
     );
     EventInfoResponse aa = EventInfoResponse.fromJson(response);
-
+log('Response $response');
     log('-----aa-----${aa.id}-');
     return EventInfoResponse.fromJson(response);
   }
@@ -162,8 +162,8 @@ class EventProtectionServices {
   //   return EventNotificationResponse.fromJson(response);
   // }
 
-  Future<EventNotificationResponse> getNotificationList(String id) async {
-    final String url = '${Apis._getNotificationList}?epId=$id';
+  Future<EventNotificationResponse> getNotificationList(String id, int event) async {
+    final String url = '${Apis._getNotificationList}?epId=$id&event=$event';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -190,6 +190,7 @@ class EventProtectionServices {
       url: url,
       requestedData: body.toJson(),
     );
+    // log('Request ${body.toJson()}');
     return GenericResponse.fromJson(response);
   }
 }

@@ -130,6 +130,7 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
         claimantController.text =
             '${state.model.claimant?.firstName ?? ''} ${state.model.claimant?.lastName ?? ''}';
         claimantTextController.text = state.model.claimantName ?? '';
+        safeStoragePlaceController.text = state.model.safeStoragePlace ?? '';
         if (state.model.status == 0 && !state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }
@@ -165,6 +166,7 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<ArticleFoundDetailsCubit>(context).submitForm(
+                claimantSignatureController:claimantSignatureController,
                 isSaveOnly: true,
               );
             },
@@ -174,6 +176,7 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
               FocusScope.of(context).unfocus();
               BlocProvider.of<ArticleFoundDetailsCubit>(context).submitForm(
                 isSaveOnly: false,
+                  claimantSignatureController:claimantSignatureController
               );
             },
             showLikeButton: false,
@@ -208,8 +211,9 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
     if (state.status == FormStatus.addAttachment ||
         state.status == FormStatus.initial) {
       uploadFiles = state.uploadAttachments;
-      // uploadFiles = state.model.images ?? [];
+      uploadFiles = state.model.images ?? [];
     }
+
 
     return Stack(children: [
       // 🌄 Background Image
@@ -424,9 +428,9 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
                               TextFieldAddButton(
                                 title: state.model.idCardManager?.employeeId,
                                 height: 75,
-                                isDisableColor: !showSaveSubmitButtons,
+                                isDisableColor: !editFields,
                                 onTap: () {
-                                  if (showSaveSubmitButtons) {
+                                  if (editFields) {
                                     BaseOrganisationDialog().userDialog(
                                       employeeId: true,
                                       context: context,
@@ -473,9 +477,9 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
                               TextFieldAddButton(
                                 title: state.model.idCardEmployee?.employeeId,
                                 height: 75,
-                                isDisableColor: !showSaveSubmitButtons,
+                                isDisableColor: !editFields,
                                 onTap: () {
-                                  if (showSaveSubmitButtons) {
+                                  if (editFields) {
                                     BaseOrganisationDialog().userDialog(
                                       employeeId: true,
                                       context: context,
@@ -1129,22 +1133,22 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
                                   validateTextField: (String? user) {},
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
+                                    height * 0.02),
                               ],
                             ],
 
                             if(state.model.status !=0 && state.model.status !=null)...[
-                            /// Security Signature
-                            buildSignature(
-                              controller: claimantSignatureController,
-                              label:
-                              // state.labels?.locale.entrySecuritySign ??
-                              //     state.labels?.defaultLocale
-                              //         .entrySecuritySign ??
-                                  Constants.claimantSignature,
-                              spaceHeight: height,
-                              state: state, isMandatory: true,
-                            ),
+                            /// Claimant Signature
+                              buildSignature(
+                                controller: claimantSignatureController,
+                                label:
+                                // state.labels?.locale.entrySecuritySign ??
+                                //     state.labels?.defaultLocale
+                                //         .entrySecuritySign ??
+                                    Constants.claimantSignature,
+                                spaceHeight: height,
+                                state: state, isMandatory: true
+                              ),
                             ],
                             
                             ///Upload Image
@@ -1179,6 +1183,8 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
                                 },
                               ),
                             ],
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+
 
                             /// Attachments
                             IgnorePointer(
@@ -1186,16 +1192,6 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 20.0),
-                                // child: BaseImageUpload().getAttachment(
-                                //   height: height,
-                                //   attachments: state.uploadAttachments,
-                                //   files: uploadFiles,
-                                //   moduleCode: Constants.articleFoundModuleCode,
-                                //   isDisabled: false,
-                                //   showDeleteIcon: state.model.status == null ||
-                                //       state.model.status == 0,
-                                // ),
-
                                 child: BaseImageUpload().getAttachment(
                                   height: height,
                                   attachments: state.uploadAttachments,
@@ -1209,6 +1205,37 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
                               ),
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+
+                            if(state.model.status !=null)...[
+                            /// Modification History
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.additionalInformation ??
+                              //     state.labels?.defaultLocale.additionalInformation ??
+                                Constants.modificationHistory,
+                                Styles.textStyleWhite16,
+                                isMandatory: false),
+                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            FlutterInputField(
+                              lineHeight: 6,
+                              maxVisibleLines: 6,
+                              characterLimit:
+                              Constants.characterLimitDescTextFormField,
+                              initialValue: state.model.modificationHistory,
+                              textFormKey: Keys.premisesRoundTknCommentsKey,
+                              hintText: Constants.informationhere,
+                              showBorder: true,
+                              textInputAction: TextInputAction.newline,
+                              textInputType: TextInputType.multiline,
+                              isEnable: true,
+                              readOnly: true,
+                              isDisableColor: true,
+                              onChange: (String value) {
+                              },
+                              validateTextField: (String? user) {},
+                            ),
+                            ],
+                            CommonWidgets.verticalSpacerWidget(height * 0.03),
 
                             /// SubmitButton
                             if (showSaveSubmitButtons) ...[
@@ -1235,24 +1262,6 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
                 ),
               ),
             ),
-            // if (!showSaveSubmitButtons) ...[
-            //   Container(
-            //     padding: const EdgeInsets.all(5.0),
-            //     decoration: const ShapeDecoration(
-            //       color: AppColors.backgroundWhiteColor,
-            //       shape: RoundedRectangleBorder(
-            //         borderRadius:
-            //         BorderRadius.vertical(top: Radius.circular(00.0)),
-            //       ),
-            //     ),
-            //     child: Row(
-            //       mainAxisAlignment: MainAxisAlignment.center,
-            //       children: [
-            //         cancelButtonDisplay(),
-            //       ],
-            //     ),
-            //   ),
-            // ],
           ],
         ),
       ),
@@ -1394,7 +1403,9 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
       buttonTextKey: Keys.submitButton,
       onTap: () async {
         FocusScope.of(context).unfocus();
-        BlocProvider.of<ArticleFoundDetailsCubit>(context).submitForm();
+        BlocProvider.of<ArticleFoundDetailsCubit>(context).submitForm(
+          claimantSignatureController: claimantSignatureController
+        );
       },
     );
   }

@@ -4,6 +4,8 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/dashboard/notifications/notification_details/cubits/notification_details_cubit.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/models/key_loss_destruction_list_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/services/key_loss_destruction_list_services.dart';
+import 'package:db_atom/src/features/law_enforcement_new/models/law_enforcement_model_new.dart';
+import 'package:db_atom/src/features/law_enforcement_new/services/law_enforcement_services_new.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -75,7 +77,7 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
             customIcon: Icons.delete,
             onTapCustomIcon: () => deleteNotification(state.model.id!),
           ),
-          backgroundColor: AppColors.backgroundWhiteColor,
+          backgroundColor: AppColors.newColor,
           body: getBodybuilder(state, height),
         );
       },
@@ -91,13 +93,13 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
       return const BaseLoader();
     }
     return Container(
-      color: AppColors.navigationSkyBlueColor,
+      color: AppColors.newColor,
       child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               height: height * 0.01,
-              color: AppColors.navigationSkyBlueColor,
+              color: AppColors.newColor,
             ),
             Container(
               decoration: const ShapeDecoration(
@@ -219,12 +221,17 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
 
           case 'LEO':
             {
-              LawEnforcementDetailsModel? model =
-                  await lawEnforcementListCubit.getById(moduleId, context);
+              LawEnforcementModelNew? model =
+                  await LawEnforcementServicesNew().getById(moduleId);
 
-              nav.pushNamed(lawEnforcementDetailsViewRoute, arguments: {
-                "UserElement": model,
-              });
+              // nav.pushNamed(lawEnforcementDetailsViewRoute, arguments: {
+              //   "UserElement": model,
+              // });
+
+              nav.pushNamed(lawEnforcementNewDetailsViewRoute, arguments: {
+                "model": model,
+                "title": Constants.editlawenforcement,
+                });
               break;
             }
           case 'IM':

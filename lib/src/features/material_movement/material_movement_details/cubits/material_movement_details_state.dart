@@ -151,10 +151,10 @@ class MaterialMovementDetailsState extends Equatable {
 
     /// For Inward Movement Only
     if (model.inwardMovement ?? false) {
-      if (model.materialDescription.isEmptyOrNull) {
-        return const ErrorResponse(
-            status: false, message: 'Please enter Material Brief Description');
-      }
+      // if (model.materialDescription.isEmptyOrNull) {
+      //   return const ErrorResponse(
+      //       status: false, message: 'Please enter Material Brief Description');
+      // }
       // if (model.quantity == null) {
       //   return const ErrorResponse(
       //       status: false, message: 'Please enter Quantity');
@@ -225,12 +225,12 @@ class MaterialMovementDetailsState extends Equatable {
           message: 'Please Select Material Physically Checked as true');
     }
 
-    if (model.materialDescription.isEmptyOrNull &&
-        model.status != 0 &&
-        model.status != null) {
-      return const ErrorResponse(
-          status: false, message: 'Please enter Material Brief Description');
-    }
+    // if (model.materialDescription.isEmptyOrNull &&
+    //     model.status != 0 &&
+    //     model.status != null) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please enter Material Brief Description');
+    // }
     // if (model.quantity == null && model.status! > 0 && model.status != null) {
     //   return const ErrorResponse(
     //       status: false, message: 'Please enter Quantity');
@@ -356,7 +356,7 @@ class MaterialMovementDetailsState extends Equatable {
   @override
   List<Object?> get props => [model, status];
 
-  MaterialMovementDetailsState({
+  const MaterialMovementDetailsState({
     required this.status,
     required this.model,
     this.locations,

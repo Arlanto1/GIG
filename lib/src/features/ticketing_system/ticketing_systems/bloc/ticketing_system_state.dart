@@ -1,7 +1,7 @@
 part of 'ticketing_system_bloc.dart';
 
 class TicketingSystemState extends Equatable {
-  final List<TicketingSystems> items;
+  final List<TicketingSystemModel> items;
   final bool hasReachedMax;
   final FormStatus status;
   final String? message;
@@ -12,7 +12,7 @@ class TicketingSystemState extends Equatable {
   final DisplayMenu? displayMenu;
 
   const TicketingSystemState({
-    this.items = const <TicketingSystems>[],
+    this.items = const <TicketingSystemModel>[],
     this.hasReachedMax = false,
     this.status = FormStatus.initial,
     this.message,
@@ -24,7 +24,7 @@ class TicketingSystemState extends Equatable {
   });
 
   TicketingSystemState copyWith({
-    List<TicketingSystems>? items,
+    List<TicketingSystemModel>? items,
     bool? hasReachedMax,
     FormStatus? status,
     CommonFilters? commonFilters,

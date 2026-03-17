@@ -2,6 +2,8 @@ import 'dart:developer';
 import 'dart:ui';
 
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/ticketing_system/models/activityNote_model.dart';
+import 'package:intl/intl.dart';
 
 import '../../models/ticketing_system_model.dart';
 import '../cubits/ticketing_system_details_cubit.dart';
@@ -23,15 +25,21 @@ class TicketingSystemDetailsView extends StatefulWidget {
 
 class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  TextEditingController returnableTextController = TextEditingController();
+  TextEditingController statusController = TextEditingController();
+  TextEditingController ticketTypeController = TextEditingController();
+  TextEditingController priorityTypController = TextEditingController();
+  TextEditingController ticketRaisedForController = TextEditingController();
+  TextEditingController ragStatusController = TextEditingController();
+  TextEditingController toDateController =TextEditingController();
   User? userDetails;
   bool isReadOnly = false;
   bool showSaveSubmitButton = false;
   List<ImageContent> uploadFiles = [];
   List<ImageContent> getAttachments = [];
 
-  TextEditingController dueDateTextController = TextEditingController();
+  TextEditingController toDateTextController = TextEditingController();
   TextEditingController startDateTextController = TextEditingController();
+  TextEditingController activityDateController =TextEditingController();
 
   TextEditingController additionalInformationTextController =
       TextEditingController();
@@ -83,10 +91,6 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
         if (state.model.status == null) {
           isReadOnly = false;
         }
-        // if (widget.extraProperties != null &&
-        //     !widget.extraProperties!.hasWritePermission!) {
-        //   isReadOnly = true;
-        // }
         showSaveSubmitButton =
             state.model.status != 9 && state.model.lock.isEmptyOrNull;
         return Scaffold(
@@ -95,24 +99,24 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
             title: Constants.ticketingSystem,
             showPopUp: false,
             showSaveButton:
-                showSaveSubmitButton && state.status != FormStatus.loading
-                    ? true
-                    : false,
-            showSubmitButton: false,
+                false,
+            showSubmitButton:  showSaveSubmitButton && state.status != FormStatus.loading
+                ? true
+                : false,
             showDisLikeButton: false,
             showLikeButton: false,
             // pdfAPIName:
             // '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.vipVisitorsDetailsModule}',
             onTapSave: () {
-              FocusScope.of(context).unfocus();
-              BlocProvider.of<TicketingSystemDetailsCubit>(context)
-                  .submitForm();
+              // FocusScope.of(context).unfocus();
+              // BlocProvider.of<TicketingSystemDetailsCubit>(context)
+              //     .submitForm();
             },
             onTapSubmit: () {
-              // FocusScope.of(context).unfocus();
-              // BlocProvider.of<TicketingSystemDetailsCubit>(context).submitForm(
-              //   isSaveOnly: false,
-              // );
+              FocusScope.of(context).unfocus();
+              BlocProvider.of<TicketingSystemDetailsCubit>(context).submitForm(
+                isSaveOnly: false,
+              );
             },
           ),
           backgroundColor: AppColors.newColor,
@@ -123,15 +127,18 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
   }
 
   void initializeDates(TicketingSystemDetailsState state) {
-    startDateTextController.text = state.model.startDate != null
+    startDateTextController.text = state.model.fromDate != null
         ? Utils.timestampToDateConversion(
-            int.tryParse(state.model.startDate ?? '0'),
+            int.tryParse(state.model.fromDate ?? '0'),
             Constants.fulldateFormat)
         : Utils().getCurrentDate();
 
-    dueDateTextController.text = state.model.dueDate != null
+    toDateController.text = state.model.toDate != null
         ? Utils.timestampToDateConversion(
-            int.tryParse(state.model.dueDate ?? '0'), Constants.fulldateFormat)
+        int.tryParse(state.model.toDate ?? '') ??
+            DateTime.now()
+                .millisecondsSinceEpoch, // Use current timestamp if null
+        Constants.fulldateFormat)
         : '';
   }
 
@@ -146,15 +153,6 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
       // uploadFiles = state.uploadAttachments;
       uploadFiles = state.model.attachments ?? [];
     }
-
-    log('uploadFiles ${uploadFiles}');
-    log('image ${state.model.attachments}');
-
-    // if (state.status == FormStatus.addAttachment ||
-    //     state.status == FormStatus.initial) {
-    //   uploadFiles = state.uploadAttachments ?? [];
-    //   log('upload ${state.uploadAttachments ?? []}');
-    // }
 
     return Stack(
       children: [
@@ -210,282 +208,394 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                              /// Project Name
+                              /// Status
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.requesterDepartment ??
-                                  //     state.labels?.defaultLocale
-                                  //         .requesterDepartment ??
-                                  Constants.project,
-                                  Styles.textStyleWhite16,
-                                  isMandatory: true),
-                              TextFieldAddButton(
-                                title: state.model.projectName ?? 'dbatom-uat',
-                                height: 70,
-                                isDisableColor: !showSaveSubmitButton,
+                                state.labels?.locale.status ??
+                                    state.labels?.defaultLocale.status ??
+                                    Constants.status,
+                                isMandatory: true,
+                                Styles.textStyleWhite14,
+                              ),
+
+                              CommonWidgets.verticalSpacerWidget(
+                                height * 0.01,
+                              ),
+                              BaseDropDown().getDropDown(
+                                isDisabled: false,
+                                textController: statusController,
+                                items: ticketStatusDropDownValues,
+                                initialValue: '${state.model.status ??= 0}',
                                 onTap: () {
-                                  BaseOrganisationDialog().departmentDialog(
+                                  BaseDropDown().assetTypeDialog(
                                     context: context,
-                                    organisations: state.projects,
-                                    onTap: (Organisation department) {
+                                    dropDownValues:
+                                    ticketStatusDropDownValues
+                                        .map((label) => label.key)
+                                        .toList(),
+                                    onTap: (String value) {
+                                      Label? selectedLabel;
+                                      selectedLabel =
+                                          ticketStatusDropDownValues
+                                              .firstWhere(
+                                                (label) => label.key == value,
+                                            orElse: () =>
+                                            const Label(
+                                              key: '',
+                                              value: '',
+                                            ),
+                                          );
+
                                       BlocProvider.of<
-                                                  TicketingSystemDetailsCubit>(
-                                              context)
+                                          TicketingSystemDetailsCubit>(
+                                          context)
                                           .updateDropdownValues(
-                                              projects: department);
+                                        status: int.tryParse(
+                                          selectedLabel.value,
+                                        ),
+                                      );
                                     },
-                                    // orgName: 'EMPLOYEE_DEPARTMENTS',
-                                    // createEntity: false,
-                                    // title: 'Add Department',
-                                    // functionToCall: () {
-                                    //   // refresh the list
-                                    //   BlocProvider.of<
-                                    //       TicketingSystemDetailsCubit>(
-                                    //       context)
-                                    //       .refreshList();
-                                    // }
                                   );
                                 },
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                              /// Priority
-                              CommonWidgets.textDisplay(
-                                Constants.priority,
-                                Styles.textStyleWhite16,
+
+                              /// Created By
+                              CommonWidgets.horizentaltextHandling(
+                                // state.labels?.locale.entrySecurity ??
+                                //     state.labels?.defaultLocale.entrySecurity ??
+                                    Constants.createdby,
                                 isMandatory: true,
-                              ),
-                              TextFieldAddButton(
-                                title:
-                                    state.model.priorityName ?? 'PO(Immediate)',
-                                height: 70,
-                                isDisableColor: state.model.status == 9,
-                                onTap: () {
-                                  if (state.model.status != 9) {
-                                    FocusScope.of(context)
-                                        .requestFocus(FocusNode());
-                                    BaseOrganisationDialog().departmentDialog(
-                                      context: context,
-                                      organisations: state.priorities,
-                                      onTap: (Organisation department) {
-                                        state.model.priorityName =
-                                            department.name;
-                                        BlocProvider.of<
-                                                    TicketingSystemDetailsCubit>(
-                                                context)
-                                            .updateDropdownValues(
-                                                priority: department);
-                                        // FocusScope.of(context)
-                                        //     .requestFocus(receivedByFocusNode);
-                                      },
-                                      // orgName: 'EMPLOYEE_DEPARTMENTS',
-                                      // createEntity: false,
-                                      // title: 'Add Department',
-                                      // functionToCall: () {
-                                      //   // refresh the list
-                                      //   BlocProvider.of<
-                                      //               MaterialMovementDetailsCubit>(
-                                      //           context)
-                                      //       .refreshList();
-                                      // }
-                                    );
-                                    // leodepartmentsDialog(stat
-                                  }
-                                },
+                                '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}',
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                              /// Title
+                              /// Date of creation
                               CommonWidgets.textDisplay(
-                                Constants.title,
-                                Styles.textStyleWhite16,
+                                state.labels?.locale.inputDate ??
+                                    state.labels?.defaultLocale.inputDate ??
+                                    Constants.dateofcreation,
                                 isMandatory: true,
+                                Styles.textStyleWhite14,
                               ),
                               CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-                              FlutterInputField(
-                                textInputType: TextInputType.text,
-                                textFormKey: Keys.returnChallanKey,
-                                initialValue: state.model.title,
-                                hintText: '',
-                                isEnable: true,
-                                isDisableColor: !showSaveSubmitButton,
-                                onChange: (String value) {
-                                  state.model.title = value;
-
-                                  context
-                                      .read<TicketingSystemDetailsCubit>()
-                                      .onModelValueChange(state.model);
-                                },
-                                validateTextField: (String? user) {},
+                                height * 0.01,
+                              ),
+                              BaseDate().creationDateDisplay(
+                                state.model.inputDate ?? '',
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                              /// Assignee
-                              Column(
-                                children: [
-                                  CommonWidgets.textDisplay(
-                                    // state.labels?.locale.otherReceiverName ??
-                                    //     state.labels?.defaultLocale
-                                    //         .otherReceiverName ??
-                                    Constants.assigneeName,
-                                    Styles.textStyleWhite16,
-                                    isMandatory: true,
-                                  ),
-                                  TextFieldAddButton(
-                                      title: state.model.assignee?.name,
-                                      height: 70,
-                                      isDisableColor: !showSaveSubmitButton,
-                                      onTap: () {
-                                        // if (!isReadOnly) {
-                                        BaseOrganisationDialog().userDialog(
-                                          context: context,
-                                          users: state.assignee,
-                                          isDbUser: true,
-                                          onTap: (BaseUser user) {
-                                            BlocProvider.of<
-                                                        TicketingSystemDetailsCubit>(
-                                                    context)
-                                                .updateDropdownValues(
-                                                    assignee: user);
-                                            // FocusScope.of(context).requestFocus(
-                                            //     receivedForEmployeeIdFocusNode);
-                                          },
-                                          roleName:
-                                              ConstantUserRoles.atomStaticUser,
-                                          locationId: 0,
-                                          // locationId:
-                                          // state.model.location!.id!,
-                                          // functionToCall: (BaseUser user) {
-                                          //   BlocProvider.of<
-                                          //       TicketingSystemDetailsCubit>(
-                                          //       context)
-                                          //       .updateDropdownValues(
-                                          //       receiverEmailUser:
-                                          //       user);
-                                          //   FocusScope.of(context).requestFocus(
-                                          //       receivedForEmployeeIdFocusNode);
-                                          //   // refresh the list
-                                          //   BlocProvider.of<
-                                          //       MaterialMovementDetailsCubit>(
-                                          //       context)
-                                          //       .refreshList();
-                                          // },
-                                        );
-                                        // }
-                                      }),
-                                  CommonWidgets.verticalSpacerWidget(
-                                      height * 0.02),
-                                ],
+                              /// Location
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.location ??
+                                    state.labels?.defaultLocale.location ??
+                                    Constants.location,
+                                isMandatory: true,
+                                Styles.textStyleWhite14,
                               ),
+                              CommonWidgets.verticalSpacerWidget(
+                                height * 0.01,
+                              ),
+                              BaseLocationDropdown().locationWidgetDisplay(
+                                selectedLocationName:
+                                state.model.location?.name ?? '',
+                                isEnabled: !isReadOnly,
+                                context: context,
+                                locations: state.locations,
+                                onTap: (Organisation? location) async {
+                                  log('location?.name-----${location?.name}');
+
+                                  state.model.location = location;
+
+                                  BlocProvider.of<TicketingSystemDetailsCubit>(
+                                    context,
+                                  ).updateLocationDropdownValue(
+                                    location: location,
+                                  );
+                                },
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+
+                              /// Ticket No.
+                              CommonWidgets.horizentaltextHandling(
+                                // state.labels?.locale.slNo ??
+                                //     state.labels?.defaultLocale.slNo ??
+                                   'Ticket No',
+                                isMandatory: true,
+                                state.model.ticketNo ?? '',
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              /// Ticket Type
+                              CommonWidgets.textDisplay(
+                                // state.labels?.locale.status ??
+                                //     state.labels?.defaultLocale.status ??
+                                    Constants.ticketType,
+                                isMandatory: true,
+                                Styles.textStyleWhite14,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                height * 0.01,
+                              ),
+                              BaseDropDown().getDropDown(
+                                isDisabled: false,
+                                textController: ticketTypeController,
+                                items: ticketTypeDropDownValues,
+                                initialValue: '${state.model.ticketType ??= 0}',
+                                onTap: () {
+                                  BaseDropDown().assetTypeDialog(
+                                    context: context,
+                                    dropDownValues:
+                                    ticketTypeDropDownValues
+                                        .map((label) => label.key)
+                                        .toList(),
+                                    onTap: (String value) {
+                                      Label? selectedLabel;
+                                      selectedLabel =
+                                          ticketTypeDropDownValues
+                                              .firstWhere(
+                                                (label) => label.key == value,
+                                            orElse: () =>
+                                            const Label(
+                                              key: '',
+                                              value: '',
+                                            ),
+                                          );
+
+                                      BlocProvider.of<
+                                          TicketingSystemDetailsCubit>(
+                                          context)
+                                          .updateDropdownValues(
+                                        ticketType: int.tryParse(
+                                          selectedLabel.value,
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
 
                               /// Start Date
                               CommonWidgets.textDisplay(
-                                // state.labels?.locale.keyHandOverDue ??
-                                //     state.labels?.defaultLocale
-                                //         .keyHandOverDue ??
-                                Constants.startDate,
+                                // state.labels?.locale.inputDate ??
+                                //     state.labels?.defaultLocale.inputDate ??
+                                    Constants.startDate,
+                                isMandatory: true,
+                                Styles.textStyleWhite14,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                height * 0.01,
+                              ),
+                              BaseDate().creationDateDisplay(
+                                state.model.fromDate ?? '',
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              /// To date
+                              CommonWidgets.textDisplay(
+                                // state.labels?.locale.startTime ??
+                                //     state.labels?.defaultLocale.startTime ??
+                                    Constants.toDate,
                                 isMandatory: true,
                                 Styles.textStyleWhite16,
                               ),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
-
                               BaseDate().datePickerWidgetLoading(
-                                textController: startDateTextController,
-                                isDisabled: !showSaveSubmitButton,
-                                onlyDate: false,
-                                showPastDate: true,
-                                showFutureDate: false,
-                                onChange: (String value) {
-                                  startDateTextController.text = value;
-                                  state.model.startDate =
-                                      Utils().formatTime(value);
-                                  BlocProvider.of<TicketingSystemDetailsCubit>(
-                                          context)
-                                      .onModelValueChange(state.model);
-                                  //},
-                                },
-                                context: context,
-                              ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                              /// Due Date
-                              CommonWidgets.textDisplay(
-                                  Constants.duedate, Styles.textStyleWhite16,
-                                  isMandatory: true),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-
-                              BaseDate().datePickerWidgetLoading(
-                                textController: dueDateTextController,
-                                isDisabled: !showSaveSubmitButton,
+                                textController: toDateController,
+                                isDisabled: isReadOnly,
                                 onlyDate: false,
                                 showPastDate: false,
+                                showFutureDate: true,
                                 onChange: (String value) {
-                                  dueDateTextController.text = value;
-                                  state.model.dueDate =
+                                  toDateController.text = value;
+                                  state.model.toDate =
                                       Utils().formatTime(value);
                                   BlocProvider.of<TicketingSystemDetailsCubit>(
-                                          context)
+                                      context)
                                       .onModelValueChange(state.model);
                                 },
                                 context: context,
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                              /// Tracker
+                              /// Priority Type
                               CommonWidgets.textDisplay(
-                                Constants.tracker,
-                                Styles.textStyleWhite16,
+                                // state.labels?.locale.status ??
+                                //     state.labels?.defaultLocale.status ??
+                                Constants.priorityType,
                                 isMandatory: true,
+                                Styles.textStyleWhite14,
                               ),
-                              TextFieldAddButton(
-                                title:
-                                    state.model.tracker?.name ?? 'Sept_Sprint',
-                                height: 70,
-                                isDisableColor: !showSaveSubmitButton,
+                              CommonWidgets.verticalSpacerWidget(
+                                height * 0.01,
+                              ),
+                              BaseDropDown().getDropDown(
+                                isDisabled: false,
+                                textController: priorityTypController,
+                                items: priorityTypeDropDownValues,
+                                initialValue: '${state.model.priorityType ??= 0}',
                                 onTap: () {
-                                  // if (!isReadOnly) {
-                                  FocusScope.of(context)
-                                      .requestFocus(FocusNode());
-
-                                  BaseOrganisationDialog().departmentDialog(
+                                  BaseDropDown().assetTypeDialog(
                                     context: context,
-                                    organisations: state.trackers,
-                                    onTap: (Organisation department) {
-                                      state.model.tracker?.name =
-                                          department.name;
+                                    dropDownValues:
+                                    priorityTypeDropDownValues
+                                        .map((label) => label.key)
+                                        .toList(),
+                                    onTap: (String value) {
+                                      Label? selectedLabel;
+                                      selectedLabel =
+                                          priorityTypeDropDownValues
+                                              .firstWhere(
+                                                (label) => label.key == value,
+                                            orElse: () =>
+                                            const Label(
+                                              key: '',
+                                              value: '',
+                                            ),
+                                          );
 
                                       BlocProvider.of<
-                                                  TicketingSystemDetailsCubit>(
-                                              context)
+                                          TicketingSystemDetailsCubit>(
+                                          context)
                                           .updateDropdownValues(
-                                              trackers: department);
-                                      // FocusScope.of(context)
-                                      //     .requestFocus(receivedByFocusNode);
+                                        priorityType: int.tryParse(
+                                          selectedLabel.value,
+                                        ),
+                                      );
                                     },
-                                    // orgName: 'EMPLOYEE_DEPARTMENTS',
-                                    // createEntity: false,
-                                    // title: 'Add Department',
-                                    // functionToCall: () {
-                                    //   // refresh the list
-                                    //   BlocProvider.of<
-                                    //               MaterialMovementDetailsCubit>(
-                                    //           context)
-                                    //       .refreshList();
-                                    // }
                                   );
-                                  // leodepartmentsDialog(stat
-                                  // }
+                                },
+                              ),
+
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+
+                              /// Assignee To
+                              CommonWidgets.horizentaltextHandling(
+                                // state.labels?.locale.entrySecurity ??
+                                //     state.labels?.defaultLocale.entrySecurity ??
+                                Constants.assignee,
+                                isMandatory: true,
+                                '${state.model.assignee}',
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+
+                              /// Affected Modules
+                              CommonWidgets.textDisplay(
+                                  // state.labels?.locale.entity ??
+                                  //     state.labels?.defaultLocale.entity ??
+                                      Constants.affectedModules,
+                                  Styles.textStyleWhite16,
+                                  isMandatory: true),
+                              CommonWidgets.verticalSpacerWidget(height * 0.001),
+                              BaseEntitiesSelection().entityDropDownSelection(
+                                context: context,
+                                selectedValues: state.model.modulesName ?? [],
+                                all: state.listOfModules ?? [],
+                                enabled: true,
+                                onTap: (List<Organisation> selectedModulesName) {
+                                  BlocProvider.of<TicketingSystemDetailsCubit>(context)
+                                      .updateDropdownValues(
+                                      modulesName: selectedModulesName);
+                                  Navigator.of(context).pop(); // Close the dialog
+                                },
+                                orgName: 'ATOM_MODULES_NAME_LIST',
+                                functionToCall: () {
+                                  // refresh the list
+                                  BlocProvider.of<TicketingSystemDetailsCubit>(context)
+                                      .refreshList();
                                 },
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                              /// Description
+
+                              /// Ticket Raised For
+                              CommonWidgets.textDisplay(
+                                // state.labels?.locale.status ??
+                                //     state.labels?.defaultLocale.status ??
+                                Constants.ticketRaisedFor,
+                                isMandatory: true,
+                                Styles.textStyleWhite14,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                height * 0.01,
+                              ),
+                              BaseDropDown().getDropDown(
+                                isDisabled: false,
+                                textController: ticketRaisedForController,
+                                items: ticketRaisedForDropDownValues,
+                                initialValue: '${state.model.issuedForm ??= 0}',
+                                onTap: () {
+                                  BaseDropDown().assetTypeDialog(
+                                    context: context,
+                                    dropDownValues:
+                                    ticketRaisedForDropDownValues
+                                        .map((label) => label.key)
+                                        .toList(),
+                                    onTap: (String value) {
+                                      Label? selectedLabel;
+                                      selectedLabel =
+                                          ticketRaisedForDropDownValues
+                                              .firstWhere(
+                                                (label) => label.key == value,
+                                            orElse: () =>
+                                            const Label(
+                                              key: '',
+                                              value: '',
+                                            ),
+                                          );
+
+                                      BlocProvider.of<
+                                          TicketingSystemDetailsCubit>(
+                                          context)
+                                          .updateDropdownValues(
+                                        ticketRaisedFor: int.tryParse(
+                                          selectedLabel.value,
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+
+                              /// Rag Status
+                              CommonWidgets.textDisplay(
+                                // state.labels?.locale.status ??
+                                //     state.labels?.defaultLocale.status ??
+                                Constants.ragStatus,
+                                isMandatory: true,
+                                Styles.textStyleWhite14,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                height * 0.01,
+                              ),
+                              BaseDropDown().getDropDown(
+                                isDisabled: true,
+                                textController: ragStatusController,
+                                items: ragStatusDropDownValues,
+                                initialValue: '${state.model.ragStatus ??= 0}',
+                                onTap: () {
+                                },
+                              ),
+
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+
+                              /// Subject
                               CommonWidgets.textDisplay(
                                   // state.labels?.locale.detailDes ??
                                   //     state.labels?.defaultLocale.detailDes ??
-                                  Constants.description,
+                                  Constants.subject,
                                   isMandatory: true,
                                   Styles.textStyleWhite16),
                               CommonWidgets.verticalSpacerWidget(
@@ -494,14 +604,43 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                                 lineHeight: 6,
                                 characterLimit:
                                     Constants.characterLimitDescTextFormField,
-                                initialValue: state.model.description,
+                                initialValue: state.model.title,
                                 showBorder: true,
                                 textFormKey: Keys.incidentDescription,
                                 hintText: Constants.informationhere,
                                 isEnable: showSaveSubmitButton,
                                 isDisableColor: !showSaveSubmitButton,
                                 onChange: (String value) {
-                                  state.model.description = value;
+                                  state.model.title = value;
+                                  context
+                                      .read<TicketingSystemDetailsCubit>()
+                                      .onModelValueChange(state.model);
+                                },
+                                validateTextField: (String? user) {},
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              /// Issue Description
+                              CommonWidgets.textDisplay(
+                                // state.labels?.locale.detailDes ??
+                                //     state.labels?.defaultLocale.detailDes ??
+                                  Constants.issueDes,
+                                  isMandatory: true,
+                                  Styles.textStyleWhite16),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+                              FlutterInputField(
+                                lineHeight: 6,
+                                characterLimit:
+                                Constants.characterLimitDescTextFormField,
+                                initialValue: state.model.bugDescription,
+                                showBorder: true,
+                                textFormKey: Keys.incidentDescription,
+                                hintText: Constants.informationhere,
+                                isEnable: showSaveSubmitButton,
+                                isDisableColor: !showSaveSubmitButton,
+                                onChange: (String value) {
+                                  state.model.bugDescription = value;
                                   context
                                       .read<TicketingSystemDetailsCubit>()
                                       .onModelValueChange(state.model);
@@ -511,74 +650,216 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               if (state.model.id != null) ...[
-                                /// History
-                                CommonWidgets.textDisplay(
-                                    // state.labels?.locale.detailDes ??
-                                    //     state.labels?.defaultLocale.detailDes ??
-                                    Constants.history,
-                                    isMandatory: true,
-                                    Styles.textStyleWhite16),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
-                                FlutterInputField(
-                                  lineHeight: 6,
-                                  characterLimit:
-                                      Constants.characterLimitDescTextFormField,
-                                  initialValue: state.model.history,
-                                  showBorder: true,
-                                  textFormKey: Keys.incidentDescription,
-                                  hintText: Constants.informationhere,
-                                  isEnable: false,
-                                  isDisableColor: true,
-                                  onChange: (String value) {
-                                    // state.model.history = value;
-                                    // context
-                                    //     .read<TicketingSystemDetailsCubit>()
-                                    //     .onModelValueChange(state.model);
-                                  },
-                                  validateTextField: (String? user) {},
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.02),
 
-                                /// Notes
-                                CommonWidgets.textDisplay(
-                                    Constants.notes,
-                                    isMandatory: true,
-                                    Styles.textStyleWhite16),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
-                                FlutterInputField(
-                                  lineHeight: 6,
-                                  characterLimit:
-                                      Constants.characterLimitDescTextFormField,
-                                  // initialValue: state.model.history,
-                                  showBorder: true,
-                                  textFormKey: Keys.incidentDescription,
-                                  hintText: Constants.informationhere,
-                                  isEnable:
-                                      state.model.status != 9 ? false : true,
-                                  isDisableColor: !showSaveSubmitButton,
-                                  onChange: (String value) {
-                                    state.model.history = value;
-                                    context
-                                        .read<TicketingSystemDetailsCubit>()
-                                        .onModelValueChange(state.model);
-                                  },
-                                  validateTextField: (String? user) {},
+                                Container(
+                                  height: 48,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFF3F5167),
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  padding:
+                                  const EdgeInsets.symmetric(horizontal: 12),
+                                  child: Row(
+                                    children: [
+                                      const Expanded(
+                                        child: Text(
+                                          'Activity Notes',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          final updatedNotes = List<ActivityNote>.from(
+                                            state.model.activityNotes ?? [],
+                                          )..add(
+                                            ActivityNote(
+                                              activityNotes: '',
+                                              submittedDate:
+                                              DateFormat('dd/MM/yyyy HH:mm:ss').format(DateTime.now()),
+                                              submitted: false,
+                                            ),
+                                          );
+
+                                          context.read<TicketingSystemDetailsCubit>().updateActivityNotes(
+                                            updatedNotes,
+                                          );
+                                        },
+                                        child: const Icon(Icons.add,
+                                            color: Colors.white),
+                                      )
+                                    ],
+                                  ),
                                 ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.02),
+
+                                const SizedBox(height: 12),
+
+                                ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount:
+                                  state.model.activityNotes?.length ?? 0,
+                                  itemBuilder: (context, index) {
+                                    final note =
+                                    state.model.activityNotes![index];
+                                    return Padding(
+                                      padding: const EdgeInsets.only(bottom: 16),
+                                      child: Container(
+                                        padding: const EdgeInsets.all(12),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white.withValues(alpha: 0.05),
+                                          borderRadius: BorderRadius.circular(8),
+                                          border: Border.all(color: Colors.white24),
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            /// 🔹 Top row: Title + Close icon
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                const Text(
+                                                  'Activity Note',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                                InkWell(
+                                                  onTap: () {
+                                                    final updatedNotes = List<ActivityNote>.from(
+                                                      state.model.activityNotes ?? [],
+                                                    )..removeAt(index);
+
+                                                    context.read<TicketingSystemDetailsCubit>().updateActivityNotes(
+                                                      updatedNotes,
+                                                    );
+                                                  },
+
+                                                  child: const Icon(
+                                                    Icons.close,
+                                                    color: Colors.white,
+                                                    size: 20,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+
+                                            const SizedBox(height: 8),
+
+                                            /// 🔹 Activity text
+                                            FlutterInputField(
+                                              lineHeight: 5,
+                                              initialValue: note.activityNotes,
+                                              showBorder: true,
+                                              isEnable: true,
+                                              hintText: Constants.informationhere,
+                                              // onChange: (value) {
+                                              //   note.activityNotes = value;
+                                              //   context
+                                              //       .read<TicketingSystemDetailsCubit>()
+                                              //       .updateActivityNotes(state.model);
+                                              // },
+
+                                              onChange: (String value) {
+                                                note.activityNotes = value; // ✅ STRING
+                                                context
+                                                    .read<TicketingSystemDetailsCubit>()
+                                                    .onModelValueChange(state.model);
+                                              },
+                                              // onChange: (String value) {
+                                              //   final updatedNotes = List<ActivityNote>.from(
+                                              //     state.model.activityNotes ?? [],
+                                              //   );
+                                              //
+                                              //   updatedNotes[index] = ActivityNote(
+                                              //     id: note.id,
+                                              //     activityNotes: note.activityNotes,
+                                              //     submittedDate: value,
+                                              //     submitted: note.submitted,
+                                              //   );
+                                              //
+                                              //   context.read<TicketingSystemDetailsCubit>()
+                                              //       .updateActivityNotes(updatedNotes);
+                                              // },
+                                              textFormKey: '',
+                                            ),
+
+                                            const SizedBox(height: 10),
+
+                                            /// 🔹 Date BELOW the activity text
+                                            BaseDate().datePickerWidgetLoading(
+                                              textController: TextEditingController(
+                                                text: note.submittedDate,
+                                              ),
+                                              isDisabled: false,
+                                              onlyDate: false,
+                                              showPastDate: false,
+                                              showFutureDate: true,
+                                              onChange: (String value) {
+                                                note.submittedDate = value; // ✅ STRING
+                                                context
+                                                    .read<TicketingSystemDetailsCubit>()
+                                                    .onModelValueChange(state.model);
+                                              },
+                                              // onChange: (value) {
+                                              //   final updatedNotes = List<ActivityNote>.from(
+                                              //     state.model.activityNotes ?? [],
+                                              //   );
+                                              //
+                                              //   updatedNotes[index] = ActivityNote(
+                                              //     id: note.id,
+                                              //     activityNotes: value,
+                                              //     submittedDate: note.submittedDate,
+                                              //     submitted: note.submitted,
+                                              //   );
+                                              //
+                                              //   context.read<TicketingSystemDetailsCubit>()
+                                              //       .updateActivityNotes(updatedNotes);
+                                              // },
+                                              context: context,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
                               ],
 
+                              if(state.model.id != null)...[
+                              /// Modified By
+                              CommonWidgets.horizentaltextHandling(
+                                // state.labels?.locale.entrySecurity ??
+                                //     state.labels?.defaultLocale.entrySecurity ??
+                                Constants.modifiedBy,
+                                isMandatory: true,
+                                '${state.model.modifiedBy}',
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+
+                              /// Modified Date
+                              CommonWidgets.textDisplay(
+                                // state.labels?.locale.modifiedDate ??
+                                //     state.labels?.defaultLocale.modifiedDate ??
+                                    Constants.modifiedDate,
+                                isMandatory: true,
+                                Styles.textStyleWhite14,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                height * 0.01,
+                              ),
+                              BaseDate().creationDateDisplay(
+                                state.model.modifiedDate ?? '',
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+],
                               /// upload
                               CommonWidgets.textDisplay(Constants.uploadPhoto,
                                   Styles.textStyleWhite16),
-                              // widget.guardingMasterData == null
-                              //     ? CommonWidgets.verticalSpacerWidget(
-                              //     height * 0.001)
-                              //     : Container(),
-                              // AbsorbPointer(
                               BaseImageUpload().uploadWidget(
                                 context: context,
                                 isDisabled: !showSaveSubmitButton,
@@ -599,7 +880,8 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                                   );
                                 },
                               ),
-                              // ),
+
+
                               /// Attachments
                               Padding(
                                 padding: const EdgeInsets.symmetric(
@@ -614,6 +896,8 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                               ),
 
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+
                             ],
                           ),
                         ),
@@ -649,6 +933,8 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
             ],
           ),
         ),
+
+
       ],
     );
   }
@@ -679,4 +965,5 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
       },
     );
   }
+
 }

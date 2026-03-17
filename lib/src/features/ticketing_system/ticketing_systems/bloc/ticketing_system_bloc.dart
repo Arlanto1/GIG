@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/ticketing_system/models/ticketing_system_list_model.dart';
+import 'package:db_atom/src/features/ticketing_system/models/ticketing_system_model.dart';
 import 'package:db_atom/src/features/ticketing_system/services/ticketing_system_services.dart';
 
 part 'ticketing_system_event.dart';
@@ -36,7 +37,7 @@ class TicketingSystemBloc
       // );
 
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
-          module: Constants.shiftScheduleModuleCode);
+          module: Constants.ticketingSystemModuleCode);
 
       List<Organisation> regions =
       await commonServices.getRegionsOrLocationsByRegionId();
@@ -51,7 +52,6 @@ class TicketingSystemBloc
           language: await SharedPrefs.getLanguageCode(),
           moduleCode: Constants.shiftScheduleModuleCode);
 
-      SSUiLabels labels = SSUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
           locations: locations,
@@ -118,8 +118,8 @@ class TicketingSystemBloc
           filters: event.filters,
         );
 
-        for (TicketingSystems model in response.items ?? []) {
-        }
+        // for (TicketingSystemModel model in response.items ?? []) {
+        // }
 
         return emit(
           state.copyWith(

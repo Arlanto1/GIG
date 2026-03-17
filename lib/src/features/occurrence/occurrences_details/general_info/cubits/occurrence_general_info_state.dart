@@ -211,7 +211,7 @@ class OccurrenceGeneralInfoState extends Equatable {
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       users: users ?? this.users,
       shiftTakenOverBy: shiftTakenOverBy ?? this.shiftTakenOverBy,
-      listOfEntities: listOfEntities ?? this.listOfEntities,
+      listOfEntities: listOfEntities ?? listOfEntities,
       departments: departments ?? this.departments,
       participationDates: participationDates ?? this.participationDates,
       eventId: eventId ?? this.eventId,

@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/passmanagement/day_pass_mangement/day_passmanagement_list/bloc/day_passmanagement_list_bloc.dart';
 import 'package:db_atom/src/features/passmanagement/sez_pass_management/models/sez_pass_management_model.dart';
 import 'package:db_atom/src/features/passmanagement/sez_pass_management/services/sez_pass_management_service.dart';
 import 'package:db_atom/src/features/passmanagement/sez_pass_management/sez_pass_managememt_list/bloc/sez_pass_management_list_bloc.dart';
@@ -63,8 +62,6 @@ class _SezPassManagementListViewState extends State<SezPassManagementListView> {
   @override
   Widget build(BuildContext context) {
     final scaffoldKey = GlobalKey<ScaffoldState>();
-    final size = MediaQuery.of(context).size;
-    double height = size.height;
     return BlocConsumer<SezPassManagementListBloc, SezPassManagementListState>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -72,19 +69,6 @@ class _SezPassManagementListViewState extends State<SezPassManagementListView> {
               backgroundColor: Colors.transparent,
               extendBodyBehindAppBar: true,
               extendBody: true,
-              // floatingActionButton: state.extraProperties?.hasWritePermission ??
-              //     false
-              //     ? Flutterfloatingbutton(
-              //   backgroundColor: AppColors.navigationSkyBlueColor,
-              //   foregroundColor: AppColors.backgroundWhiteColor,
-              //   onPressed: () => {
-              //     Navigator.pushNamed(context, sezPassManagementDetailsRoute,
-              //         arguments: {
-              //           "title": Constants.createSezPassManagementTitle
-              //         }),
-              //   },
-              // )
-              //     : const SizedBox(),
               bottomNavigationBar: CustomBottomNavigationBar(
                 hasAddPermission:
                     state.extraProperties?.hasWritePermission ?? false
@@ -129,7 +113,7 @@ class _SezPassManagementListViewState extends State<SezPassManagementListView> {
                         child: BackdropFilter(
                           filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
                           child: Container(
-                            color: Colors.black.withOpacity(0.2),
+                            color: Colors.black.withValues(alpha: 0.2),
                           ),
                         ),
                       ),
@@ -173,7 +157,7 @@ class _SezPassManagementListViewState extends State<SezPassManagementListView> {
                         },
                         child: ListView.builder(
                           controller: _scrollController,
-                          padding: EdgeInsets.zero,
+                          padding: const EdgeInsets.only(bottom: 100),
                           itemCount: state.hasReachedMax
                               ? state.items.length
                               : state.items.length + 1,
@@ -281,7 +265,7 @@ class _SezPassManagementListViewState extends State<SezPassManagementListView> {
                                                             alpha: 0.09),
                                                         // Color(0xFF6474C6).withOpacity(0.14)
                                                       ],
-                                                      stops: [0.02, 0.35, 1],
+                                                      stops: const [0.02, 0.35, 1],
                                                       begin:
                                                           Alignment.topCenter,
                                                       end: Alignment

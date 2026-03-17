@@ -172,7 +172,8 @@ class VVIPVisitorsBloc extends Bloc<VVIPVisitorsEvent, VVIPVisitorsState> {
         return emit(
           state.copyWith(
             items: response.items,
-            hasReachedMax: false,
+            hasReachedMax: (response.items?.length ?? 0) < event.maxPos,
+            // hasReachedMax: true,
             status: FormStatus.success,
           ),
         );
