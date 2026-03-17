@@ -525,6 +525,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                   ],
                                 ),
                               ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
                               Column(
                                 children: getPOC(state, height),
                               ),
@@ -825,11 +826,12 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
             Expanded(
               child: Text(
                 poc,
+                style: const TextStyle(color: Colors.white),
                 textAlign: TextAlign.start,
               ),
             ),
             IconButton(
-              icon: const Icon(Icons.close), // Cancel icon
+              icon: const Icon(Icons.close, color: Colors.white,), // Cancel icon
               onPressed: () {
                 // Remove the POC from the state
                 state.pocs?.removeAt(index);
@@ -849,8 +851,9 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
       return [
         Container(
           decoration: BoxDecoration(
-            color: AppColors.lightGreyBackground,
+            color: Colors.transparent,
             borderRadius: BorderRadius.circular(5),
+            border: Border.all(color: Colors.white, width: 0.7)
           ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
