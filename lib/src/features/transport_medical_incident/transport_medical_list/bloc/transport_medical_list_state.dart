@@ -7,7 +7,7 @@ class TransportMedicalState extends Equatable {
   final Locations? locations;
   final CommonFilters? commonFilters;
   final String? message;
-  final EPUiLabels? labels;
+  final IMUiLabels? labels;
   final ExtraProperties? extraProperties;
   final DisplayMenu? displayMenu;
 
@@ -33,7 +33,7 @@ class TransportMedicalState extends Equatable {
     CommonFilters? commonFilters,
     List<Organisation>? regions,
     List<Organisation>? statuses,
-    EPUiLabels? labels,
+    IMUiLabels? labels,
     ExtraProperties? extraProperties,
   }) {
     return TransportMedicalState(

@@ -286,9 +286,8 @@ const List<Label> dutyPostNameMasterStatusValues = [
   Label(key: 'Active', value: '1'),
 ];
 const List<Label> dutyPostMasterStatusValues = [
-  Label(key: 'Cancelled', value: '-1'),
   Label(key: 'Active', value: '1'),
-  Label(key: 'InActive', value: '2')
+  Label(key: 'Closed', value: '2')
 ];
 
 const List<Label> slaStatusDropDownValues = [
@@ -469,3 +468,106 @@ const List<Label> ragStatusDropDownValues = [
   Label(key: 'Red', value: '3'),
 ];
 
+
+const List<Label> transportIncidentTypeValues = [
+  Label(key: 'Transport', value: '0'),
+  Label(key: 'Medical Emergency', value: '1'),
+];
+
+const List<Label> transportTypeValues = [
+  Label(key: 'Ambulance', value: '0'),
+  Label(key: 'Cab', value: '1'),
+  Label(key: 'Personal', value: '2'),
+  Label(key: 'Company', value: '3'),
+
+];
+
+
+const List<Label> patrollingShift = [
+  Label(key: 'A', value: '0'),
+  Label(key: 'B', value: '1'),
+  Label(key: 'C', value: '2'),
+];
+
+
+const List<Label> patrollingStatusDropDownValues = [
+  Label(key: 'Draft', value: '0'),
+  Label(key: 'LSM Actions', value: '1'),
+  Label(key: 'Owner Actions', value: '2'),
+  Label(key: 'Closed', value: '3'),
+  Label(key: 'Cancelled', value: '-1'),
+];
+
+
+const List<Label> shift = [
+  Label(key: 'A', value: '0'),
+  Label(key: 'B', value: '1'),
+  Label(key: 'C', value: '2'),
+];
+
+
+const List<Label> progressStatus = [
+  Label(key: 'In Progress', value: '0'),
+  Label(key: 'Closed', value: '1'),
+];
+
+const List<Label> reviewStatus = [
+  Label(key: 'Approved', value: '1'),
+  Label(key: 'Rejected', value: '2'),
+];
+const List<Label> severityDropDown = [
+  Label(key: 'High', value: '1'),
+  Label(key: 'Medium', value: '2'),
+  Label(key: 'Low', value: '3'),
+
+];
+
+// const List<String> ownerDropDownValues = [
+//   'Security',
+//   'Facilities',
+//   'Management',
+//   'Other',
+// ];
+
+const List<Label> ownerDropDownValues = [
+  Label(key: 'Security', value: 'Security'),
+  Label(key: 'Facility', value: 'Facility'),
+  Label(key: 'Engineering', value: 'Engineering'),
+  Label(key: 'Other', value: 'Other'),
+
+];
+
+
+const List<Label> csrEventProtectionGiStatus = [
+  Label(key: 'Draft', value: '0'),
+  Label(key: 'Business User Review', value: '1'),
+  Label(key: 'LSM Review', value: '2'),
+  Label(key: 'LSM Approved', value: '3'),
+  Label(key: 'LSM Rejected', value: '4'),
+  Label(key: 'Vendor Review', value: '5'),
+  Label(key: 'Vendor Approve', value: '6'),
+  Label(key: 'Vendor Reject', value: '7'),
+  Label(key: 'Business User POC Review', value: '8'),
+  Label(key: 'Business User POC Approved', value: '9'),
+  Label(key: 'Business User POC Rejected', value: '10'),
+  Label(key: 'Security System Vendor Review', value: '11'),
+  Label(key: 'Security Vendor Submitted', value: '12'),
+  Label(key: 'EP Pre Review', value: '13'),
+  Label(key: 'EP Pre Approved', value: '14'),
+  Label(key: 'EP Pre Rejected', value: '15'),
+  Label(key: 'SRH Review', value: '16'),
+  Label(key: 'SRH Approved', value: '17'),
+  Label(key: 'SRH Rejected', value: '18'),
+  Label(key: 'PO Required', value: '19'),
+  Label(key: 'PO Updated', value: '20'),
+  Label(key: 'Event Started', value: '21'),
+  Label(key: 'Event Ongoing', value: '22'),
+  Label(key: 'Event Concluded', value: '23'),
+  Label(key: 'EP Post-Event Approved', value: '25'),
+  Label(key: 'EP Post-Event Rejected', value: '26'),
+  Label(key: 'Invoice Requested', value: '27'),
+  Label(key: 'Invoice Raised', value: '28'),
+  Label(key: 'Invoice Submitted', value: '29'),
+  Label(key: 'Closed', value: '30'),
+  Label(key: 'Cancelled', value: '-1'),
+];

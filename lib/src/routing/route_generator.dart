@@ -2457,8 +2457,6 @@ import 'package:db_atom/src/features/incident_management/services/incident_manag
 import 'package:db_atom/src/features/law_enforcement_new/law_enforcement_list_new/bloc/law_enforcement_bloc_new.dart';
 import 'package:db_atom/src/features/law_enforcement_new/models/law_enforcement_model_new.dart';
 import 'package:db_atom/src/features/law_enforcement_new/services/law_enforcement_services_new.dart';
-// import 'package:db_atom/src/features/law_enforcement_new/visiting_officials/bloc/visiting_officials_bloc.dart';
-// import 'package:db_atom/src/features/law_enforcement_new/visiting_officials/views/visiting_officials_view.dart';
 import 'package:db_atom/src/features/lawenforcement/views/visiting_officials_list/bloc/visiting_officials_list_bloc.dart'
 as vo;
 import 'package:db_atom/src/features/lawenforcement/views/visiting_officials_list/views/visiting_officials_list_view.dart';
@@ -2477,6 +2475,14 @@ import 'package:db_atom/src/features/passmanagement/vendor_pass_management/model
 import 'package:db_atom/src/features/passmanagement/vendor_pass_management/services/vendor_pass_management_service.dart';
 import 'package:db_atom/src/features/passmanagement/visitor_pass_management/models/visitor_pass_management_model.dart';
 import 'package:db_atom/src/features/passmanagement/visitor_pass_management/services/visitor_pass_management_service.dart';
+import 'package:db_atom/src/features/patrolling/models/patrolling_model.dart';
+import 'package:db_atom/src/features/patrolling/models/patrolling_other_model.dart';
+import 'package:db_atom/src/features/patrolling/patrolling_details/cubit/patrolling_details_cubit.dart';
+import 'package:db_atom/src/features/patrolling/patrolling_details/views/patrolling_general_info.dart';
+import 'package:db_atom/src/features/patrolling/patrolling_details/views/patrolling_listCard_details_view.dart';
+import 'package:db_atom/src/features/patrolling/patrolling_details/views/patrolling_other_view.dart';
+import 'package:db_atom/src/features/patrolling/patrolling_list/views/patrolling_list_view.dart';
+import 'package:db_atom/src/features/patrolling/services/patrolling_service.dart';
 import 'package:db_atom/src/features/security_systems/services/sst_incident_services.dart';
 import 'package:db_atom/src/features/security_systems/sst_incident_list/bloc/sst_incident_bloc.dart'
 as sv;
@@ -2486,7 +2492,10 @@ import 'package:db_atom/src/features/ticketing_system/ticketing_system_details/c
 import 'package:db_atom/src/features/ticketing_system/ticketing_system_details/views/ticketing_system_details_view.dart';
 import 'package:db_atom/src/features/ticketing_system/ticketing_systems/bloc/ticketing_system_bloc.dart';
 import 'package:db_atom/src/features/ticketing_system/ticketing_systems/views/ticketing_system_view.dart';
-import 'package:db_atom/src/features/transport_medical_incident/transport_medical_list/bloc/transport_medical_list_bloc.dart';
+import 'package:db_atom/src/features/transport_medical_incident/models/transport_medical_incident_model.dart';
+import 'package:db_atom/src/features/transport_medical_incident/services/transport_medical_service.dart';
+import 'package:db_atom/src/features/transport_medical_incident/transport_medical_details/cubits/transport_medical_details_cubit.dart';
+import 'package:db_atom/src/features/transport_medical_incident/transport_medical_details/views/transport_medical_details_view.dart';
 import 'package:db_atom/src/features/transport_medical_incident/transport_medical_list/views/transport_medical_list_view.dart';
 
 import '../features/article_found/article_found_details/cubits/article_found_details_cubit.dart';
@@ -2554,6 +2563,7 @@ import '../features/passmanagement/visitor_pass_management/visitor_pass_manageme
 import '../features/passmanagement/visitor_pass_management/visitor_pass_management_details/views/visitor_pass_management_details_view.dart';
 import '../features/passmanagement/visitor_pass_management/visitor_pass_management_list/bloc/visitor_pass_management_list_bloc.dart';
 import '../features/passmanagement/visitor_pass_management/visitor_pass_management_list/views/visitor_pass_management_list_view.dart';
+import '../features/patrolling/patrolling_list/bloc/patrolling_list_bloc.dart' as pl;
 import '../features/transport_medical_incident/transport_medical_list/bloc/transport_medical_list_bloc.dart' as tm;
 
 class RouteGenerator {
@@ -3387,6 +3397,7 @@ class RouteGenerator {
         String id = '';
         bool editForm = false;
         bool? isEventProtection = false;
+        bool? isCSREventProtection = false;
         int eventDuration = 0;
         String title = '';
 
@@ -3398,6 +3409,7 @@ class RouteGenerator {
           eventDuration = arguments['eventDuration'];
           editForm = arguments[ConstantsArgument.editForm];
           isEventProtection = arguments[ConstantsArgument.isEventProtection];
+          isCSREventProtection= arguments[ConstantsArgument.isCSREvent];
         }
         log('edit123 $editForm');
         return MaterialPageRoute(
@@ -3413,6 +3425,7 @@ class RouteGenerator {
               editForm: editForm,
               eventProtectionId: id,
               isEventProtection: isEventProtection ?? false,
+              isCSREventProtection: isCSREventProtection??false,
             ),
           ),
         );
@@ -4289,75 +4302,6 @@ class RouteGenerator {
           ),
         );
 
-      // case materialMovementApproveRoute:
-      //   MaterialMovementServices services = MaterialMovementServices();
-      //   CommonServices commonServices = CommonServices();
-      //   bool isInward = true;
-      //   bool? returnable = false;
-      //   String title;
-      //   ExtraProperties? extraProperties;
-      //   Map<String, dynamic> arguments =
-      //   settings.arguments as Map<String, dynamic>;
-      //   title = arguments[ConstantsArgument.title];
-      //   isInward = arguments['isInward'];
-      //   ApprovalModel? approvalModel =
-      //   arguments["MaterialMovementModel"];
-      //   extraProperties = arguments[ConstantsArgument.extraProperties];
-      //   returnable = arguments['returnable'];
-      //   // if (approvalModel != null) {
-      //     return MaterialPageRoute(
-      //         builder: (context) => BlocProvider<MaterialMovementDetailsCubit>(
-      //           create: (_) => MaterialMovementDetailsCubit(
-      //             materialMovementServices: services,
-      //             commonServices: commonServices,
-      //             approvalModel: approvalModel,
-      //             isInward: isInward,
-      //             returnable: returnable, materialItems: [],
-      //           ),
-      //           child: MaterialApproveView(
-      //             approvalModel: approvalModel,
-      //             isInward: isInward,
-      //             title: title,
-      //             extraProperties: extraProperties,
-      //             returnable: returnable,
-      //           ),
-      //         ));
-        // }
-        // return MaterialPageRoute(
-        //     builder: (context) => BlocProvider<MaterialMovementDetailsCubit>(
-        //       create: (_) => MaterialMovementDetailsCubit(
-        //         materialMovementServices: services,
-        //         commonServices: commonServices,
-        //         model: MaterialMovementModel(),
-        //         isInward: isInward,
-        //         returnable: returnable, materialItems: [],
-        //       ),
-        //       child: MaterialApproveView(
-        //         isInward: isInward,
-        //         title: title,
-        //         extraProperties: extraProperties,
-        //         returnable: returnable,
-        //       ),
-        //     ));
-
-
-    // case ticketingSystemDetailsRoute:
-    //   // ExtraProperties? extraProperties;
-    //   if (settings.arguments != null) {
-    //     Map<String, dynamic> arguments =
-    //         settings.arguments as Map<String, dynamic>;
-    //     // extraProperties = arguments[ConstantsArgument.extraProperties];
-    //   }
-    //
-    //   return MaterialPageRoute(
-    //     builder: (context) => BlocProvider<TicketingSystemDetailsCubit>(
-    //       create: (_) => TicketingSystemDetailsCubit(
-    //         services: TicketingSystemServices(),
-    //         commonServices: CommonServices(),
-    //       ),
-    //       child: const TicketingSystemDetailsView(),
-    //     ),
-    //   );
 
       case ticketingSystemListRoute:
         return MaterialPageRoute(
@@ -4793,29 +4737,125 @@ class RouteGenerator {
           ),
         );
 
+
       case transportMedicalDetailsRoute:
-        int id = 0;
-        String title = '';
-        int eventStatus = 0;
-        bool? isTransport = false;
-        if (settings.arguments != null) {
-          Map<String, dynamic> arguments =
-          settings.arguments as Map<String, dynamic>;
-          id = arguments[ConstantsArgument.id];
-          eventStatus = arguments['eventStatus'];
-          title = arguments[ConstantsArgument.title];
-          isTransport = arguments['isTransport'];
-        }
+        TransportMedicalServices services = TransportMedicalServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        bool isTransport = false;
+        ExtraProperties? extraProperties;
+        Map<String, dynamic> arguments =
+        settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        TransportMedicalModel? model = arguments["model"];
+        isTransport = arguments['isTransport'];
+        extraProperties = arguments[ConstantsArgument.extraProperties];
+
         return MaterialPageRoute(
-          builder: (context) => CsrEventShowGridView(
-            id: id,
-            title: title,
-            eventStatus: eventStatus,
-            isCSREvent: isTransport ?? false,
-            showEPGridsModel: ShowEPGridsModel(),
+          builder: (context) => BlocProvider<TransportMedicalDetailsCubit>(
+            create: (_) => TransportMedicalDetailsCubit(
+              services: services,
+              model: model,
+              commonServices: commonServices,
+                isTransport:isTransport, transportId: ''
+            ),
+            child: TransportMedicalDetailsView(
+                model: model, title: title,
+                extraProperties: extraProperties,
+                isTransport: isTransport ?? false),
           ),
         );
 
+      case patrollingListRoute:
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+          settings.arguments as Map<String, dynamic>;
+        }
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<pl.PatrollingListBloc>(
+            create: (_) => pl.PatrollingListBloc(
+            )..add(pl.FetchPatrolData(
+                startPos: 0,
+                maxPos: Constants.maxResults,
+                newSearch: true,
+                filters: BaseFilterModel())),
+            child: const PatrollingListView(
+            ),
+          ),
+        );
+
+      case patrollingListCardRoute:
+        PatrollingService services = PatrollingService();
+        CommonServices commonServices = CommonServices();
+        String title;
+        Map<String, dynamic> arguments =
+        settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        PatrollingModel? model = arguments["model"];
+        PatrollingOtherModel? otherModel = arguments["otherModel"];
+
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<PatrollingDetailsCubit>(
+            create: (_) => PatrollingDetailsCubit(
+                services: services,
+                model: model,
+                otherModel: otherModel,
+                commonServices: commonServices,
+            ),
+            child: PatrollingListCardView(
+                 title: title,
+                 model: model,
+              otherModel: otherModel,
+              ),
+          ),
+        );
+
+      case patrollingGenInfoRoute:
+        PatrollingService services = PatrollingService();
+        CommonServices commonServices = CommonServices();
+        String title;
+        Map<String, dynamic> arguments =
+        settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        PatrollingModel? model = arguments["model"];
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<PatrollingDetailsCubit>(
+            create: (_) => PatrollingDetailsCubit(
+              services: services,
+              model: model,
+              commonServices: commonServices,
+            ),
+            child: PatrollingGeneralInfoDetailsView(
+              title: title,
+              model : model,
+            ),
+          ),
+        );
+
+      case patrollingOtherInfoRoute:
+        PatrollingService services = PatrollingService();
+        CommonServices commonServices = CommonServices();
+        String title;
+        Map<String, dynamic> arguments =
+        settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        PatrollingOtherModel? otherModel = arguments["otherModel"];
+        PatrollingModel? model = arguments["model"];
+
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<PatrollingDetailsCubit>(
+            create: (_) => PatrollingDetailsCubit(
+              services: services,
+              otherModel: otherModel,
+              commonServices: commonServices,
+            ),
+            child: PatrollingOtherView(
+              title: title,
+              otherModel : otherModel,
+              model:model,
+            ),
+          ),
+        );
 
 
       case aiChatListRoute:

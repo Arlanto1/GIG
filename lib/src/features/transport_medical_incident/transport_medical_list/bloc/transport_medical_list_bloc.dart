@@ -1,18 +1,18 @@
+
 import 'dart:async';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/event_protection/models/ep_ui_labels.dart';
+import 'package:db_atom/src/features/incident_management/models/im_ui_labels.dart';
 import 'package:db_atom/src/features/transport_medical_incident/models/transport_medical_incident_model.dart';
 import 'package:db_atom/src/features/transport_medical_incident/services/transport_medical_service.dart';
-
 part 'transport_medical_list_event.dart';
 part 'transport_medical_list_state.dart';
 
 class TransportMedicalBloc
     extends Bloc<TransportMedicalEvent, TransportMedicalState> {
   final bool isTransport;
-
-  TransportMedicalBloc({required this.isTransport}) : super(const TransportMedicalState()) {
+  TransportMedicalBloc({required this.isTransport}
+      ) : super(const TransportMedicalState()) {
     on<InitializeValuesTM>(_initializeValues);
     on<FetchTMData>(
       _fetchList,
@@ -27,43 +27,21 @@ class TransportMedicalBloc
   final TransportMedicalServices _services = TransportMedicalServices();
   final CommonServices commonServices = CommonServices();
 
-  FutureOr<void> _refreshList(
-      RefreshList event, Emitter<TransportMedicalState> emit) async {
-    try {
-      TransportMedicalResponse response;
-
-      response = await _services.getTransportMedicalList(
-        startPosition: '0',
-        maximumRecords: '20',
-        filters: BaseFilterModel(),
-        incidentType: isTransport ? 0 : 1,
-      );
-
-      return emit(
-        state.copyWith(
-          items: response.items,
-          hasReachedMax: false,
-          status: FormStatus.success,
-        ),
-      );
-    } on Exception catch (e) {
-      return UtilsCommon().exceptionHandling(e, emit, state);
-    }
-  }
-
   FutureOr<void> _initializeValues(
       InitializeValuesTM event, Emitter<TransportMedicalState> emit) async {
+
+
     try {
       emit(state.copyWith(status: FormStatus.loading));
 
       ExtraProperties extraProperties =
       await UtilsCommon().checkWritePermission(
-        moduleCode: Constants.eventProtectionModuleCode,
+        moduleCode: Constants.incidentManagementModule,
         commonServices: commonServices,
       );
 
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
-          module: Constants.eventProtectionModule);
+          module: Constants.incidentManagementModule);
 
       List<Organisation> regions =
       await commonServices.getRegionsOrLocationsByRegionId();
@@ -76,9 +54,9 @@ class TransportMedicalBloc
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
-          moduleCode: Constants.eventProtectionModuleCode);
+          moduleCode: Constants.incidentManagementModule);
 
-      EPUiLabels labels = EPUiLabels.fromJson(responseLabels);
+      IMUiLabels labels = IMUiLabels.fromJson(responseLabels);
       return emit(
         state.copyWith(
           locations: locations,
@@ -86,7 +64,7 @@ class TransportMedicalBloc
           statuses: statuses,
           commonFilters: commonFilters,
           hasReachedMax: false,
-          status: FormStatus.initial,
+          status: FormStatus.success,
           labels: labels,
           extraProperties: extraProperties,
         ),
@@ -104,6 +82,32 @@ class TransportMedicalBloc
     }
   }
 
+  FutureOr<void> _refreshList(
+      RefreshList event, Emitter<TransportMedicalState> emit) async {
+    try {
+      TransportMedicalResponse response;
+
+      response = await _services.getTransportMedicalList(
+        startPosition: '0',
+        maximumRecords: '20',
+        // userId: '7',
+        filters: BaseFilterModel(), incidentType: isTransport? 0 :1,
+
+      );
+
+      return emit(
+        state.copyWith(
+          items: response.items,
+          hasReachedMax: false,
+          status: FormStatus.success,
+        ),
+      );
+    } on Exception catch (e) {
+      return UtilsCommon().exceptionHandling(e, emit, state);
+    }
+  }
+
+
   FutureOr<void> _fetchList(
       FetchTMData event, Emitter<TransportMedicalState> emit) async {
     emit(
@@ -118,9 +122,10 @@ class TransportMedicalBloc
         response = await _services.getTransportMedicalList(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
+          incidentType: isTransport? 0 :1,
           filters: event.filters,
-          incidentType: isTransport ? 0 : 1,
         );
+
         return emit(
           state.copyWith(
             items: response.items,
@@ -134,8 +139,9 @@ class TransportMedicalBloc
       response = await _services.getTransportMedicalList(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',
+        // userId: '7',
+        incidentType: isTransport? 0 :1,
         filters: event.filters,
-        incidentType: isTransport ? 0 : 1,
       );
 
       if (response.items?.isEmpty == true) {

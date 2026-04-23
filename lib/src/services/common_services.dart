@@ -203,9 +203,29 @@ class CommonServices {
     required String locationId,
     required String moduleCode,
     BuildContext? context,
+    int? type,
   }) async {
     String url =
         '${CommonApis._getSlNo}locationId=$locationId&moduleCode=$moduleCode';
+    if(type !=null){
+      '${CommonApis._getSlNo}locationId=$locationId&moduleCode=$moduleCode&type=$type';
+    }
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    log('--response--${response.toString()}----');
+
+    return SerialNumberModel.fromJson(response);
+  }
+
+  Future<SerialNumberModel> getIMSlNo({
+    required String locationId,
+    required String moduleCode,
+    BuildContext? context,
+    int? type,
+  }) async {
+    String url =
+        '${CommonApis._getSlNo}locationId=$locationId&moduleCode=$moduleCode&type=$type';
     final response = await BaseApiService().getRequest(
       url: url,
     );

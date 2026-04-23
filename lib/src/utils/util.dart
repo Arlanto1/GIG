@@ -293,7 +293,7 @@ class Utils {
         textColor = const Color(0xFFB71C1C); // dark red
         break;
       default:
-        statusText = 'Unknown';
+        statusText = '';
         bgColor = const Color(0xFFE0E0E0);
         borderColor = const Color(0xFF9E9E9E);
         textColor = const Color(0xFF424242);
@@ -375,7 +375,7 @@ class Utils {
         break;
 
       default:
-        statusText = 'Unknown';
+        statusText = '';
         bgColor = const Color(0xFFE0E0E0);
         borderColor = const Color(0xFF9E9E9E);
         textColor = const Color(0xFF424242);
@@ -520,7 +520,7 @@ class Utils {
         break;
 
       default:
-        statusText = 'Unknown';
+        statusText = '';
         bgColor = const Color(0xFFE0E0E0);
         borderColor = const Color(0xFF9E9E9E);
         textColor = const Color(0xFF424242);
@@ -560,36 +560,131 @@ class Utils {
   }
 
 
-  Widget buildMasterDataStatusRow(int status) {
+  dynamic buildMasterDataStatusRow(int status, {bool? returnTextOnly}) {
     String statusText;
+    Color bgColor;
+    Color textColor;
+    Color borderColor;
 
     switch (status) {
       case 1:
         statusText = 'Active';
+        bgColor = const Color(0xFFBBDEFB);      // Light Blue
+        borderColor = const Color(0xFF1976D2);  // Dark Blue
+        textColor = const Color(0xFF0D47A1);    // Text Orange
         break;
+
       case 2:
         statusText = 'InActive';
+        bgColor = const Color(0xFFD1C4E9);      // Light Purple
+        borderColor = const Color(0xFF512DA8);  // Dark Purple
+        textColor = const Color(0xFF311B92);    // Text Purple
         break;
+
       case 3:
         statusText = 'Leave';
+        bgColor = const Color(0xFFC8E6C9);      // Light Green
+        borderColor = const Color(0xFF388E3C);  // Dark Green
+        textColor = const Color(0xFF1B5E20);    // Text Green
         break;
+
       case 4:
         statusText = 'WeekOff';
+        bgColor = const Color(0xFFFFF9C4);      // Light Yellow
+        borderColor = const Color(0xFFFBC02D);  // Yellow Border
+        textColor = const Color(0xFFF57F17);   // Text Green
         break;
+
+      case 5:
+        statusText = 'Offboarded';
+        bgColor = const Color(0xFFE0F7FA);
+        borderColor = const Color(0xFF00ACC1);
+        textColor = const Color(0xFF006064);   // Text Green
+        break;
+
       case -1:
         statusText = 'Cancelled';
+        bgColor = const Color(0xFFFFCDD2);      // Light Red
+        borderColor = const Color(0xFFD32F2F);  // Dark Red
+        textColor = const Color(0xFFB71C1C);    // Text Red
         break;
+
       default:
-        statusText = ''; // Handle the default case if needed
+        statusText = '';
+        bgColor = const Color(0xFFE0E0E0);
+        borderColor = const Color(0xFF9E9E9E);
+        textColor = const Color(0xFF424242);
     }
-    return IntrinsicWidth(
-      child: Row(
-        children: [
-          textHandling('Status : ', statusText),
-        ],
-      ),
+    if (returnTextOnly ?? false) {
+      return statusText;
+    }
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const Text(
+          'Status:',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+          ),
+        ),
+        const SizedBox(width: 8),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+          decoration: BoxDecoration(
+            color: bgColor.withValues(alpha: 0.9),
+            borderRadius: BorderRadius.circular(30),
+            border: Border.all(color: borderColor, width: 0.1),
+          ),
+          child: Text(
+            statusText,
+            style: TextStyle(
+              color: textColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 10,
+            ),
+          ),
+        ),
+      ],
     );
   }
+
+
+  // Widget buildMasterDataStatusRow(int status) {
+  //   String statusText;
+  //
+  //   switch (status) {
+  //     case 1:
+  //       statusText = 'Active';
+  //       break;
+  //     case 2:
+  //       statusText = 'InActive';
+  //       break;
+  //     case 3:
+  //       statusText = 'Leave';
+  //       break;
+  //     case 4:
+  //       statusText = 'WeekOff';
+  //       break;
+  //     case 5:
+  //       statusText = 'Offboarded';
+  //       break;
+  //     case -1:
+  //       statusText = 'Cancelled';
+  //       break;
+  //     default:
+  //       statusText = ''; // Handle the default case if needed
+  //   }
+  //   return IntrinsicWidth(
+  //     child: Row(
+  //       children: [
+  //         textHandling('Status : ', statusText),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Row buildDutyTypeRow(int dutyType) {
     String dutyTypeText;
@@ -1168,7 +1263,7 @@ class Utils {
         break;
 
       default:
-        statusText = 'Unknown';
+        statusText = '';
         bgColor = const Color(0xFFE0E0E0);
         borderColor = const Color(0xFF9E9E9E);
         textColor = const Color(0xFF424242);
@@ -1206,6 +1301,125 @@ class Utils {
     );
   }
 
+
+
+
+  Widget buildCSREventStatusRow(int status) {
+    String statusText;
+    Color bgColor;
+    Color textColor;
+    Color borderColor;
+
+    switch (status) {
+      case 0:
+        statusText = 'Draft';
+        bgColor =  Colors.orange.shade200;
+        borderColor = const Color(0xFF9E9E9E);
+        textColor = Colors.black87;
+        break;
+
+      case 1:
+        statusText = 'Business User Review';
+        bgColor = const Color(0xFF90CAF9);
+        borderColor = const Color(0xFF42A5F5);
+        textColor = Colors.white;
+        break;
+
+      case 2:
+        statusText = 'LSM Review';
+        bgColor = const Color(0xFFFFF59D);
+        borderColor = const Color(0xFFFDD835);
+        textColor = Colors.black87;
+        break;
+
+      case 3:
+        statusText = 'LSM Approved';
+        bgColor = const Color(0xFF4CAF50);
+        borderColor = const Color(0xFF2E7D32);
+        textColor = Colors.white;
+        break;
+
+      case 4:
+        statusText = 'Before Event Start';
+        bgColor = const Color(0xFFFFCDD2);
+        borderColor = const Color(0xFFD32F2F);
+        textColor = const Color(0xFFB71C1C);
+        break;
+
+      case 5:
+        statusText = 'Event Started';
+        bgColor = const Color(0xFFB39DDB);
+        borderColor = const Color(0xFF673AB7);
+        textColor = Colors.white;
+        break;
+
+      case 6:
+        statusText = 'Event Ongoing';
+        bgColor = const Color(0xFF26A69A);
+        borderColor = const Color(0xFF004D40);
+        textColor = Colors.white;
+        break;
+
+      case 7:
+        statusText = 'Event Concluded';
+        bgColor = const Color(0xFFFFAB91);
+        borderColor = const Color(0xFFD84315);
+        textColor = Colors.white;
+        break;
+
+
+      case 9:
+        statusText = 'Closed';
+        bgColor = const Color(0xFF78909C);
+        borderColor = const Color(0xFF455A64);
+        textColor = Colors.white;
+        break;
+
+      case -1:
+        statusText = 'Cancelled';
+        bgColor = const Color(0xFFFFCDD2);
+        borderColor = const Color(0xFFE53935);
+        textColor = const Color(0xFFB71C1C);
+        break;
+
+      default:
+        statusText = '';
+        bgColor = const Color(0xFFE0E0E0);
+        borderColor = const Color(0xFF9E9E9E);
+        textColor = const Color(0xFF424242);
+    }
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const Text(
+          'Status:',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+          ),
+        ),
+        const SizedBox(width: 8),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+          decoration: BoxDecoration(
+            color: bgColor.withValues(alpha: 0.9),
+            borderRadius: BorderRadius.circular(30),
+            border: Border.all(color: borderColor, width: 0.1),
+          ),
+          child: Text(
+            statusText,
+            style: TextStyle(
+              color: textColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 10,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 
 
   // Widget buildPassManagementStatusRow(int status) {
@@ -2437,6 +2651,85 @@ class Utils {
   }
 
 
+  dynamic buildTransportMedicalStatus(int status, {bool? returnTextOnly}) {
+    String statusText;
+    Color bgColor;
+    Color textColor;
+    Color borderColor;
+
+    switch (status) {
+      case 0:
+        statusText = 'Crated';
+        bgColor = const Color(0xFFBBDEFB);      // Light Blue
+        borderColor = const Color(0xFF1976D2);  // Blue Border
+        textColor = const Color(0xFF0D47A1);    // Dark Blue Text
+        break;
+
+      case 1:
+        statusText = 'Open';
+        bgColor = const Color(0xFFA5D6A7);      // Light Green
+        borderColor = const Color(0xFF43A047);  // Green Border
+        textColor = const Color(0xFF1B5E20);     // Yellow Text
+        break;
+
+
+      case 2:
+        statusText = 'Closed';
+        bgColor = const Color(0xFFE1BEE7);      // Light Purple
+        borderColor = const Color(0xFF8E24AA);  // Purple Border
+        textColor = const Color(0xFF4A148C);     // Yellow Text
+        break;
+
+      case -1:
+        statusText = 'Cancelled';
+        bgColor = const Color(0xFFFFCDD2);      // Light Red
+        borderColor = const Color(0xFFD32F2F);  // Red Border
+        textColor = const Color(0xFFB71C1C);    // Dark Red
+        break;
+
+      default:
+        statusText = 'Unknown';
+        bgColor = const Color(0xFFE0E0E0);
+        borderColor = const Color(0xFF9E9E9E);
+        textColor = const Color(0xFF424242);
+    }
+
+    if (returnTextOnly ?? false) {
+      return statusText;
+    }
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const Text(
+          'Status:',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+          ),
+        ),
+        const SizedBox(width: 8),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+          decoration: BoxDecoration(
+            color: bgColor.withValues(alpha: 0.9),
+            borderRadius: BorderRadius.circular(30),
+            border: Border.all(color: borderColor, width: 0.1),
+          ),
+          child: Text(
+            statusText,
+            style: TextStyle(
+              color: textColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 10,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+
   dynamic buildLSMStatus(int status, {bool? returnTextOnly}) {
     String statusText;
 
@@ -2733,6 +3026,90 @@ class Utils {
   }
 
 
+  dynamic patrollingStatus(int status, {bool? returnTextOnly}) {
+    String statusText;
+    Color bgColor;
+    Color textColor;
+    Color borderColor;
+
+    switch (status) {
+      case 0:
+        statusText = 'Draft';
+        bgColor = const Color(0xFFE1BEE7);      // Light Purple
+        borderColor = const Color(0xFF8E24AA);  // Purple Border
+        textColor = const Color(0xFF4A148C);    // Dark Orange
+        break;
+
+      case 1:
+        statusText = 'LSM Action';
+        bgColor = const Color(0xFFC8E6C9);      // Light Green
+        borderColor = const Color(0xFF388E3C);  // Dark Green
+        textColor = const Color(0xFF1B5E20);// Text Orange
+        break;
+
+      case 2:
+        statusText = 'Owner Action';
+        bgColor = const Color(0xFFBBDEFB);      // Light Blue
+        borderColor = const Color(0xFF1976D2);  // Dark Blue
+        textColor = const Color(0xFF0D47A1);   // Text Green
+        break;
+
+      case 3:
+        statusText = 'Closed';
+        bgColor = const Color(0xFFBBDEFB);      // Light Blue
+        borderColor = const Color(0xFF1976D2);  // Dark Blue
+        textColor = const Color(0xFF0D47A1);   // Text Green
+        break;
+
+      case -1:
+        statusText = 'Cancelled';
+        bgColor = const Color(0xFFFFCDD2);      // Light Red
+        borderColor = const Color(0xFFD32F2F);  // Dark Red
+        textColor = const Color(0xFFB71C1C);    // Text Red
+        break;
+
+      default:
+        statusText = 'Unknown';
+        bgColor = const Color(0xFFE0E0E0);
+        borderColor = const Color(0xFF9E9E9E);
+        textColor = const Color(0xFF424242);
+    }
+    if (returnTextOnly ?? false) {
+      return statusText;
+    }
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const Text(
+          'Status:',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+          ),
+        ),
+        const SizedBox(width: 8),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+          decoration: BoxDecoration(
+            color: bgColor.withValues(alpha: 0.9),
+            borderRadius: BorderRadius.circular(30),
+            border: Border.all(color: borderColor, width: 0.1),
+          ),
+          child: Text(
+            statusText,
+            style: TextStyle(
+              color: textColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 10,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   // Widget dutyPostNameMasterStatus(int status) {
   //   String statusText;
   //
@@ -2858,6 +3235,70 @@ class Utils {
 
       case -1:
         statusText = 'Cancelled';
+        bgColor = const Color(0xFFFFCDD2);      // Light Red
+        borderColor = const Color(0xFFD32F2F);  // Dark Red
+        textColor = const Color(0xFFB71C1C);    // Text Red
+        break;
+
+      default:
+        statusText = 'Unknown';
+        bgColor = const Color(0xFFE0E0E0);
+        borderColor = const Color(0xFF9E9E9E);
+        textColor = const Color(0xFF424242);
+    }
+    if (returnTextOnly ?? false) {
+      return statusText;
+    }
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const Text(
+          'Status:',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+          ),
+        ),
+        const SizedBox(width: 8),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+          decoration: BoxDecoration(
+            color: bgColor.withValues(alpha: 0.9),
+            borderRadius: BorderRadius.circular(30),
+            border: Border.all(color: borderColor, width: 0.1),
+          ),
+          child: Text(
+            statusText,
+            style: TextStyle(
+              color: textColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 10,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+
+  dynamic dutyPostMasterStatus(int status, {bool? returnTextOnly}) {
+    String statusText;
+    Color bgColor;
+    Color textColor;
+    Color borderColor;
+
+    switch (status) {
+      case 1:
+        statusText = 'Active';
+        bgColor = const Color(0xFFC8E6C9);      // Light Green
+        borderColor = const Color(0xFF388E3C);  // Dark Green
+        textColor = const Color(0xFF1B5E20);// Text Orange
+        break;
+
+      case 2:
+        statusText = 'Closed';
         bgColor = const Color(0xFFFFCDD2);      // Light Red
         borderColor = const Color(0xFFD32F2F);  // Dark Red
         textColor = const Color(0xFFB71C1C);    // Text Red

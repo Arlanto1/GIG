@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:db_atom/index.dart';
@@ -136,6 +137,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
     }
+
     return Stack(
       children: [
         // 🔹 Background Image
@@ -224,12 +226,13 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               BaseDropDown().getDropDown(
-                                isDisabled: true,
+                                isDisabled: false,
                                 textController: statusController,
                                 items: dutyPostMasterStatusValues,
                                 initialValue: '${state.model.status ?? 1}',
+
                                 onTap: () {
-                                  if (!isDisabled) {
+                                  // if (!isDisabled) {
                                     BaseDropDown().assetTypeDialog(
                                       context: context,
                                       dropDownValues: dutyPostMasterStatusValues
@@ -244,6 +247,8 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                           orElse: () =>
                                               const Label(key: '', value: ''),
                                         );
+                                        statusController.text = selectedLabel.key;
+                                    state.model.status =  int.tryParse(selectedLabel.value);
                                         BlocProvider.of<
                                                     DutyPostMasterDetailsCubit>(
                                                 context)
@@ -252,7 +257,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                                     selectedLabel.value));
                                       },
                                     );
-                                  }
+                                  // }
                                 },
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
@@ -306,8 +311,8 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                       context: context,
                                       organisations: state.dutyPosts ?? [],
                                       onTap: (Organisation? org) {
-                                        // state.model.dutyPostLocation?.name =
-                                        //     org.name;
+                                        state.model.dutyPostLocation?.name =
+                                            org?.name;
 
                                         BlocProvider.of<
                                                     DutyPostMasterDetailsCubit>(

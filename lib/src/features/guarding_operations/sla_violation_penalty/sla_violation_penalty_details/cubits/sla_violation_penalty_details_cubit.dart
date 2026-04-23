@@ -297,6 +297,7 @@ class SLAViolationPenaltyDetailsCubit
     BaseUser? approver,
     int? status,
     BaseUser? receiverEmailUser,
+    List<String>? pocs,
   }) async {
     emit(
       state.copyWith(
@@ -348,6 +349,7 @@ class SLAViolationPenaltyDetailsCubit
       model: state.model,
       // emailUsers: emailUsers,
       status: FormStatus.initial,
+        pocs: pocs ?? state.pocs,
     ));
   }
 

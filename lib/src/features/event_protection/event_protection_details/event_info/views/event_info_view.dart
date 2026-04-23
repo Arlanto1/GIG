@@ -4,7 +4,7 @@ import 'dart:ui';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/common_widgets/base_widget/opacity_absorb_widget.dart';
-import 'package:html_editor_enhanced/html_editor.dart'; // includes HtmlEditor and HtmlEditorToolbar
+import 'package:html_editor_enhanced/html_editor.dart';
 
 class EventInfoView extends StatefulWidget {
   const EventInfoView({
@@ -13,12 +13,14 @@ class EventInfoView extends StatefulWidget {
     required this.editForm,
     required this.isEventProtection,
     required this.eventProtectionId,
+    required this.isCSREventProtection,
   });
 
   final String title;
   final bool editForm;
   final bool isEventProtection;
   final String eventProtectionId;
+  final bool isCSREventProtection;
 
   @override
   State<EventInfoView> createState() => _EventInfoViewState();
@@ -35,6 +37,9 @@ class _EventInfoViewState extends State<EventInfoView> {
   List<ImageContent> getFiles = [];
   TextEditingController dateController = TextEditingController();
   TextEditingController addEmailController = TextEditingController();
+  TextEditingController cctvDateController = TextEditingController();
+  TextEditingController accessDateController = TextEditingController();
+  TextEditingController intruderDateController = TextEditingController();
 
   bool showSaveButtons = false;
 
@@ -43,7 +48,7 @@ class _EventInfoViewState extends State<EventInfoView> {
   String? initialisedStartDate;
   List<Map<String, dynamic>> emailTemplateList = [];
   bool isTemplateLoading = false;
-
+  bool isLoading = false;
 
   String selectedTemplateHtml = "";
   String? updatedEmailText;
@@ -68,762 +73,1164 @@ class _EventInfoViewState extends State<EventInfoView> {
     final height = size.height;
 
     return BlocConsumer<EventInfoCubit, EventInfoState>(
+        // listenWhen: (previous, current) =>
+        //     previous.status != current.status &&
+        //     (current.status == FormStatus.success ||
+        //         current.status == FormStatus.templateLoaded  ),
+        // listener: (context, state) {
+        //  if (state.status == FormStatus.loading) return; // guard
+        //
+        //   Navigator.pop(context); // dismiss loader
+        //
+        //   if (state.status == FormStatus.formError) {
+        //     ScaffoldMessenger.of(context).showSnackBar(
+        //       SnackBar(
+        //         content: Text(state.message ?? 'Something went wrong'),
+        //         backgroundColor: Colors.red,
+        //       ),
+        //     );
+        //     return; //  don't navigate
+        //   }
+        //   Navigator.pop(context);
+        //   log('-state.status---${state.status}----');
+        //   Utils().formError(state, context);
+        //   if (state.status == FormStatus.success) {
+        //     log('123 ${state.status}');
+        //     var dialog = CustomAlertDialog(
+        //       title: 'Event Protection',
+        //       message: state.message ?? '',
+        //       positiveBtnText: Constants.ok,
+        //       onPositivePressed: () {
+        //         // TODO: Need to improve this code
+        //         Navigator.pop(context);
+        //         Navigator.pop(context);
+        //         // Navigator.popAndPushNamed(
+        //         //   context,
+        //         //   keyManagementIssuanceListRoute,
+        //         // );
+        //       },
+        //     );
+        //     showDialog(
+        //         context: context,
+        //         barrierDismissible: false,
+        //         builder: (BuildContext context) => dialog);
+        //   }
+        //   if (state.status == FormStatus.addArticleFound) {
+        //     Navigator.pop(context);
+        //     Navigator.pushNamed(
+        //       context,
+        //       articleFoundNewDetailsRoute,
+        //       arguments: {
+        //         ConstantsArgument.eventId: state.model.id,
+        //         ConstantsArgument.eventProtectionId: widget.eventProtectionId,
+        //       },
+        //     );
+        //   }
+
         listenWhen: (previous, current) =>
         previous.status != current.status &&
-            current.status == FormStatus.templateLoaded,
+            (current.status == FormStatus.success ||
+                current.status == FormStatus.templateLoaded ||
+                current.status == FormStatus.formError), // ✅ now included
+
         listener: (context, state) {
-      Utils().formError(state, context);
-      Utils().errorAndLogout(state, context);
-
-      // final template = state.emailTemplates?.last;
-      //
-      // if (template == null) return;
-      //
-      // final html = template["html"] as String?;
-      // final id = template["id"] as int?;
-      //
-      // if (html == null || html.isEmpty) return;
-      //
-      // openTemplatePreview(
-      //   html: html,
-      //   templateId: id,
-      // );
-      // final firstTemplate = state.emailTemplates?.first;
-      //
-      // final html = firstTemplate?["html"] as String?;
-      //
-      // if (html?.isNotEmpty == true) {
-      //   openTemplatePreview(html: html!);
-      // }
-      // if (state.status == FormStatus.success) {
-      //   ScaffoldMessenger.of(context)
-      //       .showSnackBar(SnackBar(content: Text('${state.message}')));
-      //   Navigator.pop(context);
-      //   Navigator.pop(context);
-      // }
-
-      if (state.status == FormStatus.success) {
-        var dialog = CustomAlertDialog(
-          title: 'Event Protection',
-          message: state.message ?? '',
-          positiveBtnText: Constants.ok,
-          onPositivePressed: () {
-            // TODO: Need to improve this code
-            Navigator.pop(context);
-            Navigator.pop(context);
-            // Navigator.popAndPushNamed(
-            //   context,
-            //   keyManagementIssuanceListRoute,
-            // );
-          },
-        );
-        showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (BuildContext context) => dialog);
-      }
-      if (state.status == FormStatus.addArticleFound) {
-        Navigator.pop(context);
-        Navigator.pushNamed(
-          context,
-          articleFoundNewDetailsRoute,
-          arguments: {
-            ConstantsArgument.eventId: state.model.id,
-            ConstantsArgument.eventProtectionId: widget.eventProtectionId,
-          },
-        );
-      }
-    }, builder: (context, state) {
-      if (state.status == FormStatus.loading) {
-        return const BaseLoader();
-      }
-      if (state.status == FormStatus.addAttachment ||
-          state.status == FormStatus.initial) {
-        guardFiles = state.guardAttachments ?? [];
-        // guardFiles = state.model.images;
-      }
-
-      if (state.status == FormStatus.addAttachment ||
-          state.status == FormStatus.initial) {
-        getFiles = state.loadAttachments ?? [];
-      }
-      if (state.eventDuration == ConstantsIntValue.eventDurationBefore) {
-        if (!state.model.eventStartedAt.isEmptyOrNull &&
-            dateController.text.isEmpty) {
-          log('state.model.eventStartedAt--- ${state.model.eventStartedAt}');
-          dateController.text = Utils.timestampToDateConversion(
-              int.tryParse(state.model.eventStartedAt ?? '0'),
-              Constants.fulldateFormat);
-        }
-        initialisedFromDate = DateTime.fromMillisecondsSinceEpoch(
-                (int.tryParse('${state.model.startDate}') ?? 0) * 1000)
-            .toString();
-        initialisedStartDate = DateTime.fromMillisecondsSinceEpoch(
-                (int.tryParse('${state.model.startDate}') ?? 0) * 1000)
-            .toString();
-        initialisedToDate = DateTime.fromMillisecondsSinceEpoch(
-                (int.tryParse('${state.model.endDate}') ?? 0) * 1000)
-            .toString();
-        log('initialisedToDate--- $initialisedToDate');
-        log('initialisedStartDate--- $initialisedStartDate');
-        log('initialisedFromDate--- $initialisedFromDate');
-      }
-
-      if (state.eventDuration == ConstantsIntValue.eventDurationAfter) {
-        if (!state.model.eventConcludedAt.isEmptyOrNull &&
-            dateController.text.isEmpty) {
-          log('state.model.eventConcludedAt--- ${state.model.eventConcludedAt}');
-          dateController.text = Utils.timestampToDateConversion(
-              int.tryParse(state.model.eventConcludedAt ?? 'null'),
-              Constants.fulldateFormat);
-        }
-        initialisedFromDate = DateTime.fromMillisecondsSinceEpoch(
-                (int.tryParse('${state.model.eventStartedAt}') ?? 0) * 1000)
-            .toString();
-        initialisedStartDate = DateTime.fromMillisecondsSinceEpoch(
-                (int.tryParse('${state.model.eventStartedAt}') ?? 0) * 1000)
-            .toString();
-        DateTime currentDate = DateTime.now();
-        DateTime newDateTime = currentDate.add(const Duration(days: 1));
-        initialisedToDate = newDateTime.toString();
-        log('initialisedToDate--- $initialisedToDate');
-        log('initialisedStartDate--- $initialisedStartDate');
-        log('initialisedFromDate--- $initialisedFromDate');
-      }
-
-      log('--widget.editForm---${widget.editForm}--');
-      if (state.model.status != 4 && widget.editForm) {
-        showSaveButtons = true;
-      }
-
-      if (!state.model.lock.isEmptyOrNull) {
-        showSaveButtons = false;
-      }
-      // if(widget.editForm){
-      //   showSaveButtons == true;
-      // }
-
-      log('-showSaveButtons-$showSaveButtons---');
-      return Scaffold(
-        appBar: BaseAppBar().buildAppHeader(
-          context: context,
-          title: widget.title,
-          showPopUp: false,
-          showSaveButton: showSaveButtons,
-          showSubmitButton: showSaveButtons,
-          showDisLikeButton: false,
-          showLikeButton: false,
-          onTapSave: () {
-            FocusScope.of(context).unfocus();
-            BlocProvider.of<EventInfoCubit>(context).submitForm(
-                isSaveOnly: true, updatedEmailText: updatedEmailText ?? '');
-          },
-          onTapSubmit: () {
-            FocusScope.of(context).unfocus();
-            BlocProvider.of<EventInfoCubit>(context).submitForm(
-                isSaveOnly: false, updatedEmailText: updatedEmailText ?? '');
-          },
-        ),
-        backgroundColor: Colors.transparent,
-        body: Stack(
-          children: [
-            /// 🔹 FULL SCREEN BACKGROUND IMAGE
-            Positioned.fill(
-              child: Image.asset(
-                'assets/images/bg2.png',
-                fit: BoxFit.cover,
+          // ✅ Show error and STOP — no pop, no navigation
+          if (state.status == FormStatus.formError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message ?? 'Something went wrong'),
+                backgroundColor: Colors.red,
               ),
-            ),
+            );
+            return;
+          }
 
-            // 🔹 GLASS BLUR OVERLAY
-            Positioned.fill(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
-                child: Container(
-                  color: Colors.black.withValues(alpha: 0.15),
+          // ✅ Only pop for success/templateLoaded
+          Navigator.pop(context);
+
+          if (state.status == FormStatus.success) {
+            var dialog = CustomAlertDialog(
+              title: 'Event Protection',
+              message: state.message ?? '',
+              positiveBtnText: Constants.ok,
+              onPositivePressed: () {
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+            );
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) => dialog,
+            );
+          }
+
+          if (state.status == FormStatus.addArticleFound) {
+            Navigator.pop(context);
+            Navigator.pushNamed(
+              context,
+              articleFoundNewDetailsRoute,
+              arguments: {
+                ConstantsArgument.eventId: state.model.id,
+                ConstantsArgument.eventProtectionId: widget.eventProtectionId,
+              },
+            );
+          }
+          // return BlocConsumer<EventInfoCubit, EventInfoState>(
+          //     listenWhen: (previous, current) =>
+          //     previous.status != current.status,
+          //
+          //     listener: (context, state) {
+          //       log('LISTENER CALLED: ${state.status}');
+          //
+          //       Utils().formError(state, context);
+          //
+          //       if (state.status == FormStatus.loading) {
+          //         log('SUCCESS TRIGGERED');
+          //
+          //         var dialog = CustomAlertDialog(
+          //           title: 'Event Protection',
+          //           message: state.message ?? '',
+          //           positiveBtnText: Constants.ok,
+          //           onPositivePressed: () {
+          //             Navigator.pop(context);
+          //             Navigator.pop(context);
+          //           },
+          //         );
+          //
+          //         showDialog(
+          //           context: context,
+          //           barrierDismissible: false,
+          //           builder: (_) => dialog,
+          //         );
+          //       }
+          //
+          //       if (state.status == FormStatus.addArticleFound) {
+          //         Navigator.pop(context);
+          //         Navigator.pushNamed(
+          //           context,
+          //           articleFoundNewDetailsRoute,
+          //           arguments: {
+          //             ConstantsArgument.eventId: state.model.id,
+          //             ConstantsArgument.eventProtectionId: widget.eventProtectionId,
+          //           },
+          //         );
+          //       }
+        },
+        builder: (context, state) {
+          if (state.status == FormStatus.loading) {
+            return const BaseLoader();
+          }
+          if (state.status == FormStatus.addAttachment ||
+              state.status == FormStatus.initial) {
+            guardFiles = state.guardAttachments ?? [];
+            // guardFiles = state.model.images;
+          }
+
+          if (state.status == FormStatus.addAttachment ||
+              state.status == FormStatus.initial) {
+            getFiles = state.loadAttachments ?? [];
+          }
+          if (state.eventDuration == ConstantsIntValue.eventDurationBefore) {
+            if (!state.model.eventStartedAt.isEmptyOrNull &&
+                dateController.text.isEmpty) {
+              log('state.model.eventStartedAt--- ${state.model.eventStartedAt}');
+              dateController.text = Utils.timestampToDateConversion(
+                  int.tryParse(state.model.eventStartedAt ?? '0'),
+                  Constants.fulldateFormat);
+            }
+            initialisedFromDate = DateTime.fromMillisecondsSinceEpoch(
+                    (int.tryParse('${state.model.startDate}') ?? 0) * 1000)
+                .toString();
+            initialisedStartDate = DateTime.fromMillisecondsSinceEpoch(
+                    (int.tryParse('${state.model.startDate}') ?? 0) * 1000)
+                .toString();
+            initialisedToDate = DateTime.fromMillisecondsSinceEpoch(
+                    (int.tryParse('${state.model.endDate}') ?? 0) * 1000)
+                .toString();
+            log('initialisedToDate--- $initialisedToDate');
+            log('initialisedStartDate--- $initialisedStartDate');
+            log('initialisedFromDate--- $initialisedFromDate');
+
+            cctvDateController.text = Utils.timestampToDateConversion(
+                int.tryParse(state.model.cctvSystemOfflineStartDate ?? 'null'),
+                Constants.fulldateFormat);
+
+            accessDateController.text = Utils.timestampToDateConversion(
+                int.tryParse(
+                    state.model.accessSystemOfflineStartDate ?? 'null'),
+                Constants.fulldateFormat);
+
+            intruderDateController.text = Utils.timestampToDateConversion(
+                int.tryParse(
+                    state.model.intruderSystemOfflineStartDate ?? 'null'),
+                Constants.fulldateFormat);
+          }
+
+          if (state.eventDuration == ConstantsIntValue.eventDurationAfter) {
+            if (!state.model.eventConcludedAt.isEmptyOrNull &&
+                dateController.text.isEmpty) {
+              log('state.model.eventConcludedAt--- ${state.model.eventConcludedAt}');
+              dateController.text = Utils.timestampToDateConversion(
+                  int.tryParse(state.model.eventConcludedAt ?? 'null'),
+                  Constants.fulldateFormat);
+            }
+            initialisedFromDate = DateTime.fromMillisecondsSinceEpoch(
+                    (int.tryParse('${state.model.eventStartedAt}') ?? 0) * 1000)
+                .toString();
+            initialisedStartDate = DateTime.fromMillisecondsSinceEpoch(
+                    (int.tryParse('${state.model.eventStartedAt}') ?? 0) * 1000)
+                .toString();
+            DateTime currentDate = DateTime.now();
+            DateTime newDateTime = currentDate.add(const Duration(days: 1));
+            initialisedToDate = newDateTime.toString();
+            log('initialisedToDate--- $initialisedToDate');
+            log('initialisedStartDate--- $initialisedStartDate');
+            log('initialisedFromDate--- $initialisedFromDate');
+          }
+
+          log('--widget.editForm---${widget.editForm}--');
+          if (state.model.status != 4 && widget.editForm) {
+            showSaveButtons = true;
+          }
+
+          if (!state.model.lock.isEmptyOrNull) {
+            showSaveButtons = false;
+          }
+          // if(widget.editForm){
+          //   showSaveButtons == true;
+          // }
+
+          log('-showSaveButtons-$showSaveButtons---');
+          return Scaffold(
+            appBar: BaseAppBar().buildAppHeader(
+              context: context,
+              title: widget.title,
+              showPopUp: false,
+              showSaveButton: showSaveButtons,
+              showSubmitButton: showSaveButtons,
+              showDisLikeButton: false,
+              showLikeButton: false,
+              onTapSave: () {
+                FocusScope.of(context).unfocus();
+                BlocProvider.of<EventInfoCubit>(context).submitForm(
+                    isSaveOnly: true, updatedEmailText: updatedEmailText ?? '');
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+              // onTapSubmit: () {
+              //   FocusScope.of(context).unfocus();
+              //   BlocProvider.of<EventInfoCubit>(context).submitForm(
+              //       isSaveOnly: false,
+              //       updatedEmailText: updatedEmailText ?? '');
+              //   Navigator.pop(context);
+              //   Navigator.pop(context);
+              //   String route = widget.isEventProtection
+              //       ? eventProtectionListRoute
+              //       : widget.isCSREventProtection
+              //           ? csrEventListRoute
+              //           : annualPowerShutdownListRoute;
+              //
+              //   Navigator.pushNamedAndRemoveUntil(
+              //     context,
+              //     route,
+              //     (route) => false,
+              //   );
+              // },
+              onTapSubmit: () async {
+                FocusScope.of(context).unfocus();
+
+                final success = await BlocProvider.of<EventInfoCubit>(context).submitForm(
+                  isSaveOnly: false,
+                  updatedEmailText: updatedEmailText ?? '',
+                );
+
+                if (!success) return; //  API failed — stay on page
+
+                if (!context.mounted) return; // safety check after await
+
+                Navigator.pop(context);
+                Navigator.pop(context);
+
+                String route = widget.isEventProtection
+                    ? eventProtectionListRoute
+                    : widget.isCSREventProtection
+                    ? csrEventListRoute
+                    : annualPowerShutdownListRoute;
+
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  route,
+                      (route) => false,
+                );
+              },
+            ),
+            backgroundColor: Colors.transparent,
+            body: Stack(
+              children: [
+                /// 🔹 FULL SCREEN BACKGROUND IMAGE
+                Positioned.fill(
+                  child: Image.asset(
+                    'assets/images/bg2.png',
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-            ),
 
-            // 🔹 CONTENT (FORCED TO FULL HEIGHT)
-            LayoutBuilder(builder: (context, constraints) {
-              return SingleChildScrollView(
-                  child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        minHeight: constraints.maxHeight,
-                      ),
-                      child: Column(
-                        children: [
-                          Container(
-                            color: Colors.transparent,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Form(
-                                  key: _formKey,
-                                  autovalidateMode: state.model.status == 30
-                                      ? AutovalidateMode.disabled
-                                      : AutovalidateMode.onUserInteraction,
-                                  child: Column(
-                                    children: [
-                                      if (!state.model.lock.isEmptyOrNull) ...[
-                                        RecordLockedWidget(
-                                            text: '${state.model.lock}'),
-                                      ],
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 20.0, right: 20),
-                                        child: Column(
-                                          children: [
-                                            CommonWidgets.verticalSpacerWidget(
-                                                height * 0.01),
+                // 🔹 GLASS BLUR OVERLAY
+                Positioned.fill(
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+                    child: Container(
+                      color: Colors.black.withValues(alpha: 0.15),
+                    ),
+                  ),
+                ),
 
-                                            /// Event Started At / Event Concluded At
-                                            if (state.eventDuration != 1) ...[
-                                              CommonWidgets.textDisplay(
-                                                state.eventDuration == 0
-                                                    ? Constants.eventStartedAt
-                                                    : Constants
-                                                        .eventConcludedAt,
-                                                Styles.textStyleWhite14,
-                                              ),
-                                              BaseDate()
-                                                  .datePickerWidgetLoading(
-                                                context: context,
-                                                textController: dateController,
-                                                isDisabled: !showSaveButtons,
-                                                onlyDate: false,
-                                                // startDate: DateTime
-                                                //         .fromMillisecondsSinceEpoch(int.parse(
-                                                //                 '${state.model.startDate}') *
-                                                //             1000)
-                                                //     .toString(),
-                                                // fromDate: DateTime.fromMillisecondsSinceEpoch(
-                                                //         int.parse(
-                                                //                 '${state.model.startDate}') *
-                                                //             1000)
-                                                //     .toString(),
-                                                // toDate: DateTime.fromMillisecondsSinceEpoch(
-                                                //         int.parse('${state.model.endDate}') *
-                                                //             1000)
-                                                //     .toString(),
-                                                startDate: initialisedStartDate,
-                                                fromDate: initialisedFromDate,
-                                                toDate: initialisedToDate,
-                                                onChange: (String value) {
-                                                  dateController.text = value;
-                                                  log('dateControllerValue --- $value');
-                                                  state.model.date = value;
-                                                  BlocProvider.of<
-                                                              EventInfoCubit>(
-                                                          context)
-                                                      .onModelValueChange(
-                                                          state.model);
-                                                },
-                                              ),
-                                              CommonWidgets
-                                                  .verticalSpacerWidget(
-                                                      height * 0.02),
-                                            ],
+                // 🔹 CONTENT (FORCED TO FULL HEIGHT)
+                LayoutBuilder(builder: (context, constraints) {
+                  return SingleChildScrollView(
+                      child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minHeight: constraints.maxHeight,
+                          ),
+                          child: Column(
+                            children: [
+                              Container(
+                                color: Colors.transparent,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Form(
+                                      key: _formKey,
+                                      autovalidateMode: state.model.status == 30
+                                          ? AutovalidateMode.disabled
+                                          : AutovalidateMode.onUserInteraction,
+                                      child: Column(
+                                        children: [
+                                          if (!state
+                                              .model.lock.isEmptyOrNull) ...[
+                                            RecordLockedWidget(
+                                                text: '${state.model.lock}'),
+                                          ],
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 20.0, right: 20),
+                                            child: Column(
+                                              children: [
+                                                CommonWidgets
+                                                    .verticalSpacerWidget(
+                                                        height * 0.02),
 
-                                            ///Additional Emails
-                                            CommonWidgets.textDisplay(
-                                                Constants.additionalEmails,
-                                                Styles.textStyleWhite14),
-                                            CommonWidgets.verticalSpacerWidget(
-                                                height * 0.01),
-                                            Opacity(
-                                              opacity:
-                                                  showSaveButtons ? 1 : 0.5,
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  if (!showSaveButtons) {
-                                                    return;
-                                                  }
-                                                  addEmail();
-                                                },
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    // Expanded(
-                                                    //child:
-                                                    const SizedBox(width: 14),
-                                                    SvgPicture.asset(
-                                                      AppIcon.pluscircle,
-                                                      colorFilter:
-                                                          const ColorFilter
-                                                              .mode(
-                                                        AppColors.white,
-                                                        BlendMode.srcIn,
-                                                      ),
-                                                      // color: AppColors.navigationSkyBlueColor,
-                                                    ),
-                                                    // ),
-                                                    const SizedBox(width: 10),
-                                                    const Text(
-                                                      Constants
-                                                          .additionalEmails,
-                                                      style: TextStyle(
-                                                          color:
-                                                              AppColors.white,
-                                                          decoration:
-                                                              TextDecoration
-                                                                  .underline,
-                                                          decorationColor:
-                                                              AppColors.white),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            ///Get email
-                                            getEmail(
-                                                state.additionalEmails ?? []),
-                                            CommonWidgets.verticalSpacerWidget(
-                                                height * 0.02),
-                                            CommonWidgets.verticalSpacerWidget(
-                                                height * 0.02),
+                                                /// Event Started At / Event Concluded At
+                                                if (state.eventDuration !=
+                                                    1) ...[
+                                                  CommonWidgets.textDisplay(
+                                                    state.eventDuration == 0
+                                                        ? Constants
+                                                            .eventStartedAt
+                                                        : Constants
+                                                            .eventConcludedAt,
+                                                    Styles.textStyleWhite14,
+                                                  ),
+                                                  CommonWidgets
+                                                      .verticalSpacerWidget(
+                                                      height * 0.01),
+                                                  BaseDate()
+                                                      .datePickerWidgetLoading(
+                                                    context: context,
+                                                    textController:
+                                                        dateController,
+                                                    isDisabled:
+                                                        !showSaveButtons,
+                                                    onlyDate: false,
+                                                    // startDate: DateTime
+                                                    //         .fromMillisecondsSinceEpoch(int.parse(
+                                                    //                 '${state.model.startDate}') *
+                                                    //             1000)
+                                                    //     .toString(),
+                                                    // fromDate: DateTime.fromMillisecondsSinceEpoch(
+                                                    //         int.parse(
+                                                    //                 '${state.model.startDate}') *
+                                                    //             1000)
+                                                    //     .toString(),
+                                                    // toDate: DateTime.fromMillisecondsSinceEpoch(
+                                                    //         int.parse('${state.model.endDate}') *
+                                                    //             1000)
+                                                    //     .toString(),
+                                                    startDate:
+                                                        initialisedStartDate,
+                                                    fromDate:
+                                                        initialisedFromDate,
+                                                    toDate: initialisedToDate,
+                                                    onChange: (String value) {
+                                                      dateController.text =
+                                                          value;
+                                                      log('dateControllerValue --- $value');
+                                                      state.model.date = value;
+                                                      BlocProvider.of<
+                                                                  EventInfoCubit>(
+                                                              context)
+                                                          .onModelValueChange(
+                                                              state.model);
+                                                    },
+                                                  ),
+                                                  CommonWidgets
+                                                      .verticalSpacerWidget(
+                                                          height * 0.02),
+                                                ],
 
-
-
-                                           if(state.eventDuration == ConstantsIntValue.eventDurationAfter)...[
-                                           ///Total Attendies
-                                            CommonWidgets.textDisplay(
-                                                Constants.totalAttendies,
-                                                Styles.textStyleWhite14),
-                                            CommonWidgets.verticalSpacerWidget(
-                                                height * 0.01),
-                                            FlutterInputField(
-                                              textInputType: TextInputType.text,
-                                              initialValue: '${state.model.totalAttendies ?? ''}',
-                                              textFormKey: Keys.lsm1ContactNOKey,
-                                              hintText: '',
-                                              isEnable: false,
-                                              characterLimit: Constants.characterLimitContactNo,
-                                              isDisableColor: true,
-                                              onChange: (String value) {
-                                                state.model.totalAttendies = int.tryParse(value);
-                                                context
-                                                    .read<EventInfoCubit>()
-                                                    .onModelValueChange(state.model);
-                                              },
-                                              validateTextField: (String? user) {},
-                                            ),
-                                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-],
-                                            /// View Email Notification List
-                                            CommonWidgets.textDisplay(
-                                               'View Notifications',
-                                                Styles.textStyleWhite14),
-
-                                            CommonWidgets.verticalSpacerWidget(
-                                                height * 0.02),
-
-                                            ///  TEMPLATE LIST
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(7),
-                                                border: Border.all(color: Colors.white, width: .7),
-                                              ),
-                                              child: Column(
-                                                children: [
-                                                  /// ===== HEADER =====
-                                                  Container(
-                                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                                    color: Colors.white.withValues(alpha: 0.1),
+                                                ///Additional Emails
+                                                CommonWidgets.textDisplay(
+                                                    Constants.additionalEmails,
+                                                    Styles.textStyleWhite14),
+                                                CommonWidgets
+                                                    .verticalSpacerWidget(
+                                                        height * 0.01),
+                                                Opacity(
+                                                  opacity:
+                                                      showSaveButtons ? 1 : 0.5,
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      if (!showSaveButtons) {
+                                                        return;
+                                                      }
+                                                      addEmail();
+                                                    },
                                                     child: Row(
-                                                      children: [
-                                                        const Expanded(
-                                                          child: Text(
-                                                            "Id",
-                                                            style: TextStyle(
-                                                              color: Colors.white,
-                                                              fontWeight: FontWeight.bold,
-                                                            ),
+                                                      children: <Widget>[
+                                                        // Expanded(
+                                                        //child:
+                                                        const SizedBox(
+                                                            width: 14),
+                                                        SvgPicture.asset(
+                                                          AppIcon.pluscircle,
+                                                          colorFilter:
+                                                              const ColorFilter
+                                                                  .mode(
+                                                            AppColors.white,
+                                                            BlendMode.srcIn,
                                                           ),
+                                                          // color: AppColors.navigationSkyBlueColor,
                                                         ),
-                                                        IconButton(
-                                                          icon: showSaveButtons? const Icon(Icons.add, color: Colors.white) : const SizedBox(),
-                                                          tooltip: 'Fetch Template',
-
-                                                          onPressed: () async {
-                                                            try {
-                                                              final cubit = context.read<EventInfoCubit>();
-                                                              cubit.clearAttachments();
-                                                              context.read<EventInfoCubit>().clearAttachments();
-                                                              final response =
-                                                              await context.read<EventInfoCubit>().getNotificationDetailsById(
-                                                                widget.eventProtectionId,
-                                                              );
-
-                                                              // context.read<EventInfoCubit>().addAttachment(response.images ?? []);
-                                                              final html = response.notification;
-                                                              if (html == null || html.trim().isEmpty) {
-                                                                debugPrint("HTML is empty");
-                                                                return;
-                                                              }
-                                                              openTemplatePreview(
-                                                                html: html,
-                                                                templateId: null,
-                                                              );
-                                                            } catch (e, s) {
-                                                              debugPrint("Failed to load template: $e");
-                                                              debugPrintStack(stackTrace: s);
-                                                            }
-                                                          },
+                                                        // ),
+                                                        const SizedBox(
+                                                            width: 10),
+                                                        const Text(
+                                                          Constants
+                                                              .additionalEmails,
+                                                          style: TextStyle(
+                                                              color: AppColors
+                                                                  .white,
+                                                              decoration:
+                                                                  TextDecoration
+                                                                      .underline,
+                                                              decorationColor:
+                                                                  AppColors
+                                                                      .white),
                                                         ),
                                                       ],
                                                     ),
                                                   ),
+                                                ),
 
-                                                  /// ===== LOADER =====
-                                                  // if (state.isTemplateLoading == true)
-                                                  //   const Padding(
-                                                  //     padding: EdgeInsets.all(12),
-                                                  //     child: CircularProgressIndicator(color: Colors.white),
-                                                  //   ),
+                                                ///Get email
+                                                getEmail(
+                                                    state.additionalEmails ??
+                                                        []),
+                                                CommonWidgets
+                                                    .verticalSpacerWidget(
+                                                        height * 0.02),
 
-                                                  // /// ===== EMPTY STATE =====
-                                                  // if (state.isTemplateLoading == false &&
-                                                  //     (state.emailTemplates!.isEmpty))
-                                                  //   const Padding(
-                                                  //     padding: EdgeInsets.all(12),
-                                                  //     child: Text(
-                                                  //       "No templates loaded",
-                                                  //       style: TextStyle(color: Colors.white70),
-                                                  //     ),
-                                                  //   ),
+                                                if ((state.eventDuration ==
+                                                        ConstantsIntValue
+                                                            .eventDurationBefore ||state.eventDuration ==
+                                                    ConstantsIntValue
+                                                        .eventDurationAfter) &&
+                                                    !widget
+                                                        .isEventProtection) ...[
+                                                  /// CCTV System Offline
+                                                  Row(children: [
+                                                    CommonWidgets.textDisplay(
+                                                      // state.labels?.locale.extraSecurityDeployed ??
+                                                      //     state.labels?.defaultLocale
+                                                      //         .extraSecurityDeployed ??
+                                                      Constants
+                                                          .cCTvSystemOffline,
+                                                      Styles.textStyleWhite16,
+                                                      isMandatory: true
+                                                    ),
+                                                    Opacity(
+                                                      opacity: showSaveButtons
+                                                          ? 1
+                                                          : 0.5,
+                                                      child: Checkbox(
+                                                          activeColor:
+                                                              const Color(
+                                                                  0xFF071130),
+                                                          focusColor:
+                                                              const Color(
+                                                                  0xFF071130),
+                                                          value: state.model
+                                                              .cctvSystemOffline,
+                                                          onChanged:
+                                                              showSaveButtons
+                                                                  ? (bool?
+                                                                      value) {
+                                                                      state.model
+                                                                              .cctvSystemOffline =
+                                                                          value!;
+                                                                      BlocProvider.of<EventInfoCubit>(
+                                                                              context)
+                                                                          .onCheckBoxChange(
+                                                                              state.model);
+                                                                    }
+                                                                  : null),
+                                                    )
+                                                  ]),
 
-                                                  /// ===== TEMPLATE LIST =====
-                                                  ...?state.emailTemplates?.map((item) {
-                                                    return Container(
-                                                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                                                      decoration: const BoxDecoration(
-                                                        border: Border(
-                                                          bottom: BorderSide(color: Colors.white24),
-                                                        ),
-                                                      ),
-                                                      child: Row(
-                                                        children: [
-                                                          Expanded(
-                                                            child: Text(
-                                                              item["id"].toString(),
-                                                              style: Styles.textStyleWhite14,
-                                                            ),
-                                                          ),
-                                                          // IconButton(
-                                                          //   icon: const Icon(
-                                                          //     Icons.remove_red_eye,
-                                                          //     color: Colors.white,
-                                                          //   ),
-                                                            // onPressed: () {
-                                                            //   openTemplatePreview(html: item["html"],    templateId: item["id"] as int?,);
-                                                            // },
-                                                            IconButton(
-                                                              icon: const Icon(
-                                                                Icons.remove_red_eye,
-                                                                color: Colors.white,
+                                                  if (state.model
+                                                          .cctvSystemOffline ==
+                                                      true) ...[
+                                                    CommonWidgets.textDisplay(
+                                                      // state.labels?.locale.extraSecurityDeployed ??
+                                                      //     state.labels?.defaultLocale
+                                                      //         .extraSecurityDeployed ??
+                                                      Constants.startDate,
+                                                      Styles.textStyleWhite16,
+                                                        isMandatory: true
+                                                    ),
+                                                    BaseDate()
+                                                        .datePickerWidgetLoading(
+                                                      context: context,
+                                                      textController:
+                                                          cctvDateController,
+                                                      isDisabled:
+                                                          !showSaveButtons,
+                                                      onlyDate: false,
+                                                      onChange: (String value) {
+                                                        cctvDateController
+                                                            .text = value;
+                                                        log('dateControllerValue --- $value');
+                                                        state.model
+                                                                .cctvSystemOfflineStartDate =
+                                                            value;
+                                                        BlocProvider.of<
+                                                                    EventInfoCubit>(
+                                                                context)
+                                                            .onModelValueChange(
+                                                                state.model);
+                                                      },
+                                                    ),
+                                                  ],
+
+                                                  CommonWidgets
+                                                      .verticalSpacerWidget(
+                                                      height * 0.02),
+                                                  /// Access System Offline
+                                                  Row(children: [
+                                                    CommonWidgets.textDisplay(
+                                                      // state.labels?.locale.extraSecurityDeployed ??
+                                                      //     state.labels?.defaultLocale
+                                                      //         .extraSecurityDeployed ??
+                                                      Constants
+                                                          .accessSystemOffline,
+                                                      Styles.textStyleWhite16,
+                                                        isMandatory: true
+                                                    ),
+                                                    Opacity(
+                                                      opacity: 1,
+                                                      child: Checkbox(
+                                                          activeColor:
+                                                              const Color(
+                                                                  0xFF071130),
+                                                          focusColor:
+                                                              const Color(
+                                                                  0xFF071130),
+                                                          value: state.model
+                                                              .accessSystemOffline,
+                                                          onChanged:
+                                                              showSaveButtons
+                                                                  ? (bool?
+                                                                      value) {
+                                                                      state.model
+                                                                              .accessSystemOffline =
+                                                                          value!;
+                                                                      BlocProvider.of<EventInfoCubit>(
+                                                                              context)
+                                                                          .onCheckBoxChange(
+                                                                              state.model);
+                                                                    }
+                                                                  : null),
+                                                    )
+                                                  ]),
+
+                                                  if (state.model
+                                                          .accessSystemOffline ==
+                                                      true) ...[
+                                                    CommonWidgets.textDisplay(
+                                                      // state.labels?.locale.extraSecurityDeployed ??
+                                                      //     state.labels?.defaultLocale
+                                                      //         .extraSecurityDeployed ??
+                                                      Constants.startDate,
+                                                      Styles.textStyleWhite16,
+                                                        isMandatory: true
+                                                    ),
+                                                    BaseDate()
+                                                        .datePickerWidgetLoading(
+                                                      context: context,
+                                                      textController:
+                                                          accessDateController,
+                                                      isDisabled:
+                                                          !showSaveButtons,
+                                                      onlyDate: false,
+                                                      onChange: (String value) {
+                                                        accessDateController
+                                                            .text = value;
+                                                        log('dateControllerValue --- $value');
+                                                        state.model
+                                                                .accessSystemOfflineStartDate =
+                                                            value;
+                                                        BlocProvider.of<
+                                                                    EventInfoCubit>(
+                                                                context)
+                                                            .onModelValueChange(
+                                                                state.model);
+                                                      },
+                                                    ),
+                                                  ],
+
+                                                  CommonWidgets
+                                                      .verticalSpacerWidget(
+                                                      height * 0.02),
+                                                  /// Intruder System Offline
+                                                  Row(children: [
+                                                    CommonWidgets.textDisplay(
+                                                      // state.labels?.locale.extraSecurityDeployed ??
+                                                      //     state.labels?.defaultLocale
+                                                      //         .extraSecurityDeployed ??
+                                                      Constants
+                                                          .intruderSystemOffline,
+                                                      Styles.textStyleWhite16,
+                                                        isMandatory: true
+                                                    ),
+                                                    Opacity(
+                                                      opacity: 1,
+                                                      child: Checkbox(
+                                                          activeColor:
+                                                              const Color(
+                                                                  0xFF071130),
+                                                          focusColor:
+                                                              const Color(
+                                                                  0xFF071130),
+                                                          value: state.model
+                                                              .intruderSystemOffline,
+                                                          onChanged:
+                                                              showSaveButtons
+                                                                  ? (bool?
+                                                                      value) {
+                                                                      state.model
+                                                                              .intruderSystemOffline =
+                                                                          value!;
+                                                                      BlocProvider.of<EventInfoCubit>(
+                                                                              context)
+                                                                          .onCheckBoxChange(
+                                                                              state.model);
+                                                                    }
+                                                                  : null),
+                                                    )
+                                                  ]),
+
+                                                  if (state.model
+                                                          .intruderSystemOffline ==
+                                                      true) ...[
+                                                    CommonWidgets.textDisplay(
+                                                      // state.labels?.locale.extraSecurityDeployed ??
+                                                      //     state.labels?.defaultLocale
+                                                      //         .extraSecurityDeployed ??
+                                                      Constants.startDate,
+                                                      Styles.textStyleWhite16,
+                                                        isMandatory: true
+                                                    ),
+                                                    BaseDate()
+                                                        .datePickerWidgetLoading(
+                                                      context: context,
+                                                      textController:
+                                                          intruderDateController,
+                                                      isDisabled:
+                                                          !showSaveButtons,
+                                                      onlyDate: false,
+                                                      onChange: (String value) {
+                                                        intruderDateController
+                                                            .text = value;
+                                                        log('dateControllerValue --- $value');
+                                                        state.model
+                                                                .intruderSystemOfflineStartDate =
+                                                            value;
+                                                        BlocProvider.of<
+                                                                    EventInfoCubit>(
+                                                                context)
+                                                            .onModelValueChange(
+                                                                state.model);
+                                                      },
+                                                    ),
+                                                  ],
+                                                ],
+                                                CommonWidgets
+                                                    .verticalSpacerWidget(
+                                                    height * 0.02),
+                                                if (state.eventDuration ==
+                                                        ConstantsIntValue
+                                                            .eventDurationAfter &&
+                                                    widget
+                                                        .isEventProtection) ...[
+                                                  ///Total Attendies
+                                                  CommonWidgets.textDisplay(
+                                                      Constants.totalAttendies,
+                                                      Styles.textStyleWhite14,
+                                                      isMandatory: true),
+                                                  CommonWidgets
+                                                      .verticalSpacerWidget(
+                                                          height * 0.01),
+                                                  FlutterInputField(
+                                                    textInputType:
+                                                        TextInputType.text,
+                                                    initialValue:
+                                                        '${state.model.totalAttendance ?? ''}',
+                                                    textFormKey:
+                                                        Keys.lsm1ContactNOKey,
+                                                    hintText: '',
+                                                    isEnable: showSaveButtons
+                                                        ? true
+                                                        : false,
+                                                    characterLimit: Constants
+                                                        .characterLimitContactNo,
+                                                    isDisableColor:
+                                                        showSaveButtons
+                                                            ? false
+                                                            : true,
+                                                    onChange: (String value) {
+                                                      state.model
+                                                              .totalAttendance =
+                                                          int.tryParse(value);
+                                                      context
+                                                          .read<
+                                                              EventInfoCubit>()
+                                                          .onModelValueChange(
+                                                              state.model);
+                                                    },
+                                                    validateTextField:
+                                                        (String? user) {},
+                                                  ),
+                                                  CommonWidgets
+                                                      .verticalSpacerWidget(
+                                                          height * 0.02),
+                                                ],
+
+
+                                                /// View Email Notification List
+                                                CommonWidgets.textDisplay(
+                                                    'View Notifications',
+                                                    Styles.textStyleWhite14),
+
+                                                CommonWidgets
+                                                    .verticalSpacerWidget(
+                                                        height * 0.02),
+
+                                                ///  TEMPLATE LIST
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            7),
+                                                    border: Border.all(
+                                                        color: Colors.white,
+                                                        width: .7),
+                                                  ),
+                                                  child: Column(
+                                                    children: [
+                                                      /// ===== HEADER =====
+                                                      Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                horizontal: 16,
+                                                                vertical: 12),
+                                                        color: Colors.white
+                                                            .withValues(
+                                                                alpha: 0.1),
+                                                        child: Row(
+                                                          children: [
+                                                            const Expanded(
+                                                              child: Text(
+                                                                "Id",
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                ),
                                                               ),
-                                                              onPressed: () async {
-                                                                final id = item["id"];
-
-                                                                if (id == null) return;
-
-                                                                // try {
-                                                                //   final response =
-                                                                //   await context.read<EventInfoCubit>().getNotificationById(
-                                                                //     id.toString(),
-                                                                //   );
-                                                                //
-                                                                //   final html = response.notification; // 👈 adjust field name if different
-                                                                //   if (html == null || html.trim().isEmpty) {
-                                                                //     debugPrint("HTML is empty");
-                                                                //     return;
-                                                                //   }
-                                                                //
-                                                                //   openTemplatePreview(
-                                                                //     html: html,
-                                                                //     templateId: id as int?,
-                                                                //   );
-                                                                // } catch (e, s) {
-                                                                //   debugPrint("Failed to load template: $e");
-                                                                //   debugPrintStack(stackTrace: s);
-                                                                // }
-
+                                                            ),
+                                                            IconButton(
+                                                              icon: showSaveButtons
+                                                                  ? const Icon(
+                                                                      Icons.add,
+                                                                      color: Colors
+                                                                          .white)
+                                                                  : const SizedBox(),
+                                                              tooltip:
+                                                                  'Fetch Template',
+                                                              onPressed:
+                                                                  () async {
                                                                 try {
-                                                                  // final cubit = context.read<EventInfoCubit>();
-                                                                  // //
-                                                                  // final response = await cubit.getNotificationById(id.toString());
-                                                                  //
-                                                                  // debugPrint("API images: ${response.images}");
-                                                                  // debugPrint("API images length: ${response.images?.length}");
-                                                                  //
-                                                                  // cubit.addAttachment(response.images); // important
-                                                                  //
-                                                                  // final html = response.notification;
-                                                                  // if (html == null || html.trim().isEmpty) {
-                                                                  //   debugPrint("HTML is empty");
-                                                                  //   return;
-                                                                  // }
-                                                                  //
-                                                                  // openTemplatePreview(
-                                                                  //   html: html,
-                                                                  //   templateId: id as int?,
-                                                                  //   // images: response.images,
-                                                                  // );
+                                                                  final cubit =
+                                                                      context.read<
+                                                                          EventInfoCubit>();
+                                                                  cubit
+                                                                      .clearAttachments();
+                                                                  context
+                                                                      .read<
+                                                                          EventInfoCubit>()
+                                                                      .clearAttachments();
+                                                                  final response =
+                                                                      await context
+                                                                          .read<
+                                                                              EventInfoCubit>()
+                                                                          .getNotificationDetailsById(
+                                                                            widget.eventProtectionId,
+                                                                          );
 
-                                                                  final cubit = context.read<EventInfoCubit>();
-
-                                                                  cubit.clearAttachments();
-
-                                                                  final response = await cubit.getNotificationById(id.toString());
-
-                                                                  debugPrint("API images: ${response.images}");
-                                                                  debugPrint("API images length: ${response.images?.length}");
-
-                                                                  cubit.addAttachment(response.images);
-
-                                                                  final html = response.notification;
-                                                                  if (html == null || html.trim().isEmpty) {
-                                                                    debugPrint("HTML is empty");
+                                                                  // context.read<EventInfoCubit>().addAttachment(response.images ?? []);
+                                                                  final html =
+                                                                      response
+                                                                          .notification;
+                                                                  if (html ==
+                                                                          null ||
+                                                                      html
+                                                                          .trim()
+                                                                          .isEmpty) {
+                                                                    debugPrint(
+                                                                        "HTML is empty");
                                                                     return;
                                                                   }
-
-                                                                  await Future.delayed(const Duration(milliseconds: 50));
-
-                                                                  if (!context.mounted) return;
-
                                                                   openTemplatePreview(
                                                                     html: html,
-                                                                    templateId: id as int?,
+                                                                    templateId:
+                                                                        null,
                                                                   );
-                                                                //   cubit.clearAttachments();
-                                                                //
-                                                                //   final response = await cubit.getNotificationById(id.toString());
-                                                                //
-                                                                //   cubit.setAttachmentsFromApi(response.images);
-                                                                //   final html = response.notification;
-                                                                //   if (html == null || html.trim().isEmpty) {
-                                                                //     debugPrint("HTML is empty");
-                                                                //     return;
-                                                                //   }
-                                                                //   openTemplatePreview(html: html);
                                                                 } catch (e, s) {
-                                                                  debugPrint("Failed to load template: $e");
-                                                                  debugPrintStack(stackTrace: s);
+                                                                  debugPrint(
+                                                                      "Failed to load template: $e");
+                                                                  debugPrintStack(
+                                                                      stackTrace:
+                                                                          s);
                                                                 }
                                                               },
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
 
+                                                      /// ===== LOADER =====
+                                                      if (state
+                                                              .isTemplateLoading ==
+                                                          true)
+                                                        const Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  12),
+                                                          child:
+                                                              CircularProgressIndicator(
+                                                                  color: Colors
+                                                                      .white),
+                                                        ),
+
+                                                      /// ===== EMPTY STATE =====
+                                                      if (state.isTemplateLoading ==
+                                                              false &&
+                                                          (state.emailTemplates!
+                                                              .isEmpty))
+                                                        const Padding(
+                                                          padding:
+                                                              EdgeInsets.all(
+                                                                  12),
+                                                          child: Text(
+                                                            "No templates loaded",
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white70),
                                                           ),
-                                                        ],
-                                                      ),
-                                                    );
-                                                  }),
-                                                ],
-                                              ),
-                                            ),
-
-                                            CommonWidgets.verticalSpacerWidget(
-                                                height * 0.02),
-
-                                            /// Will show for only Event Protection
-                                            if (widget.isEventProtection) ...[
-                                              if (state.eventDuration ==
-                                                  ConstantsIntValue
-                                                      .eventDurationAfter) ...[
-                                                Center(
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      /// Add Button
-                                                      OpacityAbsorbInkWellWidget(
-                                                        absorbing:
-                                                            !showSaveButtons,
-                                                        onTap: () {
-                                                          Navigator.pushNamed(
-                                                            context,
-                                                            articleFoundNewDetailsRoute,
-                                                            arguments: {
-                                                              ConstantsArgument
-                                                                      .eventId:
-                                                                  state
-                                                                      .model.id,
-                                                              ConstantsArgument
-                                                                      .eventProtectionId:
-                                                                  widget
-                                                                      .eventProtectionId,
-                                                              ConstantsArgument
-                                                                      .location:
-                                                                  state.model
-                                                                      .location,
-                                                            },
-                                                          );
-                                                        },
-                                                        child:
-                                                            const AddViewButton(
-                                                          label:
-                                                              'Add Article Found',
                                                         ),
-                                                      ),
 
-                                                      /// Show List Button
-                                                      if (!state.foundArticles
-                                                              .isEmptyOrNull
-                                                          // && state.model.status! >= 22
-                                                          ) ...[
-                                                        submitButtonDisplay(
-                                                          label: Constants
-                                                              .showList,
-                                                          onTap: () {
-                                                            Navigator.pushNamed(
-                                                              context,
-                                                              articleFoundNewListRoute,
-                                                              arguments: {
-                                                                ConstantsArgument
-                                                                        .eventId:
-                                                                    state.model
-                                                                        .id,
-                                                                ConstantsArgument
-                                                                        .eventProtectionId:
-                                                                    widget
-                                                                        .eventProtectionId,
-                                                              },
-                                                            );
-                                                            // showDialog(
-                                                            //   context: context,
-                                                            //   builder: (context) {
-                                                            //     return ArticleDialog(
-                                                            //       articles:
-                                                            //           state.foundArticles ??
-                                                            //               [],
-                                                            //       showLeftButton:
-                                                            //       false,
-                                                            //       leftButtonTap: () {
-                                                            //         FocusScope.of(context)
-                                                            //             .unfocus();
-                                                            //         BlocProvider.of<
-                                                            //                     EventInfoCubit>(
-                                                            //                 this.context)
-                                                            //             .submitForm(
-                                                            //                 isSaveOnly: true,
-                                                            //                 addArticleFound:
-                                                            //                     true,
-                                                            //                 updatedEmailText:
-                                                            //                     updatedEmailText ??
-                                                            //                         '');
-                                                            //       },
-                                                            //     );
-                                                            //   },
-                                                            // );
-                                                          },
-                                                        ),
-                                                      ],
+                                                      /// ===== TEMPLATE LIST =====
+                                                      ...?state.emailTemplates
+                                                          ?.map((item) {
+                                                        return Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .symmetric(
+                                                                  horizontal:
+                                                                      20,
+                                                                  vertical: 10),
+                                                          decoration:
+                                                              const BoxDecoration(
+                                                            border: Border(
+                                                              bottom: BorderSide(
+                                                                  color: Colors
+                                                                      .white24),
+                                                            ),
+                                                          ),
+                                                          child: Row(
+                                                            children: [
+                                                              Expanded(
+                                                                child: Text(
+                                                                  item["id"]
+                                                                      .toString(),
+                                                                  style: Styles
+                                                                      .textStyleWhite14,
+                                                                ),
+                                                              ),
+                                                              isLoading
+                                                                  ? const SizedBox(
+                                                                      width: 24,
+                                                                      height:
+                                                                          24,
+                                                                      child:
+                                                                          CircularProgressIndicator(
+                                                                        strokeWidth:
+                                                                            2,
+                                                                        color: Colors
+                                                                            .white,
+                                                                      ),
+                                                                    )
+                                                                  : IconButton(
+                                                                      icon:
+                                                                          const Icon(
+                                                                        Icons
+                                                                            .remove_red_eye,
+                                                                        color: Colors
+                                                                            .white,
+                                                                      ),
+                                                                      onPressed:
+                                                                          () async {
+                                                                        final id =
+                                                                            item["id"];
+                                                                        if (id ==
+                                                                            null) {
+                                                                          return;
+                                                                        }
+
+                                                                        setState(
+                                                                            () {
+                                                                          isLoading =
+                                                                              true;
+                                                                        });
+
+                                                                        try {
+                                                                          final cubit =
+                                                                              context.read<EventInfoCubit>();
+
+                                                                          cubit
+                                                                              .clearAttachments();
+
+                                                                          final response =
+                                                                              await cubit.getNotificationById(id.toString());
+
+                                                                          debugPrint(
+                                                                              "API images: ${response.images}");
+                                                                          debugPrint(
+                                                                              "API images length: ${response.images?.length}");
+
+                                                                          cubit.addAttachment(
+                                                                              response.images);
+
+                                                                          final html =
+                                                                              response.notification;
+                                                                          if (html == null ||
+                                                                              html.trim().isEmpty) {
+                                                                            debugPrint("HTML is empty");
+                                                                            return;
+                                                                          }
+
+                                                                          // await Future.delayed(const Duration(milliseconds: 10));
+
+                                                                          if (!context
+                                                                              .mounted) {
+                                                                            return;
+                                                                          }
+
+                                                                          openTemplatePreview(
+                                                                            html:
+                                                                                html,
+                                                                            templateId:
+                                                                                id as int?,
+                                                                          );
+                                                                        } catch (e, s) {
+                                                                          debugPrint(
+                                                                              "Failed to load template: $e");
+                                                                          debugPrintStack(
+                                                                              stackTrace: s);
+                                                                        } finally {
+                                                                          if (mounted) {
+                                                                            setState(() {
+                                                                              isLoading = false;
+                                                                            });
+                                                                          }
+                                                                        }
+                                                                      },
+                                                                    ),
+                                                            ],
+                                                          ),
+                                                        );
+                                                      }),
                                                     ],
                                                   ),
                                                 ),
+
+                                                CommonWidgets
+                                                    .verticalSpacerWidget(
+                                                        height * 0.02),
+
+                                                /// Will show for only Event Protection
+                                                  if ((widget
+                                                      .isEventProtection && state.eventDuration ==
+                                                      ConstantsIntValue
+                                                          .eventDurationAfter) || widget.isCSREventProtection && state.eventDuration ==
+                                                      ConstantsIntValue
+                                                          .eventDurationDuring) ...[
+                                                    Center(
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          /// Add Button
+                                                          OpacityAbsorbInkWellWidget(
+                                                            absorbing:
+                                                                !showSaveButtons,
+                                                            onTap: () {
+                                                              Navigator
+                                                                  .pushNamed(
+                                                                context,
+                                                                articleFoundNewDetailsRoute,
+                                                                arguments: {
+                                                                  ConstantsArgument
+                                                                          .eventId:
+                                                                      state
+                                                                          .model
+                                                                          .id,
+                                                                  ConstantsArgument
+                                                                          .eventProtectionId:
+                                                                      widget
+                                                                          .eventProtectionId,
+                                                                  ConstantsArgument
+                                                                          .location:
+                                                                      state
+                                                                          .model
+                                                                          .location,
+                                                                },
+                                                              );
+                                                            },
+                                                            child:
+                                                                const AddViewButton(
+                                                              label:
+                                                                  'Add Article Found',
+                                                            ),
+                                                          ),
+
+                                                          /// Show List Button
+                                                          if (!state
+                                                                  .foundArticles
+                                                                  .isEmptyOrNull
+                                                              // && state.model.status! >= 22
+                                                              ) ...[
+                                                            submitButtonDisplay(
+                                                              label: Constants
+                                                                  .showList,
+                                                              onTap: () {
+                                                                Navigator
+                                                                    .pushNamed(
+                                                                  context,
+                                                                  articleFoundNewListRoute,
+                                                                  arguments: {
+                                                                    ConstantsArgument
+                                                                            .eventId:
+                                                                        state
+                                                                            .model
+                                                                            .id,
+                                                                    ConstantsArgument
+                                                                            .eventProtectionId:
+                                                                        widget
+                                                                            .eventProtectionId,
+                                                                  },
+                                                                );
+                                                              },
+                                                            ),
+                                                          ],
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                  CommonWidgets
+                                                      .verticalSpacerWidget(
+                                                          height * 0.02),
+
                                               ],
-                                              CommonWidgets
-                                                  .verticalSpacerWidget(
-                                                      height * 0.02),
-                                            ],
-
-                                            /// upload Photo
-                                            // CommonWidgets.textDisplay(
-                                            //     Constants.uploadPhoto,
-                                            //     Styles.textStyleWhite14),
-                                            // state.model.image == null
-                                            //     ? CommonWidgets.verticalSpacerWidget(
-                                            //     height * 0.001)
-                                            //     : Container(),
-                                            // BaseImageUpload().uploadWidget(
-                                            //   context: context,
-                                            //   isDisabled: !showSaveButtons,
-                                            //   loggedInUserDetails:
-                                            //   state.loggedInUserDetails ?? User(),
-                                            //   getFiles: guardFiles,
-                                            //   onImageSelected: (ImageContent data) {
-                                            //     log(
-                                            //         '-------function---onImageSelected---------');
-                                            //     List<ImageContent>? files = [];
-                                            //     files.add(data);
-                                            //     for (ImageContent image
-                                            //     in guardFiles ?? []) {
-                                            //       files.add(image);
-                                            //     }
-                                            //     BlocProvider.of<EventInfoCubit>(context)
-                                            //         .addAttachment(guardImages: files);
-                                            //   },
-                                            // ),
-                                          ],
-                                        ),
+                                            ),
+                                          ),
+                                          CommonWidgets.verticalSpacerWidget(
+                                              height * 0.02),
+                                        ],
                                       ),
-                                      CommonWidgets.verticalSpacerWidget(
-                                          height * 0.02),
-                                    ],
-                                  ),
-                                ),
+                                    ),
 
-                                // /// Attachments
-                                // BaseImageUpload().getAttachment(
-                                //   height: height,
-                                //   attachments: state.guardAttachments,
-                                //   files: guardFiles,
-                                //   isDisabled: !showSaveButtons,
-                                //   // showDownloadIcon:
-                                //   //     state.model.image != null ? true : false,
-                                //   moduleCode: widget.isEventProtection
-                                //       ? Constants.eventProtectionModuleCode
-                                //       : Constants.annualPowerShutDownModuleCode,
-                                // ),
-                                // CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                                /// SubmitButton
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    cancelButtonDisplay(),
-                                    if (showSaveButtons) ...[
-                                      submitButtonDisplay(
-                                        onTap: () async {
-                                          FocusScope.of(context).unfocus();
-                                          BlocProvider.of<EventInfoCubit>(
-                                                  context)
-                                              .submitForm(
-                                                  isSaveOnly: false,
-                                                  updatedEmailText:
-                                                      updatedEmailText ?? '');
-                                        },
-                                      ),
-                                    ],
+                                    /// SubmitButton
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        cancelButtonDisplay(),
+                                        if (showSaveButtons) ...[
+                                          submitButtonDisplay(
+                                            onTap: () async {
+                                              FocusScope.of(context).unfocus();
+                                              BlocProvider.of<EventInfoCubit>(
+                                                      context)
+                                                  .submitForm(
+                                                      isSaveOnly: false,
+                                                      updatedEmailText:
+                                                          updatedEmailText ??
+                                                              '');
+                                            },
+                                          ),
+                                        ],
+                                      ],
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.04),
                                   ],
                                 ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.04),
-                              ],
-                            ),
-                          ),
-                        ],
-                        // ),
-                      )));
-            }),
-          ],
-        ),
-      );
-    });
+                              ),
+                            ],
+                            // ),
+                          )));
+                }),
+              ],
+            ),
+          );
+        });
   }
 
 //   void openTemplatePreview({
 //     required String html,
 //     int? templateId,
-//     // required images,
 //   }) {
 //     selectedTemplateHtml = html;
 //
-//     // ✅ Capture the cubit from the correct context BEFORE opening the sheet
 //     final eventInfoCubit = context.read<EventInfoCubit>();
 //     final int? currentTemplateId = templateId;
 //
@@ -834,13 +1241,12 @@ class _EventInfoViewState extends State<EventInfoView> {
 //       backgroundColor: Colors.transparent,
 //       builder: (bottomSheetContext) {
 //         final height = MediaQuery.of(bottomSheetContext).size.height;
+//         final width = MediaQuery.of(bottomSheetContext).size.width;
 //
 //         return BlocProvider.value(
-//           value: eventInfoCubit, // ✅ reuse same cubit instance
-//           child: Builder(
-//             builder: (context) {
-//               final state = context.watch<EventInfoCubit>().state;
-//
+//           value: eventInfoCubit,
+//           child: BlocBuilder<EventInfoCubit, EventInfoState>(
+//             builder: (context, state) {
 //               return ClipRRect(
 //                 borderRadius: BorderRadius.circular(12),
 //                 child: BackdropFilter(
@@ -875,48 +1281,54 @@ class _EventInfoViewState extends State<EventInfoView> {
 //                               ),
 //                               Row(
 //                                 children: [
-//                                   /// ===== SUBMIT =====
-//                                   showSaveButtons ? IconButton(
-//                                     tooltip: "Submit",
-//                                     icon: const Icon(Icons.send,
-//                                         color: Colors.white),
-//                                     onPressed: () async {
-//                                       final html =
-//                                       await quillController.getText();
+//                                   showSaveButtons
+//                                       ? IconButton(
+//                                           tooltip: "Submit",
+//                                           icon: const Icon(
+//                                             Icons.send,
+//                                             color: Colors.white,
+//                                           ),
+//                                           onPressed: () async {
+//                                             final html =
+//                                                 await quillController.getText();
 //
-//                                       if (html.trim().isEmpty) return;
-//                                       context
-//                                           .read<EventInfoCubit>()
-//                                           .submitTemplateAndRefresh(
-//                                         html: html,
-//                                         id: currentTemplateId,
-//                                       );
+//                                             if (html.trim().isEmpty) return;
 //
-//                                       await context.read<EventInfoCubit>().getNotificationDetailsById(
-//                                         widget.eventProtectionId,  // Reload current/fresh data
-//                                       );
-//                                       // await context
-//                                       //     .read<EventInfoCubit>()
-//                                       //     .getNotificationById(widget.eventProtectionId);
+//                                             await context
+//                                                 .read<EventInfoCubit>()
+//                                                 .submitTemplateAndRefresh(
+//                                                   html: html,
+//                                                   id: currentTemplateId,
+//                                                 );
 //
-//                                       Navigator.pop(context);
-//                                     },
+//                                             await context
+//                                                 .read<EventInfoCubit>()
+//                                                 .getNotificationDetailsById(
+//                                                   widget.eventProtectionId,
+//                                                 );
 //
-//                                   ): const SizedBox(),
-//                                   /// ===== CLOSE =====
+//                                             if (context.mounted) {
+//                                               Navigator.pop(context);
+//                                             }
+//                                           },
+//                                         )
+//                                       : const SizedBox(),
 //                                   IconButton(
 //                                     tooltip: "Close",
-//                                     icon: const Icon(Icons.close,
-//                                         color: Colors.white),
+//                                     icon: const Icon(
+//                                       Icons.close,
+//                                       color: Colors.white,
+//                                     ),
 //                                     onPressed: () async {
 //                                       await context
 //                                           .read<EventInfoCubit>()
 //                                           .getNotificationDetailsById(
-//                                         widget
-//                                             .eventProtectionId, // Reload current/fresh data
-//                                       );
-//                                       Navigator.pop(context);
-//                                     }
+//                                             widget.eventProtectionId,
+//                                           );
+//                                       if (context.mounted) {
+//                                         Navigator.pop(context);
+//                                       }
+//                                     },
 //                                   ),
 //                                 ],
 //                               ),
@@ -924,75 +1336,96 @@ class _EventInfoViewState extends State<EventInfoView> {
 //                           ),
 //                         ),
 //
-//                         /// ===== HTML EDITOR =====
-//                         Expanded(
-//                           child: SizedBox.expand(
-//                                 child:
-//                                 HtmlEditor(
-//                                   controller: quillController,
-//                                   htmlToolbarOptions: const HtmlToolbarOptions(
-//                                     toolbarPosition:
-//                                     ToolbarPosition.aboveEditor,
-//                                     textStyle: Styles.textStyleBlack16,
-//                                   ),
-//                                   htmlEditorOptions: HtmlEditorOptions(
-//                                     darkMode: false,
-//                                     initialText: selectedTemplateHtml,
-//                                     autoAdjustHeight: false,
-//                                     // height: MediaQuery.of(context).size.height * 0.55,
-//                                   ),
-//                                   otherOptions: OtherOptions(
-//                                     height: MediaQuery.of(context).size.height * 0.65,
-//                                   ),
-//                                   callbacks: Callbacks(
-//                                     onInit: () {
-//                                       quillController.setText("""
+//                         /// ===== FIXED HTML EDITOR AREA =====
+//                         SizedBox(
+//                           height: height * 0.5,
+//                           child: Padding(
+//                             padding: const EdgeInsets.symmetric(horizontal: 12),
+//                             child: HtmlEditor(
+//                               controller: quillController,
+//                               htmlToolbarOptions: const HtmlToolbarOptions(
+//                                 toolbarPosition: ToolbarPosition.aboveEditor,
+//                                 textStyle: Styles.textStyleBlack16,
+//                               ),
+//                               htmlEditorOptions: HtmlEditorOptions(
+//                                 darkMode: false,
+//                                 initialText: selectedTemplateHtml,
+//                                 autoAdjustHeight: false,
+//                               ),
+//                               otherOptions: OtherOptions(
+//                                 height: height * 1.2,
+//                               ),
+//                               callbacks: Callbacks(
+//                                 onInit: () {
+//                                   quillController.setText("""
 // <style>
 // body { background-color: transparent !important; color: white !important; }
 // * { color: white !important; }
 // </style>
-//                           $selectedTemplateHtml
+// $selectedTemplateHtml
 // """);
-//                                     },
-//                                   ),
-//                                 ),
+//                                 },
 //                               ),
+//                             ),
 //                           ),
+//                         ),
 //
-//                         // ),
+//                         const SizedBox(height: 20),
 //
-//                         /// ===== ATTACHMENTS =====
+//                         /// ===== UPLOAD LABEL + BUTTON =====
 //                         Padding(
-//                           padding:
-//                           const EdgeInsets.symmetric(horizontal: 12),
+//                           padding: const EdgeInsets.symmetric(horizontal: 1),
 //                           child: Column(
 //                             crossAxisAlignment: CrossAxisAlignment.start,
 //                             children: [
-//
-//                               /// upload
 //                               CommonWidgets.textDisplay(
-//                                   Constants.upload, Styles.textStyleWhite16),
-//                                   uploadWidget(state),
-//
-//                               CommonWidgets.verticalSpacerWidget(height * 0.02),
-//
-//                   /// Attachments
-//                   BaseImageUpload().getAttachment(
-//                     height: height,
-//                     attachments: state.loadAttachments,
-//                     files: getFiles,
-//                     moduleCode: '',
-//                     isDisabled: !showSaveButtons,
-//                     showDeleteIcon: true,
-//                   ),
-//                   CommonWidgets.verticalSpacerWidget(height * 0.02),
-//
+//                                 Constants.upload,
+//                                 Styles.textStyleWhite16,
+//                               ),
+//                               uploadWidget(state),
 //                             ],
-//                           )
+//                           ),
 //                         ),
 //
-//                         CommonWidgets.verticalSpacerWidget(
-//                             height * 0.015),
+//                         const SizedBox(height: 12),
+//
+//                         /// ===== SCROLLABLE ATTACHMENT CONTAINER =====
+//                         if (state.loadAttachments!.isNotEmpty) ...[
+//                           Expanded(
+//                             child: Padding(
+//                               padding:
+//                                   const EdgeInsets.symmetric(horizontal: 12),
+//                               child: Container(
+//                                 width: width,
+//                                 decoration: BoxDecoration(
+//                                   borderRadius: BorderRadius.circular(12),
+//                                   border: Border.all(
+//                                     color: Colors.white.withValues(alpha: 0.35),
+//                                     width: 0.8,
+//                                   ),
+//                                   color: Colors.white.withValues(alpha: 0.03),
+//                                 ),
+//                                 child: ClipRRect(
+//                                   borderRadius: BorderRadius.circular(12),
+//                                   child: SingleChildScrollView(
+//                                     padding: const EdgeInsets.all(8),
+//                                     child: BaseImageUpload().getAttachment(
+//                                       height: height,
+//                                       attachments: List<ImageContent>.from(
+//                                           state.loadAttachments ?? []),
+//                                       files: getFiles,
+//                                       // files: getFiles,
+//                                       moduleCode: '',
+//                                       isDisabled: !showSaveButtons,
+//                                       showDeleteIcon: true,
+//                                     ),
+//                                   ),
+//                                 ),
+//                               ),
+//                             ),
+//                           ),
+//                         ],
+//                         CommonWidgets.verticalSpacerWidget(height * 0.015),
 //                       ],
 //                     ),
 //                   ),
@@ -1004,460 +1437,29 @@ class _EventInfoViewState extends State<EventInfoView> {
 //       },
 //     );
 //   }
-
   void openTemplatePreview({
     required String html,
     int? templateId,
   }) {
-    selectedTemplateHtml = html;
-
-    final eventInfoCubit = context.read<EventInfoCubit>();
-    final int? currentTemplateId = templateId;
-
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      showDragHandle: false,
-      backgroundColor: Colors.transparent,
-      builder: (bottomSheetContext) {
-        final height = MediaQuery.of(bottomSheetContext).size.height;
-        final width = MediaQuery.of(bottomSheetContext).size.width;
-
-        return BlocProvider.value(
-          value: eventInfoCubit,
-          child: BlocBuilder<EventInfoCubit, EventInfoState>(
-            builder: (context, state) {
-              return ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
-                  child: Container(
-                    height: height * 0.9,
-                    margin: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: AppColors.newColor3.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: Colors.white.withValues(alpha: 0.4),
-                        width: 0.7,
-                      ),
-                    ),
-                    child: Column(
-                      children: [
-                        /// ===== HEADER =====
-                        Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                currentTemplateId == null
-                                    ? "Create Email Template"
-                                    : "Edit Email Template #$currentTemplateId",
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                ),
-                              ),
-                              Row(
-                                children: [
-                                  showSaveButtons
-                                      ? IconButton(
-                                    tooltip: "Submit",
-                                    icon: const Icon(
-                                      Icons.send,
-                                      color: Colors.white,
-                                    ),
-                                    onPressed: () async {
-                                      final html =
-                                      await quillController.getText();
-
-                                      if (html.trim().isEmpty) return;
-
-                                      await context
-                                          .read<EventInfoCubit>()
-                                          .submitTemplateAndRefresh(
-                                        html: html,
-                                        id: currentTemplateId,
-                                      );
-
-                                      await context
-                                          .read<EventInfoCubit>()
-                                          .getNotificationDetailsById(
-                                        widget.eventProtectionId,
-                                      );
-
-                                      if (context.mounted) {
-                                        Navigator.pop(context);
-                                      }
-                                    },
-                                  )
-                                      : const SizedBox(),
-                                  IconButton(
-                                    tooltip: "Close",
-                                    icon: const Icon(
-                                      Icons.close,
-                                      color: Colors.white,
-                                    ),
-                                    onPressed: () async {
-                                      await context
-                                          .read<EventInfoCubit>()
-                                          .getNotificationDetailsById(
-                                        widget.eventProtectionId,
-                                      );
-                                      if (context.mounted) {
-                                        Navigator.pop(context);
-                                      }
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-
-                        /// ===== FIXED HTML EDITOR AREA =====
-                        SizedBox(
-                          height: height * 0.5,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
-                            child: HtmlEditor(
-                              controller: quillController,
-                              htmlToolbarOptions: const HtmlToolbarOptions(
-                                toolbarPosition: ToolbarPosition.aboveEditor,
-                                textStyle: Styles.textStyleBlack16,
-                              ),
-                              htmlEditorOptions: HtmlEditorOptions(
-                                darkMode: false,
-                                initialText: selectedTemplateHtml,
-                                autoAdjustHeight: false,
-                              ),
-                              otherOptions: OtherOptions(
-                                height: height * 1.2,
-                              ),
-                              callbacks: Callbacks(
-                                onInit: () {
-                                  quillController.setText("""
-<style>
-body { background-color: transparent !important; color: white !important; }
-* { color: white !important; }
-</style>
-$selectedTemplateHtml
-""");
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        const SizedBox(height: 20),
-
-                        /// ===== UPLOAD LABEL + BUTTON =====
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 1),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CommonWidgets.textDisplay(
-                                Constants.upload,
-                                Styles.textStyleWhite16,
-                              ),
-                              uploadWidget(state),
-                            ],
-                          ),
-                        ),
-
-                        const SizedBox(height: 12),
-
-                        /// ===== SCROLLABLE ATTACHMENT CONTAINER =====
-                        if(state.loadAttachments!.isNotEmpty)...[
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 12),
-                            child: Container(
-                              width: width,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(
-                                  color: Colors.white.withValues(alpha: 0.35),
-                                  width: 0.8,
-                                ),
-                                color: Colors.white.withValues(alpha: 0.03),
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: SingleChildScrollView(
-                                  padding: const EdgeInsets.all(8),
-                                  child: BaseImageUpload().getAttachment(
-                                    height: height,
-                                    attachments: List<ImageContent>.from(state.loadAttachments ?? []),                                      files: getFiles,
-                                    // files: getFiles,
-                                    moduleCode: '',
-                                    isDisabled: !showSaveButtons,
-                                    showDeleteIcon: true,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        ],
-                        // if (state.loadAttachments != null && state.loadAttachments!.isNotEmpty) ...[
-                        //   const SizedBox(height: 12),
-                        //   SizedBox(
-                        //     height: height * 0.22,
-                        //     child: Padding(
-                        //       padding: const EdgeInsets.symmetric(horizontal: 12),
-                        //       child: KeyedSubtree(
-                        //         key: ValueKey(
-                        //           state.loadAttachments!
-                        //               .map((e) => e.toString())
-                        //               .join('_'),
-                        //         ),
-                        //         child: Container(
-                        //           width: width,
-                        //           decoration: BoxDecoration(
-                        //             borderRadius: BorderRadius.circular(12),
-                        //             border: Border.all(
-                        //               color: Colors.white.withValues(alpha: 0.35),
-                        //               width: 0.8,
-                        //             ),
-                        //             color: Colors.white.withValues(alpha: 0.03),
-                        //           ),
-                        //           child: ClipRRect(
-                        //             borderRadius: BorderRadius.circular(12),
-                        //             child: BaseImageUpload().getAttachment(
-                        //               height: height,
-                        //               attachments: List<ImageContent>.from(state.loadAttachments ?? []),                                      files: getFiles,
-                        //               moduleCode: '',
-                        //               isDisabled: !showSaveButtons,
-                        //               showDeleteIcon: true,
-                        //             ),
-                        //           ),
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ],
-                        CommonWidgets.verticalSpacerWidget(height * 0.015),
-                      ],
-                    ),
-//                     child: SafeArea(
-//                       child: SingleChildScrollView(
-//                         child: ConstrainedBox(
-//                           constraints: BoxConstraints(
-//                             minHeight: height * 0.9,
-//                           ),
-//                           child: IntrinsicHeight(
-//                             child: Column(
-//                               crossAxisAlignment: CrossAxisAlignment.start,
-//                               children: [
-//                                 /// ===== HEADER =====
-//                                 Padding(
-//                                   padding: const EdgeInsets.all(8),
-//                                   child: Row(
-//                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                                     children: [
-//                                       Text(
-//                                         currentTemplateId == null
-//                                             ? "Create Email Template"
-//                                             : "Edit Email Template #$currentTemplateId",
-//                                         style: const TextStyle(
-//                                           color: Colors.white,
-//                                           fontSize: 16,
-//                                         ),
-//                                       ),
-//                                       Row(
-//                                         children: [
-//                                           showSaveButtons
-//                                               ? IconButton(
-//                                             tooltip: "Submit",
-//                                             icon: const Icon(Icons.send, color: Colors.white),
-//                                             onPressed: () async {
-//                                               final html = await quillController.getText();
-//
-//                                               if (html.trim().isEmpty) return;
-//
-//                                               await context
-//                                                   .read<EventInfoCubit>()
-//                                                   .submitTemplateAndRefresh(
-//                                                 html: html,
-//                                                 id: currentTemplateId,
-//                                               );
-//
-//                                               await context
-//                                                   .read<EventInfoCubit>()
-//                                                   .getNotificationDetailsById(
-//                                                 widget.eventProtectionId,
-//                                               );
-//
-//                                               if (context.mounted) {
-//                                                 Navigator.pop(context);
-//                                               }
-//                                             },
-//                                           )
-//                                               : const SizedBox(),
-//                                           IconButton(
-//                                             tooltip: "Close",
-//                                             icon: const Icon(Icons.close, color: Colors.white),
-//                                             onPressed: () async {
-//                                               await context
-//                                                   .read<EventInfoCubit>()
-//                                                   .getNotificationDetailsById(
-//                                                 widget.eventProtectionId,
-//                                               );
-//                                               if (context.mounted) {
-//                                                 Navigator.pop(context);
-//                                               }
-//                                             },
-//                                           ),
-//                                         ],
-//                                       ),
-//                                     ],
-//                                   ),
-//                                 ),
-//
-//                                 /// ===== HTML EDITOR =====
-//                                 Padding(
-//                                   padding: const EdgeInsets.symmetric(horizontal: 12),
-//                                   child: SizedBox(
-//                                     height: height * 0.42,
-//                                     child: HtmlEditor(
-//                                       controller: quillController,
-//                                       htmlToolbarOptions: const HtmlToolbarOptions(
-//                                         toolbarPosition: ToolbarPosition.aboveEditor,
-//                                         textStyle: Styles.textStyleBlack16,
-//                                       ),
-//                                       htmlEditorOptions: HtmlEditorOptions(
-//                                         darkMode: false,
-//                                         initialText: selectedTemplateHtml,
-//                                         autoAdjustHeight: false,
-//                                       ),
-//                                       otherOptions: OtherOptions(
-//                                         height: height * 0.42,
-//                                       ),
-//                                       callbacks: Callbacks(
-//                                         onInit: () {
-//                                           quillController.setText("""
-// <style>
-// body { background-color: transparent !important; color: white !important; }
-// * { color: white !important; }
-// </style>
-// $selectedTemplateHtml
-// """);
-//                                         },
-//                                       ),
-//                                     ),
-//                                   ),
-//                                 ),
-//
-//                                 const SizedBox(height: 12),
-//
-//                                 /// ===== UPLOAD =====
-//                                 Padding(
-//                                   padding: const EdgeInsets.symmetric(horizontal: 12),
-//                                   child: Column(
-//                                     crossAxisAlignment: CrossAxisAlignment.start,
-//                                     children: [
-//                                       CommonWidgets.textDisplay(
-//                                         Constants.upload,
-//                                         Styles.textStyleWhite16,
-//                                       ),
-//                                       uploadWidget(state),
-//                                     ],
-//                                   ),
-//                                 ),
-//
-//                                 // if (state.loadAttachments != null &&
-//                                 //     state.loadAttachments!.isNotEmpty) ...[
-//                                 //   const SizedBox(height: 12),
-//                                 //   Padding(
-//                                 //     padding: const EdgeInsets.symmetric(horizontal: 12),
-//                                 //     child: SizedBox(
-//                                 //       height: height * 0.18,
-//                                 //       child: Container(
-//                                 //         width: width,
-//                                 //         decoration: BoxDecoration(
-//                                 //           borderRadius: BorderRadius.circular(12),
-//                                 //           border: Border.all(
-//                                 //             color: Colors.white.withValues(alpha: 0.35),
-//                                 //             width: 0.8,
-//                                 //           ),
-//                                 //           color: Colors.white.withValues(alpha: 0.03),
-//                                 //         ),
-//                                 //         child: ClipRRect(
-//                                 //           borderRadius: BorderRadius.circular(12),
-//                                 //           child: KeyedSubtree(
-//                                 //             key: ValueKey(
-//                                 //               state.loadAttachments!
-//                                 //                   .map((e) => e.toString())
-//                                 //                   .join('_'),
-//                                 //             ),
-//                                 //             child: BaseImageUpload().getAttachment(
-//                                 //               height: height,
-//                                 //               attachments: state.loadAttachments,
-//                                 //               files: getFiles,
-//                                 //               moduleCode: '',
-//                                 //               isDisabled: !showSaveButtons,
-//                                 //               showDeleteIcon: true,
-//                                 //             ),
-//                                 //           ),
-//                                 //         ),
-//                                 //       ),
-//                                 //     ),
-//                                 //   ),
-//                                 // ],
-//                                 if (state.loadAttachments != null && state.loadAttachments!.isNotEmpty) ...[
-//                                   const SizedBox(height: 12),
-//                                   Padding(
-//                                     padding: const EdgeInsets.symmetric(horizontal: 12),
-//                                     child: SizedBox(
-//                                       height: height * 0.18,
-//                                       child: Container(
-//                                         width: width,
-//                                         decoration: BoxDecoration(
-//                                           borderRadius: BorderRadius.circular(12),
-//                                           border: Border.all(
-//                                             color: Colors.white.withValues(alpha: 0.35),
-//                                             width: 0.8,
-//                                           ),
-//                                           color: Colors.white.withValues(alpha: 0.03),
-//                                         ),
-//                                         child: ClipRRect(
-//                                           borderRadius: BorderRadius.circular(12),
-//                                           child: KeyedSubtree(
-//                                             key: ValueKey(
-//                                               '${state.loadAttachments!.length}_${state.loadAttachments!.map((e) => e.toString()).join('_')}',
-//                                             ),
-//                                             child: BaseImageUpload().getAttachment(
-//                                               height: height,
-//                                               attachments: List<ImageContent>.from(state.loadAttachments ?? []),                                              files: getFiles,
-//                                               moduleCode: '',
-//                                               isDisabled: !showSaveButtons,
-//                                               showDeleteIcon: true,
-//                                             ),
-//                                           ),
-//                                         ),
-//                                       ),
-//                                     ),
-//                                   ),
-//                                 ],
-//                                 const SizedBox(height: 16),
-//                               ],
-//                             ),
-//                           ),
-//                         ),
-//                       ),
-//                     ),
-                  ),
-                ),
-              );
-            },
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        //  replace MaterialPageRoute
+        opaque: true, //  hides previous page completely
+        pageBuilder: (_, __, ___) => BlocProvider.value(
+          value: context.read<EventInfoCubit>(),
+          child: TemplatePreviewPage(
+            html: html,
+            templateId: templateId,
+            eventProtectionId: widget.eventProtectionId,
+            showSaveButtons: showSaveButtons,
+            getFiles: getFiles,
           ),
-        );
-      },
+        ),
+      ),
     );
   }
+
   void addEmail() {
     final exampleCubit = context.read<EventInfoCubit>();
     showDialog(
@@ -1470,49 +1472,67 @@ $selectedTemplateHtml
               var height = MediaQuery.of(dialogContext).size.height;
               var width = MediaQuery.of(dialogContext).size.width;
               return AlertDialog(
-                backgroundColor: AppColors.newColor.withValues(alpha: 0.5),
+                backgroundColor: Colors.transparent, // ✅ important for gradient
+                elevation: 0,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
-                content: SizedBox(
-                  height: height * 0.19,
+                content: Container(
+                  height: height * 0.25,
                   width: width,
-                  child: Center(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    gradient: const LinearGradient(
+                      colors: [
+                        Color(0xFF2C3550), // dark blue
+                        Color(0xFF3E4A6B), // lighter blue
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    border: Border.all(
+                      color:
+                          Colors.white.withValues(alpha: 0.5), // subtle border
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
                     child: Column(
                       children: [
                         CommonWidgets.textDisplay(
                           Constants.additionalEmails,
-                          Styles.textStyleWhite14,
+                          Styles.textStyleWhite16, // ✅ change to white
                         ),
-                        CommonWidgets.verticalSpacerWidget(height * 0.001),
+                        CommonWidgets.verticalSpacerWidget(height * 0.01),
                         FlutterInputField(
                           lineHeight: 1,
                           controller: addEmailController,
                           textFormKey: Keys.equipmentNoKey,
-                          hintText: '',
+                          hintText: 'Enter email',
                           isEnable: showSaveButtons,
                           isDisableColor: false,
                           onChange: (String value) {},
                           validateTextField: (String value) {},
                         ),
                         if (state.status == FormStatus.invalidEmail) ...[
+                          const SizedBox(height: 6),
                           const Text(
                             'Please enter a valid email',
-                            style: TextStyle(color: Colors.red),
+                            style: TextStyle(color: Colors.redAccent),
                           ),
                         ],
-                        CommonWidgets.verticalSpacerWidget(height * 0.01),
                         const Spacer(),
                         submitButtonDisplay(
                           onTap: () {
-                            // Access the context here for BlocProvider
                             BlocProvider.of<EventInfoCubit>(this.context)
                                 .onAddEmail(addEmailController.text);
+
                             if (EmailValidator.validate(
                                 addEmailController.text)) {
                               addEmailController.clear();
                               Navigator.pop(dialogContext);
                             }
+                            // Navigator.pop(context);
                           },
                         ),
                       ],
@@ -1571,11 +1591,14 @@ $selectedTemplateHtml
           Opacity(
             opacity: showSaveButtons ? 1 : 0.5,
             child: IconButton(
-              icon: const Icon(Icons.delete, color: Colors.white,),
+              icon: const Icon(
+                Icons.delete,
+                color: Colors.white,
+              ),
               onPressed: () {
-                if (!showSaveButtons) {
-                  return;
-                }
+                // if (!showSaveButtons) {
+                //   return;
+                // }
                 onPressedRemoveEmail(email);
               },
             ),
@@ -1619,9 +1642,8 @@ $selectedTemplateHtml
     quillController.enable(); // call directly
   }
 
-
   Widget uploadWidget(EventInfoState state) {
-    return  Container(
+    return Container(
       height: 60,
       decoration: BoxDecoration(
           border: Border.all(
@@ -1652,8 +1674,7 @@ $selectedTemplateHtml
                         for (ImageContent image in getFiles.toList()) {
                           files.add(image);
                         }
-                        BlocProvider.of<EventInfoCubit>(
-                            context)
+                        BlocProvider.of<EventInfoCubit>(context)
                             .addAttachment(files);
                       },
                     );
@@ -1682,5 +1703,272 @@ $selectedTemplateHtml
       ]),
     );
   }
+}
 
+class TemplatePreviewPage extends StatefulWidget {
+  const TemplatePreviewPage({
+    super.key,
+    required this.html,
+    required this.templateId,
+    required this.eventProtectionId,
+    required this.showSaveButtons,
+    required this.getFiles,
+  });
+
+  final String html;
+  final int? templateId;
+  final String eventProtectionId;
+  final bool showSaveButtons;
+  final List<ImageContent> getFiles;
+
+  @override
+  State<TemplatePreviewPage> createState() => _TemplatePreviewPageState();
+}
+
+class _TemplatePreviewPageState extends State<TemplatePreviewPage> {
+  final HtmlEditorController quillController = HtmlEditorController();
+
+  @override
+  Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
+
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF2C3550),
+        title: Text(
+          widget.templateId == null
+              ? "Create Email Template"
+              : "Edit Email Template #${widget.templateId}",
+          style: const TextStyle(color: Colors.white, fontSize: 16),
+        ),
+        iconTheme: const IconThemeData(color: Colors.white),
+        actions: [
+          if (widget.showSaveButtons)
+            IconButton(
+              tooltip: "Submit",
+              icon: const Icon(Icons.send, color: Colors.white),
+              onPressed: () async {
+                final html = await quillController.getText();
+                if (html.trim().isEmpty) return;
+
+                await context.read<EventInfoCubit>().submitTemplateAndRefresh(
+                      html: html,
+                      id: widget.templateId,
+                    );
+
+                await context
+                    .read<EventInfoCubit>()
+                    .getNotificationDetailsById(widget.eventProtectionId);
+
+                if (context.mounted) Navigator.pop(context);
+              },
+            ),
+          IconButton(
+            tooltip: "Close",
+            icon: const Icon(Icons.close, color: Colors.white),
+            onPressed: () async {
+              await context
+                  .read<EventInfoCubit>()
+                  .getNotificationDetailsById(widget.eventProtectionId);
+              if (context.mounted) Navigator.pop(context);
+            },
+          ),
+        ],
+      ),
+      backgroundColor: Colors.transparent,
+      body: Stack(
+        children: [
+          /// Background
+          Positioned.fill(
+            child: Image.asset('assets/images/bg2.png', fit: BoxFit.cover),
+          ),
+
+          /// Blur overlay
+          Positioned.fill(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+              child: Container(
+                color: Colors.black.withValues(alpha: 0.15),
+              ),
+            ),
+          ),
+
+          /// Content
+          BlocBuilder<EventInfoCubit, EventInfoState>(
+            builder: (context, state) {
+              final isLoading = state.status == FormStatus.loading;
+
+              return Stack(
+                children: [
+                  /// ===== MAIN CONTENT =====
+                  Column(
+                    children: [
+                      /// ===== HTML EDITOR =====
+                      SizedBox(
+                        height: height * 0.5,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: HtmlEditor(
+                            controller: quillController,
+                            htmlToolbarOptions: const HtmlToolbarOptions(
+                              toolbarPosition: ToolbarPosition.aboveEditor,
+                              textStyle: Styles.textStyleBlack16,
+                            ),
+                            htmlEditorOptions: HtmlEditorOptions(
+                              darkMode: false,
+                              initialText: widget.html,
+                              autoAdjustHeight: false,
+                            ),
+                            otherOptions: OtherOptions(height: height * 1.2),
+                            callbacks: Callbacks(
+                              onInit: () {
+                                quillController.setText("""
+<style>
+body { background-color: transparent !important; color: white !important; }
+* { color: white !important; }
+</style>
+${widget.html}
+""");
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 20),
+
+                      /// ===== UPLOAD =====
+                      if (widget.showSaveButtons)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CommonWidgets.textDisplay(
+                                Constants.upload,
+                                Styles.textStyleWhite16,
+                              ),
+                              _uploadWidget(context, state),
+                            ],
+                          ),
+                        ),
+
+                      const SizedBox(height: 12),
+
+                      /// ===== ATTACHMENTS =====
+                      if ((state.loadAttachments ?? []).isNotEmpty)
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12),
+                            child: Container(
+                              width: width,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: Colors.white.withValues(alpha: 0.35),
+                                  width: 0.8,
+                                ),
+                                color: Colors.white.withValues(alpha: 0.03),
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: SingleChildScrollView(
+                                  padding: const EdgeInsets.all(8),
+                                  child: BaseImageUpload().getAttachment(
+                                    height: height,
+                                    attachments: List<ImageContent>.from(
+                                        state.loadAttachments ?? []),
+                                    files: List<ImageContent>.from(
+                                        state.loadAttachments ?? []),
+                                    moduleCode: '',
+                                    isDisabled: !widget.showSaveButtons,
+                                    showDeleteIcon: true,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+
+                      SizedBox(height: height * 0.015),
+                    ],
+                  ),
+
+                  /// ===== BLUR LOADER OVERLAY =====
+                  if (isLoading)
+                    Positioned.fill(
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                        child: Container(
+                          color: Colors.transparent,
+                          child: const Center(
+                            child:
+                                CircularProgressIndicator(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              );
+            },
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _uploadWidget(BuildContext context, EventInfoState state) {
+    return Container(
+      height: 60,
+      decoration: BoxDecoration(
+        border: Border.all(color: const Color(0xFFCACACA), width: 1.0),
+        borderRadius: const BorderRadius.all(Radius.circular(8)),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 5.0),
+            child: ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                fixedSize: const Size(120, 50),
+                backgroundColor: Colors.transparent,
+              ),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext dialogContext) {
+                    return UploadAttachment(
+                      onImageSelected: (ImageContent data) {
+                        List<ImageContent> files = [];
+                        files.add(data);
+                        for (ImageContent image in widget.getFiles.toList()) {
+                          files.add(image);
+                        }
+                        context.read<EventInfoCubit>().addAttachment(files);
+                      },
+                    );
+                  },
+                );
+              },
+              icon: SvgPicture.asset(
+                AppIcon.uploadicon,
+                colorFilter: const ColorFilter.mode(
+                  AppColors.backgroundWhiteColor,
+                  BlendMode.srcIn,
+                ),
+                width: 13,
+                height: 13,
+              ),
+              label: const Text(
+                Constants.clicktoupload,
+                style: Styles.textStyleRegularNormalWhite12,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

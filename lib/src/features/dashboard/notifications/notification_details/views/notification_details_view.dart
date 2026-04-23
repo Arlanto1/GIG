@@ -9,6 +9,8 @@ import 'package:db_atom/src/features/law_enforcement_new/services/law_enforcemen
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../guarding_operations/sla_violation_penalty/services/sla_violation_penalty_services.dart';
+
 class NotificationDetailsView extends StatefulWidget {
   const NotificationDetailsView({
     super.key,
@@ -219,6 +221,24 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
               break;
             }
 
+          case 'SVP':
+            {
+              SLAViolationPenaltyModel model =
+              await SLAViolationPenaltyServices().getGvpById(moduleId);
+
+              nav.pushNamed(slaViolationPenaltyDetailsRoute,
+                  arguments: {
+                    "model": model,
+                    "title": Constants.slaViolationPenaltyTitle,
+                  });
+              // nav.pushNamed(slaViolationPenaltyDetailsRoute, arguments: {
+              //   ConstantsArgument.title: Constants.slaViolationPenaltyTitle,
+              //   ConstantsArgument.attdInfoId: null,
+              //   ConstantsArgument.locationRegion: null,
+              //   "model": moduleId,
+              // });
+              break;
+            }
           case 'LEO':
             {
               LawEnforcementModelNew? model =

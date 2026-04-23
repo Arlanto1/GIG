@@ -69,10 +69,16 @@ class EventInfoState extends Equatable {
   }
 
   ErrorResponse get isValid {
-    if (model.status == null) {
-      return const ErrorResponse(status: false, message: 'Please enter Status');
-    }
+    // if (model.eventStartedAt == null && model.eventStartedAt.isEmptyOrNull) {
+    //   return const ErrorResponse(status: false, message: 'Please enter Event Started at');
+    // }
 
+    if (model.emails == null) {
+      return const ErrorResponse(status: false, message: 'Please enter additional emails');
+    }
+    // if (model.email == []) {
+    //   return const ErrorResponse(status: false, message: 'Please enter atleast one email notification');
+    // }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 

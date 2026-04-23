@@ -239,210 +239,256 @@ class _KeyHistoryRecordsViewState extends State<KeyHistoryRecordsView> {
                       ),
                     ),
                   ),
-                    Positioned(
-                    top: MediaQuery
-                        .of(context)
-                  .padding
-                  .top + kToolbarHeight + -40,
-              // search bar height ~64+padding
-              left: 0,
-              right: 0,
-              bottom: 0,
-                  child: ListView.builder(
-                    controller: _scrollController,
-                    padding: const EdgeInsets.only(bottom: 100),
-                    itemCount: state.hasReachedMax
-                        ? state.list.length
-                        : state.list.length + 1,
-                    itemBuilder: (context, index) {
-                      List<Label> labels = [];
-                      if (index < state.list.length) {
-                        labels.add(
-                          Label(
-                            key: state.labels?.locale.floor ??
-                                state.labels?.defaultLocale.floor ??
-                                Constants.floor,
-                            value: state.list[index].floor.toString(),
-                          ),
-                        );
-                        labels.add(
-                          Label(
-                            key: state.labels?.locale.createdBy ??
-                                state.labels?.defaultLocale.createdBy ??
-                                Constants.createdby,
-                            value:
-                                '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}',
-                          ),
-                        );
-                        labels.add(
-                          Label(
-                            key: state.labels?.locale.createdDate ??
-                                state.labels?.defaultLocale.createdDate ??
-                                Constants.createOn,
-                            value: state.list[index].createdDate != null
-                                ? Utils.timestampToDateConversion(
-                                    int.parse(
-                                      state.list[index].createdDate ?? '0',
+                  SafeArea(
+                      child: Column(
+                    children: [
+                      Expanded(
+                        // <-- Wrap ListView.builder inside Expanded
+                        child: Stack(
+                          children: [
+                            ListView.builder(
+                              controller: _scrollController,
+                              padding: const EdgeInsets.only(bottom: 100),
+                              itemCount: state.hasReachedMax
+                                  ? state.list.length
+                                  : state.list.length + 1,
+                              itemBuilder: (context, index) {
+                                List<Label> labels = [];
+                                if (index < state.list.length) {
+                                  labels.add(
+                                    Label(
+                                      key: state.labels?.locale.floor ??
+                                          state.labels?.defaultLocale.floor ??
+                                          Constants.floor,
+                                      value: state.list[index].floor.toString(),
                                     ),
-                                    Constants.twentyFourHourDateTimeFormat,
-                                  )
-                                : '',
-                          ),
-                        );
-                        labels.add(
-                          Label(
-                            key: state.labels?.locale.noKeys ??
-                                state.labels?.defaultLocale.noKeys ??
-                                Constants.noOfKeys,
-                            value: state.list[index].noOfKeys.toString(),
-                          ),
-                        );
-                        return index >= state.list.length
-                            ? null
-                            : Container(
-                                decoration: const BoxDecoration(
-                                  gradient: LinearGradient(
-                                    colors: [
-                                      // Color(0xFF6474C6),
-                                      // Color(0xFF6474C6),
-                                      Colors.transparent,
-                                      Colors.transparent,
-                                    ],
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                  ),
-                                ),
-                                margin: const EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                  vertical: 8,
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(18),
-                                  child: BackdropFilter(
-                                    filter: ImageFilter.blur(
-                                        sigmaX: 18, sigmaY: 18),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            Colors.white
-                                                .withValues(alpha: 0.09),
-                                            Colors.transparent,
-                                            Colors.white
-                                                .withValues(alpha: 0.09),
-                                            // Color(0xFF6474C6).withOpacity(0.14)
-                                          ],
-                                          stops: const [0.02, 0.35, 1],
-                                          begin: Alignment.topCenter,
-                                          end: Alignment.bottomCenter,
-                                        ),
-                                        borderRadius: BorderRadius.circular(27),
-                                        border: Border.all(
-                                          color: Colors.white
-                                              .withValues(alpha: 0.6),
-                                          width: 0.7,
-                                        ),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.white
-                                                .withValues(alpha: 0.0),
-                                            blurRadius: 12,
-                                            offset: const Offset(0, 2),
+                                  );
+                                  labels.add(
+                                    Label(
+                                      key: state.labels?.locale.createdBy ??
+                                          state.labels?.defaultLocale
+                                              .createdBy ??
+                                          Constants.createdby,
+                                      value:
+                                          '${state.list[index].createdBy?.firstName ?? ''} ${state.list[index].createdBy?.lastName ?? ''}',
+                                    ),
+                                  );
+                                  labels.add(
+                                    Label(
+                                      key: state.labels?.locale.createdDate ??
+                                          state.labels?.defaultLocale
+                                              .createdDate ??
+                                          Constants.createOn,
+                                      value: state.list[index].createdDate !=
+                                              null
+                                          ? Utils.timestampToDateConversion(
+                                              int.parse(
+                                                state.list[index].createdDate ??
+                                                    '0',
+                                              ),
+                                              Constants
+                                                  .twentyFourHourDateTimeFormat,
+                                            )
+                                          : '',
+                                    ),
+                                  );
+                                  labels.add(
+                                    Label(
+                                      key: state.labels?.locale.noKeys ??
+                                          state.labels?.defaultLocale.noKeys ??
+                                          Constants.noOfKeys,
+                                      value:
+                                          state.list[index].noOfKeys.toString(),
+                                    ),
+                                  );
+                                  return index >= state.list.length
+                                      ? null
+                                      : Container(
+                                          decoration: const BoxDecoration(
+                                            gradient: LinearGradient(
+                                              colors: [
+                                                // Color(0xFF6474C6),
+                                                // Color(0xFF6474C6),
+                                                Colors.transparent,
+                                                Colors.transparent,
+                                              ],
+                                              begin: Alignment.topLeft,
+                                              end: Alignment.bottomRight,
+                                            ),
                                           ),
-                                        ],
-                                      ),
-                                      // index >= state.list.length
-                                      //   ? const BaseLoader()
-                                      child: BaseListTileItem(
-                                        id: state.list[index].id,
-                                        labels: labels,
-                                        status: state.list[index].status,
-                                        isKeyManagementHistoryStatus: true,
-                                        isEventProtectionStatus: false,
-                                        onTap: (selectedIndex) {
-                                          showDialog(
-                                            context: context,
-                                            builder:
-                                                (BuildContext dialogContext) {
-                                              return BasePopUpItems(
-                                                id: state.list[selectedIndex].id
-                                                    .toString(),
-                                                slNo: state
-                                                    .list[selectedIndex].slNo,
-                                                labels: labels,
-                                                status: state
-                                                    .list[selectedIndex].status,
-                                                keyNo: state
-                                                    .list[selectedIndex].keyNo,
-                                                keyTagging: state
-                                                    .list[selectedIndex]
-                                                    .keyTagging,
-                                                doorName: state
-                                                    .list[selectedIndex]
-                                                    .doorName,
-                                                isEventProtectionStatus: false,
-                                                isKeyManagementHistoryStatus:
-                                                    true,
-                                                isMasterGuard: false,
-                                              );
-                                            },
-                                          );
-                                        },
-                                        onEditTap: (selectedIndex) {
-                                          getById(
-                                            state.extraProperties
-                                                    ?.hasWritePermission ??
-                                                false,
-                                            state.list[index].id ?? 0,
-                                          );
-                                        },
-                                        showEditButton:
-                                            !(widget.extraProperties != null &&
-                                                    !widget.extraProperties!
-                                                        .hasWritePermission!)
-                                                ? false
-                                                : true,
-                                        onViewTap: (selectedIndex) {
-                                          showDialog(
-                                            context: context,
-                                            builder:
-                                                (BuildContext dialogContext) {
-                                              return BasePopUpItems(
-                                                id: state.list[selectedIndex].id
-                                                    .toString(),
-                                                slNo: state
-                                                    .list[selectedIndex].slNo,
-                                                labels: labels,
-                                                status: state
-                                                    .list[selectedIndex].status,
-                                                keyNo: state
-                                                    .list[selectedIndex].keyNo,
-                                                keyTagging: state
-                                                    .list[selectedIndex]
-                                                    .keyTagging,
-                                                doorName: state
-                                                    .list[selectedIndex]
-                                                    .doorName,
-                                                isEventProtectionStatus: false,
-                                                isKeyManagementHistoryStatus:
-                                                    true,
-                                                isMasterGuard: false,
-                                              );
-                                            },
-                                          );
-                                        },
-                                        index: index,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              );
-                      }
-                      // Handle the case where index is out of bounds
-                      return const Center(child: SizedBox());
-                    },
-                  ),
-                    ),],
+                                          margin: const EdgeInsets.symmetric(
+                                            horizontal: 12,
+                                            vertical: 8,
+                                          ),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(18),
+                                            child: BackdropFilter(
+                                              filter: ImageFilter.blur(
+                                                  sigmaX: 18, sigmaY: 18),
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  gradient: LinearGradient(
+                                                    colors: [
+                                                      Colors.white.withValues(
+                                                          alpha: 0.09),
+                                                      Colors.transparent,
+                                                      Colors.white.withValues(
+                                                          alpha: 0.09),
+                                                      // Color(0xFF6474C6).withOpacity(0.14)
+                                                    ],
+                                                    stops: const [
+                                                      0.02,
+                                                      0.35,
+                                                      1
+                                                    ],
+                                                    begin: Alignment.topCenter,
+                                                    end: Alignment.bottomCenter,
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(27),
+                                                  border: Border.all(
+                                                    color: Colors.white
+                                                        .withValues(alpha: 0.6),
+                                                    width: 0.7,
+                                                  ),
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      color: Colors.white
+                                                          .withValues(
+                                                              alpha: 0.0),
+                                                      blurRadius: 12,
+                                                      offset:
+                                                          const Offset(0, 2),
+                                                    ),
+                                                  ],
+                                                ),
+                                                // index >= state.list.length
+                                                //   ? const BaseLoader()
+                                                child: BaseListTileItem(
+                                                  id: state.list[index].id,
+                                                  labels: labels,
+                                                  status:
+                                                      state.list[index].status,
+                                                  isKeyManagementHistoryStatus:
+                                                      true,
+                                                  isEventProtectionStatus:
+                                                      false,
+                                                  onTap: (selectedIndex) {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          dialogContext) {
+                                                        return BasePopUpItems(
+                                                          id: state
+                                                              .list[
+                                                                  selectedIndex]
+                                                              .id
+                                                              .toString(),
+                                                          slNo: state
+                                                              .list[
+                                                                  selectedIndex]
+                                                              .slNo,
+                                                          labels: labels,
+                                                          status: state
+                                                              .list[
+                                                                  selectedIndex]
+                                                              .status,
+                                                          keyNo: state
+                                                              .list[
+                                                                  selectedIndex]
+                                                              .keyNo,
+                                                          keyTagging: state
+                                                              .list[
+                                                                  selectedIndex]
+                                                              .keyTagging,
+                                                          doorName: state
+                                                              .list[
+                                                                  selectedIndex]
+                                                              .doorName,
+                                                          isEventProtectionStatus:
+                                                              false,
+                                                          isKeyManagementHistoryStatus:
+                                                              true,
+                                                          isMasterGuard: false,
+                                                        );
+                                                      },
+                                                    );
+                                                  },
+                                                  onEditTap: (selectedIndex) {
+                                                    getById(
+                                                      state.extraProperties
+                                                              ?.hasWritePermission ??
+                                                          false,
+                                                      state.list[index].id ?? 0,
+                                                    );
+                                                  },
+                                                  showEditButton: !(widget
+                                                                  .extraProperties !=
+                                                              null &&
+                                                          !widget
+                                                              .extraProperties!
+                                                              .hasWritePermission!)
+                                                      ? false
+                                                      : true,
+                                                  onViewTap: (selectedIndex) {
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext
+                                                          dialogContext) {
+                                                        return BasePopUpItems(
+                                                          id: state
+                                                              .list[
+                                                                  selectedIndex]
+                                                              .id
+                                                              .toString(),
+                                                          slNo: state
+                                                              .list[
+                                                                  selectedIndex]
+                                                              .slNo,
+                                                          labels: labels,
+                                                          status: state
+                                                              .list[
+                                                                  selectedIndex]
+                                                              .status,
+                                                          keyNo: state
+                                                              .list[
+                                                                  selectedIndex]
+                                                              .keyNo,
+                                                          keyTagging: state
+                                                              .list[
+                                                                  selectedIndex]
+                                                              .keyTagging,
+                                                          doorName: state
+                                                              .list[
+                                                                  selectedIndex]
+                                                              .doorName,
+                                                          isEventProtectionStatus:
+                                                              false,
+                                                          isKeyManagementHistoryStatus:
+                                                              true,
+                                                          isMasterGuard: false,
+                                                        );
+                                                      },
+                                                    );
+                                                  },
+                                                  index: index,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                }
+                                // Handle the case where index is out of bounds
+                                return const Center(child: SizedBox());
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  )),
+                ],
               );
             },
           ),

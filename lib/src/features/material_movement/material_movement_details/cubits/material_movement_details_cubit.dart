@@ -15,7 +15,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
   final bool? isInward;
   final bool? returnable;
   final List<MaterialItem> materialItems;
-final ApprovalModel? approvalModel;
+  final ApprovalModel? approvalModel;
+
   MaterialMovementDetailsCubit({
     required this.materialMovementServices,
     required this.commonServices,
@@ -25,27 +26,27 @@ final ApprovalModel? approvalModel;
     required this.materialItems,
     this.approvalModel,
   }) : super(
-    MaterialMovementDetailsState.initial(
-      model: model ?? MaterialMovementModel(),
-      locations: Locations(),
-      users: const [],
-      emailUsers: const [],
-      errorMessage: '',
-      departments: const [],
-      loadAttachments: const [],
-      quantityUnits: const [],
-      eventId: null, materialItems: const [],
-        approvalModel:approvalModel?? ApprovalModel(),
-    ),
-  );
-
+          MaterialMovementDetailsState.initial(
+            model: model ?? MaterialMovementModel(),
+            locations: Locations(),
+            users: const [],
+            emailUsers: const [],
+            errorMessage: '',
+            departments: const [],
+            loadAttachments: const [],
+            quantityUnits: const [],
+            eventId: null,
+            materialItems: const [],
+            approvalModel: approvalModel ?? ApprovalModel(),
+          ),
+        );
 
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
     List<Organisation> quantityUnits = await commonServices.getOrganisations(
         name: 'ATOM_MATERIAL_MOVEMENT_UNIT');
     EmployeeDepartments departments =
-    await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
+        await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
     List<BaseUser> emailUsers = await commonServices.getBaseUsers(
         roleName: ConstantUserRoles.atomStaticUser,
         locationId: state.model.location!.id!);
@@ -121,8 +122,8 @@ final ApprovalModel? approvalModel;
       String moduleCode = isInward ?? false
           ? Constants.materialMovementInwardReturnableModule
           : (returnable ?? false
-          ? Constants.materialMovementOutwardReturnableModule
-          : Constants.materialMovementOutwardNonReturnableModule);
+              ? Constants.materialMovementOutwardReturnableModule
+              : Constants.materialMovementOutwardNonReturnableModule);
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: defaultLocation.id.toString(),
         moduleCode: moduleCode,
@@ -162,14 +163,14 @@ final ApprovalModel? approvalModel;
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model.inputDate ?? '0'),
-          Constants.fulldateFormat);
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
 
       state.model.modifiedDate = state.model.modifiedDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model.modifiedDate ?? '0'),
-          Constants.fulldateFormat);
+              int.tryParse(state.model.modifiedDate ?? '0'),
+              Constants.fulldateFormat);
 
       // if (state.model.inputDate != null) {
       //   Utils.timestampToDateConversion(
@@ -181,14 +182,14 @@ final ApprovalModel? approvalModel;
 
       state.model.inwardMovement = isInward;
       if (state.model.approvedDate != null) {
-        state.model.approvedDate =
-            Utils.timestampToDateConversion(
-                int.tryParse(state.model.approvedDate ?? ''),Constants.fulldateFormat);
+        state.model.approvedDate = Utils.timestampToDateConversion(
+            int.tryParse(state.model.approvedDate ?? ''),
+            Constants.fulldateFormat);
       }
       if (state.model.rejectedDate != null) {
-        state.model.rejectedDate =
-            Utils.timestampToDateConversion(
-                int.tryParse(state.model.rejectedDate ?? ''),Constants.fulldateFormat);
+        state.model.rejectedDate = Utils.timestampToDateConversion(
+            int.tryParse(state.model.rejectedDate ?? ''),
+            Constants.fulldateFormat);
       }
       // if (state.model.rejectedDate != null) {
       //   state.model.rejectedDate =
@@ -348,7 +349,7 @@ final ApprovalModel? approvalModel;
 
     if (returnReceiverMailId != null) {
       state.model.returnReceiverMailId =
-      '${returnReceiverMailId.name} (${returnReceiverMailId.email})';
+          '${returnReceiverMailId.name} (${returnReceiverMailId.email})';
     }
     if (requesterDepartment != null) {
       state.model.requestorDepartment = requesterDepartment;
@@ -498,7 +499,6 @@ final ApprovalModel? approvalModel;
       );
     }
 
-
     if (approver1EmailUser != null) {
       if (state.model.approver1Email != null) {
         // BaseUser preSelectedUser = BaseUser(
@@ -508,7 +508,7 @@ final ApprovalModel? approvalModel;
         // state.approver2Users?.add(preSelectedUser);
       }
       state.model.approver1Email =
-      '${approver1EmailUser.name} ${approver1EmailUser.email != null ? '(${approver1EmailUser.email})' : ''}';
+          '${approver1EmailUser.name} ${approver1EmailUser.email != null ? '(${approver1EmailUser.email})' : ''}';
       // state.approver2Users?.remove(approver1EmailUser);
       // state.requestorEmailUsers?.remove(approver1EmailUser);
 
@@ -531,7 +531,7 @@ final ApprovalModel? approvalModel;
         // state.approver1Users?.add(preSelectedUser);
       }
       state.model.approver2Email =
-      '${approver2EmailUser.name} ${approver2EmailUser.email != null ? '(${approver2EmailUser.email})' : ''}';
+          '${approver2EmailUser.name} ${approver2EmailUser.email != null ? '(${approver2EmailUser.email})' : ''}';
       // state.approver1Users?.remove(approver2EmailUser);
       // state.requestorEmailUsers?.remove(approver2EmailUser);
 
@@ -607,7 +607,7 @@ final ApprovalModel? approvalModel;
       state.copyWith(
         isReceiverSignEditable: receiverSign,
         isEntrySecuritySignatureSignEditable:
-        entrySecuritySignatureSignEditable,
+            entrySecuritySignatureSignEditable,
         status: FormStatus.initial,
       ),
     );
@@ -897,6 +897,13 @@ final ApprovalModel? approvalModel;
       // int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
       // state.model.inputDate = inputDate.toString();
 
+      // DateTime dateTime;
+      // if (!Utils().isTimestamp(state.model.inputDate!)) {
+      //   dateTime =
+      //       DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
+      //   int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      //   state.model.inputDate = inputDate.toString();
+      // }
       DateTime dateTime;
       if (!Utils().isTimestamp(state.model.inputDate!)) {
         dateTime =
@@ -905,18 +912,17 @@ final ApprovalModel? approvalModel;
         state.model.inputDate = inputDate.toString();
       }
 
-      if(state.model.approvedDate !=null) {
+      if (state.model.approvedDate != null) {
         if (!Utils().isTimestamp(state.model.approvedDate!)) {
-          dateTime =
-              DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.approvedDate!);
-          int inputDate = dateTime
-              .toUtc()
-              .millisecondsSinceEpoch ~/ 1000;
+          dateTime = DateFormat("dd/MM/yyyy HH:mm:ss")
+              .parse(state.model.approvedDate!);
+          int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
           state.model.approvedDate = inputDate.toString();
         }
       }
 
-      state.model.modifiedDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+      state.model.modifiedDate =
+          (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
       // if (!Utils().isTimestamp(state.model.approvedDate!)) {
       //   dateTime =
@@ -934,8 +940,6 @@ final ApprovalModel? approvalModel;
       //   state.model.approvedDate = approvedDate.toString();
       // }
 
-
-
       // ---------- Helper function to convert date string to timestamp ----------
       // String convertToTimestamp(String? dateString) {
       //   if (dateString == null || Utils().isTimestamp(dateString)) return dateString ?? '';
@@ -950,11 +954,14 @@ final ApprovalModel? approvalModel;
       // state.model.rejectedDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
       // ---------- Push signatures ----------
-      await pushSignature(controller: receiverSignatureController, isReceiverSignature: true);
-      await pushSignature(controller: securitySignatureController, isReceiverSignature: false);
+      await pushSignature(
+          controller: receiverSignatureController, isReceiverSignature: true);
+      await pushSignature(
+          controller: securitySignatureController, isReceiverSignature: false);
 
       // ---------- Create request ----------
-      MaterialMovementRequest request = MaterialMovementRequest(materialMovement: state.model);
+      MaterialMovementRequest request =
+          MaterialMovementRequest(materialMovement: state.model);
 
       // ---------- Default status ----------
       state.model.status ??= 0;
@@ -964,52 +971,83 @@ final ApprovalModel? approvalModel;
       // ---------- Validate and call API based on flow ----------
       if (isSaveOnly) {
         if (!state.isValidDraft.status) {
-          state.model.inputDate = Utils.timestampToDateConversion(
-              int.tryParse(state.model.inputDate ?? '0'), Constants.fulldateFormat);
-          state.model.modifiedDate = Utils.timestampToDateConversion(
-              int.tryParse(state.model.modifiedDate ?? '0'), Constants.fulldateFormat);
-          emit(state.copyWith(status: FormStatus.formError, message: state.isValidDraft.message));
+          emit(state.copyWith(
+              status: FormStatus.formError,
+              message: state.isValidDraft.message));
           return false;
         }
-        response = await materialMovementServices.createMaterialMovement(body: request, flow: 1);
+        response = await materialMovementServices.createMaterialMovement(
+            body: request, flow: 1);
       } else if (isRejectOnly) {
-        state.model.inputDate = Utils.timestampToDateConversion(
-            int.tryParse(state.model.inputDate ?? '0'), Constants.fulldateFormat);
-        state.model.modifiedDate = Utils.timestampToDateConversion(
-            int.tryParse(state.model.modifiedDate ?? '0'), Constants.fulldateFormat);
+        // state.model.inputDate = state.model.inputDate == null
+        //     ? Utils().getCurrentDate()
+        //     : Utils.timestampToDateConversion(
+        //         int.tryParse(state.model.inputDate ?? '0'),
+        //         Constants.fulldateFormat);
+        // state.model.modifiedDate = Utils.timestampToDateConversion(
+        //     int.tryParse(state.model.modifiedDate ?? '0'),
+        //     Constants.fulldateFormat);
         if (!state.isValidDraft.status) {
-          emit(state.copyWith(status: FormStatus.formError, message: state.isValidDraft.message));
+          emit(state.copyWith(
+              status: FormStatus.formError,
+              message: state.isValidDraft.message));
+          // state.model.inputDate = state.model.inputDate == null
+          //     ? Utils().getCurrentDate()
+          //     : Utils.timestampToDateConversion(
+          //     int.tryParse(state.model.inputDate?? '0'),
+          //     Constants.fulldateFormat);
           return false;
         }
-        response = await materialMovementServices.createMaterialMovement(body: request, flow: 4);
+        response = await materialMovementServices.createMaterialMovement(
+            body: request, flow: 4);
       } else if (isApprovedOnly) {
-        state.model.inputDate = Utils.timestampToDateConversion(
-            int.tryParse(state.model.inputDate ?? '0'), Constants.fulldateFormat);
-        state.model.modifiedDate = Utils.timestampToDateConversion(
-            int.tryParse(state.model.modifiedDate ?? '0'), Constants.fulldateFormat);
+        // state.model.inputDate = state.model.inputDate == null
+        //     ? Utils().getCurrentDate()
+        //     : Utils.timestampToDateConversion(
+        //         int.tryParse(state.model.inputDate ?? '0'),
+        //         Constants.fulldateFormat);
+        // state.model.modifiedDate = Utils.timestampToDateConversion(
+        //     int.tryParse(state.model.modifiedDate ?? '0'),
+        //     Constants.fulldateFormat);
         if (!state.isValid.status) {
-          emit(state.copyWith(status: FormStatus.formError, message: state.isValid.message));
+          emit(state.copyWith(
+              status: FormStatus.formError, message: state.isValid.message));
           return false;
         }
-        response = await materialMovementServices.createMaterialMovement(body: request, flow: 3);
+        response = await materialMovementServices.createMaterialMovement(
+            body: request, flow: 3);
       } else {
-        // state.model.inputDate = Utils.timestampToDateConversion(
-        //     int.tryParse(state.model.inputDate ?? '0'), Constants.fulldateFormat);
-        state.model.modifiedDate = Utils.timestampToDateConversion(
-            int.tryParse(state.model.modifiedDate ?? '0'), Constants.fulldateFormat);
+        // state.model.inputDate = state.model.inputDate == null
+        //     ? Utils().getCurrentDate()
+        //     : Utils.timestampToDateConversion(
+        //         int.tryParse(state.model.inputDate ?? '0'),
+        //         Constants.fulldateFormat);
+        // state.model.modifiedDate = Utils.timestampToDateConversion(
+        //     int.tryParse(state.model.modifiedDate ?? '0'),
+        //     Constants.fulldateFormat);
         if (!state.isValid.status) {
-          // state.model.inputDate = Utils.timestampToDateConversion(
-          //     int.tryParse(state.model.inputDate ?? '0'), Constants.fulldateFormat);
-          state.model.modifiedDate = Utils.timestampToDateConversion(
-              int.tryParse(state.model.modifiedDate ?? '0'), Constants.fulldateFormat);
-          emit(state.copyWith(status: FormStatus.formError, message: state.isValid.message));
+          // state.model.inputDate = state.model.inputDate == null
+          //     ? Utils().getCurrentDate()
+          //     : Utils.timestampToDateConversion(
+          //         int.tryParse(state.model.inputDate ?? '0'),
+          //         Constants.fulldateFormat);
+          // state.model.modifiedDate = Utils.timestampToDateConversion(
+          //     int.tryParse(state.model.modifiedDate ?? '0'),
+          //     Constants.fulldateFormat);
+          emit(state.copyWith(
+              status: FormStatus.formError, message: state.isValid.message));
           return false;
         }
-        // state.model.inputDate = Utils.timestampToDateConversion(
-        //     int.tryParse(state.model.inputDate ?? '0'), Constants.fulldateFormat);
-        state.model.modifiedDate = Utils.timestampToDateConversion(
-            int.tryParse(state.model.modifiedDate ?? '0'), Constants.fulldateFormat);
-        response = await materialMovementServices.createMaterialMovement(body: request, flow: 2);
+        // state.model.inputDate = state.model.inputDate == null
+        //     ? Utils().getCurrentDate()
+        //     : Utils.timestampToDateConversion(
+        //         int.tryParse(state.model.inputDate ?? '0'),
+        //         Constants.fulldateFormat);
+        // state.model.modifiedDate = Utils.timestampToDateConversion(
+        //     int.tryParse(state.model.modifiedDate ?? '0'),
+        //     Constants.fulldateFormat);
+        response = await materialMovementServices.createMaterialMovement(
+            body: request, flow: 2);
       }
 
       // ---------- Update model id if returned ----------
@@ -1028,17 +1066,23 @@ final ApprovalModel? approvalModel;
       //       int.tryParse(state.model.approvedDate ?? '0'), Constants.fulldateFormat);
       // }
       state.model.modifiedDate = Utils.timestampToDateConversion(
-          int.tryParse(state.model.modifiedDate ?? '0'), Constants.fulldateFormat);
-
+          int.tryParse(state.model.modifiedDate ?? '0'),
+          Constants.fulldateFormat);
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
       // ---------- Emit success ----------
       emit(state.copyWith(
         model: state.model,
         message: response.message,
-        status: navigateToNextScreen ? FormStatus.navigateToNextScreen : FormStatus.success,
+        status: navigateToNextScreen
+            ? FormStatus.navigateToNextScreen
+            : FormStatus.success,
       ));
 
       return true; // ✅ success
-
     } catch (e, st) {
       log('submitForm error: $e\n$st');
       emit(state.copyWith(message: e.toString(), status: FormStatus.error));
@@ -1077,7 +1121,6 @@ final ApprovalModel? approvalModel;
 
     emit(state.copyWith(materialItems: updatedList));
   }
-
 
   void removeMaterialItem(int index) {
     materialItems.removeAt(index);

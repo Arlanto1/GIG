@@ -421,10 +421,20 @@ class _DayPassManagementDetailsViewState
                                 all: state.listOfEntities ?? [],
                                 enabled: !isReadOnly,
                                 onTap: (List<Organisation> selectedEntities) {
-
-
                                   bool hasDws = selectedEntities.any((e) => e.name == 'DWS');
 
+                                  //  Get selected location name
+                                  String? locationName = state.model.location?.name;
+                                  // Check if location is allowed
+                                  bool isValidLocation = locationName == 'Business Bay' ||
+                                      locationName == 'VTP' ||
+                                      locationName == 'NKB';
+
+                                  if (hasDws && isValidLocation) {
+                                    state.model.passTypeName = "DWS Day Pass";
+                                  } else {
+                                    state.model.passTypeName = "Day Pass";
+                                  }
                                   if (hasDws && selectedEntities.length > 1) {
                                     showDialog(
                                       context: context,

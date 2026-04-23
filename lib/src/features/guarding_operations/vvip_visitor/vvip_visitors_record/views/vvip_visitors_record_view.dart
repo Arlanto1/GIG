@@ -144,10 +144,10 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
         widget.lock.isEmptyOrNull) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         isPopUpShown = true;
-        showAddVVIPVisitorsPopUp(
-          context: context,
-          contact: VIVPVisitorRecordModel(),
-        );
+            showAddVVIPVisitorsPopUp(
+              context: context,
+              contact: VIVPVisitorRecordModel(),
+            );
       });
       return const NoRecordFoundWidget();
     }
@@ -165,12 +165,19 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
               child: Container(
-                color: Colors.black.withValues(alpha: 0.2),
+                color: Colors.black.withValues(alpha: 0.2), // ✅ ADD THIS — blur needs a child to render
               ),
             ),
           ),
         ),
-        ListView.builder(
+          SafeArea(
+          child: Column(
+    children: [
+    Expanded(
+    // <-- Wrap ListView.builder inside Expanded
+    child: Stack(
+    children: [
+    ListView.builder(
           controller: _scrollController,
           padding: const EdgeInsets.only(bottom: 100),
 
@@ -291,6 +298,7 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
                                     onTap: (selectedIndex) {
                                       showDialog(
                                         context: context,
+                                        barrierColor: Colors.black.withValues(alpha: 0.4),
                                         builder: (BuildContext dialogContext) {
                                           return BasePopUpItems(
                                             id: state.items?[selectedIndex].id
@@ -351,7 +359,7 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
           },
         ),
       ],
-    );
+          ))]))],);
   }
 
   showAddVVIPVisitorsPopUp({
@@ -359,6 +367,7 @@ class _VVIPVisitorsRecordView extends State<VVIPVisitorsRecordView> {
     required VIVPVisitorRecordModel contact,
   }) {
     showDialog(
+      barrierColor: Colors.black.withValues(alpha: 0.4),
       context: context,
       builder: (BuildContext dialogContext) {
         return AddVVIPVisitorsPopUp(

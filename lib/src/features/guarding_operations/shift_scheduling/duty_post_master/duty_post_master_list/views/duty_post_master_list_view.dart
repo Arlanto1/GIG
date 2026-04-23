@@ -301,6 +301,11 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                                                   child: BaseListTileItem(
                                                     id: state.list[index].id,
                                                     labels: labels,
+                                                    status: state.list[index].status,
+                                                    isDutyPostMasterStatus:
+                                                    true,
+                                                    isEventProtectionStatus: false,
+
                                                     onTap: (selectedIndex) {
                                                       showDialog(
                                                         context: context,
@@ -317,7 +322,10 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                                                                 .list[
                                                                     selectedIndex]
                                                                 .rankId,
-                                                            isMasterGuard: true,
+                                                            status: state.list[selectedIndex].status,
+                                                            isEventProtectionStatus: false,
+                                                            isDutyPostMasterStatus:
+                                                            true,  isMasterGuard: true,
                                                           );
                                                         },
                                                       );
@@ -353,6 +361,8 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                                                                     selectedIndex]
                                                                 .rankId,
                                                             isMasterGuard: true,
+                                                            isDutyPostMasterStatus:
+                                                            true,
                                                           );
                                                         },
                                                       );

@@ -21,6 +21,8 @@ class Apis {
   static final String _getProjects = '$baseUrl/getProjectList';
   static final String _getPriority = '$baseUrl/getPriorityList';
   static final String _getAssignee = '$baseUrl/getAssigneeList';
+  static final String _getStatus = '$baseUrl/getTSStatus';
+
 }
 
 class TicketingSystemServices {
@@ -30,7 +32,8 @@ class TicketingSystemServices {
     required BaseFilterModel filters,
   }) async {
     String url =
-        '${Apis._getTicketingSystemList}&startPos=$startPosition&maxResults=$maximumRecords';
+        '${Apis
+        ._getTicketingSystemList}&startPos=$startPosition&maxResults=$maximumRecords';
     var response = await BaseApiService().postRequest(
       requestedData: filters.toJson(),
       isAuthenticated: true,
@@ -88,5 +91,23 @@ class TicketingSystemServices {
     );
 
     return Assignee.fromJson(response);
+  }
+
+
+  Future<List<Organisation>> getStatuses({
+    required int? id,
+    BuildContext? context,
+  }) async {
+    String url =
+        '${Apis._getStatus}/$id';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    if (response == null) {
+      return [];
+    }
+    return List<Organisation>.from(
+        response.map((x) => Organisation.fromJson(x)));
   }
 }

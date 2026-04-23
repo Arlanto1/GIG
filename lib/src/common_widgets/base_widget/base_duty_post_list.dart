@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:db_atom/index.dart';
 
 class DutyPostListWidget extends StatelessWidget {
@@ -71,7 +69,7 @@ class DutyPostListWidget extends StatelessWidget {
                   Colors.transparent,
                   Colors.white.withValues(alpha: 0.09),
                 ],
-                stops: [0.02, 0.35, 1],
+                stops: const [0.02, 0.35, 1],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),

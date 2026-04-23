@@ -340,6 +340,32 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               ),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
+                              //
+                              // BaseEntitiesSelection().entityDropDownSelection(
+                              //   context: context,
+                              //   selectedValues: state.model.vendor ?? [],
+                              //   all: state.vendors,
+                              //   enabled: !widget.viaAttendance &&
+                              //       !isReadOnly &&
+                              //       state.model.attdShiftInfoId == null,
+                              //   onTap: (List<Organisation> selectedVendors) {
+                              //     BlocProvider.of<
+                              //                 SLAViolationPenaltyDetailsCubit>(
+                              //             context)
+                              //         .updateDropdownValues(
+                              //             vendors: selectedVendors);
+                              //     Navigator.of(context).pop();
+                              //   },
+                              //   addTitle: 'ADD Vendor',
+                              //   createEntity: false,
+                              //   orgName: 'ATOM_VENDORS',
+                              //   functionToCall: () {
+                              //     BlocProvider.of<
+                              //                 SLAViolationPenaltyDetailsCubit>(
+                              //             context)
+                              //         .refreshList();
+                              //   },
+                              // ),
 
                               BaseEntitiesSelection().entityDropDownSelection(
                                 context: context,
@@ -349,20 +375,31 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                     !isReadOnly &&
                                     state.model.attdShiftInfoId == null,
                                 onTap: (List<Organisation> selectedVendors) {
-                                  BlocProvider.of<
-                                              SLAViolationPenaltyDetailsCubit>(
-                                          context)
+                                  // ✅ Auto-populate POCs from selected vendors' keyname
+                                  List<String> autoPocs = [];
+                                  for (Organisation vendor in selectedVendors) {
+                                    if (vendor.keyName != null && vendor.keyName!.isNotEmpty) {
+                                      List<String> emails = vendor.keyName!
+                                          .split(',')
+                                          .map((e) => e.trim())
+                                          .where((e) => e.isNotEmpty)
+                                          .toList();
+                                      autoPocs.addAll(emails);
+                                    }
+                                  }
+
+                                  BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
                                       .updateDropdownValues(
-                                          vendors: selectedVendors);
+                                    vendors: selectedVendors,
+                                    pocs: autoPocs, // ✅ pass auto-populated POCs
+                                  );
                                   Navigator.of(context).pop();
                                 },
                                 addTitle: 'ADD Vendor',
                                 createEntity: false,
                                 orgName: 'ATOM_VENDORS',
                                 functionToCall: () {
-                                  BlocProvider.of<
-                                              SLAViolationPenaltyDetailsCubit>(
-                                          context)
+                                  BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
                                       .refreshList();
                                 },
                               ),
@@ -675,9 +712,9 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                   isReadOnly) ...[
                 Container(
                   padding: const EdgeInsets.all(5.0),
-                  decoration: ShapeDecoration(
-                    color: AppColors.newColor3,
-                    shape: const RoundedRectangleBorder(
+                  decoration: const ShapeDecoration(
+                    color: Colors.transparent,
+                    shape: RoundedRectangleBorder(
                       borderRadius:
                           BorderRadius.vertical(top: Radius.circular(0.0)),
                     ),

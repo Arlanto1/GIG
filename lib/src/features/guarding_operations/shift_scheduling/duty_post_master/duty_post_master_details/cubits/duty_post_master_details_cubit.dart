@@ -65,6 +65,8 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.guardingMasterModuleCode),//3
         SharedPrefs.getDefaultLocation(),//4
+     services.getDutyPostsByLocation(
+    locationId: state.model.location!.id.toString()),
       ]);
 
       Locations getLocationsData = futures[0];
@@ -73,7 +75,7 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
       GetDepositor emailUsers = futures[2];
       dynamic responseLabels = futures[3];
       Organisation? defaultLocation = futures[4];
-      List<Organisation> dutyPosts = [];
+      List<Organisation> dutyPosts = futures[5];
       // Organisation? location = state.model.location;
 
       if (state.model.location == null && defaultLocation != null) {

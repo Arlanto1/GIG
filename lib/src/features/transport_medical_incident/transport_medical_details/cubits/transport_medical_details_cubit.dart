@@ -1,183 +1,197 @@
 import 'dart:developer';
-import 'dart:math' as math;
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/event_protection/event_protection_details/general_info/models/ep_ui_labels.dart';
+import 'package:db_atom/src/features/incident_management/models/im_ui_labels.dart';
+import 'package:db_atom/src/features/transport_medical_incident/models/request_models/notification_email_request.dart';
+import 'package:db_atom/src/features/transport_medical_incident/models/transport_email_notification.dart';
 import 'package:db_atom/src/features/transport_medical_incident/models/transport_medical_incident_model.dart';
 import 'package:db_atom/src/features/transport_medical_incident/services/transport_medical_service.dart';
 import 'package:intl/intl.dart';
+
+import '../../models/request_models/transport_medical_request_model.dart';
 
 part 'transport_medical_details_state.dart';
 
 class TransportMedicalDetailsCubit extends Cubit<TransportMedicalDetailsState> {
   final TransportMedicalServices services;
-  final int id;
+  final TransportMedicalModel? model;
   final CommonServices commonServices;
-  final bool? isCSREvent;
+  final bool isTransport;
+  final String transportId;
+  final TransportEmailNotificationModel? emailModel;
+
   TransportMedicalDetailsCubit({
     required this.services,
     required this.commonServices,
-    required this.id,
-    required this.isCSREvent,
-
+    this.model,
+    required this.isTransport,
+    required this.transportId,
+    this.emailModel,
   }) : super(
-    TransportMedicalDetailsState.initial(
-      model: TransportMedicalModel(),
-      locations: Locations(),
-      users: const [],
-      emailUsers: const [],
-      errorMessage: '',
-      loadAttachments: const [],
-      eventId: null,
-      listOfEntities: const [],
-      getEntitiesResponse: null,
-      departments: const [],
-      vendors: const [],
-      loggedInUserDetails: null,
-    ),
-  );
+          TransportMedicalDetailsState.initial(
+            model: model ?? TransportMedicalModel(),
+            locations: Locations(),
+            loggedInUserDetails: User(),
+            users: const [],
+            emailUsers: const [],
+            listOfEntities: const [],
+            errorMessage: '',
+            getEntitiesResponse: const [],
+            loadAttachments: const [],
+            mapAttachments: const [],
+            departments: const [],
+            vendors: const [],
+            eventId: null,
+            draftTemplateHtml: '',
+            emailModel: emailModel ?? TransportEmailNotificationModel(),
+          ),
+        );
 
-  void onModelValueChange(TransportMedicalModel csrEventGi) {
-    log('-onModelValueChange---');
-    emit(state.copyWith(model: csrEventGi, status: FormStatus.initial));
+  void onModelValueChange(TransportMedicalModel model) {
+    emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
-  void onCheckBoxChange(TransportMedicalModel csrEventGi) {
-    emit(state.copyWith(model: csrEventGi, status: FormStatus.loading));
+  void onCheckBoxChange(TransportMedicalModel model) {
+    emit(state.copyWith(model: model, status: FormStatus.loading));
 
-    emit(state.copyWith(model: csrEventGi, status: FormStatus.initial));
+    emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
     List<Organisation>? entities =
-    await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
-    EmployeeDepartments departments =
-    await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
+        await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
     List<BaseUser> emailUsers = await commonServices.getBaseUsers(
-        isDbUser: true,
-        roleName: 'ATOM_STATIC_USER', locationId: state.model.location?.id);
-    List<BaseUser> epm = await commonServices.getBaseUsersByRoles(
-        isDbUser: true,
-        roleNames: 'ATOM_Sub_Regional_Head',
-        locationId: state.model.location!.id!);
-    List<BaseUser> lsm = await commonServices.getBaseUsersByRoles(
-        isDbUser: true,
-        roleNames: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
-        locationId: state.model.location!.id!);
+      roleName: ConstantUserRoles.atomStaticUser,
+      locationId: state.model.location?.id,
+      isDbUser: true,
+    );
 
     emit(
       state.copyWith(
         getEntitiesResponse: entities,
         listOfEntities: entities,
         status: FormStatus.initial,
-        epm: epm,
-        lsm: lsm,
-        emailUsers: emailUsers,
-        departments: departments.employeeDepartments,
+        escortGuard: emailUsers,
       ),
     );
   }
 
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
-    // Show Loader and emit loading state
-    emit(state.copyWith(status: FormStatus.loading));
 
+    //Show Loader and emit loading state
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
     var userId = await SharedPrefs.getUserId();
 
-    // Initialize model outside of Future.wait
-    TransportMedicalModel model =
-    await services.getTransportById(id.toString());
-    debugPrint('ID12345');
-
+    if (state.model.location == null) {
+      Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+      if (defaultLocation != null) {
+        SerialNumberModel slNo = await commonServices.getIMSlNo(
+            locationId: defaultLocation.id.toString(),
+            moduleCode: Constants.incidentManagementModule,
+            type: isTransport ? 0 : 1);
+        state.model.location = defaultLocation;
+        state.model.slNo = slNo.serialNo;
+      }
+    }
 
     try {
-      // Perform multiple asynchronous operations concurrently
-      final List<dynamic> results = await Future.wait([
-        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
-        SharedPrefs.getDefaultLocation(),
-        commonServices.getUserDetails(userId: userId),
-        commonServices.getUiLabels(
-            language: await SharedPrefs.getLanguageCode(),
-            moduleCode: Constants.eventProtectionModuleCode),
-        // commonServices.getUsersByRole(roleName: 'T1_Analyst'),
-        commonServices.getBaseUsers(
-            isDbUser: true,
-            roleName: 'ATOM_STATIC_USER', locationId: model.location?.id),
-        commonServices.getOrganisations(name: 'ATOM_ENTITIES'),
-        commonServices.getVendors(name: 'ATOM_VENDORS'),
-        // commonServices.getUsers(),
-        commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
-        commonServices.getBaseUsersByRoles(
-            isDbUser: true,
-            roleNames: 'ATOM_Sub_Regional_Head',
-            locationId: model.location!.id!),
-        commonServices.getBaseUsersByRoles(
-            isDbUser: true,
-            roleNames:
-            ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
-            locationId: model.location!.id!),
-      ]);
+      Locations getLocationsData =
+          await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
-      // Assign results to variables with explicit data types
-      Locations getLocationsData = results[0];
-      Organisation? defaultLocation = results[1];
-      User loggedInUserDetails = results[2];
-      dynamic responseLabels = results[3];
-      // Analyst users = results[4];
-      List<BaseUser>? emailUsers = results[4];
-      List<Organisation>? entities = results[5];
-      Vendors vendors = results[6];
-      // List<User> entrySecurities = results[7];
-      EmployeeDepartments departments = results[7];
-      List<BaseUser>? epm = results[8];
-      List<BaseUser>? lsm = results[9];
+      AddEntities entities =
+          await commonServices.getEntities(name: 'ATOM_ENTITIES');
 
-      log('input date ---${model.inputDate}');
-      // model.inputDate =
-      //     DateFormat(Constants.fulldateFormat).format(DateTime.now());
-      // model.inputDate = model.inputDate == null
-      //     ? Utils().getCurrentDate()
-      //     : Utils().formatUnixTimestamp(model.inputDate ?? '');
+      User loggedInUserDetails =
+          await commonServices.getUserDetails(userId: userId);
 
-      model.inputDate = model.inputDate == null
-          ? Utils().getCurrentDate()
-          : Utils.timestampToDateConversion(
-          int.tryParse(model.inputDate ?? '0'), Constants.fulldateFormat);
+      List<BaseUser> emailUsers = await commonServices.getBaseUsers(
+        roleName: ConstantUserRoles.atomStaticUser,
+        locationId: state.model.location?.id,
+        isDbUser: true,
+      );
 
-      log('-loggedInUserDetails-${loggedInUserDetails.name}----');
-      model.entrySecurity ??= loggedInUserDetails;
+      // // List<String> emails = Utils().splitStringAfterComma(model.emails ?? '');
+      // /// 4️⃣ NOTIFICATION LIST (🔥 NEW)
+      // final notificationResponse =
+      // await services.getNotificationList(model!.id.toString());
+      //
+      // final notificationItems = notificationResponse.data ?? [];
+      //
+      // final emailTemplates = notificationItems
+      //     .map((e) =>
+      // {
+      //   "id": e.id, // ✅ 385, 386...
+      //   "html": e.notification, // ✅ template html
+      // })
+      //     .toList();
 
-      if (model.location == null && defaultLocation != null) {
-        SerialNumberModel slNo = await commonServices.getSlNo(
-          locationId: defaultLocation.id.toString(),
-          moduleCode: Constants.eventProtectionModuleCode,
-        );
-        model.location = defaultLocation;
-        model.slNo = slNo.serialNo;
+      // ✅ Only fetch notifications if model and model.id exist
+      List<Map<String, dynamic>> emailTemplates = [];
+      if (model != null && model!.id != null) {
+        final notificationResponse =
+            await services.getNotificationList(model!.id.toString());
+        final notificationItems = notificationResponse.data ?? [];
+        emailTemplates = notificationItems
+            .map((e) => {
+                  "id": e.id,
+                  "html": e.notification,
+                })
+            .toList();
+      }
+      if (state.model.location == null) {
+        Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+        if (defaultLocation != null) {
+          SerialNumberModel slNo = await commonServices.getIMSlNo(
+              locationId: defaultLocation.id.toString(),
+              moduleCode: Constants.incidentManagementModule,
+              type: isTransport ? 0 : 1);
+          state.model.location = defaultLocation;
+          state.model.slNo = slNo.serialNo;
+        }
       }
 
-      // Update the model and emit the updated state
-      emit(state.copyWith(
-        model: model,
-        locations: getLocationsData,
-        loggedInUserDetails: loggedInUserDetails,
-        status: FormStatus.initial,
-        // users: users.t1Analyst,
-        epm: epm,
-        lsm: lsm,
-        emailUsers: emailUsers,
-        epOfficers: emailUsers,
-        departments: departments.employeeDepartments,
-        vendors: vendors.items,
-        // entrySecurities: entrySecurities,
-        listOfEntities: entities,
-        getEntitiesResponse: entities,
-        // labels: EpUiLabels.fromJson(responseLabels),
-      ));
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
+
+      // state.model.modifiedDate = state.model.modifiedDate == null
+      //     ? Utils().getCurrentDate()
+      //     : Utils.timestampToDateConversion(
+      //     int.tryParse(state.model.modifiedDate ?? '0'),
+      //     Constants.fulldateFormat);
+
+      dynamic responseLabels = await commonServices.getUiLabels(
+          language: await SharedPrefs.getLanguageCode(),
+          moduleCode: Constants.incidentManagementModule);
+      IMUiLabels labels = IMUiLabels.fromJson(responseLabels);
+      state.model.entrySecurity ??= loggedInUserDetails;
+      state.model.modifiedBy ??= (loggedInUserDetails.firstName ?? "") +
+          (loggedInUserDetails.lastName ?? "");
+      emit(
+        state.copyWith(
+          locations: getLocationsData,
+          loggedInUserDetails: loggedInUserDetails,
+          status: FormStatus.initial,
+          model: state.model,
+          escortGuard: emailUsers,
+          employees: emailUsers,
+          listOfEntities: entities.atomEntities,
+          labels: labels,
+          emailTemplates: emailTemplates,
+          loadAttachments: emailModel?.images,
+        ),
+      );
     } catch (e) {
-      log('initialization issue', error: e, name: 'General Information Cubit');
+      log('initialization issue',
+          error: e, name: 'Transport Medical Details Cubit');
       emit(
         state.copyWith(
           message: Constants.errorText,
@@ -188,6 +202,133 @@ class TransportMedicalDetailsCubit extends Cubit<TransportMedicalDetailsState> {
     }
   }
 
+  void showFields({
+    bool? escortDeployed,
+    bool? premisesRoundTkn,
+    bool? employeeTakenToHospital,
+  }) {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+
+    if (escortDeployed != null) {
+      // state.model.es = escortDeployed;
+    }
+    // if (isPrivacyScreen != null) {
+    //   state.model.privacyScreenPresent = isPrivacyScreen;
+    // }
+    emit(state.copyWith(
+      model: state.model,
+      status: FormStatus.initial,
+    ));
+  }
+
+  void updateEmployee(List<User> employees) {
+    emit(state.copyWith(
+      model: model,
+      status: FormStatus.loading,
+    ));
+    state.model.employees = employees;
+    emit(
+      state.copyWith(
+        status: FormStatus.initial,
+        model: state.model,
+      ),
+    );
+  }
+
+  void addUserEmployee(BaseUser baseUser) {
+    final list = List<User>.from(state.model.employees ?? []);
+
+    list.add(
+      User(
+        userId: baseUser.id,
+        name: baseUser.name,
+        email: baseUser.email,
+        employeeId: baseUser.employeeId,
+      ),
+    );
+
+    final updatedModel = state.model;
+    updatedModel.employees = list;
+
+    emit(state.copyWith(model: updatedModel));
+  }
+
+  void removeEmployee(int index) {
+    final list = List<User>.from(state.model.employees ?? [])..removeAt(index);
+
+    final updatedModel = state.model;
+    updatedModel.employees = list;
+
+    emit(state.copyWith(model: updatedModel));
+  }
+
+  // void updateEmployeeUser(int index, BaseUser baseUser) {
+  //   final list = List<User>.from(state.model.employees ?? []);
+  //
+  //   final existing = list[index];
+  //
+  //   list[index] = User(
+  //     userId: baseUser.id,
+  //     name: baseUser.name,
+  //     email: baseUser.email,
+  //     employeeId: existing.employeeId, // keep typed ID
+  //   );
+  //
+  //   final updatedModel = state.model;
+  //   updatedModel.employees = list;
+  //
+  //   emit(state.copyWith(model: updatedModel));
+  // }
+
+  void updateEmployeeUser(int index, BaseUser baseUser) {
+    final list = List<User>.from(state.model.employees ?? []);
+
+    list[index] = User(
+      userId: baseUser.id,
+      name: baseUser.name,
+      email: baseUser.email,
+      employeeId: baseUser.employeeId,
+    );
+
+    state.model.employees = list;
+
+    // ✅ Force Bloc to detect change by emitting intermediate state
+    emit(state.copyWith(status: FormStatus.loading));
+    emit(state.copyWith(status: FormStatus.initial, model: state.model));
+  }
+
+  void updateEmployeeId(int index, String value) {
+    final list = List<User>.from(state.model.employees ?? []);
+
+    final existing = list[index];
+
+    list[index] = User(
+      userId: existing.userId,
+      name: existing.name,
+      email: existing.email,
+      employeeId: value,
+    );
+
+    final updatedModel = state.model;
+    updatedModel.employees = list;
+
+    emit(state.copyWith(model: updatedModel));
+  }
+
+  // void updateEmployeeId(int index, String val) {
+  //   final list = List<User>.from(state.model.employees ?? []);
+  //
+  //   list[index].employeeId = val;
+  //
+  //   final updatedModel = state.model;
+  //   updatedModel.employees = list;
+  //   emit(state.copyWith(model: updatedModel));
+  // }
+
   Future<void> updateLocationDropdownValue({
     Organisation? location,
   }) async {
@@ -197,192 +338,208 @@ class TransportMedicalDetailsCubit extends Cubit<TransportMedicalDetailsState> {
       ),
     );
 
-    List<BaseUser>? emailUsers = [];
-    List<BaseUser> epm = [];
-    List<BaseUser> lsm = [];
+    List<BaseUser> emailUsers = [];
 
     /// Get Sl No from API
     if (location != null) {
-      log('Update Location');
-      SerialNumberModel slNo = await commonServices.getSlNo(
-        locationId: location.id.toString(),
-        moduleCode: Constants.annualPowerShutDownModuleCode,
-      );
+      SerialNumberModel slNo = await commonServices.getIMSlNo(
+          locationId: location.id.toString(),
+          moduleCode: Constants.incidentManagementModule,
+          type: isTransport ? 0 : 1);
 
       state.model.location = location;
       state.model.slNo = slNo.serialNo ?? '';
-      emailUsers = await commonServices.getBaseUsers(
-          isDbUser: true,
-          roleName: ConstantUserRoles.atomStaticUser, locationId: location.id!);
-      epm = await commonServices.getBaseUsers(
-          isDbUser: true,
-          roleName: ConstantUserRoles.atomSubRegionalHeadUser,
-          locationId: location.id!);
-      lsm = await commonServices.getBaseUsers(
-          isDbUser: true,
-          roleName: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
-          locationId: location.id!);
-    }
 
-    // state.model.epManager1 = null;
-    // state.model.epManager2 = null;
-    // state.model.lsm1 = null;
-    // state.model.lsm2 = null;
-    // state.model.bu1 = null;
-    // state.model.bu2 = null;
+      emailUsers = await commonServices.getBaseUsers(
+        roleName: ConstantUserRoles.atomStaticUser,
+        locationId: location.id,
+        isDbUser: true,
+      );
+    }
 
     emit(state.copyWith(
       model: state.model,
-      // users: users,
-      epm: epm,
-      lsm: lsm,
-      emailUsers: emailUsers,
+      users: emailUsers,
       status: FormStatus.initial,
     ));
   }
 
-  Future<void> updateDropdownValues({
-    List<Organisation>? entities,
-    Organisation? location,
-    BaseUser? user,
-    Organisation? entity,
-    int? status,
-    Organisation? requesterDepartment,
-    BaseUser? bu1,
-    BaseUser? bu2,
-    Organisation? bu1Dept,
-    Organisation? bu2Dept,
-    BaseUser? subRegionalHead1,
-    BaseUser? subRegionalHead2,
-    BaseUser? epManager1,
-    BaseUser? epManager2,
-    BaseUser? locationSecurityManager1,
-    BaseUser? locationSecurityManager2,
-    BaseUser? epOfficers,
-    List<Organisation>? vendors,
-  }) async {
+  Future<void> updateDropdownValues(
+      {List<Organisation>? entities,
+      Organisation? location,
+      List<Organisation>? distributionGroups,
+      Organisation? department,
+      Organisation? visitPurpose,
+      BaseUser? escortGuard,
+      BaseUser? employee,
+      BaseUser? accompaniedEmployee,
+      BaseUser? accompaniedEmployee1,
+      int? status,
+      int? incidentType,
+      int? transportType}) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
       ),
     );
 
+    state.model.status = status ?? state.model.status;
+    state.model.incidentType = incidentType ?? state.model.incidentType;
+    state.model.transportType = transportType ?? state.model.transportType;
+
     /// Get Sl No from API
     if (location != null) {
-      SerialNumberModel slNo = await commonServices.getSlNo(
-        locationId: location.id.toString(),
-        moduleCode: Constants.eventProtectionModule,
-      );
+      SerialNumberModel slNo = await commonServices.getIMSlNo(
+          locationId: location.id.toString(),
+          moduleCode: Constants.incidentManagementModule,
+          type: isTransport ? 0 : 1);
 
       state.model.location = location;
       state.model.slNo = slNo.serialNo ?? '';
     }
-
-    state.model.status = status ?? state.model.status;
-
     if (entities != null) {
       state.model.entities = entities;
     }
 
-    //
-    // if (bu2 != null) {
-    //   state.emailUsers?.remove(bu2);
-    //   User userDetails = User(
-    //     name: bu2.name,
-    //     userId: bu2.id,
-    //     userName: bu2.name,
-    //   );
-    //   state.model.bu2 = userDetails;
-    // }
-    //
-    // state.model.bu1Dept = bu1Dept ?? state.model.bu1Dept;
-    // state.model.bu2Dept = bu2Dept ?? state.model.bu2Dept;
+    if (escortGuard != null) {
+      User userDetails = User(
+        name: escortGuard.name,
+        userId: escortGuard.id,
+        userName: escortGuard.name,
+        email: escortGuard.email,
+      );
+      state.model.escortGuard = userDetails;
+    }
 
-    // if (subRegionalHead1 != null) {
-    //   state.emailUsers?.remove(subRegionalHead1);
-    //   User userDetails = User(
-    //       name: subRegionalHead1.name,
-    //       userId: subRegionalHead1.id,
-    //       userName: subRegionalHead1.name);
-    //   state.model.srh1 = userDetails;
-    // }
-    // if (subRegionalHead2 != null) {
-    //   state.emailUsers?.remove(subRegionalHead2);
-    //   User userDetails = User(
-    //       name: subRegionalHead2.name,
-    //       userId: subRegionalHead2.id,
-    //       userName: subRegionalHead2.name);
-    //   state.model.srh2 = userDetails;
-    // }
-    // if (locationSecurityManager1 != null) {
-    //   state.lsm?.remove(locationSecurityManager1);
-    //   User userDetails = User(
-    //       name: locationSecurityManager1.name,
-    //       userId: locationSecurityManager1.id,
-    //       userName: locationSecurityManager1.name);
-    //   state.model.lsm1 = userDetails;
-    // }
-    // if (locationSecurityManager2 != null) {
-    //   state.lsm?.remove(locationSecurityManager2);
-    //   User userDetails = User(
-    //       name: locationSecurityManager2.name,
-    //       userId: locationSecurityManager2.id,
-    //       userName: locationSecurityManager2.name);
-    //   state.model.lsm2 = userDetails;
-    // }
-
-    emit(state.copyWith(
-      model: state.model,
-      status: FormStatus.initial,
-    ));
-  }
-
-  void addAttachment({
-    List<ImageContent>? data,
-    List<ImageContent>? images,
-  }) async {
-    emit(
-      state.copyWith(
-        status: FormStatus.loading,
-      ),
-    );
-    int eventIds = math.Random.secure().nextInt(5);
-    if (data != null) {
-      for (ImageContent image in data) {
-        image.type = 6;
-      }
-      log('--data----${data.length}----');
-
+    if (accompaniedEmployee != null) {
+      User userDetails = User(
+        name: accompaniedEmployee.name,
+        userId: accompaniedEmployee.id,
+        userName: accompaniedEmployee.name,
+        email: accompaniedEmployee.email,
+      );
+      state.model.accompaniedEmployee = userDetails;
       emit(
         state.copyWith(
-          eventId: eventIds,
           model: state.model,
-          loadAttachments: data,
           status: FormStatus.initial,
         ),
       );
     }
 
+    if (accompaniedEmployee1 != null) {
+      User userDetails = User(
+        name: accompaniedEmployee1.name,
+        userId: accompaniedEmployee1.id,
+        userName: accompaniedEmployee1.name,
+        email: accompaniedEmployee1.email,
+      );
+      state.model.accompaniedEmployee1 = userDetails;
+      emit(
+        state.copyWith(
+          model: state.model,
+          status: FormStatus.initial,
+        ),
+      );
+    }
+
+    emit(state.copyWith(
+      model: state.model,
+      status: FormStatus.initial,
+    ));
+  }
+
+  void updateEmployeeDropdownValues({BaseUser? employee}) {
+    if (employee != null) {
+      final userDetails = User(
+        name: employee.name,
+        userId: employee.id,
+        userName: employee.name,
+        email: employee.email,
+      );
+
+      // state.model.employee = userDetails; /
+      state.model.employees = [userDetails]; //  overwrite list
+
+      emit(state.copyWith(
+          model: state.model, selectedEmployee: userDetails)); // force rebuild
+    }
+  }
+
+  Future<TransportEmailNotificationModel> getNotificationById(String id) async {
+    return await services.getNotificationById(id);
+  }
+
+  Future<TransportEmailNotificationModel> getNotificationDetailsById(
+      String id) async {
+    final response = await services.getNotificationDetailsById(id);
+
+    log("API images: ${response.images}");
+    log("API images length: ${response.images?.length}");
+    // ✅ Always sync attachments from the response
     emit(
       state.copyWith(
-        eventId: eventIds,
-        model: state.model,
-        status: FormStatus.initial,
+        loadAttachments: List<ImageContent>.from(
+            response.images ?? []), // clears old images if API returns []
       ),
     );
 
+    return response;
   }
 
-  void submitForm({bool isSaveOnly = false}) async {
+  Future<void> submitTemplateAndRefresh({
+    required String html,
+    int? id,
+  }) async {
+    emit(state.copyWith(status: FormStatus.loading));
+
+    try {
+      final transportEmailNotificationInfo = TransportEmailNotificationModel(
+        id: id,
+        notification: html,
+        images: state.loadAttachments, // ✅ FIXED
+      );
+
+      final request = TransportNotificationEmailRequest(
+        transportEmailNotificationInfo: transportEmailNotificationInfo,
+      );
+
+      await services.createTransportNotification(
+        body: request,
+        eiId: int.parse(state.model.id.toString()),
+      );
+
+      final listResponse =
+          await services.getNotificationList(state.model.id.toString());
+
+      final items = listResponse.data ?? [];
+
+      emit(state.copyWith(
+        status: FormStatus.templateSuccess,
+        emailTemplates: items
+            .map((e) => {
+                  "id": e.id,
+                  "html": e.notification,
+                })
+            .toList(),
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        status: FormStatus.error,
+        message: e.toString(),
+      ));
+    }
+  }
+
+  Future<bool> submitForm({
+    bool isSaveOnly = false,
+    bool navigateToNextScreen = false,
+  }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
       ),
     );
-
-    if (state.model.status == 0 || state.model.status == null) {
-      state.model.status = 0;
-    }
 
     DateTime dateTime;
     if (!Utils().isTimestamp(state.model.inputDate!)) {
@@ -392,94 +549,175 @@ class TransportMedicalDetailsCubit extends Cubit<TransportMedicalDetailsState> {
       state.model.inputDate = inputDate.toString();
     }
 
-    // Setting time in milliseconds
+    // state.model.modifiedDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
-    // state.model.startDate = state.model.startDate == null
-    //     ? Utils().getCurrentDate()
-    //     : Utils().formatUnixTimestamp(state.model.startDate ?? '');
+    // Create/Update API Call
+    TransportMedicalRequest request =
+        TransportMedicalRequest(transportModel: state.model);
 
-    // state.model.fromDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
-
-
-    // // Create/Update API Call
-    // TransportMedicalRequest request =
-    // TransportMedicalRequest(transportModel: state.model);
-
-    GenericResponse response = GenericResponse();
-
+    // TODO: Need to change from Backend- Status should be handled from backend
+    state.model.status ??= 0;
+    state.model.incidentType = isTransport ? 0 : 1;
+    state.model.employees ?? (state.model.employees = []);
     try {
+      GenericResponse response = GenericResponse();
       if (isSaveOnly) {
+        //Validating Fields
         if (!state.isValidDraft.status) {
+          state.model.inputDate = state.model.inputDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+                  int.tryParse(state.model.inputDate ?? '0'),
+                  Constants.fulldateFormat);
+
           emit(
             state.copyWith(
               status: FormStatus.formError,
               message: state.isValidDraft.message,
             ),
           );
-          state.model.inputDate = state.model.inputDate == null
-              ? Utils().getCurrentDate()
-              : Utils.timestampToDateConversion(
-              int.tryParse(state.model.inputDate ?? '0'),
-              Constants.fulldateFormat);
-          return;
+          return false;
         }
+        response = await services.createTransportMedical(
+            body: request, isSubmit: false);
       } else {
         //Validating Fields
         if (!state.isValid.status) {
+          state.model.inputDate = state.model.inputDate == null
+              ? Utils().getCurrentDate()
+              : Utils.timestampToDateConversion(
+                  int.tryParse(state.model.inputDate ?? '0'),
+                  Constants.fulldateFormat);
           emit(
             state.copyWith(
               status: FormStatus.formError,
               message: state.isValid.message,
             ),
           );
-          state.model.inputDate = state.model.inputDate == null
-              ? Utils().getCurrentDate()
-              : Utils.timestampToDateConversion(
-              int.tryParse(state.model.inputDate ?? '0'),
-              Constants.fulldateFormat);
-          return;
+          return false;
         }
-        // response = (await services.createTicketingSystem(
-        //     body: request, isSubmit: true));
+        response = await services.createTransportMedical(
+            body: request, isSubmit: true);
       }
-      state.model.inputDate = state.model.inputDate == null
-          ? Utils().getCurrentDate()
-          : Utils.timestampToDateConversion(
-          int.tryParse(state.model.inputDate ?? '0'),
-          Constants.fulldateFormat);
-    }
-    on GenericResponse catch (e) {
-      state.model.inputDate = state.model.inputDate == null
-          ? Utils().getCurrentDate()
-          : Utils.timestampToDateConversion(
-          int.tryParse(state.model.inputDate ?? '0'),
-          Constants.fulldateFormat);
+
+      log('---response--msg--${response.message}---');
+
+      if (response.id != null) {
+        int? id = int.tryParse(response.id!);
+        if (id != null) {
+          state.model.id = id;
+        }
+      }
       emit(
         state.copyWith(
-          message: e.message,
-          status: FormStatus.formError,
+          model: state.model,
+          message: response.message,
+          status: navigateToNextScreen
+              ? FormStatus.navigateToNextScreen
+              : FormStatus.success,
         ),
       );
-      return;
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
+      return true;
+    } on GenericResponse catch (e) {
+      Utils().emitErrorState(e, emit, state);
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
+      return false;
     } on Exception catch (e) {
+      state.model.inputDate = state.model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
       emit(
         state.copyWith(
           message: e.toString(),
           status: FormStatus.error,
         ),
       );
+      return false;
     }
+  }
+
+  void clearAttachments() {
+    state.emailModel?.images = [];
 
     emit(
       state.copyWith(
-        message: response.message,
-        status: FormStatus.success,
+        loadAttachments: [],
+        emailModel: state.emailModel,
+        status: FormStatus.initial,
       ),
     );
+
+    debugPrint("Attachments cleared");
   }
 
-  void updateStatus({required String id}) {
-    commonServices.updateRecordStatus(
-        id: id, module: Constants.eventProtectionModule, aps: 0);
+  void addMapAttachment({
+    ImageContent? data,
+    List<ImageContent>? images,
+  }) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+    // int eventIds = math.Random.secure().nextInt(5);
+    if (data != null) {
+      state.model.map = data;
+      emit(
+        state.copyWith(
+          // eventId: eventIds,
+          model: state.model,
+          loadAttachments: [data],
+          status: FormStatus.initial,
+        ),
+      );
+    }
+    //
+    // emit(
+    //   state.copyWith(
+    //     // eventId: eventIds,
+    //     model: state.model,
+    //     status: FormStatus.initial,
+    //   ),
+    // );
+
+    log('--state.status--3--${state.status}----');
+  }
+
+  void addAttachment(List<ImageContent>? data) async {
+    log('--state.status-1---${state.status}----');
+    // emit(
+    //   state.copyWith(
+    //     loadAttachments: [], // ✅ Clear first
+    //     status: FormStatus.loading,
+    //   ),
+    // );
+    if (data != null) {
+      for (ImageContent image in data) {
+        image.type = 0;
+      }
+      final updatedList = List<ImageContent>.from(data);
+
+      log('--data----${data.length}----');
+
+      state.emailModel?.images = data;
+      emit(
+        state.copyWith(
+          emailModel: state.emailModel,
+          loadAttachments: updatedList,
+          status: FormStatus.initial,
+        ),
+      );
+    }
   }
 }

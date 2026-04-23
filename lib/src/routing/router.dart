@@ -143,4 +143,10 @@ const String csrEventDetailsTabRoute = '/csrEventDetailsTabRoute';
 const String csrEventGeneralInfoRoute = '/csrEventGeneralInfoRoute';
 
 const String transportMedicalListRoute = '/transportMedicalListRoute';
-const String transportMedicalDetailsRoute = '/aiChatDetailsRoute';
+const String transportMedicalDetailsRoute = '/transportMedicalDetailsRoute';
+
+
+const String patrollingListRoute = '/patrollingListRoute';
+const String patrollingListCardRoute = '/patrollingListCardRoute';
+const String patrollingGenInfoRoute = '/patrollingGenInfoRoute';
+const String patrollingOtherInfoRoute = '/patrollingOtherInfoRoute';

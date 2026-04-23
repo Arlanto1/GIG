@@ -15,6 +15,7 @@ class TicketingSystemDetailsState extends Equatable {
   final Locations locations;
   final List<Organisation>? listOfModules;
   final List<Organisation>? getStatus;
+  final List<Organisation>? getTsStatus;
 
   factory TicketingSystemDetailsState.initial({
     required TicketingSystemModel model,
@@ -30,6 +31,8 @@ class TicketingSystemDetailsState extends Equatable {
     required Locations locations,
     required final List<Organisation>? listOfModules,
     required final List<Organisation> getStatus,
+    required final List<Organisation>? getTsStatus,
+
   }) {
     return TicketingSystemDetailsState(
       status: FormStatus.initial,
@@ -45,6 +48,7 @@ class TicketingSystemDetailsState extends Equatable {
       uploadAttachments: uploadAttachments,
       listOfModules: listOfModules,
       getStatus: getStatus,
+        getTsStatus:getTsStatus,
     );
   }
 
@@ -116,6 +120,7 @@ class TicketingSystemDetailsState extends Equatable {
     this.uploadAttachments,
     this.listOfModules,
     this.getStatus,
+    this.getTsStatus
   });
 
   TicketingSystemDetailsState copyWith({
@@ -133,6 +138,8 @@ class TicketingSystemDetailsState extends Equatable {
     Locations? locations,
     List<Organisation>? listOfModules,
     List<Organisation>? getStatus,
+    List<Organisation>? getTsStatus,
+
   }) {
     return TicketingSystemDetailsState(
       status: status ?? this.status,
@@ -148,6 +155,7 @@ class TicketingSystemDetailsState extends Equatable {
       uploadAttachments: uploadAttachments ?? this.uploadAttachments,
       listOfModules: listOfModules ?? this.listOfModules,
       getStatus: getStatus ?? this.getStatus,
+        getTsStatus:getTsStatus??this.getTsStatus,
     );
   }
 }

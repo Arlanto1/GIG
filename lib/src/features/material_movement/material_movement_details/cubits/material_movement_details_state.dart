@@ -124,7 +124,12 @@ class MaterialMovementDetailsState extends Equatable {
     //   return const ErrorResponse(
     //       status: false, message: 'Please enter Challan/Invoice Nos/Gate Pass');
     // }
-
+    //
+    // if (model.materialItems == null &&
+    //     model.materialItems.isEmptyOrNull) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please add at least one material Description');
+    // }
     if (model.inwardMovement == false &&
         model.requestorEmployeeId.isEmptyOrNull) {
       return const ErrorResponse(
@@ -261,7 +266,7 @@ class MaterialMovementDetailsState extends Equatable {
     // }
     if (model.address.isEmptyOrNull &&
         model.status != 0 &&
-        model.status != null) {
+        model.status != null && model.inwardMovement == false) {
       return const ErrorResponse(
           status: false, message: 'Please enter Sent to Address');
     }
@@ -277,21 +282,21 @@ class MaterialMovementDetailsState extends Equatable {
     }
     if (model.purpose.isEmptyOrNull &&
         model.status != 0 &&
-        model.status != null) {
+        model.status != null &&  model.inwardMovement == false) {
       return const ErrorResponse(
           status: false, message: 'Please enter Purpose');
     }
 
     if (model.preparedBy.isEmptyOrNull &&
         model.status != 0 &&
-        model.status != null) {
+        model.status != null  &&  model.inwardMovement == false) {
       return const ErrorResponse(
           status: false, message: 'Please enter Prepared By');
     }
 
     if (model.preparedByDepartment == null &&
         model.status != 0 &&
-        model.status != null) {
+        model.status != null  &&  model.inwardMovement == false) {
       return const ErrorResponse(
           status: false, message: 'Please enter Prepared By Department');
     }
@@ -333,6 +338,15 @@ class MaterialMovementDetailsState extends Equatable {
     }
 
     if (model.inwardMovement == false &&
+        model.requestor2Email != null && model.requestorEmail != null &&
+        model.requestorEmail == model.requestor2Email) {
+      return const ErrorResponse(
+          status: false,
+          message:
+          'Selected Requestor 1 Email is already selected in other list');
+    }
+
+    if (model.inwardMovement == false &&
         model.requestorEmail != null &&
         model.requestorEmail == model.approver2Email) {
       return const ErrorResponse(
@@ -341,6 +355,14 @@ class MaterialMovementDetailsState extends Equatable {
               'Selected Approver2 Email is already selected in other list');
     }
 
+    if (model.inwardMovement == false &&
+        model.requestor2Email != null &&
+        model.requestor2Email == model.approver2Email) {
+      return const ErrorResponse(
+          status: false,
+          message:
+          'Selected Approver2 Email is already selected in other list');
+    }
     if (model.inwardMovement == false &&
         model.approver1Email != null &&
         model.approver1Email == model.approver2Email) {

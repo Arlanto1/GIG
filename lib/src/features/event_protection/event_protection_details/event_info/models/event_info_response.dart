@@ -17,7 +17,13 @@ class EventInfoResponse {
     this.endDate,
     this.eventConcludedAt,
     this.eventStartedAt,
-    this.totalAttendies
+    this.totalAttendance,
+    this.cctvSystemOffline,
+    this.cctvSystemOfflineStartDate,
+    this.accessSystemOffline,
+    this.accessSystemOfflineStartDate,
+    this.intruderSystemOffline,
+    this.intruderSystemOfflineStartDate,
   });
 
   int? id;
@@ -33,7 +39,13 @@ class EventInfoResponse {
   String? eventStartedAt;
   String? eventConcludedAt;
   Organisation? location;
-  int? totalAttendies;
+  int? totalAttendance;
+  bool? cctvSystemOffline;
+  String? cctvSystemOfflineStartDate;
+  bool? accessSystemOffline;
+  String? accessSystemOfflineStartDate;
+  bool? intruderSystemOffline;
+  String? intruderSystemOfflineStartDate;
 
   EventInfoResponse.fromJson(Map<String, dynamic> json) {
     log('-json id--${json['id']}-');
@@ -42,7 +54,7 @@ class EventInfoResponse {
     status = json['status'];
     date = json['date'];
     emails = json['emails'];
-    email=json['email'];
+    email = json['email'];
     lock = json['lock'];
     location = json["location"] == null
         ? null
@@ -52,7 +64,13 @@ class EventInfoResponse {
     eventStartedAt = json['eventStartedAt'];
     eventConcludedAt = json['eventConcludedAt'];
     notification = json['notification'];
-    totalAttendies = json['totalAttendies'];
+    totalAttendance = json['totalAttendance'];
+    cctvSystemOffline = json['cctvSystemOffline'];
+    cctvSystemOfflineStartDate = json['cctvSystemOfflineStartDate'];
+    accessSystemOffline = json['accessSystemOffline'];
+    accessSystemOfflineStartDate= json['accessSystemOfflineStartDate'];
+    intruderSystemOffline = json['intruderSystemOffline'];
+    intruderSystemOfflineStartDate= json['intruderSystemOfflineStartDate'];
     images =
         List.from(json['images']).map((e) => ImageContent.fromJson(e)).toList();
   }
@@ -71,7 +89,13 @@ class EventInfoResponse {
     data['endDate'] = endDate;
     data['eventStartedAt'] = eventStartedAt;
     data['eventConcludedAt'] = eventConcludedAt;
-    data['totalAttendies'] = totalAttendies;
+    data['totalAttendance'] = totalAttendance;
+    data['cctvSystemOffline'] = cctvSystemOffline;
+    data['cctvSystemOfflineStartDate'] = cctvSystemOfflineStartDate;
+    data['accessSystemOffline'] = accessSystemOffline;
+    data['accessSystemOfflineStartDate'] = accessSystemOfflineStartDate;
+    data['intruderSystemOffline'] = intruderSystemOffline;
+    data['intruderSystemOfflineStartDate'] = intruderSystemOfflineStartDate;
     data['images'] = images?.map((e) => e.toJson()).toList();
     return data;
   }

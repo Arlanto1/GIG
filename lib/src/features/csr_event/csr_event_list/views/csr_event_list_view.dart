@@ -310,6 +310,7 @@ class _CSREventListViewState extends State<CSREventListView> {
                                               labels: labels,
                                               status: state.items[index].status,
                                               isMasterGuard: false,
+                                        isEventProtectionStatus: true,
                                               onTap: (selectedIndex) {
                                                 showDialog(
                                                   context: context,
@@ -324,6 +325,7 @@ class _CSREventListViewState extends State<CSREventListView> {
                                                       status: state
                                                           .items[selectedIndex].status,
                                                       isMasterGuard: false,
+                                                      isEventProtectionStatus: true,
                                                       // eventType: state
                                                       //     .items[selectedIndex]
                                                       //     .eventType,
@@ -356,6 +358,7 @@ class _CSREventListViewState extends State<CSREventListView> {
                                                           .toString(),
                                                       labels: labels,
                                                       isMasterGuard: false,
+                                                      isCSREventProtectionStatus: true,
                                                       slNo: state
                                                           .items[selectedIndex].slNo,
                                                       status: state

@@ -313,6 +313,12 @@ class _AnnualPowerShutdownListViewState
                                         },
                                       );
                                     },
+                             showEditButton:state
+                                 .items[index].status !=
+                                 ConstantsIntValue
+                                     .cancelledStatus && state
+                                 .items[index].status !=
+                                30,
                                     onEditTap: (selectedIndex) {
                                       getById(
                                           state.extraProperties

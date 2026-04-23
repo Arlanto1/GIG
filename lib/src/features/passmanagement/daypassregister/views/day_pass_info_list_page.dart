@@ -209,7 +209,7 @@ class _DayPassInfoListPageState extends State<DayPassInfoListPage> {
               //     )),
               child: Column(
                 children: [
-                  searchWidget(),
+                  // searchWidget(),
                   (foundList != null)
                       ? _userFoundListWidget(
                           foundList, context, scrollController)

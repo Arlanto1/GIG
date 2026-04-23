@@ -70,7 +70,8 @@ log('widget.isCSREvent ${widget.isCSREvent}');
                 context,
                 csrEventListRoute,
                 arguments: {
-                  "isCSREvent": widget.isCSREvent                },
+                  "isCSREvent": widget.isCSREvent
+                },
               );
             },
           );

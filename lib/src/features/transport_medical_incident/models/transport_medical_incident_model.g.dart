@@ -38,25 +38,44 @@ TransportMedicalModel _$TransportMedicalModelFromJson(
       vehicleRegistrationNo: json['vehicleRegistrationNo'] as String?,
       incidentLocation: json['incidentLocation'] as String?,
       description: json['description'] as String?,
-      map: json['map'] as Map<String, dynamic>?,
+      map: json['map'] == null
+          ? null
+          : ImageContent.fromJson(json['map'] as Map<String, dynamic>),
       actionsTaken: json['actionsTaken'] as String?,
       incidentImpact: json['incidentImpact'] as String?,
-      escortDeployed: json['escortDeployed'] as bool?,
-      wellnessTeamAttended: json['wellnessTeamAttended'] as bool?,
-      takenToHospital: json['takenToHospital'] as bool?,
+      escortDeployed: json['escortDeployed'] as bool? ?? false,
+      wellnessTeamAttended: json['wellnessTeamAttended'] as bool? ?? false,
+      takenToHospital: json['takenToHospital'] as bool? ?? false,
       transportType: (json['transportType'] as num?)?.toInt(),
       hospitalName: json['hospitalName'] as String?,
       hospitalLocation: json['hospitalLocation'] as String?,
-      dropProvided: json['dropProvided'] as bool?,
-      employeeReached: json['employeeReached'] as bool?,
+      dropProvided: json['dropProvided'] as bool? ?? false,
+      employeeReached: json['employeeReached'] as bool? ?? false,
       modificationHistory: json['modificationHistory'] as String?,
       cancelReason: json['cancelReason'] as String?,
-      lock: json['lock'] as String?,
-    );
+      employees: (json['employees'] as List<dynamic>?)
+          ?.map((e) => User.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      escortGuard: json['escortGuard'] == null
+          ? null
+          : User.fromJson(json['escortGuard'] as Map<String, dynamic>),
+      incidentNotifications: (json['incidentNotifications'] as List<dynamic>?)
+          ?.map(
+              (e) => IncidentNotifications.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      accompaniedEmployee: json['accompaniedEmployee'] == null
+          ? null
+          : User.fromJson(json['accompaniedEmployee'] as Map<String, dynamic>),
+      accompaniedEmployee1: json['accompaniedEmployee1'] == null
+          ? null
+          : User.fromJson(json['accompaniedEmployee1'] as Map<String, dynamic>),
+      employeeReachedTime: json['employeeReachedTime'] as String?,
+    )..lock = json['lock'] as String?;
 
 Map<String, dynamic> _$TransportMedicalModelToJson(
         TransportMedicalModel instance) =>
     <String, dynamic>{
+      'lock': instance.lock,
       'id': instance.id,
       'slNo': instance.slNo,
       'inputDate': instance.inputDate,
@@ -88,5 +107,10 @@ Map<String, dynamic> _$TransportMedicalModelToJson(
       'employeeReached': instance.employeeReached,
       'modificationHistory': instance.modificationHistory,
       'cancelReason': instance.cancelReason,
-      'lock': instance.lock,
+      'employees': instance.employees,
+      'escortGuard': instance.escortGuard,
+      'accompaniedEmployee': instance.accompaniedEmployee,
+      'accompaniedEmployee1': instance.accompaniedEmployee1,
+      'incidentNotifications': instance.incidentNotifications,
+      'employeeReachedTime': instance.employeeReachedTime,
     };

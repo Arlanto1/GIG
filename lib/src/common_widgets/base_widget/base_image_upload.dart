@@ -241,7 +241,7 @@ class AttachmentListViewState extends State<AttachmentListView> {
                     /// Delete Icon
                     if (widget.showDeleteIcon == true) ...[
                       IconButton(
-                        icon: BaseIcons().deleteIcon(),
+                        icon: BaseIcons().deleteIcon(),color: Colors.white,
                         onPressed: () {
                           // Delete logic here
 

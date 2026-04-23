@@ -36,7 +36,7 @@ class DutyPostMasterListBloc
       );
 
       List<Organisation> statuses = await commonServices.getStatusesByModuleId(
-          module: Constants.shiftScheduleModuleCode);
+          module: Constants.dutyPostMasterModuleCode);
 
       List<Organisation> regions =
           await commonServices.getRegionsOrLocationsByRegionId();

@@ -36,7 +36,7 @@ class TransportMedicalResponse {
 
 @JsonSerializable()
 class TransportMedicalModel extends BaseObject {
-    int? id;
+  int? id;
    String? slNo;
    String? inputDate;
    Organisation? location;
@@ -54,20 +54,25 @@ class TransportMedicalModel extends BaseObject {
    String? vehicleRegistrationNo;
    String? incidentLocation;
    String? description;
-   Map? map;
+   ImageContent? map;
    String? actionsTaken;
    String? incidentImpact;
-   bool? escortDeployed;
-   bool? wellnessTeamAttended;
-   bool? takenToHospital;
+   bool escortDeployed;
+   bool wellnessTeamAttended;
+   bool takenToHospital;
    int? transportType;
    String? hospitalName;
    String? hospitalLocation;
-   bool? dropProvided;
-   bool? employeeReached;
+   bool dropProvided;
+   bool employeeReached;
    String? modificationHistory;
    String? cancelReason;
-   String? lock;
+   List<User>? employees;
+   User? escortGuard;
+    User? accompaniedEmployee;
+    User? accompaniedEmployee1;
+   List<IncidentNotifications>? incidentNotifications;
+    String? employeeReachedTime;
 
 
   TransportMedicalModel({
@@ -92,17 +97,22 @@ class TransportMedicalModel extends BaseObject {
      this.map,
      this.actionsTaken,
      this.incidentImpact,
-     this.escortDeployed,
-     this.wellnessTeamAttended,
-     this.takenToHospital,
+     this.escortDeployed = false,
+     this.wellnessTeamAttended = false,
+     this.takenToHospital= false,
      this.transportType,
      this.hospitalName,
      this.hospitalLocation,
-     this.dropProvided,
-     this.employeeReached,
+     this.dropProvided = false,
+     this.employeeReached = false,
      this.modificationHistory,
      this.cancelReason,
-    this.lock,
+    this.employees,
+    this.escortGuard,
+    this.incidentNotifications,
+    this.accompaniedEmployee,
+    this.accompaniedEmployee1,
+    this.employeeReachedTime
   });
 
   factory TransportMedicalModel.fromJson(Map<String, dynamic> json) =>
@@ -110,4 +120,62 @@ class TransportMedicalModel extends BaseObject {
 
   @override
   Map<String, dynamic> toJson() => _$TransportMedicalModelToJson(this);
+}
+// class IncidentNotifications {
+//   IncidentNotifications({
+//     required this.id,
+//     required this.type,
+//     required this.notification,
+//     required this.images,
+//   });
+//   late final int id;
+//   late final int type;
+//   late final String notification;
+//   late final List<ImageContent> images;
+//
+//   IncidentNotifications.fromJson(Map<String, dynamic> json){
+//     id = json['id'];
+//     type = json['type'];
+//     notification = json['notification'];
+//     images = List.castFrom<dynamic, ImageContent>(json['images']);
+//   }
+//
+//   Map<String, dynamic> toJson() {
+//     final _data = <String, dynamic>{};
+//     _data['id'] = id;
+//     _data['type'] = type;
+//     _data['notification'] = notification;
+//     _data['images'] = images;
+//     return _data;
+//   }
+// }
+class IncidentNotifications {
+  IncidentNotifications({
+    required this.id,
+    required this.type,
+    required this.notification,
+    required this.images,
+  });
+  late final int id;
+  late final int type;
+  late final String notification;
+  late final List<ImageContent> images;
+
+  IncidentNotifications.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    type = json['type'];
+    notification = json['notification'];
+    images = List.from(json['images'])
+        .map((e) => ImageContent.fromJson(e))
+        .toList(); // ✅ properly parse each image
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'type': type,
+      'notification': notification,
+      'images': images.map((e) => e.toJson()).toList(), // ✅ serialize each image
+    };
+  }
 }

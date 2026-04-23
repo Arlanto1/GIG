@@ -690,8 +690,18 @@ class _OtpVerifyState extends State<OtpVerify> {
 
     final size = MediaQuery.of(context).size;
     final height = size.height;
+    // double screenWidth = MediaQuery.of(context).size.width;
+    // double fieldWidth = (screenWidth - 180) / 5.4; // subtract spacing
     double screenWidth = MediaQuery.of(context).size.width;
-    double fieldWidth = (screenWidth - 120) / 6; // subtract spacing
+
+// Detect device type
+    bool isTablet = screenWidth > 600;
+
+// Responsive field width
+    double horizontalPadding = isTablet ? 120.0 : 48.0;
+    double spacingBetweenFields = isTablet ? 60.0 : 36.0;
+    double fieldWidth = (screenWidth - horizontalPadding - spacingBetweenFields) / 6;
+
     return Scaffold(
       // appBar: AppHeader(
       //   isTitleCenter: false,
@@ -847,9 +857,9 @@ class _OtpVerifyState extends State<OtpVerify> {
                           child: BackdropFilter(
                             filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
                             child: Container(
-                              width: MediaQuery.of(context).size.width * 0.9,
+                              width: MediaQuery.of(context).size.width * 0.98,
                               // height: MediaQuery.of(context).size.width * 0.9,
-                              padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 13.4),
+                              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 13.4),
                               decoration: BoxDecoration(
                                 color: Colors.white.withValues(alpha: 0.30),
                                 borderRadius: BorderRadius.circular(20),
@@ -896,7 +906,8 @@ class _OtpVerifyState extends State<OtpVerify> {
                                         numberOfFields: 6,
                                         borderColor: const Color(0xFF000080),
                                         showFieldAsBox: true,
-                                        fieldWidth: fieldWidth,
+                                        fieldWidth: isTablet ? 80.0 : 50.0,
+                                        fieldHeight: isTablet ? 64.0 : 50.0,            // ✅ responsive height
                                         fillColor: Colors.blueAccent,
                                         hasCustomInputDecoration: true,
                                         decoration: InputDecoration(
@@ -951,7 +962,7 @@ class _OtpVerifyState extends State<OtpVerify> {
                                       // ),
 
 
-                                      const SizedBox(height: 24),
+                                      const SizedBox(height: 34),
                                       const Text(
                                         "Didn't receive any code?",
                                         style: Styles.textStyleBlack14,

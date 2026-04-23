@@ -94,7 +94,10 @@ class BasePopUpItems extends StatefulWidget {
   final bool isWorkShift;
   final int? workShift;
   final bool isTicketStatus;
-
+  final bool isTransportStatus;
+  final bool isCSREventProtectionStatus;
+  final bool isPatrollingStatus;
+  final bool isDutyPostMasterStatus;
   @override
   State<BasePopUpItems> createState() => _BasePopUpItemsState();
 
@@ -190,7 +193,11 @@ class BasePopUpItems extends StatefulWidget {
     this.isArticleFoundStatus = false,
     this.isWorkShift = false,
     this.workShift,
-    this.isTicketStatus = false
+    this.isTicketStatus = false,
+    this.isTransportStatus = false,
+    this.isCSREventProtectionStatus = false,
+    this.isPatrollingStatus = false,
+    this.isDutyPostMasterStatus = false,
   });
 }
 
@@ -646,6 +653,17 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
+
+        if (widget.status != null &&
+        widget.isCSREventProtectionStatus &&
+        !widget.isMasterGuard) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+        children: [
+        Utils().buildCSREventStatusRow(widget.status ?? 0),
+        ],
+        ),
+        ],
       if (widget.status != null &&
           !widget.isEventProtectionStatus &&
           widget.isSecuritySystemSLAStatus == true) ...[
@@ -670,6 +688,16 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           children: [
             CommonWidgets.verticalSpacerWidget(5),
             Utils().dutyPostNameMasterStatus(widget.maritalStatus ?? 0),
+          ],
+        ),
+      ],
+
+      if (widget.status != null &&
+          widget.isDutyPostMasterStatus == true) ...[
+        Row(
+          children: [
+            CommonWidgets.verticalSpacerWidget(5),
+            Utils().dutyPostMasterStatus(widget.status ?? 0),
           ],
         ),
       ],
@@ -963,6 +991,25 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
+      if (widget.status != null && widget.isTransportStatus) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().transportMedicalStatus(widget.status ?? 0),
+          ],
+        ),
+      ],
+
+      if (widget.status != null && widget.isPatrollingStatus) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().patrollingStatus(widget.status ?? 0),
+          ],
+        ),
+      ],
       CommonWidgets.verticalSpacerWidget(5),
       if (widget.status != null &&
           widget.isContactDetailsStatus == true &&
@@ -978,13 +1025,14 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
       if (widget.status != null &&
           widget.isPassManagementStatus == true &&
           widget.isEventProtectionStatus == false) ...[
-        CommonWidgets.horizontalSpacerWidget(5),
+        CommonWidgets.verticalSpacerWidget(5),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Utils().buildPassManagementStatusRow(widget.status ?? 0),
           ],
         ),
+        CommonWidgets.verticalSpacerWidget(5),
       ],
       if (widget.status != null && widget.isLawEnforcementStatus == true) ...[
         CommonWidgets.horizontalSpacerWidget(5),
@@ -1071,6 +1119,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         ),
       ],
       if (widget.passValidFrom != null) ...[
+        CommonWidgets.verticalSpacerWidget(10),
         Row(
           children: [
             Utils().textHandling(

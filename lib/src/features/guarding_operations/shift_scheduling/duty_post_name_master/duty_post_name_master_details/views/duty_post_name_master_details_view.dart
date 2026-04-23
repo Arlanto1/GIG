@@ -155,6 +155,10 @@ class _DutyPostNameMasterDetailsViewState
           ),
         ),
         SingleChildScrollView(
+    child: ConstrainedBox(
+    constraints: BoxConstraints(
+    minHeight: MediaQuery.of(context).size.height,
+    ),
           child: Column(
             children: [
               Container(
@@ -393,6 +397,7 @@ class _DutyPostNameMasterDetailsViewState
               ),
             ],
           ),
+    ),
         ),
       ],
     );

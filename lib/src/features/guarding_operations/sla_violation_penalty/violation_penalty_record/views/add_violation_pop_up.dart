@@ -541,18 +541,26 @@ class AddContactPopUpState extends State<AddContactPopUp> {
   }
 
   ErrorResponse get isFormValid {
-    // if (widget.model.violation == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Violation.');
-    // }
-    // if (widget.model.staffCategory == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Staff Category.');
-    // }
-    // if (widget.model.totalViolations == null) {
-    //   return const ErrorResponse(
-    //       status: false, message: 'Please enter Total No of Violations');
-    // }
+    if (widget.model.violation?.name == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Violation.');
+    }
+
+    if (widget.model.shifts == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter work shift.');
+    }
+
+    if (widget.model.staffCategory == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Staff Category.');
+    }
+
+    if (widget.model.totalViolations == null) {
+      return const ErrorResponse(
+          status: false, message: 'Please enter Total No of Violations');
+    }
+
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 }

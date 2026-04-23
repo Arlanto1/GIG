@@ -31,7 +31,10 @@ class ImageContent {
         id: json["id"],
         ownerName: json["ownerName"],
         contentType: json["contentType"],
-        uploadDate: json["uploadDate"],
+        // uploadDate: json["uploadDate"],
+    uploadDate: json["uploadDate"] is String
+        ? int.tryParse(json["uploadDate"])
+        : json["uploadDate"] as int?,
         foundId: json["foundId"],
         title: json["title"],
         type: json["type"],

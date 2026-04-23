@@ -157,6 +157,10 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
         ),
 
         SingleChildScrollView(
+    child: ConstrainedBox(
+    constraints: BoxConstraints(
+    minHeight: MediaQuery.of(context).size.height,
+    ),
           child: Column(
             children: [
               Container(
@@ -378,7 +382,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                 ),
               ),
             ],
-          ),
+          ),),
         ),
       ],
     );

@@ -3,12 +3,14 @@ class ActivityNote {
   String activityNotes;
   String submittedDate;
   bool submitted;
+  bool? isNew;
 
   ActivityNote({
     this.id,
     required this.activityNotes,
     required this.submittedDate,
     this.submitted = false,
+    this.isNew = false,
   });
 
   ActivityNote.fromJson(Map<String, dynamic> json)

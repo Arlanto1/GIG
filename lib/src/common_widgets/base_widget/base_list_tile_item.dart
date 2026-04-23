@@ -1109,7 +1109,9 @@ class BaseListTileItem extends StatefulWidget {
   final bool isArticleFoundStatus;
   final bool isTicketStatus;
   final bool isTransportStatus;
-
+  final bool isCSREventProtectionStatus;
+  final bool isPatrollingStatus;
+  final bool isDutyPostMasterStatus;
   const BaseListTileItem({
     super.key,
     this.id,
@@ -1166,6 +1168,9 @@ class BaseListTileItem extends StatefulWidget {
     this.isWorkShift = false,
     this.isTicketStatus = false,
     this.isTransportStatus = false,
+    this.isCSREventProtectionStatus= false,
+    this.isPatrollingStatus = false,
+    this.isDutyPostMasterStatus = false,
   });
 
   @override
@@ -1494,6 +1499,13 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                   CommonWidgets.horizontalSpacerWidget(5),
                   Utils().buildEventProtectionStatusRow(widget.status ?? 0),
                 ],
+
+    if (widget.status != null &&
+    widget.isCSREventProtectionStatus &&
+    !widget.isMasterGuard) ...[
+    CommonWidgets.horizontalSpacerWidget(5),
+    Utils(). buildCSREventStatusRow(widget.status ?? 0),
+                ],
                 if (widget.status != null && widget.isIncident == true) ...[
                   CommonWidgets.verticalSpacerWidget(5),
                   Row(
@@ -1513,7 +1525,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                         widget.isMaterialMovementStatus == true) &&
                     !widget.isMasterGuard) ...[
                   CommonWidgets.horizontalSpacerWidget(5),
-                  Flexible(
+                  IntrinsicWidth(
                     child: Utils()
                         .buildMaterialMovementStatusRow(widget.status ?? 0),
                   )
@@ -1530,6 +1542,19 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                       Expanded(
                         child: Utils()
                             .keyManagementIssuanceStatus(widget.status ?? 0),
+                      ),
+                    ],
+                  )
+                ],
+
+                if (widget.status != null &&
+                    widget.isPatrollingStatus) ...[
+                  Row(
+                    children: [
+                      CommonWidgets.horizontalSpacerWidget(5),
+                      Expanded(
+                        child: Utils()
+                            .patrollingStatus(widget.status ?? 0),
                       ),
                     ],
                   )
@@ -1612,6 +1637,17 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Utils().dutyPostNameMasterStatus(widget.status ?? 0),
+                    ],
+                  )
+                ],
+
+                if (widget.status != null &&
+                    widget.isDutyPostMasterStatus == true) ...[
+                  CommonWidgets.horizontalSpacerWidget(5),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Utils().dutyPostMasterStatus(widget.status ?? 0),
                     ],
                   )
                 ],

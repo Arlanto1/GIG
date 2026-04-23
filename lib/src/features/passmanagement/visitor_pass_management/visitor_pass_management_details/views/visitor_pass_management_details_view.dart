@@ -84,7 +84,7 @@ class _VisitorPassManagementDetailsViewState
         Utils().errorAndLogout(state, context);
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
-            title: Constants.vendorPassManagementTitle,
+            title: Constants.visitorPassManagementTitle,
             message: state.message,
             positiveBtnText: Constants.ok,
             onPositivePressed: () {
@@ -126,7 +126,7 @@ class _VisitorPassManagementDetailsViewState
         showSaveSubmitButtons = (widget.model == null ||
                 state.model.status == 0 ||
                 state.model.status == 1) &&
-            state.model.lock.isEmptyOrNull;
+            state.model.lock.isEmptyOrNull ;
 
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
@@ -145,7 +145,7 @@ class _VisitorPassManagementDetailsViewState
               );
             },
             // visitorPassId: state.model.status != null ? true : false,
-            showSubmitButton: state.status != FormStatus.loading,
+            showSubmitButton:  showSaveSubmitButtons && state.status != FormStatus.loading &&  state.model.status != 8,
             // onTapSubmit: () {
             //   FocusScope.of(context).unfocus();
             //   BlocProvider.of<VisitorPassManagementDetailsCubit>(context).submitForm(
@@ -557,10 +557,20 @@ class _VisitorPassManagementDetailsViewState
                                 all: state.listOfEntities ?? [],
                                 enabled: !isReadOnly,
                                 onTap: (List<Organisation> selectedEntities) {
-
-
                                   bool hasDws = selectedEntities.any((e) => e.name == 'DWS');
 
+                                  //  Get selected location name
+                                  String? locationName = state.model.location?.name;
+                                  // Check if location is allowed
+                                  bool isValidLocation = locationName == 'Business Bay' ||
+                                      locationName == 'VTP' ||
+                                      locationName == 'NKB';
+
+                                  if (hasDws && isValidLocation) {
+                                    state.model.passTypeName = "DWS Day Pass";
+                                  } else {
+                                    state.model.passTypeName = "Day Pass";
+                                  }
                                   if (hasDws && selectedEntities.length > 1) {
                                     showDialog(
                                       context: context,
@@ -620,25 +630,24 @@ class _VisitorPassManagementDetailsViewState
                                     );
                                     return;
                                   }
-                                  log('--selectedEntities----${selectedEntities.length}');
                                   BlocProvider.of<
-                                              VisitorPassManagementDetailsCubit>(
-                                          context)
+                                      VisitorPassManagementDetailsCubit>(
+                                      context)
                                       .updateDropdownValues(
-                                          entities: selectedEntities);
+                                      entities: selectedEntities);
                                   Navigator.of(context)
                                       .pop(); // Close the dialog
                                 },
-                                orgName: 'ATOM_ENTITIES',
                                 functionToCall: () {
                                   // refresh the list
                                   BlocProvider.of<
-                                              VisitorPassManagementDetailsCubit>(
-                                          context)
+                                      VisitorPassManagementDetailsCubit>(
+                                      context)
                                       .refreshList();
                                 },
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
 
                               /// Pass Type
                               CommonWidgets.textDisplay(
@@ -1051,26 +1060,25 @@ class _VisitorPassManagementDetailsViewState
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                              // /// Pass Valid Until
-                              // CommonWidgets.textDisplay(
-                              //   state.labels?.locale.endTime ??
-                              //       state.labels?.defaultLocale.endTime ??
-                              //       Constants.passvliduntil,
-                              //   isMandatory: true,
-                              //   Styles.textStyleWhite16,
-                              // ),
-                              // CommonWidgets.verticalSpacerWidget(
-                              //     height * 0.001),
-                              //
-                              // BaseDate().datePickerWidgetLoading(
-                              //   textController: passValidUntilController,
-                              //   isDisabled: true,
-                              //   onlyDate: false,
-                              //   onChange: (String value) {},
-                              //   context: context,
-                              // ),
-                              // CommonWidgets.verticalSpacerWidget(height * 0.01),
-                              // CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              /// Pass Valid Until
+                              CommonWidgets.textDisplay(
+                                state.labels?.locale.endTime ??
+                                    state.labels?.defaultLocale.endTime ??
+                                    Constants.passvliduntil,
+                                isMandatory: true,
+                                Styles.textStyleWhite16,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.001),
+
+                              BaseDate().datePickerWidgetLoading(
+                                textController: passValidUntilController,
+                                isDisabled: true,
+                                onlyDate: false,
+                                onChange: (String value) {},
+                                context: context,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Escorted By
                               CommonWidgets.textDisplay(
@@ -1103,7 +1111,7 @@ class _VisitorPassManagementDetailsViewState
                                               .onCheckBoxChange(state.model);
                                         }),
 
-                              if (state.model.escortedByHost == false) ...[
+                              if (state.model.escortedByHost == true) ...[
                                 /// Escorted By
                                 CommonWidgets.textDisplay(
                                     state.labels?.locale.escortedBy ??

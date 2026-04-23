@@ -53,7 +53,7 @@ class BottomMenuHandler {
 
 
 
-  /// Guarding Operations
+  // /// Guarding Operations
   void openGuardingOperationSubMenu() {
     List<MenuItemAction> menuItemActions = [];
 
@@ -63,11 +63,14 @@ class BottomMenuHandler {
     openSubMenu(
       context: context,
       positionX: positionX,
-      menuItems: menuItemActions.map((action) => action.menuItem).toList(),
-      onOptionSelected: (context, index) {
-        // Dynamically trigger the corresponding action based on the selected index
-        menuItemActions[index].onSelected(context);
-      },
+        menuItems: guardingOperationDrawerItems,
+      // menuItems: menuItemActions.map((action) => action.menuItem).toList(),
+      // onOptionSelected: (context, index) {
+      //   // Dynamically trigger the corresponding action based on the selected index
+      //   menuItemActions[index].onSelected(context);
+      //
+      // },
+      onOptionSelected: _onGuardingOperationSubMenu
     );
   }
 
@@ -90,6 +93,9 @@ class BottomMenuHandler {
         break;
       case 4:
         Navigator.pushNamed(context, slaViolationPenaltyListRoute);
+        break;
+      case 5:
+        Navigator.pushNamed(context, patrollingListRoute);
         break;
       default:
         log('Invalid option selected');

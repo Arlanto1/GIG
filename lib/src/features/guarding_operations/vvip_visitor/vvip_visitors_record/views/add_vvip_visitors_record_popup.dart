@@ -1,6 +1,4 @@
 import 'dart:developer';
-import 'dart:ui';
-
 import 'package:db_atom/index.dart';
 
 import '../../models/vvip_visitor_record_model.dart';
@@ -60,17 +58,16 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
     return Stack(
         children: [
     // 🔹 BLUR THE ENTIRE BACKGROUND PAGE
-    BackdropFilter(
-    filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
-    child: Container(
-    color: Colors.black.withValues(alpha: 0.25), // dim + blur
-    ),
-    ),
+    // BackdropFilter(
+    // filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+    // child: Container(
+    // color: Colors.black.withValues(alpha: 0.25), // dim + blur
+    // ),
+    // ),
 
     // 🔹 YOUR ALERT DIALOG
     Center(
     child: AlertDialog(
-      title: null,
       insetPadding: const EdgeInsets.symmetric(
         horizontal: 12,
       ),
@@ -346,8 +343,20 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
                               showPastDate: false,
                               // showFutureDate: true,
                               // fromDate: widget.model.startDateVisit,
+                              // fromDate: widget.model.startDateVisit?.isNotEmpty == true
+                              //     ? widget.model.startDateVisit!
+                              //     : null,
+                              // After ✅
                               fromDate: widget.model.startDateVisit?.isNotEmpty == true
-                                  ? widget.model.startDateVisit!
+                                  ? () {
+                                try {
+                                  int timestamp = int.parse(widget.model.startDateVisit!);
+                                  DateTime dt = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+                                  return dt.toIso8601String(); // converts to ISO format that DateTime.parse() can handle
+                                } catch (_) {
+                                  return widget.model.startDateVisit;
+                                }
+                              }()
                                   : null,
                               onChange: (String value) {
                                 widget.model.endDateVisit =

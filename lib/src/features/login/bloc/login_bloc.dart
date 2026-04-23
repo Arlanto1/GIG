@@ -28,6 +28,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       LoginVerifyEvent event, Emitter<LoginState> emit) async {
     emit(LoginLoadingState(status: FormStatus.loading));
     LoginResponseModel loginData = LoginResponseModel();
+    InactivityFunctions.resetLogoutState();
     try {
       if ((Environment().config.apiHost.contains('api.uat.')) || (Environment().config.apiHost.contains('api.qa.'))) {
         var tokenData = await keyClockServices.authenticate(
@@ -124,7 +125,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             msg: e.toString(),
             customKey: 'LOGIN'
         );
-        InactivityFunctions().logoutUser(navigatorKey);
+        // InactivityFunctions().logoutUser(navigatorKey);
         // Handle other unexpected errors
         log('Server Might Be Restarting: $e');
         emit(LoginFailureState(

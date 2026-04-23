@@ -111,7 +111,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
             locationId: state.model.location!.id!),
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
         commonServices.getDayPassreason(name: 'DAY_PASS_REASON'),
-        commonServices.getPassNo(passType: 0, locationId: state.model.location!.id!, isDwsPass: false),
+        commonServices.getPassNo(passType: 0, locationId: state.model.location!.id!, isDwsPass: state.model.passTypeName == 'DWS Day Pass' ? true : false),
         commonServices.getOrganisations(name: 'ATOM_COMPANY_TYPES'),
         commonServices.getPassType(passType: 0, locationId: state.model.location!.id!,),
         commonServices.getStatusesByModuleId(
@@ -232,7 +232,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
           locationId: state.model.location!.id!);
       passNo = await commonServices.getPassNo(
           passType: 0,
-          locationId: state.model.location!.id!, isDwsPass: false);
+          locationId: state.model.location!.id!, isDwsPass:  state.model.passTypeName == 'DWS Day Pass' ? true : false);
 
       getPassType = await commonServices.getPassType(
           passType: 0,

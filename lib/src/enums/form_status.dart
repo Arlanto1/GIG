@@ -18,4 +18,5 @@ enum FormStatus {
   sendEmail,
   templateLoading,
   templateLoaded,
+  templateSuccess
 }

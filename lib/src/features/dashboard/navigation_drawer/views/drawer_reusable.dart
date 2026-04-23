@@ -5626,10 +5626,10 @@ class NavigationDrawer1 extends StatelessWidget {
     }
 
     log('gm -- ${displayMenu?.gM}');
-    if (guardingOperations) {
+    // if (guardingOperations) {
       expansionTileDrawerItems.add(const MenuItem(
           Constants.guardingOperations, AppIcon.guardingOperationIcon, 1));
-    }
+    // }
 
     if (displayMenu?.iM ?? false) {
       expansionTileDrawerItems.add(const MenuItem(
@@ -5910,13 +5910,6 @@ class NavigationDrawer1 extends StatelessWidget {
                             borderRadius: BorderRadius.circular(16),
                             border: Border.all(
                                 color: Colors.white.withValues(alpha: 0.5)),
-                            // boxShadow: [
-                            //   BoxShadow(
-                            //     color: Colors.white.withValues(alpha: 0.4),
-                            //     blurRadius: 15,
-                            //     offset: const Offset(0, 6),
-                            //   ),
-                            // ],
                           ),
                           child: Row(
                             children: [
@@ -6019,122 +6012,6 @@ class NavigationDrawer1 extends StatelessWidget {
     );
   }
 
-  // -------------------- UI helper: glass tile wrapper --------------------
-  // Widget _glassyTile({
-  //   required Widget child,
-  //   bool isSelected = false,
-  //   EdgeInsets margin = const EdgeInsets.symmetric(vertical: 4),
-  // }) {
-  //   // return Container(
-  //   //   margin: margin,
-  //   //   padding: const EdgeInsets.symmetric(horizontal: 6),
-  //   //   decoration: BoxDecoration(
-  //   //     color: isSelected
-  //   //         ? Color(0xFF071130).withValues(alpha: 0.6)
-  //   //         :  const Color(0xFF071130),
-  //   //     borderRadius: BorderRadius.circular(12),
-  //   //     border: Border.all(
-  //   //         color: isSelected
-  //   //             ? AppColors.white.withValues(alpha: 0.1)
-  //   //             : Colors.white.withValues(alpha: 0.2),
-  //   //         width: 1),
-  //   //   ),
-  //   //   child: child,
-  //   // );
-  //   return AnimatedContainer(
-  //     duration: const Duration(milliseconds: 200),
-  //     curve: Curves.easeOutBack,
-  //     margin: margin,
-  //     padding: const EdgeInsets.symmetric(horizontal: 6),
-  //     transform: Matrix4.identity()
-  //       ..scale(isSelected ? 1.08 : 1.0), // 🔹 Pop-out animation
-  //     decoration: BoxDecoration(
-  //       color: isSelected
-  //           ? const Color(0xFF071130).withValues(alpha: 0.6)
-  //           : const Color(0xFF071130),
-  //       borderRadius: BorderRadius.circular(12),
-  //       border: Border.all(
-  //         color: isSelected
-  //             ? AppColors.white.withValues(alpha: 0.1)
-  //             : Colors.white.withValues(alpha: 0.2),
-  //         width: 1,
-  //       ),
-  //       boxShadow: isSelected
-  //           ? [
-  //         BoxShadow(
-  //           color: Colors.white.withOpacity(0.15),
-  //           blurRadius: 12,
-  //           offset: const Offset(0, 4),
-  //         ),
-  //       ]
-  //           : [],
-  //     ),
-  //     child: child,
-  //   );
-  //
-  // }
-  // Widget _glassyTile({
-  //   required Widget child,
-  //   bool isSelected = false,
-  //   EdgeInsets margin = const EdgeInsets.symmetric(vertical: 4),
-  // }) {
-  //   return StatefulBuilder(
-  //     builder: (context, setState) {
-  //       bool isHovered = false;
-  //
-  //       return MouseRegion(
-  //         onEnter: (_) => setState(() => isHovered = true),
-  //         onExit: (_) => setState(() => isHovered = false),
-  //         child: AnimatedContainer(
-  //           duration: const Duration(milliseconds: 200),
-  //           curve: Curves.easeOutBack,
-  //           margin: margin,
-  //           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-  //           decoration: BoxDecoration(
-  //             color: (isHovered || isSelected)
-  //                 ? const Color(0xFF0D173D).withOpacity(0.9)
-  //                 : const Color(0xFF071130),
-  //             borderRadius: BorderRadius.circular(12),
-  //             border: Border.all(
-  //               color: (isHovered || isSelected)
-  //                   ? Colors.white.withOpacity(0.25)
-  //                   : Colors.white.withOpacity(0.15),
-  //               width: 1,
-  //             ),
-  //             boxShadow: [
-  //               BoxShadow(
-  //                 color: (isHovered || isSelected)
-  //                     ? Colors.blueAccent.withOpacity(0.25)
-  //                     : Colors.transparent,
-  //                 blurRadius: 12,
-  //                 spreadRadius: 1,
-  //                 offset: const Offset(0, 3),
-  //               ),
-  //             ],
-  //           ),
-  //           child: AnimatedDefaultTextStyle(
-  //             duration: const Duration(milliseconds: 200),
-  //             style: TextStyle(
-  //               color: (isHovered || isSelected)
-  //                   ? Colors.white
-  //                   : Colors.white.withOpacity(0.7),
-  //               fontWeight: (isHovered || isSelected)
-  //                   ? FontWeight.w600
-  //                   : FontWeight.w500,
-  //             ),
-  //             child: AnimatedOpacity(
-  //               duration: const Duration(milliseconds: 200),
-  //               opacity: (isHovered || isSelected) ? 1.0 : 0.85,
-  //               child: child,
-  //             ),
-  //           ),
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
-  //
-  //
   Widget _glassyTile({
     required Widget child,
     bool isSelected = false,
@@ -6158,7 +6035,7 @@ class NavigationDrawer1 extends StatelessWidget {
                   : Colors.transparent,
               borderRadius: BorderRadius.circular(12),
 
-              // 🌟 Highlight border when selected
+              //  Highlight border when selected
               border: Border.all(
                 color: isSelected
                     ? Colors.white.withValues(alpha: 0.45)
@@ -6168,7 +6045,7 @@ class NavigationDrawer1 extends StatelessWidget {
                 width: isSelected ? 1.3 : 1.3,
               ),
 
-              // 🌈 Add subtle glowing shadow when selected
+              //  Add subtle glowing shadow when selected
               boxShadow: [
                 if (isHovered || isSelected)
                   BoxShadow(
@@ -6468,6 +6345,8 @@ class NavigationDrawer1 extends StatelessWidget {
       case Constants.slaViolationPenaltyTitle:
         Navigator.pushNamed(context, slaViolationPenaltyListRoute);
         break;
+      case Constants.patrolling:
+        Navigator.pushNamed(context, patrollingListRoute);
       default:
         break;
     }
@@ -7052,6 +6931,9 @@ class NavigationDrawer1 extends StatelessWidget {
       menuItems.add(const MenuItem(Constants.slaViolationPenaltyTitle,
           AppIcon.slaViolationPenaltyIcon, 0));
     }
+
+    menuItems.add(const MenuItem(Constants.patrolling,
+        AppIcon.slaViolationPenaltyIcon, 0));
   }
 }
 

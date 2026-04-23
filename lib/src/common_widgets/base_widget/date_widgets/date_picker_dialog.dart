@@ -406,7 +406,7 @@ class BaseDate {
                 : Keys.handedoverdateTextController,
             hintText: '',
             suffixIcon: Icons.calendar_month,
-            isEnable: true,
+            isEnable: !isDisabled,
             isDisableColor: isDisabled,
             onChange: onChange,
             // Pass the onChange callback to FlutterInputField
@@ -584,8 +584,12 @@ class BaseDate {
     required DateTime maxDate,
     required bool onlyDate,
   }) async {
-    DateTime selected = initialDateTime;
+    // DateTime selected = initialDateTime;
+    DateTime clampedInitial = initialDateTime;
+    if (clampedInitial.isBefore(minDate)) clampedInitial = minDate;
+    if (clampedInitial.isAfter(maxDate)) clampedInitial = maxDate;
 
+    DateTime selected = clampedInitial;
     return showModalBottomSheet<DateTime?>(
       context: context,
       isScrollControlled: true,
@@ -703,7 +707,7 @@ class BaseDate {
                         ),
                       ),
                       child: CalendarDatePicker(
-                        initialDate: initialDateTime,
+                        initialDate: clampedInitial,
                         firstDate: minDate,
                         lastDate: maxDate,
                         onDateChanged: (d) {
@@ -918,13 +922,34 @@ class BaseDate {
       }
     }
 
+// After ✅ — also handle fromDate-only (no toDate) case
+    if (fromDate != null && fromDate.trim().isNotEmpty) {
+      DateTime? rangeMinDate;
+      try {
+        rangeMinDate = DateTime.parse(fromDate);
+      } catch (e) {
+        // try as timestamp
+        int? ts = int.tryParse(fromDate);
+        if (ts != null) {
+          rangeMinDate = DateTime.fromMillisecondsSinceEpoch(ts * 1000);
+        }
+        log('fromDate parse error: $e, value: $fromDate');
+      }
+
+      if (rangeMinDate != null) {
+        if (initialPickerDate.isBefore(rangeMinDate)) {
+          initialPickerDate = rangeMinDate;
+        }
+        minTime = rangeMinDate; // ✅ This is the key line — sets minimum selectable date
+      }
+    }
     // from-to range present
-    if (!fromDate.isEmptyOrNull && !toDate.isEmptyOrNull) {
+    if (fromDate != null && fromDate.trim().isNotEmpty && !toDate.isEmptyOrNull) {
       // from-to range present - WITH SAFE PARSING
       DateTime? rangeMinDate, rangeMaxDate;
-      if (!fromDate.isEmptyOrNull) {
+      if (fromDate != null && fromDate.trim().isNotEmpty) {
         try {
-          rangeMinDate = DateTime.parse(fromDate!);
+          rangeMinDate = DateTime.parse(fromDate);
           log('End picker fromDate parsed: $rangeMinDate');
         } catch (e) {
           log('fromDate parse error: $e, value: $fromDate');

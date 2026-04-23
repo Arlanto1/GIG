@@ -42,6 +42,7 @@ class Constants {
   static const String dutyPostNameMasterModule = 'SSDP';
   static const String attendanceModule = 'ATD';
   static const String keyReconciliationModule = 'KR';
+  static const String patrollingModule = 'PTR';
 
   /// UI Labels Module Code
   static const String articleFoundModuleCode = 'AF';
@@ -722,6 +723,9 @@ class Constants {
 
   static const String assetType = 'Asset Type';
   static const String totalAttendies = 'Total Attendies';
+  static const String cCTvSystemOffline = 'CCTV System Offline';
+  static const String accessSystemOffline = 'Access System Offline';
+  static const String intruderSystemOffline = 'Intruder System Offline';
 
   //Occurrence
   static const String createOccurrence = 'Create Occurrence';
@@ -1122,6 +1126,49 @@ class Constants {
   /// Transport/Medical Incident
   static const String transportIncidentList = 'Transport Incident List';
   static const String medicalEmergencyList = 'Medical Emergency List';
+  static const String vehicleRegistrationNo = 'Vehicle Registration No';
+  static const String actionTaken = 'Actions taken by Corporate Security';
+  static const String impactOnTravellers ='Impact on Incident on Travellers';
+  static const String shiftLoginDate ='Shift Login Date';
+  static const String shiftLogoutDate ='Shift Logout Date';
+  static const String tripId ='Trip Id';
+  static const String isEscortGuardDeployed = 'Is Escort Guard Deployed';
+  static const String escortGuard = 'Escort Guard';
+  static const String employeeAttendedByDB = 'Employee attended By DB wellness';
+  static const String employeeTakenToHsptl = 'Employee taken to nearest hospital';
+  static const String medicalHomeDrop = 'Medical home drop provided';
+  static const String employeeReachedHome = 'Employee reached home safely';
+  static const String nameOfHospital = 'Name of Hospital';
+  static const String hospitalLocation = 'Hospital Location/Details';
+  static const String accompaniedBy = 'Accompanied By';
+  static const String transportType = 'Transport Type';
+  static const String accompaniedForHomeDrop = 'Accompanied for home drop';
+  static const String timeEmployeeReachedHome = 'Time of the employee reached home';
+
+
+  //Patrolling
+  static const String patrolling = 'Patrolling List';
+  static const String editPatrolling = 'Edit Patrolling List';
+  static const String securitySupervisor = 'Security Supervisor';
+  static const String shift = 'Shift';
+  static const String generalInfo = 'General Info';
+  static const String generalInspection = 'General Inspection';
+  static const String safetyEmergency = 'Safety & Emergency';
+  static const String pWDAccessibility = 'PWD & Accessibility';
+  static const String surveillanceSecurity = 'Surveillance & Security';
+  static const String amenitiesAreas = 'Amenities Areas';
+  static const String parkingExternal = 'Parking External';
+  static const String submittedDate = 'Submitted Date';
+  static const String verifiedDate = 'Verified Date';
+  static const String guardRemarks = 'Guard Remarks';
+  static const String owner = 'Owner';
+  static const String severity = 'Severity';
+  static const String actionOwner = 'Action Owner';
+  static const String eta = 'ETA';
+  static const String ownerRemarks = 'Owner Remarks';
+  static const String reviewStatus = 'Review Status';
+  static const String review = 'Review';
+  static const String reviewComment = 'Review Comment';
 
 }
 

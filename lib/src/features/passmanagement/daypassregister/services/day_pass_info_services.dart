@@ -24,7 +24,6 @@ class DayPassInfoServices {
       isAuthenticated: true,
       url: url,
     );
-
     return DayPassInfoResponseModel.fromJson(response);
   }
 

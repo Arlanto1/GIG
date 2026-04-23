@@ -28,7 +28,7 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
             priorities: const [],
             projects: const [],
             trackers: const [],
-            eventId: null, locations: Locations(), listOfModules: const [], getStatus: const [],
+            eventId: null, locations: Locations(), listOfModules: const [], getStatus: const [], getTsStatus: const [],
           ),
         );
 
@@ -76,6 +76,7 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
         commonServices.getOrganisations(name: 'ATOM_MODULES_NAME_LIST'),
         commonServices.getStatusesByModuleId(
             module: Constants.ticketingSystemModuleCode,),
+        services.getStatuses(id: state.model.id ?? 0)
       ]);
       Locations locations = futures[0];
       User loggedInUserDetails = futures[1];
@@ -83,6 +84,8 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
       Organisation? defaultLocation = futures[3];
       List<Organisation> listOfModules = futures[4];
       List<Organisation> getStatus = futures[5];
+      List<Organisation> getTsStatus = futures[6];
+
       // Get Date of Creation
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
@@ -116,11 +119,12 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
           model: state.model,
           listOfModules:listOfModules,
           getStatus :getStatus,
+            getTsStatus:getTsStatus
         ),
       );
     } catch (e) {
       log('Initialization issue',
-          error: e, name: 'Article Found Details Cubit');
+          error: e, name: 'Ticketing System Cubit');
       emit(
         state.copyWith(
           message: Constants.errorText,
@@ -177,13 +181,14 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
     Organisation? priority,
     Organisation? trackers,
     BaseUser? assignee,
-    int? status,
+    // int? status,
     int? ticketType,
     int? priorityType,
     int? ticketRaisedFor,
     int? ragStatus,
     List<Organisation>? modulesName,
-
+    // int? status,
+Organisation? status,
 
   }) async {
     emit(
@@ -203,9 +208,9 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
       state.model.location = location;
       state.model.ticketNo = slNo.serialNo ?? '';
     }
-    if (status != null) {
-      state.model.status = status;
-    }
+    // if (status != null) {
+    //   state.model.status = status;
+    // }
 
     if (ticketType != null) {
       state.model.ticketType = ticketType;
@@ -228,6 +233,12 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
     if (modulesName != null) {
       state.model.modulesName = modulesName;
     }
+
+
+    if (status != null) {
+      state.model.status = status.id;
+    }
+
 
     emit(state.copyWith(
       model: state.model,
