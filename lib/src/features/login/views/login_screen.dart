@@ -1368,15 +1368,13 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:ui';
 
-import 'dart:ui';
-
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/constants/constant_crashlytics_keys.dart';
+// import 'package:db_atom/src/constants/constant_crashlytics_keys.dart';
 import 'package:db_atom/src/features/login/services/login_services.dart';
 import 'package:db_atom/src/utils/web_sso_msal_handler.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:msal_auth/msal_auth.dart';
-import 'package:permission_handler/permission_handler.dart';
+// import 'package:permission_handler/permission_handler.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -1414,7 +1412,7 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final height = size.height;
+    // final height = size.height;
     final bloc = BlocProvider.of<LoginBloc>(context);
     return Scaffold(
       backgroundColor: AppColors.cardBgColor,
@@ -1678,7 +1676,7 @@ class _LoginState extends State<Login> {
               return LayoutBuilder(
                   builder: (context, constraints) {
                     final height = constraints.maxHeight;
-                    final width = constraints.minHeight;
+                    // final width = constraints.minHeight;
 
                     // return Scaffold(
                     //  body:
@@ -1776,7 +1774,7 @@ class _LoginState extends State<Login> {
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 32, horizontal: 18),
                                   decoration: BoxDecoration(
-                                    color: Colors.white.withValues(alpha: 0.20),
+                                    color: Colors.white.withValues(alpha: 0.10),
                                     borderRadius: BorderRadius.circular(40),
                                     boxShadow: [
                                       BoxShadow(

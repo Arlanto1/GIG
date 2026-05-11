@@ -51,7 +51,7 @@ class _TransportMedicalDetailsViewState
   bool isTemplateLoading = false;
   bool isLoading = false;
   List<ImageContent> getFiles = [];
-
+  bool isEditable = false;
   String selectedTemplateHtml = "";
 
   @override
@@ -71,7 +71,8 @@ class _TransportMedicalDetailsViewState
       listenWhen: (previous, current) =>
       previous.status != current.status &&
           (current.status == FormStatus.success ||
-              current.status == FormStatus.templateLoaded),
+              current.status == FormStatus.templateLoaded ||
+              current.status == FormStatus.formError),
       listener: (context, state) {
         log('widget.isTransport ${widget.isTransport}');
         Utils().formError(state, context);
@@ -125,6 +126,11 @@ class _TransportMedicalDetailsViewState
         //   disableForm = true;
         // }
         state.model.status ??= 0;
+
+        if (state.model.status != 0 && state.model.status != null) {
+          disableForm = false;
+        }
+        isEditable = (state.model.status == 0 || state.model.status == null) && state.model.lock.isEmptyOrNull && state.model.status == -1;
 
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
@@ -278,7 +284,7 @@ class _TransportMedicalDetailsViewState
                               BaseDropDown().getDropDown(
                                   isDisabled: true,
                                   textController: statusController,
-                                  items: incidentManagementStatus,
+                                  items: transportMedicalStatusValues,
                                   initialValue: '${state.model.status ?? 0}',
                                   onTap: () {}),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
@@ -317,7 +323,7 @@ class _TransportMedicalDetailsViewState
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               BaseLocationDropdown().locationWidgetDisplay(
-                                  isEnabled: true,
+                                  isEnabled: isEditable,
                                   context: context,
                                   locations: state.locations ?? Locations(),
                                   selectedLocationName:
@@ -351,7 +357,7 @@ class _TransportMedicalDetailsViewState
                                 context: context,
                                 selectedValues: state.model.entities ?? [],
                                 all: state.listOfEntities ?? [],
-                                enabled: true,
+                                enabled: isEditable,
                                 onTap: (List<Organisation> selectedEntities) {
                                   log('--selectedEntities----${selectedEntities
                                       .length}');
@@ -427,15 +433,12 @@ class _TransportMedicalDetailsViewState
                                   height * 0.001),
 
                               BaseDate().datePickerWidgetLoading(
+                                isDisabled: !isEditable,
                                 textController: incidentDateTimeController,
                                 onlyDate: false,
                                 showFutureDate: false,
                                 context: context,
                                 onChange: (String value) {
-                                  log('---value-$value------');
-                                  log(
-                                      '---incidentDateTimeController------###-${incidentDateTimeController
-                                          .text}------');
                                   state.model.incidentDate =
                                       Utils().formatTime(value);
                                   log('---value11-${state.model
@@ -445,10 +448,6 @@ class _TransportMedicalDetailsViewState
                                       .onModelValueChange(state.model);
                                   FocusScope.of(context)
                                       .requestFocus(incidentLocationFocusNode);
-
-                                  log(
-                                      '---incidentDateTimeController----222--###-${incidentDateTimeController
-                                          .text}------');
                                 },
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
@@ -469,8 +468,8 @@ class _TransportMedicalDetailsViewState
                                 textFormKey: Keys.lsm1ContactNOKey,
                                 hintText: '',
                                 // focusNode: incidentLocationFocusNode,
-                                isEnable: !disableForm,
-                                isDisableColor: disableForm,
+                                isEnable: isEditable,
+                                isDisableColor: !isEditable,
                                 onChange: (String value) {
                                   state.model.incidentLocation = value;
                                   context
@@ -497,8 +496,8 @@ class _TransportMedicalDetailsViewState
                                 textFormKey: Keys.lsm1ContactNOKey,
                                 hintText: '',
                                 // focusNode: incidentLocationFocusNode,
-                                isEnable: !disableForm,
-                                isDisableColor: disableForm,
+                                isEnable: isEditable,
+                                isDisableColor: !isEditable,
                                 onChange: (String value) {
                                   state.model.description = value;
                                   context
@@ -525,8 +524,8 @@ class _TransportMedicalDetailsViewState
                                 textFormKey: Keys.lsm1ContactNOKey,
                                 hintText: '',
                                 // focusNode: incidentLocationFocusNode,
-                                isEnable: !disableForm,
-                                isDisableColor: disableForm,
+                                isEnable: isEditable,
+                                isDisableColor: !isEditable,
                                 onChange: (String value) {
                                   state.model.vehicleRegistrationNo = value;
                                   context
@@ -552,7 +551,7 @@ class _TransportMedicalDetailsViewState
                                   status: state.model.status ?? 0,
                                   selectedValue:
                                   state.model.wellnessTeamAttended ? 1 : 0,
-                                  onChangedYes: disableForm
+                                  onChangedYes: !isEditable
                                       ? null
                                       : (val) {
                                     state.model.wellnessTeamAttended = true;
@@ -563,7 +562,7 @@ class _TransportMedicalDetailsViewState
                                       escortDeployed: true,
                                     );
                                   },
-                                  onChangedNo: disableForm
+                                  onChangedNo: !isEditable
                                       ? null
                                       : (val) {
                                     state.model.wellnessTeamAttended = false;
@@ -591,7 +590,7 @@ class _TransportMedicalDetailsViewState
                                   status: state.model.status ?? 0,
                                   selectedValue:
                                   state.model.takenToHospital ? 1 : 0,
-                                  onChangedYes: disableForm
+                                  onChangedYes: !isEditable
                                       ? null
                                       : (val) {
                                     state.model.takenToHospital = true;
@@ -602,7 +601,7 @@ class _TransportMedicalDetailsViewState
                                       escortDeployed: true,
                                     );
                                   },
-                                  onChangedNo: disableForm
+                                  onChangedNo: !isEditable
                                       ? null
                                       : (val) {
                                     state.model.takenToHospital = false;
@@ -631,34 +630,37 @@ class _TransportMedicalDetailsViewState
                                       height * 0.002),
 
                                   BaseDropDown().getDropDown(
-                                    isDisabled: false,
+                                    isDisabled: !isEditable,
                                     textController: transportTypeController,
                                     items: transportTypeValues,
                                     initialValue: state.model.transportType
                                         .toString(),
                                     onTap: () {
-                                      BaseDropDown().assetTypeDialog(
-                                        context: context,
-                                        dropDownValues: transportTypeValues
-                                            .map((label) => label.key)
-                                            .toList(),
-                                        onTap: (String value) {
-                                          Label? selectedLabel;
-                                          selectedLabel =
-                                              transportTypeValues.firstWhere(
-                                                    (label) =>
-                                                label.key == value,
-                                                orElse: () =>
-                                                const Label(key: '', value: ''),
-                                              );
-                                          BlocProvider.of<
-                                              TransportMedicalDetailsCubit>(
-                                              context)
-                                              .updateDropdownValues(
-                                              transportType: int.tryParse(
-                                                  selectedLabel.value));
-                                        },
-                                      );
+                                      if(isEditable) {
+                                        BaseDropDown().assetTypeDialog(
+                                          context: context,
+                                          dropDownValues: transportTypeValues
+                                              .map((label) => label.key)
+                                              .toList(),
+                                          onTap: (String value) {
+                                            Label? selectedLabel;
+                                            selectedLabel =
+                                                transportTypeValues.firstWhere(
+                                                      (label) =>
+                                                  label.key == value,
+                                                  orElse: () =>
+                                                  const Label(
+                                                      key: '', value: ''),
+                                                );
+                                            BlocProvider.of<
+                                                TransportMedicalDetailsCubit>(
+                                                context)
+                                                .updateDropdownValues(
+                                                transportType: int.tryParse(
+                                                    selectedLabel.value));
+                                          },
+                                        );
+                                      }
                                     },
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
@@ -680,8 +682,8 @@ class _TransportMedicalDetailsViewState
                                     textFormKey: Keys.lsm1ContactNOKey,
                                     hintText: '',
                                     // focusNode: incidentLocationFocusNode,
-                                    isEnable: !disableForm,
-                                    isDisableColor: disableForm,
+                                    isEnable: isEditable,
+                                    isDisableColor: !isEditable,
                                     onChange: (String value) {
                                       state.model.hospitalName = value;
                                       context
@@ -711,8 +713,8 @@ class _TransportMedicalDetailsViewState
                                     textFormKey: Keys.lsm1ContactNOKey,
                                     hintText: '',
                                     // focusNode: incidentLocationFocusNode,
-                                    isEnable: !disableForm,
-                                    isDisableColor: disableForm,
+                                    isEnable: isEditable,
+                                    isDisableColor: !isEditable,
                                     onChange: (String value) {
                                       state.model.hospitalLocation = value;
                                       context
@@ -738,12 +740,12 @@ class _TransportMedicalDetailsViewState
                                         ?.userInfo ??
                                         state.model.accompaniedEmployee?.name,
                                     height: 70,
-                                    isDisableColor: disableForm,
+                                    isDisableColor: !isEditable,
                                     onTap: () {
-                                      if (!disableForm) {
+                                      if (isEditable) {
                                         BaseOrganisationDialog().userDialog(
                                           context: context,
-                                          users: state.accompaniedEmployee,
+                                          users: state.employees,
                                           onTap: (BaseUser user) {
                                             BlocProvider.of<
                                                 TransportMedicalDetailsCubit>(
@@ -790,7 +792,7 @@ class _TransportMedicalDetailsViewState
                                   status: state.model.status ?? 0,
                                   selectedValue:
                                   state.model.dropProvided ? 1 : 0,
-                                  onChangedYes: disableForm
+                                  onChangedYes: !isEditable
                                       ? null
                                       : (val) {
                                     state.model.dropProvided = true;
@@ -801,7 +803,7 @@ class _TransportMedicalDetailsViewState
                                       escortDeployed: true,
                                     );
                                   },
-                                  onChangedNo: disableForm
+                                  onChangedNo: !isEditable
                                       ? null
                                       : (val) {
                                     state.model.dropProvided = false;
@@ -832,12 +834,12 @@ class _TransportMedicalDetailsViewState
                                         ?.userInfo ??
                                         state.model.accompaniedEmployee1?.name,
                                     height: 70,
-                                    isDisableColor: disableForm,
+                                    isDisableColor: !isEditable,
                                     onTap: () {
-                                      if (!disableForm) {
+                                      if (isEditable) {
                                         BaseOrganisationDialog().userDialog(
                                           context: context,
-                                          users: state.accompaniedEmployee1,
+                                          users: state.employees,
                                           onTap: (BaseUser user) {
                                             BlocProvider.of<
                                                 TransportMedicalDetailsCubit>(
@@ -884,7 +886,7 @@ class _TransportMedicalDetailsViewState
                                   status: state.model.status ?? 0,
                                   selectedValue:
                                   state.model.employeeReached ? 1 : 0,
-                                  onChangedYes: disableForm
+                                  onChangedYes: !isEditable
                                       ? null
                                       : (val) {
                                     state.model.employeeReached = true;
@@ -895,7 +897,7 @@ class _TransportMedicalDetailsViewState
                                       escortDeployed: true,
                                     );
                                   },
-                                  onChangedNo: disableForm
+                                  onChangedNo: !isEditable
                                       ? null
                                       : (val) {
                                     state.model.employeeReached = false;
@@ -924,6 +926,7 @@ class _TransportMedicalDetailsViewState
                                       height * 0.001),
 
                                   BaseDate().datePickerWidgetLoading(
+                                    isDisabled: !isEditable,
                                     textController: employeeReachedDateTimeController,
                                     onlyDate: false,
                                     showFutureDate: false,
@@ -963,8 +966,8 @@ class _TransportMedicalDetailsViewState
                                   textFormKey: Keys.lsm1ContactNOKey,
                                   hintText: '',
                                   // focusNode: incidentLocationFocusNode,
-                                  isEnable: !disableForm,
-                                  isDisableColor: disableForm,
+                                  isEnable: isEditable,
+                                  isDisableColor: !isEditable,
                                   onChange: (String value) {
                                     state.model.actionsTaken = value;
                                     context
@@ -992,8 +995,8 @@ class _TransportMedicalDetailsViewState
                                   textFormKey: Keys.lsm1ContactNOKey,
                                   hintText: '',
                                   // focusNode: incidentLocationFocusNode,
-                                  isEnable: !disableForm,
-                                  isDisableColor: disableForm,
+                                  isEnable: isEditable,
+                                  isDisableColor: !isEditable,
                                   onChange: (String value) {
                                     state.model.incidentImpact = value;
                                     context
@@ -1017,6 +1020,7 @@ class _TransportMedicalDetailsViewState
                                     height * 0.001),
 
                                 BaseDate().datePickerWidgetLoading(
+                                  isDisabled: !isEditable,
                                   textController: shiftLoginDateTimeController,
                                   onlyDate: false,
                                   showFutureDate: false,
@@ -1053,6 +1057,7 @@ class _TransportMedicalDetailsViewState
                                     height * 0.001),
 
                                 BaseDate().datePickerWidgetLoading(
+                                  isDisabled: !isEditable,
                                   textController: shiftLogoutDateTimeController,
                                   onlyDate: false,
                                   showFutureDate: true,
@@ -1097,8 +1102,8 @@ class _TransportMedicalDetailsViewState
                                   textFormKey: Keys.lsm1ContactNOKey,
                                   hintText: '',
                                   // focusNode: incidentLocationFocusNode,
-                                  isEnable: !disableForm,
-                                  isDisableColor: disableForm,
+                                  isEnable: isEditable,
+                                  isDisableColor: !isEditable,
                                   onChange: (String value) {
                                     state.model.tripId = value;
                                     context
@@ -1123,7 +1128,7 @@ class _TransportMedicalDetailsViewState
                                   status: state.model.status ?? 0,
                                   selectedValue:
                                   state.model.escortDeployed ? 1 : 0,
-                                  onChangedYes: disableForm
+                                  onChangedYes: !isEditable
                                       ? null
                                       : (val) {
                                     state.model.escortDeployed = true;
@@ -1134,7 +1139,7 @@ class _TransportMedicalDetailsViewState
                                       escortDeployed: true,
                                     );
                                   },
-                                  onChangedNo: disableForm
+                                  onChangedNo: !isEditable
                                       ? null
                                       : (val) {
                                     state.model.escortDeployed = false;
@@ -1164,9 +1169,9 @@ class _TransportMedicalDetailsViewState
                                     title: state.model.escortGuard?.userInfo ??
                                         state.model.escortGuard?.name,
                                     height: 70,
-                                    isDisableColor: disableForm,
+                                    isDisableColor: !isEditable,
                                     onTap: () {
-                                      if (!disableForm) {
+                                      if (isEditable) {
                                         BaseOrganisationDialog().userDialog(
                                           context: context,
                                           users: state.escortGuard,
@@ -1485,65 +1490,112 @@ class _TransportMedicalDetailsViewState
                                                   : const SizedBox(),
                                               tooltip: 'Fetch Template',
 
-                                              onPressed: () async {
-                                                try {
-                                                  final cubit = context.read<
-                                                      TransportMedicalDetailsCubit>();
-                                                  int? savedId = cubit.state
-                                                      .model.id;
-                                                  if (widget.model?.id ==
-                                                      null) {
-                                                    // ✅ WAIT for save to complete
-                                                    final isSuccess = await cubit
-                                                        .submitForm(
-                                                        isSaveOnly: true);
+                                              // onPressed: () async {
+                                              //   try {
+                                              //     final cubit = context.read<
+                                              //         TransportMedicalDetailsCubit>();
+                                              //     int? savedId = cubit.state
+                                              //         .model.id;
+                                              //     if (widget.model?.id ==
+                                              //         null) {
+                                              //       // ✅ WAIT for save to complete
+                                              //       final isSuccess = await cubit
+                                              //           .submitForm(
+                                              //           isSaveOnly: true, silent: true);
+                                              //
+                                              //       if (!isSuccess) {
+                                              //         debugPrint(
+                                              //             "Save failed");
+                                              //         return;
+                                              //       }
+                                              //
+                                              //       // ✅ Now ID is available in state
+                                              //       final savedId = cubit
+                                              //           .state.model.id;
+                                              //
+                                              //       if (savedId == null) {
+                                              //         debugPrint(
+                                              //             "ID is still null after save");
+                                              //         return;
+                                              //       }
+                                              //     }
+                                              //     cubit.clearAttachments();
+                                              //
+                                              //     final response = await cubit
+                                              //         .getNotificationDetailsById(
+                                              //       savedId
+                                              //           .toString(), // ✅ use updated ID
+                                              //     );
+                                              //
+                                              //     final html = response
+                                              //         .notification;
+                                              //
+                                              //     if (html == null || html
+                                              //         .trim()
+                                              //         .isEmpty) {
+                                              //       debugPrint(
+                                              //           "HTML is empty");
+                                              //       return;
+                                              //     }
+                                              //
+                                              //     openTemplatePreview(
+                                              //       html: html,
+                                              //       templateId: null,
+                                              //     );
+                                              //   } catch (e, s) {
+                                              //     debugPrint(
+                                              //         "Failed to load template: $e");
+                                              //     debugPrintStack(
+                                              //         stackTrace: s);
+                                              //   }
+                                              // }
+                                            onPressed: () async {
+                                              try {
+                                                final cubit = context.read<TransportMedicalDetailsCubit>();
 
-                                                    if (!isSuccess) {
-                                                      debugPrint(
-                                                          "Save failed");
-                                                      return;
-                                                    }
-
-                                                    // ✅ Now ID is available in state
-                                                    final savedId = cubit
-                                                        .state.model.id;
-
-                                                    if (savedId == null) {
-                                                      debugPrint(
-                                                          "ID is still null after save");
-                                                      return;
-                                                    }
-                                                  }
-                                                  cubit.clearAttachments();
-
-                                                  final response = await cubit
-                                                      .getNotificationDetailsById(
-                                                    savedId
-                                                        .toString(), // ✅ use updated ID
+                                                // If record doesn't exist yet, save it silently first
+                                                if (widget.model?.id == null) {
+                                                  final isSuccess = await cubit.submitForm(
+                                                    isSaveOnly: true,
+                                                    silent: true,
                                                   );
 
-                                                  final html = response
-                                                      .notification;
-
-                                                  if (html == null || html
-                                                      .trim()
-                                                      .isEmpty) {
-                                                    debugPrint(
-                                                        "HTML is empty");
+                                                  if (!isSuccess) {
+                                                    debugPrint("Save failed");
                                                     return;
                                                   }
-
-                                                  openTemplatePreview(
-                                                    html: html,
-                                                    templateId: null,
-                                                  );
-                                                } catch (e, s) {
-                                                  debugPrint(
-                                                      "Failed to load template: $e");
-                                                  debugPrintStack(
-                                                      stackTrace: s);
                                                 }
+
+                                                // ✅ Always read the ID from cubit AFTER the save completes
+                                                final savedId = cubit.state.model.id;
+
+                                                if (savedId == null) {
+                                                  debugPrint("ID is still null after save");
+                                                  return;
+                                                }
+
+                                                cubit.clearAttachments();
+
+                                                final response = await cubit.getNotificationDetailsById(
+                                                  savedId.toString(), // ✅ now has the correct ID
+                                                );
+
+                                                final html = response.notification;
+
+                                                if (html == null || html.trim().isEmpty) {
+                                                  debugPrint("HTML is empty");
+                                                  return;
+                                                }
+
+                                                openTemplatePreview(
+                                                  html: html,
+                                                  templateId: null,
+                                                );
+                                              } catch (e, s) {
+                                                debugPrint("Failed to load template: $e");
+                                                debugPrintStack(stackTrace: s);
                                               }
+                                            },
                                           ),
                                         ],
                                       ),
@@ -1702,21 +1754,52 @@ class _TransportMedicalDetailsViewState
       ],
     );
   }
+  //
+  // void openTemplatePreview({
+  //   required String html,
+  //   int? templateId,
+  // }) {
+  //   Navigator.push(
+  //     context,
+  //     PageRouteBuilder(                          //  replace MaterialPageRoute
+  //       opaque: true,                            //  hides previous page completely
+  //       pageBuilder: (_, __, ___) => BlocProvider.value(
+  //         value: context.read<TransportMedicalDetailsCubit>(),
+  //         child: TemplatePreviewPage(
+  //           html: html,
+  //           templateId: templateId,
+  //           transportId: widget.model!.id.toString(),
+  //           showSaveButtons: true,
+  //           getFiles: getFiles,
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 
   void openTemplatePreview({
     required String html,
     int? templateId,
   }) {
+    // widget.model is null for new records — always read the ID from cubit state
+    // which is guaranteed to have the ID after the silent save completes
+    final savedId = context.read<TransportMedicalDetailsCubit>().state.model.id;
+
+    if (savedId == null) {
+      debugPrint("openTemplatePreview: savedId is null, cannot open preview");
+      return;
+    }
+
     Navigator.push(
       context,
-      PageRouteBuilder(                          //  replace MaterialPageRoute
-        opaque: true,                            //  hides previous page completely
+      PageRouteBuilder(
+        opaque: true,
         pageBuilder: (_, __, ___) => BlocProvider.value(
           value: context.read<TransportMedicalDetailsCubit>(),
           child: TemplatePreviewPage(
             html: html,
             templateId: templateId,
-            transportId: widget.model!.id.toString(),
+            transportId: savedId.toString(), // ✅ from cubit, never null
             showSaveButtons: true,
             getFiles: getFiles,
           ),
@@ -1724,229 +1807,6 @@ class _TransportMedicalDetailsViewState
       ),
     );
   }
-
-//   void openTemplatePreview({
-//     required String html,
-//     int? templateId,
-//   }) {
-//     selectedTemplateHtml = html;
-//
-//     final eventInfoCubit = context.read<TransportMedicalDetailsCubit>();
-//     final int? currentTemplateId = templateId;
-//
-//     showModalBottomSheet(
-//       context: context,
-//       isScrollControlled: true,
-//       showDragHandle: false,
-//       backgroundColor: Colors.transparent,
-//       builder: (bottomSheetContext) {
-//         final height = MediaQuery.of(bottomSheetContext).size.height;
-//         final width = MediaQuery.of(bottomSheetContext).size.width;
-//
-//         return BlocProvider.value(
-//           value: eventInfoCubit,
-//           child: BlocBuilder<TransportMedicalDetailsCubit, TransportMedicalDetailsState>(
-//             builder: (context, state) {
-//               log('Attachments ${state.emailModel?.images}');
-//               return ClipRRect(
-//                 borderRadius: BorderRadius.circular(12),
-//                 child: BackdropFilter(
-//                   filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
-//                   child: Container(
-//                     height: height * 0.9,
-//                     margin: const EdgeInsets.all(16),
-//                     decoration: BoxDecoration(
-//                       color: AppColors.newColor3.withValues(alpha: 0.1),
-//                       borderRadius: BorderRadius.circular(12),
-//                       border: Border.all(
-//                         color: Colors.white.withValues(alpha: 0.4),
-//                         width: 0.7,
-//                       ),
-//                     ),
-//                     child: Column(
-//                       children: [
-//                         /// ===== HEADER =====
-//                         Padding(
-//                           padding: const EdgeInsets.all(8),
-//                           child: Row(
-//                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                             children: [
-//                               Text(
-//                                 currentTemplateId == null
-//                                     ? "Create Email Template"
-//                                     : "Edit Email Template #$currentTemplateId",
-//                                 style: const TextStyle(
-//                                   color: Colors.white,
-//                                   fontSize: 16,
-//                                 ),
-//                               ),
-//                               Row(
-//                                 children: [
-//                                   state.model.status !=2
-//                                       ? IconButton(
-//                                     tooltip: "Submit",
-//                                     icon: const Icon(
-//                                       Icons.send,
-//                                       color: Colors.white,
-//                                     ),
-//                                     onPressed: () async {
-//                                       final html =
-//                                       await quillController.getText();
-//
-//                                       if (html.trim().isEmpty) return;
-//
-//                                       await context
-//                                           .read<TransportMedicalDetailsCubit>()
-//                                           .submitTemplateAndRefresh(
-//                                         html: html,
-//                                         id: currentTemplateId,
-//                                       );
-//
-//                                       if (context.mounted) {
-//                                         Navigator.pop(context);
-//                                       }
-//                                     },
-//                                   )
-//                                       : const SizedBox(),
-//                                   IconButton(
-//                                     tooltip: "Close",
-//                                     icon: const Icon(
-//                                       Icons.close,
-//                                       color: Colors.white,
-//                                     ),
-//                                     onPressed: () async {
-//                                       final cubit = context.read<TransportMedicalDetailsCubit>();
-//
-//                                       // ✅ WAIT for save to complete
-//                                       final isSuccess = await cubit.submitForm(isSaveOnly: true);
-//
-//                                       if (!isSuccess) {
-//                                         debugPrint("Save failed");
-//                                         return;
-//                                       }
-//
-//                                       // ✅ Now ID is available in state
-//                                       final savedId = cubit.state.model.id;
-//
-//                                       if (savedId == null) {
-//                                         debugPrint("ID is still null after save");
-//                                         return;
-//                                       }
-//                                       await context
-//                                           .read<TransportMedicalDetailsCubit>()
-//                                           .getNotificationDetailsById(
-//                                         savedId.toString(),
-//                                       );
-//                                       if (context.mounted) {
-//                                         Navigator.pop(context);
-//                                       }
-//                                     },
-//                                   ),
-//                                 ],
-//                               ),
-//                             ],
-//                           ),
-//                         ),
-//
-//                         /// ===== FIXED HTML EDITOR AREA =====
-//                         SizedBox(
-//                           height: height * 0.5,
-//                           child: Padding(
-//                             padding: const EdgeInsets.symmetric(horizontal: 12),
-//                             child: HtmlEditor(
-//                               controller: quillController,
-//                               htmlToolbarOptions: const HtmlToolbarOptions(
-//                                 toolbarPosition: ToolbarPosition.aboveEditor,
-//                                 textStyle: Styles.textStyleBlack16,
-//                               ),
-//                               htmlEditorOptions: HtmlEditorOptions(
-//                                 darkMode: false,
-//                                 initialText: selectedTemplateHtml,
-//                                 autoAdjustHeight: false,
-//                               ),
-//                               otherOptions: OtherOptions(
-//                                 height: height * 1.2,
-//                               ),
-//                               callbacks: Callbacks(
-//                                 onInit: () {
-//                                   quillController.setText("""
-// <style>
-// body { background-color: transparent !important; color: white !important; }
-// * { color: white !important; }
-// </style>
-// $selectedTemplateHtml
-// """);
-//                                 },
-//                               ),
-//                             ),
-//                           ),
-//                         ),
-//
-//                         const SizedBox(height: 20),
-//
-//                         /// ===== UPLOAD LABEL + BUTTON =====
-//                         Padding(
-//                           padding: const EdgeInsets.symmetric(horizontal: 1),
-//                           child: Column(
-//                             crossAxisAlignment: CrossAxisAlignment.start,
-//                             children: [
-//                               CommonWidgets.textDisplay(
-//                                 Constants.upload,
-//                                 Styles.textStyleWhite16,
-//                               ),
-//                               uploadWidget(state),
-//                             ],
-//                           ),
-//                         ),
-//
-//                         const SizedBox(height: 12),
-//                         /// ===== SCROLLABLE ATTACHMENT CONTAINER =====
-//                         if(state.loadAttachments.isNotEmpty)...[
-//                           Expanded(
-//                             child: Padding(
-//                               padding: const EdgeInsets.symmetric(horizontal: 12),
-//                               child: Container(
-//                                 width: width,
-//                                 decoration: BoxDecoration(
-//                                   borderRadius: BorderRadius.circular(12),
-//                                   border: Border.all(
-//                                     color: Colors.white.withValues(alpha: 0.35),
-//                                     width: 0.8,
-//                                   ),
-//                                   color: Colors.white.withValues(alpha: 0.03),
-//                                 ),
-//                                 child: ClipRRect(
-//                                   borderRadius: BorderRadius.circular(12),
-//                                   child: SingleChildScrollView(
-//                                     padding: const EdgeInsets.all(8),
-//                                     child: BaseImageUpload().getAttachment(
-//                                       height: height,
-//                                       attachments: state.loadAttachments,
-//                                       files: getFiles,
-//                                       moduleCode: '',
-//                                       isDisabled: false,
-//                                       showDeleteIcon:  true,
-//                                     ),
-//                                   ),
-//                                 ),
-//                               ),
-//                             ),
-//                           ),
-//                         ],
-//
-//                         CommonWidgets.verticalSpacerWidget(height * 0.015),
-//                       ],
-//                     ),
-//
-//                   ),
-//                 ),
-//               );
-//             },
-//           ),
-//         );
-//       },
-//     );
-//   }
 
   Widget cancelButtonDisplay() {
     return AppButton(
@@ -1970,7 +1830,7 @@ class _TransportMedicalDetailsViewState
       buttonTextKey: Keys.submitButton,
       onTap: () async {
         FocusScope.of(context).unfocus();
-        BlocProvider.of<TransportMedicalDetailsCubit>(context).submitForm();
+        BlocProvider.of<TransportMedicalDetailsCubit>(context).submitForm(isSaveOnly: false, silent: false);
       },
     );
   }
@@ -2024,248 +1884,6 @@ class TemplatePreviewPage extends StatefulWidget {
   State<TemplatePreviewPage> createState() => _TemplatePreviewPageState();
 }
 
-// class _TemplatePreviewPageState extends State<TemplatePreviewPage> {
-//   final HtmlEditorController quillController = HtmlEditorController();
-//   List<ImageContent> localAttachments = [];
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     // ✅ initialize from cubit state
-//     final state = context.read<TransportMedicalDetailsCubit>().state;
-//     localAttachments = List<ImageContent>.from(state.loadAttachments);
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     final height = MediaQuery
-//         .of(context)
-//         .size
-//         .height;
-//     final width = MediaQuery
-//         .of(context)
-//         .size
-//         .width;
-//
-//     return Scaffold(
-//       appBar: AppBar(
-//         backgroundColor: const Color(0xFF2C3550),
-//         title: Text(
-//           widget.templateId == null
-//               ? "Create Email Template"
-//               : "Edit Email Template #${widget.templateId}",
-//           style: const TextStyle(color: Colors.white, fontSize: 16),
-//         ),
-//         iconTheme: const IconThemeData(color: Colors.white),
-//         actions: [
-//           if (widget.showSaveButtons)
-//             IconButton(
-//               tooltip: "Submit",
-//               icon: const Icon(Icons.send, color: Colors.white),
-//               onPressed: () async {
-//                 final html = await quillController.getText();
-//                 if (html
-//                     .trim()
-//                     .isEmpty) return;
-//
-//                 await context.read<TransportMedicalDetailsCubit>().submitTemplateAndRefresh(
-//                   html: html,
-//                   id: widget.templateId,
-//                 );
-//
-//                 await context
-//                     .read<TransportMedicalDetailsCubit>()
-//                     .getNotificationDetailsById(widget.transportId);
-//
-//                 if (context.mounted) Navigator.pop(context);
-//               },
-//             ),
-//           IconButton(
-//             tooltip: "Close",
-//             icon: const Icon(Icons.close, color: Colors.white),
-//             onPressed: () async {
-//               await context
-//                   .read<TransportMedicalDetailsCubit>()
-//                   .getNotificationDetailsById(widget.transportId);
-//               if (context.mounted) Navigator.pop(context);
-//             },
-//           ),
-//         ],
-//       ),
-//       backgroundColor: Colors.transparent,
-//       body: Stack(
-//         children: [
-//
-//           /// Background
-//           Positioned.fill(
-//             child: Image.asset('assets/images/bg2.png', fit: BoxFit.cover),
-//           ),
-//
-//           /// Blur overlay
-//           Positioned.fill(
-//             child: BackdropFilter(
-//               filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
-//               child: Container(
-//                 color: Colors.black.withValues(alpha: 0.15),
-//               ),
-//             ),
-//           ),
-//
-//           /// Content
-//           BlocBuilder<TransportMedicalDetailsCubit, TransportMedicalDetailsState>(
-//             builder: (context, state) {
-//               return Column(
-//                 children: [
-//
-//                   /// ===== HTML EDITOR =====
-//                   SizedBox(
-//                     height: height * 0.5,
-//                     child: Padding(
-//                       padding: const EdgeInsets.symmetric(horizontal: 12),
-//                       child: HtmlEditor(
-//                         controller: quillController,
-//                         htmlToolbarOptions: const HtmlToolbarOptions(
-//                           toolbarPosition: ToolbarPosition.aboveEditor,
-//                           textStyle: Styles.textStyleBlack16,
-//                         ),
-//                         htmlEditorOptions: HtmlEditorOptions(
-//                           darkMode: false,
-//                           initialText: widget.html,
-//                           autoAdjustHeight: false,
-//                         ),
-//                         otherOptions: OtherOptions(height: height * 1.2),
-//                         callbacks: Callbacks(
-//                           onInit: () {
-//                             quillController.setText("""
-// <style>
-// body { background-color: transparent !important; color: white !important; }
-// * { color: white !important; }
-// </style>
-// ${widget.html}
-// """);
-//                           },
-//                         ),
-//                       ),
-//                     ),
-//                   ),
-//
-//                   const SizedBox(height: 20),
-//
-//                   /// ===== UPLOAD =====
-//                   Padding(
-//                     padding: const EdgeInsets.symmetric(horizontal: 12),
-//                     child: Column(
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: [
-//                         CommonWidgets.textDisplay(
-//                           Constants.upload,
-//                           Styles.textStyleWhite16,
-//                         ),
-//                         _uploadWidget(context, state),
-//                       ],
-//                     ),
-//                   ),
-//
-//                   const SizedBox(height: 12),
-//
-//                   /// ===== ATTACHMENTS =====
-//                   if (state.loadAttachments.isNotEmpty)
-//                     Expanded(
-//                       child: Padding(
-//                         padding: const EdgeInsets.symmetric(horizontal: 12),
-//                         child: Container(
-//                           width: width,
-//                           decoration: BoxDecoration(
-//                             borderRadius: BorderRadius.circular(12),
-//                             border: Border.all(
-//                               color: Colors.white.withValues(alpha: 0.35),
-//                               width: 0.8,
-//                             ),
-//                             color: Colors.white.withValues(alpha: 0.03),
-//                           ),
-//                           child: ClipRRect(
-//                             borderRadius: BorderRadius.circular(12),
-//                             child: SingleChildScrollView(
-//                               padding: const EdgeInsets.all(8),
-//                               child: BaseImageUpload().getAttachment(
-//                                 height: height,
-//                                 attachments: List<ImageContent>.from(
-//                                     state.loadAttachments),
-//                                 files: widget.getFiles,
-//                                 moduleCode: '',
-//                                 isDisabled: !widget.showSaveButtons,
-//                                 showDeleteIcon: true,
-//                               ),
-//                             ),
-//                           ),
-//                         ),
-//                       ),
-//                     ),
-//
-//                   SizedBox(height: height * 0.015),
-//                 ],
-//               );
-//             },
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-//
-//   Widget _uploadWidget(BuildContext context, TransportMedicalDetailsState state) {
-//     return Container(
-//       height: 60,
-//       decoration: BoxDecoration(
-//         border: Border.all(color: const Color(0xFFCACACA), width: 1.0),
-//         borderRadius: const BorderRadius.all(Radius.circular(8)),
-//       ),
-//       child: Row(
-//         mainAxisAlignment: MainAxisAlignment.end,
-//         children: [
-//           Padding(
-//             padding: const EdgeInsets.only(right: 5.0),
-//             child: ElevatedButton.icon(
-//               style: ElevatedButton.styleFrom(
-//                 fixedSize: const Size(120, 50),
-//                 backgroundColor: Colors.transparent,
-//               ),
-//               onPressed: () {
-//                 showDialog(
-//                   context: context,
-//                   builder: (BuildContext dialogContext) {
-//                     return UploadAttachment(
-//                       onImageSelected: (ImageContent data) {
-//                         List<ImageContent> files = [];
-//                         files.add(data);
-//                         for (ImageContent image in widget.getFiles.toList()) {
-//                           files.add(image);
-//                         }
-//                         context.read<TransportMedicalDetailsCubit>().addAttachment(files);
-//                       },
-//                     );
-//                   },
-//                 );
-//               },
-//               icon: SvgPicture.asset(
-//                 AppIcon.uploadicon,
-//                 colorFilter: const ColorFilter.mode(
-//                   AppColors.backgroundWhiteColor,
-//                   BlendMode.srcIn,
-//                 ),
-//                 width: 13,
-//                 height: 13,
-//               ),
-//               label: const Text(
-//                 Constants.clicktoupload,
-//                 style: Styles.textStyleRegularNormalWhite12,
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
 class _TemplatePreviewPageState extends State<TemplatePreviewPage> {
   final HtmlEditorController quillController = HtmlEditorController();
   List<ImageContent> localAttachments = []; // ✅ local list

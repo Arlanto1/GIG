@@ -75,7 +75,7 @@ class AddMaterialItemsPopUpState extends State<AddMaterialItemsPopUp> {
         var width = MediaQuery.of(context).size.width;
 
         return SizedBox(
-          height: height / 1.8,
+          // height: height,
           width: width,
           child: Stack(
             clipBehavior: Clip.none,
@@ -99,13 +99,13 @@ class AddMaterialItemsPopUpState extends State<AddMaterialItemsPopUp> {
                         textInputType: TextInputType.text,
                         textFormKey: Keys.visitorsNameKey,
                         hintText: '',
-                        isEnable: (widget.parentStatus == 0) &&
+                        isEnable:
                             !(widget.extraProperties != null &&
                                 !widget
                                     .extraProperties!.hasWritePermission!)
                             ? true
                             : false,
-                        isDisableColor: (widget.parentStatus == 0) &&
+                        isDisableColor:
                             !(widget.extraProperties != null &&
                                 !widget
                                     .extraProperties!.hasWritePermission!)
@@ -137,100 +137,151 @@ class AddMaterialItemsPopUpState extends State<AddMaterialItemsPopUp> {
                       // ),
                       CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [
+                      //     SizedBox(
+                      //       width: 100,
+                      //       child: FlutterInputField(
+                      //         characterLimit: 5,
+                      //         textInputType: TextInputType.number,
+                      //         controller: quantityController,
+                      //         // initialValue:
+                      //         // '${widget.model.quantity ?? ''}',
+                      //         textFormKey: Keys.quantityKey,
+                      //         hintText: '',
+                      //         // isEnable: state.model.status == 10 ||
+                      //         //     state.model.status == -1 ||
+                      //         //     state.model.status == 6 ||
+                      //         //     state.model.status == 2 ||
+                      //         //     state.model.status == 3 ||
+                      //         //     state.model.status == 4 ||
+                      //         //     state.model.status ==
+                      //         //         ConstantsIntValue
+                      //         //             .mmStatusInwardWaiting ||
+                      //         //     !showSaveSubmitButtons ||
+                      //         //     isReadOnly
+                      //         //     ? false
+                      //         //     : true,
+                      //         // isDisableColor: state.model.status == 10 ||
+                      //         //     state.model.status == -1 ||
+                      //         //     state.model.status == 6 ||
+                      //         //     state.model.status == 2 ||
+                      //         //     state.model.status == 3 ||
+                      //         //     state.model.status == 4 ||
+                      //         //     !showSaveSubmitButtons ||
+                      //         //     state.model.status ==
+                      //         //         ConstantsIntValue
+                      //         //             .mmStatusInwardWaiting ||
+                      //         //     !state.model.lock.isEmptyOrNull
+                      //         //     ? true
+                      //         //     : false,
+                      //         onChange: (String? value) {
+                      //           if (value != null) {
+                      //             widget.model.quantity = int.parse(value);
+                      //             quantityController.text =value;
+                      //
+                      //           }
+                      //
+                      //         },
+                      //         validateTextField: (String? user) {},
+                      //       ),
+                      //
+                      //       // FlutterInputField(
+                      //       //   // initialValue: '${widget.model.penaltyAmount}',
+                      //       //   controller: penaltyAmountController,
+                      //       //   textInputType: TextInputType.number,
+                      //       //   textFormKey: Keys.phoneNumberKey,
+                      //       //   hintText: '',
+                      //       //   isEnable: false,
+                      //       //   isDisableColor: true,
+                      //       //   onChange: (String value) {
+                      //       //     // widget.payRate.perHour = double.parse(value);
+                      //       //     // BlocProvider.of<PayRateCubit>(widget.mainContext)
+                      //       //     //     .onModelValueChange(widget.payRate);
+                      //       //   },
+                      //       //   validateTextField: (String? user) {},
+                      //       // ),
+                      //     ),
+                      //     TileWidget(
+                      //       name: widget.model.unit?.name ?? 'Unit',
+                      //       width: 90,
+                      //     ),
+                      //     if (!isReadOnly) ...[
+                      //       InkWell(
+                      //         onTap: () {
+                      //           BaseOrganisationDialog().departmentDialog(
+                      //             context: context,
+                      //             organisations: widget.users,
+                      //             onTap: (Organisation org) {
+                      //               unitController.text = org.name ?? '';
+                      //               setState(() {
+                      //                 widget.model.unit = org;
+                      //               });
+                      //             },
+                      //           );
+                      //         },
+                      //
+                      //         child: const AddButtonWidget(
+                      //           height: 50,
+                      //         ),
+                      //       ),
+                      //     ],
+                      //
+                      //   ],
+                      // ),
+
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          // Quantity field
                           SizedBox(
                             width: 100,
                             child: FlutterInputField(
                               characterLimit: 5,
                               textInputType: TextInputType.number,
                               controller: quantityController,
-                              // initialValue:
-                              // '${widget.model.quantity ?? ''}',
                               textFormKey: Keys.quantityKey,
                               hintText: '',
-                              // isEnable: state.model.status == 10 ||
-                              //     state.model.status == -1 ||
-                              //     state.model.status == 6 ||
-                              //     state.model.status == 2 ||
-                              //     state.model.status == 3 ||
-                              //     state.model.status == 4 ||
-                              //     state.model.status ==
-                              //         ConstantsIntValue
-                              //             .mmStatusInwardWaiting ||
-                              //     !showSaveSubmitButtons ||
-                              //     isReadOnly
-                              //     ? false
-                              //     : true,
-                              // isDisableColor: state.model.status == 10 ||
-                              //     state.model.status == -1 ||
-                              //     state.model.status == 6 ||
-                              //     state.model.status == 2 ||
-                              //     state.model.status == 3 ||
-                              //     state.model.status == 4 ||
-                              //     !showSaveSubmitButtons ||
-                              //     state.model.status ==
-                              //         ConstantsIntValue
-                              //             .mmStatusInwardWaiting ||
-                              //     !state.model.lock.isEmptyOrNull
-                              //     ? true
-                              //     : false,
                               onChange: (String? value) {
                                 if (value != null) {
                                   widget.model.quantity = int.parse(value);
-                                  quantityController.text =value;
-
+                                  quantityController.text = value;
                                 }
-
                               },
                               validateTextField: (String? user) {},
                             ),
-
-                            // FlutterInputField(
-                            //   // initialValue: '${widget.model.penaltyAmount}',
-                            //   controller: penaltyAmountController,
-                            //   textInputType: TextInputType.number,
-                            //   textFormKey: Keys.phoneNumberKey,
-                            //   hintText: '',
-                            //   isEnable: false,
-                            //   isDisableColor: true,
-                            //   onChange: (String value) {
-                            //     // widget.payRate.perHour = double.parse(value);
-                            //     // BlocProvider.of<PayRateCubit>(widget.mainContext)
-                            //     //     .onModelValueChange(widget.payRate);
-                            //   },
-                            //   validateTextField: (String? user) {},
-                            // ),
                           ),
-                          TileWidget(
-                            name: widget.model.unit?.name ?? 'Unit',
-                            width: 120,
+                          // Unit tile - constrain width
+                          SizedBox(
+                            width: 90,
+                            child: TileWidget(
+                              name: widget.model.unit?.name ?? 'Unit',
+                              width: 90,
+                            ),
                           ),
-                          if (!isReadOnly) ...[
-                            InkWell(
-                              onTap: () {
-                                BaseOrganisationDialog().departmentDialog(
-                                  context: context,
-                                  organisations: widget.users,
-                                  onTap: (Organisation org) {
-                                    unitController.text = org.name ?? '';
-                                    setState(() {
-                                      widget.model.unit = org;
-                                    });
-                                  },
-                                );
-                              },
-
-                              child: const AddButtonWidget(
-                                height: 50,
+                          // Dropdown button - constrain width
+                          if (!isReadOnly)
+                            SizedBox(
+                              width: 50,
+                              child: InkWell(
+                                onTap: () {
+                                  BaseOrganisationDialog().departmentDialog(
+                                    context: context,
+                                    organisations: widget.users,
+                                    onTap: (Organisation org) {
+                                      unitController.text = org.name ?? '';
+                                      setState(() {
+                                        widget.model.unit = org;
+                                      });
+                                    },
+                                  );
+                                },
+                                child: const AddButtonWidget(height: 50),
                               ),
                             ),
-                          ],
-
                         ],
                       ),
-
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                       if(!widget.isInward)...[
@@ -246,13 +297,13 @@ class AddMaterialItemsPopUpState extends State<AddMaterialItemsPopUp> {
                           textInputType: TextInputType.text,
                           textFormKey: Keys.visitorsNameKey,
                           hintText: '',
-                          isEnable: (widget.parentStatus == 0) &&
+                          isEnable:
                               !(widget.extraProperties != null &&
                                   !widget
                                       .extraProperties!.hasWritePermission!)
                               ? true
                               : false,
-                          isDisableColor: (widget.parentStatus == 0) &&
+                          isDisableColor:
                               !(widget.extraProperties != null &&
                                   !widget
                                       .extraProperties!.hasWritePermission!)
@@ -268,11 +319,9 @@ class AddMaterialItemsPopUpState extends State<AddMaterialItemsPopUp> {
                         ),
                       ],
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                      CommonWidgets.verticalSpacerWidget(height * 0.02),
-                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      CommonWidgets.verticalSpacerWidget(height * 0.03),
                       buttonViews(widget.mainContext, width),
-                      CommonWidgets.verticalSpacerWidget(height * 0.02),
+                      // CommonWidgets.verticalSpacerWidget(height * 0.02),
                     ],
                   ),
                 ),
@@ -289,7 +338,7 @@ class AddMaterialItemsPopUpState extends State<AddMaterialItemsPopUp> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         cancelButton(width),
-        if ((widget.parentStatus == 0) &&
+        if (
             !(widget.extraProperties != null &&
                 !widget.extraProperties!.hasWritePermission!)) ...[
           saveButton(width, widget.onSubmit)

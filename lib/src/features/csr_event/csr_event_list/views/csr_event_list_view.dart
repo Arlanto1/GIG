@@ -10,9 +10,11 @@ class CSREventListView extends StatefulWidget {
   const CSREventListView({
     super.key,
     required this.isCSREvent,
+    required this.isSportEvent,
   });
 
   final bool isCSREvent;
+  final bool isSportEvent;
 
   @override
   State<CSREventListView> createState() => _CSREventListViewState();
@@ -84,7 +86,22 @@ class _CSREventListViewState extends State<CSREventListView> {
     return BlocConsumer<CSREventBloc, CSREventState>(
       listener: (context, state) {},
       builder: (context, state) {
-        return Scaffold(
+        return PopScope(
+            canPop: false,
+            onPopInvokedWithResult: (didPop, result) {
+              if (didPop) return;
+              if (Navigator.canPop(context)) {
+                Navigator.pop(context);
+              } else {
+                // fallback to list screen
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  csrEventListRoute, arguments: {ConstantsArgument.isCSREvent : widget.isCSREvent, ConstantsArgument.isSportEvent : widget.isSportEvent}, // or appropriate route
+                      (route) => false,
+                );
+              }
+            },
+        child:  Scaffold(
           backgroundColor:AppColors.newColor,
           extendBody: true,
           extendBodyBehindAppBar: true,
@@ -119,7 +136,7 @@ class _CSREventListViewState extends State<CSREventListView> {
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: widget.isCSREvent ? Constants.cSREventList : Constants.sportEventList,
-            showPopUp: true,
+            showPopUp: false,
             showSaveButton: false,
             showSubmitButton: false,
             showDisLikeButton: false,
@@ -384,7 +401,7 @@ class _CSREventListViewState extends State<CSREventListView> {
               );
             },
           ),
-        );
+        ),);
 
       },
     );
@@ -400,13 +417,15 @@ class _CSREventListViewState extends State<CSREventListView> {
     var nav = Navigator.of(context);
     ShowEPGridsModel showEPGridsModel =
     await CSREventServices().showEventGrids(id);
+    if (!mounted) return;
     nav.pushNamed(
       csrEventDetailsTabRoute,
       arguments: {
         ConstantsArgument.id: id,
         'eventStatus': eventStatus,
         ConstantsArgument.title: Constants.cSREventList,
-        ConstantsArgument.isCSREvent: widget.isCSREvent ? true : false,
+        ConstantsArgument.isCSREvent: widget.isCSREvent,
+        ConstantsArgument.isSportEvent: widget.isSportEvent,
         ConstantsArgument.showEPGridsModel: showEPGridsModel,
         ConstantsArgument.extraProperties:
         ExtraProperties(hasWritePermission: hasWritePermission),

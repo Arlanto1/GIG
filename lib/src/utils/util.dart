@@ -547,6 +547,7 @@ class Utils {
           ),
           child: Text(
             statusText,
+            maxLines: 1,
             style: TextStyle(
               color: textColor,
               fontWeight: FontWeight.bold,
@@ -1302,6 +1303,137 @@ class Utils {
   }
 
 
+
+
+  Widget buildCSRStatusRow(int status) {
+    String statusText;
+    Color bgColor;
+    Color textColor;
+    Color borderColor;
+
+    switch (status) {
+      case 0:
+        statusText = 'Draft';
+        bgColor =  Colors.orange.shade200;
+        borderColor = const Color(0xFF9E9E9E);
+        textColor = Colors.black87;
+        break;
+
+      case 1:
+        statusText = 'Business User Review';
+        bgColor = const Color(0xFF90CAF9);
+        borderColor = const Color(0xFF42A5F5);
+        textColor = Colors.white;
+        break;
+
+      case 2:
+        statusText = 'LSM Review';
+        bgColor = const Color(0xFFFFF59D);
+        borderColor = const Color(0xFFFDD835);
+        textColor = Colors.black87;
+        break;
+
+      case 3:
+        statusText = 'LSM Approved';
+        bgColor = const Color(0xFF4CAF50);
+        borderColor = const Color(0xFF2E7D32);
+        textColor = Colors.white;
+        break;
+
+      case 14:
+        statusText = 'Before event Start';
+        bgColor = const Color(0xFFFFCDD2);
+        borderColor = const Color(0xFFD32F2F);
+        textColor = const Color(0xFFB71C1C);
+        break;
+
+      case 5:
+        statusText = 'Event Started';
+        bgColor = const Color(0xFFB39DDB);
+        borderColor = const Color(0xFF673AB7);
+        textColor = Colors.white;
+        break;
+
+      case 6:
+        statusText = 'Vendor Approved';
+        bgColor = const Color(0xFF26A69A);
+        borderColor = const Color(0xFF004D40);
+        textColor = Colors.white;
+        break;
+
+      case 7:
+        statusText = 'Vendor Rejected';
+        bgColor = const Color(0xFFFFAB91);
+        borderColor = const Color(0xFFD84315);
+        textColor = Colors.white;
+        break;
+
+      case 8:
+        statusText = 'Business User POC Review';
+        bgColor = const Color(0xFFA5D6A7);
+        borderColor = const Color(0xFF388E3C);
+        textColor = Colors.white;
+        break;
+
+      case 9:
+        statusText = 'Business User POC Approved';
+        bgColor = const Color(0xFF2E7D32);
+        borderColor = const Color(0xFF1B5E20);
+        textColor = Colors.white;
+        break;
+
+      case 10:
+        statusText = 'Closed';
+        bgColor = const Color(0xFF78909C);
+        borderColor = const Color(0xFF455A64);
+        textColor = Colors.white;
+        break;
+
+      case -1:
+        statusText = 'Cancelled';
+        bgColor = const Color(0xFFFFCDD2);
+        borderColor = const Color(0xFFE53935);
+        textColor = const Color(0xFFB71C1C);
+        break;
+
+      default:
+        statusText = '';
+        bgColor = const Color(0xFFE0E0E0);
+        borderColor = const Color(0xFF9E9E9E);
+        textColor = const Color(0xFF424242);
+    }
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const Text(
+          'Status:',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+          ),
+        ),
+        const SizedBox(width: 8),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+          decoration: BoxDecoration(
+            color: bgColor.withValues(alpha: 0.9),
+            borderRadius: BorderRadius.circular(30),
+            border: Border.all(color: borderColor, width: 0.1),
+          ),
+          child: Text(
+            statusText,
+            style: TextStyle(
+              color: textColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 10,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 
 
   Widget buildCSREventStatusRow(int status) {
@@ -2927,6 +3059,27 @@ class Utils {
     );
   }
 
+
+  Widget transportIncidentType(int incidentType) {
+    String incidentTypeText;
+    switch (incidentType) {
+      case 1:
+        incidentTypeText = 'Medical Emergency';
+        break;
+      case 0:
+        incidentTypeText = 'Transport';
+        break;
+      default:
+        incidentTypeText = ''; // Handle the default case if needed
+    }
+    return IntrinsicWidth(
+      child: Row(
+        children: [
+          textHandling('Incident Type : ', incidentTypeText),
+        ],
+      ),
+    );
+  }
   Widget passCategory(int category) {
     String categoryTypeText;
     switch (category) {

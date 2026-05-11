@@ -9,12 +9,12 @@ class TransportMedicalRequest {
   late final TransportMedicalModel transportModel;
 
   TransportMedicalRequest.fromJson(Map<String, dynamic> json) {
-    transportModel = TransportMedicalModel.fromJson(json['patrolling']);
+    transportModel = TransportMedicalModel.fromJson(json['emergencyIncident']);
   }
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
-    data['patrolling'] = transportModel.toJson();
+    data['emergencyIncident'] = transportModel.toJson();
     return data;
   }
 }

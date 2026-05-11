@@ -9,7 +9,19 @@ class ShowPdf extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Theme(
+        data: Theme.of(context).copyWith(
+          appBarTheme: Theme.of(context).appBarTheme.copyWith(
+            foregroundColor: Colors.black,
+            titleTextStyle: const TextStyle(
+              color: Colors.black,
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        child:
+     Scaffold(
       appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: 'PDF Report',
@@ -20,6 +32,8 @@ class ShowPdf extends StatelessWidget {
           showLikeButton: false,
           showCustomIcon: true,
           customIcon: Icons.download,
+          color: Colors.black,
+          titleColor: Colors.black,
           onTapCustomIcon: () async {
             // Ask the user to save it
             final params = SaveFileDialogParams(sourceFilePath: filePath);
@@ -35,6 +49,6 @@ class ShowPdf extends StatelessWidget {
               filePath: filePath,
             )
           : const Center(child: CircularProgressIndicator()),
-    );
+    ));
   }
 }

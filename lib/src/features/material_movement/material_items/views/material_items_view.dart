@@ -80,7 +80,7 @@ class _MaterialItemsViewView extends State<MaterialItemsView> {
       //   isReadOnly = true;
       // }
       return Scaffold(
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppColors.newColor,
         extendBodyBehindAppBar: true,
         extendBody: true,
         // floatingActionButton: (widget.parentStatus == 0) &&
@@ -90,7 +90,7 @@ class _MaterialItemsViewView extends State<MaterialItemsView> {
         //     ? Flutterfloatingbutton(
         //         // foregroundColor: AppColors.backgroundWhiteColor,
         //         onPressed: () {
-        //           showAddContactPopUp(
+        //           showAddContactPopUp(x
         //             context: context,
         //             contact: MaterialMovementItem(),
         //             unit: state.units ?? [],
@@ -99,7 +99,7 @@ class _MaterialItemsViewView extends State<MaterialItemsView> {
         //       )
         //     : null,
         bottomNavigationBar: CustomBottomNavigationBar(
-          hasAddPermission:(widget.parentStatus == 0) &&
+          hasAddPermission:
               !(widget.extraProperties != null &&
                   !widget.extraProperties!.hasWritePermission!) &&
               widget.lock.isEmptyOrNull ? true : false,
@@ -270,7 +270,7 @@ class _MaterialItemsViewView extends State<MaterialItemsView> {
                                       },
                                     );
                                   },
-                                  showEditButton: widget.parentStatus == 0 &&
+                                  showEditButton:
                                       widget.lock.isEmptyOrNull,
                                   // onEditTap: (selectedIndex) async {
                                   //   // your edit logic
@@ -312,7 +312,7 @@ class _MaterialItemsViewView extends State<MaterialItemsView> {
                                       },
                                     );
                                   },
-                                  showDeleteButton: widget.parentStatus == 0 &&
+                                  showDeleteButton: (widget.parentStatus == 0 || widget.parentStatus ==1 ) &&
                                       widget.lock.isEmptyOrNull,
                                   // onDeleteTap: widget.parentStatus == 0
                                   //     ? (selectedIndex) async {
@@ -391,7 +391,52 @@ class _MaterialItemsViewView extends State<MaterialItemsView> {
   //     },
   //   );
   // }
-
+  //
+  // showAddContactPopUp({
+  //   required BuildContext context,
+  //   required MaterialMovementItem contact,
+  //   required final List<Organisation> unit,
+  // }) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext dialogContext) {
+  //       return Dialog(
+  //         backgroundColor: Colors.transparent,
+  //         insetPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 40),
+  //         child: ClipRRect(
+  //           borderRadius: BorderRadius.circular(20),
+  //           child: BackdropFilter(
+  //             filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+  //             child: Container(
+  //               decoration: BoxDecoration(
+  //                 color: Colors.white.withValues(alpha: 0.1),
+  //                 borderRadius: BorderRadius.circular(20),
+  //                 border: Border.all(
+  //                   color: Colors.white.withValues(alpha: 0.3),
+  //                   width: 0.7,
+  //                 ),
+  //               ),
+  //               child: AddMaterialItemsPopUp(
+  //                 title: widget.title,
+  //                 model: contact,
+  //                 mainContext: context,
+  //                 users: unit,
+  //                 parentStatus: widget.parentStatus,
+  //                 isInward: widget.isInWard,
+  //                 onSubmit: (MaterialMovementItem model) {
+  //                   FocusScope.of(context).unfocus();
+  //                   BlocProvider.of<MaterialItemsBloc>(context).add(
+  //                     SaveRecord(model, widget.id),
+  //                   );
+  //                 },
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
   showAddContactPopUp({
     required BuildContext context,
     required MaterialMovementItem contact,
@@ -400,27 +445,41 @@ class _MaterialItemsViewView extends State<MaterialItemsView> {
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
-        log('widget.MMModel ${widget.isInWard}');
-        log('parentStatu ${widget.parentStatus}');
-
-        return AddMaterialItemsPopUp(
-          title: widget.title,
-          model: contact,
-          mainContext: context,
-          users: unit,
-          parentStatus: widget.parentStatus,
-          isInward: widget.isInWard,
-          onSubmit: (MaterialMovementItem model) {
-            //loginFormKey.currentState!.validate();
-            FocusScope.of(context).unfocus();
-
-            BlocProvider.of<MaterialItemsBloc>(context).add(
-              SaveRecord(
-                model,
-                widget.id,
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          insetPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0), // ← controls top/bottom space
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.3),
+                    width: 0.7,
+                  ),
+                ),
+                child: SingleChildScrollView( // ← key fix
+                  child: AddMaterialItemsPopUp(
+                    title: widget.title,
+                    model: contact,
+                    mainContext: context,
+                    users: unit,
+                    parentStatus: widget.parentStatus,
+                    isInward: widget.isInWard,
+                    onSubmit: (MaterialMovementItem model) {
+                      FocusScope.of(context).unfocus();
+                      BlocProvider.of<MaterialItemsBloc>(context).add(
+                        SaveRecord(model, widget.id),
+                      );
+                    },
+                  ),
+                ),
               ),
-            );
-          },
+            ),
+          ),
         );
       },
     );

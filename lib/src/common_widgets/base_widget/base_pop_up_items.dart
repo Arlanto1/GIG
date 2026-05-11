@@ -98,6 +98,7 @@ class BasePopUpItems extends StatefulWidget {
   final bool isCSREventProtectionStatus;
   final bool isPatrollingStatus;
   final bool isDutyPostMasterStatus;
+  final int? transportIncidentType;
   @override
   State<BasePopUpItems> createState() => _BasePopUpItemsState();
 
@@ -168,6 +169,7 @@ class BasePopUpItems extends StatefulWidget {
     this.isShiftScheduleStatus = false,
     this.handOverSecurity,
     this.incidentType,
+    this.transportIncidentType,
     this.srh,
     this.keyType,
     this.type,
@@ -1067,6 +1069,15 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Utils().incidentType(widget.incidentType ?? 0),
+          ],
+        ),
+      ],
+      if (widget.transportIncidentType != null) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Utils().transportIncidentType(widget.transportIncidentType ?? 0),
           ],
         ),
       ],

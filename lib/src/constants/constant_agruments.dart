@@ -41,6 +41,8 @@ class ConstantsArgument {
   static const String unit = "unit";
   static const String isInward = "isInward";
   static const String isCSREvent = "isCSREvent";
+  static const String isSportEvent = "isSportEvent";
+  static const String isAnnualPowerShutDown = "isAnnualPowerShutDown";
   static const String isTransport = "isTransport";
 
 

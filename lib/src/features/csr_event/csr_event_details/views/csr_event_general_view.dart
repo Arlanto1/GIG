@@ -9,12 +9,14 @@ class CSRGeneralInfoView extends StatefulWidget {
   final CSREventGiModel? model;
   final ExtraProperties? extraProperties;
   final bool isCSREvent;
+  final bool isSportEvent;
 
   const CSRGeneralInfoView({
     this.model,
     super.key,
     this.extraProperties,
     required this.isCSREvent,
+    required this.isSportEvent,
   });
 
   @override
@@ -65,7 +67,7 @@ log('widget.isCSREvent ${widget.isCSREvent}');
               // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);
-              Navigator.pop(context);
+              // Navigator.pop(context);
               Navigator.popAndPushNamed(
                 context,
                 csrEventListRoute,
@@ -1124,6 +1126,7 @@ log('widget.isCSREvent ${widget.isCSREvent}');
                         ),
                         child: Column(
                           children: [
+
                             /// HEADER
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -1132,7 +1135,7 @@ log('widget.isCSREvent ${widget.isCSREvent}');
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      "Type",
+                                      "Role",
                                       style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                                     ),
                                   ),
@@ -1161,10 +1164,21 @@ log('widget.isCSREvent ${widget.isCSREvent}');
                                 ),
                                 child: Row(
                                   children: [
-                                    /// Type
+                                    /// Role
+                                    // Expanded(
+                                    //   child: Text(
+                                    //     '${item.role}',
+                                    //     style: const TextStyle(color: Colors.white),
+                                    //   ),
+                                    // ),
                                     Expanded(
                                       child: Text(
-                                        '${item.type}',
+                                        {
+                                          3: 'ROC',
+                                          0: 'Escalation 1 (SSM)',
+                                          1: 'Escalation 2 (ASL)',
+                                          2: 'Escalation 3 (SRH)',
+                                        }[item.role] ?? 'Unknown',
                                         style: const TextStyle(color: Colors.white),
                                       ),
                                     ),

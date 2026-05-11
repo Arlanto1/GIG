@@ -572,72 +572,126 @@ class _SstIncidentGeneralInfoViewState
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.02),
 
+                                // ///From Date
+                                // CommonWidgets.textDisplay(
+                                //     // state.labels?.locale.date ??
+                                //     //     state.labels?.defaultLocale.system ??
+                                //         Constants.fromDate,
+                                //     isMandatory: true,
+                                //     Styles.textStyleWhite16),
+                                // CommonWidgets.verticalSpacerWidget(
+                                //     height * 0.01),
+                                // BaseDate()
+                                //     .datePickerWidgetLoading(
+                                //   context: context,
+                                //   textController:
+                                //   fromDateController,
+                                //   isDisabled:
+                                //   disableForm,
+                                //   onlyDate: false,
+                                //   onChange: (String value) {
+                                //     fromDateController
+                                //         .text = value;
+                                //     state.model
+                                //         .fromDate =
+                                //         value;
+                                //     BlocProvider.of<
+                                //         SstIncidentGeneralInfoCubit>(
+                                //         context)
+                                //         .onModelValueChange(
+                                //         state.model);
+                                //   },
+                                // ),
+                                // CommonWidgets.verticalSpacerWidget(
+                                //     height * 0.02),
+                                //
+                                // ///To Date
+                                // CommonWidgets.textDisplay(
+                                //   // state.labels?.locale.date ??
+                                //   //     state.labels?.defaultLocale.system ??
+                                //     Constants.toDate,
+                                //     isMandatory: true,
+                                //     Styles.textStyleWhite16),
+                                // CommonWidgets.verticalSpacerWidget(
+                                //     height * 0.01),
+                                // BaseDate()
+                                //     .datePickerWidgetLoading(
+                                //   context: context,
+                                //   textController:
+                                //   toDateController,
+                                //   isDisabled:
+                                //   disableForm,
+                                //   onlyDate: false,
+                                //   onChange: (String value) {
+                                //     toDateController
+                                //         .text = value;
+                                //     state.model
+                                //         .toDate =
+                                //         value;
+                                //     BlocProvider.of<
+                                //         SstIncidentGeneralInfoCubit>(
+                                //         context)
+                                //         .onModelValueChange(
+                                //         state.model);
+                                //   },
+                                // ),
+                                // CommonWidgets.verticalSpacerWidget(
+                                //     height * 0.02),
+
                                 ///From Date
                                 CommonWidgets.textDisplay(
-                                    // state.labels?.locale.date ??
-                                    //     state.labels?.defaultLocale.system ??
-                                        Constants.fromDate,
+                                    Constants.fromDate,
                                     isMandatory: true,
                                     Styles.textStyleWhite16),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
-                                BaseDate()
-                                    .datePickerWidgetLoading(
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+                                BaseDate().datePickerWidgetLoading(
                                   context: context,
-                                  textController:
-                                  fromDateController,
-                                  isDisabled:
-                                  disableForm,
+                                  textController: fromDateController,
+                                  isDisabled: disableForm,
                                   onlyDate: false,
+                                  showPastDate: false,
                                   onChange: (String value) {
-                                    fromDateController
-                                        .text = value;
-                                    state.model
-                                        .fromDate =
-                                        value;
-                                    BlocProvider.of<
-                                        SstIncidentGeneralInfoCubit>(
-                                        context)
-                                        .onModelValueChange(
-                                        state.model);
+                                    fromDateController.text = value;
+                                    state.model.fromDate = Utils().formatTime(value);  // ← store formatted
+                                    BlocProvider.of<SstIncidentGeneralInfoCubit>(context)
+                                        .onModelValueChange(state.model);
+                                    if (mounted) setState(() {});  // ← trigger rebuild so toDate picker refreshes
                                   },
                                 ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.02),
+                                CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                                 ///To Date
                                 CommonWidgets.textDisplay(
-                                  // state.labels?.locale.date ??
-                                  //     state.labels?.defaultLocale.system ??
                                     Constants.toDate,
                                     isMandatory: true,
                                     Styles.textStyleWhite16),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
-                                BaseDate()
-                                    .datePickerWidgetLoading(
+                                CommonWidgets.verticalSpacerWidget(height * 0.01),
+                                BaseDate().datePickerWidgetLoading(
                                   context: context,
-                                  textController:
-                                  toDateController,
-                                  isDisabled:
-                                  disableForm,
+                                  textController: toDateController,
+                                  isDisabled: disableForm,
                                   onlyDate: false,
+                                  notFlagDate: true,
+                                  showPastDate: false,
+                                  fromDate: state.model.fromDate?.isNotEmpty == true   // ← key part
+                                      ? () {
+                                    try {
+                                      int timestamp = int.parse(state.model.fromDate!);
+                                      DateTime dt = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+                                      return dt.toIso8601String();
+                                    } catch (_) {
+                                      return state.model.fromDate;
+                                    }
+                                  }()
+                                      : null,
                                   onChange: (String value) {
-                                    toDateController
-                                        .text = value;
-                                    state.model
-                                        .toDate =
-                                        value;
-                                    BlocProvider.of<
-                                        SstIncidentGeneralInfoCubit>(
-                                        context)
-                                        .onModelValueChange(
-                                        state.model);
+                                    toDateController.text = value;
+                                    state.model.toDate = Utils().formatTime(value);
+                                    BlocProvider.of<SstIncidentGeneralInfoCubit>(context)
+                                        .onModelValueChange(state.model);
                                   },
                                 ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.02),
-
+                                CommonWidgets.verticalSpacerWidget(height * 0.02),
                                 /// System
                                 CommonWidgets.textDisplay(
                                     state.labels?.locale.system ??

@@ -215,7 +215,7 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
                   arguments: {
                     "MaterialMovementModel": materialMovementModel,
                     "isInward": false,
-                    "isCreate": true,
+                    "isCreate": false,
                     "title": Constants.materialMovementOutwardCreate,
                   });
               break;

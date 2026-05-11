@@ -103,6 +103,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
     this.isTitleCenter,
     this.isVisible,
     this.titleWidget,
+    this.titleColor,
   });
 
   final String? title;
@@ -112,7 +113,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
   final bool? isTitleCenter;
   final bool? isVisible;
   final Widget? titleWidget;
-
+  final Color? titleColor;
   // @override
   // Widget build(BuildContext context) {
   //   return AppBar(
@@ -211,7 +212,9 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
               title: titleWidget ??
                   Text(
                     title ?? '',
-                    style: Styles.textStyleRegularNormalWhite18,
+                    style: Styles.textStyleRegularNormalWhite18.copyWith(
+                      color: titleColor ?? Colors.white,  // ← use titleColor
+                    ),
                   ),
               actions: action,
             ),

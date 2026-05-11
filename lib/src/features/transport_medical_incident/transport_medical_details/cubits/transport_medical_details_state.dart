@@ -108,7 +108,7 @@ class TransportMedicalDetailsState extends Equatable {
       return const ErrorResponse(status: false, message: 'Please add Entities');
     }
 
-    if (model.map == null ) {
+    if (model.incidentType == 0  && model.map == null ) {
       return const ErrorResponse(status: false, message: 'Please add map Attachment');
     }
     if (model.escortGuard?.email != null &&

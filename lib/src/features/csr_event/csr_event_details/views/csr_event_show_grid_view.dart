@@ -8,6 +8,7 @@ class CsrEventShowGridView extends StatefulWidget {
   final String title;
   final int eventStatus;
   final bool isCSREvent;
+  final bool isSportEvent;
   final ShowEPGridsModel showEPGridsModel;
 
   const CsrEventShowGridView({
@@ -17,6 +18,7 @@ class CsrEventShowGridView extends StatefulWidget {
     required this.eventStatus,
     required this.showEPGridsModel,
     required this.isCSREvent,
+    required this.isSportEvent,
   });
 
   @override
@@ -128,9 +130,12 @@ class _CsrEventShowGridViewState extends State<CsrEventShowGridView> {
                                     ConstantsArgument
                                         .isCSREvent:
                                     widget.isCSREvent,
+                                    ConstantsArgument.isSportEvent : widget.isSportEvent,
                                     ConstantsArgument.editForm:
                                     widget.showEPGridsModel
                                         .editBefore,
+                                    ConstantsArgument.isEventProtection: false,
+                                    ConstantsArgument.isAnnualPowerShutDown: false,
                                   },
                                 );
                               },
@@ -153,9 +158,12 @@ class _CsrEventShowGridViewState extends State<CsrEventShowGridView> {
                                     ConstantsArgument
                                         .isCSREvent:
                                     widget.isCSREvent,
+                                    ConstantsArgument.isSportEvent : widget.isSportEvent,
                                     ConstantsArgument.editForm:
                                     widget.showEPGridsModel
                                         .during,
+                                    ConstantsArgument.isEventProtection: false,
+                                    ConstantsArgument.isAnnualPowerShutDown: false,
                                   },
                                 );
                               },
@@ -195,9 +203,12 @@ class _CsrEventShowGridViewState extends State<CsrEventShowGridView> {
                                     ConstantsArgument
                                         .isCSREvent:
                                     widget.isCSREvent,
+                                    ConstantsArgument.isSportEvent : widget.isSportEvent,
                                     ConstantsArgument.editForm:
                                     widget.showEPGridsModel
                                         .editAfter,
+                                    ConstantsArgument.isEventProtection: false,
+                                    ConstantsArgument.isAnnualPowerShutDown: false,
                                   },
                                 );
                               },

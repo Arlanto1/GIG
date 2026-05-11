@@ -1078,6 +1078,7 @@ class BaseListTileItem extends StatefulWidget {
   final Organisation? vendors;
   final int? workShift;
   final bool isWorkShift;
+  final int? transportIncidentType;
 
   // final Item userItem;
   final int? index;
@@ -1171,6 +1172,7 @@ class BaseListTileItem extends StatefulWidget {
     this.isCSREventProtectionStatus= false,
     this.isPatrollingStatus = false,
     this.isDutyPostMasterStatus = false,
+    this.transportIncidentType,
   });
 
   @override
@@ -1437,6 +1439,16 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           ],
                         ),
                       ],
+                      if (widget.transportIncidentType != null) ...[
+                        CommonWidgets.verticalSpacerWidget(5),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Utils().transportIncidentType(widget.transportIncidentType ?? 0),
+                          ],
+                        ),
+                      ],
+
                       // if (widget.status != null &&
                       //     widget.isContactDetailsStatus == true &&
                       //     widget.isEventProtectionStatus == false) ...[
@@ -1525,11 +1537,24 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                         widget.isMaterialMovementStatus == true) &&
                     !widget.isMasterGuard) ...[
                   CommonWidgets.horizontalSpacerWidget(5),
-                  IntrinsicWidth(
-                    child: Utils()
-                        .buildMaterialMovementStatusRow(widget.status ?? 0),
-                  )
+    // Flexible(
+    //              child:  IntrinsicWidth(
+    //                 child: Utils()
+    //                     .buildMaterialMovementStatusRow(widget.status ?? 0),
+    //               )
+    // )
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Utils().buildMaterialMovementStatusRow(widget.status ?? 0),
+                      ),
+                    ],
+                  ),
                 ],
+
+
                 if (widget.status != 0 && widget.isMasterGuard) ...[
                   CommonWidgets.horizontalSpacerWidget(5),
                   Utils().buildMasterDataStatusRow(widget.status ?? 0),

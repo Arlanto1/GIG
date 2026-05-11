@@ -384,6 +384,7 @@ class EventProtectionDetails extends StatelessWidget {
   final int eventStatus;
   final bool isEventProtection;
   final ShowEPGridsModel showEPGridsModel;
+  final bool isAnnualPowerShutDown;
 
   EventProtectionDetails({
     super.key,
@@ -392,6 +393,7 @@ class EventProtectionDetails extends StatelessWidget {
     required this.eventStatus,
     required this.showEPGridsModel,
     required this.isEventProtection,
+    required this.isAnnualPowerShutDown
   });
 
   final EventProtectionServices services = EventProtectionServices();
@@ -505,6 +507,7 @@ class EventProtectionDetails extends StatelessWidget {
                                   ConstantsArgument.editForm:
                                   showEPGridsModel
                                       .editBefore,
+                                  ConstantsArgument.isAnnualPowerShutDown: isAnnualPowerShutDown,
                                 },
                               );
                             },
@@ -530,6 +533,8 @@ class EventProtectionDetails extends StatelessWidget {
                                   ConstantsArgument
                                       .isEventProtection:
                                   isEventProtection,
+                                  ConstantsArgument.isAnnualPowerShutDown: isAnnualPowerShutDown,
+
                                 },
                               );
                             },
@@ -555,6 +560,8 @@ class EventProtectionDetails extends StatelessWidget {
                                   ConstantsArgument
                                       .isEventProtection:
                                   isEventProtection,
+                                  ConstantsArgument.isAnnualPowerShutDown: isAnnualPowerShutDown,
+
                                 },
                               );
                             },

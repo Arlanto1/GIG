@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:math' as math;
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/article_found_register_module/foundlist/models/foundlist_model.dart';
@@ -71,8 +70,8 @@ class EventInfoCubit extends Cubit<EventInfoState> {
       final notificationItems = notificationResponse.data ?? [];
 
       final emailTemplates = notificationItems.map((e) => {
-        "id": e.id,                   // ✅ 385, 386...
-        "html": e.notification,       // ✅ template html
+        "id": e.id,
+        "html": e.notification,
       }).toList();
 
 
@@ -126,7 +125,7 @@ class EventInfoCubit extends Cubit<EventInfoState> {
   //   log('--state.status-1---${state.status}----');
   //   emit(
   //     state.copyWith(
-  //       loadAttachments: [], // ✅ Clear first
+  //       loadAttachments: [], //  Clear first
   //       status: FormStatus.loading,
   //     ),
   //   );
@@ -176,7 +175,7 @@ class EventInfoCubit extends Cubit<EventInfoState> {
     ));
 
     try {
-      /// ✅ CALL CORRECT API
+      ///  CALL CORRECT API
       final response = await services.getEventInfo(id,eventDurationType);
 
       final exists = (state.emailTemplates ?? []).any(
@@ -224,7 +223,7 @@ class EventInfoCubit extends Cubit<EventInfoState> {
 
     log("API images: ${response.images}");
     log("API images length: ${response.images?.length}");
-    // ✅ Always sync attachments from the response
+    //  Always sync attachments from the response
     emit(
       state.copyWith(
         loadAttachments: response.images ?? [], // clears old images if API returns []
@@ -245,7 +244,7 @@ class EventInfoCubit extends Cubit<EventInfoState> {
         id: id,
         notification: html,
         emails: state.model.emails,
-        images: state.model.images, // ✅ FIXED
+        images: state.model.images,
       );
 
       final request = NotificationEmailRequest(
@@ -353,7 +352,7 @@ class EventInfoCubit extends Cubit<EventInfoState> {
   //     );
   //   }  else {
   //     emit(state.copyWith(
-  //       model: updatedModel, // ✅ IMPORTANT
+  //       model: updatedModel, // IMPORTANT
   //       message: response.message,
   //       status: FormStatus.success,
   //     ));

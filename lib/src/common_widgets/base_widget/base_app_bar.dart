@@ -295,21 +295,25 @@ class BaseAppBar {
     Function? onTapCustomIcon,
     Function? onTapPDFIcon,
     String? excelAPIName,
-    String? pdfAPIName, // used for Listing Page and Details Page
+    String? pdfAPIName,
+    String? gatePassPdf, // used for Listing Page and Details Page
     IconData? customIcon,
+    Color? color,
+    Color? titleColor,
   }) {
     return AppHeader(
       isTitleCenter: false,
-      backgroundColour: AppColors.newColor,
+      backgroundColour: titleColor ?? Colors.transparent,
       title: title,
+      titleColor: titleColor ?? Colors.white,  // ← pass it here
       backBtn: IconButton(
         onPressed: popAndReplace ??
-                () {
+            () {
               Navigator.pop(context);
               CommonServices().unlock();
             },
         icon:
-        const Icon(Icons.arrow_back_ios_new_outlined, color: Colors.white),
+            const Icon(Icons.arrow_back_ios_new_outlined, color: Colors.white),
       ),
       action: [
         if (showPopUp) ...[
@@ -400,7 +404,8 @@ class BaseAppBar {
             },
             child: Padding(
               padding: const EdgeInsets.only(right: 20.0),
-              child: Icon(customIcon ?? Icons.history, color: Colors.white),
+              // child: Icon(customIcon ?? Icons.history, color: Colors.white),
+              child: Icon(customIcon ?? Icons.history, color: color ?? Colors.white),
             ),
           )
         ],
@@ -412,6 +417,18 @@ class BaseAppBar {
             child: const Padding(
               padding: EdgeInsets.only(right: 20.0),
               child: Icon(Icons.picture_as_pdf, color: Colors.white),
+            ),
+          )
+        ],
+        if (!gatePassPdf.isEmptyOrNull &&
+            checkIfUrlContainsId(gatePassPdf!)) ...[
+          GestureDetector(
+            onTap: () {
+              DownloadImage().exportPdf(context, 'export.pdf', '/$gatePassPdf');
+            },
+            child: const Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: Icon(Icons.card_membership_rounded, color: Colors.white),
             ),
           )
         ],

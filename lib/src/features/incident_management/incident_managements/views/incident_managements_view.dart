@@ -144,6 +144,8 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
               // if (state.list.isEmpty) {
               //   return const NoRecordFoundWidget();
               // }
+                      log('state.extraProperties?.hasWritePermission ${state.extraProperties?.hasWritePermission}');
+
                       return Stack(
                         children: [
                           // 🔹 Background

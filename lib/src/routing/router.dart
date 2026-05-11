@@ -150,3 +150,9 @@ const String patrollingListRoute = '/patrollingListRoute';
 const String patrollingListCardRoute = '/patrollingListCardRoute';
 const String patrollingGenInfoRoute = '/patrollingGenInfoRoute';
 const String patrollingOtherInfoRoute = '/patrollingOtherInfoRoute';
+
+
+
+const String trainingModuleListRoute = '/trainingModuleListRoute';
+const String trainingListCardRoute = '/trainingListCardRoute';
+const String trainingGenInfoDetailsRoute = '/trainingGenInfoDetailsRoute';

@@ -1170,6 +1170,11 @@ class Constants {
   static const String review = 'Review';
   static const String reviewComment = 'Review Comment';
 
+
+  ///Training Module
+  static const String training = 'Classroom Training';
+  static const String trainingItems = 'Training Items';
+
 }
 
 //static const String height = 'Height(cm)';

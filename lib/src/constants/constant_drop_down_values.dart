@@ -141,6 +141,14 @@ const List<Label> eventProtectionGiStatus = [
   Label(key: 'Cancelled', value: '-1'),
 ];
 
+
+const List<Label> transportMedicalStatusValues = [
+  Label(key: 'Created', value: '0'),
+  Label(key: 'Open', value: '1'),
+  Label(key: 'Closed', value: '2'),
+  Label(key: 'Cancelled', value: '-1'),
+];
+
 const List<Label> guardRankDropDownValues = [
   Label(key: 'Security Guard', value: '1'),
   Label(key: 'Security Officer', value: '2'),

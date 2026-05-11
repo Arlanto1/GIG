@@ -861,12 +861,12 @@ class _OtpVerifyState extends State<OtpVerify> {
                               // height: MediaQuery.of(context).size.width * 0.9,
                               padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 13.4),
                               decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.30),
+                                color: Colors.white.withValues(alpha: 0.10),
                                 borderRadius: BorderRadius.circular(20),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black.withValues(alpha: 0.07),
-                                    blurRadius: 16,
+                                    color: Colors.black.withValues(alpha: 0.01),
+                                    blurRadius: 6,
                                     offset: const Offset(0, 4),
                                   ),
                                 ],

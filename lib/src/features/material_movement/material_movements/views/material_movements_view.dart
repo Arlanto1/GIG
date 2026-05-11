@@ -117,23 +117,23 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
         //     apStepId: apStepId,
         //   );
         // });
-        if (state.status != FormStatus.success) return;
-
-        final approvalModel = state.approvalModel;
-        final apStepId = state.selectedId ?? approvalModel?.apStepId;
-
-        log('approvalModel: $approvalModel');
-        debugPrint('apStepId: $apStepId');
-
-        if (approvalModel == null || apStepId == null) return;
-
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          showAddContactPopUp(
-            context: context,
-            approvalModel: approvalModel,
-            apStepId: apStepId,
-          );
-        });
+        // if (state.status != FormStatus.success) return;
+        //
+        // final approvalModel = state.approvalModel;
+        // final apStepId = state.selectedId ?? approvalModel?.apStepId;
+        //
+        // log('approvalModel: $approvalModel');
+        // debugPrint('apStepId: $apStepId');
+        //
+        // if (approvalModel == null || apStepId == null) return;
+        //
+        // WidgetsBinding.instance.addPostFrameCallback((_) {
+        //   showAddContactPopUp(
+        //     context: context,
+        //     approvalModel: approvalModel,
+        //     apStepId: apStepId,
+        //   );
+        // });
       },
       builder: (context, state) {
         return Scaffold(
@@ -386,11 +386,11 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                                                       true,
                                                   isEventProtectionStatus:
                                                       false,
-                                                  showApproveButton: (state
-                                                                  .items[index]
-                                                                  .status ==
-                                                      ConstantsIntValue
-                                                          .mmStatusLSMApproved)
+                                                  // showApproveButton: (state
+                                                  //                 .items[index]
+                                                  //                 .status ==
+                                                  //     ConstantsIntValue
+                                                  //         .mmStatusLSMApproved)
                                                       // &&
                                                       //     ((state.items[index]
                                                       //                 .approver1Email ==
@@ -402,15 +402,15 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                                                       //             state
                                                       //                 .items[index].entrySecurity
                                                       //                 ?.email))
-                                                      ? true
-                                                      : false,
-                                                  onApproveTap: (index) {
-                                                    context.read<MaterialMovementBloc>().add(
-                                                      FetchApprovalById(
-                                                        apStepId: state.items[index].approverStepId!,
-                                                      ),
-                                                    );
-                                                  },
+                                                      // ? true
+                                                      // : false,
+                                                  // onApproveTap: (index) {
+                                                  //   context.read<MaterialMovementBloc>().add(
+                                                  //     FetchApprovalById(
+                                                  //       apStepId: state.items[index].approverStepId!,
+                                                  //     ),
+                                                  //   );
+                                                  // },
 
 
                                                   onTap: (selectedIndex) {

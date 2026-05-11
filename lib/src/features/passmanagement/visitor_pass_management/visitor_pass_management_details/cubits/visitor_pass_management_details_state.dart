@@ -141,17 +141,17 @@ class VisitorPassManagementDetailsState extends Equatable {
       return const ErrorResponse(status: false, message: 'Please select Visitor Pass No');
     }
 
-    if (model.escortedByHost == false && model.escortedBy.isEmptyOrNull) {
+    if (model.escortedByHost == true && model.escortedBy.isEmptyOrNull) {
       return const ErrorResponse(status: false, message: 'Please enter Escorted By');
     }
 
-    if (model.escortedByHost == false && model.escortedEmployeeId.isEmptyOrNull) {
+    if (model.escortedByHost == true && model.escortedEmployeeId.isEmptyOrNull) {
       return const ErrorResponse(status: false, message: 'Please enter Escorted By Employee Id');
     }
 
-    if ( model.visitorImage== null) {
-      return const ErrorResponse(status: false, message: 'Please enter Escorted By Employee Id');
-    }
+    // if ( model.visitorImage== null) {
+    //   return const ErrorResponse(status: false, message: 'Please add ');
+    // }
 
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }

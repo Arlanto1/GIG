@@ -169,6 +169,29 @@ class SharedPrefs {
     return null;
   }
 
+  static Future<void> setPDefaultLocation({
+    required String moduleCode,
+    required Organisation location,
+  }) async {
+    String key = "${Constants.defaultLocation}_$moduleCode";
+
+    String jsonString = jsonEncode(location.toJson());
+
+    await instance.setString(key, jsonString);
+  }
+
+  static Future<Organisation?> getPDefaultLocation(String moduleCode) async {
+    String key = "${Constants.defaultLocation}_$moduleCode";
+
+    String? jsonString = instance.getString(key);
+
+    if (jsonString == null || jsonString.isEmpty) return null;
+
+    Map<String, dynamic> jsonMap = jsonDecode(jsonString);
+
+    return Organisation.fromJson(jsonMap);
+  }
+
   static Future<void> setLastInteractionTime(String value) async {
     instance.setString(Constants.lastInteractionTime, value);
   }

@@ -6208,9 +6208,9 @@ class NavigationDrawer1 extends StatelessWidget {
     if (index == 0) {
       Navigator.pushNamed(context, eventProtectionListRoute);
     } else if (index == 1) {
-      Navigator.pushNamed(context, csrEventListRoute , arguments: {ConstantsArgument.isCSREvent :true});
+      Navigator.pushNamed(context, csrEventListRoute , arguments: {ConstantsArgument.isCSREvent :true, ConstantsArgument.isSportEvent :false});
     } else if (index == 2) {
-      Navigator.pushNamed(context, csrEventListRoute,arguments: {ConstantsArgument.isCSREvent :false});
+      Navigator.pushNamed(context, csrEventListRoute,arguments: {ConstantsArgument.isSportEvent :true,  ConstantsArgument.isCSREvent :false});
     }
   }
 
@@ -6837,7 +6837,13 @@ class NavigationDrawer1 extends StatelessWidget {
         resetPwdScreenRoute,
         arguments: {'viaNavigationDrawer': true},
       );
-    } else if (index == 4) {}
+    } else if (index == 4) {
+      Navigator.pushNamed(
+        context,
+        trainingModuleListRoute,
+        arguments: {},
+      );
+    }
   }
 
   List<Widget> buildDrawerChildren(

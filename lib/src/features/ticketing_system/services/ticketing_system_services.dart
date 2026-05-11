@@ -19,7 +19,6 @@ class Apis {
   static final String _createTicketingSystem = '$baseUrl/createTicketingSystemNew';
   static final String _getTrackers = '$baseUrl/getTrackerList';
   static final String _getProjects = '$baseUrl/getProjectList';
-  static final String _getPriority = '$baseUrl/getPriorityList';
   static final String _getAssignee = '$baseUrl/getAssigneeList';
   static final String _getStatus = '$baseUrl/getTSStatus';
 
@@ -95,11 +94,13 @@ class TicketingSystemServices {
 
 
   Future<List<Organisation>> getStatuses({
-    required int? id,
+    required String? id,
     BuildContext? context,
   }) async {
-    String url =
-        '${Apis._getStatus}/$id';
+    String url = '${Apis._getStatus}/ ';
+    if(id !=null){
+       url = '${Apis._getStatus}/$id';
+    }
     final response = await BaseApiService().getRequest(
       url: url,
     );

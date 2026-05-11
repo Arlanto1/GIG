@@ -76,7 +76,7 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
         commonServices.getOrganisations(name: 'ATOM_MODULES_NAME_LIST'),
         commonServices.getStatusesByModuleId(
             module: Constants.ticketingSystemModuleCode,),
-        services.getStatuses(id: state.model.id ?? 0)
+        services.getStatuses(id: state.model.id?.toString() ?? '')
       ]);
       Locations locations = futures[0];
       User loggedInUserDetails = futures[1];

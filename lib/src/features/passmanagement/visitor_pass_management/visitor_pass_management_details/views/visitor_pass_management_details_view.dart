@@ -146,16 +146,16 @@ class _VisitorPassManagementDetailsViewState
             },
             // visitorPassId: state.model.status != null ? true : false,
             showSubmitButton:  showSaveSubmitButtons && state.status != FormStatus.loading &&  state.model.status != 8,
-            // onTapSubmit: () {
-            //   FocusScope.of(context).unfocus();
-            //   BlocProvider.of<VisitorPassManagementDetailsCubit>(context).submitForm(
-            //     isSaveOnly: false,
-            //   );
-            //   if (state.model.id != null) {
-            //     final pdfUrl = '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=VPM';
-            //     DownloadImage().exportPdf(context, 'export.pdf', '/$pdfUrl');
-            //   }
-            // },
+            onTapSubmit: () {
+              FocusScope.of(context).unfocus();
+              BlocProvider.of<VisitorPassManagementDetailsCubit>(context).submitForm(
+                isSaveOnly: false,
+              );
+              // if (state.model.id != null) {
+              //   final pdfUrl = '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=VPM';
+              //   DownloadImage().exportPdf(context, 'export.pdf', '/$pdfUrl');
+              // }
+            },
 
             // onTapSubmit: () async {
             //   FocusScope.of(context).unfocus();
@@ -199,44 +199,44 @@ class _VisitorPassManagementDetailsViewState
             //     );
             //   }
             // },
-            onTapSubmit: () async {
-              FocusScope.of(context).unfocus();
-
-              final cubit =
-                  BlocProvider.of<VisitorPassManagementDetailsCubit>(context);
-              final state = cubit.state;
-
-              final validation = state.isValid;
-              if (!validation.status) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(validation.message),
-                    backgroundColor: Colors.red,
-                  ),
-                );
-                return;
-              }
-
-              final modelId = state.model.id;
-              if (modelId == null) return;
-
-              //VALIDATION PASSED → OPEN PDF
-              final pdfUrl =
-                  '${CommonApis.exportDetailPagePDF}$modelId&moduleCode=VPM';
-
-              await DownloadImage()
-                  .exportPdf(context, 'export.pdf', '/$pdfUrl');
-
-              CommonServices().unlock();
-              await cubit.submitForm(isSaveOnly: false);
-
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Record submitted successfully'),
-                  backgroundColor: Colors.green,
-                ),
-              );
-            },
+            // onTapSubmit: () async {
+            //   FocusScope.of(context).unfocus();
+            //
+            //   final cubit =
+            //       BlocProvider.of<VisitorPassManagementDetailsCubit>(context);
+            //   final state = cubit.state;
+            //
+            //   final validation = state.isValid;
+            //   if (!validation.status) {
+            //     ScaffoldMessenger.of(context).showSnackBar(
+            //       SnackBar(
+            //         content: Text(validation.message),
+            //         backgroundColor: Colors.red,
+            //       ),
+            //     );
+            //     return;
+            //   }
+            //
+            //   final modelId = state.model.id;
+            //   if (modelId == null) return;
+            //
+            //   //VALIDATION PASSED → OPEN PDF
+            //   final pdfUrl =
+            //       '${CommonApis.exportDetailPagePDF}$modelId&moduleCode=VPM';
+            //
+            //   await DownloadImage()
+            //       .exportPdf(context, 'export.pdf', '/$pdfUrl');
+            //
+            //   CommonServices().unlock();
+            //   await cubit.submitForm(isSaveOnly: false);
+            //
+            //   ScaffoldMessenger.of(context).showSnackBar(
+            //     const SnackBar(
+            //       content: Text('Record submitted successfully'),
+            //       backgroundColor: Colors.green,
+            //     ),
+            //   );
+            // },
 
             showLikeButton: false,
             showDisLikeButton: false,
@@ -812,6 +812,8 @@ class _VisitorPassManagementDetailsViewState
                                       );
                                     }
                                   }),
+                              CommonWidgets.verticalSpacerWidget(
+                                  height * 0.01),
 
                               ///Purpose of Visit
                               CommonWidgets.textDisplay(
