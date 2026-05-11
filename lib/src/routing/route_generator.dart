@@ -2492,6 +2492,11 @@ import 'package:db_atom/src/features/ticketing_system/ticketing_system_details/c
 import 'package:db_atom/src/features/ticketing_system/ticketing_system_details/views/ticketing_system_details_view.dart';
 import 'package:db_atom/src/features/ticketing_system/ticketing_systems/bloc/ticketing_system_bloc.dart';
 import 'package:db_atom/src/features/ticketing_system/ticketing_systems/views/ticketing_system_view.dart';
+import 'package:db_atom/src/features/training_module/training_genInfo/cubits/training_genInfo_cubit.dart';
+import 'package:db_atom/src/features/training_module/training_genInfo/views/training_genInfo_view.dart';
+import 'package:db_atom/src/features/training_module/training_module_list/bloc/training_module_list_bloc.dart';
+import 'package:db_atom/src/features/training_module/training_module_list/view/training_module_list_view.dart';
+import 'package:db_atom/src/features/training_module/training_tab/training_listCard.dart';
 import 'package:db_atom/src/features/transport_medical_incident/models/transport_medical_incident_model.dart';
 import 'package:db_atom/src/features/transport_medical_incident/services/transport_medical_service.dart';
 import 'package:db_atom/src/features/transport_medical_incident/transport_medical_details/cubits/transport_medical_details_cubit.dart';
@@ -3301,6 +3306,7 @@ class RouteGenerator {
         String title = '';
         int eventStatus = 0;
         bool? isEventProtection = false;
+        bool? isAnnualPowerShutDown = false;
         ShowEPGridsModel showEPGridsModel = ShowEPGridsModel();
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
@@ -3310,6 +3316,8 @@ class RouteGenerator {
           showEPGridsModel = arguments[ConstantsArgument.showEPGridsModel];
           title = arguments[ConstantsArgument.title];
           isEventProtection = arguments[ConstantsArgument.isEventProtection];
+          isAnnualPowerShutDown = arguments[ConstantsArgument.isAnnualPowerShutDown];
+
         }
         return MaterialPageRoute(
           builder: (context) => EventProtectionDetails(
@@ -3318,6 +3326,7 @@ class RouteGenerator {
             eventStatus: eventStatus,
             showEPGridsModel: showEPGridsModel,
             isEventProtection: isEventProtection ?? false,
+            isAnnualPowerShutDown: isAnnualPowerShutDown??false,
           ),
         );
     // case generalInfoTilesViewRoute:
@@ -3398,6 +3407,8 @@ class RouteGenerator {
         bool editForm = false;
         bool? isEventProtection = false;
         bool? isCSREventProtection = false;
+        bool? isSportEventProtection = false;
+        bool? isAnnualPowerShutdown = false;
         int eventDuration = 0;
         String title = '';
 
@@ -3408,8 +3419,10 @@ class RouteGenerator {
           id = arguments[ConstantsArgument.id];
           eventDuration = arguments['eventDuration'];
           editForm = arguments[ConstantsArgument.editForm];
-          isEventProtection = arguments[ConstantsArgument.isEventProtection];
-          isCSREventProtection= arguments[ConstantsArgument.isCSREvent];
+          isEventProtection = arguments[ConstantsArgument.isEventProtection] ?? false;
+          isCSREventProtection= arguments[ConstantsArgument.isCSREvent]?? false;
+          isSportEventProtection= arguments[ConstantsArgument.isSportEvent]?? false;
+         isAnnualPowerShutdown = arguments[ConstantsArgument.isAnnualPowerShutDown] ?? false;
         }
         log('edit123 $editForm');
         return MaterialPageRoute(
@@ -3426,6 +3439,8 @@ class RouteGenerator {
               eventProtectionId: id,
               isEventProtection: isEventProtection ?? false,
               isCSREventProtection: isCSREventProtection??false,
+              isSportEventProtection: isSportEventProtection ?? false ,
+              isAnnualPowerShutdown: isAnnualPowerShutdown ?? false,
             ),
           ),
         );
@@ -4638,12 +4653,14 @@ class RouteGenerator {
 
 
       case csrEventListRoute:
-        bool isCSREvent = true;
+        bool isCSREvent = false;
+        bool isSportEvent = false;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
           settings.arguments as Map<String, dynamic>;
           if (arguments.isNotEmpty) {
             isCSREvent = arguments['isCSREvent'];
+            isSportEvent = arguments['isSportEvent'];
           }
         }
         return MaterialPageRoute(
@@ -4656,6 +4673,7 @@ class RouteGenerator {
                 filters: BaseFilterModel())),
             child: CSREventListView(
               isCSREvent: isCSREvent,
+              isSportEvent: isSportEvent,
             ),
           ),
         );
@@ -4665,6 +4683,7 @@ class RouteGenerator {
         String title = '';
         int eventStatus = 0;
         bool? isCSREvent = false;
+        bool? isSportEvent= false;
         ShowEPGridsModel showEPGridsModel = ShowEPGridsModel();
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
@@ -4674,6 +4693,8 @@ class RouteGenerator {
           showEPGridsModel = arguments[ConstantsArgument.showEPGridsModel];
           title = arguments[ConstantsArgument.title];
           isCSREvent = arguments[ConstantsArgument.isCSREvent];
+          isSportEvent = arguments[ConstantsArgument.isSportEvent];
+
         }
         return MaterialPageRoute(
           builder: (context) => CsrEventShowGridView(
@@ -4682,6 +4703,7 @@ class RouteGenerator {
             eventStatus: eventStatus,
             showEPGridsModel: showEPGridsModel,
             isCSREvent: isCSREvent ?? false,
+            isSportEvent: isSportEvent ?? false,
           ),
         );
 
@@ -4690,6 +4712,7 @@ class RouteGenerator {
       case csrEventGeneralInfoRoute:
         int id =0 ;
         bool? isCSREvent = false;
+        bool? isSportEvent = false;
         ExtraProperties? extraProperties;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
@@ -4697,6 +4720,8 @@ class RouteGenerator {
           id = arguments[ConstantsArgument.id];
           extraProperties = arguments[ConstantsArgument.extraProperties];
           isCSREvent = arguments[ConstantsArgument.isCSREvent];
+          isSportEvent = arguments[ConstantsArgument.isSportEvent];
+
         }
         return MaterialPageRoute(
           builder: (context) => BlocProvider<CSRGeneralInfoCubit>(
@@ -4709,6 +4734,7 @@ class RouteGenerator {
             child: CSRGeneralInfoView(
               extraProperties: extraProperties,
               isCSREvent: isCSREvent ?? false,
+              isSportEvent: isSportEvent ?? false,
             ),
           ),
         );
@@ -4886,8 +4912,69 @@ class RouteGenerator {
           ),
         );
 
+      case trainingModuleListRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<TrainingModuleListBloc>(
+              create: (_) => TrainingModuleListBloc()
+                ..add(FetchTrainingData(
+                    startPos: 0,
+                    maxPos: Constants.maxResults,
+                    newSearch: true,
+                    filters: BaseFilterModel())),
+              child: const TrainingModuleListView(),
+            ));
 
-  //
+
+      case trainingListCardRoute:
+        IncidentManagementServices services = IncidentManagementServices();
+        CommonServices commonServices = CommonServices();
+        String title;
+        Map<String, dynamic> arguments =
+        settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        PatrollingModel? model = arguments["model"];
+        PatrollingOtherModel? otherModel = arguments["otherModel"];
+
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<TrainingGenInfoCubit>(
+            create: (_) => TrainingGenInfoCubit(
+               id: '', services: services, commonServices: CommonServices(),
+            ),
+            child: TrainingListCardView(
+              title: title,
+              model: model,
+              otherModel: otherModel,
+            ),
+          ),
+        );
+
+
+      case trainingGenInfoDetailsRoute:
+        ArticleFoundServices services = ArticleFoundServices();
+        CommonServices commonServices = CommonServices();
+        String id;
+        ExtraProperties? extraProperties;
+        Map<String, dynamic> arguments =
+        settings.arguments as Map<String, dynamic>;
+        id = arguments['id'] ?? '';
+        // ArticleFoundModel? model = arguments["model"];
+        extraProperties = arguments[ConstantsArgument.extraProperties];
+
+        return MaterialPageRoute(
+          builder: (context) =>
+              BlocProvider<TrainingGenInfoCubit>(
+                create: (_) => TrainingGenInfoCubit(
+                  services: IncidentManagementServices(),
+                  commonServices: CommonServices(),
+                  id: id,
+                ),
+                child: TrainingGenInfoView(
+                  extraProperties: extraProperties,
+                ),
+              ),
+        );
+
+    //
       default:
         log('--default123---${settings.name}-');
         return MaterialPageRoute(builder: (context) => const SplashScreen());
