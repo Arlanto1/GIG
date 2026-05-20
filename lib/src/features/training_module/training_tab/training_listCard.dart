@@ -1,23 +1,17 @@
-
 import 'dart:ui';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/patrolling/models/patrolling_model.dart';
-import 'package:db_atom/src/features/patrolling/models/patrolling_other_model.dart';
-import 'package:db_atom/src/features/patrolling/patrolling_details/cubit/patrolling_details_cubit.dart';
-
+import 'package:db_atom/src/features/training_module/models/requestModel/training_module_request.dart';
 import '../training_genInfo/cubits/training_genInfo_cubit.dart';
 
 class TrainingListCardView extends StatefulWidget {
   final String title;
-  final PatrollingModel? model;
-  final PatrollingOtherModel? otherModel;
+  final TrainingModel? model;
 
   const TrainingListCardView({
     super.key,
     required this.title,
     required this.model,
-    required this.otherModel,
   });
 
   @override
@@ -91,40 +85,30 @@ class _TrainingListCardView extends State<TrainingListCardView> {
                         child: ListView(
                           physics: const BouncingScrollPhysics(),
                           children: [
-
                             _rowCard(
                               label: Constants.generalInfo,
-                              onTap: () async {
-                                // await BlocProvider.of<TrainingGenInfoCubit>(context)
-                                //     .updateGetGenInfoModelValue(widget.model?.id?.toString());
-
-                                final cubitState = BlocProvider.of<PatrollingDetailsCubit>(context).state;
-
+                              onTap: ()  async {
+                                // TrainingModel model= await TrainingModuleServices().getClassRoomTrainingById(widget.model!.id.toString());
                                 Navigator.pushNamed(
                                   context,
-                                  patrollingGenInfoRoute,
+                                  trainingGenInfoDetailsRoute,
                                   arguments: {
                                     "title": Constants.generalInfo,
-                                    "model": cubitState.model,
-                                    // "model": widget.model,
+                                    // "model": model,
+                                    "model": widget.model,
                                   },
                                 );
+
                               },
                             ),
 
                             _rowCard(
                               label: Constants.trainingItems,
-                              onTap: () {
-                                // ✅ Don't call cubit here — PatrollingOtherView.initState handles it
-                                Navigator.pushNamed(
-                                  context,
-                                  patrollingOtherInfoRoute,
+                              onTap: ()  {
+                                Navigator.pushNamed(context, trainingItemsListRoute,
                                   arguments: {
-                                    "title": Constants.trainingItems,
-                                    "model": widget.model,       // passes patrollingId
-                                    "otherModel": PatrollingOtherModel(subsectionId: 1),
-                                  },
-                                );
+                                  "id": '${widget.model!.id}',
+                                  },);
                               },
                             ),
                           ],

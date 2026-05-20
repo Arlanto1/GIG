@@ -43,6 +43,7 @@ class Filters {
   String? toDate;
   String? createdBy;
   int? status;
+  String? foundDate;
 
   Filters({
     this.id,
@@ -52,6 +53,7 @@ class Filters {
     this.toDate,
     this.createdBy,
     this.status,
+    this.foundDate
   });
 
   Filters.fromJson(Map<String, dynamic> json)
@@ -61,7 +63,8 @@ class Filters {
         fromDate = json['fromDate'] as String?,
         toDate = json['toDate'] as String?,
         createdBy = json['createdBy'] as String?,
-        status = json['status'] as int?;
+        status = json['status'] as int?,
+        foundDate= json['foundDate'] as String?;
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -70,7 +73,8 @@ class Filters {
         'fromDate': fromDate,
         'toDate': toDate,
         'createdBy': createdBy,
-        'status': status
+        'status': status,
+       'foundDate':foundDate
       };
 }
 

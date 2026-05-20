@@ -8,6 +8,9 @@ class ProdConfig implements BaseConfig {
   String get apiHost => "https://api.dbatom.com/api/atomrestservice";
 
   @override
+  String get apiHost1 => "https://api.dbatom.com/s1/api/survey";
+
+  @override
   bool get reportErrors => false;
 
   @override

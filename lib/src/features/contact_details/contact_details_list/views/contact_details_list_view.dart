@@ -187,6 +187,13 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                               ? state.items.length
                               : state.items.length + 1,
                           itemBuilder: (context, index) {
+                            if (index >= state.items.length) {
+                              if (state.status == FormStatus.loading ||
+                                  state.status == FormStatus.initial) {
+                                return const Center(child: BaseLoader());
+                              }
+                              return const SizedBox();
+                            }
                             List<Label> labels = [];
                             if (index < state.items.length) {
                               labels.add(
@@ -271,7 +278,7 @@ class _ContactDetailsListViewState extends State<ContactDetailsListView> {
                                                   Colors.white.withValues(alpha: 0.09),
                                                   // Color(0xFF6474C6).withOpacity(0.14)
                                                 ],
-                                                stops: [0.02, 0.35, 1],
+                                                stops: const [0.02, 0.35, 1],
                                                 begin: Alignment.topCenter,
                                                 end: Alignment.bottomCenter,
                                               ),

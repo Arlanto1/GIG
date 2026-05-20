@@ -157,7 +157,11 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
                               : state.items.length + 1,
                           itemBuilder: (context, index) {
                             if (index >= state.items.length) {
-                              return const BaseLoader();
+                              if (state.status == FormStatus.loading ||
+                                  state.status == FormStatus.initial) {
+                                return const Center(child: BaseLoader());
+                              }
+                              return const SizedBox();
                             }
 
                             final item = state.items[index];

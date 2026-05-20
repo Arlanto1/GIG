@@ -69,6 +69,8 @@ class ArticleFoundModel {
    User? idCardManager;
    String? lock;
    String? modificationHistory;
+   Organisation? articleCategory;
+   String? approximateValue;
 
   ArticleFoundModel({
     this.id,
@@ -112,6 +114,8 @@ class ArticleFoundModel {
     this.idCardManager,
     this.lock,
     this.modificationHistory,
+    this.articleCategory,
+    this.approximateValue
   });
 
   ArticleFoundModel.fromJson(Map<String, dynamic> json)
@@ -155,7 +159,9 @@ class ArticleFoundModel {
         idCardEmployee = (json['idCardEmployee'] as Map<String,dynamic>?) != null ? User.fromJson(json['idCardEmployee'] as Map<String,dynamic>) : null,
         idCardManager = (json['idCardManager'] as Map<String,dynamic>?) != null ? User.fromJson(json['idCardManager'] as Map<String,dynamic>) : null,
         modificationHistory = (json['modificationHistory']) as String?,
-      lock = json['lock'] as String?;
+        articleCategory = (json['articleCategory'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['articleCategory'] as Map<String,dynamic>) : null,
+        approximateValue = (json['approximateValue']) as String?,
+   lock = json['lock'] as String?;
 
   Map<String, dynamic> toJson() => {
     'id' : id,
@@ -199,6 +205,8 @@ class ArticleFoundModel {
     'idCardManager':idCardManager?.toJson(),
     'lock':lock,
     'modificationHistory':modificationHistory,
+    'articleCategory' : articleCategory?.toJson(),
+    'approximateValue':approximateValue,
   };
 }
 

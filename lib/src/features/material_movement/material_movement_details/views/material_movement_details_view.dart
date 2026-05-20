@@ -166,7 +166,7 @@ class _MaterialMovementDetailsViewState
         String? requester2EmailUser = state.model.requestor2Email;
 
         log('123 ${state.model.requestorEmail}');
-        if ((state.model.status == ConstantsIntValue.businessUserReview ||
+        if ((
                 state.model.status == ConstantsIntValue.mmStatusLSMRejected) &&
             (requesterEmailUser != null &&
                 requesterEmailUser ==
@@ -885,8 +885,8 @@ class _MaterialMovementDetailsViewState
                                   initialValue: state.model.materialComingFrom,
                                   textFormKey: Keys.sendersKey,
                                   hintText: '',
-                                  isEnable: !isReadOnly,
-                                  isDisableColor: isReadOnly,
+                                  isEnable: !isReadOnly && state.model.status != ConstantsIntValue.businessUserReview && state.model.status != ConstantsIntValue.mmStatusInwardPending ,
+                                  isDisableColor: isReadOnly ||state.model.status == ConstantsIntValue.businessUserReview || state.model.status == ConstantsIntValue.mmStatusInwardPending ,
                                   onChange: (String value) {
                                     state.model.materialComingFrom = value;
                                     context
@@ -919,8 +919,8 @@ class _MaterialMovementDetailsViewState
                                       Constants.characterLimitDescTextFormField,
                                   textFormKey: Keys.materialComingFromKey,
                                   hintText: Constants.informationhere,
-                                  isEnable: !isReadOnly && state.model.status != ConstantsIntValue.mmStatusInwardPending,
-                                  isDisableColor: isReadOnly,
+                                  isEnable: !isReadOnly && state.model.status != ConstantsIntValue.mmStatusInwardPending && state.model.status != ConstantsIntValue.businessUserReview ,
+                              isDisableColor: isReadOnly ||state.model.status == ConstantsIntValue.businessUserReview ,
                                   // isEnable: true,
                                   // isDisableColor: state.model.status == 6 ||
                                   //     state.model.status == 10 ||
@@ -953,7 +953,7 @@ class _MaterialMovementDetailsViewState
                                   onChangedYes: widget.model?.status == 6 ||
                                           widget.model?.status == -1 ||
                                           widget.model?.status == 10 ||
-                                          !state.model.lock.isEmptyOrNull || state.model.status == ConstantsIntValue.mmStatusInwardPending
+                                          !state.model.lock.isEmptyOrNull || state.model.status == ConstantsIntValue.mmStatusInwardPending ||state.model.status == ConstantsIntValue.businessUserReview
                                       ? null
                                       : (val) {
                                           FocusScope.of(context)
@@ -974,7 +974,7 @@ class _MaterialMovementDetailsViewState
                                   onChangedNo: widget.model?.status == 6 ||
                                           widget.model?.status == -1 ||
                                           widget.model?.status == 10 ||
-                                          !state.model.lock.isEmptyOrNull || state.model.status == ConstantsIntValue.mmStatusInwardPending
+                                          !state.model.lock.isEmptyOrNull || state.model.status == ConstantsIntValue.mmStatusInwardPending ||state.model.status == ConstantsIntValue.businessUserReview
                                       ? null
                                       : (val) {
                                           FocusScope.of(context)
@@ -1012,9 +1012,9 @@ class _MaterialMovementDetailsViewState
                                       TextFieldAddButton(
                                           title: state.model.receiverEmployeeId,
                                           height: 70,
-                                          isDisableColor: isReadOnly || state.model.status == ConstantsIntValue.mmStatusInwardPending,
+                                          isDisableColor: isReadOnly || state.model.status == ConstantsIntValue.mmStatusInwardPending ||state.model.status == ConstantsIntValue.businessUserReview,
                                           onTap: () {
-                                            if (!isReadOnly && state.model.status != ConstantsIntValue.mmStatusInwardPending) {
+                                            if (!isReadOnly && state.model.status != ConstantsIntValue.mmStatusInwardPending && state.model.status != ConstantsIntValue.businessUserReview) {
                                               BaseOrganisationDialog()
                                                   .userDialog(
                                                 employeeId: true,
@@ -1106,9 +1106,9 @@ class _MaterialMovementDetailsViewState
                                 TextFieldAddButton(
                                   title: state.model.receiverDepartmenttName,
                                   height: 70,
-                                  isDisableColor: isReadOnly ||state.model.status == ConstantsIntValue.mmStatusInwardPending,
+                                  isDisableColor: isReadOnly ||state.model.status == ConstantsIntValue.mmStatusInwardPending||state.model.status == ConstantsIntValue.businessUserReview,
                                   onTap: () {
-                                    if (!isReadOnly && state.model.status != ConstantsIntValue.mmStatusInwardPending) {
+                                    if (!isReadOnly && state.model.status != ConstantsIntValue.mmStatusInwardPending && state.model.status != ConstantsIntValue.businessUserReview) {
                                       FocusScope.of(context)
                                           .requestFocus(FocusNode());
 
@@ -1161,9 +1161,9 @@ class _MaterialMovementDetailsViewState
                                       TextFieldAddButton(
                                           title: state.model.receiverEmployeeId,
                                           height: 70,
-                                          isDisableColor: isReadOnly ||state.model.status == ConstantsIntValue.mmStatusInwardPending,
+                                          isDisableColor: isReadOnly ||state.model.status == ConstantsIntValue.mmStatusInwardPending || state.model.status == ConstantsIntValue.businessUserReview,
                                           onTap: () {
-                                            if (!isReadOnly && state.model.status != ConstantsIntValue.mmStatusInwardPending) {
+                                            if (!isReadOnly && state.model.status != ConstantsIntValue.mmStatusInwardPending &&state.model.status != ConstantsIntValue.businessUserReview) {
                                               BaseOrganisationDialog()
                                                   .userDialog(
                                                 employeeId: true,
@@ -1349,7 +1349,7 @@ class _MaterialMovementDetailsViewState
                                     onChangedYes: ((widget.model?.status == 6 ||
                                                 widget.model?.status == 10 ||
                                                 widget.model?.status == -1) ||
-                                            !state.model.lock.isEmptyOrNull || state.model.status == ConstantsIntValue.mmStatusInwardPending)
+                                            !state.model.lock.isEmptyOrNull || state.model.status == ConstantsIntValue.mmStatusInwardPending ||state.model.status == ConstantsIntValue.businessUserReview)
                                         ? null
                                         : (val) {
                                             BlocProvider.of<
@@ -1363,7 +1363,7 @@ class _MaterialMovementDetailsViewState
                                     onChangedNo: widget.model?.status == 6 ||
                                             widget.model?.status == 10 ||
                                             widget.model?.status == -1 ||
-                                            !state.model.lock.isEmptyOrNull ||state.model.status == ConstantsIntValue.mmStatusInwardPending
+                                            !state.model.lock.isEmptyOrNull ||state.model.status == ConstantsIntValue.mmStatusInwardPending ||state.model.status == ConstantsIntValue.businessUserReview
                                         ? null
                                         : (val) {
                                             BlocProvider.of<
@@ -1515,7 +1515,7 @@ class _MaterialMovementDetailsViewState
                                               ? true
                                               : false) {
                                             BaseOrganisationDialog().userDialog(
-                                              employeeId: true,
+                                              employeeId: false,
                                               context: context,
                                               users: state.requestorEmailUsers!,
                                               isDbUser: true,
@@ -1717,7 +1717,7 @@ class _MaterialMovementDetailsViewState
                                               ? true
                                               : false) {
                                             BaseOrganisationDialog().userDialog(
-                                              employeeId: true,
+                                              employeeId: false,
                                               context: context,
                                               users: state.requestorEmailUsers!,
                                               isDbUser: true,
@@ -3274,9 +3274,8 @@ class _MaterialMovementDetailsViewState
     }
 
     return AbsorbPointer(
-      absorbing: !state.model.lock.isEmptyOrNull ||
-          state.model.status == -1 ||
-          state.model.status == 10,
+      absorbing: state.model.lock.isEmptyOrNull &&
+          state.model.status != 0 && state.model.status != null ,
       child: Column(
         children: [
           Row(

@@ -379,6 +379,41 @@ class EventInfoCubit extends Cubit<EventInfoState> {
       state.model.date = inputDate.toString();
     }
 
+    if (state.model.cctvSystemOfflineStartDate != null && !Utils().isTimestamp(state.model.cctvSystemOfflineStartDate!)) {
+      dateTime = DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.cctvSystemOfflineStartDate!);
+      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      state.model.cctvSystemOfflineStartDate = inputDate.toString();
+    }
+
+    if (state.model.accessSystemOfflineStartDate != null && !Utils().isTimestamp(state.model.accessSystemOfflineStartDate!)) {
+      dateTime = DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.accessSystemOfflineStartDate!);
+      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      state.model.accessSystemOfflineStartDate = inputDate.toString();
+    }
+    if (state.model.intruderSystemOfflineStartDate != null && !Utils().isTimestamp(state.model.intruderSystemOfflineStartDate!)) {
+      dateTime = DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.intruderSystemOfflineStartDate!);
+      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      state.model.intruderSystemOfflineStartDate = inputDate.toString();
+    }
+
+    if (state.model.cctvSystemOfflineEndDate != null && !Utils().isTimestamp(state.model.cctvSystemOfflineEndDate!)) {
+      dateTime = DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.cctvSystemOfflineEndDate!);
+      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      state.model.cctvSystemOfflineEndDate = inputDate.toString();
+    }
+
+    if (state.model.accessSystemOfflineEndDate != null && !Utils().isTimestamp(state.model.accessSystemOfflineEndDate!)) {
+      dateTime = DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.accessSystemOfflineEndDate!);
+      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      state.model.accessSystemOfflineEndDate = inputDate.toString();
+    }
+    if (state.model.intruderSystemOfflineEndDate != null && !Utils().isTimestamp(state.model.intruderSystemOfflineEndDate!)) {
+      dateTime = DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.intruderSystemOfflineEndDate!);
+      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      state.model.intruderSystemOfflineEndDate = inputDate.toString();
+    }
+
+
     EventInfoRequest request =
     EventInfoRequest(eventProtectionInfo: updatedModel);
 

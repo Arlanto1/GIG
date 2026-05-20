@@ -1,11 +1,8 @@
 import 'dart:developer';
-import 'dart:math' as math;
-
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/article_found/models/article_found_model.dart';
 import 'package:db_atom/src/features/article_found/models/requestModels/article_found_request.dart';
 import 'package:db_atom/src/features/article_found/services/article_found_service.dart';
-import 'package:db_atom/src/features/passmanagement/models/pm_ui_labels.dart';
 import 'package:intl/intl.dart';
 
 
@@ -30,7 +27,7 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
       errorMessage: '',
       departments: const [],
       claimantDepartments: const [],
-      articleType: const [], uploadAttachments: const [],
+      articleType: const [], uploadAttachments: const [], articleCategory: const [],
     ),
   );
 
@@ -107,6 +104,7 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
             locationId: state.model.location!.id!),
         commonServices.getOrganisations(name: 'ARTICLE_LIST'),
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
+        commonServices.getOrganisations(name: 'ARTICLE_CATEGORY'),
       ]);
       Locations locations = futures[0];
       User loggedInUserDetails = futures[1];
@@ -115,6 +113,7 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
       List<BaseUser> emailUsers = futures[4];
       List<Organisation> articleType = futures[5];
       EmployeeDepartments departments = futures[6];
+      List<Organisation> articleCategory = futures[7];
 
       // Get Date of Creation
       state.model.inputDate = state.model.inputDate == null
@@ -123,7 +122,7 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
           int.tryParse(state.model.inputDate ?? '0'),
           Constants.fulldateFormat);
 
-      PMUiLabels labels = PMUiLabels.fromJson(responseLabels);
+      AFUiLabels labels = AFUiLabels.fromJson(responseLabels);
 
 
       state.model.entrySecurity ??= loggedInUserDetails;
@@ -151,6 +150,7 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
           departments: departments.employeeDepartments,
           labels: labels,
           articleType: articleType,
+            articleCategory:articleCategory,
         ),
       );
     } catch (e) {
@@ -159,7 +159,6 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
       emit(
         state.copyWith(
           message: Constants.errorText,
-          // TODO: error message should be dynamic
           status: FormStatus.error,
         ),
       );
@@ -176,9 +175,6 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
     );
 
     List<BaseUser> emailUsers = [];
-    DayPassNumberLists passNo = DayPassNumberLists(activePassInfoList: []); // Initialize with default value
-    List<Organisation> getPassType = [];
-
 
     // Get Sl No from API
     if (location != null) {
@@ -204,13 +200,6 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
           roleName: ConstantUserRoles.atomStaticUser,
           isDbUser: true,
           locationId: state.model.location!.id!);
-      passNo = await commonServices.getPassNo(
-          passType: 0,
-          locationId: state.model.location!.id!, isDwsPass: false);
-
-      getPassType = await commonServices.getPassType(
-          passType: 0,
-          locationId: state.model.location!.id!);
     }
 
     emit(state.copyWith(
@@ -228,6 +217,7 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
     List<Organisation>? entities,
     Organisation? passType,
     Organisation? articleType,
+    Organisation? articleCategory,
     BaseUser? user,
     BaseUser? claimant,
     BaseUser? employee,
@@ -258,6 +248,9 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
       state.model.typeOfArticle = articleType;
     }
 
+    if(articleCategory !=null){
+      state.model.articleCategory = articleCategory;
+    }
     if ( employee!= null) {
       state.model.depositor?.employeeId = employee.employeeId;
       String name = employee.name ?? '';
@@ -376,7 +369,6 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
         status: FormStatus.loading,
       ),
     );
-    int eventIds = math.Random.secure().nextInt(5);
     if (data != null) {
       for (ImageContent image in data) {
         image.type = 1;

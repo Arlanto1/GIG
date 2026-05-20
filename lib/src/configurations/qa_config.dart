@@ -7,6 +7,9 @@ class QaConfig implements BaseConfig {
   // String get apiHost => "http://172.16.3.35:8081/api/atomrestservice";
 
   @override
+  String get apiHost1 => "https://api.qa.dbatom.arlanto.com/s1/api/survey";
+
+  @override
   bool get reportErrors => false;
 
   @override

@@ -43,6 +43,9 @@
     TextEditingController cctvDateController = TextEditingController();
     TextEditingController accessDateController = TextEditingController();
     TextEditingController intruderDateController = TextEditingController();
+    TextEditingController cctvEndDateController = TextEditingController();
+    TextEditingController accessEndDateController = TextEditingController();
+    TextEditingController intruderEndDateController = TextEditingController();
 
     bool showSaveButtons = false;
 
@@ -130,11 +133,11 @@
           //     );
           //   }
 
-          listenWhen: (previous, current) =>
-          previous.status != current.status &&
-              (current.status == FormStatus.success ||
-                  current.status == FormStatus.templateLoaded ||
-                  current.status == FormStatus.formError), // ✅ now included
+          // listenWhen: (previous, current) =>
+          // previous.status != current.status &&
+          //     (current.status == FormStatus.success ||
+          //         current.status == FormStatus.templateLoaded ||
+          //         current.status == FormStatus.formError), // ✅ now included
 
           // listener: (context, state) {
           //   // ✅ Show error and STOP — no pop, no navigation
@@ -243,7 +246,7 @@
                 barrierDismissible: false,
                 builder: (BuildContext dialogContext) {
                   return CustomAlertDialog(
-                    title: 'Event Protection',
+                    title: widget.title,
                     message: state.message ?? '',
                     positiveBtnText: Constants.ok,
                     onPositivePressed: () {
@@ -258,6 +261,37 @@
               return;
             }
 
+            // if (state.status == FormStatus.success) {
+            //   showDialog(
+            //     context: context,
+            //     barrierDismissible: false,
+            //     builder: (BuildContext dialogContext) {
+            //       return CustomAlertDialog(
+            //         title: 'Event Protection',
+            //         message: state.message ?? '',
+            //         positiveBtnText: Constants.ok,
+            //         onPositivePressed: () {
+            //           Navigator.pop(dialogContext); // close dialog
+            //
+            //           if (!context.mounted) return;
+            //
+            //           String route = widget.isEventProtection
+            //               ? eventProtectionListRoute
+            //               : widget.isCSREventProtection || widget.isSportEventProtection
+            //               ? csrEventListRoute
+            //               : annualPowerShutdownListRoute;
+            //
+            //           Navigator.pushNamedAndRemoveUntil(
+            //             context,
+            //             route,
+            //                 (route) => false, //  clears entire stack to list
+            //           );
+            //         },
+            //       );
+            //     },
+            //   );
+            //   return;
+            // }
             if (state.status == FormStatus.addArticleFound) {
               Navigator.pop(context);
               Navigator.pushNamed(
@@ -330,6 +364,28 @@
                 intruderDateController.text = Utils.timestampToDateConversion(
                     int.tryParse(
                         state.model.intruderSystemOfflineStartDate ?? 'null'),
+                    Constants.fulldateFormat);
+              }
+
+              if (!state.model.cctvSystemOfflineEndDate.isEmptyOrNull &&
+                  cctvEndDateController.text.isEmpty) {
+                cctvEndDateController.text = Utils.timestampToDateConversion(
+                    int.tryParse(state.model.cctvSystemOfflineEndDate ?? 'null'),
+                    Constants.fulldateFormat);
+              }
+              if (!state.model.accessSystemOfflineEndDate.isEmptyOrNull &&
+                  accessEndDateController.text.isEmpty) {
+                accessEndDateController.text = Utils.timestampToDateConversion(
+                    int.tryParse(
+                        state.model.accessSystemOfflineEndDate ?? 'null'),
+                    Constants.fulldateFormat);
+              }
+
+              if (!state.model.intruderSystemOfflineEndDate.isEmptyOrNull &&
+                  intruderEndDateController.text.isEmpty) {
+                intruderEndDateController.text = Utils.timestampToDateConversion(
+                    int.tryParse(
+                        state.model.intruderSystemOfflineEndDate ?? 'null'),
                     Constants.fulldateFormat);
               }
             }
@@ -413,23 +469,23 @@
                   );
 
                   if (!success) return; //  API failed — stay on page
-
+                  //
                   if (!context.mounted) return; // safety check after await
-
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-
-                  String route = widget.isEventProtection
-                      ? eventProtectionListRoute
-                      : widget.isCSREventProtection || widget.isSportEventProtection
-                      ? csrEventListRoute
-                      : annualPowerShutdownListRoute;
-
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    route,
-                        (route) => false,
-                  );
+                  //
+                  // // Navigator.pop(context);
+                  // // Navigator.pop(context);
+                  //
+                  // String route = widget.isEventProtection
+                  //     ? eventProtectionListRoute
+                  //     : widget.isCSREventProtection || widget.isSportEventProtection
+                  //     ? csrEventListRoute
+                  //     : annualPowerShutdownListRoute;
+                  //
+                  // Navigator.pushNamedAndRemoveUntil(
+                  //   context,
+                  //   route,
+                  //       (route) => false,
+                  // );
                 },
               ),
               backgroundColor: Colors.transparent,
@@ -610,8 +666,39 @@
                                                       .verticalSpacerWidget(
                                                           height * 0.02),
 
-                                                  if ((state.eventDuration == ConstantsIntValue.eventDurationBefore ||
-                                                      state.eventDuration == ConstantsIntValue.eventDurationAfter) &&
+
+                            if ((state.eventDuration == ConstantsIntValue.eventDurationBefore &&
+                                (widget.isSportEventProtection || widget.isCSREventProtection))) ...[
+                                                  /// Additional Information
+                                                  CommonWidgets.textDisplay(
+                                                    // state.labels?.locale.additionalInformation ??
+                                                    //     state.labels?.defaultLocale.additionalInformation ??
+                                                      Constants.additionalinformation,
+                                                      Styles.textStyleWhite16,
+                                                      isMandatory: false),
+                                                  FlutterInputField(
+                                                    lineHeight: 5,
+                                                    characterLimit:
+                                                    Constants.characterLimitDescTextFormField,
+                                                    initialValue: state.model.additionalInformation,
+                                                    textFormKey: Keys.premisesRoundTknCommentsKey,
+                                                    hintText: Constants.informationhere,
+                                                    showBorder: true,
+                                                    textInputAction: TextInputAction.newline,
+                                                    textInputType: TextInputType.multiline,
+                                                    isEnable: true,
+                                                    isDisableColor: false,
+                                                    onChange: (String value) {
+                                                      state.model.additionalInformation = value;
+                                                      context
+                                                          .read<EventInfoCubit>()
+                                                          .onModelValueChange(state.model);
+                                                    },
+                                                    validateTextField: (String? user) {},
+                                                  ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+                            ],
+                                                  if ((state.eventDuration == ConstantsIntValue.eventDurationBefore) &&
                                                     widget.isAnnualPowerShutdown) ...[
                                                     /// CCTV System Offline
                                                     Row(children: [
@@ -839,6 +926,117 @@
                                                         },
                                                       ),
                                                     ],
+                                                  ],
+                                                  CommonWidgets
+                                                      .verticalSpacerWidget(
+                                                      height * 0.02),
+
+
+                                                  if ((state.eventDuration == ConstantsIntValue.eventDurationAfter) &&
+                                                      widget.isAnnualPowerShutdown) ...[
+                                                    /// CCTV System Offline end Date
+                                                      CommonWidgets.textDisplay(
+                                                        // state.labels?.locale.extraSecurityDeployed ??
+                                                        //     state.labels?.defaultLocale
+                                                        //         .extraSecurityDeployed ??
+                                                          Constants.cCTvSystemOfflineEndDate,
+                                                          Styles.textStyleWhite16,
+                                                          isMandatory: true
+                                                      ),
+                                                      BaseDate()
+                                                          .datePickerWidgetLoading(
+                                                        context: context,
+                                                        textController:
+                                                        cctvDateController,
+                                                        isDisabled:
+                                                        !showSaveButtons,
+                                                        onlyDate: false,
+                                                        onChange: (String value) {
+                                                          cctvDateController
+                                                              .text = value;
+                                                          log('dateControllerValue --- $value');
+                                                          state.model
+                                                              .cctvSystemOfflineEndDate =
+                                                              value;
+                                                          BlocProvider.of<
+                                                              EventInfoCubit>(
+                                                              context)
+                                                              .onModelValueChange(
+                                                              state.model);
+                                                        },
+                                                      ),
+
+                                                    CommonWidgets
+                                                        .verticalSpacerWidget(
+                                                        height * 0.02),
+
+                                                    /// Access System Offline end Date
+
+                                                    CommonWidgets.textDisplay(
+                                                        // state.labels?.locale.extraSecurityDeployed ??
+                                                        //     state.labels?.defaultLocale
+                                                        //         .extraSecurityDeployed ??
+                                                          Constants.accessSystemOfflineEndDate,
+                                                          Styles.textStyleWhite16,
+                                                          isMandatory: true
+                                                      ),
+                                                      BaseDate()
+                                                          .datePickerWidgetLoading(
+                                                        context: context,
+                                                        textController:
+                                                        accessDateController,
+                                                        isDisabled:
+                                                        !showSaveButtons,
+                                                        onlyDate: false,
+                                                        onChange: (String value) {
+                                                          accessDateController
+                                                              .text = value;
+                                                          log('dateControllerValue --- $value');
+                                                          state.model
+                                                              .accessSystemOfflineEndDate =
+                                                              value;
+                                                          BlocProvider.of<
+                                                              EventInfoCubit>(
+                                                              context)
+                                                              .onModelValueChange(
+                                                              state.model);
+                                                        },
+                                                      ),
+
+                                                    CommonWidgets
+                                                        .verticalSpacerWidget(
+                                                        height * 0.02),
+                                                    /// Intruder System Offline End Date
+                                                      CommonWidgets.textDisplay(
+                                                        // state.labels?.locale.extraSecurityDeployed ??
+                                                        //     state.labels?.defaultLocale
+                                                        //         .extraSecurityDeployed ??
+                                                          Constants.intruderSystemOfflineEndDate,
+                                                          Styles.textStyleWhite16,
+                                                          isMandatory: true
+                                                      ),
+                                                      BaseDate()
+                                                          .datePickerWidgetLoading(
+                                                        context: context,
+                                                        textController:
+                                                        intruderDateController,
+                                                        isDisabled:
+                                                        !showSaveButtons,
+                                                        onlyDate: false,
+                                                        onChange: (String value) {
+                                                          intruderDateController
+                                                              .text = value;
+                                                          log('dateControllerValue --- $value');
+                                                          state.model
+                                                              .intruderSystemOfflineEndDate =
+                                                              value;
+                                                          BlocProvider.of<
+                                                              EventInfoCubit>(
+                                                              context)
+                                                              .onModelValueChange(
+                                                              state.model);
+                                                        },
+                                                      ),
                                                   ],
                                                   CommonWidgets
                                                       .verticalSpacerWidget(
@@ -1288,218 +1486,6 @@
           });
     }
 
-  //   void openTemplatePreview({
-  //     required String html,
-  //     int? templateId,
-  //   }) {
-  //     selectedTemplateHtml = html;
-  //
-  //     final eventInfoCubit = context.read<EventInfoCubit>();
-  //     final int? currentTemplateId = templateId;
-  //
-  //     showModalBottomSheet(
-  //       context: context,
-  //       isScrollControlled: true,
-  //       showDragHandle: false,
-  //       backgroundColor: Colors.transparent,
-  //       builder: (bottomSheetContext) {
-  //         final height = MediaQuery.of(bottomSheetContext).size.height;
-  //         final width = MediaQuery.of(bottomSheetContext).size.width;
-  //
-  //         return BlocProvider.value(
-  //           value: eventInfoCubit,
-  //           child: BlocBuilder<EventInfoCubit, EventInfoState>(
-  //             builder: (context, state) {
-  //               return ClipRRect(
-  //                 borderRadius: BorderRadius.circular(12),
-  //                 child: BackdropFilter(
-  //                   filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
-  //                   child: Container(
-  //                     height: height * 0.9,
-  //                     margin: const EdgeInsets.all(16),
-  //                     decoration: BoxDecoration(
-  //                       color: AppColors.newColor3.withValues(alpha: 0.1),
-  //                       borderRadius: BorderRadius.circular(12),
-  //                       border: Border.all(
-  //                         color: Colors.white.withValues(alpha: 0.4),
-  //                         width: 0.7,
-  //                       ),
-  //                     ),
-  //                     child: Column(
-  //                       children: [
-  //                         /// ===== HEADER =====
-  //                         Padding(
-  //                           padding: const EdgeInsets.all(8),
-  //                           child: Row(
-  //                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                             children: [
-  //                               Text(
-  //                                 currentTemplateId == null
-  //                                     ? "Create Email Template"
-  //                                     : "Edit Email Template #$currentTemplateId",
-  //                                 style: const TextStyle(
-  //                                   color: Colors.white,
-  //                                   fontSize: 16,
-  //                                 ),
-  //                               ),
-  //                               Row(
-  //                                 children: [
-  //                                   showSaveButtons
-  //                                       ? IconButton(
-  //                                           tooltip: "Submit",
-  //                                           icon: const Icon(
-  //                                             Icons.send,
-  //                                             color: Colors.white,
-  //                                           ),
-  //                                           onPressed: () async {
-  //                                             final html =
-  //                                                 await quillController.getText();
-  //
-  //                                             if (html.trim().isEmpty) return;
-  //
-  //                                             await context
-  //                                                 .read<EventInfoCubit>()
-  //                                                 .submitTemplateAndRefresh(
-  //                                                   html: html,
-  //                                                   id: currentTemplateId,
-  //                                                 );
-  //
-  //                                             await context
-  //                                                 .read<EventInfoCubit>()
-  //                                                 .getNotificationDetailsById(
-  //                                                   widget.eventProtectionId,
-  //                                                 );
-  //
-  //                                             if (context.mounted) {
-  //                                               Navigator.pop(context);
-  //                                             }
-  //                                           },
-  //                                         )
-  //                                       : const SizedBox(),
-  //                                   IconButton(
-  //                                     tooltip: "Close",
-  //                                     icon: const Icon(
-  //                                       Icons.close,
-  //                                       color: Colors.white,
-  //                                     ),
-  //                                     onPressed: () async {
-  //                                       await context
-  //                                           .read<EventInfoCubit>()
-  //                                           .getNotificationDetailsById(
-  //                                             widget.eventProtectionId,
-  //                                           );
-  //                                       if (context.mounted) {
-  //                                         Navigator.pop(context);
-  //                                       }
-  //                                     },
-  //                                   ),
-  //                                 ],
-  //                               ),
-  //                             ],
-  //                           ),
-  //                         ),
-  //
-  //                         /// ===== FIXED HTML EDITOR AREA =====
-  //                         SizedBox(
-  //                           height: height * 0.5,
-  //                           child: Padding(
-  //                             padding: const EdgeInsets.symmetric(horizontal: 12),
-  //                             child: HtmlEditor(
-  //                               controller: quillController,
-  //                               htmlToolbarOptions: const HtmlToolbarOptions(
-  //                                 toolbarPosition: ToolbarPosition.aboveEditor,
-  //                                 textStyle: Styles.textStyleBlack16,
-  //                               ),
-  //                               htmlEditorOptions: HtmlEditorOptions(
-  //                                 darkMode: false,
-  //                                 initialText: selectedTemplateHtml,
-  //                                 autoAdjustHeight: false,
-  //                               ),
-  //                               otherOptions: OtherOptions(
-  //                                 height: height * 1.2,
-  //                               ),
-  //                               callbacks: Callbacks(
-  //                                 onInit: () {
-  //                                   quillController.setText("""
-  // <style>
-  // body { background-color: transparent !important; color: white !important; }
-  // * { color: white !important; }
-  // </style>
-  // $selectedTemplateHtml
-  // """);
-  //                                 },
-  //                               ),
-  //                             ),
-  //                           ),
-  //                         ),
-  //
-  //                         const SizedBox(height: 20),
-  //
-  //                         /// ===== UPLOAD LABEL + BUTTON =====
-  //                         Padding(
-  //                           padding: const EdgeInsets.symmetric(horizontal: 1),
-  //                           child: Column(
-  //                             crossAxisAlignment: CrossAxisAlignment.start,
-  //                             children: [
-  //                               CommonWidgets.textDisplay(
-  //                                 Constants.upload,
-  //                                 Styles.textStyleWhite16,
-  //                               ),
-  //                               uploadWidget(state),
-  //                             ],
-  //                           ),
-  //                         ),
-  //
-  //                         const SizedBox(height: 12),
-  //
-  //                         /// ===== SCROLLABLE ATTACHMENT CONTAINER =====
-  //                         if (state.loadAttachments!.isNotEmpty) ...[
-  //                           Expanded(
-  //                             child: Padding(
-  //                               padding:
-  //                                   const EdgeInsets.symmetric(horizontal: 12),
-  //                               child: Container(
-  //                                 width: width,
-  //                                 decoration: BoxDecoration(
-  //                                   borderRadius: BorderRadius.circular(12),
-  //                                   border: Border.all(
-  //                                     color: Colors.white.withValues(alpha: 0.35),
-  //                                     width: 0.8,
-  //                                   ),
-  //                                   color: Colors.white.withValues(alpha: 0.03),
-  //                                 ),
-  //                                 child: ClipRRect(
-  //                                   borderRadius: BorderRadius.circular(12),
-  //                                   child: SingleChildScrollView(
-  //                                     padding: const EdgeInsets.all(8),
-  //                                     child: BaseImageUpload().getAttachment(
-  //                                       height: height,
-  //                                       attachments: List<ImageContent>.from(
-  //                                           state.loadAttachments ?? []),
-  //                                       files: getFiles,
-  //                                       // files: getFiles,
-  //                                       moduleCode: '',
-  //                                       isDisabled: !showSaveButtons,
-  //                                       showDeleteIcon: true,
-  //                                     ),
-  //                                   ),
-  //                                 ),
-  //                               ),
-  //                             ),
-  //                           ),
-  //                         ],
-  //                         CommonWidgets.verticalSpacerWidget(height * 0.015),
-  //                       ],
-  //                     ),
-  //                   ),
-  //                 ),
-  //               );
-  //             },
-  //           ),
-  //         );
-  //       },
-  //     );
-  //   }
     void openTemplatePreview({
       required String html,
       int? templateId,
@@ -1564,7 +1550,7 @@
                         children: [
                           CommonWidgets.textDisplay(
                             Constants.additionalEmails,
-                            Styles.textStyleWhite16, // ✅ change to white
+                            Styles.textStyleWhite16, //  change to white
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                           FlutterInputField(
@@ -1572,7 +1558,7 @@
                             controller: addEmailController,
                             textFormKey: Keys.equipmentNoKey,
                             hintText: 'Enter email',
-                            isEnable: showSaveButtons,
+                            isEnable: true,
                             isDisableColor: false,
                             onChange: (String value) {},
                             validateTextField: (String value) {},

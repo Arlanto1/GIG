@@ -130,7 +130,7 @@ class _TransportMedicalDetailsViewState
         if (state.model.status != 0 && state.model.status != null) {
           disableForm = false;
         }
-        isEditable = (state.model.status == 0 || state.model.status == null) && state.model.lock.isEmptyOrNull && state.model.status == -1;
+        isEditable = (state.model.status == 0 || state.model.status == null) && state.model.lock.isEmptyOrNull && state.model.status != -1;
 
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(

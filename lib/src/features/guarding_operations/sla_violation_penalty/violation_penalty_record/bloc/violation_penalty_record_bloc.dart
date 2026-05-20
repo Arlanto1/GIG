@@ -16,7 +16,7 @@ class ViolationPenaltyRecordBloc
       : super(ViolationPenaltyRecordState(
             violationDescriptions: violationDescriptions)) {
     on<FetchData>(
-      _fetchContacts,
+      _fetchViolationRecord,
       transformer: droppable(),
     );
     on<InitializeValues>(_initializeValues);
@@ -60,7 +60,7 @@ class ViolationPenaltyRecordBloc
     }
   }
 
-  FutureOr<void> _fetchContacts(
+  FutureOr<void> _fetchViolationRecord(
       FetchData event, Emitter<ViolationPenaltyRecordState> emit) async {
     try {
       if (state.hasReachedMax) return;

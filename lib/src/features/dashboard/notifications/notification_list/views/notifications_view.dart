@@ -135,7 +135,6 @@ class _NotificationsViewState extends State<NotificationsView> {
                   ),
                 ),
               ),
-
               CustomMaterialIndicator(
                 onRefresh: () => _onRefresh(),
                 backgroundColor: Colors.white,

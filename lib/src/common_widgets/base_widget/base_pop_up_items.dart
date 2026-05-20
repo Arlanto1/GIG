@@ -507,12 +507,14 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
       if (widget.status != 0 &&
           widget.status != null &&
           widget.isMasterGuard) ...[
+        CommonWidgets.verticalSpacerWidget(5),
         Row(
           children: [
             CommonWidgets.verticalSpacerWidget(5),
             Utils().buildMasterDataStatusRow(widget.status ?? 0),
           ],
         ),
+        CommonWidgets.verticalSpacerWidget(7),
       ],
       if (widget.maritalStatus != 0 &&
           widget.maritalStatus != null &&
@@ -662,7 +664,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
         CommonWidgets.verticalSpacerWidget(5),
         Row(
         children: [
-        Utils().buildCSREventStatusRow(widget.status ?? 0),
+        Utils().buildCSRProtectionStatusRow(widget.status ?? 0),
         ],
         ),
         ],

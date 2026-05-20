@@ -7,6 +7,7 @@ class ArticleFoundDetailsState extends Equatable {
   final Locations? locations;
   final User? loggedInUserDetails;
    final List<Organisation> articleType;
+  final List<Organisation> articleCategory;
   final List<BaseUser>? emailUsers;
   final List<BaseUser>? employee;
   final List<BaseUser>? claimant;
@@ -16,14 +17,14 @@ class ArticleFoundDetailsState extends Equatable {
   final List<ImageContent> uploadAttachments;
   final List<BaseUser>? idCardManger;
   final List<BaseUser>? idCardEmployee;
-
   final String? message;
-  final PMUiLabels? labels;
+  final AFUiLabels? labels;
 
   factory ArticleFoundDetailsState.initial({
     required ArticleFoundModel model,
     required Locations locations,
     required List<Organisation> articleType,
+    required List<Organisation> articleCategory,
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
     required String errorMessage,
@@ -36,6 +37,7 @@ class ArticleFoundDetailsState extends Equatable {
       model: model,
       locations: locations,
       articleType: articleType,
+      articleCategory:articleCategory,
       emailUsers: emailUsers,
       message: errorMessage,
       departments: departments,
@@ -177,6 +179,7 @@ class ArticleFoundDetailsState extends Equatable {
     required this.model,
     this.locations,
     required this.articleType,
+    required this.articleCategory,
     this.loggedInUserDetails,
     this.emailUsers,
     required this.departments,
@@ -196,6 +199,7 @@ class ArticleFoundDetailsState extends Equatable {
     ArticleFoundModel? model,
     Locations? locations,
     List<Organisation>? articleType,
+    List<Organisation>? articleCategory,
     User? loggedInUserDetails,
     List<BaseUser>? emailUsers,
     List<BaseUser>? employee,
@@ -209,14 +213,14 @@ class ArticleFoundDetailsState extends Equatable {
     List<BaseUser>? idCardManger,
     List<BaseUser>? idCardEmployee,
     bool? isReceiverSignEditable,
-
-    PMUiLabels? labels,
+    AFUiLabels? labels,
   }) {
     return ArticleFoundDetailsState(
       status: status ?? this.status,
       model: model ?? this.model,
       locations: locations ?? this.locations,
       articleType: articleType ?? this.articleType,
+      articleCategory:articleCategory??this.articleCategory,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
       emailUsers: emailUsers ?? this.emailUsers,
       employee: employee ?? this.employee,

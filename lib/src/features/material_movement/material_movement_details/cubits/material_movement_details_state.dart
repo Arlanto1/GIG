@@ -302,8 +302,8 @@ class MaterialMovementDetailsState extends Equatable {
     }
     if (model.expectedDateOfReturn == null &&
         model.returnable! &&
-        model.status != 0 &&
-        model.status != null) {
+        model.status != 0 && model.status != 11 &&
+    model.status != null) {
       return const ErrorResponse(
           status: false, message: 'Please enter Expected date of Return');
     }
@@ -328,7 +328,7 @@ class MaterialMovementDetailsState extends Equatable {
       );
     }
 
-    if (model.inwardMovement == false &&
+    if (
         model.requestorEmail != null &&
         model.requestorEmail == model.approver1Email) {
       return const ErrorResponse(
@@ -337,7 +337,7 @@ class MaterialMovementDetailsState extends Equatable {
               'Selected Approver1 Email is already selected in other list');
     }
 
-    if (model.inwardMovement == false &&
+    if (
         model.requestor2Email != null && model.requestorEmail != null &&
         model.requestorEmail == model.requestor2Email) {
       return const ErrorResponse(
@@ -346,7 +346,7 @@ class MaterialMovementDetailsState extends Equatable {
           'Selected Requestor 1 Email is already selected in other list');
     }
 
-    if (model.inwardMovement == false &&
+    if (
         model.requestorEmail != null &&
         model.requestorEmail == model.approver2Email) {
       return const ErrorResponse(
@@ -355,7 +355,7 @@ class MaterialMovementDetailsState extends Equatable {
               'Selected Approver2 Email is already selected in other list');
     }
 
-    if (model.inwardMovement == false &&
+    if (
         model.requestor2Email != null &&
         model.requestor2Email == model.approver2Email) {
       return const ErrorResponse(
@@ -363,7 +363,7 @@ class MaterialMovementDetailsState extends Equatable {
           message:
           'Selected Approver2 Email is already selected in other list');
     }
-    if (model.inwardMovement == false &&
+    if (
         model.approver1Email != null &&
         model.approver1Email == model.approver2Email) {
       return const ErrorResponse(

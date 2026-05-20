@@ -257,8 +257,8 @@ class Constants {
   static const String safeStoragePlace = 'Safe Storage Place';
   static const String managerName = 'Manager Name';
   static const String employeeName = 'Employee Name';
-
   static const String quantity = 'Quantity';
+  static const String approximateValue = 'Approximate Value(INR)';
   static const String colour = 'Colour';
   static const String depositoremployeeid = 'Depositor Employee Id';
   static const String claimantemployeeid = 'Claimant Employee Id';
@@ -279,6 +279,7 @@ class Constants {
   static const String itemhandoverby = 'Item Handover By';
   static const String slno = 'Sl No.';
   static const String articleType = 'Article Type';
+  static const String articleCategory = 'Article Category';
   static const String depositor = 'Depositor';
   static const String employeedepartment = 'Employee Department';
   static const String claimantdepartment = 'Claimant Department';
@@ -726,6 +727,9 @@ class Constants {
   static const String cCTvSystemOffline = 'CCTV System Offline';
   static const String accessSystemOffline = 'Access System Offline';
   static const String intruderSystemOffline = 'Intruder System Offline';
+  static const String cCTvSystemOfflineEndDate = 'CCTV System Offline End Date';
+  static const String accessSystemOfflineEndDate = 'Access System Offline End Date';
+  static const String intruderSystemOfflineEndDate = 'Intruder System Offline End Date';
 
   //Occurrence
   static const String createOccurrence = 'Create Occurrence';
@@ -1174,6 +1178,12 @@ class Constants {
   ///Training Module
   static const String training = 'Classroom Training';
   static const String trainingItems = 'Training Items';
+  static const String trainingType = 'Training Type';
+  static const String creatorName = 'Creator Name';
+  static const String creatorEmail = 'Creator Email';
+  static const String trainingYear = 'Training Year';
+  static const String ownership = 'Ownership';
+  static const String endDate = 'End Date';
 
 }
 

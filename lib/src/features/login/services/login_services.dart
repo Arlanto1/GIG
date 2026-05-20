@@ -33,7 +33,7 @@ class LoginService {
     String url = Apis._loginSso;
     log('---url----$url----');
     final response = await BaseApiService().postRequest(
-        url: url, requestedData: data.toJson()!, isAuthenticated: false);
+        url: url, requestedData: {"request": data.toJson()}, isAuthenticated: false);
     return LoginResponseModel.fromJson(response);
   }
 

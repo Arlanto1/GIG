@@ -281,7 +281,11 @@ class _PatrollingListViewState extends State<PatrollingListView> {
                     itemBuilder: (context, index) {
                       // Loading indicator at end of list
                       if (index >= state.items.length) {
-                        return const Center(child: BaseLoader());
+                        if (state.status == FormStatus.loading ||
+                            state.status == FormStatus.initial) {
+                          return const Center(child: BaseLoader());
+                        }
+                        return const SizedBox();
                       }
 
                       final item = state.items[index];

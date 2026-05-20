@@ -221,6 +221,13 @@ class _TransportMedicalListViewState extends State<TransportMedicalListView> {
                               ? state.items.length
                               : state.items.length + 1,
                           itemBuilder: (context, index) {
+                            if (index >= state.items.length) {
+                              if (state.status == FormStatus.loading ||
+                                  state.status == FormStatus.initial) {
+                                return const Center(child: BaseLoader());
+                              }
+                              return const SizedBox();
+                            }
                             List<Label> labels = [];
                             if (index < state.items.length) {
                               labels.add(Label(

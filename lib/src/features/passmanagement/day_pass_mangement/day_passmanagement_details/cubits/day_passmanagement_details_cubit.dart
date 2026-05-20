@@ -226,6 +226,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       state.model.employee?.lastName = null;
       state.model.employee = null;
       state.model.employeeId = null;
+      state.model.entities = null;
       emailUsers = await commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomStaticUser,
           isDbUser: true,

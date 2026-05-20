@@ -2,7 +2,7 @@
 part of 'training_module_list_bloc.dart';
 
 class TrainingModuleListState extends Equatable{
-  final List<PatrollingModel> items;
+  final List<TrainingModel> items;
   final Locations? location;
   final ExtraProperties? extraProperties;
   final FormStatus? status;
@@ -26,7 +26,7 @@ class TrainingModuleListState extends Equatable{
   });
 
   TrainingModuleListState copyWith({
-    List<PatrollingModel>? items,
+    List<TrainingModel>? items,
     Locations? location,
     ExtraProperties? extraProperties,
     FormStatus? status,

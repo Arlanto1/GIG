@@ -224,6 +224,7 @@ class VendorPassManagementDetailsCubit extends Cubit<VendorPassManagementDetails
       state.model.host = null;
       state.model.hostEmployeeId = null;
       state.model.hostName = null;
+      state.model.entities = null;
 
       emailUsers = await commonServices.getBaseUsers(
           roleName: ConstantUserRoles.atomStaticUser,

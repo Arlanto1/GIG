@@ -444,7 +444,29 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
-        return AddContactPopUp(
+        return Dialog(
+            backgroundColor: Colors.transparent,
+            insetPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0), // ← controls top/bottom space
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                    child: ConstrainedBox(
+                        constraints: BoxConstraints(
+                          maxHeight: MediaQuery.of(context).size.height * 0.55,
+                          maxWidth: MediaQuery.of(context).size.width * 0.9,
+                        ),
+                    child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: Colors.white.withValues(alpha: 0.3),
+                            width: 0.7,
+                          ),
+                        ),
+                        child: SingleChildScrollView( // ← key fix
+                            child: AddContactPopUp(
           title: widget.title,
           model: contact,
           mainContext: context,
@@ -465,7 +487,7 @@ class _ContactRecordViewState extends State<ViolationPenaltyRecordsView> {
               ),
             );
           },
-        );
+        )))))));
       },
     );
   }

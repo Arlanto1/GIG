@@ -191,8 +191,13 @@ class _TicketingSystemViewState extends State<TicketingSystemView> {
                             ? state.items.length
                             : state.items.length + 1,
                         itemBuilder: (context, index) {
-                          if (index >= state.items.length) return const SizedBox();
-
+                          if (index >= state.items.length) {
+                            if (state.status == FormStatus.loading ||
+                                state.status == FormStatus.initial) {
+                              return const Center(child: BaseLoader());
+                            }
+                            return const SizedBox();
+                          }
                           final item = state.items[index];
 
                           // Build labels

@@ -2492,8 +2492,12 @@ import 'package:db_atom/src/features/ticketing_system/ticketing_system_details/c
 import 'package:db_atom/src/features/ticketing_system/ticketing_system_details/views/ticketing_system_details_view.dart';
 import 'package:db_atom/src/features/ticketing_system/ticketing_systems/bloc/ticketing_system_bloc.dart';
 import 'package:db_atom/src/features/ticketing_system/ticketing_systems/views/ticketing_system_view.dart';
+import 'package:db_atom/src/features/training_module/models/requestModel/training_module_request.dart';
+import 'package:db_atom/src/features/training_module/services/training_module_service.dart';
 import 'package:db_atom/src/features/training_module/training_genInfo/cubits/training_genInfo_cubit.dart';
 import 'package:db_atom/src/features/training_module/training_genInfo/views/training_genInfo_view.dart';
+import 'package:db_atom/src/features/training_module/training_items_list/bloc/training_items_bloc.dart';
+import 'package:db_atom/src/features/training_module/training_items_list/view/training_items_list_view.dart';
 import 'package:db_atom/src/features/training_module/training_module_list/bloc/training_module_list_bloc.dart';
 import 'package:db_atom/src/features/training_module/training_module_list/view/training_module_list_view.dart';
 import 'package:db_atom/src/features/training_module/training_tab/training_listCard.dart';
@@ -4919,62 +4923,93 @@ class RouteGenerator {
                 ..add(FetchTrainingData(
                     startPos: 0,
                     maxPos: Constants.maxResults,
-                    newSearch: true,
                     filters: BaseFilterModel())),
-              child: const TrainingModuleListView(),
+              child: const ClassRoomTrainingListView(),
             ));
 
 
       case trainingListCardRoute:
-        IncidentManagementServices services = IncidentManagementServices();
+        TrainingModuleServices services = TrainingModuleServices();
         CommonServices commonServices = CommonServices();
         String title;
         Map<String, dynamic> arguments =
         settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
-        PatrollingModel? model = arguments["model"];
-        PatrollingOtherModel? otherModel = arguments["otherModel"];
+        TrainingModel? model = arguments["model"];
 
         return MaterialPageRoute(
           builder: (context) => BlocProvider<TrainingGenInfoCubit>(
             create: (_) => TrainingGenInfoCubit(
-               id: '', services: services, commonServices: CommonServices(),
+               // id: '',
+              services: services, commonServices: CommonServices(),
             ),
             child: TrainingListCardView(
               title: title,
               model: model,
-              otherModel: otherModel,
             ),
           ),
         );
 
 
       case trainingGenInfoDetailsRoute:
-        ArticleFoundServices services = ArticleFoundServices();
+        TrainingModuleServices services = TrainingModuleServices();
         CommonServices commonServices = CommonServices();
         String id;
         ExtraProperties? extraProperties;
         Map<String, dynamic> arguments =
         settings.arguments as Map<String, dynamic>;
         id = arguments['id'] ?? '';
-        // ArticleFoundModel? model = arguments["model"];
+        TrainingModel? model = arguments["model"];
         extraProperties = arguments[ConstantsArgument.extraProperties];
 
         return MaterialPageRoute(
           builder: (context) =>
               BlocProvider<TrainingGenInfoCubit>(
                 create: (_) => TrainingGenInfoCubit(
-                  services: IncidentManagementServices(),
+                  services: TrainingModuleServices(),
                   commonServices: CommonServices(),
-                  id: id,
+                  model: model,
                 ),
                 child: TrainingGenInfoView(
                   extraProperties: extraProperties,
+                  model: model
                 ),
               ),
         );
 
-    //
+
+
+      // case trainingItemsListRoute:
+      //   return MaterialPageRoute(
+      //       builder: (context) => BlocProvider<TrainingItemsBloc>(
+      //         create: (_) => TrainingItemsBloc()
+      //           ..add(const FetchTrainingItemsData(
+      //               startPos: 0,
+      //               maxPos: Constants.maxResults, id: 0,
+      //               // filters: BaseFilterModel()
+      //           )
+      //           ),
+      //         child: const TrainingItemsListView(),
+      //       ));
+
+
+      case trainingItemsListRoute:
+        String id;
+        Map<String, dynamic> arguments =
+        settings.arguments as Map<String, dynamic>;
+        id = arguments['id'] ?? '';
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<TrainingItemsBloc>(
+              create: (_) => TrainingItemsBloc()
+                ..add(FetchTrainingItemsData(
+                    startPos: 0,
+                    maxPos: Constants.maxResults, id: id,
+                    // filters: BaseFilterModel()
+                )
+                ),
+              child: TrainingItemsListView(id: id),
+            ));
+
       default:
         log('--default123---${settings.name}-');
         return MaterialPageRoute(builder: (context) => const SplashScreen());

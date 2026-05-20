@@ -11,13 +11,11 @@ abstract class TrainingModuleListEvent extends Equatable{
 class FetchTrainingData extends TrainingModuleListEvent {
   final int startPos;
   final int maxPos;
-  final bool newSearch;
   final BaseFilterModel filters;
 
   const FetchTrainingData(
       {required this.startPos,
         required this.maxPos,
-        required this.newSearch,
         required this.filters});
 }
 

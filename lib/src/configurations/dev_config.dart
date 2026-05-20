@@ -5,6 +5,9 @@ class DevConfig implements BaseConfig {
   String get apiHost => "https://api.integration-v2.dbatom.arlanto.com/api/atomrestservice";
 
   @override
+  String get apiHost1 => "https://api.integration-v2.dbatom.arlanto.com/s1/api/survey";
+
+  @override
   bool get reportErrors => false;
 
   @override

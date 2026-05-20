@@ -102,7 +102,7 @@ class _MaterialItemsViewView extends State<MaterialItemsView> {
           hasAddPermission:
               !(widget.extraProperties != null &&
                   !widget.extraProperties!.hasWritePermission!) &&
-              widget.lock.isEmptyOrNull ? true : false,
+              widget.lock.isEmptyOrNull && (widget.parentStatus == 0) ? true : false,
           scaffoldKey: scaffoldKey,
           context: context,
           // displayMenu: state.displayMenu,
@@ -271,7 +271,7 @@ class _MaterialItemsViewView extends State<MaterialItemsView> {
                                     );
                                   },
                                   showEditButton:
-                                      widget.lock.isEmptyOrNull,
+                                      widget.lock.isEmptyOrNull && widget.parentStatus == 0,
                                   // onEditTap: (selectedIndex) async {
                                   //   // your edit logic
                                   // },
@@ -312,7 +312,7 @@ class _MaterialItemsViewView extends State<MaterialItemsView> {
                                       },
                                     );
                                   },
-                                  showDeleteButton: (widget.parentStatus == 0 || widget.parentStatus ==1 ) &&
+                                  showDeleteButton: (widget.parentStatus == 0) &&
                                       widget.lock.isEmptyOrNull,
                                   // onDeleteTap: widget.parentStatus == 0
                                   //     ? (selectedIndex) async {
@@ -452,6 +452,11 @@ class _MaterialItemsViewView extends State<MaterialItemsView> {
             borderRadius: BorderRadius.circular(20),
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(context).size.height * 0.75,
+                  maxWidth: MediaQuery.of(context).size.width * 0.9,
+                ),
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.1),
@@ -480,7 +485,7 @@ class _MaterialItemsViewView extends State<MaterialItemsView> {
               ),
             ),
           ),
-        );
+       ) );
       },
     );
   }

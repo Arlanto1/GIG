@@ -155,8 +155,13 @@ class _OccurrencesViewState extends State<OccurrencesView> {
                             ? state.list.length
                             : state.list.length + 1,
                         itemBuilder: (context, index) {
-                          if (index >= state.list.length) return const SizedBox();
-
+                          if (index >= state.list.length) {
+                            if (state.status == FormStatus.loading ||
+                                state.status == FormStatus.initial) {
+                              return const Center(child: BaseLoader());
+                            }
+                            return const SizedBox();
+                          }
                           final item = state.list[index];
 
                           // Build labels

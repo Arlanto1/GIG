@@ -150,6 +150,13 @@ class _GuardingMasterReportState extends State<GuardingMasterReport> {
                           ? state.list.length
                           : state.list.length + 1,
                       itemBuilder: (context, index) {
+                        if (index >= state.list.length) {
+                          if (state.status == FormStatus.loading ||
+                              state.status == FormStatus.initial) {
+                            return const Center(child: BaseLoader());
+                          }
+                          return const SizedBox();
+                        }
                         if (index < state.list.length) {
                           return index >= state.list.length
                               ? null : Container(

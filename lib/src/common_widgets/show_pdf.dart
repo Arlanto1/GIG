@@ -22,6 +22,10 @@ class ShowPdf extends StatelessWidget {
         ),
         child:
      Scaffold(
+       // appBar: AppBar(
+       //   backgroundColor: Colors.black,
+       //   iconTheme: const IconThemeData(color: Colors.white),
+       // ),
       appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: 'PDF Report',

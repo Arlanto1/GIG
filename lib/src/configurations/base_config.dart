@@ -1,6 +1,8 @@
 abstract class BaseConfig {
   String get apiHost;
 
+  String get apiHost1;
+
   String get keyClockApiHost;
 
   String get keyClockRealm;

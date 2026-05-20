@@ -1854,6 +1854,7 @@ import '../../../../index.dart';
 
 import 'dart:ui';
 
+
 class BaseSearchWidget extends StatefulWidget {
   final Function(FilterCriteria) applySearchFilters;
   final Function(Filters) applyFilters;
@@ -1864,6 +1865,7 @@ class BaseSearchWidget extends StatefulWidget {
     required this.applySearchFilters,
     required this.applyFilters,
     required this.commonFilters,
+
   });
 
   @override
@@ -1965,36 +1967,6 @@ class _BaseSearchWidgetState extends State<BaseSearchWidget> {
     );
   }
 
-  // void _showRightFilterDrawer(BuildContext context) {
-  //   showGeneralDialog(
-  //     context: context,
-  //     barrierDismissible: true,
-  //     barrierLabel: '',
-  //     transitionDuration: const Duration(milliseconds: 300),
-  //     pageBuilder: (context, animation1, animation2) {
-  //       return Align(
-  //         alignment: Alignment.centerRight,
-  //         child: Material(
-  //           // color: Colors.transparent,
-  //           color: AppColors.lavender,
-  //           child: SizedBox(
-  //             width: MediaQuery.of(context).size.width * 0.85,
-  //             child: FilterDrawerWidget(
-  //               applyFilters: widget.applyFilters,
-  //               commonFilters: widget.commonFilters,
-  //             ),
-  //           ),
-  //         ),
-  //       );
-  //     },
-  //     transitionBuilder: (context, animation1, animation2, child) {
-  //       return SlideTransition(
-  //         position: Tween<Offset>(begin: const Offset(1, 0), end: Offset.zero).animate(animation1),
-  //         child: child,
-  //       );
-  //     },
-  //   );
-  // }
   void _showRightFilterDrawer(BuildContext context) {
     showGeneralDialog(
       context: context,
@@ -2035,6 +2007,7 @@ class _BaseSearchWidgetState extends State<BaseSearchWidget> {
                   child: FilterDrawerWidget(
                     applyFilters: widget.applyFilters,
                     commonFilters: widget.commonFilters,
+
                   ),
                 ),
               ),
@@ -2083,8 +2056,8 @@ class _FilterDrawerWidgetState extends State<FilterDrawerWidget> {
   final List<String> tabs = [
     'ID',
     'Created By',
-    'From Date',
-    'To Date',
+    // 'From Date',
+    // 'To Date',
     'Region',
     'Location',
     'Status',
@@ -2097,8 +2070,8 @@ class _FilterDrawerWidgetState extends State<FilterDrawerWidget> {
       selectedRegion = null;
       selectedLocation = null;
       selectedStatus = null;
-      fromDate = null;
-      toDate = null;
+      // fromDate = null;
+      // toDate = null;
       filteredLocations = [];
     });
   }
@@ -2121,24 +2094,6 @@ class _FilterDrawerWidgetState extends State<FilterDrawerWidget> {
       },
     );
   }
-
-  // Widget _buildRadioList(List<Organisation>? list, Organisation? selected, Function(Organisation) onSelect) {
-  //   if (list == null || list.isEmpty) return const Text('No data', style: TextStyle(color: Colors.white));
-  //   return Column(
-  //     children: list.map((e) {
-  //       return RadioListTile<Organisation>(
-  //         contentPadding: EdgeInsets.zero,
-  //         title: Text(e.name ?? '', style: const TextStyle(color: Colors.white)),
-  //         value: e,
-  //         groupValue: selected,
-  //         activeColor: Colors.white,
-  //         onChanged: (val) {
-  //           if (val != null) onSelect(val);
-  //         },
-  //       );
-  //     }).toList(),
-  //   );
-  // }
   Widget _buildRadioList(
       List<Organisation>? list,
       Organisation? selected,
@@ -2183,10 +2138,10 @@ class _FilterDrawerWidgetState extends State<FilterDrawerWidget> {
         return _buildGlassTextField('Enter ID', idController, TextInputType.number);
       case 'Created By':
         return _buildGlassTextField('Enter Created By', createdByController, TextInputType.text);
-      case 'From Date':
-        return _buildDatePicker('From Date', fromDate, (val) => setState(() => fromDate = val));
-      case 'To Date':
-        return _buildDatePicker('To Date', toDate, (val) => setState(() => toDate = val));
+      // case 'From Date':
+      //   return _buildDatePicker('From Date', fromDate, (val) => setState(() => fromDate = val));
+      // case 'To Date':
+      //   return _buildDatePicker('To Date', toDate, (val) => setState(() => toDate = val));
       case 'Region':
         return _buildRadioList(widget.commonFilters.regions, selectedRegion, (val) async {
           setState(() {
@@ -2329,44 +2284,6 @@ class _FilterDrawerWidgetState extends State<FilterDrawerWidget> {
                             ),
                           ),
 
-                          // Right tab content
-                          // Expanded(
-                          //   child: LayoutBuilder(
-                          //     builder: (context, constraints) {
-                          //       return SingleChildScrollView(
-                          //         padding: const EdgeInsets.all(16),
-                          //         child: ConstrainedBox(
-                          //           constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                          //           child: IntrinsicHeight(
-                          //             child: Container(
-                          //               padding: const EdgeInsets.all(0),
-                          //               decoration: BoxDecoration(
-                          //                 color: AppColors.newColor.withValues(alpha: 0.08),
-                          //                 borderRadius: BorderRadius.circular(16),
-                          //                 border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
-                          //               ),
-                          //               child:
-                          //               Column(
-                          //                 mainAxisAlignment: MainAxisAlignment.start,
-                          //                 // crossAxisAlignment: CrossAxisAlignmentgnment.start,
-                          //                 children: [_buildTabContent()],
-                          //               ),
-                          //                 // SingleChildScrollView(
-                          //                 //   child: Column(
-                          //                 //     mainAxisAlignment: MainAxisAlignment.start,
-                          //                 //     children: [
-                          //                 //       _buildTabContent(),
-                          //                 //     ],
-                          //                 //   ),
-                          //                 // )
-                          //
-                          //             ),
-                          //           ),
-                          //         ),
-                          //       );
-                          //     },
-                          //   ),
-                          // ),
                           Expanded(
                             child: LayoutBuilder(
                               builder: (context, constraints) {
@@ -2504,105 +2421,6 @@ class DropdownWidgetState extends State<DropdownWidget> {
     }
   }
 
-  @override
-  // Widget build(BuildContext context) {
-  //   // return Expanded(
-  //   //   child: DropdownButtonFormField<Organisation>(
-  //   //     initialValue: selectedElement,
-  //   //     hint: Text(widget.label),
-  //   //     // onChanged: widget.onChange,
-  //   //     onChanged: (Organisation? newValue) {
-  //   //       if (widget.shouldUpdate ?? false) {
-  //   //         setState(() {
-  //   //           selectedElement = newValue;
-  //   //         });
-  //   //       }
-  //   //       if (widget.onChange != null) {
-  //   //         widget.onChange!(newValue);
-  //   //       }
-  //   //     },
-  //   //     items: widget.items.map((item) {
-  //   //       return DropdownMenuItem<Organisation>(
-  //   //         value: item,
-  //   //         child: Text(item.name ?? ''),
-  //   //       );
-  //   //     }).toList(),
-  //   //     decoration: const InputDecoration(
-  //   //       focusedBorder: UnderlineInputBorder(
-  //   //         borderSide: BorderSide(
-  //   //           color: AppColors.navigationSkyBlueColor,
-  //   //         ),
-  //   //       ),
-  //   //     ),
-  //   //
-  //   //   ),
-  //   // );
-  //   return Expanded(
-  //     child: Container(
-  //       decoration: BoxDecoration(
-  //         color: Colors.transparent, // Frosted white tint
-  //         borderRadius: BorderRadius.circular(18),
-  //         border: Border.all(
-  //           color: Colors.white.withValues(alpha: 0.45),
-  //           width: 1.2,
-  //         ),
-  //         boxShadow: [
-  //           BoxShadow(
-  //             color: Colors.white.withValues(alpha: 0.05),
-  //             blurRadius: 12,
-  //             spreadRadius: 0.6,
-  //             offset: const Offset(0, 4),
-  //           ),
-  //         ],
-  //         // Glass blur
-  //         backgroundBlendMode: BlendMode.overlay,
-  //       ),
-  //       child: ClipRRect(
-  //         borderRadius: BorderRadius.circular(18),
-  //         child: BackdropFilter(
-  //           filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
-  //           child: Padding(
-  //             padding: const EdgeInsets.symmetric(horizontal: 12),
-  //             child: DropdownButtonFormField<Organisation>(
-  //               value: selectedElement,
-  //               hint: Text(
-  //                 widget.label,
-  //                 style: const TextStyle(color: Colors.white),
-  //               ),
-  //               dropdownColor: Colors.white.withValues(alpha: 0.1), // glass dropdown
-  //               iconEnabledColor: Colors.white,
-  //               style: const TextStyle(
-  //                 color: Colors.white,
-  //                 fontWeight: FontWeight.w600,
-  //               ),
-  //               onChanged: (Organisation? newValue) {
-  //                 if (widget.shouldUpdate ?? false) {
-  //                   setState(() {
-  //                     selectedElement = newValue;
-  //                   });
-  //                 }
-  //                 widget.onChange?.call(newValue);
-  //               },
-  //               items: widget.items.map((item) {
-  //                 return DropdownMenuItem<Organisation>(
-  //                   value: item,
-  //                   child: Text(
-  //                     item.name ?? '',
-  //                     style: const TextStyle(color: Colors.white),
-  //                   ),
-  //                 );
-  //               }).toList(),
-  //               decoration: const InputDecoration(
-  //                 border: InputBorder.none,
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  //
-  // }
   @override
   Widget build(BuildContext context) {
     return Expanded(

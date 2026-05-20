@@ -1,4 +1,5 @@
-import 'dart:developer';
+﻿import 'dart:developer';
+import 'dart:ui';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/dashboard/notifications/notification_details/cubits/notification_details_cubit.dart';
@@ -51,7 +52,7 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
           //   message: state.message ?? '',
           //   positiveBtnText: Constants.ok,
           //   onPostivePressed: () {
-          //     // TODO: Need to improve this code
+              /// TODO: Need to improve this code
           //     Navigator.pop(context);
           //   },
           // );
@@ -79,7 +80,7 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
             customIcon: Icons.delete,
             onTapCustomIcon: () => deleteNotification(state.model.id!),
           ),
-          backgroundColor: AppColors.newColor,
+          backgroundColor: Colors.transparent,
           body: getBodybuilder(state, height),
         );
       },
@@ -94,18 +95,36 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
     }
-    return Container(
-      color: AppColors.newColor,
-      child: SingleChildScrollView(
+    // return Container(
+    //   // color: AppColors.white,
+    //   child:
+    return Scaffold(                          //  Scaffold gives bounded constraints
+        backgroundColor: Colors.transparent,
+        body: Stack(
+          fit: StackFit.expand,                 //  forces Stack to fill all available space
+          children: [
+            // 🌄 Background Image
+            Image.asset(
+              'assets/images/bg2.png',
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: double.infinity,
+            ),
+    // 🔹 Blur Layer
+    Positioned.fill(
+    child: BackdropFilter(
+    filter: ImageFilter.blur(sigmaX: 100, sigmaY: 100),
+    child: Container(
+    color: Colors.black.withValues(alpha: 0.1), // optional tint
+    ),
+    ),
+    ),
+      SingleChildScrollView(
         child: Column(
           children: [
             Container(
-              height: height * 0.01,
-              color: AppColors.newColor,
-            ),
-            Container(
               decoration: const ShapeDecoration(
-                color: AppColors.backgroundWhiteColor,
+                color: Colors.transparent,
                 shape: RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(20.0)),
@@ -120,17 +139,19 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
                     padding: const EdgeInsets.only(left: 20.0, right: 20),
                     child: Column(
                       children: [
+                        CommonWidgets.verticalSpacerWidget(height * 0.02),
                         Container(
                           alignment: Alignment.topLeft,
                           child: Text(
                             state.model.content?.subject ?? '',
-                            style: Styles.styleHeaderGreyText30,
+                            style: Styles.styleHeaderWhiteText30,
                           ),
                         ),
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
-                        CommonWidgets.verticalSpacerWidget(height * 0.001),
                         SingleChildScrollView(
                           child: HtmlWidget(
+                            textStyle: Styles.textStyleWhite16,
+                            // _sanitizeHtml(state.model.content?.text),
                             state.model.content?.text ?? '',
                             // '<h1>Hello, <i>World</i>!</h1><p>Click <a href="http://www.google.com/">here</a> to visit Example website.</p>',
                             onTapUrl: (url) {
@@ -145,7 +166,7 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
                           /// Attachments
                           CommonWidgets.textDisplay(
                             Constants.attachments,
-                            Styles.textStyleBlack14,
+                            Styles.textStyleRegularNormalWhite14,
                           ),
                           BaseImageUpload().getAttachment(
                             height: height,
@@ -168,7 +189,7 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
           ],
         ),
       ),
-    );
+    ],));
   }
 
   void launchURL(String url) async {

@@ -20,10 +20,14 @@ class EventInfoResponse {
     this.totalAttendance,
     this.cctvSystemOffline,
     this.cctvSystemOfflineStartDate,
+    this.cctvSystemOfflineEndDate,
     this.accessSystemOffline,
     this.accessSystemOfflineStartDate,
+    this.accessSystemOfflineEndDate,
     this.intruderSystemOffline,
     this.intruderSystemOfflineStartDate,
+    this.intruderSystemOfflineEndDate,
+    this.additionalInformation,
   });
 
   int? id;
@@ -42,11 +46,14 @@ class EventInfoResponse {
   int? totalAttendance;
   bool? cctvSystemOffline;
   String? cctvSystemOfflineStartDate;
+  String? cctvSystemOfflineEndDate;
   bool? accessSystemOffline;
   String? accessSystemOfflineStartDate;
+  String? accessSystemOfflineEndDate;
   bool? intruderSystemOffline;
   String? intruderSystemOfflineStartDate;
-
+  String? intruderSystemOfflineEndDate;
+  String? additionalInformation;
   EventInfoResponse.fromJson(Map<String, dynamic> json) {
     log('-json id--${json['id']}-');
 
@@ -67,12 +74,16 @@ class EventInfoResponse {
     totalAttendance = json['totalAttendance'];
     cctvSystemOffline = json['cctvSystemOffline'];
     cctvSystemOfflineStartDate = json['cctvSystemOfflineStartDate'];
+    cctvSystemOfflineEndDate = json['cctvSystemOfflineEndDate'];
     accessSystemOffline = json['accessSystemOffline'];
     accessSystemOfflineStartDate= json['accessSystemOfflineStartDate'];
+    accessSystemOfflineEndDate= json['accessSystemOfflineEndDate'];
     intruderSystemOffline = json['intruderSystemOffline'];
     intruderSystemOfflineStartDate= json['intruderSystemOfflineStartDate'];
+    intruderSystemOfflineEndDate= json['intruderSystemOfflineEndDate'];
     images =
         List.from(json['images']).map((e) => ImageContent.fromJson(e)).toList();
+    additionalInformation = json['additionalInformation'];
   }
 
   Map<String, dynamic> toJson() {
@@ -92,11 +103,15 @@ class EventInfoResponse {
     data['totalAttendance'] = totalAttendance;
     data['cctvSystemOffline'] = cctvSystemOffline;
     data['cctvSystemOfflineStartDate'] = cctvSystemOfflineStartDate;
+    data['cctvSystemOfflineEndDate'] = cctvSystemOfflineEndDate;
     data['accessSystemOffline'] = accessSystemOffline;
     data['accessSystemOfflineStartDate'] = accessSystemOfflineStartDate;
+    data['accessSystemOfflineEndDate'] = accessSystemOfflineEndDate;
     data['intruderSystemOffline'] = intruderSystemOffline;
     data['intruderSystemOfflineStartDate'] = intruderSystemOfflineStartDate;
+    data['intruderSystemOfflineEndDate'] = intruderSystemOfflineEndDate;
     data['images'] = images?.map((e) => e.toJson()).toList();
+    data['additionalInformation'] = additionalInformation;
     return data;
   }
 }

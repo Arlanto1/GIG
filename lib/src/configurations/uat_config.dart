@@ -5,6 +5,9 @@ class UatConfig implements BaseConfig {
   String get apiHost => "https://api.uat.dbatom.com/api/atomrestservice";
 
   @override
+  String get apiHost1 => "https://api.uat.dbatom.arlanto.com/s1/api/survey";
+
+  @override
   bool get reportErrors => false;
 
   @override

@@ -156,3 +156,4 @@ const String patrollingOtherInfoRoute = '/patrollingOtherInfoRoute';
 const String trainingModuleListRoute = '/trainingModuleListRoute';
 const String trainingListCardRoute = '/trainingListCardRoute';
 const String trainingGenInfoDetailsRoute = '/trainingGenInfoDetailsRoute';
+const String trainingItemsListRoute = '/trainingItemsListRoute';

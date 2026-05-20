@@ -279,8 +279,8 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
 
                             /// Status
                             CommonWidgets.textDisplay(
-                              state.labels?.locale.status ??
-                                  state.labels?.defaultLocale.status ??
+                              // state.labels?.locale.status ??
+                              //     state.labels?.defaultLocale.status ??
                                   Constants.status,
                               Styles.textStyleWhite16,
                               isMandatory: true,
@@ -297,8 +297,8 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
 
                             /// Created By
                             CommonWidgets.horizentaltextHandling(
-                                state.labels?.locale.entrySecurity ??
-                                    state.labels?.defaultLocale.entrySecurity ??
+                                // state.labels?.locale.entrySecurity ??
+                                //     state.labels?.defaultLocale.entrySecurity ??
                                     Constants.createdby,
                                 isMandatory: true,
                                 '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
@@ -307,8 +307,8 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
 
                             /// Location
                             CommonWidgets.textDisplay(
-                              state.labels?.locale.location ??
-                                  state.labels?.defaultLocale.location ??
+                              // state.labels?.locale.location ??
+                              //     state.labels?.defaultLocale.location ??
                                   Constants.location,
                               Styles.textStyleWhite16,
                               isMandatory: true,
@@ -331,8 +331,8 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
 
                             /// Date of creation
                             CommonWidgets.textDisplay(
-                              state.labels?.locale.inputDate ??
-                                  state.labels?.defaultLocale.inputDate ??
+                              // state.labels?.locale.inputDate ??
+                              //     state.labels?.defaultLocale.inputDate ??
                                   Constants.dateofcreation,
                               Styles.textStyleWhite16,
                               isMandatory: true,
@@ -344,8 +344,7 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
 
                             /// Sl No.
                             CommonWidgets.horizentaltextHandling(
-                              state.labels?.locale.slNo ??
-                                  state.labels?.defaultLocale.slNo ??
+                              // state.labels?.locale.slltLocale.slNo ??
                                   Constants.slno,
                               state.model.slNo ?? '',
                               isMandatory: true,
@@ -354,7 +353,8 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
 
                             /// Safe Storage Place
                             CommonWidgets.textDisplay(
-                              // state.labels?.locale.companyName ??
+                              // state.labels?.locale.coNo ??
+                              //     //     state.labels?.defaumpanyName ??
                               //     state.labels?.defaultLocale.companyName ??
                               Constants.safeStoragePlace,
                               Styles.textStyleWhite16,
@@ -699,6 +699,72 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.03),
 
+                            /// Article Category
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.companyType ??
+                              //     state.labels?.defaultLocale
+                              //         .companyType ??
+                                Constants.articleCategory,
+                                Styles.textStyleWhite16,
+                                isMandatory: true),
+                            TextFieldAddButton(
+                              title: state.model.articleCategory?.name,
+                              height: 75,
+                              isDisableColor: isReadOnly,
+                              onTap: () {
+                                if (!isReadOnly) {
+                                  BaseOrganisationDialog().departmentDialog(
+                                    context: context,
+                                    organisations: state.articleCategory,
+                                    onTap: (Organisation articleCategory) {
+                                      BlocProvider.of<ArticleFoundDetailsCubit>(
+                                          context)
+                                          .updateDropdownValues(
+                                          articleCategory: articleCategory);
+                                    },
+                                    leftImage: false,
+                                    functionToCall: () {
+                                      // refresh the list
+                                      BlocProvider.of<ArticleFoundDetailsCubit>(
+                                          context)
+                                          .refreshList();
+                                    },
+                                  );
+                                }
+                              },
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.03),
+
+                            /// Approximate Value(INR)
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.companyName ??
+                              //     state.labels?.defaultLocale.companyName ??
+                              Constants.approximateValue,
+                              Styles.textStyleWhite16,
+                              isMandatory: true,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            FlutterInputField(
+                              textInputType: TextInputType.number,
+                              textFormKey: Keys.challanKey,
+                              initialValue: state.model.approximateValue ?? '',
+                              characterLimit:
+                              Constants.characterLimitIdTextFormField,
+                              hintText: '',
+                              isEnable: !isReadOnly,
+                              isDisableColor: isReadOnly,
+                              onChange: (String value) {
+                                state.model.approximateValue = value;
+                                // state.model.quantity = value;
+                                context
+                                    .read<ArticleFoundDetailsCubit>()
+                                    .onModelValueChange(state.model);
+                              },
+                              validateTextField: (String? user) {},
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.03),
+
+
                             /// is Depositor Db Employee
                             CommonWidgets.textDisplay(
                                 // state.labels?.locale.exceptionalApproval ??
@@ -805,8 +871,8 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
 
                               ///  Depositor Department
                               CommonWidgets.textDisplay(
-                                state.labels?.locale.department ??
-                                    state.labels?.defaultLocale.department ??
+                                // state.labels?.locale.department ??
+                                //     state.labels?.defaultLocale.department ??
                                     Constants.department,
                                 Styles.textStyleWhite16,
                                 isMandatory: true,
@@ -1153,8 +1219,8 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
                             
                             ///Upload Image
                             CommonWidgets.textDisplay(
-                                state.labels?.locale.evidenceInfo ??
-                                    state.labels?.defaultLocale.evidenceInfo ??
+                                // state.labels?.locale.evidenceInfo ??
+                                //     state.labels?.defaultLocale.evidenceInfo ??
                                     Constants.evidenceDocuments,
                                 Styles.textStyleWhite16),
                             widget.model == null

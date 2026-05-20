@@ -1947,7 +1947,7 @@ class _LoginState extends State<Login> {
                               ),
                             ),),
 
-                                if (Environment().config.apiHost.contains('api.integration.')) ...[
+                                // if (Environment().config.apiHost.contains('api.integration.')) ...[
                           // Positioned OR + SSO block
                           Positioned(
                             top: size.height * 0.730,
@@ -1990,7 +1990,8 @@ class _LoginState extends State<Login> {
                                             .getToken(context);
                                         if (user != null) {
                                           bloc.add(LoginSsoVerifyEvent(
-                                              user: user, isFromLogin: false));
+                                              user: user, isFromLogin: false,
+                                          ));
                                           if (state is LoginVerifyOtpActionState) {
                                             dismissLoadingDialog(context);
                                             await Future.delayed(
@@ -2033,7 +2034,7 @@ class _LoginState extends State<Login> {
                               ],
                             ),
                           ),
-],
+// ],
                           // Positioned Copyright and Version
                           Positioned(
                             bottom: 60,

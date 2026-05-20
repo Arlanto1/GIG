@@ -1079,6 +1079,7 @@ class BaseListTileItem extends StatefulWidget {
   final int? workShift;
   final bool isWorkShift;
   final int? transportIncidentType;
+  final Function? onLaunchTap;
 
   // final Item userItem;
   final int? index;
@@ -1113,6 +1114,8 @@ class BaseListTileItem extends StatefulWidget {
   final bool isCSREventProtectionStatus;
   final bool isPatrollingStatus;
   final bool isDutyPostMasterStatus;
+  final bool? showLaunchButton;
+
   const BaseListTileItem({
     super.key,
     this.id,
@@ -1173,6 +1176,8 @@ class BaseListTileItem extends StatefulWidget {
     this.isPatrollingStatus = false,
     this.isDutyPostMasterStatus = false,
     this.transportIncidentType,
+    this.showLaunchButton = false,
+    this.onLaunchTap,
   });
 
   @override
@@ -1516,7 +1521,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
     widget.isCSREventProtectionStatus &&
     !widget.isMasterGuard) ...[
     CommonWidgets.horizontalSpacerWidget(5),
-    Utils(). buildCSREventStatusRow(widget.status ?? 0),
+    Utils(). buildCSRProtectionStatusRow(widget.status ?? 0),
                 ],
                 if (widget.status != null && widget.isIncident == true) ...[
                   CommonWidgets.verticalSpacerWidget(5),
@@ -1768,6 +1773,17 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                           : null;
                     },
                     icon: const Icon(Icons.link_off, color: Colors.white),
+                  ),
+                ],
+
+                if (widget.showLaunchButton ?? true) ...[
+                  IconButton(
+                    onPressed: () {
+                      widget.onLaunchTap != null
+                          ? widget.onLaunchTap!(widget.index)
+                          : null;
+                    },
+                    icon: const Icon(Icons.rocket_launch, color: Colors.white),
                   ),
                 ],
                 if (widget.showDeleteButton ?? true) ...[

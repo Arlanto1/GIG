@@ -22,6 +22,14 @@ class Styles {
     color: AppColors.textGreyThemeColor,
   );
 
+  static TextStyle styleHeaderWhiteText30 = const TextStyle(
+    fontSize: 30,
+    fontFamily: Constants.customFontSemiBoldFamily,
+    fontWeight: FontWeight.w600,
+    color: AppColors.white,
+  );
+
+
   static const TextStyle textStyleGrey16 = TextStyle(
     fontSize: 16,
     fontFamily: Constants.customFontSemiBoldFamily,

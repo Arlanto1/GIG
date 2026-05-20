@@ -183,6 +183,13 @@ class _KeyManagementIssuanceListViewState
                             ? state.list.length
                             : state.list.length + 1,
                         itemBuilder: (context, index) {
+                          if (index >= state.list.length) {
+                            if (state.status == FormStatus.loading ||
+                                state.status == FormStatus.initial) {
+                              return const Center(child: BaseLoader());
+                            }
+                            return const SizedBox();
+                          }
                           List<Label> labels = [];
                           if (index < state.list.length) {
                             labels.add(

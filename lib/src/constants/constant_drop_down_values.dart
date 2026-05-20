@@ -494,7 +494,6 @@ const List<Label> transportTypeValues = [
 const List<Label> patrollingShift = [
   Label(key: 'A', value: '0'),
   Label(key: 'B', value: '1'),
-  Label(key: 'C', value: '2'),
 ];
 
 
