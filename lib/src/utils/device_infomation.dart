@@ -9,6 +9,23 @@ enum DeviceType { phone, tablet, web }
 class DeviceInformation {
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
 
+
+  /// Returns a stable device identifier for the current platform.
+  /// Android: Settings.Secure.ANDROID_ID (unique per device + app signing key).
+  /// iOS: identifierForVendor (unique per device + app vendor).
+  static Future<String> getDeviceId() async {
+    try {
+      if (Platform.isAndroid) {
+        const channel = MethodChannel('com.arlanto.atomedge/mam');
+        final String? androidId = await channel.invokeMethod<String>('getAndroidId');
+        return androidId ?? '';
+      } else if (Platform.isIOS) {
+        final iosInfo = await DeviceInfoPlugin().iosInfo;
+        return iosInfo.identifierForVendor ?? '';
+      }
+    } catch (_) {}
+    return '';
+  }
   DeviceType detectDeviceType(BuildContext context) {
     double shortestSide = MediaQuery.of(context).size.shortestSide;
     bool isWeb = kIsWeb;

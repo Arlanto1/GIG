@@ -214,7 +214,7 @@ class _PatrollingListViewState extends State<PatrollingListView> {
             displayMenu: state.displayMenu,
             list: true,
             onAddPressed: () {
-              Navigator.popAndPushNamed(
+              Navigator.pushNamed(
                 context,
                 patrollingListCardRoute,
                 arguments: {

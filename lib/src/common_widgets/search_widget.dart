@@ -1,8 +1,6 @@
-import 'package:db_atom/src/constants/ui_geometry_constants.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class SearchWidget extends StatelessWidget {
   const SearchWidget({
@@ -40,70 +38,6 @@ class SearchWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return Container(
-    //   height: 45,
-    //   decoration: BoxDecoration(
-    //     gradient: const LinearGradient(
-    //       begin: Alignment.topLeft,
-    //       end: Alignment.bottomRight,
-    //       colors: [
-    //         // Color(0xFF2C3E7E),
-    //         // Color(0xFF101D45),
-    //         // Color(0xFF101D45),
-    //         Colors.white,
-    //         Colors.white,
-    //         // Color(0xFF101D45),
-    //
-    //         // Colors.white,
-    //         // Colors.white,
-    //       ],
-    //     ),
-    //     borderRadius: BorderRadius.circular(16),
-    //     border: Border.all(
-    //       color: Colors.black.withValues(alpha: 0.7),
-    //       width: 1,
-    //     ),
-    //     boxShadow: [
-    //       // Outer glow
-    //       BoxShadow(
-    //         color: const Color(0xFF7DA2FF).withValues(alpha: 0),
-    //         blurRadius: 2,
-    //         spreadRadius: 0,
-    //       ),
-    //     ],
-    //   ),
-    //   child: TextField(
-    //     // controller: searchController,
-    //     style: const TextStyle(color: Colors.black),
-    //     decoration: InputDecoration(
-    //       hintText: 'Search...',
-    //       hintStyle:
-    //       TextStyle(color: Colors.black.withValues(alpha: 0.7)),
-    //       contentPadding: const EdgeInsets.symmetric(
-    //           horizontal: 16, vertical: 10),
-    //       suffixIcon: InkWell(
-    //         onTap: () {
-    //           // FilterCriteria filterCriteriaModel = FilterCriteria();
-    //           // filterCriteriaModel.all = searchController.text;
-    //           // widget.applySearchFilters(filterCriteriaModel);
-    //         },
-    //         child: Container(
-    //           margin: const EdgeInsets.all(6),
-    //           decoration: BoxDecoration(
-    //             color: Colors.white.withValues(alpha: 0.1),
-    //             borderRadius: BorderRadius.circular(10),
-    //           ),
-    //           child: const Icon(
-    //             Icons.search,
-    //             color: Colors.black,
-    //             size: 22,
-    //           ),
-    //         ),
-    //       ),
-    //       border: InputBorder.none,
-    //     ),
-    //   ),
-    // );
     return Container(
       padding: EdgeInsets.zero,
       decoration: BoxDecoration(
@@ -111,15 +45,8 @@ class SearchWidget extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            // Color(0xFF2C3E7E),
-            // Color(0xFF101D45),
-            // Color(0xFF101D45),
             Colors.white,
             Colors.white,
-            // Color(0xFF101D45),
-
-            // Colors.white,
-            // Colors.white,
           ],
         ),
         borderRadius: BorderRadius.circular(16),

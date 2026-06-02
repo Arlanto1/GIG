@@ -246,7 +246,7 @@ class _PatrollingGeneralInfoDetailsView
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Created By
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                 // state.labels?.locale.entrySecurity ??
                                 //     state.labels?.defaultLocale.entrySecurity ??
                                 Constants.createdby,
@@ -312,7 +312,7 @@ class _PatrollingGeneralInfoDetailsView
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Sl No.
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                 state.labels?.locale.slNo ??
                                     state.labels?.defaultLocale.slNo ??
                                     'Sl No',
@@ -338,7 +338,7 @@ class _PatrollingGeneralInfoDetailsView
                                     ? [state.model.entity!]
                                     : [],
                                 all: state.listOfEntities ?? [],
-                                enabled: false,
+                                enabled: true,
                                 onTap: (List<Organisation> selectedEntities) {
                                   log('--selectedEntities----${selectedEntities.length}');
                                   state.model.entity =
@@ -403,22 +403,96 @@ class _PatrollingGeneralInfoDetailsView
                               CommonWidgets.verticalSpacerWidget(height * 0.03),
 
                               /// LSM
-                              CommonWidgets.horizentaltextHandling(
-                                // state.labels?.locale.entrySecurity ??
-                                //     state.labels?.defaultLocale.entrySecurity ??
-                                Constants.lsm,
-                                isMandatory: true,
-                                '${state.model.lsm?.email}',
+                              CommonWidgets.textDisplay(
+                                // state.labels?.locale.staffCategory ??
+                                //     state.labels?.defaultLocale.staffCategory ??
+                                  Constants.lsm,
+                                  isMandatory: true,
+                                  Styles.textStyleWhite14),
+
+                              TextFieldAddButton(
+                                title: state.model.lsm?.userName,
+                                height: 75,
+                                isDisableColor: false,
+                                onTap: () {
+                                    BaseOrganisationDialog().userDialog(
+                                      employeeId: false,
+                                      context: context,
+                                      users: state.lsm,
+                                      isDbUser: true,
+                                      onTap: (BaseUser user) {
+                                        BlocProvider.of<
+                                            PatrollingDetailsCubit>(
+                                            context)
+                                            .updateDropdownValues(
+                                          lsm: user,
+                                        );
+                                      },
+                                      roleName:
+                                      ConstantUserRoles.atomStaticUser,
+                                      locationId: state.model.location!.id!,
+                                      functionToCall: (BaseUser user) {
+                                        BlocProvider.of<
+                                            PatrollingDetailsCubit>(
+                                            context)
+                                            .updateDropdownValues(
+                                          lsm: user,
+                                        );
+                                        // refresh the list
+                                        BlocProvider.of<
+                                            PatrollingDetailsCubit>(
+                                            context)
+                                            .refreshList();
+                                      },
+                                    );
+                                },
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Security Supervisor
-                              CommonWidgets.horizentaltextHandling(
-                                // state.labels?.locale.entrySecurity ??
-                                //     state.labels?.defaultLocale.entrySecurity ??
-                                Constants.securitySupervisor,
-                                isMandatory: true,
-                                state.model.securitySupervisor?.email ?? '',
+                              CommonWidgets.textDisplay(
+                                // state.labels?.locale.staffCategory ??
+                                //     state.labels?.defaultLocale.staffCategory ??
+                                  Constants.securitySupervisor,
+                                  isMandatory: true,
+                                  Styles.textStyleWhite14),
+
+                              TextFieldAddButton(
+                                title: state.model.securitySupervisor?.userName,
+                                height: 75,
+                                isDisableColor: false,
+                                onTap: () {
+                                  BaseOrganisationDialog().userDialog(
+                                    // employeeId: false,
+                                    context: context,
+                                    users: state.securitySupervisor,
+                                    isDbUser: true,
+                                    onTap: (BaseUser user) {
+                                      BlocProvider.of<
+                                          PatrollingDetailsCubit>(
+                                          context)
+                                          .updateDropdownValues(
+                                        securitySupervisor: user,
+                                      );
+                                    },
+                                    roleName:
+                                    ConstantUserRoles.atomStaticUser,
+                                    locationId: state.model.location!.id!,
+                                    functionToCall: (BaseUser user) {
+                                      BlocProvider.of<
+                                          PatrollingDetailsCubit>(
+                                          context)
+                                          .updateDropdownValues(
+                                        securitySupervisor: user,
+                                      );
+                                      // refresh the list
+                                      BlocProvider.of<
+                                          PatrollingDetailsCubit>(
+                                          context)
+                                          .refreshList();
+                                    },
+                                  );
+                                },
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
@@ -463,7 +537,7 @@ class _PatrollingGeneralInfoDetailsView
                               ],
                               if (state.model.id != null) ...[
                                 /// Modified By
-                                CommonWidgets.horizentaltextHandling(
+                                CommonWidgets.horizontalTextHandling(
                                   // state.labels?.locale.entrySecurity ??
                                   //     state.labels?.defaultLocale.entrySecurity ??
                                   Constants.modifiedBy,

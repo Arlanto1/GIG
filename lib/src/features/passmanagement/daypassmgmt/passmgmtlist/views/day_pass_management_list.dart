@@ -106,7 +106,7 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
     //_loadMore();
     return Scaffold(
       backgroundColor: AppColors.cardBgColor,
-      floatingActionButton: Flutterfloatingbutton(
+      floatingActionButton: FlutterFloatingButton(
         backgroundColor: AppColors.navigationSkyBlueColor,
         foregroundColor: AppColors.backgroundWhiteColor,
         onPressed: () {
@@ -181,11 +181,11 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
         //   ),
         // ],
         action: [
-          CustomPopmenu(
+          CustomPopMenu(
             //itemList :[],
             itemList: const [
-              PopMenuItems("Export Excel", AppIcon.exportexcel),
-              PopMenuItems("Export PDF", AppIcon.exportpdf),
+              PopMenuItems("Export Excel", AppIcon.exportExcel),
+              PopMenuItems("Export PDF", AppIcon.exportPdf),
               //PopMenuItems("Export XML", AppIcon.exportxml),
               // PopMenuItems("Close", AppIcon.close),
             ],
@@ -198,7 +198,7 @@ class _DayPassManagementListState extends State<DayPassManagementList> {
                     .exportPdf(context, 'export.pdf', '/exportPassMgmtPDF');
               }
             },
-            popupimagename: AppIcon.morewhiteicon,
+            popupImageName: AppIcon.moreWhiteIcon,
           ),
         ],
       ),

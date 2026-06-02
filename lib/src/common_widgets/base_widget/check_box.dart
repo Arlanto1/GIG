@@ -26,7 +26,7 @@ class LanguageCheckBox extends StatelessWidget {
           value: value,
           onChanged: onChanged,
         ),
-        Text(label, style: TextStyle(color: AppColors.white)),
+        Text(label, style: const TextStyle(color: AppColors.white)),
       ],
     );
   }

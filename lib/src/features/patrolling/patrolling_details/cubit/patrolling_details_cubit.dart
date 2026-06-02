@@ -30,7 +30,7 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
       priorities: const [],
       projects: const [],
       trackers: const [],
-      eventId: null, locations: Locations(), listOfModules: const [], getStatus: const [], listOfEntities: const [], otherModel: otherModel ?? PatrollingOtherModel(), owner: const [] ,
+      eventId: null, locations: Locations(), listOfModules: const [], getStatus: const [], listOfEntities: const [], otherModel: otherModel ?? PatrollingOtherModel(), owner: const [], lsm:const [], securitySupervisor: const [] ,
     ),
   );
 
@@ -78,6 +78,11 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
             moduleCode: Constants.ticketingSystemModuleCode),
         SharedPrefs.getPDefaultLocation(Constants.patrollingModule),
         commonServices.getOrganisations(name: 'ATOM_MODULES_NAME_LIST'),
+        commonServices.getOrganisations(name: 'PATROLLING_ENTITIES'),
+        commonServices.getBaseUsers(
+            roleName: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
+            isDbUser: true,
+         ),
         // commonServices.getStatusesByModuleId(
         //   module: Constants.ticketingSystemModuleCode,),
           // services.getGenIndoDetails(userId)
@@ -90,8 +95,9 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
       dynamic responseLabels = futures[2];
       Organisation? defaultLocation = futures[3];
       List<Organisation> listOfModules = futures[4];
-      // List<Organisation> getStatus = futures[5];
-      final PatrollingModel? genInfoModel  = futures[5] as PatrollingModel?;
+      List<Organisation> getEntities = futures[5];
+      List<BaseUser> getLsm = futures[6];
+      final PatrollingModel? genInfoModel  = futures[7] as PatrollingModel?;
 
       // Get Date of Creation
       state.model.inputDate = state.model.inputDate == null
@@ -132,7 +138,8 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
           status: FormStatus.initial,
           // model: state.model,
           listOfModules:listOfModules,
-          // getStatus :getStatus,
+          listOfEntities :getEntities,
+          lsm: getLsm,
           model: isNewRecord ? genInfoModel : state.model,
         ),
       );
@@ -318,8 +325,8 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
     Organisation? projects,
     Organisation? priority,
     Organisation? trackers,
-    BaseUser? owner,
-    BaseUser? dbSponsor,
+    BaseUser? lsm,
+    BaseUser? securitySupervisor,
     int? status,
     int? severity,
     int? priorityType,
@@ -351,6 +358,54 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
       state.model.status = status;
     }
 
+
+    if ( lsm!= null) {
+      state.model.lsm?.employeeId = lsm.employeeId;
+      String name = lsm.name ?? '';
+      String email = lsm.email ?? '';
+      List<String> nameParts = lsm.name!.split(' '); // Split by space
+      String? firstName = nameParts.isNotEmpty ? nameParts.first : null;
+      String? lastName = nameParts.length > 1 ? nameParts.sublist(1).join(' ') : null;
+      User userDetails = User(
+        name:name,
+        userId : lsm.id,
+        email: email,
+        employeeId: lsm.employeeId,
+        firstName: firstName,
+        lastName: lastName,
+      );
+      state.model.lsm = userDetails;
+      emit(
+        state.copyWith(
+          model: state.model,
+          status: FormStatus.initial,
+        ),
+      );
+    }
+
+    if ( securitySupervisor!= null) {
+      state.model.securitySupervisor?.employeeId = securitySupervisor.employeeId;
+      String name = securitySupervisor.name ?? '';
+      String email = securitySupervisor.email ?? '';
+      List<String> nameParts = securitySupervisor.name!.split(' '); // Split by space
+      String? firstName = nameParts.isNotEmpty ? nameParts.first : null;
+      String? lastName = nameParts.length > 1 ? nameParts.sublist(1).join(' ') : null;
+      User userDetails = User(
+        name:name,
+        userId : securitySupervisor.id,
+        email: email,
+        employeeId: securitySupervisor.employeeId,
+        firstName: firstName,
+        lastName: lastName,
+      );
+      state.model.securitySupervisor = userDetails;
+      emit(
+        state.copyWith(
+          model: state.model,
+          status: FormStatus.initial,
+        ),
+      );
+    }
     if (entity != null) {
       state.model.entity = entity;
     }
@@ -372,7 +427,7 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
 
       debugPrint("RAW response.users count: ${response.users.length}"); // ✅ add this
 
-      final users = (response.users ?? [])
+      final users = (response.users)
           .map((e) => BaseUser(
         id: e.id,
         name: e.name,

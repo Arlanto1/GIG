@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/models/responseModels/permission_error.dart';
+// import 'package:db_atom/src/models/responseModels/permission_error.dart';
 
 class UtilsCommon {
 

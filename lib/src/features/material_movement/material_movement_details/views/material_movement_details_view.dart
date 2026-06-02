@@ -493,7 +493,7 @@ class _MaterialMovementDetailsViewState
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Created By
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                   state.labels?.locale.entrySecurity ??
                                       state.labels?.defaultLocale
                                           .entrySecurity ??
@@ -547,7 +547,7 @@ class _MaterialMovementDetailsViewState
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Sl No.
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                 // state.labels?.locale.slNo ??
                                 //     state.labels?.defaultLocale.slNo ??
                                 widget.isInward
@@ -720,7 +720,7 @@ class _MaterialMovementDetailsViewState
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: <Widget>[
                                     SvgPicture.asset(
-                                      AppIcon.pluscircle,
+                                      AppIcon.plusCircle,
                                       colorFilter: const ColorFilter.mode(
                                         AppColors.white,
                                         BlendMode.srcIn,
@@ -2497,7 +2497,7 @@ class _MaterialMovementDetailsViewState
                                       height * 0.02),
 
                                   /// Rejected By
-                                  CommonWidgets.horizentaltextHandling(
+                                  CommonWidgets.horizontalTextHandling(
                                       state.labels?.locale.rejectedBy ??
                                           state.labels?.defaultLocale
                                               .rejectedBy ??
@@ -2535,7 +2535,7 @@ class _MaterialMovementDetailsViewState
                                       state.model.status == 9 ||
                                       state.model.status == 10) ...[
                                     /// Approved By
-                                    CommonWidgets.horizentaltextHandling(
+                                    CommonWidgets.horizontalTextHandling(
                                         state.labels?.locale.approvedBy ??
                                             state.labels?.defaultLocale
                                                 .approvedBy ??
@@ -2721,7 +2721,7 @@ class _MaterialMovementDetailsViewState
                                 /// If Status is Rejected(status=7)
                                 if (state.model.status == 7) ...[
                                   /// Rejected By
-                                  CommonWidgets.horizentaltextHandling(
+                                  CommonWidgets.horizontalTextHandling(
                                       state.labels?.locale.rejectedBy ??
                                           state.labels?.defaultLocale
                                               .rejectedBy ??
@@ -2731,7 +2731,7 @@ class _MaterialMovementDetailsViewState
                                       height * 0.01),
 
                                   /// Rejected Date
-                                  CommonWidgets.horizentaltextHandling(
+                                  CommonWidgets.horizontalTextHandling(
                                       state.labels?.locale.rejectedDate ??
                                           state.labels?.defaultLocale
                                               .rejectedDate ??
@@ -2741,7 +2741,7 @@ class _MaterialMovementDetailsViewState
                                       height * 0.01),
 
                                   /// Rejected Comment
-                                  CommonWidgets.horizentaltextHandling(
+                                  CommonWidgets.horizontalTextHandling(
                                       state.labels?.locale.rejectionComment ??
                                           state.labels?.defaultLocale
                                               .rejectionComment ??
@@ -3186,7 +3186,7 @@ class _MaterialMovementDetailsViewState
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           /// Modified By
-                          CommonWidgets.horizentaltextHandling(
+                          CommonWidgets.horizontalTextHandling(
                               // state.labels?.locale.entrySecurity ??
                               //     state.labels?.defaultLocale.entrySecurity ??
                               Constants.modifiedBy,
@@ -3473,7 +3473,7 @@ class _MaterialMovementDetailsViewState
 
                   icon: SvgPicture.asset(
                     //AppIcon.dropdownicon,
-                    AppIcon.uploadicon,
+                    AppIcon.uploadIcon,
                     //fit: BoxFit.,
                     colorFilter: const ColorFilter.mode(
                       AppColors.backgroundWhiteColor,

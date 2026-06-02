@@ -96,7 +96,7 @@ class LimitedDatePickerState extends State<LimitedDatePicker> {
                 suffixWidget: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: SvgPicture.asset(
-                    AppIcon.calendaricon,
+                    AppIcon.calendarIcon,
                     colorFilter: const ColorFilter.mode(
                       AppColors.textGreyThemeColor,
                       BlendMode.srcIn,

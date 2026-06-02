@@ -180,7 +180,7 @@ class Styles {
     fontSize: 16,
     fontFamily: Constants.customFontSemiBoldFamily,
     fontWeight: FontWeight.w600,
-    color: const Color(0xFF071130),
+    color:  Color(0xFF071130),
   );
 
   static TextStyle textStyleAppBar = const TextStyle(

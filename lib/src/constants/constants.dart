@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:quill_html_editor/quill_html_editor.dart';
 
 const String dbEmailId = '@db.com';
 
@@ -86,17 +85,17 @@ class Constants {
   static const String customFontRegularFamily = 'DeutscheBankDisplay_A_Rg';
   static const String customFontSemiBoldFamily = 'DeutscheBankDisplay_A_Rg';
   static const String customFontMixedFamily = 'DeutscheBankDisplay_A_Rg';
-  static const String appname = 'AtomEdge';
-  static const String unsaveddata = 'Unsaved Data';
-  static const String unsaveddatadesc =
+  static const String appName = 'AtomEdge';
+  static const String unsavedData = 'Unsaved Data';
+  static const String unsavedDataDesc =
       "There is unsaved data. Do you want to exit anyhow?";
 
   // Validations
-  static const String enterusername = 'Please enter valid username';
-  static const String enterpassword = 'Please enter valid password';
+  static const String enterUserName = 'Please enter valid username';
+  static const String enterPassword = 'Please enter valid password';
   static const String enterValidEmail = 'Please enter valid email';
 
-  static const String invalidusername = 'Invalid username';
+  static const String invalidUserName = 'Invalid username';
   static const String logoutValidation =
       "Are you  sure, do you want to logout?";
 
@@ -155,7 +154,7 @@ class Constants {
   static const String oldPassword = "Old Password";
   static const String newPassword = "New Password";
   static const String confirmNewPassword = "Confirm New Password";
-  static const String forgotPassowrd = 'Forgot Password?';
+  static const String forgotPassword = 'Forgot Password?';
   static const String support = "Support :";
   static const String supportContact = "+91 6150 961 6244";
   static const String copyrightText = "Copyright © 2024 Arlanto.";
@@ -230,13 +229,13 @@ class Constants {
       'Edit Outward Material Movement';
   // static const String ticketingSystem = 'Ticketing System';
   static const String dayPassManagement = 'Day Pass Management';
-  static const String daypassregister = 'Day Pass Register';
-  static const String visitorpassmgmt = 'Visitor Pass Management';
-  static const String visitorpassregister = 'Visitor Pass Register';
-  static const String vendorpassmgmt = 'Vendor Pass Management';
-  static const String vendorpassregister = 'Vendor Pass Register';
-  static const String sezpassmgmt = 'SEZ Pass Management';
-  static const String sezpassregister = 'SEZ Pass Register';
+  static const String dayPassRegister = 'Day Pass Register';
+  static const String visitorPassManagement = 'Visitor Pass Management';
+  static const String visitorPassRegister = 'Visitor Pass Register';
+  static const String vendorPassManagement = 'Vendor Pass Management';
+  static const String vendorPassRegister = 'Vendor Pass Register';
+  static const String sezPassManagement = 'SEZ Pass Management';
+  static const String sezPassRegister = 'SEZ Pass Register';
   static const String someThingWentWrong = 'Something went wrong';
   static const String otpSendSuccessfully = 'Otp sent successfully';
   static const String yes = 'Yes';
@@ -252,8 +251,7 @@ class Constants {
   static const String editFound = 'Edit Found';
   static const String foundListTitle = 'Found List';
   static const String generalinformation = 'General Information';
-  static const String assettype = 'Asset Type';
-  static const String foundlocation = 'Found Location';
+  static const String foundLocation = 'Found Location';
   static const String safeStoragePlace = 'Safe Storage Place';
   static const String managerName = 'Manager Name';
   static const String employeeName = 'Employee Name';
@@ -269,7 +267,6 @@ class Constants {
   static const String createDate = 'Create Date';
   static const String createdDate = 'Created Date';
   static const String createOn = 'Create On';
-  static const String assetype = 'Asset Type';
   static const String founddate = 'Found Date';
   static const String duedate = 'Due Date';
   static const String articlename = 'Article Name';

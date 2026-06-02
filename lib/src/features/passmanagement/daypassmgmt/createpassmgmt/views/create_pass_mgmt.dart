@@ -130,7 +130,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               child: Padding(
                 padding: const EdgeInsets.only(right: 20.0),
                 child: SvgPicture.asset(
-                  AppIcon.createfoundsaveicon,
+                  AppIcon.createFoundSaveIcon,
                 ),
               ),
             ),
@@ -371,7 +371,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                           padding: const EdgeInsets.all(20.0),
                                           child: SvgPicture.asset(
                                             //AppIcon.dropdownicon,
-                                            AppIcon.dropdownicon,
+                                            AppIcon.dropdownIcon,
                                             //fit: BoxFit.,
                                             colorFilter: const ColorFilter.mode(
                                               AppColors.textGreyThemeColor,
@@ -459,7 +459,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                     ],
 
                                     /// Created By
-                                    CommonWidgets.horizentaltextHandling(
+                                    CommonWidgets.horizontalTextHandling(
                                         state.labels?.locale.entrySecurity ??
                                             state.labels?.defaultLocale
                                                 .entrySecurity ??
@@ -524,7 +524,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                         height * 0.01),
 
                                     /// slno
-                                    CommonWidgets.horizentaltextHandling(
+                                    CommonWidgets.horizontalTextHandling(
                                       state.labels?.locale.slNo ??
                                           state.labels?.defaultLocale.slNo ??
                                           Constants.slno,
@@ -600,7 +600,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                           icon: SvgPicture.asset(
                                               width: 10,
                                               height: 10,
-                                              AppIcon.dropdownicon,
+                                              AppIcon.dropdownIcon,
                                               key: const Key('closed_eye')),
                                           onPressed: () {
                                             if ((widget.model?.status == 0 ||
@@ -699,7 +699,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 icon: SvgPicture.asset(
                                                     width: 10,
                                                     height: 10,
-                                                    AppIcon.dropdownicon,
+                                                    AppIcon.dropdownIcon,
                                                     key: const Key(
                                                         'closed_eye')),
                                                 onPressed: () {
@@ -1324,7 +1324,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                     icon: SvgPicture.asset(
                                                         width: 10,
                                                         height: 10,
-                                                        AppIcon.dropdownicon,
+                                                        AppIcon.dropdownIcon,
                                                         key: const Key(
                                                             'closed_eye')),
                                                     onPressed: () {
@@ -1673,7 +1673,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                                 icon: SvgPicture.asset(
                                                     width: 10,
                                                     height: 10,
-                                                    AppIcon.dropdownicon,
+                                                    AppIcon.dropdownIcon,
                                                     key: const Key(
                                                         'closed_eye')),
                                                 onPressed: () {
@@ -2114,7 +2114,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                                             ConstantsIntValue
                                                 .passStatusReturnedDefaced) ...[
                                       /// Pass Collected By
-                                      CommonWidgets.horizentaltextHandling(
+                                      CommonWidgets.horizontalTextHandling(
                                         state.labels?.locale.handoverSecurity ??
                                             state.labels?.defaultLocale
                                                 .handoverSecurity ??
@@ -2842,7 +2842,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: SvgPicture.asset(
-              AppIcon.calendaricon,
+              AppIcon.calendarIcon,
               colorFilter: const ColorFilter.mode(
                 AppColors.textGreyThemeColor,
                 BlendMode.srcIn,
@@ -2943,7 +2943,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
 
                       icon: SvgPicture.asset(
                         //AppIcon.dropdownicon,
-                        AppIcon.uploadicon,
+                        AppIcon.uploadIcon,
                         //fit: BoxFit.,
                         colorFilter: const ColorFilter.mode(
                           AppColors.backgroundWhiteColor,
@@ -3050,7 +3050,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
-            duplicateatomCompanyTypes: state.companyTypes ?? [],
+            duplicateAtomCompanyTypes: state.companyTypes ?? [],
             leftImageName: null,
             // onLeftButtonTap: () {
             // Navigator.pop(context);
@@ -3098,7 +3098,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
-            duplicatedayPassReason:
+            duplicateDayPassReason:
                 state.dayPassReason?.dayPassReasonElement ?? [],
             // leftImageName: widget.passId == ConstantsIntValue.passIdDayPass ||
             //         widget.passId == ConstantsIntValue.passIdVendor
@@ -3165,7 +3165,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
-            duplicatedayPassReason:
+            duplicateDayPassReason:
                 state.vendorPassReason?.vendorPassReason ?? [],
             // leftImageName: widget.passId == ConstantsIntValue.passIdVendor
             //     ? AppIcon.addicon
@@ -3227,7 +3227,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
               //   locationSecurityManager1: state.getDepositorResponse?.atomStaticUser,
               // );
               createPassMgmtCubit.getNameUsersResponseData(user);
-              nameTextController.text = '${user.name} (${user.email})' ?? '';
+              nameTextController.text = '${user.name} (${user.email})';
             },
           );
         }
@@ -3250,8 +3250,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
             //duplicatet1Analyst: state.analyst?.t1Analyst ?? [],
-            duplicateDepostorList: state.getDepositorResponse ?? [],
-            leftImageName: AppIcon.addicon,
+            duplicateDepositorList: state.getDepositorResponse ?? [],
+            leftImageName: AppIcon.addIcon,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
@@ -3307,7 +3307,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                   name: user.name,
                   employeeId: user.employeeId,email: user.email));
               hostEmployeeIdTextController.text =
-                  '${user.name} (${user.email}})' ?? '';
+                  '${user.name} (${user.email}})';
             },
           );
         }
@@ -3321,9 +3321,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
             isDbUser: true,
-            duplicateDepostorList: state.getDepositorResponse ??
+            duplicateDepositorList: state.getDepositorResponse ??
                 [], //state.analyst?.t1Analyst ?? [],
-            leftImageName: AppIcon.addicon,
+            leftImageName: AppIcon.addIcon,
             onLeftButtonTap: () {
               Navigator.pop(context);
               showDialog(
@@ -3380,9 +3380,9 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                     employeeId: user.employeeId,
                     email: user.email));
                 dbsponsorTextController.text =
-                    '${user.name} (${user.email})' ?? '';
+                    '${user.name} (${user.email})' ;
                 hostEmployeeIdTextController.text =
-                    '${user.name} (${user.email})' ?? '';
+                    '${user.name} (${user.email})' ;
               }
               else if(user.employeeId == state.nameResponse?.employeeId){
                 Validator().showToast(
@@ -3462,7 +3462,7 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
             isDbUser: true,
-            duplicateactivePassInfoList:
+            duplicateActivePassInfoList:
                 state.passnumbelistresponse?.activePassInfoList ?? [],
             // leftimagename: AppIcon.addicon,
             //onLeftButtonTap: () {
@@ -3921,10 +3921,8 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
                 ? passReturnedOn.toString()
                 : null,
         hostName: dbsponsorTextController.text.isEmpty
-            ? '${state.hostResponse?.userInfo} ${state.hostResponse?.email}' ??
-                ''
-            : '${state.dbsponsorResponse?.userInfo} (${state.dbsponsorResponse?.email})' ??
-                '',
+            ? '${state.hostResponse?.userInfo} ${state.hostResponse?.email}'
+            : '${state.dbsponsorResponse?.userInfo} (${state.dbsponsorResponse?.email})',
         companyType: companyType,
         evidenceDocuments: evidenceDocuments,
         entities: entities,
@@ -3987,17 +3985,14 @@ class _CreatePassManagementState extends State<CreatePassManagement> {
           escortedBy: state.escortedbyhost == 0 || widget.passId == ConstantsIntValue.passIdVendor?escortedByTextController.text : null,
           escortedEmployeeId:state.escortedbyhost == 0  || widget.passId == ConstantsIntValue.passIdVendor ? escortedEmployeeIdByTextController.text : null,
           mifareNo: mtpApplicationNoTextController.text,
-          hostEmployeeId: dbsponsorTextController.text.isEmpty  ? host2?.employeeId : dbSponsor?.employeeId,
+          hostEmployeeId: dbsponsorTextController.text.isEmpty  ? host2?.employeeId : dbSponsor.employeeId,
           passIssuedOn: widget.passId == ConstantsIntValue.passIdSez ? timeStamp.toString():'',
           endTime: endTime,
           startTime: passValidFromDate.toString(),
           returnedTime:
               widget.model?.status == 1 ? passReturnedOn.toString() : null,
           hostName: dbsponsorTextController.text.isEmpty
-              ? '${state.hostResponse?.userInfo} (${state.hostResponse?.email})' ??
-                  ''
-              : '${state.dbsponsorResponse?.userInfo} (${state.dbsponsorResponse?.email})' ??
-                  '',
+              ? '${state.hostResponse?.userInfo} (${state.hostResponse?.email})' : '${state.dbsponsorResponse?.userInfo} (${state.dbsponsorResponse?.email})',
           companyType: companyType,
           evidenceDocuments: evidenceDocuments,
           entities: entities,

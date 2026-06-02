@@ -9,23 +9,23 @@ import 'package:db_atom/src/utils/helpers/keys/keys.dart';
 import 'package:flutter/material.dart';
 
 class CustomMultipleSelectionListTexts extends StatefulWidget {
-  CustomMultipleSelectionListTexts({
+  const CustomMultipleSelectionListTexts({
     super.key,
-    this.imagename,
+    this.imageName,
     this.onTap,
     this.onLeftButtonTap,
-    this.leftimagename,
-    this.duplicateentityList,
-    this.mainselectedentityList,
+    this.leftImageName,
+    this.duplicateEntityList,
+    this.mainSelectedEntityList,
   });
 
-  final String? imagename;
+  final String? imageName;
 
-  List<Organisation>? duplicateentityList;
+  final List<Organisation>? duplicateEntityList;
   final Function? onTap;
   final Function? onLeftButtonTap;
-  final String? leftimagename;
-  List<Organisation>? mainselectedentityList;
+  final String? leftImageName;
+  final List<Organisation>? mainSelectedEntityList;
 
   @override
   State<CustomMultipleSelectionListTexts> createState() =>
@@ -36,32 +36,32 @@ class CustomMultipleSelectionListTextsState
     extends State<CustomMultipleSelectionListTexts> {
   final _searchCtrl = TextEditingController();
   Color borderColor = AppColors.searchBarBorder;
-  var selectedListindexes = [];
+  var selectedListIndexes = [];
 
   List<Organisation> entityList = [];
-  List<Organisation> selectentityList = [];
+  List<Organisation> selectEntityList = [];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     // employeeDepartments = widget.duplicateemployeeDepartments ?? [];
-    if (widget.mainselectedentityList != null &&
-        (widget.mainselectedentityList ?? []).isNotEmpty) {
-      selectentityList = widget.mainselectedentityList ?? [];
+    if (widget.mainSelectedEntityList != null &&
+        (widget.mainSelectedEntityList ?? []).isNotEmpty) {
+      selectEntityList = widget.mainSelectedEntityList ?? [];
       itemsIdentify();
     }
   }
 
   itemsIdentify() async {
-    await getdata();
+    await getData();
   }
 
-  getdata() {
-    for (int i = 0; i < (widget.duplicateentityList ?? []).length; i++) {
-      Organisation articleItem = widget.duplicateentityList![i];
-      if (widget.mainselectedentityList!.contains(articleItem)) {
-        selectedListindexes.add(i);
+  getData() {
+    for (int i = 0; i < (widget.duplicateEntityList ?? []).length; i++) {
+      Organisation articleItem = widget.duplicateEntityList![i];
+      if (widget.mainSelectedEntityList!.contains(articleItem)) {
+        selectedListIndexes.add(i);
       }
     }
   }
@@ -109,7 +109,7 @@ class CustomMultipleSelectionListTextsState
                         Navigator.of(context).pop();
                       },
                       child: SvgPicture.asset(
-                          AppIcon.closeicon) //Icon(Icons.cancel)
+                          AppIcon.closeIcon) //Icon(Icons.cancel)
                       ),
                   const SizedBox(width: 10),
                   GestureDetector(
@@ -119,7 +119,7 @@ class CustomMultipleSelectionListTextsState
                             : null;
                       },
                       child: SvgPicture.asset(
-                        widget.leftimagename ?? '',
+                        widget.leftImageName ?? '',
                         colorFilter: const ColorFilter.mode(
                           AppColors.textGreyThemeColor,
                           BlendMode.srcIn,
@@ -130,7 +130,7 @@ class CustomMultipleSelectionListTextsState
             GestureDetector(
               onTap: () {
                 //lawenforcementValidations(context, globalState);
-                widget.onTap!(selectentityList);
+                widget.onTap!(selectEntityList);
                 Navigator.of(context).pop();
               },
               child: const Icon(
@@ -162,7 +162,7 @@ class CustomMultipleSelectionListTextsState
                   //  ?
                   searchWidget(),
                   //  : Container(),
-                  setupAlertDialoadContainer(height, width),
+                  setupAlertDialogueLoadContainer(height, width),
                 ],
               ),
             ),
@@ -209,14 +209,14 @@ class CustomMultipleSelectionListTextsState
   }
 
   onSearchTextChanged(String text) async {
-    if (widget.duplicateentityList != null) {
+    if (widget.duplicateEntityList != null) {
       entityList.clear();
       if (text.isEmpty) {
         setState(() {});
         return;
       }
 
-      for (var userDetail in widget.duplicateentityList!) {
+      for (var userDetail in widget.duplicateEntityList!) {
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
           entityList.add(userDetail);
         }
@@ -226,10 +226,10 @@ class CustomMultipleSelectionListTextsState
     setState(() {});
   }
 
-  Widget setupAlertDialoadContainer(double height, double width) {
-    if ((widget.duplicateentityList != null &&
-            widget.duplicateentityList!.isEmpty) ||
-        (widget.duplicateentityList != null &&
+  Widget setupAlertDialogueLoadContainer(double height, double width) {
+    if ((widget.duplicateEntityList != null &&
+            widget.duplicateEntityList!.isEmpty) ||
+        (widget.duplicateEntityList != null &&
             _searchCtrl.text.isNotEmpty &&
             entityList.isEmpty)) {
       return //const Expanded(
@@ -250,18 +250,18 @@ class CustomMultipleSelectionListTextsState
         child: ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemCount: widget.duplicateentityList != null
+          itemCount: widget.duplicateEntityList != null
               ? (_searchCtrl.text.isNotEmpty && entityList.isNotEmpty)
                   ? entityList.length
-                  : widget.duplicateentityList?.length
-              : widget.duplicateentityList?.length,
+                  : widget.duplicateEntityList?.length
+              : widget.duplicateEntityList?.length,
           itemBuilder: (BuildContext context, int index) {
-            if (widget.duplicateentityList != null) {
+            if (widget.duplicateEntityList != null) {
               Organisation? articleItem;
               if ((_searchCtrl.text.isNotEmpty && entityList.isNotEmpty)) {
                 articleItem = entityList[index];
               } else {
-                articleItem = widget.duplicateentityList?[index];
+                articleItem = widget.duplicateEntityList?[index];
               }
 
               return ListTile(
@@ -269,16 +269,16 @@ class CustomMultipleSelectionListTextsState
                     //widget.onTap!(articleItem);
                     // Navigator.of(context).pop();
 
-                    if (selectedListindexes.contains(index)) {
-                      selectedListindexes.remove(index);
+                    if (selectedListIndexes.contains(index)) {
+                      selectedListIndexes.remove(index);
 
                       Organisation? articleItem1 =
-                          widget.duplicateentityList?[index];
-                      selectentityList.removeWhere(
+                          widget.duplicateEntityList?[index];
+                      selectEntityList.removeWhere(
                           (item) => item.id == (articleItem1?.id ?? 0));
                     } else {
-                      selectedListindexes.add(index);
-                      selectentityList.add(articleItem!);
+                      selectedListIndexes.add(index);
+                      selectEntityList.add(articleItem!);
                     }
 
                     setState(() {});
@@ -286,13 +286,13 @@ class CustomMultipleSelectionListTextsState
                   contentPadding: EdgeInsets.zero,
                   minLeadingWidth: 5,
                   horizontalTitleGap:
-                      (widget.imagename != null && widget.imagename != '')
+                      (widget.imageName != null && widget.imageName != '')
                           ? 20
                           : 0,
                   dense: true,
                   visualDensity: const VisualDensity(vertical: 0),
                   // to expand
-                  leading: (widget.imagename != null && widget.imagename != '')
+                  leading: (widget.imageName != null && widget.imageName != '')
                       ? SvgPicture.asset(
                           //AppIcon.dropdownicon,
                           AppIcon.apple,
@@ -311,7 +311,7 @@ class CustomMultipleSelectionListTextsState
                             fontSize: 16,
                             fontFamily: Constants.customFontRegularFamily,
                             fontWeight: FontWeight.w600,
-                            color: selectedListindexes.contains(index)
+                            color: selectedListIndexes.contains(index)
                                 ? AppColors.navigationSkyBlueColor
                                 : AppColors.textGreyThemeColor)),
                   ));

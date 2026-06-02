@@ -14,13 +14,11 @@ class AddViewButton extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         SvgPicture.asset(
-          AppIcon.pluscircle,
+          AppIcon.plusCircle,
           colorFilter: const ColorFilter.mode(
             AppColors.navigationSkyBlueColor,
             BlendMode.srcIn,
           ),
-          // color: AppColors
-          //     .navigationSkyBlueColor,
         ),
         const SizedBox(width: 10),
         Text(

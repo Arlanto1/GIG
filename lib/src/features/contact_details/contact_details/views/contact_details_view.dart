@@ -211,7 +211,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Created By
-                            CommonWidgets.horizentaltextHandling(
+                            CommonWidgets.horizontalTextHandling(
                               state.labels?.locale.entrySecurity ??
                                   state.labels?.defaultLocale.entrySecurity ??
                                   Constants.createdby,
@@ -279,7 +279,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Sl No.
-                            CommonWidgets.horizentaltextHandling(
+                            CommonWidgets.horizontalTextHandling(
                               state.labels?.locale.slNo ??
                                   state.labels?.defaultLocale.slNo ??
                                   Constants.slno,
@@ -305,7 +305,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Modified By
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                 // state.labels?.locale.entrySecurity ??
                                 //     state.labels?.defaultLocale.entrySecurity ??
                                 Constants.modifiedBy,

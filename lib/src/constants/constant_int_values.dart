@@ -46,15 +46,6 @@ class ConstantsIntValue {
 
   static const String sezCompanyTypes = 'ATOM_SEZ_COMPANY_TYPES';
 
-  // // Status
-  // static const String passStatusReturned = 'Returned';
-  // static const String passStatusLostDeActivated = 'Lost/De-Activated';
-  // static const String passStatusDamagedDeActivated = 'Damaged/De-Activated';
-  // static const String passStatusDefaced = 'Defaced';
-  // static const String passStatusCancelled = 'Cancelled';
-  // static const String passStatusReturnedDamaged = 'Returned/Damaged';
-  // static const String passStatusReturnedDefaced = 'Returned/Defaced';
-
   /// Shift Occurence
   static const int occurrenceStatusCreated = 0;
   static const int submitted = 1;

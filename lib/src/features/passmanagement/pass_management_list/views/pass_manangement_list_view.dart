@@ -75,7 +75,7 @@ class _PassManagementListViewState extends State<PassManagementListView> {
           backgroundColor: AppColors.cardBgColor,
           floatingActionButton:
               state.extraProperties?.hasWritePermission ?? false
-                  ? Flutterfloatingbutton(
+                  ? FlutterFloatingButton(
                       backgroundColor: AppColors.navigationSkyBlueColor,
                       foregroundColor: AppColors.backgroundWhiteColor,
                       onPressed: () {

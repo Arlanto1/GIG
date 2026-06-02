@@ -4,18 +4,18 @@ import 'package:db_atom/src/features/training_module/models/requestModel/trainin
 import '../models/requestModel/training_items_model_request.dart';
 
 class Apis {
-  static final String baseUrl = Environment().config.apiHost;
+  static final String baseUrl = Environment().config.apiHost1;
 
-  static const String _getTrainingModuleList = 'https://api.integration-v2.dbatom.arlanto.com/s1/api/survey/getClassRoomTrainingList';
-  static const String _getTrainingModuleById = 'https://api.integration-v2.dbatom.arlanto.com/s1/api/survey/getClassRoomTraining';
-  static const String _getTrainingItemsListById = 'https://api.integration-v2.dbatom.arlanto.com/s1/api/survey/getTrainingItemList';
+  static final String _getTrainingModuleList = '$baseUrl/getClassRoomTrainingList';
+  static  final String _getTrainingModuleById = '$baseUrl/getClassRoomTraining';
+  static final String _getTrainingItemsListById = '$baseUrl/getTrainingItemList';
 
 }
 
 class TrainingModuleServices {
 
   Future<TrainingModuleResponseModel> getClassRoomTrainingList() async {
-    const String url = Apis._getTrainingModuleList;
+    final String url = Apis._getTrainingModuleList;
     final response = await BaseApiService().getRequest(
       url: url,
     );

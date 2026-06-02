@@ -79,7 +79,7 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
         child: Scaffold(
           backgroundColor: AppColors.cardBgColor,
           floatingActionButton: widget.showSaveButton
-              ? Flutterfloatingbutton(
+              ? FlutterFloatingButton(
                   backgroundColor: AppColors.navigationSkyBlueColor,
                   foregroundColor: AppColors.backgroundWhiteColor,
                   onPressed: () {

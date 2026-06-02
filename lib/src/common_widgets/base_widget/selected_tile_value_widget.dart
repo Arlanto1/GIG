@@ -26,7 +26,7 @@ class SelectedTileValueWidget extends StatelessWidget {
               Colors.transparent,
               Colors.white.withValues(alpha: 0.09),
             ],
-            stops: [0.02, 0.35, 1],
+            stops: const [0.02, 0.35, 1],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -36,23 +36,13 @@ class SelectedTileValueWidget extends StatelessWidget {
             width: 0.6,
           ),
           boxShadow: [
-            // BoxShadow(
-            //   color: AppColors.lavender.withValues(alpha: 4),
-            //   // blurRadius: 1,
-            //   offset: const Offset(3, 3), // white glow on top-left
-            // ),
             BoxShadow(
-              color: Colors.white
-                  .withValues(alpha: 0.0),
+              color: Colors.white.withValues(alpha: 0.0),
               blurRadius: 12,
               offset: const Offset(0, 2),
             ),
           ],
         ),
-            // border: Border.all(
-            //   color: const Color(0xFFCACACA),
-            // ),
-            // borderRadius: const BorderRadius.all(Radius.circular(8))),
         child:
             name.isEmpty ? Container() : TileWidget(width: width, name: name));
   }
@@ -84,7 +74,7 @@ class TileWidget extends StatelessWidget {
                 filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
                 child: Container(
                   decoration: BoxDecoration(
-                    color:AppColors.newColor.withValues(alpha: 0.15),
+                    color: AppColors.newColor.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
                       color: Colors.white.withValues(alpha: 0.3),
@@ -106,7 +96,7 @@ class TileWidget extends StatelessWidget {
                       padding: const WidgetStatePropertyAll(
                         EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                       ),
-                      backgroundColor:  WidgetStatePropertyAll(
+                      backgroundColor: WidgetStatePropertyAll(
                         AppColors.newColor,
                       ),
                     ),
@@ -126,6 +116,5 @@ class TileWidget extends StatelessWidget {
         ),
       ],
     );
-
   }
 }

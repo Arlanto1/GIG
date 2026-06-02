@@ -296,7 +296,7 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.03),
 
                             /// Created By
-                            CommonWidgets.horizentaltextHandling(
+                            CommonWidgets.horizontalTextHandling(
                                 // state.labels?.locale.entrySecurity ??
                                 //     state.labels?.defaultLocale.entrySecurity ??
                                     Constants.createdby,
@@ -343,7 +343,7 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.03),
 
                             /// Sl No.
-                            CommonWidgets.horizentaltextHandling(
+                            CommonWidgets.horizontalTextHandling(
                               // state.labels?.locale.slltLocale.slNo ??
                                   Constants.slno,
                               state.model.slNo ?? '',
@@ -589,7 +589,7 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
                             CommonWidgets.textDisplay(
                               // state.labels?.locale.companyName ??
                               //     state.labels?.defaultLocale.companyName ??
-                              Constants.foundlocation,
+                              Constants.foundLocation,
                               Styles.textStyleWhite16,
                               isMandatory: true,
                             ),

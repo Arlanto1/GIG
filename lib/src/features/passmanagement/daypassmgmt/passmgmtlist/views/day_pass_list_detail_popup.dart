@@ -76,7 +76,7 @@ class _DayPassCustomPopUpListState extends State<DayPassCustomPopUpList> {
                     Navigator.of(context).pop();
                   },
                   child:
-                      SvgPicture.asset(AppIcon.closeicon) //Icon(Icons.cancel)
+                      SvgPicture.asset(AppIcon.closeIcon) //Icon(Icons.cancel)
                   )),
           widget.userItem?.id != null
               ? Row(

@@ -282,7 +282,7 @@ class _KeyLossDestructionDetailsViewState
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Created By
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                 state.labels?.locale.entrySecurity ??
                                     state.labels?.defaultLocale.entrySecurity ??
                                     Constants.createdby,
@@ -307,7 +307,7 @@ class _KeyLossDestructionDetailsViewState
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Sl No.
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                 state.labels?.locale.slNo ??
                                     state.labels?.defaultLocale.slNo ??
                                     Constants.slno,
@@ -714,7 +714,7 @@ class _KeyLossDestructionDetailsViewState
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: <Widget>[
                                       SvgPicture.asset(
-                                        AppIcon.pluscircle,
+                                        AppIcon.plusCircle,
                                         colorFilter: const ColorFilter.mode(
                                           AppColors.white,
                                           BlendMode.srcIn,
@@ -737,7 +737,7 @@ class _KeyLossDestructionDetailsViewState
                               ],
                               if (state.model.id != null) ...[
                                 /// Modified By
-                                CommonWidgets.horizentaltextHandling(
+                                CommonWidgets.horizontalTextHandling(
                                   // state.labels?.locale.modifiedBy ??
                                   //     state.labels?.defaultLocale.modifiedBy ??
                                   Constants.modifiedBy,

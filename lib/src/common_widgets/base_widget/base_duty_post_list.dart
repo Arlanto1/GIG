@@ -43,25 +43,8 @@ class DutyPostListWidget extends StatelessWidget {
           },
           child: Container(
             margin: const EdgeInsets.only(
-                bottom: 14, left: 20, right: 20), // 👈 SAME WIDTH AS DATE INPUT
+                bottom: 14, left: 20, right: 20), //  SAME WIDTH AS DATE INPUT
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-            // decoration: BoxDecoration(
-            //   gradient: const LinearGradient(
-            //     colors: [
-            //       Color(0xFF6E80E8),
-            //       Color(0xFF7D8FEF),
-            //     ],
-            //   ),
-            //   borderRadius: BorderRadius.circular(40),
-            //   border: Border.all(color: Colors.white.withOpacity(0.4)),
-            //   boxShadow: [
-            //     BoxShadow(
-            //       color: Colors.black.withOpacity(0.1),
-            //       blurRadius: 6,
-            //       offset: const Offset(0, 3),
-            //     )
-            //   ],
-            // ),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [

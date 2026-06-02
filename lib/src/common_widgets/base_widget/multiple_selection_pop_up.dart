@@ -52,61 +52,6 @@ class CustomMultipleSelectionListTextsState
 
   @override
   Widget build(BuildContext context) {
-    // return AlertDialog(
-    //   icon: Row(
-    //     mainAxisAlignment: MainAxisAlignment.end,
-    //     children: <Widget>[
-    //       // GestureDetector(
-    //       //   onTap: () {
-    //       //     widget.onLeftButtonTap != null ? widget.onLeftButtonTap!() : null;
-    //       //   },
-    //       //   child: SvgPicture.asset(
-    //       //     widget.leftImageName ?? '',
-    //       //     colorFilter: const ColorFilter.mode(
-    //       //       AppColors.navigationSkyBlueColor,
-    //       //       BlendMode.srcIn,
-    //       //     ),
-    //       //     // color: AppColors.navigationSkyBlueColor,
-    //       //   ),
-    //       // ),
-    //       GestureDetector(
-    //         onTap: () {
-    //           Navigator.of(context).pop();
-    //         },
-    //         child: SvgPicture.asset(AppIcon.closeicon),
-    //       ),
-    //     ],
-    //   ),
-    //   backgroundColor: AppColors.backgroundWhiteColor,
-    //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-    //   content: SizedBox(
-    //     height: 300,
-    //     width: 300,
-    //     child: Column(
-    //       children: [
-    //         _buildSearchWidget(),
-    //         _buildEntityList(),
-    //       ],
-    //     ),
-    //   ),
-    //   actions: [
-    //     ElevatedButton(
-    //       onPressed: () {
-    //         // Collect selected entities
-    //         final selectedEntities = entityList
-    //             .where((entity) => entity.isSelected ?? false)
-    //             .toList();
-    //         widget.onTap(selectedEntities); // Call the callback
-    //       },
-    //       child: const Text(
-    //         'Confirm',
-    //         style: TextStyle(
-    //           color: AppColors.navigationSkyBlueColor,
-    //         ),
-    //       ),
-    //     ),
-    //   ],
-    // );
     return Dialog(
       backgroundColor: Colors.transparent,
       insetPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -126,7 +71,7 @@ class CustomMultipleSelectionListTextsState
                       .withValues(alpha: 0.2),
                   // Color(0xFF6474C6).withOpacity(0.14)
                 ],
-                stops: [0.02, 0.35, 1],
+                stops: const [0.02, 0.35, 1],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
@@ -160,7 +105,7 @@ class CustomMultipleSelectionListTextsState
                     children: [
                       GestureDetector(
                         onTap: () => Navigator.of(context).pop(),
-                        child: SvgPicture.asset(AppIcon.closeicon,
+                        child: SvgPicture.asset(AppIcon.closeIcon,
                             colorFilter: const ColorFilter.mode(
                               Colors.white,
                               BlendMode.srcIn,
@@ -225,22 +170,6 @@ class CustomMultipleSelectionListTextsState
 
   }
 
-  // Widget _buildSearchWidget() {
-  //   return TextField(
-  //     controller: _searchCtrl,
-  //     decoration: InputDecoration(
-  //       hintText: 'Search',
-  //       suffixIcon: IconButton(
-  //         icon: const Icon(Icons.clear, color: Colors.white,),
-  //         onPressed: () {
-  //           _searchCtrl.clear();
-  //           _filterEntities('');
-  //         },
-  //       ),
-  //     ),
-  //     onChanged: _filterEntities,
-  //   );
-  // }
   Widget _buildSearchWidget() {
     return SearchWidget(
       controller: _searchCtrl,
@@ -296,16 +225,6 @@ class CustomMultipleSelectionListTextsState
               entity.name ?? '',
               style: const TextStyle(color: Colors.white),
             ),
-            // leading: Checkbox(
-            //   checkColor: AppColors.black,
-            //   activeColor: AppColors.white,
-            //   value: entity.isSelected,
-            //   onChanged: (value) {
-            //     setState(() {
-            //       entity.isSelected = value ?? false;
-            //     });
-            //   },
-            // ),
             leading: Checkbox(
               side: const BorderSide(
                 color: Colors.white,   // <-- WHITE BORDER

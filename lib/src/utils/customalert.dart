@@ -27,57 +27,6 @@ class CustomAlertDialog extends StatelessWidget {
     this.onNegativePressed,
   })  : assert(bgColor != null),
         assert(circularBorderRadius != null);
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return AlertDialog(
-  //     title: title != null
-  //         ? Text(
-  //             title ?? "",
-  //             style: Styles.textFontSet(18, AppColors.navigationSkyBlueColor,
-  //                 FontWeight.normal, Constants.customFontMediumFamily),
-  //           )
-  //         : null,
-  //     content: message != null
-  //         ? Text(message ?? "",
-  //             style: Styles.textFontSet(16, Colors.black, FontWeight.normal,
-  //                 Constants.customFontMediumFamily))
-  //         : null,
-  //     backgroundColor: AppColors.lavender,
-  //     shape: RoundedRectangleBorder(
-  //         borderRadius: BorderRadius.circular(circularBorderRadius ?? 0)),
-  //     actions: <Widget>[
-  //       negativeBtnText != null
-  //           ? TextButton(
-  //               child: Text(negativeBtnText ?? '',
-  //                   style: Styles.textFontSet(
-  //                       16,
-  //                       AppColors.navigationSkyBlueColor,
-  //                       FontWeight.normal,
-  //                       Constants.customFontMediumFamily)),
-  //               //  textColor: Theme.of(context).colorScheme.secondary,
-  //               onPressed: () {
-  //                 Navigator.of(context).pop();
-  //                 if (onNegativePressed != null) {
-  //                   onNegativePressed!();
-  //                 }
-  //               },
-  //             )
-  //           : Container(),
-  //       positiveBtnText != null
-  //           ? TextButton(
-  //               onPressed: onPositivePressed,
-  //               child: Text(positiveBtnText ?? '',
-  //                   style: Styles.textFontSet(
-  //                       16,
-  //                       AppColors.navigationSkyBlueColor,
-  //                       FontWeight.normal,
-  //                       Constants.customFontMediumFamily)),
-  //             )
-  //           : Container(),
-  //     ],
-  //   );
-  // }
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -98,7 +47,7 @@ class CustomAlertDialog extends StatelessWidget {
                   Colors.white.withValues(alpha: 0.2),
                   // Color(0xFF6474C6).withOpacity(0.14)
                 ],
-                stops: [0.02, 0.35, 1],
+                stops: const [0.02, 0.35, 1],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),

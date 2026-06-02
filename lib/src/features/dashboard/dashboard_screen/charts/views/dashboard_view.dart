@@ -1451,17 +1451,17 @@ class DashboardViewState extends State<DashboardView>
     final charts = [
       BaseDonutChart(
         chartTitle: title,
-        moreIcon: SvgPicture.asset(AppIcon.moreicon),
+        moreIcon: SvgPicture.asset(AppIcon.moreIcon),
         chartData: chartValues,
       ),
       BaseVerticalBarCharts(
         chartTitle: title,
-        moreIcon: SvgPicture.asset(AppIcon.moreicon),
+        moreIcon: SvgPicture.asset(AppIcon.moreIcon),
         chartData: chartValues,
       ),
       BasePieChart(
         chartTitle: title,
-        moreIcon: SvgPicture.asset(AppIcon.moreicon),
+        moreIcon: SvgPicture.asset(AppIcon.moreIcon),
         chartData: chartValues,
       ),
     ];

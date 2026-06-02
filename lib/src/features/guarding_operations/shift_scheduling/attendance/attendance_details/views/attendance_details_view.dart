@@ -256,7 +256,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Created By
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                   state.labels?.locale.entrySecurity ??
                                       state.labels?.defaultLocale
                                           .entrySecurity ??
@@ -306,7 +306,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Sl No.
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                 state.labels?.locale.slNo ??
                                     state.labels?.defaultLocale.slNo ??
                                     Constants.slno,
@@ -452,7 +452,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                                     height * 0.02),
 
                                 /// Modified By
-                                CommonWidgets.horizentaltextHandling(
+                                CommonWidgets.horizontalTextHandling(
                                     // state.labels?.locale.entrySecurity ??
                                     //     state.labels?.defaultLocale.entrySecurity ??
                                     Constants.modifiedBy,

@@ -48,7 +48,7 @@ class BaseAddUserDialogState extends State<BaseAddUserDialog> {
                 Navigator.of(context).pop();
               },
               child: SvgPicture.asset(
-                  AppIcon.closeicon) //Icon(Icons.cancel) //Icon(Icons.cancel)
+                  AppIcon.closeIcon) //Icon(Icons.cancel) //Icon(Icons.cancel)
               )),
       surfaceTintColor: Colors.white,
       title: Text(

@@ -24,7 +24,7 @@ class BaseImageUpload {
               Colors.white.withValues(alpha: 0.09),
               // Color(0xFF6474C6).withOpacity(0.14)
             ],
-            stops: [0.02, 0.35, 1],
+            stops: const [0.02, 0.35, 1],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -35,11 +35,6 @@ class BaseImageUpload {
             width: 0.7,
           ),
           boxShadow: [
-            // BoxShadow(
-            //   color: Colors.white.withValues(alpha: 3),
-            //   blurRadius: 90,
-            //   offset: const Offset(3, 3), // white glow on top-left
-            // ),
             BoxShadow(
               color: Colors.white
                   .withValues(alpha: 0.0),
@@ -48,13 +43,7 @@ class BaseImageUpload {
             ),
           ],
         ),
-           // color: Colors.white12,
-           //  border: Border.all(
-           //    color: const Color(0xFFCACACA),
-           //    width: 1.0,
-           //  ),
-           //  borderRadius: const BorderRadius.all(Radius.circular(8))),
-        child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+          child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
           Padding(
             padding: const EdgeInsets.only(right: 5.0),
             child: ElevatedButton.icon(
@@ -88,7 +77,7 @@ class BaseImageUpload {
                 );
               },
               icon: SvgPicture.asset(
-                AppIcon.uploadicon,
+                AppIcon.uploadIcon,
                 colorFilter: const ColorFilter.mode(
                   AppColors.backgroundWhiteColor,
                   BlendMode.srcIn,
@@ -313,7 +302,7 @@ class ImageFromBytes extends StatelessWidget {
     try {
       imageBytes = Uint8List.fromList(base64Decode(imageData!.imageContent!));
     } catch (e) {
-      print('Error decoding image data: $e');
+      log('Error decoding image data: $e');
       // You can provide a fallback image or widget here if needed
       imageBytes = null;
     }

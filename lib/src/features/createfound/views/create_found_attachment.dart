@@ -76,7 +76,7 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
                 color: Colors.white),
           ),
           action: [
-            CustomPopmenu(
+            CustomPopMenu(
               itemList: const [
                 // PopMenuItems("Export Excel", AppIcon.exportexcel),
                 // PopMenuItems("Export PDF", AppIcon.exportpdf),
@@ -86,7 +86,7 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
               itemTap: (value) {
                 print(value);
               },
-              popupimagename: AppIcon.createfoundsaveicon,
+              popupImageName: AppIcon.createFoundSaveIcon,
             ),
           ],
           // backgroundColor: AppColors.navigationSkybluecolor,
@@ -239,7 +239,7 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
                                                                           50.0)),
                                                             )),
                                                     child: SvgPicture.asset(
-                                                        AppIcon.closeicon,
+                                                        AppIcon.closeIcon,
                                                         width: (_image != null
                                                             ? 50
                                                             : 25)), //Icon(Icons.cancel,size: (_image != null ? 50 :25),),
@@ -293,7 +293,7 @@ class CreateFoundAttachmentState extends State<CreateFoundAttachment>
                                           },
                                           icon: SvgPicture.asset(
                                             //AppIcon.dropdownicon,
-                                            AppIcon.uploadicon,
+                                            AppIcon.uploadIcon,
                                             //fit: BoxFit.,
                                             colorFilter: const ColorFilter.mode(
                                               AppColors.backgroundWhiteColor,

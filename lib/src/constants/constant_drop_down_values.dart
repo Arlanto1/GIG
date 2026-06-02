@@ -526,22 +526,13 @@ const List<Label> severityDropDown = [
   Label(key: 'High', value: '1'),
   Label(key: 'Medium', value: '2'),
   Label(key: 'Low', value: '3'),
-
 ];
-
-// const List<String> ownerDropDownValues = [
-//   'Security',
-//   'Facilities',
-//   'Management',
-//   'Other',
-// ];
 
 const List<Label> ownerDropDownValues = [
   Label(key: 'Security', value: 'Security'),
   Label(key: 'Facility', value: 'Facility'),
   Label(key: 'Engineering', value: 'Engineering'),
   Label(key: 'Other', value: 'Other'),
-
 ];
 
 

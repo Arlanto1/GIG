@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:ui';
 
 import 'package:db_atom/index.dart';
@@ -193,7 +192,7 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Created By
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                   state.labels?.locale.createdBy ??
                                       state.labels?.defaultLocale.createdBy ??
                                       Constants.createdby,

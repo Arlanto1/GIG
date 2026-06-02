@@ -9,9 +9,9 @@ import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 
 class CustomPopUpList extends StatefulWidget {
-  FoundModel? userItem;
+  final FoundModel? userItem;
 
-  CustomPopUpList(this.userItem, {super.key});
+  const CustomPopUpList(this.userItem, {super.key});
 
   @override
   State<CustomPopUpList> createState() => _CustomPopUpListState();
@@ -77,7 +77,7 @@ class _CustomPopUpListState extends State<CustomPopUpList> {
                     Navigator.of(context).pop();
                   },
                   child:
-                      SvgPicture.asset(AppIcon.closeicon) //Icon(Icons.cancel)
+                      SvgPicture.asset(AppIcon.closeIcon) //Icon(Icons.cancel)
                   )),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

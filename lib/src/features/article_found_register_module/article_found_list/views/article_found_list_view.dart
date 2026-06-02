@@ -78,7 +78,7 @@ class _ArticleFoundListViewState extends State<ArticleFoundListView> {
           backgroundColor: AppColors.cardBgColor,
           floatingActionButton: (widget.eventProtectionId.isEmptyOrNull) &&
                   ((state.extraProperties?.hasWritePermission ?? false))
-              ? Flutterfloatingbutton(
+              ? FlutterFloatingButton(
                   backgroundColor: AppColors.navigationSkyBlueColor,
                   foregroundColor: AppColors.backgroundWhiteColor,
                   onPressed: () => {

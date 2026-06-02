@@ -321,7 +321,7 @@ log('widget.isCSREvent ${widget.isCSREvent}');
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Created By
-                            CommonWidgets.horizentaltextHandling(
+                            CommonWidgets.horizontalTextHandling(
                               // state.labels?.locale.entrySecurity ??
                               //     state.labels?.defaultLocale.entrySecurity ??
                                 Constants.createdby,
@@ -330,7 +330,7 @@ log('widget.isCSREvent ${widget.isCSREvent}');
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Sl No.
-                            CommonWidgets.horizentaltextHandling(
+                            CommonWidgets.horizontalTextHandling(
                                 state.labels?.locale.slNo ??
                                     state.labels?.defaultLocale.slNo ??
                                     Constants.slno,

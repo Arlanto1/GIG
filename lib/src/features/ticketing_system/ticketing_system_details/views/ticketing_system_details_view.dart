@@ -279,7 +279,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Created By
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                 // state.labels?.locale.entrySecurity ??
                                 //     state.labels?.defaultLocale.entrySecurity ??
                                 Constants.createdby,
@@ -336,7 +336,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Ticket No.
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                 // state.labels?.locale.slNo ??
                                 //     state.labels?.defaultLocale.slNo ??
                                 'Ticket No',
@@ -487,7 +487,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Assignee To
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                 // state.labels?.locale.entrySecurity ??
                                 //     state.labels?.defaultLocale.entrySecurity ??
                                 Constants.assignee,
@@ -868,7 +868,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
 
                               if (state.model.id != null) ...[
                                 /// Modified By
-                                CommonWidgets.horizentaltextHandling(
+                                CommonWidgets.horizontalTextHandling(
                                   // state.labels?.locale.entrySecurity ??
                                   //     state.labels?.defaultLocale.entrySecurity ??
                                   Constants.modifiedBy,

@@ -380,7 +380,7 @@ class _KeyHistoryRecordsDetailsViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Created By
-                            CommonWidgets.horizentaltextHandling(
+                            CommonWidgets.horizontalTextHandling(
                               state.labels?.locale.createdBy ??
                                   state.labels?.defaultLocale.createdBy ??
                                   Constants.createdby,
@@ -404,7 +404,7 @@ class _KeyHistoryRecordsDetailsViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Sl No.
-                            CommonWidgets.horizentaltextHandling(
+                            CommonWidgets.horizontalTextHandling(
                               state.labels?.locale.slNo ??
                                   state.labels?.defaultLocale.slNo ??
                                   Constants.slno,
@@ -831,7 +831,7 @@ class _KeyHistoryRecordsDetailsViewState
                                         ConstantsIntValue.submitted) ...[
                                       const SizedBox(width: 14),
                                       SvgPicture.asset(
-                                        AppIcon.pluscircle,
+                                        AppIcon.plusCircle,
                                         colorFilter: const ColorFilter.mode(
                                           AppColors.navigationSkyBlueColor,
                                           BlendMode.srcIn,
@@ -924,7 +924,7 @@ class _KeyHistoryRecordsDetailsViewState
                             if (state.model.status ==
                                 ConstantsIntValue.destroyRejected) ...[
                               /// Rejection Comment
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                 state.labels?.locale.statusDestroyReject ??
                                     state.labels?.defaultLocale
                                         .statusDestroyReject ??
@@ -936,7 +936,7 @@ class _KeyHistoryRecordsDetailsViewState
                             ],
                             if (state.model.id != null) ...[
                               /// Modified By
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                 state.labels?.locale.modifiedBy ??
                                     state.labels?.defaultLocale.modifiedBy ??
                                     Constants.modifiedBy,

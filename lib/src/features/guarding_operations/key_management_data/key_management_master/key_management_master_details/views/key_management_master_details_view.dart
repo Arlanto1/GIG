@@ -253,7 +253,7 @@ class _KeyManagementMasterDetailsViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Created By
-                            CommonWidgets.horizentaltextHandling(
+                            CommonWidgets.horizontalTextHandling(
                                 state.labels?.locale.createdBy ??
                                     state.labels?.defaultLocale.createdBy ??
                                     Constants.createdby,
@@ -334,7 +334,7 @@ class _KeyManagementMasterDetailsViewState
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Sl No.
-                            CommonWidgets.horizentaltextHandling(
+                            CommonWidgets.horizontalTextHandling(
                               state.labels?.locale.slNo ??
                                   state.labels?.defaultLocale.slNo ??
                                   Constants.slno,
@@ -708,7 +708,7 @@ class _KeyManagementMasterDetailsViewState
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Modified By
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                   state.labels?.locale.modifiedBy ??
                                       state.labels?.defaultLocale.modifiedBy ??
                                       Constants.modifiedBy,
@@ -717,7 +717,7 @@ class _KeyManagementMasterDetailsViewState
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// No. keys issued
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                   state.labels?.locale.noKeysIssued ??
                                       state
                                           .labels?.defaultLocale.noKeysIssued ??
@@ -727,7 +727,7 @@ class _KeyManagementMasterDetailsViewState
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Number of Keys Available
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                   state.labels?.locale.available ??
                                       state.labels?.defaultLocale.available ??
                                       Constants.noOfKeysAvailable,
@@ -735,7 +735,7 @@ class _KeyManagementMasterDetailsViewState
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Number of Keys Returned
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                   state.labels?.locale.returned ??
                                       state.labels?.defaultLocale.returned ??
                                       Constants.noOfKeysReturned,
@@ -743,7 +743,7 @@ class _KeyManagementMasterDetailsViewState
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Number of Keys not Returned
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                   state.labels?.locale.notReturned ??
                                       state.labels?.defaultLocale.notReturned ??
                                       Constants.noOfKeysNotReturned,
@@ -751,7 +751,7 @@ class _KeyManagementMasterDetailsViewState
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Number of Keys Lost
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                   state.labels?.locale.lost ??
                                       state.labels?.defaultLocale.lost ??
                                       Constants.noOfKeysLost,
@@ -759,7 +759,7 @@ class _KeyManagementMasterDetailsViewState
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Number of Keys Damaged
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                   state.labels?.locale.damaged ??
                                       state.labels?.defaultLocale.damaged ??
                                       Constants.noOfKeysDamaged,
@@ -767,7 +767,7 @@ class _KeyManagementMasterDetailsViewState
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Number of Master Keys Issued
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                   state.labels?.locale.noKeysIssuedMaster ??
                                       state.labels?.defaultLocale
                                           .noKeysIssuedMaster ??
@@ -776,7 +776,7 @@ class _KeyManagementMasterDetailsViewState
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Number of Master Keys Available
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                   state.labels?.locale.availableMaster ??
                                       state.labels?.defaultLocale
                                           .availableMaster ??
@@ -785,7 +785,7 @@ class _KeyManagementMasterDetailsViewState
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Number of Master Keys Returned
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                   state.labels?.locale.returnedMaster ??
                                       state.labels?.defaultLocale
                                           .returnedMaster ??
@@ -794,7 +794,7 @@ class _KeyManagementMasterDetailsViewState
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Number of Master Keys Not Returned
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                   state.labels?.locale.notReturnedMaster ??
                                       state.labels?.defaultLocale
                                           .notReturnedMaster ??
@@ -803,7 +803,7 @@ class _KeyManagementMasterDetailsViewState
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Number of Master Keys Lost
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                   state.labels?.locale.lostMaster ??
                                       state.labels?.defaultLocale.lostMaster ??
                                       Constants.noOfMasterKeysLost,
@@ -811,7 +811,7 @@ class _KeyManagementMasterDetailsViewState
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Number of Master Keys Damaged
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                   state.labels?.locale.damagedMaster ??
                                       state.labels?.defaultLocale
                                           .damagedMaster ??
@@ -874,7 +874,7 @@ class _KeyManagementMasterDetailsViewState
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: <Widget>[
                                     SvgPicture.asset(
-                                      AppIcon.pluscircle,
+                                      AppIcon.plusCircle,
                                       colorFilter: const ColorFilter.mode(
                                         AppColors.white,
                                         BlendMode.srcIn,
@@ -1084,7 +1084,7 @@ class _KeyManagementMasterDetailsViewState
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: <Widget>[
                                     SvgPicture.asset(
-                                      AppIcon.pluscircle,
+                                      AppIcon.plusCircle,
                                       colorFilter: const ColorFilter.mode(
                                         AppColors.white,
                                         BlendMode.srcIn,

@@ -367,7 +367,7 @@ class _PatrollingOtherViewState extends State<PatrollingOtherView> {
                     child: Text(
                       '${index + 1}',
                       style: const TextStyle(
-                        fontSize: 11,
+                        fontSize: 20,
                         fontWeight: FontWeight.w500,
                         color: Colors.white,
                       ),
@@ -381,7 +381,7 @@ class _PatrollingOtherViewState extends State<PatrollingOtherView> {
                   child: Text(
                     item.question ?? '',
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: 20,
                       color: Colors.white.withValues(alpha: 0.9),
                       height: 1.5,
                     ),

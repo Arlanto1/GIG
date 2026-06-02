@@ -4,23 +4,23 @@ import 'dart:ui';
 import 'package:db_atom/index.dart';
 
 class CustomListTexts extends StatefulWidget {
-  CustomListTexts({
+  const CustomListTexts({
     super.key,
     this.imageName,
     this.duplicateEmployeeDepartments,
     this.duplicateArticleList,
     this.onTap,
-    this.duplicateDepostorList,
+    this.duplicateDepositorList,
     this.onLeftButtonTap,
     this.leftImageName,
     this.duplicateEntityList,
     this.duplicateLeoDepartments,
     this.duplicateLeoPurposeVisits,
-    this.duplicateloadGroups,
-    this.duplicateatomCompanyTypes,
-    this.duplicatedayPassReason,
-    this.duplicatet1Analyst,
-    this.duplicateactivePassInfoList,
+    this.duplicateLoadGroups,
+    this.duplicateAtomCompanyTypes,
+    this.duplicateDayPassReason,
+    this.duplicateT1Analyst,
+    this.duplicateActivePassInfoList,
     this.duplicateQuantityUnitList,
     this.isEmployeeId,
     this.location,
@@ -29,26 +29,26 @@ class CustomListTexts extends StatefulWidget {
   });
 
   final String? imageName;
-  List<Organisation>? duplicateEmployeeDepartments;
-  List<Organisation>? duplicateArticleList;
-  List<Organisation>? duplicateEntityList;
-  List<BaseUser>? duplicateDepostorList;
-  List<Organisation>? duplicateLeoDepartments;
-  List<Organisation>? duplicateLeoPurposeVisits;
+  final List<Organisation>? duplicateEmployeeDepartments;
+  final List<Organisation>? duplicateArticleList;
+  final List<Organisation>? duplicateEntityList;
+  final List<BaseUser>? duplicateDepositorList;
+  final List<Organisation>? duplicateLeoDepartments;
+  final List<Organisation>? duplicateLeoPurposeVisits;
   final Function? onTap;
   final Function? onLeftButtonTap;
   final String? leftImageName;
-  List<Organisation>? duplicateloadGroups;
-  List<Organisation>? duplicateatomCompanyTypes;
-  List<Organisation>? duplicatedayPassReason;
-  List<BaseUser>? duplicatet1Analyst;
-  List<Organisation>? duplicateactivePassInfoList;
+  final List<Organisation>? duplicateLoadGroups;
+  final List<Organisation>? duplicateAtomCompanyTypes;
+  final List<Organisation>? duplicateDayPassReason;
+  final List<BaseUser>? duplicateT1Analyst;
+  final List<Organisation>? duplicateActivePassInfoList;
 
-  List<Organisation>? duplicateQuantityUnitList;
-  bool? isEmployeeId;
-  int? location;
-  String? roleName;
-  bool? isDbUser;
+  final List<Organisation>? duplicateQuantityUnitList;
+  final bool? isEmployeeId;
+  final int? location;
+  final String? roleName;
+  final bool? isDbUser;
 
   @override
   State<CustomListTexts> createState() => CustomListTextsState();
@@ -60,9 +60,9 @@ class CustomListTextsState extends State<CustomListTexts> {
   List<Organisation> employeeDepartments = [];
   List<Organisation> articleList = [];
   List<Organisation> entityList = [];
-  List<BaseUser> depostorList = [];
-  List<Organisation> leodepartments = [];
-  List<Organisation> leopurposevisits = [];
+  List<BaseUser> depositorList = [];
+  List<Organisation> leoDepartments = [];
+  List<Organisation> leoPurposeVisits = [];
   List<Organisation> loadGroups = [];
   List<Organisation> companyTypes = [];
   List<Organisation> dayPassReason = [];
@@ -79,165 +79,8 @@ class CustomListTextsState extends State<CustomListTexts> {
 
   @override
   Widget build(BuildContext context) {
-    log('--duplicateatomCompanyTypes--${widget.duplicateatomCompanyTypes?.length}--');
+    log('--duplicateatomCompanyTypes--${widget.duplicateAtomCompanyTypes?.length}--');
 
-    // return AlertDialog(
-    //   icon: widget.leftImageName != null
-    //       ? Row(
-    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //           children: <Widget>[
-    //               GestureDetector(
-    //                   onTap: () {
-    //                     widget.onLeftButtonTap != null
-    //                         ? widget.onLeftButtonTap!()
-    //                         : null;
-    //                   },
-    //                   child: SvgPicture.asset(
-    //                     widget.leftImageName ?? '',
-    //                     colorFilter: const ColorFilter.mode(
-    //                       AppColors.navigationSkyBlueColor,
-    //                       BlendMode.srcIn,
-    //                     ),
-    //                     // color: AppColors.navigationSkyBlueColor,
-    //                   ) //Icon(Icons.cancel)
-    //                   ),
-    //               GestureDetector(
-    //                   onTap: () {
-    //                     Navigator.of(context).pop();
-    //                   },
-    //                   child: SvgPicture.asset(
-    //                       AppIcon.closeicon, colorFilter: const ColorFilter.mode(AppColors.black,BlendMode.srcIn,),) //Icon(Icons.cancel)
-    //                   ),
-    //             ])
-    //       : Align(
-    //           alignment: Alignment.topRight,
-    //           child: GestureDetector(
-    //               onTap: () {
-    //                 Navigator.of(context).pop();
-    //               }, child: SvgPicture.asset(
-    //             AppIcon.closeicon, colorFilter: const ColorFilter.mode(AppColors.black,BlendMode.srcIn,),) //Icon(Icons.cancel)
-    //             //Icon(Icons.cancel)
-    //               )),
-    //   backgroundColor: AppColors.lavender.withValues(alpha: 0.9),
-    //   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-    //   content: Builder(builder: (context) {
-    //     // Get available height and width of the build area of this widget. Make a choice depending on the size.
-    //     var height = MediaQuery.of(context).size.height;
-    //     var width = MediaQuery.of(context).size.width;
-    //     return SizedBox(
-    //       height: height / 2,
-    //       width: width - 40,
-    //       child: Padding(
-    //         padding: const EdgeInsets.all(0.0),
-    //         child: SingleChildScrollView(
-    //           child: Column(
-    //             // mainAxisAlignment: MainAxisAlignment.center,
-    //             children: [
-    //               // (widget.articleList != null && widget.articleList!.isNotEmpty) ||
-    //               //         (widget.duplicateemployeeDepartments != null &&
-    //               //             widget.duplicateemployeeDepartments!.isNotEmpty) ||
-    //               //         (widget.depostorList != null &&
-    //               //             widget.depostorList!.isNotEmpty)
-    //               //  ?
-    //               searchWidget(),
-    //               //  : Container(),
-    //               setupAlertDialogContainer(height, width),
-    //             ],
-    //           ),
-    //         ),
-    //       ),
-    //     );
-    //   }),
-    // );
-
-    // return AlertDialog(
-    //     // backgroundColor: Colors.white,
-    //     elevation: 0,
-    //     contentPadding: EdgeInsets.zero,
-    //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-    //     icon: widget.leftImageName != null
-    //         ? Row(
-    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //       children: <Widget>[
-    //         GestureDetector(
-    //           onTap: () {
-    //             widget.onLeftButtonTap?.call();
-    //           },
-    //           child: SvgPicture.asset(
-    //             widget.leftImageName ?? '',
-    //             colorFilter: const ColorFilter.mode(
-    //               AppColors.navigationSkyBlueColor,
-    //               BlendMode.srcIn,
-    //             ),
-    //           ),
-    //         ),
-    //         GestureDetector(
-    //           onTap: () => Navigator.of(context).pop(),
-    //           child: SvgPicture.asset(
-    //             AppIcon.closeicon,
-    //             colorFilter: const ColorFilter.mode(
-    //               AppColors.black,
-    //               BlendMode.srcIn,
-    //             ),
-    //           ),
-    //         ),
-    //       ],
-    //     )
-    //         : Align(
-    //       alignment: Alignment.topRight,
-    //       child: GestureDetector(
-    //         onTap: () => Navigator.of(context).pop(),
-    //         child: SvgPicture.asset(
-    //           AppIcon.closeicon,
-    //           colorFilter: const ColorFilter.mode(
-    //             AppColors.black,
-    //             BlendMode.srcIn,
-    //           ),
-    //         ),
-    //       ),
-    //     ),
-    //
-    //     // --------- KEEP ONLY THE INNER GLASS CONTAINER ----------
-    //     content: ClipRRect(
-    //       borderRadius: BorderRadius.circular(20),
-    //       child: BackdropFilter(
-    //         filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-    //         child: Container(
-    //           padding: const EdgeInsets.all(20),
-    //           decoration: BoxDecoration(
-    //             borderRadius: BorderRadius.circular(20),
-    //             gradient: LinearGradient(
-    //               colors: [
-    //                 Colors.white.withOpacity(0.15),
-    //                 Colors.white.withOpacity(0.05),
-    //               ],
-    //             ),
-    //             border: Border.all(
-    //               color: Colors.white.withOpacity(0.25),
-    //             ),
-    //           ),
-    //
-    //           child: Builder(builder: (context) {
-    //             var height = MediaQuery.of(context).size.height;
-    //             var width = MediaQuery.of(context).size.width;
-    //
-    //             return SizedBox(
-    //               height: height / 2,
-    //               width: width - 40,
-    //               child: SingleChildScrollView(
-    //                 child: Column(
-    //                   children: [
-    //                     searchWidget(),
-    //                     setupAlertDialogContainer(height, width),
-    //                   ],
-    //                 ),
-    //               ),
-    //             );
-    //           }),
-    //         ),
-    //       ),
-    //     ),
-    //   );
 
     return Dialog(
       backgroundColor: Colors.transparent,
@@ -248,23 +91,7 @@ class CustomListTextsState extends State<CustomListTexts> {
         elevation: 10,
         contentPadding: EdgeInsets.zero,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        // ---------- CLOSE ICON ABOVE SEARCH ----------
-        // titlePadding: const EdgeInsets.only(top: 10, right: 10),
-        // title: Align(
-        //   alignment: Alignment.topRight,
-        //   child: GestureDetector(
-        //     onTap: () => Navigator.of(context).pop(),
-        //     child: SvgPicture.asset(
-        //       AppIcon.closeicon,
-        //       height: 22,
-        //       width: 22,
-        //       colorFilter: const ColorFilter.mode(
-        //         AppColors.black,
-        //         BlendMode.srcIn,
-        //       ),
-        //     ),
-        //   ),
-        // ),
+
 
         // ---------- ONLY ONE GLASS CONTAINER ----------
         content: ClipRRect(
@@ -273,18 +100,7 @@ class CustomListTextsState extends State<CustomListTexts> {
             filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
             child: Container(
               padding: const EdgeInsets.all(20),
-              // decoration: BoxDecoration(
-              //   borderRadius: BorderRadius.circular(20),
-              //   gradient: LinearGradient(
-              //     colors: [
-              //       Colors.white.withOpacity(0.05),
-              //       AppColors.lavender.withOpacity(0.15),
-              //     ],
-              //   ),
-              //   border: Border.all(
-              //     color: Colors.white.withOpacity(0.35),
-              //   ),
-              // ),
+
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
@@ -293,7 +109,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                     Colors.white.withValues(alpha: 0.2),
                     // Color(0xFF6474C6).withOpacity(0.14)
                   ],
-                  stops: [0.02, 0.35, 1],
+                  stops: const [0.02, 0.35, 1],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ),
@@ -328,7 +144,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                       GestureDetector(
                         onTap: () => Navigator.of(context).pop(),
                         child: SvgPicture.asset(
-                          AppIcon.closeicon,
+                          AppIcon.closeIcon,
                           colorFilter: const ColorFilter.mode(
                             AppColors.white,
                             BlendMode.srcIn,
@@ -436,14 +252,14 @@ class CustomListTextsState extends State<CustomListTexts> {
       }
     }
 
-    else if (widget.duplicateDepostorList != null) {
-      depostorList.clear();
+    else if (widget.duplicateDepositorList != null) {
+      depositorList.clear();
       if (text.isEmpty) {
         setState(() {});
         return;
       }
 
-      // for (var userDetail in widget.duplicateDepostorList!) {
+      // for (var userDetail in widget.duplicateDepositorList!) {
       if (text.length >= 5 ) {
         // Call the API only once when the search text length is greater than 2
         try {
@@ -451,23 +267,23 @@ class CustomListTextsState extends State<CustomListTexts> {
             roleName: widget.roleName, // Replace with actual role
             locationId: widget.location, // Replace with actual location ID
             isDbUser: widget.isDbUser, // Set based on your use case
-            search: int.tryParse(text) ?? text, // Passthe search parameter
+            search: int.tryParse(text) ?? text, // Pass the search parameter
           );
 
-          depostorList.clear(); // Clear the existing list
+          depositorList.clear(); // Clear the existing list
           if (response.isNotEmpty) {
-            depostorList.addAll(response); // Add API response to the list
+            depositorList.addAll(response); // Add API response to the list
           }
         } catch (e) {
           log('Error while fetching users: $e');
         }
       } else {
         // Perform local filtering for shorter text
-        depostorList.clear(); // Clear the existing list
-        for (var userDetail in widget.duplicateDepostorList!) {
+        depositorList.clear(); // Clear the existing list
+        for (var userDetail in widget.duplicateDepositorList!) {
           if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
             log('--userDetail--ddd-${userDetail.name}--');
-            depostorList.add(userDetail);
+            depositorList.add(userDetail);
           }
         }
         // }
@@ -485,7 +301,7 @@ class CustomListTextsState extends State<CustomListTexts> {
         }
       }
     } else if (widget.duplicateLeoDepartments != null) {
-      leodepartments.clear();
+      leoDepartments.clear();
       if (text.isEmpty) {
         setState(() {});
         return;
@@ -493,11 +309,11 @@ class CustomListTextsState extends State<CustomListTexts> {
 
       for (var userDetail in widget.duplicateLeoDepartments!) {
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
-          leodepartments.add(userDetail);
+          leoDepartments.add(userDetail);
         }
       }
     } else if (widget.duplicateLeoPurposeVisits != null) {
-      leopurposevisits.clear();
+      leoPurposeVisits.clear();
       if (text.isEmpty) {
         setState(() {});
         return;
@@ -505,22 +321,22 @@ class CustomListTextsState extends State<CustomListTexts> {
 
       for (var userDetail in widget.duplicateLeoPurposeVisits!) {
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
-          leopurposevisits.add(userDetail);
+          leoPurposeVisits.add(userDetail);
         }
       }
-    } else if (widget.duplicateloadGroups != null) {
+    } else if (widget.duplicateLoadGroups != null) {
       loadGroups.clear();
       if (text.isEmpty) {
         setState(() {});
         return;
       }
 
-      for (var userDetail in widget.duplicateloadGroups!) {
+      for (var userDetail in widget.duplicateLoadGroups!) {
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
           loadGroups.add(userDetail);
         }
       }
-    } else if (widget.duplicateatomCompanyTypes != null) {
+    } else if (widget.duplicateAtomCompanyTypes != null) {
       log('-text---$text--');
       companyTypes.clear();
       if (text.isEmpty) {
@@ -528,7 +344,7 @@ class CustomListTextsState extends State<CustomListTexts> {
         return;
       }
 
-      for (var userDetail in widget.duplicateatomCompanyTypes!) {
+      for (var userDetail in widget.duplicateAtomCompanyTypes!) {
         log('-text---$text--');
 
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
@@ -545,7 +361,7 @@ class CustomListTextsState extends State<CustomListTexts> {
         //   }
         // }
       }
-    } else if (widget.duplicatedayPassReason != null) {
+    } else if (widget.duplicateDayPassReason != null) {
       log('-text---$text--');
 
       dayPassReason.clear();
@@ -554,33 +370,33 @@ class CustomListTextsState extends State<CustomListTexts> {
         return;
       }
 
-      for (var userDetail in widget.duplicatedayPassReason!) {
+      for (var userDetail in widget.duplicateDayPassReason!) {
         log('-text---$text--');
 
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
           dayPassReason.add(userDetail);
         }
       }
-    } else if (widget.duplicatet1Analyst != null) {
+    } else if (widget.duplicateT1Analyst != null) {
       t1analysts.clear();
       if (text.isEmpty) {
         setState(() {});
         return;
       }
 
-      for (var userDetail in widget.duplicatet1Analyst!) {
+      for (var userDetail in widget.duplicateT1Analyst!) {
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
           t1analysts.add(userDetail);
         }
       }
-    } else if (widget.duplicateactivePassInfoList != null) {
+    } else if (widget.duplicateActivePassInfoList != null) {
       activePassInfoList.clear();
       if (text.isEmpty) {
         setState(() {});
         return;
       }
 
-      for (var userDetail in widget.duplicateactivePassInfoList!) {
+      for (var userDetail in widget.duplicateActivePassInfoList!) {
         if (userDetail.name!.toLowerCase().contains(text.toLowerCase())) {
           activePassInfoList.add(userDetail);
         }
@@ -616,10 +432,10 @@ class CustomListTextsState extends State<CustomListTexts> {
             (widget.duplicateQuantityUnitList != null &&
                 _searchCtrl.text.isNotEmpty &&
                 quantityUnitList.isEmpty)) ||
-        ((widget.duplicateDepostorList != null && widget.duplicateDepostorList!.isEmpty) ||
-            (widget.duplicateDepostorList != null &&
+        ((widget.duplicateDepositorList != null && widget.duplicateDepositorList!.isEmpty) ||
+            (widget.duplicateDepositorList != null &&
                 _searchCtrl.text.isNotEmpty &&
-                depostorList.isEmpty)) ||
+                depositorList.isEmpty)) ||
         ((widget.duplicateEntityList != null && widget.duplicateEntityList!.isEmpty) ||
             (widget.duplicateEntityList != null &&
                 _searchCtrl.text.isNotEmpty &&
@@ -627,24 +443,24 @@ class CustomListTextsState extends State<CustomListTexts> {
         ((widget.duplicateLeoDepartments != null && widget.duplicateLeoDepartments!.isEmpty) ||
             (widget.duplicateLeoDepartments != null &&
                 _searchCtrl.text.isNotEmpty &&
-                leodepartments.isEmpty)) ||
+                leoDepartments.isEmpty)) ||
         ((widget.duplicateLeoPurposeVisits != null && widget.duplicateLeoPurposeVisits!.isEmpty) ||
             (widget.duplicateLeoPurposeVisits != null &&
                 _searchCtrl.text.isNotEmpty &&
-                leopurposevisits.isEmpty) ||
-            (widget.duplicateloadGroups != null &&
+                leoPurposeVisits.isEmpty) ||
+            (widget.duplicateLoadGroups != null &&
                 _searchCtrl.text.isNotEmpty &&
                 loadGroups.isEmpty) ||
-            (widget.duplicateatomCompanyTypes != null &&
+            (widget.duplicateAtomCompanyTypes != null &&
                 _searchCtrl.text.isNotEmpty &&
                 companyTypes.isEmpty) ||
-            (widget.duplicatedayPassReason != null &&
+            (widget.duplicateDayPassReason != null &&
                 _searchCtrl.text.isNotEmpty &&
                 dayPassReason.isEmpty) ||
-            (widget.duplicatet1Analyst != null &&
+            (widget.duplicateT1Analyst != null &&
                 _searchCtrl.text.isNotEmpty &&
                 t1analysts.isEmpty) ||
-            (widget.duplicateactivePassInfoList != null &&
+            (widget.duplicateActivePassInfoList != null &&
                 _searchCtrl.text.isNotEmpty &&
                 activePassInfoList.isEmpty))) {
       return //const Expanded(
@@ -669,41 +485,41 @@ class CustomListTextsState extends State<CustomListTexts> {
               ? (_searchCtrl.text.isNotEmpty && employeeDepartments.isNotEmpty)
                   ? employeeDepartments.length
                   : widget.duplicateEmployeeDepartments?.length
-              : (widget.duplicateactivePassInfoList != null
+              : (widget.duplicateActivePassInfoList != null
                   ? (_searchCtrl.text.isNotEmpty &&
                           activePassInfoList.isNotEmpty)
                       ? activePassInfoList.length
-                      : widget.duplicateactivePassInfoList?.length
-                  : widget.duplicatet1Analyst != null
+                      : widget.duplicateActivePassInfoList?.length
+                  : widget.duplicateT1Analyst != null
                       ? (_searchCtrl.text.isNotEmpty && t1analysts.isNotEmpty)
                           ? t1analysts.length
-                          : widget.duplicatet1Analyst?.length
+                          : widget.duplicateT1Analyst?.length
                       : widget.duplicateQuantityUnitList != null
                           ? (_searchCtrl.text.isNotEmpty &&
                                   quantityUnitList.isNotEmpty)
                               ? quantityUnitList.length
                               : widget.duplicateQuantityUnitList?.length
-                          : widget.duplicatedayPassReason != null
+                          : widget.duplicateDayPassReason != null
                               ? (_searchCtrl.text.isNotEmpty &&
                                       dayPassReason.isNotEmpty)
                                   ? dayPassReason.length
-                                  : widget.duplicatedayPassReason?.length
-                              : widget.duplicateatomCompanyTypes != null
+                                  : widget.duplicateDayPassReason?.length
+                              : widget.duplicateAtomCompanyTypes != null
                                   ? (_searchCtrl.text.isNotEmpty &&
                                           companyTypes.isNotEmpty)
                                       ? companyTypes.length
-                                      : widget.duplicateatomCompanyTypes?.length
+                                      : widget.duplicateAtomCompanyTypes?.length
                                   : widget.duplicateArticleList != null
                                       ? (_searchCtrl.text.isNotEmpty &&
                                               articleList.isNotEmpty)
                                           ? articleList.length
                                           : widget.duplicateArticleList?.length
-                                      : widget.duplicateDepostorList != null
+                                      : widget.duplicateDepositorList != null
                                           ? (_searchCtrl.text.isNotEmpty &&
-                                                  depostorList.isNotEmpty)
-                                              ? depostorList.length
+                                                  depositorList.isNotEmpty)
+                                              ? depositorList.length
                                               : widget
-                                                  .duplicateDepostorList?.length
+                                                  .duplicateDepositorList?.length
                                           : widget.duplicateEntityList != null
                                               ? (_searchCtrl.text.isNotEmpty &&
                                                       entityList.isNotEmpty)
@@ -714,9 +530,9 @@ class CustomListTextsState extends State<CustomListTexts> {
                                                       null
                                                   ? (_searchCtrl.text
                                                               .isNotEmpty &&
-                                                          leodepartments
+                                                          leoDepartments
                                                               .isNotEmpty)
-                                                      ? leodepartments.length
+                                                      ? leoDepartments.length
                                                       : widget
                                                           .duplicateLeoDepartments
                                                           ?.length
@@ -724,9 +540,9 @@ class CustomListTextsState extends State<CustomListTexts> {
                                                           null
                                                       ? (_searchCtrl.text
                                                                   .isNotEmpty &&
-                                                              leopurposevisits
+                                                              leoPurposeVisits
                                                                   .isNotEmpty)
-                                                          ? leopurposevisits
+                                                          ? leoPurposeVisits
                                                               .length
                                                           : widget
                                                               .duplicateLeoPurposeVisits
@@ -737,7 +553,7 @@ class CustomListTextsState extends State<CustomListTexts> {
                                                                   .isNotEmpty)
                                                           ? loadGroups.length
                                                           : widget
-                                                              .duplicateloadGroups
+                                                              .duplicateLoadGroups
                                                               ?.length),
           itemBuilder: (BuildContext context, int index) {
             if (widget.duplicateEmployeeDepartments != null) {
@@ -821,15 +637,15 @@ class CustomListTextsState extends State<CustomListTexts> {
                       textAlign: TextAlign.left,
                     ),
                   ));
-            } else if (widget.duplicateDepostorList != null &&
+            } else if (widget.duplicateDepositorList != null &&
                 widget.isEmployeeId == false) {
               BaseUser? articleItem;
-              if ((_searchCtrl.text.isNotEmpty && depostorList.isNotEmpty)) {
-                articleItem = depostorList[index];
+              if ((_searchCtrl.text.isNotEmpty && depositorList.isNotEmpty)) {
+                articleItem = depositorList[index];
 
                 log('--articleItem--ddd-${articleItem.name}--');
               } else {
-                articleItem = widget.duplicateDepostorList?[index];
+                articleItem = widget.duplicateDepositorList?[index];
               }
               return ListTile(
                   onTap: () {
@@ -867,15 +683,15 @@ class CustomListTextsState extends State<CustomListTexts> {
                       textAlign: TextAlign.left,
                     ),
                   ));
-            } else if (widget.duplicateDepostorList != null &&
+            } else if (widget.duplicateDepositorList != null &&
                 widget.isEmployeeId == true) {
               BaseUser? articleItem;
-              if ((_searchCtrl.text.isNotEmpty && depostorList.isNotEmpty)) {
-                articleItem = depostorList[index];
+              if ((_searchCtrl.text.isNotEmpty && depositorList.isNotEmpty)) {
+                articleItem = depositorList[index];
 
                 log('--articleItem--ddd-${articleItem.name}--');
               } else {
-                articleItem = widget.duplicateDepostorList?[index];
+                articleItem = widget.duplicateDepositorList?[index];
               }
               return !articleItem!.employeeId.isEmptyOrNull
                   ? ListTile(
@@ -956,8 +772,8 @@ class CustomListTextsState extends State<CustomListTexts> {
             } else if (widget.duplicateLeoPurposeVisits != null) {
               Organisation? articleItem;
               if ((_searchCtrl.text.isNotEmpty &&
-                  leopurposevisits.isNotEmpty)) {
-                articleItem = leopurposevisits[index];
+                  leoPurposeVisits.isNotEmpty)) {
+                articleItem = leoPurposeVisits[index];
               } else {
                 articleItem = widget.duplicateLeoPurposeVisits?[index];
               }
@@ -995,8 +811,8 @@ class CustomListTextsState extends State<CustomListTexts> {
                   ));
             } else if (widget.duplicateLeoDepartments != null) {
               Organisation? articleItem;
-              if ((_searchCtrl.text.isNotEmpty && leodepartments.isNotEmpty)) {
-                articleItem = leodepartments[index];
+              if ((_searchCtrl.text.isNotEmpty && leoDepartments.isNotEmpty)) {
+                articleItem = leoDepartments[index];
               } else {
                 articleItem = widget.duplicateLeoDepartments?[index];
               }
@@ -1072,12 +888,12 @@ class CustomListTextsState extends State<CustomListTexts> {
                       textAlign: TextAlign.left,
                     ),
                   ));
-            } else if (widget.duplicateloadGroups != null) {
+            } else if (widget.duplicateLoadGroups != null) {
               Organisation? articleItem;
               if ((_searchCtrl.text.isNotEmpty && loadGroups.isNotEmpty)) {
                 articleItem = loadGroups[index];
               } else {
-                articleItem = widget.duplicateloadGroups?[index];
+                articleItem = widget.duplicateLoadGroups?[index];
               }
               return ListTile(
                   onTap: () {
@@ -1111,12 +927,12 @@ class CustomListTextsState extends State<CustomListTexts> {
                       textAlign: TextAlign.left,
                     ),
                   ));
-            } else if (widget.duplicateatomCompanyTypes != null) {
+            } else if (widget.duplicateAtomCompanyTypes != null) {
               Organisation? articleItem;
               if ((_searchCtrl.text.isNotEmpty && companyTypes.isNotEmpty)) {
                 articleItem = companyTypes[index];
               } else {
-                articleItem = widget.duplicateatomCompanyTypes?[index];
+                articleItem = widget.duplicateAtomCompanyTypes?[index];
               }
               return ListTile(
                   onTap: () {
@@ -1150,12 +966,12 @@ class CustomListTextsState extends State<CustomListTexts> {
                       textAlign: TextAlign.left,
                     ),
                   ));
-            } else if (widget.duplicatedayPassReason != null) {
+            } else if (widget.duplicateDayPassReason != null) {
               Organisation? articleItem;
               if ((_searchCtrl.text.isNotEmpty && dayPassReason.isNotEmpty)) {
                 articleItem = dayPassReason[index];
               } else {
-                articleItem = widget.duplicatedayPassReason?[index];
+                articleItem = widget.duplicateDayPassReason?[index];
               }
               return ListTile(
                   onTap: () {
@@ -1189,12 +1005,12 @@ class CustomListTextsState extends State<CustomListTexts> {
                       textAlign: TextAlign.left,
                     ),
                   ));
-            } else if (widget.duplicatet1Analyst != null) {
+            } else if (widget.duplicateT1Analyst != null) {
               BaseUser? articleItem;
               if ((_searchCtrl.text.isNotEmpty && companyTypes.isNotEmpty)) {
                 articleItem = t1analysts[index];
               } else {
-                articleItem = widget.duplicatet1Analyst?[index];
+                articleItem = widget.duplicateT1Analyst?[index];
               }
               return ListTile(
                   onTap: () {
@@ -1228,13 +1044,13 @@ class CustomListTextsState extends State<CustomListTexts> {
                       textAlign: TextAlign.left,
                     ),
                   ));
-            } else if (widget.duplicateactivePassInfoList != null) {
+            } else if (widget.duplicateActivePassInfoList != null) {
               Organisation? articleItem;
               if ((_searchCtrl.text.isNotEmpty &&
                   activePassInfoList.isNotEmpty)) {
                 articleItem = activePassInfoList[index];
               } else {
-                articleItem = widget.duplicateactivePassInfoList?[index];
+                articleItem = widget.duplicateActivePassInfoList?[index];
               }
               return ListTile(
                   onTap: () {

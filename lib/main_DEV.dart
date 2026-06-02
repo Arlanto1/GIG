@@ -7,5 +7,5 @@ void main() {
   F.appFlavor = Flavor.dev;
   //runApp(App());
   MainConfig.initialSetup(navigatorKey);
-  InactivityFunctions().startInactivityTimer(navigatorKey);
+  // InactivityFunctions().startInactivityTimer(navigatorKey);
 }

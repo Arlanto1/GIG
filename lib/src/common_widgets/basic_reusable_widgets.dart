@@ -95,29 +95,6 @@ class CommonWidgets {
     );
   }
 
-  // static Widget textDisplay(
-  //   String name,
-  //   TextStyle? style, {
-  //   bool? isMandatory = false,
-  // }) {
-  //   return Container(
-  //     alignment: Alignment.topLeft,
-  //     child: Row(
-  //       children: [
-  //         Text(
-  //           name,
-  //           style: style,
-  //         ),
-  //         if (isMandatory ?? false) ...[
-  //           const Text(
-  //             ' *',
-  //             style: TextStyle(color: Colors.red),
-  //           ),
-  //         ],
-  //       ],
-  //     ),
-  //   );
-  // }
 
   static Widget textDisplay(
     String name,
@@ -168,7 +145,7 @@ class CommonWidgets {
     );
   }
 
-  static Widget horizentaltextHandling(
+  static Widget horizontalTextHandling(
     String title,
     String desc, {
     bool? isMandatory = false,

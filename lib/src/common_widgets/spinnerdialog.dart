@@ -20,7 +20,7 @@ Future<void> showLoadingDialog(BuildContext context) async {
                     child:
                         // Column(children: const <Widget>[
                         CircularProgressIndicator(
-                            color: AppColors.navigationSkyBlueColor),
+                            color: AppColors.white),
                     // SizedBox(
                     //   height: 10,
                     // ),

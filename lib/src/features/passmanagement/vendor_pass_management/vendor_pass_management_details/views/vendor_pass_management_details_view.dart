@@ -283,7 +283,7 @@ class _VendorPassManagementDetailsViewState
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Created By
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                   state.labels?.locale.entrySecurity ??
                                       state.labels?.defaultLocale
                                           .entrySecurity ??
@@ -403,7 +403,7 @@ class _VendorPassManagementDetailsViewState
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Sl No.
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                 state.labels?.locale.slNo ??
                                     state.labels?.defaultLocale.slNo ??
                                     Constants.slno,
@@ -924,7 +924,7 @@ class _VendorPassManagementDetailsViewState
                                   state.model.status == 8 ||
                                   state.model.status == 9) ...[
                                 /// Pass Collected By
-                                CommonWidgets.horizentaltextHandling(
+                                CommonWidgets.horizontalTextHandling(
                                     state.labels?.locale.handoverSecurity ??
                                         state.labels?.defaultLocale
                                             .handoverSecurity ??

@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-
-import '../../constants/app_icon.dart';
 import '../../utils/helpers/keys/keys.dart';
 import '../custom_simple_list_texts.dart';
 import '../new_search_textfield.dart';

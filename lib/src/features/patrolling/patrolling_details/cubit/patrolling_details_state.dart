@@ -9,6 +9,8 @@ class PatrollingDetailsState extends Equatable {
   final SlaUiLabels? labels;
   final List<Organisation> projects;
   final List<Organisation> trackers;
+  final List<BaseUser> lsm;
+  final List<BaseUser>? securitySupervisor;
   final List<BaseUser> owner;
   final List<BaseUser>? dbSponsor;
   final BaseUser? selectedOwner;
@@ -30,8 +32,10 @@ class PatrollingDetailsState extends Equatable {
     required List<Organisation> priorities,
     required final List<Organisation> projects,
     required final List<Organisation> trackers,
+    required List<BaseUser> lsm,
+    required List<BaseUser> securitySupervisor,
     required List<BaseUser> owner,
-   List<BaseUser>? dbSponsor,
+    List<BaseUser>? dbSponsor,
     required int? eventId,
     List<ImageContent>? uploadAttachments,
     required Locations locations,
@@ -50,6 +54,8 @@ class PatrollingDetailsState extends Equatable {
       locations: locations,
       projects: projects,
       trackers: trackers,
+      lsm: lsm,
+      securitySupervisor: securitySupervisor,
       owner: owner,
       dbSponsor:dbSponsor,
       eventId: eventId,
@@ -112,7 +118,7 @@ class PatrollingDetailsState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [model, status, owner, otherModel,showOwnerDialog,  ];
+  List<Object?> get props => [model, status, lsm,owner, otherModel,showOwnerDialog,  ];
 
   const PatrollingDetailsState({
     required this.status,
@@ -124,6 +130,8 @@ class PatrollingDetailsState extends Equatable {
     required this.locations,
     required this.projects,
     required this.trackers,
+    required this.lsm,
+    required this.securitySupervisor,
     this.owner = const [],
     this.dbSponsor,
     this.eventId,
@@ -140,6 +148,8 @@ class PatrollingDetailsState extends Equatable {
     FormStatus? status,
     PatrollingModel? model,
     User? loggedInUserDetails,
+    List<BaseUser>? lsm,
+    List<BaseUser>? securitySupervisor,
     List<BaseUser>? owner,
     List<BaseUser>? dbSponsor,
     String? message,
@@ -161,6 +171,8 @@ class PatrollingDetailsState extends Equatable {
       status: status ?? this.status,
       model: model ?? this.model,
       loggedInUserDetails: loggedInUserDetails ?? this.loggedInUserDetails,
+      lsm: lsm ?? this.lsm,
+      securitySupervisor:securitySupervisor??this.securitySupervisor,
       owner: owner ?? this.owner,
       dbSponsor:dbSponsor??this.dbSponsor,
       projects: projects ?? this.projects,

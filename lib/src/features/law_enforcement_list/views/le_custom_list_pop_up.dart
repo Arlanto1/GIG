@@ -8,9 +8,9 @@ import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
 
 class LawEnforcementCustomPopUpList extends StatefulWidget {
-  LawEnforcementListElement? userItem;
+  final LawEnforcementListElement? userItem;
 
-  LawEnforcementCustomPopUpList(this.userItem, {super.key});
+  const LawEnforcementCustomPopUpList(this.userItem, {super.key});
 
   @override
   State<LawEnforcementCustomPopUpList> createState() =>
@@ -78,7 +78,7 @@ class _LawEnforcementCustomPopUpListState
                     Navigator.of(context).pop();
                   },
                   child:
-                      SvgPicture.asset(AppIcon.closeicon) //Icon(Icons.cancel)
+                      SvgPicture.asset(AppIcon.closeIcon) //Icon(Icons.cancel)
                   )),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

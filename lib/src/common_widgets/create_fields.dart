@@ -284,28 +284,6 @@ class AddNewFieldsState extends State<AddNewFields> {
             "Please enter the name",
           );
         }
-        // else if (keyTextController.text.isEmpty) {
-        //   Validator().showToast(
-        //     context,
-        //     "Please enter the key",
-        //   );
-        // }
-        // else if (descriptionTextController.text.isEmpty) {
-        //   Validator().showToast(
-        //     context,
-        //     "Please enter the description",
-        //   );
-        // } else if (optionsTextController.text.isEmpty) {
-        //   Validator().showToast(
-        //     context,
-        //     "Please enter the options",
-        //   );
-        // } else if (weightTextController.text.isEmpty) {
-        //   Validator().showToast(
-        //     context,
-        //     "Please enter the weight",
-        //   );
-        // }
         else {
           try {
             if (Constants.addcompanytype == widget.title ||

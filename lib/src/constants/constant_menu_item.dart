@@ -1,7 +1,7 @@
 import 'package:db_atom/index.dart';
 
 const mainDrawerItems = [
-  MenuItem(Constants.dashboard, AppIcon.dashboardselect, 0),
+  MenuItem(Constants.dashboard, AppIcon.dashboardSelect, 0),
   MenuItem(Constants.securityFunctions, AppIcon.securityFunctionsIcon, 1),
   //  const MenuItem(Constants.administration, AppIcon.maninsuitandtie, 0),
   MenuItem(Constants.ticketingSystem, AppIcon.ticketingSystemIcon, 1),
@@ -93,16 +93,16 @@ const guardingOperationDrawerItems = [
 const passTileDrawerItems = [
   MenuItem(
       Constants.dayPassManagement, AppIcon.dayPassManagementRegisterIcon, 0),
-  MenuItem(Constants.daypassregister, AppIcon.dayPassManagementRegisterIcon, 0),
-  MenuItem(Constants.sezpassmgmt, AppIcon.sezPassManagementRegisterIcon, 0),
-  MenuItem(Constants.sezpassregister, AppIcon.sezPassManagementRegisterIcon, 0),
+  MenuItem(Constants.dayPassRegister, AppIcon.dayPassManagementRegisterIcon, 0),
+  MenuItem(Constants.sezPassManagement, AppIcon.sezPassManagementRegisterIcon, 0),
+  MenuItem(Constants.sezPassRegister, AppIcon.sezPassManagementRegisterIcon, 0),
   MenuItem(
-      Constants.vendorpassmgmt, AppIcon.vendorPassManagementRegisterIcon, 0),
-  MenuItem(Constants.vendorpassregister,
+      Constants.vendorPassManagement, AppIcon.vendorPassManagementRegisterIcon, 0),
+  MenuItem(Constants.vendorPassRegister,
       AppIcon.vendorPassManagementRegisterIcon, 0),
   MenuItem(
-      Constants.visitorpassmgmt, AppIcon.visitorPassManagementRegisterIcon, 0),
-  MenuItem(Constants.visitorpassregister,
+      Constants.visitorPassManagement, AppIcon.visitorPassManagementRegisterIcon, 0),
+  MenuItem(Constants.visitorPassRegister,
       AppIcon.visitorPassManagementRegisterIcon, 0),
 ];
 

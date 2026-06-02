@@ -258,7 +258,7 @@ class _LawEnforcementNewDetailsViewState
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Created By
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                 state.labels?.locale.entrySecurity ??
                                     state.labels?.defaultLocale.entrySecurity ??
                                     Constants.createdby,
@@ -292,7 +292,7 @@ class _LawEnforcementNewDetailsViewState
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Sl no
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                 state.labels?.locale.slNo ??
                                     state.labels?.defaultLocale.slNo ??
                                     Constants.slno,
@@ -757,7 +757,7 @@ class _LawEnforcementNewDetailsViewState
                                     height * 0.02),
 
                                 /// Modified By
-                                CommonWidgets.horizentaltextHandling(
+                                CommonWidgets.horizontalTextHandling(
                                     // state.labels?.locale.entrySecurity ??
                                     //     state.labels?.defaultLocale.entrySecurity ??
                                     Constants.modifiedBy,
@@ -833,7 +833,7 @@ class _LawEnforcementNewDetailsViewState
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
                                 SvgPicture.asset(
-                                  AppIcon.pluscircle,
+                                  AppIcon.plusCircle,
                                   colorFilter: const ColorFilter.mode(
                                     Colors.white70,
                                     BlendMode.srcIn,

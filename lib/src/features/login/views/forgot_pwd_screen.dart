@@ -116,7 +116,7 @@ class _ForgotPwdWidgetState extends State<ForgotPwdWidget> {
                                     },
                                     validateTextField: (String? user) {
                                       if (!Validator.isValidUserName(user)) {
-                                        return Constants.enterusername;
+                                        return Constants.enterUserName;
                                       }
                                     },
                                   ),
@@ -178,7 +178,7 @@ class _ForgotPwdWidgetState extends State<ForgotPwdWidget> {
 
   _showCustomPop(BuildContext context, String msg) {
     var dialog = CustomAlertDialog(
-        title: Constants.appname,
+        title: Constants.appName,
         message: msg,
         onPositivePressed: () {
           //Validator.logoutAction(context);

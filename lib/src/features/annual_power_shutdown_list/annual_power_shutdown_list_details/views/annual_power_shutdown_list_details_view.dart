@@ -260,7 +260,7 @@ class _AnnualPowerShutdownListDetailsViewState
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Created By
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                   state.labels?.locale.entrySecurity ??
                                       state.labels?.defaultLocale
                                           .entrySecurity ??
@@ -295,7 +295,7 @@ class _AnnualPowerShutdownListDetailsViewState
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Sl No.
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                   state.labels?.locale.slNo ??
                                       state.labels?.defaultLocale.slNo ??
                                       Constants.slno,
@@ -1199,7 +1199,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                           children: <Widget>[
                                             const SizedBox(width: 14),
                                             SvgPicture.asset(
-                                              AppIcon.pluscircle,
+                                              AppIcon.plusCircle,
                                               colorFilter:
                                                   const ColorFilter.mode(
                                                 AppColors.white,

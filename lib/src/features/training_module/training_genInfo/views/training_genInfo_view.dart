@@ -3,7 +3,6 @@ import 'dart:ui';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/training_module/training_genInfo/cubits/training_genInfo_cubit.dart';
-import 'package:intl/intl.dart';
 
 import '../../models/requestModel/training_module_request.dart';
 
@@ -182,7 +181,7 @@ class _TrainingGenInfoViewState extends State<TrainingGenInfoView> {
 
 
                               /// Created By
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                   state.labels?.locale.entrySecurity ??
                                       state.labels?.defaultLocale
                                           .entrySecurity ??

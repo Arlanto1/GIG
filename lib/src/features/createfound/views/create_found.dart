@@ -640,7 +640,7 @@ class _CreateFoundState extends State<CreateFound> {
             isDbUser: true,
             isEmployeeId: true,
             location: state.location?.id,
-            duplicateDepostorList:
+            duplicateDepositorList:
                 state.getDepositorResponse?.atomStaticUser ?? [],
             roleName: "ATOM_STATIC_USER",
             leftImageName: null,
@@ -824,7 +824,7 @@ class _CreateFoundState extends State<CreateFound> {
                     child: Padding(
                       padding: const EdgeInsets.only(right: 20.0),
                       child: SvgPicture.asset(
-                        AppIcon.createfoundsaveicon,
+                        AppIcon.createFoundSaveIcon,
                       ),
                     ),
                   ),
@@ -997,7 +997,7 @@ class _CreateFoundState extends State<CreateFound> {
                                         padding: const EdgeInsets.all(20.0),
                                         child: SvgPicture.asset(
                                           //AppIcon.dropdownicon,
-                                          AppIcon.dropdownicon,
+                                          AppIcon.dropdownIcon,
                                           //fit: BoxFit.,
                                           colorFilter: const ColorFilter.mode(
                                             AppColors.textGreyThemeColor,
@@ -1015,7 +1015,7 @@ class _CreateFoundState extends State<CreateFound> {
                                       height * 0.01),
 
                                   /// Created By
-                                  CommonWidgets.horizentaltextHandling(
+                                  CommonWidgets.horizontalTextHandling(
                                       state.labels?.locale.foundEntrySecurity ??
                                           state.labels?.defaultLocale
                                               .foundEntrySecurity ??
@@ -1083,7 +1083,7 @@ class _CreateFoundState extends State<CreateFound> {
                                       height * 0.01),
 
                                   /// slno
-                                  CommonWidgets.horizentaltextHandling(
+                                  CommonWidgets.horizontalTextHandling(
                                       state.labels?.locale.foundSlNo ??
                                           state.labels?.defaultLocale
                                               .foundSlNo ??
@@ -1099,7 +1099,7 @@ class _CreateFoundState extends State<CreateFound> {
                                       state.labels?.locale.foundTypeOfAsset ??
                                           state.labels?.defaultLocale
                                               .foundTypeOfAsset ??
-                                          Constants.assettype,
+                                          Constants.assetType,
                                       Styles.textStyleBlack14,
                                       isMandatory: true),
                                   CommonWidgets.verticalSpacerWidget(
@@ -1143,7 +1143,7 @@ class _CreateFoundState extends State<CreateFound> {
                                             icon: SvgPicture.asset(
                                                 width: 10,
                                                 height: 10,
-                                                AppIcon.dropdownicon,
+                                                AppIcon.dropdownIcon,
                                                 key: const Key('closed_eye')),
                                             onPressed: () {
                                               assetTypeDialog();
@@ -1200,7 +1200,7 @@ class _CreateFoundState extends State<CreateFound> {
                                       state.labels?.locale.foundFoundLocation ??
                                           state.labels?.defaultLocale
                                               .foundFoundLocation ??
-                                          Constants.foundlocation,
+                                          Constants.foundLocation,
                                       Styles.textStyleBlack14,
                                       isMandatory: true),
 
@@ -1857,7 +1857,7 @@ class _CreateFoundState extends State<CreateFound> {
                                             ConstantsIntValue
                                                 .articleFoundStatusUnderSecurityCustody) ...[
                                       /// Item Handover By
-                                      CommonWidgets.horizentaltextHandling(
+                                      CommonWidgets.horizontalTextHandling(
                                           state.labels?.locale
                                                   .foundHandoverSecurity ??
                                               state.labels?.defaultLocale
@@ -1890,7 +1890,7 @@ class _CreateFoundState extends State<CreateFound> {
                                     /// Rejection Comment
                                     if (!widget.model!.rejectionComment
                                         .isEmptyOrNull) ...[
-                                      CommonWidgets.horizentaltextHandling(
+                                      CommonWidgets.horizontalTextHandling(
                                           state.labels?.locale
                                                   .foundRejectionComment ??
                                               state.labels?.defaultLocale
@@ -2192,7 +2192,7 @@ class _CreateFoundState extends State<CreateFound> {
                 locationList: state.locations ?? Locations(),
                 onTap: (Organisation location) async {
                   await createFoundArticleCubit.getSerialnumberDetails(
-                      location.id.toString() ?? '',
+                      location.id.toString(),
                       Constants.articleFoundModuleCode,
                       location);
                   selectedLocationName = location.name ?? '';
@@ -2404,7 +2404,7 @@ class _CreateFoundState extends State<CreateFound> {
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: SvgPicture.asset(
-              AppIcon.calendaricon,
+              AppIcon.calendarIcon,
               colorFilter: const ColorFilter.mode(
                 AppColors.textGreyThemeColor,
                 BlendMode.srcIn,

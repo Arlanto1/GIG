@@ -249,7 +249,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
 
                               // General Information Fields
                               ///Created By
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                 state.labels?.locale.entrySecurity ??
                                     state.labels?.defaultLocale.entrySecurity ??
                                     Constants.createdby,
@@ -321,7 +321,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Sl no
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                 state.labels?.locale.slNo ??
                                     state.labels?.defaultLocale.slNo ??
                                     Constants.slno,
@@ -545,7 +545,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                   children: <Widget>[
                                     const SizedBox(width: 14),
                                     SvgPicture.asset(
-                                      AppIcon.pluscircle,
+                                      AppIcon.plusCircle,
                                       colorFilter: const ColorFilter.mode(
                                         AppColors.white,
                                         BlendMode.srcIn,
@@ -669,7 +669,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: <Widget>[
                                 SvgPicture.asset(
-                                  AppIcon.pluscircle,
+                                  AppIcon.plusCircle,
                                   colorFilter: const ColorFilter.mode(
                                     AppColors.white,
                                     BlendMode.srcIn,

@@ -284,7 +284,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Created By
-                            CommonWidgets.horizentaltextHandling(
+                            CommonWidgets.horizontalTextHandling(
                                 // state.labels?.locale.entrySecurity ??
                                 //     state.labels?.defaultLocale.entrySecurity ??
                                 Constants.createdby,
@@ -293,7 +293,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Sl No.
-                            CommonWidgets.horizentaltextHandling(
+                            CommonWidgets.horizontalTextHandling(
                                 state.labels?.locale.slNo ??
                                     state.labels?.defaultLocale.slNo ??
                                     Constants.slno,
@@ -1242,7 +1242,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                               children: <Widget>[
                                                 const SizedBox(width: 10),
                                                 SvgPicture.asset(
-                                                  AppIcon.closeicon,
+                                                  AppIcon.closeIcon,
                                                   // Add your close
                                                   // icon asset here
                                                   colorFilter:
@@ -1297,7 +1297,7 @@ class _GeneralInfoViewState extends State<GeneralInfoView> {
                                     children: <Widget>[
                                       const SizedBox(width: 14),
                                       SvgPicture.asset(
-                                        AppIcon.pluscircle,
+                                        AppIcon.plusCircle,
                                         colorFilter: const ColorFilter.mode(
                                           AppColors.boldGreyBackground,
                                           BlendMode.srcIn,

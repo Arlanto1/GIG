@@ -6,6 +6,7 @@
 // import 'package:db_atom/src/features/login/services/login_services.dart';
 // import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+
 //
 // class OtpVerifyScreen extends StatelessWidget {
 //   final String userName;
@@ -670,9 +671,9 @@ class OtpVerify extends StatefulWidget {
 
   const OtpVerify(
       {super.key,
-        required this.userName,
-        required this.pwd,
-        required this.deviceToken});
+      required this.userName,
+      required this.pwd,
+      required this.deviceToken});
 
   @override
   State<OtpVerify> createState() => _OtpVerifyState();
@@ -689,7 +690,6 @@ class _OtpVerifyState extends State<OtpVerify> {
     final bloc = BlocProvider.of<LoginBloc>(context);
 
     final size = MediaQuery.of(context).size;
-    final height = size.height;
     // double screenWidth = MediaQuery.of(context).size.width;
     // double fieldWidth = (screenWidth - 180) / 5.4; // subtract spacing
     double screenWidth = MediaQuery.of(context).size.width;
@@ -700,7 +700,8 @@ class _OtpVerifyState extends State<OtpVerify> {
 // Responsive field width
     double horizontalPadding = isTablet ? 120.0 : 48.0;
     double spacingBetweenFields = isTablet ? 60.0 : 36.0;
-    double fieldWidth = (screenWidth - horizontalPadding - spacingBetweenFields) / 6;
+    // double fieldWidth =
+    //     (screenWidth - horizontalPadding - spacingBetweenFields) / 6;
 
     return Scaffold(
       // appBar: AppHeader(
@@ -761,7 +762,7 @@ class _OtpVerifyState extends State<OtpVerify> {
             Navigator.pushNamedAndRemoveUntil(
               context,
               dashboardViewRoute,
-                  (route) => false,
+              (route) => false,
             );
           } else if (state is UpdatePasswordState) {
             log('--LoginFailureState---');
@@ -834,9 +835,9 @@ class _OtpVerifyState extends State<OtpVerify> {
                     Align(
                       alignment: Alignment.topCenter,
                       child: FractionallySizedBox(
-                        widthFactor: 0.6,   // responsive width
+                        widthFactor: 0.6, // responsive width
                         child: Padding(
-                          padding: EdgeInsets.only(top: size.height * 0.13),
+                          padding: EdgeInsets.only(top: size.height * 0.20),
                           child: Image.asset(
                             'assets/images/logo1.png',
                             fit: BoxFit.contain,
@@ -845,195 +846,357 @@ class _OtpVerifyState extends State<OtpVerify> {
                       ),
                     ),
 
-
-
-
-                    // Centered OTP Form Container
-                    Padding(
-                      padding: const EdgeInsets.only(),
-                      child: Center(
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(30),
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * 0.98,
-                              // height: MediaQuery.of(context).size.width * 0.9,
-                              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 13.4),
-                              decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.10),
-                                borderRadius: BorderRadius.circular(20),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withValues(alpha: 0.01),
-                                    blurRadius: 6,
-                                    offset: const Offset(0, 4),
-                                  ),
-                                ],
-                                border: Border.all(color: Colors.white.withValues(alpha: 0.25)),
-                              ),
-                              child: SingleChildScrollView(
-                                child: Form(
-                                  key: otpFormKey,
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      // Heading text
-                                      Text(
-                                        'OTP Verification',
-                                        style: TextStyle(
-                                          fontSize: 32,
-                                          fontFamily: 'Bungee',
-                                          color: AppColors.newColor,
-                                          fontWeight: FontWeight.w900,
-                                          letterSpacing: 2,
+                    SafeArea(
+                      child: Align(
+                        // alignment: const Alignment(0, 0.1),
+                        child: SingleChildScrollView(
+                            physics: const BouncingScrollPhysics(),
+                            // padding: EdgeInsets.only(
+                            //   top: size.height * 0.10,
+                            //   bottom: 100,
+                            // ),
+                            child: Column(
+                              children: [
+                                /// MAIN GLASS CARD
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(40),
+                                  child: BackdropFilter(
+                                    filter: ImageFilter.blur(
+                                      sigmaX: 22,
+                                      sigmaY: 22,
+                                    ),
+                                    child: Container(
+                                      width: size.width > 600
+                                          ? size.width * 0.99
+                                          : size.width * 0.95,
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 22,
+                                        vertical: 80,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(40),
+                                        color: Colors.transparent,
+                                        border: Border.all(
+                                          color: Colors.white
+                                              .withValues(alpha: 0.50),
                                         ),
                                       ),
-                                      const SizedBox(height: 20),
-
-                                      // Instruction text
-                                      Text(
-                                        'Enter OTP sent to this user ${widget.userName}',
-                                        style: Styles.textStyleBlack14.copyWith(fontSize: 16),
-                                        textAlign: TextAlign.center,
-                                      ),
-
-                                      const SizedBox(height: 30),
-
-                                      // 6-box OTP Field
-                                      OtpTextField(
-                                        numberOfFields: 6,
-                                        borderColor: const Color(0xFF000080),
-                                        showFieldAsBox: true,
-                                        fieldWidth: isTablet ? 80.0 : 50.0,
-                                        fieldHeight: isTablet ? 64.0 : 50.0,            // ✅ responsive height
-                                        fillColor: Colors.blueAccent,
-                                        hasCustomInputDecoration: true,
-                                        decoration: InputDecoration(
-                                          filled: true,
-                                          fillColor: Colors.white.withValues(alpha: 0.4),
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(4.0),
-                                            // borderSide: BorderSide(color: const Color(0xFF512DA8)),
-                                          ),
-                                          counterText: '',
-                                        ),
-                                        textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                                        // textFieldAlignment: MainAxisAlignment.spaceEvenly,
-                                        onCodeChanged: (String code) {
-                                          otp = code;
-                                          setState(() {});
-                                        },
-                                        onSubmit: (String verificationCode) {
-                                          otp = verificationCode;
-                                          bloc.add(
-                                            LoginVerifyEvent(
-                                              requestModel: prepareLoginRequestBody(
-                                                userName: widget.userName,
-                                                pwd: widget.pwd,
-                                                otp: otp,
-                                                deviceToken: widget.deviceToken,
-                                                deviceType: Platform.isIOS
-                                                    ? '1'
-                                                    : (Platform.isAndroid ? '0' : '-1'),
+                                      child: Form(
+                                        key: otpFormKey,
+                                        child: Column(
+                                          children: [
+                                            /// LOGIN TITLE
+                                            Text(
+                                              "OTP Verification",
+                                              style: TextStyle(
+                                                color: AppColors.newColor,
+                                                fontSize: 34,
+                                                fontWeight: FontWeight.w800,
                                               ),
-                                              isFromLogin: false,
                                             ),
-                                          );
-                                        },
-                                      ),
 
-                                      // FlutterInputField(
-                                      //   controller: otpTextController,
-                                      //   textFormKey: Keys.userTextField,
-                                      //   hintText: Constants.hintOtp,
-                                      //   textInputType: TextInputType.number,
-                                      //   characterLimit: 6,
-                                      //   onChange: (String text) {
-                                      //     otp = text;
-                                      //     setState(() {});
-                                      //   },
-                                      //   validateTextField: (String? user) {
-                                      //     if (!Validator.isValidUserName(user)) {
-                                      //       return Constants.otpError;
-                                      //     }
-                                      //   },
-                                      // ),
+                                            const SizedBox(height: 10),
 
-
-                                      const SizedBox(height: 34),
-                                      const Text(
-                                        "Didn't receive any code?",
-                                        style: Styles.textStyleBlack14,
-                                      ),
-                                      const SizedBox(height: 8),
-
-                                      // Resend link
-                                      InkWell(
-                                        onTap: () {
-                                          otp = '';
-                                          bloc.add(LoginVerifyEvent(
-                                            requestModel: prepareLoginRequestBody(
-                                              userName: widget.userName,
-                                              pwd: widget.pwd,
-                                              otp: '',
+                                            /// GLOW DIVIDER
+                                            Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Divider(
+                                                    color: Colors.white
+                                                        .withValues(
+                                                            alpha: 0.25),
+                                                  ),
+                                                ),
+                                                Container(
+                                                  margin: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 10),
+                                                  height: 10,
+                                                  width: 10,
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    color: Colors.white,
+                                                    boxShadow: [
+                                                      BoxShadow(
+                                                        color: Colors.white
+                                                            .withValues(
+                                                                alpha: 0.7),
+                                                        blurRadius: 12,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                Expanded(
+                                                  child: Divider(
+                                                    color: Colors.white
+                                                        .withValues(
+                                                            alpha: 0.25),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            isFromLogin: true,
-                                          ));
-                                        },
-                                        child: const Text(
-                                          'Resend OTP?',
-                                          style: Styles.textStyleBlack14,
+
+                                            Text(
+                                              'Enter OTP sent to this user ${widget.userName}',
+                                              style: Styles.textStyleWhite14
+                                                  .copyWith(fontSize: 16),
+                                              textAlign: TextAlign.center,
+                                            ),
+
+                                            const SizedBox(height: 10),
+                                             // 6-box OTP Field
+                                            OtpTextField(
+                                              numberOfFields: 6,
+                                              borderColor:
+                                                  const Color(0xFF000080),
+                                              showFieldAsBox: true,
+                                              fieldWidth:
+                                                  isTablet ? 80.0 : 50.0,
+                                              fieldHeight:
+                                                  isTablet ? 64.0 : 50.0,
+                                              // ✅ responsive height
+                                              fillColor: Colors.blueAccent,
+                                              hasCustomInputDecoration: true,
+                                              decoration: InputDecoration(
+                                                filled: true,
+                                                fillColor: Colors.white
+                                                    .withValues(alpha: 0.4),
+                                                border: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          4.0),
+                                                  // borderSide: BorderSide(color: const Color(0xFF512DA8)),
+                                                ),
+                                                counterText: '',
+                                              ),
+                                              textStyle: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold),
+                                              // textFieldAlignment: MainAxisAlignment.spaceEvenly,
+                                              onCodeChanged: (String code) {
+                                                otp = code;
+                                                setState(() {});
+                                              },
+                                              onSubmit:
+                                                  (String verificationCode) {
+                                                otp = verificationCode;
+                                                bloc.add(
+                                                  LoginVerifyEvent(
+                                                    requestModel:
+                                                        prepareLoginRequestBody(
+                                                      userName: widget.userName,
+                                                      pwd: widget.pwd,
+                                                      otp: otp,
+                                                      deviceToken:
+                                                          widget.deviceToken,
+                                                      deviceType: Platform.isIOS
+                                                          ? '1'
+                                                          : (Platform.isAndroid
+                                                              ? '0'
+                                                              : '-1'),
+                                                    ),
+                                                    isFromLogin: false,
+                                                  ),
+                                                );
+                                              },
+                                            ),
+
+                                            // Centered OTP Form Container
+                                            //     Padding(
+                                            //       padding: const EdgeInsets.only(),
+                                            //       child: Center(
+                                            //         child: ClipRRect(
+                                            //           borderRadius: BorderRadius.circular(30),
+                                            //           child: BackdropFilter(
+                                            //             filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+                                            //             child: Container(
+                                            //               width: MediaQuery.of(context).size.width * 0.98,
+                                            //               // height: MediaQuery.of(context).size.width * 0.9,
+                                            //               padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 13.4),
+                                            //               decoration: BoxDecoration(
+                                            //                 color: Colors.white.withValues(alpha: 0.10),
+                                            //                 borderRadius: BorderRadius.circular(20),
+                                            //                 boxShadow: [
+                                            //                   BoxShadow(
+                                            //                     color: Colors.black.withValues(alpha: 0.01),
+                                            //                     blurRadius: 6,
+                                            //                     offset: const Offset(0, 4),
+                                            //                   ),
+                                            //                 ],
+                                            //                 border: Border.all(color: Colors.white.withValues(alpha: 0.25)),
+                                            //               ),
+                                            //               child: SingleChildScrollView(
+                                            //                 child: Form(
+                                            //                   key: otpFormKey,
+                                            //                   child: Column(
+                                            //                     mainAxisSize: MainAxisSize.min,
+                                            //                     crossAxisAlignment: CrossAxisAlignment.center,
+                                            //                     children: [
+                                            //                       // Heading text
+                                            //                       Text(
+                                            //                         'OTP Verification',
+                                            //                         style: TextStyle(
+                                            //                           fontSize: 32,
+                                            //                           fontFamily: 'Bungee',
+                                            //                           color: AppColors.newColor,
+                                            //                           fontWeight: FontWeight.w900,
+                                            //                           letterSpacing: 2,
+                                            //                         ),
+                                            //                       ),
+                                            //                       const SizedBox(height: 20),
+                                            //
+                                            //                       // Instruction text
+                                            //                       Text(
+                                            //                         'Enter OTP sent to this user ${widget.userName}',
+                                            //                         style: Styles.textStyleBlack14.copyWith(fontSize: 16),
+                                            //                         textAlign: TextAlign.center,
+                                            //                       ),
+                                            //
+                                            //                       const SizedBox(height: 30),
+                                            //
+                                            //                       // 6-box OTP Field
+                                            //                       OtpTextField(
+                                            //                         numberOfFields: 6,
+                                            //                         borderColor: const Color(0xFF000080),
+                                            //                         showFieldAsBox: true,
+                                            //                         fieldWidth: isTablet ? 80.0 : 50.0,
+                                            //                         fieldHeight: isTablet ? 64.0 : 50.0,            // ✅ responsive height
+                                            //                         fillColor: Colors.blueAccent,
+                                            //                         hasCustomInputDecoration: true,
+                                            //                         decoration: InputDecoration(
+                                            //                           filled: true,
+                                            //                           fillColor: Colors.white.withValues(alpha: 0.4),
+                                            //                           border: OutlineInputBorder(
+                                            //                             borderRadius: BorderRadius.circular(4.0),
+                                            //                             // borderSide: BorderSide(color: const Color(0xFF512DA8)),
+                                            //                           ),
+                                            //                           counterText: '',
+                                            //                         ),
+                                            //                         textStyle: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                            //                         // textFieldAlignment: MainAxisAlignment.spaceEvenly,
+                                            //                         onCodeChanged: (String code) {
+                                            //                           otp = code;
+                                            //                           setState(() {});
+                                            //                         },
+                                            //                         onSubmit: (String verificationCode) {
+                                            //                           otp = verificationCode;
+                                            //                           bloc.add(
+                                            //                             LoginVerifyEvent(
+                                            //                               requestModel: prepareLoginRequestBody(
+                                            //                                 userName: widget.userName,
+                                            //                                 pwd: widget.pwd,
+                                            //                                 otp: otp,
+                                            //                                 deviceToken: widget.deviceToken,
+                                            //                                 deviceType: Platform.isIOS
+                                            //                                     ? '1'
+                                            //                                     : (Platform.isAndroid ? '0' : '-1'),
+                                            //                               ),
+                                            //                               isFromLogin: false,
+                                            //                             ),
+                                            //                           );
+                                            //                         },
+                                            //                       ),
+                                            //
+                                            //                       // FlutterInputField(
+                                            //                       //   controller: otpTextController,
+                                            //                       //   textFormKey: Keys.userTextField,
+                                            //                       //   hintText: Constants.hintOtp,
+                                            //                       //   textInputType: TextInputType.number,
+                                            //                       //   characterLimit: 6,
+                                            //                       //   onChange: (String text) {
+                                            //                       //     otp = text;
+                                            //                       //     setState(() {});
+                                            //                       //   },
+                                            //                       //   validateTextField: (String? user) {
+                                            //                       //     if (!Validator.isValidUserName(user)) {
+                                            //                       //       return Constants.otpError;
+                                            //                       //     }
+                                            //                       //   },
+                                            //                       // ),
+                                            //
+                                            //
+                                            //                       const SizedBox(height: 34),
+                                            //                       const Text(
+                                            //                         "Didn't receive any code?",
+                                            //                         style: Styles.textStyleBlack14,
+                                            //                       ),
+                                                                  const SizedBox(height: 20),
+
+                                                                  // Resend link
+                                                                  InkWell(
+                                                                    onTap: () {
+                                                                      otp = '';
+                                                                      bloc.add(LoginVerifyEvent(
+                                                                        requestModel: prepareLoginRequestBody(
+                                                                          userName: widget.userName,
+                                                                          pwd: widget.pwd,
+                                                                          otp: '',
+                                                                        ),
+                                                                        isFromLogin: true,
+                                                                      ));
+                                                                    },
+                                                                    child: const Text(
+                                                                      'Resend OTP?',
+                                                                      style: Styles.textStyleWhite14,
+                                                                    ),
+                                                                  ),
+
+                                                                  const SizedBox(height: 30),
+                                            //
+                                            //                       // Verify Button
+                                            //                       // SizedBox(
+                                            //                       //   width: double.infinity,
+                                            //                       //   child: AppButton(
+                                            //                       //     key: const Key(Keys.loginButton),
+                                            //                       //     buttonText: Constants.loginVerifyOtpTitle,
+                                            //                       //     buttonTextKey: Keys.loginButtonText,
+                                            //                       //     onTap: () async {
+                                            //                       // FocusScope.of(context).unfocus();
+                                            //                       // try {
+                                            //                       //   if (otpFormKey.currentState!.validate()) {
+                                            //                       //     log('username ${widget.userName} password ${widget.pwd}');
+                                            //                       //     bloc.add(
+                                            //                       //       LoginVerifyEvent(
+                                            //                       //         requestModel: prepareLoginRequestBody(
+                                            //                       //           userName: widget.userName,
+                                            //                       //           pwd: widget.pwd,
+                                            //                       //           otp: otp,
+                                            //                       //           deviceToken: widget.deviceToken,
+                                            //                       //           deviceType: Platform.isIOS
+                                            //                       //               ? '1'
+                                            //                       //               : (Platform.isAndroid ? '0' : '-1'),
+                                            //                       //         ),
+                                            //                       //         isFromLogin: false,
+                                            //                       //       ),
+                                            //                       //     );
+                                            //                       //   }
+                                            //                       // } catch (e) {
+                                            //                       //   log('Error: $e');
+                                            //                       // }
+                                            //                       // },
+                                            //                       // ),
+                                            //                       // ),
+                                            //                       CommonWidgets.verticalSpacerWidget(height * 0.03),
+                                            //                     ],
+                                            //                   ),
+                                            //                 ),
+                                            //               ),
+                                            //             ),
+                                            //           ),
+                                            //         ),
+                                            //       ),
+                                            //     ),
+                                          ],
                                         ),
                                       ),
-
-                                      const SizedBox(height: 30),
-
-                                      // Verify Button
-                                      // SizedBox(
-                                      //   width: double.infinity,
-                                      //   child: AppButton(
-                                      //     key: const Key(Keys.loginButton),
-                                      //     buttonText: Constants.loginVerifyOtpTitle,
-                                      //     buttonTextKey: Keys.loginButtonText,
-                                      //     onTap: () async {
-                                      // FocusScope.of(context).unfocus();
-                                      // try {
-                                      //   if (otpFormKey.currentState!.validate()) {
-                                      //     log('username ${widget.userName} password ${widget.pwd}');
-                                      //     bloc.add(
-                                      //       LoginVerifyEvent(
-                                      //         requestModel: prepareLoginRequestBody(
-                                      //           userName: widget.userName,
-                                      //           pwd: widget.pwd,
-                                      //           otp: otp,
-                                      //           deviceToken: widget.deviceToken,
-                                      //           deviceType: Platform.isIOS
-                                      //               ? '1'
-                                      //               : (Platform.isAndroid ? '0' : '-1'),
-                                      //         ),
-                                      //         isFromLogin: false,
-                                      //       ),
-                                      //     );
-                                      //   }
-                                      // } catch (e) {
-                                      //   log('Error: $e');
-                                      // }
-                                      // },
-                                      // ),
-                                      // ),
-                                      CommonWidgets.verticalSpacerWidget(height * 0.03),
-                                    ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                          ),
-                        ),
+                              ],
+                            )),
                       ),
                     ),
-
+                    const SizedBox(height: 40),
                     // Footer
                     Positioned(
                       bottom: 30,
@@ -1043,11 +1206,23 @@ class _OtpVerifyState extends State<OtpVerify> {
                         children: [
                           Text(
                             Constants.copyrightText,
-                            style: Styles.textStyleRegularGrey14.copyWith(color: Colors.white.withValues(alpha: 0.74)),
+                            style: Styles
+                                .textStyleRegularGrey14
+                                .copyWith(
+                                color: Colors.white
+                                    .withValues(
+                                    alpha:
+                                    0.74)),
                           ),
                           Text(
                             'Version: ${Platform.isIOS ? ConstantAppVersions.iOSVersion : ConstantAppVersions.androidVersion}',
-                            style: Styles.textStyleRegularGrey14.copyWith(color: Colors.white.withValues(alpha: 0.74)),
+                            style: Styles
+                                .textStyleRegularGrey14
+                                .copyWith(
+                                color: Colors.white
+                                    .withValues(
+                                    alpha:
+                                    0.74)),
                           ),
                         ],
                       ),
@@ -1244,17 +1419,17 @@ class _OtpVerifyState extends State<OtpVerify> {
   }) {
     return LoginRequestModel(
         request: Request(
-          userName: userName,
-          password: pwd,
-          otp: otp,
-          deviceToken: deviceToken,
-          deviceType: deviceType,
-        ));
+      userName: userName,
+      password: pwd,
+      otp: otp,
+      deviceToken: deviceToken,
+      deviceType: deviceType,
+    ));
   }
 
   _showCustomPop(BuildContext context, String msg) {
     var dialog = CustomAlertDialog(
-      title: Constants.appname,
+      title: Constants.appName,
       message: msg,
       onPositivePressed: () {
         Navigator.of(context).pop();

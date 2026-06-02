@@ -86,7 +86,7 @@ class _LnPageState extends State<LnPage> {
           backgroundColor: AppColors.cardBgColor,
           floatingActionButton: state.extraProperties?.hasWritePermission ??
                   false
-              ? Flutterfloatingbutton(
+              ? FlutterFloatingButton(
                   backgroundColor: AppColors.navigationSkyBlueColor,
                   foregroundColor: AppColors.backgroundWhiteColor,
                   onPressed: () {
@@ -118,11 +118,11 @@ class _LnPageState extends State<LnPage> {
                   color: Colors.white),
             ),
             action: [
-              CustomPopmenu(
+              CustomPopMenu(
                 //itemList :[],
                 itemList: const [
-                  PopMenuItems("Export Excel", AppIcon.exportexcel),
-                  PopMenuItems("Export PDF", AppIcon.exportpdf),
+                  PopMenuItems("Export Excel", AppIcon.exportExcel),
+                  PopMenuItems("Export PDF", AppIcon.exportPdf),
                   //PopMenuItems("Export XML", AppIcon.exportxml),
                   //PopMenuItems("Close", AppIcon.close),
                 ],
@@ -135,7 +135,7 @@ class _LnPageState extends State<LnPage> {
                         .exportPdf(context, 'export.pdf', '/exportLEOPDF');
                   }
                 },
-                popupimagename: AppIcon.morewhiteicon,
+                popupImageName: AppIcon.moreWhiteIcon,
               ),
             ],
           ),

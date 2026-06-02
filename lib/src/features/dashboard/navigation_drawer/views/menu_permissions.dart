@@ -76,16 +76,16 @@ class MenuPermissions {
 
     if (displayMenu?.ssDPM ?? false) {
       menuItems.add(const MenuItem(
-          Constants.sezpassmgmt, AppIcon.sezPassManagementRegisterIcon, 0));
+          Constants.sezPassManagement, AppIcon.sezPassManagementRegisterIcon, 0));
     }
 
     if (displayMenu?.sSDP ?? false) {
-      menuItems.add(const MenuItem(Constants.vendorpassmgmt,
+      menuItems.add(const MenuItem(Constants.vendorPassManagement,
           AppIcon.vendorPassManagementRegisterIcon, 0));
     }
 
     if (displayMenu?.sS ?? false) {
-      menuItems.add(const MenuItem(Constants.visitorpassmgmt,
+      menuItems.add(const MenuItem(Constants.visitorPassManagement,
           AppIcon.visitorPassManagementRegisterIcon, 0));
     }
   }

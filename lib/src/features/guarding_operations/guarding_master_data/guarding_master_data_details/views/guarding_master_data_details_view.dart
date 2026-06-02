@@ -418,7 +418,7 @@ class _GuardingMasterDataDetailsViewState
                                   ),
 
                                   /// Created By
-                                  CommonWidgets.horizentaltextHandling(
+                                  CommonWidgets.horizontalTextHandling(
                                     state.labels?.locale.entrySecurity ??
                                         state.labels?.defaultLocale
                                             .entrySecurity ??
@@ -508,7 +508,7 @@ class _GuardingMasterDataDetailsViewState
                                   ),
 
                                   /// Sl No.
-                                  CommonWidgets.horizentaltextHandling(
+                                  CommonWidgets.horizontalTextHandling(
                                     state.labels?.locale.slNo ??
                                         state.labels?.defaultLocale.slNo ??
                                         Constants.slno,
@@ -2921,7 +2921,7 @@ class _GuardingMasterDataDetailsViewState
                                     ),
 
                                     /// Modified By
-                                    CommonWidgets.horizentaltextHandling(
+                                    CommonWidgets.horizontalTextHandling(
                                       // state.labels?.locale.entrySecurity ??
                                       //     state.labels?.defaultLocale.entrySecurity ??
                                       Constants.modifiedBy,

@@ -82,7 +82,7 @@ class BaseEntitiesSelection {
           allItems: all,
           selectedValues: selectedValues,
           onTap: onTap,
-          leftImageName: AppIcon.addicon, // Provide your left button icon
+          leftImageName: AppIcon.addIcon, // Provide your left button icon
         );
       },
     );

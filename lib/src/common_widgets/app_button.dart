@@ -42,26 +42,6 @@ class AppButton extends StatelessWidget {
     return SizedBox(
       width: width ?? (screenWidth! * 1.0),
       height: height ?? 70.00,
-      // child: TextButton(
-      //   key: Key(buttonKey ?? ''),
-      //   onPressed: () {
-      //     onTap!();
-      //   },
-      //   autofocus: true,
-      //   style: TextButton.styleFrom(
-      //     backgroundColor: disableColor ?? false
-      //         ? AppColors.disableTextFieldBackground
-      //         : const Color(0xFF071130),
-      //     // :Colors.white,
-      //     foregroundColor: Colors.white,
-      //     // backgroundColor: background,
-      //     // foregroundColor: foreground,
-      //     textStyle: Styles.textStyleSemiBold16DarkBlue,
-      //     shape: const StadiumBorder(),
-      //     side: BorderSide(color: border), // Add a border color if needed
-      //   ),
-      //   child: Text(buttonText ?? '', key: Key(buttonTextKey ?? '')),
-      // ),
       child: TextButton(
         key: Key(buttonKey ?? ''),
         onPressed: () {
@@ -76,30 +56,9 @@ class AppButton extends StatelessWidget {
           side: BorderSide(
             color: border.withValues(alpha: disableColor ?? false ? 0.2 : 0.2),
           ),
-          // padding: EdgeInsets.zero,
-        // ).copyWith(
-        //   overlayColor: MaterialStateProperty.all(Colors.white.withOpacity(0.1)),
         ),
         child: Ink(
           decoration: BoxDecoration(
-          //   gradient: disableColor ?? false
-          //       ? LinearGradient(
-          //     colors: [
-          //       AppColors.disableTextFieldBackground.withOpacity(0.6),
-          //       AppColors.disableTextFieldBackground.withOpacity(0.8),
-          //     ],
-          //   )
-          //       : const LinearGradient(
-          //     begin: Alignment.topLeft,
-          //     end: Alignment.bottomRight,
-          //     colors: [
-          //       Color(0xFF071130),
-          //       Colors.white70.w,
-          //       Color(0xFF071130),
-          //     ],
-          //   ),
-          //   borderRadius: BorderRadius.circular(25),
-          // ),
             gradient: disableColor ?? false
               ? LinearGradient(
               colors: [
@@ -108,12 +67,6 @@ class AppButton extends StatelessWidget {
               ],
             ) : LinearGradient(
               colors: [
-                // const Color(0xFF6474C6).withValues(alpha: 0.2),
-                // const Color(0xFF071130).withValues(alpha: 0.9),
-                // Color(0xFF0C4C99),
-                // Color(0xFF0C4C99),
-                // Color(0xFF071130),
-                // Color(0xFF071130),
                 AppColors.newColor,
                 AppColors.newColor,
               ],

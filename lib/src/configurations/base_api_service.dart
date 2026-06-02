@@ -2,22 +2,16 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:dart_extensions/dart_extensions.dart';
 import 'package:db_atom/main.dart';
 import 'package:db_atom/src/constants/constant_crashlytics_keys.dart';
-import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/models/responseModels/generic_response.dart';
-import 'package:db_atom/src/models/responseModels/permission_error.dart';
 import 'package:db_atom/src/utils/inactivity_functions.dart';
-import 'package:db_atom/src/utils/location_handler.dart';
 import 'package:db_atom/src/utils/utils_common.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
-import 'package:permission_handler/permission_handler.dart';
-
 import '../features/login/models/login_model.dart';
 import '../features/login/models/refresh_token_request.dart';
 import '../features/login/services/login_services.dart';
@@ -435,12 +429,11 @@ class BaseApiService {
     required String response,
   }) {
     UtilsCommon().logCustomEvent(
-      msg: 'RequestType $requestType, '
-          '\'API URL: $apiUrl, '
-          '\'Response Code: $statusCode, '
-          '\'Response: $response',
-      customKey: 'API_ISSUE'
-    );
+        msg: 'RequestType $requestType, '
+            '\'API URL: $apiUrl, '
+            '\'Response Code: $statusCode, '
+            '\'Response: $response',
+        customKey: 'API_ISSUE');
   }
 }
 

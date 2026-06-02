@@ -108,8 +108,8 @@ class _MultiSelectDropdownState extends State<MultiSelectDropdown> {
             isExpanded: true,
             decoration: const InputDecoration(
               labelText: 'Select Items',
-              labelStyle: const TextStyle(
-                color: Colors.white70, // 👈 change as needed
+              labelStyle: TextStyle(
+                color: Colors.white70, //  change as needed
                 fontSize: 16,
               ),
               // focusedBorder: OutlineInputBorder(
@@ -119,7 +119,7 @@ class _MultiSelectDropdownState extends State<MultiSelectDropdown> {
               // ),
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(
-                  color: Colors.white, // ✅ idle border
+                  color: Colors.white, //  idle border
                   width: 1.2,
                 ),
               ),
@@ -129,7 +129,7 @@ class _MultiSelectDropdownState extends State<MultiSelectDropdown> {
                 ),
               ),
             ),
-            value: null,
+            // value: null,
             onChanged: (value) {
               if (value != null) {
                 _addPoint(value);
@@ -166,7 +166,7 @@ class _MultiSelectDropdownState extends State<MultiSelectDropdown> {
                     ),
                     hintText: 'Add Custom Briefing Point',
                     hintStyle: const TextStyle(
-                      color: Colors.white70, // 👈 change to whatever you want
+                      color: Colors.white70, //  change to whatever you want
                     ),
                     disabledBorder: OutlineInputBorder(
                       borderSide: const BorderSide(

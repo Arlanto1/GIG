@@ -54,7 +54,7 @@ class Tile extends StatelessWidget {
                             alpha: 0.2),
                         // Color(0xFF6474C6).withOpacity(0.14)
                       ],
-                      stops: [0.02, 0.35, 1],
+                      stops: const [0.02, 0.35, 1],
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                     ),
@@ -95,66 +95,6 @@ class Tile extends StatelessWidget {
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-  Widget _rowCard({
-    required String icon,
-    required String label,
-    required VoidCallback onTap,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(16),
-      child: Container(
-        height: 90,
-        margin: const EdgeInsets.only(bottom: 16),
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.white.withValues(
-                  alpha: 0.2),
-              Colors.transparent,
-              Colors.white.withValues(
-                  alpha: 0.2),
-              // Color(0xFF6474C6).withOpacity(0.14)
-            ],
-            stops: [0.02, 0.35, 1],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-          borderRadius: BorderRadius
-              .circular(27),
-          border: Border.all(
-            color: Colors.white
-                .withValues(alpha: 0.80),
-            width: 0.8,
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(
-                  0xFF6474C6).withValues(
-                  alpha: 0.09),
-              blurRadius: 12,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            Image.asset(icon, height: 46, width: 46, color: Colors.white,),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Text(
-                label,
-                style: Styles.textStyleWhite16,
-              ),
-            ),
-            const Icon(Icons.arrow_forward_ios,
-                size: 18, color: Colors.white),
-          ],
         ),
       ),
     );

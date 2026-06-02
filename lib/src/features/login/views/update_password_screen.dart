@@ -296,7 +296,7 @@ class _ResetPasswordState extends State<ResetPassword> {
 
   _showCustomPop(BuildContext context, String title) {
     var dialog = CustomAlertDialog(
-        title: Constants.appname,
+        title: Constants.appName,
         message: title,
         onPositivePressed: () {
           //Validator.logoutAction(context);

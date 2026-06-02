@@ -213,7 +213,7 @@ class _OpsSituationUpdateDetailsViewState
 
                               // General Information Fields
                               ///Created By
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                 state.labels?.locale.entrySecurity ??
                                     state.labels?.defaultLocale.entrySecurity ??
                                     Constants.createdby,
@@ -280,7 +280,7 @@ class _OpsSituationUpdateDetailsViewState
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               ///Sl no
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                 state.labels?.locale.slNo ??
                                     state.labels?.defaultLocale.slNo ??
                                     Constants.slno,
@@ -458,7 +458,7 @@ class _OpsSituationUpdateDetailsViewState
                               ],
 
                               ///Modified By
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                 // state.labels?.locale.entrySecurity ??
                                 //     state.labels?.defaultLocale.entrySecurity ??
                                 Constants.modifiedBy,

@@ -34,7 +34,7 @@ Future<bool> networkChecking(BuildContext context) async {
   return false;
 }
 
-Future<bool> withoutAlertnetworkChecking(BuildContext context) async {
+Future<bool> withoutAlertNetworkChecking(BuildContext context) async {
   try {
     final result = await InternetAddress.lookup('google.com');
     if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {

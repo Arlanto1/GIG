@@ -284,10 +284,10 @@ class SignatureController extends ValueNotifier<List<Point>> {
 
     final Color backgroundColor = exportBackgroundColor ?? Colors.transparent;
     final img.Color bColor = img.ColorRgba8(
-      backgroundColor.red,
-      backgroundColor.green,
-      backgroundColor.blue,
-      backgroundColor.alpha.toInt(),
+      (backgroundColor.r * 255).round().clamp(0, 255),
+      (backgroundColor.g * 255).round().clamp(0, 255),
+      (backgroundColor.b * 255).round().clamp(0, 255),
+      (backgroundColor.a * 255).round().clamp(0, 255),
     );
 
     final List<Point> translatedPoints = _translatePoints(points)!;

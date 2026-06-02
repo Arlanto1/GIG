@@ -472,7 +472,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                       height * 0.02),
 
                                   /// Created By
-                                  CommonWidgets.horizentaltextHandling(
+                                  CommonWidgets.horizontalTextHandling(
                                       state.labels?.locale.createdBy ??
                                           state.labels?.defaultLocale
                                               .createdBy ??
@@ -537,7 +537,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                       height * 0.02),
 
                                   /// Sl No.
-                                  CommonWidgets.horizentaltextHandling(
+                                  CommonWidgets.horizontalTextHandling(
                                     state.labels?.locale.slNo ??
                                         state.labels?.defaultLocale.slNo ??
                                         Constants.slno,
@@ -1053,7 +1053,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                   if (state.model.status != 0 &&
                                       state.model.status != null) ...[
                                     /// Total Allocated
-                                    CommonWidgets.horizentaltextHandling(
+                                    CommonWidgets.horizontalTextHandling(
                                         state.labels?.locale.totalAllocated ??
                                             state.labels?.defaultLocale
                                                 .totalAllocated ??
@@ -1063,7 +1063,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                         height * 0.02),
 
                                     /// Returned
-                                    CommonWidgets.horizentaltextHandling(
+                                    CommonWidgets.horizontalTextHandling(
                                         state.labels?.locale.returned ??
                                             state.labels?.defaultLocale
                                                 .returned ??
@@ -1073,7 +1073,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                         height * 0.01),
 
                                     /// Not Returned
-                                    CommonWidgets.horizentaltextHandling(
+                                    CommonWidgets.horizontalTextHandling(
                                         state.labels?.locale.notReturned ??
                                             state.labels?.defaultLocale
                                                 .notReturned ??
@@ -1083,7 +1083,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                         height * 0.01),
 
                                     /// Lost
-                                    CommonWidgets.horizentaltextHandling(
+                                    CommonWidgets.horizontalTextHandling(
                                         state.labels?.locale.lost ??
                                             state.labels?.defaultLocale.lost ??
                                             Constants.lost,
@@ -1092,7 +1092,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                         height * 0.02),
 
                                     /// Damaged
-                                    CommonWidgets.horizentaltextHandling(
+                                    CommonWidgets.horizontalTextHandling(
                                         state.labels?.locale.damaged ??
                                             state.labels?.defaultLocale
                                                 .damaged ??
@@ -1227,7 +1227,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             SvgPicture.asset(
-                              AppIcon.pluscircle,
+                              AppIcon.plusCircle,
                               colorFilter: const ColorFilter.mode(
                                 AppColors.white,
                                 BlendMode.srcIn,
@@ -1260,7 +1260,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                         CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                         /// Modified By
-                        CommonWidgets.horizentaltextHandling(
+                        CommonWidgets.horizontalTextHandling(
                             // state.labels?.locale.entrySecurity ??
                             //     state.labels?.defaultLocale.entrySecurity ??
                             Constants.modifiedBy,

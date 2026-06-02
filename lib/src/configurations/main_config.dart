@@ -100,7 +100,7 @@ class MainConfig with WidgetsBindingObserver {
           builder: (context, child) {
             return GestureDetector(
               // Trigger updateUserInteraction whenever the user interacts with the app
-              onTap: () => InactivityFunctions().updateUserInteraction(),
+              // onTap: () => InactivityFunctions().updateUserInteraction(),
               child: child!,
             );
           },

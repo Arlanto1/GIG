@@ -60,7 +60,7 @@ class _FemaleDropPickUpViewState extends State<FemaleDropPickUpView> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: AppColors.cardBgColor,
-        floatingActionButton: Flutterfloatingbutton(
+        floatingActionButton: FlutterFloatingButton(
           backgroundColor: AppColors.navigationSkyBlueColor,
           foregroundColor: AppColors.backgroundWhiteColor,
           onPressed: () => {

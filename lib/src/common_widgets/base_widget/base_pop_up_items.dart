@@ -212,54 +212,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
     final height = size.height;
     final width = size.width;
     return Center(
-      // child: Container(
-      //   padding: const EdgeInsets.all(20.0),
-      //   // decoration:  ShapeDecoration(
-      //   //     color: AppColors.lavender.withValues(alpha: 1),
-      //   //     shape: const RoundedRectangleBorder(
-      //   //       borderRadius: BorderRadius.all(Radius.circular(20.0)),
-      //   //     )),
-      //   decoration: BoxDecoration(
-      //     borderRadius: BorderRadius.circular(18),
-      //     gradient: const LinearGradient(
-      //       begin: Alignment.topLeft,
-      //       end: Alignment.bottomRight,
-      //       colors: [
-      //         // Color(0xFF09132B),   // Deep blue start
-      //         AppColors.lavender,
-      //         // Color(0xFF163856),
-      //         AppColors.lavender,
-      //
-      //         AppColors.lavender
-      //    // Dark teal midpoint
-      //
-      //       ],
-      //       stops: [0.0, 0.7, 1.0],
-      //     ),
-      //     border: Border.all(
-      //       color: Colors.white.withOpacity(0.8), // Very subtle white border
-      //       width: 1,
-      //     ),
-      //     boxShadow: [
-      //       BoxShadow(
-      //         color:Colors.white.withOpacity(0.09), // Very soft blue shadow
-      //         blurRadius: 20,
-      //         spreadRadius: 10,
-      //         offset: const Offset(0, 2),
-      //       ),
-      //     ],
-      //   ),
-      //   height: height / 1.8,
-      //   width: width - 18,
-      //   child:
-      //       // Row(
-      //       //  children: [
-      //       SingleChildScrollView(
-      //     child: Column(
-      //       children: getChildren(context, widget.labels),
-      //     ),
-      //   ),
-      // ),
+
       child: ClipRRect(
         borderRadius: BorderRadius.circular(18),
         child: BackdropFilter(
@@ -275,7 +228,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
                   Colors.white.withValues(alpha: 0.3),
                   // Color(0xFF6474C6).withOpacity(0.14)
                 ],
-                stops: [0.02, 0.35, 1],
+                stops: const [0.02, 0.35, 1],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
@@ -316,7 +269,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
               Navigator.of(context).pop();
             },
             child: SvgPicture.asset(
-              AppIcon.closeicon,
+              AppIcon.closeIcon,
               colorFilter: const ColorFilter.mode(
                 AppColors.white,
                 BlendMode.srcIn,
@@ -335,7 +288,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
       if (widget.slNo != null && widget.slNo!.isNotEmpty) ...[
         Row(
           children: [
-            Expanded(   // 👈 REQUIRED to avoid overflow
+            Expanded(   //  REQUIRED to avoid overflow
               child: Utils().textHandling(
                 'Sl No : ',
                 widget.slNo.toString(),
@@ -381,16 +334,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-      // if (widget.challanNo != null && widget.challanNo!.isNotEmpty) ...[
-      //   // CommonWidgets.verticalSpacerWidget(8),
-      //   Row(
-      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //     children: [
-      //       Utils().textHandling('Challan/Invoice Nos/Gate Pass : ',
-      //           widget.challanNo.toString()),
-      //     ],
-      //   ),
-      // ],
+
       if (widget.keyType != null) ...[
         // CommonWidgets.verticalSpacerWidget(8),
         Row(
@@ -457,15 +401,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-      // if (widget.quantity != null) ...[
-      //   // CommonWidgets.verticalSpacerWidget(8),
-      //   Row(
-      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //     children: [
-      //       Utils().textHandling('Quantity : ', widget.quantity.toString()),
-      //     ],
-      //   ),
-      // ],
+
       if (widget.inputDate != null) ...[
         Row(
           children: [
@@ -487,15 +423,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-      // if (widget.entrySecurityName != null) ...[
-      //   // CommonWidgets.verticalSpacerWidget(8),
-      //   Row(
-      //     children: [
-      //       Utils().textHandling(
-      //           'Created By : ', widget.entrySecurityName.toString()),
-      //     ],
-      //   ),
-      // ],
+
       if (widget.status != null && widget.isMaterialMovementStatus == true) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Row(
@@ -1225,68 +1153,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
     }
     return widgets;
   }
-  //
-  // Widget textHandling(String title, String desc, BuildContext context) {
-  //   double width = MediaQuery.of(context).size.width;
-  //   double textWidth =
-  //       width > Constants.tabletScreenWidth ? width / 1.3 : width / 1.17;
-  //   return SizedBox(
-  //     width: textWidth,
-  //     child: Row(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       mainAxisAlignment: MainAxisAlignment.start,
-  //       children: [
-  //         Text(
-  //           title,
-  //           overflow: TextOverflow.visible,
-  //           softWrap: true,
-  //           style: Styles.textStyleNavigator,
-  //         ),
-  //         Flexible(
-  //           child: Text(
-  //             desc,
-  //             overflow: TextOverflow.visible,
-  //             softWrap: true,
-  //             style: Styles.textStyleNavigator600,
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 
-  // Widget textHandling(String title, String desc, BuildContext context) {
-  //   double width = MediaQuery.of(context).size.width;
-  //   double textWidth =
-  //   width > Constants.tabletScreenWidth ? width / 1.3 : width / 1.17;
-  //
-  //   return SizedBox(
-  //     width: textWidth,
-  //     child: Row(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         Flexible(
-  //           flex: 2,
-  //           child: Text(
-  //             title,
-  //             softWrap: true,
-  //             overflow: TextOverflow.visible,
-  //             style: Styles.textStyleNavigator,
-  //           ),
-  //         ),
-  //         Flexible(
-  //           flex: 3,
-  //           child: Text(
-  //             desc,
-  //             softWrap: true,
-  //             overflow: TextOverflow.visible,
-  //             style: Styles.textStyleNavigator600,
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 
   Widget textHandling(String title, String desc, BuildContext context) {
     return Row(

@@ -628,7 +628,7 @@
                                                           const SizedBox(
                                                               width: 14),
                                                           SvgPicture.asset(
-                                                            AppIcon.pluscircle,
+                                                            AppIcon.plusCircle,
                                                             colorFilter:
                                                                 const ColorFilter
                                                                     .mode(
@@ -1732,7 +1732,7 @@
 
               icon: SvgPicture.asset(
                 //AppIcon.dropdownicon,
-                AppIcon.uploadicon,
+                AppIcon.uploadIcon,
                 //fit: BoxFit.,
                 colorFilter: const ColorFilter.mode(
                   AppColors.backgroundWhiteColor,
@@ -2002,7 +2002,7 @@
                   );
                 },
                 icon: SvgPicture.asset(
-                  AppIcon.uploadicon,
+                  AppIcon.uploadIcon,
                   colorFilter: const ColorFilter.mode(
                     AppColors.backgroundWhiteColor,
                     BlendMode.srcIn,

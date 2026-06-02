@@ -111,7 +111,7 @@ class _RatesInfoState extends State<RatesInfo> {
                             if (!state.model.lock.isEmptyOrNull) ...[
                               RecordLockedWidget(text: '${state.model.lock}'),
                             ],
-                            CommonWidgets.horizentaltextHandling(
+                            CommonWidgets.horizontalTextHandling(
                                 state.labels?.locale.entrySecurity ??
                                     state.labels?.defaultLocale.entrySecurity ??
                                     Constants.createdby,
@@ -175,7 +175,7 @@ class _RatesInfoState extends State<RatesInfo> {
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                             /// Sl No.
-                            CommonWidgets.horizentaltextHandling(
+                            CommonWidgets.horizontalTextHandling(
                                 state.labels?.locale.slNo ??
                                     state.labels?.defaultLocale.slNo ??
                                     Constants.slno,

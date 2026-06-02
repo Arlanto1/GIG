@@ -1,118 +1,20 @@
-// import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
-// import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
-// import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_svg/flutter_svg.dart';
-//
-// class CustomPopmenu extends StatelessWidget {
-//   final List<PopMenuItems> itemList;
-//
-//   // final List<String> itemImageList;
-//   final Function itemTap;
-//   final String popupimagename;
-//
-//   const CustomPopmenu(
-//       {super.key,
-//       required this.itemList,
-//       required this.itemTap,
-//       required this.popupimagename});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     var appBarHeight = AppBar().preferredSize.height;
-//
-//     return PopupMenuButton(
-//       color: AppColors.backgroundWhiteColor,
-//       shape: const RoundedRectangleBorder(
-//           borderRadius: BorderRadius.all(Radius.circular(10.0))),
-//       icon: SvgPicture.asset(
-//         popupimagename,
-//         colorFilter: const ColorFilter.mode(
-//           AppColors.backgroundWhiteColor,
-//           BlendMode.srcIn,
-//         ),
-//         width: 18,
-//         height: 18,
-//         //key: const Key(Keys.userIcon),
-//       ),
-//       offset: Offset(0.0, appBarHeight),
-//       onSelected: (value) {
-//         // your logic
-//         itemTap(value);
-//       },
-//       itemBuilder: (BuildContext bc) {
-//         return _buildPopupMenuItem();
-//       },
-//     );
-//   }
-//
-//   List<PopupMenuItem> _buildPopupMenuItem() {
-//     List<PopupMenuItem> children = [];
-//     for (int i = 0; i < itemList.length; i++) {
-//       PopMenuItems popItem = itemList[i];
-//       children.add(PopupMenuItem(
-//         value: i,
-//         child: Row(
-//           mainAxisAlignment: MainAxisAlignment.start,
-//           children: [
-//             SvgPicture.asset(
-//               popItem.imageName,
-//               colorFilter: const ColorFilter.mode(
-//                 AppColors.textGreyThemeColor,
-//                 BlendMode.srcIn,
-//               ),
-//               width: 15,
-//               height: 15,
-//               //key: const Key(Keys.userIcon),
-//             ),
-//             //CommonWidgets.horizontalSpacerWidget(width * 0.03),
-//
-//             //  const Icon(
-//             //             Icons.logout_rounded,
-//             //             color: AppColors.textgreyThemecolor,
-//             //           ),
-//             const SizedBox(
-//               width: 13,
-//             ),
-//             Align(
-//               alignment: Alignment.topLeft,
-//               child: Text(
-//                 popItem.title,
-//                 style: Styles.textStyleRegularNormalGrey14,
-//               ),
-//             ),
-//           ],
-//         ),
-//       ));
-//     }
-//
-//     return children;
-//   }
-// }
-//
-// class PopMenuItems {
-//   final String title;
-//   final String imageName;
-//
-//   const PopMenuItems(this.title, this.imageName);
-// }
+
 import 'dart:ui';
-import 'package:db_atom/app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 
-class CustomPopmenu extends StatelessWidget {
+class CustomPopMenu extends StatelessWidget {
   final List<PopMenuItems> itemList;
   final Function itemTap;
-  final String popupimagename;
+  final String popupImageName;
 
-  const CustomPopmenu({
+  const CustomPopMenu({
     super.key,
     required this.itemList,
     required this.itemTap,
-    required this.popupimagename,
+    required this.popupImageName,
   });
 
   @override
@@ -129,7 +31,7 @@ class CustomPopmenu extends StatelessWidget {
       shadowColor: Colors.transparent,
 
       icon: SvgPicture.asset(
-        popupimagename,
+        popupImageName,
         width: 18,
         height: 18,
         colorFilter: const ColorFilter.mode(
@@ -163,13 +65,9 @@ class CustomPopmenu extends StatelessWidget {
               colors: [
                 AppColors.newColor3.withValues(alpha: 0.9),
                 AppColors.newColor3.withValues(alpha: 0.9),
-
-                // Colors.white,
                 AppColors.newColor3.withValues(alpha: 0.9),
-                // Colors.white.withValues(alpha: 0.2),
-                // Color(0xFF6474C6).withOpacity(0.14)
               ],
-              stops: [0.02, 0.35, 1],
+              stops: const [0.02, 0.35, 1],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
             ),
@@ -211,7 +109,7 @@ class CustomPopmenu extends StatelessWidget {
               Colors.white.withValues(alpha: 0.2),
               // Color(0xFF6474C6).withOpacity(0.14)
             ],
-            stops: [0.02, 0.35, 1],
+            stops: const [0.02, 0.35, 1],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),

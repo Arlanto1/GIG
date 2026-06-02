@@ -53,7 +53,7 @@ class _NotificationPopUpItemsState extends State<NotificationPopUpItems> {
             onTap: () {
               Navigator.of(context).pop();
             },
-            child: SvgPicture.asset(AppIcon.closeicon) //Icon(Icons.cancel)
+            child: SvgPicture.asset(AppIcon.closeIcon) //Icon(Icons.cancel)
             ),
       ),
       const Row(

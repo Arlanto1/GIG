@@ -24,7 +24,7 @@ class BaseOrganisationDialog {
           duplicateEmployeeDepartments: organisations,
 
           /// Uncomment leftImageName to enable + icon functionality
-          leftImageName: leftImage == true ? AppIcon.addicon : null,
+          leftImageName: leftImage == true ? AppIcon.addIcon : null,
           onLeftButtonTap: () {
             Navigator.pop(context);
             showDialog(
@@ -64,7 +64,7 @@ class BaseOrganisationDialog {
       builder: (BuildContext dialogContext) {
         return CustomListTexts(
           isDbUser: isDbUser,
-          duplicateDepostorList: users,
+          duplicateDepositorList: users,
           duplicateEntityList: entities,
           isEmployeeId: employeeId,
           location: locationId,

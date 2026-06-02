@@ -13,7 +13,7 @@ class CustomAlertImageDialog extends StatelessWidget {
   final String? message;
   final String positiveBtnText;
   final String negativeBtnText;
-  final Function? onPostivePressed;
+  final Function? onPositivePressed;
   final Function? onNegativePressed;
   final double? circularBorderRadius;
 
@@ -26,7 +26,7 @@ class CustomAlertImageDialog extends StatelessWidget {
     this.bgColor = Colors.white,
     required this.positiveBtnText,
     required this.negativeBtnText,
-    this.onPostivePressed,
+    this.onPositivePressed,
     this.onNegativePressed,
   })  : assert(bgColor != null),
         assert(circularBorderRadius != null);
@@ -83,8 +83,8 @@ class CustomAlertImageDialog extends StatelessWidget {
         //           Constants.customFontMediumFamily)),
         //   //  textColor: Theme.of(context).colorScheme.secondary,
         //   onPressed: () {
-        //     if (onPostivePressed != null) {
-        //       onPostivePressed!();
+        //     if (onPositivePressed != null) {
+        //       onPositivePressed!();
         //     }
         //   },
         // ),
@@ -132,7 +132,7 @@ class CustomAlertImageDialog extends StatelessWidget {
           //Navigator.pushNamed(context, homePageRoute);
           Navigator.of(context).pop();
         } catch (e) {
-          // present userwith error message
+          // present userWith error message
         }
       },
     );
@@ -157,7 +157,7 @@ class CustomAlertImageDialog extends StatelessWidget {
           // widget.onValidLogin(validLoginDetails);
           //Navigator.pushNamed(context, homePageRoute);
         } catch (e) {
-          // present userwith error message
+          // present userWith error message
         }
       },
     );

@@ -4,7 +4,6 @@ import 'package:db_atom/src/common_widgets/basic_reusable_widgets.dart';
 import 'package:db_atom/src/constants/app_icon.dart';
 import 'package:db_atom/src/constants/constants.dart';
 import 'package:db_atom/src/features/passmanagement/daypassmgmt/passmgmtlist/models/day_passlist_model.dart';
-import 'package:db_atom/src/utils/app_themes/colors/app_color.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:db_atom/src/utils/util.dart';
 import 'package:flutter/material.dart';
@@ -60,23 +59,23 @@ class _DayPassInfoCustomPopUpListState
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Colors.white.withOpacity(0.3),
+                  Colors.white.withValues(alpha: 0.3),
                   Colors.transparent,
-                  Colors.white.withOpacity(0.3),
+                  Colors.white.withValues(alpha: 0.3),
                   // Color(0xFF6474C6).withOpacity(0.14)
                 ],
-                stops: [0.02, 0.35, 1],
+                stops: const [0.02, 0.35, 1],
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
               ),
               borderRadius: BorderRadius.circular(27),
               border: Border.all(
-                color: Colors.white.withOpacity(0.80),
+                color: Colors.white.withValues(alpha: 0.80),
                 width: 0.8,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF6474C6).withOpacity(0.1),
+                  color: const Color(0xFF6474C6).withValues(alpha: 0.1),
                   blurRadius:12,
                   offset: const Offset(8, 0),
                 ),
@@ -109,7 +108,7 @@ class _DayPassInfoCustomPopUpListState
                             Navigator.of(context).pop();
                           },
                           child:
-                          SvgPicture.asset(AppIcon.closeicon,  colorFilter: const ColorFilter.mode(
+                          SvgPicture.asset(AppIcon.closeIcon,  colorFilter: const ColorFilter.mode(
                             Colors.white, // your desired color
                             BlendMode.srcIn,
                           ),) //Icon(Icons.cancel)

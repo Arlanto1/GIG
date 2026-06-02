@@ -195,7 +195,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                               CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                               /// Created By
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                   state.labels?.locale.entrySecurity ??
                                       state.labels?.defaultLocale
                                           .entrySecurity ??
@@ -255,7 +255,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Sl No.
-                              CommonWidgets.horizentaltextHandling(
+                              CommonWidgets.horizontalTextHandling(
                                 state.labels?.locale.slNo ??
                                     state.labels?.defaultLocale.slNo ??
                                     Constants.slno,
@@ -280,7 +280,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                                     height * 0.01),
 
                                 /// Modified By
-                                CommonWidgets.horizentaltextHandling(
+                                CommonWidgets.horizontalTextHandling(
                                     // state.labels?.locale.entrySecurity ??
                                     //     state.labels?.defaultLocale.entrySecurity ??
                                     Constants.modifiedBy,
@@ -336,7 +336,7 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: <Widget>[
                                     SvgPicture.asset(
-                                      AppIcon.pluscircle,
+                                      AppIcon.plusCircle,
                                       colorFilter: const ColorFilter.mode(
                                         AppColors.white,
                                         BlendMode.srcIn,

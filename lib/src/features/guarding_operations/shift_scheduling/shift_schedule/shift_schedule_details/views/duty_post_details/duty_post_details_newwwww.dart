@@ -623,7 +623,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
             children: <Widget>[
               const SizedBox(width: 14),
               SvgPicture.asset(
-                AppIcon.pluscircle,
+                AppIcon.plusCircle,
                 colorFilter: const ColorFilter.mode(
                   AppColors.white,
                   BlendMode.srcIn,

@@ -638,25 +638,25 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           ///Primary Service Engineer Name
-                          CommonWidgets.horizentaltextHandling(
+                          CommonWidgets.horizontalTextHandling(
                               Constants.primaryServiceEngineerName,
                               state.model.vendor1Primary ?? ''),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           ///Primary Service Engineer Contact
-                          CommonWidgets.horizentaltextHandling(
+                          CommonWidgets.horizontalTextHandling(
                               Constants.primaryServiceEngineerContact,
                               state.model.vendor1PrimaryContact ?? ''),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           ///Secondary Service Engineer Name
-                          CommonWidgets.horizentaltextHandling(
+                          CommonWidgets.horizontalTextHandling(
                               Constants.secondaryServiceEngineerName,
                               state.model.vendor1Secondary ?? ''),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           ///Secondary Service Engineer Contact
-                          CommonWidgets.horizentaltextHandling(
+                          CommonWidgets.horizontalTextHandling(
                               Constants.secondaryServiceEngineerContact,
                               state.model.vendor1SecondaryContact ?? ''),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -725,25 +725,25 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           ///Primary Service Engineer Contact
-                          CommonWidgets.horizentaltextHandling(
+                          CommonWidgets.horizontalTextHandling(
                               Constants.primaryServiceEngineerContact,
                               state.model.vendor2PrimaryContact ?? ''),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           ///Primary Service Engineer Contact
-                          CommonWidgets.horizentaltextHandling(
+                          CommonWidgets.horizontalTextHandling(
                               Constants.primaryServiceEngineerContact,
                               state.model.vendor2PrimaryContact ?? ''),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           ///Secondary Service Engineer Name
-                          CommonWidgets.horizentaltextHandling(
+                          CommonWidgets.horizontalTextHandling(
                               Constants.secondaryServiceEngineerName,
                               state.model.vendor2Secondary ?? ''),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           ///Secondary Service Engineer Contact
-                          CommonWidgets.horizentaltextHandling(
+                          CommonWidgets.horizontalTextHandling(
                               Constants.secondaryServiceEngineerContact,
                               state.model.vendor2SecondaryContact ?? ''),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
@@ -812,25 +812,25 @@ class _ContactInfoViewState extends State<ContactInfoView> {
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           ///Primary Service Engineer Contact
-                          CommonWidgets.horizentaltextHandling(
+                          CommonWidgets.horizontalTextHandling(
                               Constants.primaryServiceEngineerContact,
                               state.model.vendor3PrimaryContact ?? ''),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           ///Primary Service Engineer Contact
-                          CommonWidgets.horizentaltextHandling(
+                          CommonWidgets.horizontalTextHandling(
                               Constants.primaryServiceEngineerContact,
                               state.model.vendor3PrimaryContact ?? ''),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           ///Secondary Service Engineer Name
-                          CommonWidgets.horizentaltextHandling(
+                          CommonWidgets.horizontalTextHandling(
                               Constants.secondaryServiceEngineerName,
                               state.model.vendor3Secondary ?? ''),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
 
                           ///Secondary Service Engineer Contact
-                          CommonWidgets.horizentaltextHandling(
+                          CommonWidgets.horizontalTextHandling(
                               Constants.secondaryServiceEngineerContact,
                               state.model.vendor3SecondaryContact ?? ''),
                           CommonWidgets.verticalSpacerWidget(height * 0.01),

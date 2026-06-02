@@ -160,7 +160,7 @@ class Utils {
 
   static showAlertMessage(String message, BuildContext context) {
     var dialog = CustomAlertDialog(
-      title: Constants.appname,
+      title: Constants.appName,
       message: message,
       onPositivePressed: () {
         //ValidatorlogoutAction(context);

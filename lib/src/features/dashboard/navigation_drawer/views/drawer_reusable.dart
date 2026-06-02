@@ -5841,7 +5841,7 @@ class NavigationDrawer1 extends StatelessWidget {
                                       color: Colors.white.withValues(alpha: 0.6)),
                                 ),
                                 child:
-                                SvgPicture.asset(AppIcon.closeicon,colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn)),
+                                SvgPicture.asset(AppIcon.closeIcon,colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn)),
                               )
                               // child: Row(
                               //   children: [
