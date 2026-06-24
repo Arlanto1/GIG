@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/material_movement/material_movements/bloc/material_movement_bloc.dart';
 import '../../models/approval_model.dart';
-import 'add_approval_popUp.dart';
 
 class MaterialMovementsView extends StatefulWidget {
   const MaterialMovementsView({
@@ -583,33 +582,33 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
     Navigator.pop(context);
   }
 
-  showAddContactPopUp({
-    required BuildContext context,
-    required ApprovalModel approvalModel,
-    required int apStepId,
-  }) {
-    showDialog(
-      context: context,
-      builder: (BuildContext dialogContext) {
-        return MaterialApproveRejectPopUp(
-          title: '',
-          model: approvalModel,
-          mainContext: context,
-          onSubmit: (ApprovalModel model) {
-            //loginFormKey.currentState!.validate();
-            FocusScope.of(context).unfocus();
-            // model.apStepId = ;
-            model.apStepId = apStepId;
-            // model.objectId = approvalModel.objectId;
-            BlocProvider.of<MaterialMovementBloc>(context).add(
-              SaveRecord(
-                model: model,
-              ),
-            );
-            Navigator.of(context).pop();
-          },
-        );
-      },
-    );
-  }
+  // showAddContactPopUp({
+  //   required BuildContext context,
+  //   required ApprovalModel approvalModel,
+  //   required int apStepId,
+  // }) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext dialogContext) {
+  //       return MaterialApproveRejectPopUp(
+  //         title: '',
+  //         model: approvalModel,
+  //         mainContext: context,
+  //         onSubmit: (ApprovalModel model) {
+  //           //loginFormKey.currentState!.validate();
+  //           FocusScope.of(context).unfocus();
+  //           // model.apStepId = ;
+  //           model.apStepId = apStepId;
+  //           // model.objectId = approvalModel.objectId;
+  //           BlocProvider.of<MaterialMovementBloc>(context).add(
+  //             SaveRecord(
+  //               model: model,
+  //             ),
+  //           );
+  //           Navigator.of(context).pop();
+  //         },
+  //       );
+  //     },
+  //   );
+  // }
 }

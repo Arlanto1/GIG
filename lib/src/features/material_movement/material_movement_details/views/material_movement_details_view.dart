@@ -166,8 +166,7 @@ class _MaterialMovementDetailsViewState
         String? requester2EmailUser = state.model.requestor2Email;
 
         log('123 ${state.model.requestorEmail}');
-        if ((
-                state.model.status == ConstantsIntValue.mmStatusLSMRejected) &&
+        if ((state.model.status == ConstantsIntValue.mmStatusLSMRejected) &&
             (requesterEmailUser != null &&
                 requesterEmailUser ==
                     '${state.loggedInUserDetails?.firstName} ${state.loggedInUserDetails?.lastName} (${state.loggedInUserDetails?.email})') &&
@@ -187,32 +186,35 @@ class _MaterialMovementDetailsViewState
         final loggedInSecurityReview =
             '${state.loggedInUserDetails?.email} (${state.loggedInUserDetails?.email})';
 
-        showLikeAndDislikeButton =
-            ((state.model.status == ConstantsIntValue.mmStatusLSMReview) &&
-                ( (state.model.entrySecurity!.email
-                    .equalsIgnoreCase(state.loggedInUserDetails?.email)) ||  (state.model.requestorEmail
-                    .equalsIgnoreCase(loggedInSecurityReview)) ||(state.model.requestor2Email
-                    .equalsIgnoreCase(loggedInSecurityReview)))) || ((state.model.status == ConstantsIntValue.mmStatusLSMApproved) &&
-                (state.model.approver1Email
-                    .equalsIgnoreCase(loggedInFormatted)) || (state.model.approver2Email
-                .equalsIgnoreCase(loggedInFormatted)));
+        showLikeAndDislikeButton = ((state.model.status ==
+                    ConstantsIntValue.mmStatusLSMReview) &&
+                ((state.model.entrySecurity!.email
+                        .equalsIgnoreCase(state.loggedInUserDetails?.email)) ||
+                    (state.model.requestorEmail
+                        .equalsIgnoreCase(loggedInSecurityReview)) ||
+                    (state.model.requestor2Email
+                        .equalsIgnoreCase(loggedInSecurityReview)))) ||
+            ((state.model.status == ConstantsIntValue.mmStatusLSMApproved) &&
+                    (state.model.approver1Email
+                        .equalsIgnoreCase(loggedInFormatted)) ||
+                (state.model.approver2Email
+                    .equalsIgnoreCase(loggedInFormatted)));
 
-
-        log('100 ${(state.model.requestorEmail
-            .equalsIgnoreCase(loggedInFormatted))}');
+        log('100 ${(state.model.requestorEmail.equalsIgnoreCase(loggedInFormatted))}');
         log('101 ${state.model.requestorEmail}');
         log('102 $loggedInFormatted');
 
         log('showApprovalLikeAndDislikeButton $showApprovalLikeAndDislikeButton');
         log('state.model.status == ConstantsIntValue.mmStatusLSMApproved ${state.model.status == ConstantsIntValue.mmStatusLSMApproved}');
-        log('1 ${state.model.approver1Email
-            .equalsIgnoreCase(state.loggedInUserDetails?.email)}');
-        log('2 ${state.model.approver2Email
-            .equalsIgnoreCase(state.loggedInUserDetails?.email)}');
+        log('1 ${state.model.approver1Email.equalsIgnoreCase(state.loggedInUserDetails?.email)}');
+        log('2 ${state.model.approver2Email.equalsIgnoreCase(state.loggedInUserDetails?.email)}');
 
-        showApprovalLikeAndDislikeButton = state.model.status == ConstantsIntValue.mmStatusLSMApproved && (state.model.approver1Email
-            .equalsIgnoreCase(state.loggedInUserDetails?.email) || state.model.approver2Email
-            .equalsIgnoreCase(state.loggedInUserDetails?.email));
+        showApprovalLikeAndDislikeButton =
+            state.model.status == ConstantsIntValue.mmStatusLSMApproved &&
+                (state.model.approver1Email
+                        .equalsIgnoreCase(state.loggedInUserDetails?.email) ||
+                    state.model.approver2Email
+                        .equalsIgnoreCase(state.loggedInUserDetails?.email));
         editByRequester = ((state.model.status ==
                     ConstantsIntValue.businessUserReview ||
                 state.model.status == ConstantsIntValue.mmStatusLSMRejected) &&
@@ -231,7 +233,9 @@ class _MaterialMovementDetailsViewState
         editByCreatedByUser = ((state.model.status ==
                     ConstantsIntValue.mmStatusApproved ||
                 state.model.status == ConstantsIntValue.mmStatusInwardWaiting ||
-                state.model.status == ConstantsIntValue.mmStatusOverDue || state.model.status == ConstantsIntValue.mmStatusInwardPending) &&
+                state.model.status == ConstantsIntValue.mmStatusOverDue ||
+                state.model.status ==
+                    ConstantsIntValue.mmStatusInwardPending) &&
             ((state.model.entrySecurity!.email
                     .equalsIgnoreCase(state.loggedInUserDetails?.email)) ||
                 isEligibleToEdit));
@@ -283,10 +287,9 @@ class _MaterialMovementDetailsViewState
                 !lock &&
                 state.status != FormStatus.loading,
             onTapLikeButton: () {
-              if(state.model.status != ConstantsIntValue.mmStatusLSMApproved) {
+              if (state.model.status != ConstantsIntValue.mmStatusLSMApproved) {
                 FocusScope.of(context).unfocus();
-                BlocProvider
-                    .of<MaterialMovementDetailsCubit>(context)
+                BlocProvider.of<MaterialMovementDetailsCubit>(context)
                     .submitForm(
                   isApprovedOnly: true,
                   isSaveOnly: false,
@@ -295,17 +298,15 @@ class _MaterialMovementDetailsViewState
                   securitySignatureController: securitySignatureController,
                 );
               }
-              if(state.model.status == ConstantsIntValue.mmStatusLSMApproved) {
+              if (state.model.status == ConstantsIntValue.mmStatusLSMApproved) {
                 context.read<MaterialMovementDetailsCubit>().fetchApprovalById(
-                  apStepId: state.approvalModel.apStepId ?? 0,
-                );
-                BlocProvider
-                    .of<MaterialMovementDetailsCubit>(context)
+                      apStepId: state.approvalModel.apStepId ?? 0,
+                    );
+                BlocProvider.of<MaterialMovementDetailsCubit>(context)
                     .approveOrRejectMaterialMovement(decision: 1);
-
               }
             },
-            showDisLikeButton: (showLikeAndDislikeButton) ,
+            showDisLikeButton: (showLikeAndDislikeButton),
             onTapDislikeButton: () {
               // FocusScope.of(context).unfocus();
               showDialog(
@@ -372,7 +373,7 @@ class _MaterialMovementDetailsViewState
     returnableTextController.text =
         widget.returnable == true ? 'Returnable' : 'Non Returnable';
     returnableTextController.text =
-    state.model.returnable == true ? 'Returnable' : 'Non Returnable';
+        state.model.returnable == true ? 'Returnable' : 'Non Returnable';
 
     if (widget.returnable == true) {
       returnableTextController.text == 'Returnable';
@@ -617,7 +618,11 @@ class _MaterialMovementDetailsViewState
                                                   .mmStatusInwardWaiting ||
                                           !state.model.lock.isEmptyOrNull ||
                                           state.model.status ==
-                                              ConstantsIntValue.mmStatusOverDue || state.model.status == ConstantsIntValue.mmStatusInwardPending
+                                              ConstantsIntValue
+                                                  .mmStatusOverDue ||
+                                          state.model.status ==
+                                              ConstantsIntValue
+                                                  .mmStatusInwardPending
                                       ? false
                                       : true,
                                   isDisableColor: state.model.status == 10 ||
@@ -667,7 +672,11 @@ class _MaterialMovementDetailsViewState
                                           state.model.status == 5 ||
                                           !state.model.lock.isEmptyOrNull ||
                                           state.model.status ==
-                                              ConstantsIntValue.mmStatusOverDue ||state.model.status == ConstantsIntValue.mmStatusInwardPending
+                                              ConstantsIntValue
+                                                  .mmStatusOverDue ||
+                                          state.model.status ==
+                                              ConstantsIntValue
+                                                  .mmStatusInwardPending
                                       ? false
                                       : true,
                                   isDisableColor: state.model.status == 10 ||
@@ -912,8 +921,20 @@ class _MaterialMovementDetailsViewState
                                   initialValue: state.model.materialComingFrom,
                                   textFormKey: Keys.sendersKey,
                                   hintText: '',
-                                  isEnable: !isReadOnly && state.model.status != ConstantsIntValue.businessUserReview && state.model.status != ConstantsIntValue.mmStatusInwardPending ,
-                                  isDisableColor: isReadOnly ||state.model.status == ConstantsIntValue.businessUserReview || state.model.status == ConstantsIntValue.mmStatusInwardPending ,
+                                  isEnable: !isReadOnly &&
+                                      state.model.status !=
+                                          ConstantsIntValue
+                                              .businessUserReview &&
+                                      state.model.status !=
+                                          ConstantsIntValue
+                                              .mmStatusInwardPending,
+                                  isDisableColor: isReadOnly ||
+                                      state.model.status ==
+                                          ConstantsIntValue
+                                              .businessUserReview ||
+                                      state.model.status ==
+                                          ConstantsIntValue
+                                              .mmStatusInwardPending,
                                   onChange: (String value) {
                                     state.model.materialComingFrom = value;
                                     context
@@ -946,8 +967,15 @@ class _MaterialMovementDetailsViewState
                                       Constants.characterLimitDescTextFormField,
                                   textFormKey: Keys.materialComingFromKey,
                                   hintText: Constants.informationhere,
-                                  isEnable: !isReadOnly && state.model.status != ConstantsIntValue.mmStatusInwardPending && state.model.status != ConstantsIntValue.businessUserReview ,
-                              isDisableColor: isReadOnly ||state.model.status == ConstantsIntValue.businessUserReview ,
+                                  isEnable: !isReadOnly &&
+                                      state.model.status !=
+                                          ConstantsIntValue
+                                              .mmStatusInwardPending &&
+                                      state.model.status !=
+                                          ConstantsIntValue.businessUserReview,
+                                  isDisableColor: isReadOnly ||
+                                      state.model.status ==
+                                          ConstantsIntValue.businessUserReview,
                                   // isEnable: true,
                                   // isDisableColor: state.model.status == 6 ||
                                   //     state.model.status == 10 ||
@@ -980,7 +1008,13 @@ class _MaterialMovementDetailsViewState
                                   onChangedYes: widget.model?.status == 6 ||
                                           widget.model?.status == -1 ||
                                           widget.model?.status == 10 ||
-                                          !state.model.lock.isEmptyOrNull || state.model.status == ConstantsIntValue.mmStatusInwardPending ||state.model.status == ConstantsIntValue.businessUserReview
+                                          !state.model.lock.isEmptyOrNull ||
+                                          state.model.status ==
+                                              ConstantsIntValue
+                                                  .mmStatusInwardPending ||
+                                          state.model.status ==
+                                              ConstantsIntValue
+                                                  .businessUserReview
                                       ? null
                                       : (val) {
                                           FocusScope.of(context)
@@ -1001,7 +1035,13 @@ class _MaterialMovementDetailsViewState
                                   onChangedNo: widget.model?.status == 6 ||
                                           widget.model?.status == -1 ||
                                           widget.model?.status == 10 ||
-                                          !state.model.lock.isEmptyOrNull || state.model.status == ConstantsIntValue.mmStatusInwardPending ||state.model.status == ConstantsIntValue.businessUserReview
+                                          !state.model.lock.isEmptyOrNull ||
+                                          state.model.status ==
+                                              ConstantsIntValue
+                                                  .mmStatusInwardPending ||
+                                          state.model.status ==
+                                              ConstantsIntValue
+                                                  .businessUserReview
                                       ? null
                                       : (val) {
                                           FocusScope.of(context)
@@ -1039,9 +1079,21 @@ class _MaterialMovementDetailsViewState
                                       TextFieldAddButton(
                                           title: state.model.receiverEmployeeId,
                                           height: 70,
-                                          isDisableColor: isReadOnly || state.model.status == ConstantsIntValue.mmStatusInwardPending ||state.model.status == ConstantsIntValue.businessUserReview,
+                                          isDisableColor: isReadOnly ||
+                                              state.model.status ==
+                                                  ConstantsIntValue
+                                                      .mmStatusInwardPending ||
+                                              state.model.status ==
+                                                  ConstantsIntValue
+                                                      .businessUserReview,
                                           onTap: () {
-                                            if (!isReadOnly && state.model.status != ConstantsIntValue.mmStatusInwardPending && state.model.status != ConstantsIntValue.businessUserReview) {
+                                            if (!isReadOnly &&
+                                                state.model.status !=
+                                                    ConstantsIntValue
+                                                        .mmStatusInwardPending &&
+                                                state.model.status !=
+                                                    ConstantsIntValue
+                                                        .businessUserReview) {
                                               BaseOrganisationDialog()
                                                   .userDialog(
                                                 employeeId: true,
@@ -1133,9 +1185,20 @@ class _MaterialMovementDetailsViewState
                                 TextFieldAddButton(
                                   title: state.model.receiverDepartmenttName,
                                   height: 70,
-                                  isDisableColor: isReadOnly ||state.model.status == ConstantsIntValue.mmStatusInwardPending||state.model.status == ConstantsIntValue.businessUserReview,
+                                  isDisableColor: isReadOnly ||
+                                      state.model.status ==
+                                          ConstantsIntValue
+                                              .mmStatusInwardPending ||
+                                      state.model.status ==
+                                          ConstantsIntValue.businessUserReview,
                                   onTap: () {
-                                    if (!isReadOnly && state.model.status != ConstantsIntValue.mmStatusInwardPending && state.model.status != ConstantsIntValue.businessUserReview) {
+                                    if (!isReadOnly &&
+                                        state.model.status !=
+                                            ConstantsIntValue
+                                                .mmStatusInwardPending &&
+                                        state.model.status !=
+                                            ConstantsIntValue
+                                                .businessUserReview) {
                                       FocusScope.of(context)
                                           .requestFocus(FocusNode());
 
@@ -1188,9 +1251,21 @@ class _MaterialMovementDetailsViewState
                                       TextFieldAddButton(
                                           title: state.model.receiverEmployeeId,
                                           height: 70,
-                                          isDisableColor: isReadOnly ||state.model.status == ConstantsIntValue.mmStatusInwardPending || state.model.status == ConstantsIntValue.businessUserReview,
+                                          isDisableColor: isReadOnly ||
+                                              state.model.status ==
+                                                  ConstantsIntValue
+                                                      .mmStatusInwardPending ||
+                                              state.model.status ==
+                                                  ConstantsIntValue
+                                                      .businessUserReview,
                                           onTap: () {
-                                            if (!isReadOnly && state.model.status != ConstantsIntValue.mmStatusInwardPending &&state.model.status != ConstantsIntValue.businessUserReview) {
+                                            if (!isReadOnly &&
+                                                state.model.status !=
+                                                    ConstantsIntValue
+                                                        .mmStatusInwardPending &&
+                                                state.model.status !=
+                                                    ConstantsIntValue
+                                                        .businessUserReview) {
                                               BaseOrganisationDialog()
                                                   .userDialog(
                                                 employeeId: true,
@@ -1287,8 +1362,14 @@ class _MaterialMovementDetailsViewState
                                         state.model.otherReceiverEmployeeId,
                                     textFormKey:
                                         Keys.claimantEmpIdTextController,
-                                    isEnable: !isReadOnly && state.model.status != ConstantsIntValue.mmStatusInwardPending,
-                                    isDisableColor: isReadOnly ||state.model.status == ConstantsIntValue.mmStatusInwardPending,
+                                    isEnable: !isReadOnly &&
+                                        state.model.status !=
+                                            ConstantsIntValue
+                                                .mmStatusInwardPending,
+                                    isDisableColor: isReadOnly ||
+                                        state.model.status ==
+                                            ConstantsIntValue
+                                                .mmStatusInwardPending,
                                     textInputType: TextInputType.number,
                                     hintText: '',
                                     onChange: (String value) {
@@ -1318,7 +1399,10 @@ class _MaterialMovementDetailsViewState
                                     initialValue: state.model.otherReceiverName,
                                     textFormKey:
                                         Keys.claimantEmpIdTextController,
-                                    isEnable: !isReadOnly && state.model.status != ConstantsIntValue.mmStatusInwardPending,
+                                    isEnable: !isReadOnly &&
+                                        state.model.status !=
+                                            ConstantsIntValue
+                                                .mmStatusInwardPending,
                                     isDisableColor: isReadOnly,
                                     textInputType: TextInputType.text,
                                     hintText: '',
@@ -1376,7 +1460,13 @@ class _MaterialMovementDetailsViewState
                                     onChangedYes: ((widget.model?.status == 6 ||
                                                 widget.model?.status == 10 ||
                                                 widget.model?.status == -1) ||
-                                            !state.model.lock.isEmptyOrNull || state.model.status == ConstantsIntValue.mmStatusInwardPending ||state.model.status == ConstantsIntValue.businessUserReview)
+                                            !state.model.lock.isEmptyOrNull ||
+                                            state.model.status ==
+                                                ConstantsIntValue
+                                                    .mmStatusInwardPending ||
+                                            state.model.status ==
+                                                ConstantsIntValue
+                                                    .businessUserReview)
                                         ? null
                                         : (val) {
                                             BlocProvider.of<
@@ -1390,7 +1480,13 @@ class _MaterialMovementDetailsViewState
                                     onChangedNo: widget.model?.status == 6 ||
                                             widget.model?.status == 10 ||
                                             widget.model?.status == -1 ||
-                                            !state.model.lock.isEmptyOrNull ||state.model.status == ConstantsIntValue.mmStatusInwardPending ||state.model.status == ConstantsIntValue.businessUserReview
+                                            !state.model.lock.isEmptyOrNull ||
+                                            state.model.status ==
+                                                ConstantsIntValue
+                                                    .mmStatusInwardPending ||
+                                            state.model.status ==
+                                                ConstantsIntValue
+                                                    .businessUserReview
                                         ? null
                                         : (val) {
                                             BlocProvider.of<
@@ -1518,27 +1614,27 @@ class _MaterialMovementDetailsViewState
                                         //                 .mmStatusInwardWaiting) ||
                                         //     lock,
                                         isDisableColor:
-                                        ((isApproverRequesterEmailDepartment &&
-                                            !lock) ||
-                                            (state.model.returnable ==
-                                                true &&
-                                                widget.isInward &&
-                                                (state.model.status ==
-                                                    11 ||
-                                                    state.model
-                                                        .status ==
-                                                        12))
-                                            ? false
-                                            : true),
+                                            ((isApproverRequesterEmailDepartment &&
+                                                        !lock) ||
+                                                    (state.model.returnable ==
+                                                            true &&
+                                                        widget.isInward &&
+                                                        (state.model.status ==
+                                                                11 ||
+                                                            state.model
+                                                                    .status ==
+                                                                12))
+                                                ? false
+                                                : true),
                                         onTap: () {
                                           if ((isApproverRequesterEmailDepartment &&
-                                              !lock) ||
-                                              (state.model.returnable ==
-                                                  true &&
-                                                  widget.isInward &&
-                                                  state.model.status ==
-                                                      12 ||
-                                                  state.model.status == 11)
+                                                      !lock) ||
+                                                  (state.model.returnable ==
+                                                              true &&
+                                                          widget.isInward &&
+                                                          state.model.status ==
+                                                              12 ||
+                                                      state.model.status == 11)
                                               ? true
                                               : false) {
                                             BaseOrganisationDialog().userDialog(
@@ -1720,18 +1816,18 @@ class _MaterialMovementDetailsViewState
                                         //                 .mmStatusInwardWaiting) ||
                                         //     lock,
                                         isDisableColor:
-                                        ((isApproverRequesterEmailDepartment &&
-                                            !lock) ||
-                                            (state.model.returnable ==
-                                                true &&
-                                                widget.isInward &&
-                                                (state.model.status ==
-                                                    11 ||
-                                                    state.model
-                                                        .status ==
-                                                        12))
-                                            ? false
-                                            : true),
+                                            ((isApproverRequesterEmailDepartment &&
+                                                        !lock) ||
+                                                    (state.model.returnable ==
+                                                            true &&
+                                                        widget.isInward &&
+                                                        (state.model.status ==
+                                                                11 ||
+                                                            state.model
+                                                                    .status ==
+                                                                12))
+                                                ? false
+                                                : true),
                                         onTap: () {
                                           if ((isApproverRequesterEmailDepartment &&
                                                       !lock) ||
@@ -2182,18 +2278,18 @@ class _MaterialMovementDetailsViewState
                                         //     ? true
                                         //     : false,
                                         isDisableColor:
-                                        ((isApproverRequesterEmailDepartment &&
-                                            !lock) ||
-                                            (state.model.returnable ==
-                                                true &&
-                                                widget.isInward &&
-                                                (state.model.status ==
-                                                    11 ||
-                                                    state.model
-                                                        .status ==
-                                                        12))
-                                            ? false
-                                            : true),
+                                            ((isApproverRequesterEmailDepartment &&
+                                                        !lock) ||
+                                                    (state.model.returnable ==
+                                                            true &&
+                                                        widget.isInward &&
+                                                        (state.model.status ==
+                                                                11 ||
+                                                            state.model
+                                                                    .status ==
+                                                                12))
+                                                ? false
+                                                : true),
                                         onTap: () {
                                           if ((isApproverRequesterEmailDepartment &&
                                                       !lock) ||
@@ -2269,18 +2365,15 @@ class _MaterialMovementDetailsViewState
                                   //         lock
                                   //     ? true
                                   //     : false,
-                                  isDisableColor: ((isApproverRequesterEmailDepartment &&
-                                      !lock) ||
-                                      (state.model.returnable ==
-                                          true &&
-                                          widget.isInward &&
-                                          (state.model.status ==
-                                              11 ||
-                                              state.model
-                                                  .status ==
-                                                  12))
-                                      ? false
-                                      : true),
+                                  isDisableColor:
+                                      ((isApproverRequesterEmailDepartment &&
+                                                  !lock) ||
+                                              (state.model.returnable == true &&
+                                                  widget.isInward &&
+                                                  (state.model.status == 11 ||
+                                                      state.model.status == 12))
+                                          ? false
+                                          : true),
                                   onTap: () {
                                     if ((isApproverRequesterEmailDepartment &&
                                                 !lock) ||
@@ -2351,18 +2444,19 @@ class _MaterialMovementDetailsViewState
                                         //         lock
                                         //     ? true
                                         //     : false,
-                                        isDisableColor:  ((isApproverRequesterEmailDepartment &&
-                                            !lock) ||
-                                            (state.model.returnable ==
-                                                true &&
-                                                widget.isInward &&
-                                                (state.model.status ==
-                                                    11 ||
-                                                    state.model
-                                                        .status ==
-                                                        12))
-                                            ? false
-                                            : true),
+                                        isDisableColor:
+                                            ((isApproverRequesterEmailDepartment &&
+                                                        !lock) ||
+                                                    (state.model.returnable ==
+                                                            true &&
+                                                        widget.isInward &&
+                                                        (state.model.status ==
+                                                                11 ||
+                                                            state.model
+                                                                    .status ==
+                                                                12))
+                                                ? false
+                                                : true),
                                         onTap: () {
                                           if ((isApproverRequesterEmailDepartment &&
                                                       !lock) ||
@@ -2439,18 +2533,15 @@ class _MaterialMovementDetailsViewState
                                   //         lock
                                   //     ? true
                                   //     : false,
-                                  isDisableColor:  ((isApproverRequesterEmailDepartment &&
-                                      !lock) ||
-                                      (state.model.returnable ==
-                                          true &&
-                                          widget.isInward &&
-                                          (state.model.status ==
-                                              11 ||
-                                              state.model
-                                                  .status ==
-                                                  12))
-                                      ? false
-                                      : true),
+                                  isDisableColor:
+                                      ((isApproverRequesterEmailDepartment &&
+                                                  !lock) ||
+                                              (state.model.returnable == true &&
+                                                  widget.isInward &&
+                                                  (state.model.status == 11 ||
+                                                      state.model.status == 12))
+                                          ? false
+                                          : true),
                                   onTap: () {
                                     if ((isApproverRequesterEmailDepartment &&
                                                 !lock) ||
@@ -3143,9 +3234,10 @@ class _MaterialMovementDetailsViewState
                                                   .mmStatusApproved ||
                                           state.model.status ==
                                               ConstantsIntValue
-                                                  .mmStatusOverDue ||  state.model.status ==
-                                      ConstantsIntValue
-                                          .mmStatusInwardPending ||
+                                                  .mmStatusOverDue ||
+                                          state.model.status ==
+                                              ConstantsIntValue
+                                                  .mmStatusInwardPending ||
                                           lock
                                       ? true
                                       : false,
@@ -3302,7 +3394,8 @@ class _MaterialMovementDetailsViewState
 
     return AbsorbPointer(
       absorbing: state.model.lock.isEmptyOrNull &&
-          state.model.status != 0 && state.model.status != null ,
+          state.model.status != 0 &&
+          state.model.status != null,
       child: Column(
         children: [
           Row(
