@@ -1086,7 +1086,7 @@ class DashboardViewState extends State<DashboardView>
   Future<void> getUserDetails() async {
     userName = await SharedPrefs.getUsername();
     email = await SharedPrefs.getEmail();
-
+    if (!mounted) return;
     setState(() {});
   }
 
@@ -1368,7 +1368,7 @@ class DashboardViewState extends State<DashboardView>
 
     return Stack(
       children: [
-        // 🔹 Full screen Background Image
+        //  Full screen Background Image
         Positioned.fill(
           child: Image.asset(
             'assets/images/bg2.png',
@@ -1388,7 +1388,7 @@ class DashboardViewState extends State<DashboardView>
           ),
         ),
 
-        // 🔹 Content
+        //  Content
         SafeArea(
           top: true, // respects status bar
           bottom: false,

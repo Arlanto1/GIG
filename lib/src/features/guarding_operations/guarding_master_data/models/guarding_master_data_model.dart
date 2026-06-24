@@ -135,6 +135,12 @@ class GuardingMastersDataModel extends BaseObject {
   String? modifiedBy;
   String? modifiedDate;
   String? greenBgvDate;
+  String? escalation1;
+  String? escalation2;
+  bool healthInsurance;
+  String? healthInsuranceInfo;
+  String? healthInsuranceExpireDate;
+
 
   GuardingMastersDataModel({
     this.id,
@@ -213,6 +219,11 @@ class GuardingMastersDataModel extends BaseObject {
     this.modifiedBy,
     this.modifiedDate,
     this.greenBgvDate,
+    this.escalation1,
+    this.escalation2,
+    this.healthInsurance = false,
+    this.healthInsuranceInfo,
+    this.healthInsuranceExpireDate,
   });
 
   factory GuardingMastersDataModel.fromJson(Map<String, dynamic> json) {
@@ -342,6 +353,11 @@ class GuardingMastersDataModel extends BaseObject {
       modifiedBy: json['modifiedBy'] as String?,
       modifiedDate: json['modifiedDate'] as String?,
       greenBgvDate: json['greenBgvDate'] as String?,
+      escalation1: json['escalation1'] as String?,
+      escalation2: json['escalation2'] as String?,
+      healthInsurance: json['healthInsurance'] as bool,
+      healthInsuranceInfo: json['healthInsuranceInfo'] as String?,
+      healthInsuranceExpireDate: json['healthInsuranceExpireDate'] as String?,
     );
   }
 
@@ -419,7 +435,12 @@ class GuardingMastersDataModel extends BaseObject {
       'msgbExemptionDate': msgbExemptionDate,
       'modifiedBy': modifiedBy,
       'modifiedDate': modifiedDate,
-      'greenBgvDate': greenBgvDate
+      'greenBgvDate': greenBgvDate,
+      'escalation1':escalation1,
+      'escalation2':escalation2,
+      'healthInsurance':healthInsurance,
+     'healthInsuranceExpireDate': healthInsuranceExpireDate,
+     'healthInsuranceInfo': healthInsuranceInfo,
     };
   }
 }

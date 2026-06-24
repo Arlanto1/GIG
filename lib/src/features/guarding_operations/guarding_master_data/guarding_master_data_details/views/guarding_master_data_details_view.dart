@@ -694,6 +694,87 @@ class _GuardingMasterDataDetailsViewState
                                     height * 0.02,
                                   ),
 
+
+                                  /// Branch head-Escalation 1
+                                  CommonWidgets.textDisplay(
+                                    // state.labels?.locale.employeeCode ??
+                                    //     state.labels?.defaultLocale
+                                    //         .employeeCode ??
+                                        Constants.branchHeadEscalation1,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+                                  FlutterInputField(
+                                    textInputType: TextInputType.number,
+                                    initialValue: state.model.escalation1,
+                                    textFormKey: Keys.guardingAgencyKey,
+                                    hintText: '',
+                                    isEnable: false,
+                                    // widget.guardingMasterData == null
+                                    //     ? true
+                                    //     : (widget.guardingMasterData != null &&
+                                    //             (widget.guardingMasterData
+                                    //                     ?.employeeCode ==
+                                    //                 null))
+                                    //         ? false
+                                    //         : true,
+                                    isDisableColor: true,
+                                    onChange: (String value) {
+                                      // state.model.employeeCode = value;
+                                      // context
+                                      //     .read<
+                                      //     GuardingMasterDataDetailsCubit>()
+                                      //     .onModelValueChange(state.model);
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+                                  /// Zonal head-Escalation 2
+                                  CommonWidgets.textDisplay(
+                                    // state.labels?.locale.employeeCode ??
+                                    //     state.labels?.defaultLocale
+                                    //         .employeeCode ??
+                                    Constants.zonalHeadEscalation2,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+                                  FlutterInputField(
+                                    textInputType: TextInputType.number,
+                                    initialValue: state.model.escalation2,
+                                    textFormKey: Keys.guardingAgencyKey,
+                                    hintText: '',
+                                    isEnable: false,
+                                    // widget.guardingMasterData == null
+                                    //     ? true
+                                    //     : (widget.guardingMasterData != null &&
+                                    //             (widget.guardingMasterData
+                                    //                     ?.employeeCode ==
+                                    //                 null))
+                                    //         ? false
+                                    //         : true,
+                                    isDisableColor: true,
+                                    onChange: (String value) {
+                                      // state.model.employeeCode = value;
+                                      // context
+                                      //     .read<
+                                      //     GuardingMasterDataDetailsCubit>()
+                                      //     .onModelValueChange(state.model);
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
                                   /// Rank
                                   CommonWidgets.textDisplay(
                                     state.labels?.locale.guardRank ??
@@ -2682,6 +2763,109 @@ class _GuardingMasterDataDetailsViewState
                                     height * 0.02,
                                   ),
 
+
+                                  /// Is Guard has health insurance
+                                  CommonWidgets.textDisplay(
+                                    // state.labels?.locale
+                                    //     .deploymentOrderSubmitted ??
+                                    //     state.labels?.defaultLocale
+                                    //         .deploymentOrderSubmitted ??
+                                        Constants.guardHasHealthInsurance,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  RadioButtonsYesNo(
+                                    status: state.model.status ?? 0,
+                                    selectedValue:
+                                    state.model.healthInsurance
+                                        ? 1
+                                        : 0,
+                                    onChangedYes: null,
+                                    // widget.guardingMasterData?.status == 6
+                                    //     ? null
+                                    // : (val) {
+                                    //     state.model.deploymentOrderSubmitted = true;
+                                    //     BlocProvider.of<
+                                    //                 GuardingMasterDataDetailsCubit>(
+                                    //             context)
+                                    //         .showFields(
+                                    //             deploymentOrderSubmitted: true);
+                                    //     .onModelValueChange(state.guardingMasterData
+                                    //     );
+                                    //  },
+                                    onChangedNo: null,
+                                    // widget.guardingMasterData?.status == 4
+                                    //                               ? null
+                                    //                               : (val) {
+                                    //                                   state.model.deploymentOrderSubmitted =
+                                    //                                       false;
+                                    //                                   BlocProvider.of<
+                                    //                                               GuardingMasterDataDetailsCubit>(
+                                    //                                           context)
+                                    //                                       .showFields(
+                                    //                                           deploymentOrderSubmitted: false);
+                                    //                                 },
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+
+                                  /// Health Insurance Info
+                                  CommonWidgets.textDisplay(
+                                    // state.labels?.locale.localAddress ??
+                                    //     state.labels?.defaultLocale
+                                    //         .localAddress ??
+                                        Constants.healthInsuranceInfo,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001,
+                                  ),
+                                  FlutterInputField(
+                                    lineHeight: 6,
+                                    characterLimit: Constants
+                                        .characterLimitDescTextFormField,
+                                    initialValue: state.model.healthInsuranceInfo,
+                                    textFormKey: Keys.localAddressKey,
+                                    hintText: Constants.informationhere,
+                                    showBorder: true,
+                                    isEnable: false,
+                                    // state.model.status != 6,
+                                    isDisableColor: true,
+                                    // state.model.status == 6,
+                                    onChange: (String value) {
+                                      state.model.healthInsuranceInfo = value;
+                                      context
+                                          .read<
+                                          GuardingMasterDataDetailsCubit>()
+                                          .onModelValueChange(state.model);
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
+
+
+                                  /// Health Insurance valid until
+                                  CommonWidgets.textDisplay(
+                                    // state.labels?.locale.date ??
+                                    //     state.labels?.defaultLocale.date ??
+                                    Constants.healthInsuranceValidUntil,
+                                    Styles.textStyleWhite16,
+                                    isMandatory: true,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01,
+                                  ),
+                                  datecreateWidgetdisplay(
+                                    state.model.healthInsuranceExpireDate ?? '',
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02,
+                                  ),
                                   // /// CSR Participation
                                   // CommonWidgets.textDisplay(
                                   //     state.labels?.locale.csrParticipation ??

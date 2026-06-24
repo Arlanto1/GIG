@@ -177,21 +177,21 @@ class _TrainingItemsListViewState extends State<TrainingItemsListView> {
                           //       Constants.twentyFourHourDateTimeFormat)
                           //       : '',
                           // ),
-                          // Label(
-                          //   key: Constants.creatorName,
-                          //   value:
-                          //   item.creatorName??'',
-                          // ),
-                          // Label(
-                          //   key: Constants.creatorEmail,
-                          //   value:
-                          //   item.creatorEmail??'',
-                          // ),
-                          // Label(
-                          //   key: Constants.trainingType,
-                          //   value:
-                          //   item.trainingType??'',
-                          // ),
+                          Label(
+                            key: Constants.currentSession,
+                            value:
+                            'Current: Session ${item.sessionNumber}',
+                          ),
+                          Label(
+                            key: Constants.trainerName,
+                            value:
+                            item.trainerName,
+                          ),
+                          Label(
+                            key: Constants.entity,
+                            value:
+                            item.entity,
+                          ),
                           Label(
                             key: Constants.status,
                             value: item.status,

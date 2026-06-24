@@ -78,7 +78,6 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
             message: state.message ?? '',
             positiveBtnText: Constants.ok,
             onPositivePressed: () {
-              // TODO: Need to improve this code
               Navigator.pop(context);
               Navigator.pop(context);
               Navigator.popAndPushNamed(context, contactDetailsListRoute);
@@ -153,12 +152,12 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
 
 
   getBodybuilder(ContactDetailsState state, height) {
-    if (state.status == FormStatus.loading) {
-      return const BaseLoader();
-    }
+    // if (state.status == FormStatus.loading) {
+    //   return const BaseLoader();
+    // }
     return Stack(
       children: [
-        // 🔹 Background Image
+        //  Background Image
         Positioned.fill(
           child: Image.asset(
             'assets/images/bg2.png',
@@ -166,12 +165,11 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
           ),
         ),
 
-        // 🔹 Blur Layer
         Positioned.fill(
           child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 200, sigmaY: 200),
+            filter: ImageFilter.blur(sigmaX: 100, sigmaY: 100),
             child: Container(
-              color: Colors.black.withValues(alpha: 0.08), // optional tint
+              color: Colors.black.withValues(alpha: 0.1),
             ),
           ),
         ),
@@ -179,6 +177,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
         // color: AppColors.newColor3,
         // color: AppColors.navigationSkyBlueColor,
         SingleChildScrollView(
+          padding: EdgeInsets.zero,
           child: Column(
             children: [
               Container(
@@ -191,7 +190,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.max,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 20.0, right: 20),
@@ -701,7 +700,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                         ],
                       ),
                       // ],
-                      CommonWidgets.verticalSpacerWidget(height * 0.04),
+                      CommonWidgets.verticalSpacerWidget(height * 0.2),
                     ],
                   ),
                 ),
@@ -710,6 +709,15 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
             ],
           ),
         ),
+        if (state.status == FormStatus.loading)
+          Positioned.fill(
+            child: Container(
+              color: Colors.black.withValues(alpha: 0.3), // dim overlay
+              child: const Center(
+                child: BaseLoader(),
+              ),
+            ),
+          ),
       ],
     );
   }

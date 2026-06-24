@@ -154,14 +154,14 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
   }
 
   getBodybuilder(ShiftScheduleDetailsState state, height) {
-    if (state.status == FormStatus.loading) {
-      return const BaseLoader();
-    }
+    // if (state.status == FormStatus.loading) {
+    //   return const BaseLoader();
+    // }
 
     log('-isReadOnly-----${!isReadOnly}- ${state.model.lock.isEmptyOrNull}---');
     return Stack(
       children: [
-        // 🔹 Background Image
+        //  Background Image
         Positioned.fill(
           child: Image.asset(
             'assets/images/bg2.png',
@@ -169,7 +169,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
           ),
         ),
 
-        // 🔹 Blur Layer
+        //  Blur Layer
         Positioned.fill(
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 200, sigmaY: 200),
@@ -602,6 +602,15 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
             ],
           ),
         ),
+        if (state.status == FormStatus.loading)
+          Positioned.fill(
+            child: Container(
+              color: Colors.black.withValues(alpha: 0.3),
+              child: const Center(
+                child: BaseLoader(),
+              ),
+            ),
+          ),
       ],
     );
   }
@@ -622,6 +631,7 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
             Expanded(
               child: Text(
                 poc,
+                style: Styles.textStyleWhite16,
                 textAlign: TextAlign.start,
               ),
             ),

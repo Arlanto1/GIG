@@ -117,6 +117,7 @@ class BasePieChartState extends State<BasePieChart> {
                         width: chartSize,
                         height: chartSize,
                         child: SfCircularChart(
+                          key: UniqueKey(),
                           backgroundColor: Colors.transparent,
                           palette: customGlassColors,
                           tooltipBehavior:

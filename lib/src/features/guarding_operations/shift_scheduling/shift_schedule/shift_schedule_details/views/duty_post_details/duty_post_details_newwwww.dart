@@ -133,13 +133,10 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
   Organisation? selectedShift;
 
   getBody(DutyPostDetailsState state, height) {
-    if (state.status == FormStatus.loading) {
-      return const BaseLoader();
-    }
     return SizedBox.expand(
       child: Stack(
         children: [
-          // 🔹 Background Image
+          //  Background Image
           Positioned.fill(
             child: Image.asset(
               'assets/images/bg2.png',
@@ -147,7 +144,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
             ),
           ),
 
-          // 🔹 Blur Layer
+          //  Blur Layer
           Positioned.fill(
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 200, sigmaY: 200),
@@ -204,9 +201,6 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                                       isMandatory: true,
                                     ),
 
-                                    // Problem: Not displaying selected element
-                                    // please update the below widget to show selected element
-
                                     DropdownWidget(
                                       label: 'Select Rank',
                                       items: state.ranks ?? [],
@@ -237,6 +231,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
                                         // }
                                       },
                                     ),
+
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.01),
 
@@ -338,6 +333,15 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
               ],
             ),
           ),
+          if (state.status == FormStatus.loading)
+            Positioned.fill(
+              child: Container(
+                color: Colors.black.withValues(alpha: 0.3), // dim overlay
+                child: const Center(
+                  child: BaseLoader(),
+                ),
+              ),
+            ),
         ],
       ),
     );
@@ -501,12 +505,12 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10), // ✅ glass blur
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10), //  glass blur
         child: Container(
           height: MediaQuery.of(context).size.height / 2.5,
           width: MediaQuery.of(context).size.width / 2.3,
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.05), // ✅ glass tint
+            color: Colors.white.withValues(alpha: 0.05), //  glass tint
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               color: Colors.white.withValues(alpha: 1),
@@ -810,7 +814,7 @@ class _DutyPostDetailsNewwwwwState extends State<DutyPostDetailsNewwwww> {
 
                       const SizedBox(height: 8),
 
-                      // 🔹 CLOSE BUTTON AT BOTTOM RIGHT
+                      //  CLOSE BUTTON AT BOTTOM RIGHT
                       Align(
                         alignment: Alignment.bottomRight,
                         child: InkWell(

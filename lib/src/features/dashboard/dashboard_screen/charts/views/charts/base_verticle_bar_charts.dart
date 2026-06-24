@@ -29,8 +29,7 @@ class _BaseVerticalBarChartsState extends State<BaseVerticalBarCharts>
   @override
   void initState() {
     super.initState();
-    //
-    // // prepare top oval colors (slightly brighter)
+     // prepare top oval colors (slightly brighter)
     for (int i = 0; i < widget.chartData.length; i++) {
       topOvalColors[widget.chartData[i].x] =
           presetColors[i % presetColors.length].withValues(alpha: 0.95);
@@ -292,7 +291,7 @@ class GradientColumnSegment extends ColumnSegment {
 
     final colors = gradients[index % gradients.length];
 
-    // FIX: Convert RRect → Rect
+    // Convert RRect → Rect
     final rect = segmentRect!.outerRect;
 
     final shader = LinearGradient(

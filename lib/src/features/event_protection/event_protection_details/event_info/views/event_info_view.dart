@@ -1400,6 +1400,7 @@
                                                                   const AddViewButton(
                                                                 label:
                                                                     'Add Article Found',
+
                                                               ),
                                                             ),
 

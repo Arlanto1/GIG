@@ -287,9 +287,8 @@
                                               Colors.white.withValues(alpha: 0.09),
                                               Colors.transparent,
                                               Colors.white.withValues(alpha: 0.09),
-                                              // Color(0xFF6474C6).withOpacity(0.14)
                                             ],
-                                            stops: [0.02, 0.35, 1],
+                                            stops: const [0.02, 0.35, 1],
                                             begin: Alignment.topCenter,
                                             end: Alignment.bottomCenter,
                                           ),

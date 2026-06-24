@@ -411,7 +411,7 @@ class _PatrollingGeneralInfoDetailsView
                                   Styles.textStyleWhite14),
 
                               TextFieldAddButton(
-                                title: state.model.lsm?.userName,
+                                title: state.model.lsm?.name,
                                 height: 75,
                                 isDisableColor: false,
                                 onTap: () {

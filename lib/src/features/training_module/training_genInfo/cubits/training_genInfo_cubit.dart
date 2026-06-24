@@ -1,10 +1,8 @@
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
 import 'package:db_atom/src/features/training_module/models/requestModel/training_module_request.dart';
 import 'package:db_atom/src/features/training_module/services/training_module_service.dart';
-import 'package:intl/intl.dart';
 
 import '../../../incident_management/models/im_ui_labels.dart';
 
@@ -48,7 +46,7 @@ class TrainingGenInfoCubit extends Cubit<TrainingGenInfoState> {
     try {
       final futures = [
         commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
-        commonServices.getUserDetails(userId: userId),
+        // commonServices.getUserDetails(userId: userId),
         // commonServices.getUsersByRole(roleName: 'T1_Analyst'),
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
@@ -59,10 +57,10 @@ class TrainingGenInfoCubit extends Cubit<TrainingGenInfoState> {
       final results = await Future.wait(futures);
 
       Locations getLocationsData = results[0];
-      User loggedInUserDetails = results[1];
+      // User loggedInUserDetails = results[1];
       // Analyst users = results[2];
-      dynamic responseLabels = results[2];
-      Organisation? defaultLocation = results[3];
+      dynamic responseLabels = results[1];
+      Organisation? defaultLocation = results[2];
 
       // Get Date of Creation
       // state.model.inputDate = Utils().getCurrentDate();
@@ -93,13 +91,13 @@ class TrainingGenInfoCubit extends Cubit<TrainingGenInfoState> {
       // state.model.modifiedDate = Utils().getCurrentDate();
 
       CdUiLabels labels = CdUiLabels.fromJson(responseLabels);
-      state.model.creatorName ??= loggedInUserDetails.name;
+      // state.model.creatorName ??= loggedInUserDetails.name;
       // state.model.modifiedBy ??= (loggedInUserDetails.firstName ?? "") +
       //     (loggedInUserDetails.lastName ?? "");
 
       emit(
         state.copyWith(
-          loggedInUserDetails: loggedInUserDetails,
+          // loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
           model: state.model,
           // users: users.t1Analyst,

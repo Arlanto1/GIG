@@ -6,6 +6,8 @@ import 'package:db_atom/src/features/material_movement/models/approval_model.dar
 import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
 import 'package:intl/intl.dart';
 
+import '../../models/requestModels/approval_request.dart';
+
 part 'material_movement_details_state.dart';
 
 class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
@@ -1226,12 +1228,69 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     ));
   }
 
-  // void addMaterialItem() {
-  //   final updatedList = List<MaterialItem>.from(state.materialItems);
-  //   updatedList.add(MaterialItem());
-  //
-  //   emit(state.copyWith(materialItems: updatedList));
-  // }
+
+  Future<void> fetchApprovalById({required int apStepId}) async {
+    emit(state.copyWith(status: FormStatus.loading));
+
+    try {
+      final ApprovalModel approval =
+      await materialMovementServices.getApprovalById(apStepId);
+
+      emit(
+        state.copyWith(
+          status: FormStatus.success,
+          approvalModel: approval,
+        ),
+      );
+    } on Exception catch (e) {
+      emit(
+        state.copyWith(
+          status: FormStatus.error,
+          message: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<bool> approveOrRejectMaterialMovement({
+    required int decision,
+    String? reasonForRejection,
+  }) async {
+    emit(state.copyWith(status: FormStatus.loading));
+
+    final approvalModel = ApprovalModel(
+      apStepId: state.approvalModel.apStepId,
+      decision: decision,
+      reasonForRejection: reasonForRejection,
+      // canSubmitDecision: state.approvalModel?.canSubmitDecision,
+      // location: state.approvalModel?.location,
+      // gatePassApprovers: state.approvalModel?.gatePassApprovers,
+      // requestor: state.approvalModel?.requestor,
+      // objectId: state.approvalModel?.objectId,
+    );
+
+    final request = MaterialApprovalRequest(items: approvalModel);
+
+    try {
+      final GenericResponse response =
+      await materialMovementServices.createMaterialApproval(body: request);
+
+      emit(state.copyWith(
+        message: response.message,
+        status: FormStatus.success,
+      ));
+      return true;
+    } on GenericResponse catch (e) {
+      Utils().emitErrorState(e, emit, state);
+      return false;
+    } on Exception catch (e) {
+      emit(state.copyWith(
+        message: e.toString(),
+        status: FormStatus.error,
+      ));
+      return false;
+    }
+  }
   void addMaterialItem() {
     final updatedList = List<MaterialItem>.from(state.materialItems);
     updatedList.add(MaterialItem());

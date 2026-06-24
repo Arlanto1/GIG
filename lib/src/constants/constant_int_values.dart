@@ -100,6 +100,7 @@ class ConstantsIntValue {
   static const int mmStatusLSMApproved = 4;
   static const int mmStatusLSMRejected = 5;
   static const int mmStatusApproved = 6;
+  // static const int mmSecurityReview = 3; // both are same mmStatusLSMReview
   static const int mmStatusInwardWaiting = 9;
   static const int mmStatusClosed = 10;
   static const int mmStatusInwardPending = 11;

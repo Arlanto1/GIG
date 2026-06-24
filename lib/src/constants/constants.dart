@@ -640,6 +640,11 @@ class Constants {
       'Upload Deployment Order File';
   static const String addQualificationType = 'Add Qualification';
   static const String greenBGVDate = 'Green BGV Date';
+  static const String branchHeadEscalation1 = 'Branch head-Escalation 1';
+  static const String zonalHeadEscalation2 = 'Zonal head-Escalation 2';
+  static const String guardHasHealthInsurance = 'Is Guard has health insurance';
+  static const String healthInsuranceValidUntil = 'Health Insurance valid until';
+  static const String healthInsuranceInfo = 'Health Insurance Info';
 
   // Event Protection
   static const String eventProtectionTitle = 'Event Protection List';
@@ -1181,6 +1186,8 @@ class Constants {
   static const String trainingYear = 'Training Year';
   static const String ownership = 'Ownership';
   static const String endDate = 'End Date';
+  static const String trainerName = 'Trainer Name';
+  static const String currentSession = 'Current Session';
 
 }
 

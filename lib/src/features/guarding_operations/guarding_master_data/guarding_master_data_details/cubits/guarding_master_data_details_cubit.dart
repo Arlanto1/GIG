@@ -115,6 +115,14 @@ class GuardingMasterDataDetailsCubit
           int.tryParse(state.model.modifiedDate ?? '0'),
           Constants.fulldateFormat);
 
+
+      state.model.healthInsuranceExpireDate = state.model.healthInsuranceExpireDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model.healthInsuranceExpireDate ?? '0'),
+          Constants.fulldateFormat);
+
+
       Locations getLocationsData = futures[0];
       User loggedInUserDetails = futures[1];
       // Analyst users = futures[2];

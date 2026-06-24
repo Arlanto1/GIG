@@ -162,7 +162,7 @@ class _AnnualPowerShutdownListDetailsViewState
     }
   }
 
-  getBodybuilder(AnnualPowerShutdownListDetailsState state, height) {
+  Widget getBodybuilder(AnnualPowerShutdownListDetailsState state, height) {
     initializeDates(state);
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
@@ -185,7 +185,7 @@ class _AnnualPowerShutdownListDetailsViewState
     //                 borderRadius:
     //                     BorderRadius.vertical
         return Stack(children: [
-          // 🔹 Background Image
+          //  Background Image
           Positioned.fill(
             child: Image.asset(
               'assets/images/bg2.png',
@@ -193,7 +193,7 @@ class _AnnualPowerShutdownListDetailsViewState
             ),
           ),
 
-          // 🔹 Blur Layer
+          //  Blur Layer
           Positioned.fill(
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 200, sigmaY: 200),

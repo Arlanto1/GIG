@@ -16,7 +16,7 @@ class AddViewButton extends StatelessWidget {
         SvgPicture.asset(
           AppIcon.plusCircle,
           colorFilter: const ColorFilter.mode(
-            AppColors.navigationSkyBlueColor,
+            AppColors.white,
             BlendMode.srcIn,
           ),
         ),
@@ -24,7 +24,7 @@ class AddViewButton extends StatelessWidget {
         Text(
           label,
           style: const TextStyle(
-            color: AppColors.navigationSkyBlueColor,
+            color: AppColors.white,
             decoration: TextDecoration.underline,
           ),
         ),

@@ -91,7 +91,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
     });
   }
 
-  getBody(ContactRecordState state) {
+  Widget getBody(ContactRecordState state) {
     if (state.status == FormStatus.initial ||
         state.status == FormStatus.loading) {
       return const BaseLoader();
@@ -104,7 +104,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         isPopUpShown = true;
         showAddContactPopUp(
-          context: context,
+          // context: context,
           contact: ContactRecord(
             contactId: widget.id,
             email: '',
@@ -121,7 +121,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
 
     return Stack(
       children: [
-        // 🔹 Background
+        //  Background
         Positioned.fill(
           child: Image.asset(
             'assets/images/bg2.png',
@@ -217,7 +217,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
                                                     .withValues(alpha: 0.09),
                                                 // Color(0xFF6474C6).withOpacity(0.14)
                                               ],
-                                              stops: [0.02, 0.35, 1],
+                                              stops: const [0.02, 0.35, 1],
                                               begin: Alignment.topCenter,
                                               end: Alignment.bottomCenter,
                                             ),
@@ -264,8 +264,9 @@ class _ContactRecordViewState extends State<ContactRecordView> {
                                                               .id ??
                                                           0);
 
+                                              if (!mounted) return;
                                               showAddContactPopUp(
-                                                context: context,
+                                                // context: context,
                                                 contact: contactsModel,
                                                 users: state.ranks,
                                                 rankType: widget.rankType,
@@ -315,10 +316,10 @@ class _ContactRecordViewState extends State<ContactRecordView> {
     );
   }
 
-  showAddContactPopUp({
-    required BuildContext context,
+  void showAddContactPopUp({
+    // required BuildContext context,
     required ContactRecord contact,
-    required final List<Organisation> users,
+    required List<Organisation> users,
     required String rankType,
   }) {
     showDialog(

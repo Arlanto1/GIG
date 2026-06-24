@@ -518,13 +518,106 @@ class DropdownWidget extends StatefulWidget {
   DropdownWidgetState createState() => DropdownWidgetState();
 }
 
+// class DropdownWidgetState extends State<DropdownWidget> {
+//   Organisation? selectedElement;
+//
+//   @override
+//   void initState() {
+//     super.initState();
+// // Initialize selectedElement with the first item if isInitial is false
+//     selectedElement = widget.isInitial ?? true
+//         ? null
+//         : widget.items.isNotEmpty
+//         ? widget.items.first
+//         : null;
+//     if (widget.initialValue != null) {
+//       selectedElement = widget.initialValue;
+//     }
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Expanded(
+//       child: ClipRRect(
+//         borderRadius: BorderRadius.circular(18),
+//         child: BackdropFilter(
+//           filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
+//           child: Container(
+//             decoration: BoxDecoration(
+//               borderRadius: BorderRadius.circular(18),
+//               color: Colors.white.withValues(alpha: 0.08), //  glass tint
+//               border: Border.all(
+//                 color: Colors.white.withValues(alpha: 0.35),
+//                 width: 1.2,
+//               ),
+//             ),
+//             padding: const EdgeInsets.symmetric(horizontal: 14),
+//             child: Theme(
+//               //  removes ugly default dropdown background
+//               data: Theme.of(context).copyWith(
+//                 //  DO NOT use white here
+//                 canvasColor: Colors.white,
+//                 splashColor: Colors.white,
+//                 highlightColor: Colors.white,
+//               ),
+//               child: DropdownButtonFormField<Organisation>(
+//                 initialValue: selectedElement,
+//                 isExpanded: false,
+//                 iconEnabledColor: Colors.white,
+//                 dropdownColor: AppColors.newColor3.withValues(alpha: 0.6),
+//                 hint: Text(
+//                   widget.label,
+//                   style: const TextStyle(
+//                     color: Colors.white70,
+//                     fontSize: 14,
+//                   ),
+//                 ),
+//                 style: const TextStyle(
+//                   color: Colors.white,
+//                   fontSize: 15,
+//                   fontWeight: FontWeight.w600,
+//                 ),
+//                 decoration: const InputDecoration(
+//                   border: InputBorder.none,
+//                   contentPadding: EdgeInsets.symmetric(vertical: 14),
+//                 ),
+//                 onChanged: (Organisation? newValue) {
+//                   if (widget.shouldUpdate ?? false) {
+//                     setState(() => selectedElement = newValue);
+//                   }
+//                   widget.onChange?.call(newValue);
+//                 },
+//                 items: widget.items.map((item) {
+//                   return DropdownMenuItem<Organisation>(
+//                     value: item,
+//                     child: Text(
+//                       item.name ?? '',
+//                       overflow: TextOverflow.ellipsis,
+//                       style: const TextStyle(
+//                         color: Colors.white,
+//                         fontWeight: FontWeight.w500,
+//                       ),
+//                     ),
+//                   );
+//                 }).toList(),
+//               ),
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+//
+// }
+//
 class DropdownWidgetState extends State<DropdownWidget> {
   Organisation? selectedElement;
+  OverlayEntry? _overlayEntry;
+  final LayerLink _layerLink = LayerLink();
 
   @override
   void initState() {
     super.initState();
-// Initialize selectedElement with the first item if isInitial is false
     selectedElement = widget.isInitial ?? true
         ? null
         : widget.items.isNotEmpty
@@ -536,77 +629,188 @@ class DropdownWidgetState extends State<DropdownWidget> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(18),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(18),
-              color: Colors.white.withValues(alpha: 0.08), //  glass tint
-              border: Border.all(
-                color: Colors.white.withValues(alpha: 0.35),
-                width: 1.2,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.15),
-                  blurRadius: 20,
-                  offset: const Offset(0, 8),
-                ),
-              ],
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 14),
-            child: Theme(
-              //  removes ugly default dropdown background
-              data: Theme.of(context).copyWith(
-                //  DO NOT use white here
-                canvasColor: Colors.white,
-                splashColor: Colors.white,
-                highlightColor: Colors.white,
-              ),
-              child: DropdownButtonFormField<Organisation>(
-                initialValue: selectedElement,
-                isExpanded: false,
-                iconEnabledColor: Colors.white,
-                dropdownColor: AppColors.newColor3.withValues(alpha: 0.6),
-                hint: Text(
-                  widget.label,
-                  style: const TextStyle(
-                    color: Colors.white70,
-                    fontSize: 14,
-                  ),
-                ),
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                ),
-                decoration: const InputDecoration(
-                  border: InputBorder.none,
-                  contentPadding: EdgeInsets.symmetric(vertical: 14),
-                ),
-                onChanged: (Organisation? newValue) {
-                  if (widget.shouldUpdate ?? false) {
-                    setState(() => selectedElement = newValue);
-                  }
-                  widget.onChange?.call(newValue);
-                },
-                items: widget.items.map((item) {
-                  return DropdownMenuItem<Organisation>(
-                    value: item,
-                    child: Text(
-                      item.name ?? '',
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
+  void dispose() {
+    _removeOverlay();
+    super.dispose();
+  }
+
+  void _removeOverlay() {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+  }
+
+  void _showOverlay() {
+    final RenderBox renderBox = context.findRenderObject() as RenderBox;
+    final size = renderBox.size;
+
+    _overlayEntry = OverlayEntry(
+      builder: (context) => GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: _removeOverlay, // tap outside to dismiss
+        child: Stack(
+          children: [
+            // invisible full screen barrier
+            Positioned.fill(child: Container(color: Colors.transparent)),
+            CompositedTransformFollower(
+              link: _layerLink,
+              showWhenUnlinked: false,
+              offset: Offset(0, size.height + 6), // appear just below field
+              child: Material(
+                color: Colors.transparent,
+                child: GestureDetector(
+                  onTap: () {}, // prevent tap-through
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
+                      child: Container(
+                        width: size.width,
+                        constraints: const BoxConstraints(maxHeight: 250),
+                        decoration: BoxDecoration(
+                          color:  Colors.transparent,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(
+                            color: Colors.white.withValues(alpha: 0.55),
+                            width: 2,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.newColor.withValues(alpha: 0.3),
+                              blurRadius: 20,
+                              offset: const Offset(0, 8),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            // X close button
+                            Align(
+                              alignment: Alignment.topRight,
+                              child: GestureDetector(
+                                onTap: _removeOverlay,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                      top: 10, right: 12),
+                                  child: Icon(
+                                    Icons.close,
+                                    color: Colors.white.withValues(alpha: 0.7),
+                                    size: 26,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            // Items
+                            Flexible(
+                              child: ListView.builder(
+                                padding: const EdgeInsets.only(bottom: 8),
+                                shrinkWrap: true,
+                                itemCount: widget.items.length,
+                                itemBuilder: (context, index) {
+                                  final item = widget.items[index];
+                                  final isSelected =
+                                      selectedElement?.id == item.id;
+                                  return InkWell(
+                                    onTap: () {
+                                      setState(() => selectedElement = item);
+                                      widget.onChange?.call(item);
+                                      _removeOverlay();
+                                    },
+                                    child: Container(
+                                      width: double.infinity,
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 20,
+                                        vertical: 14,
+                                      ),
+                                      child: Text(
+                                        item.name ?? '',
+                                        style: TextStyle(
+                                          color: isSelected
+                                              ? Colors.white
+                                              : Colors.white.withValues(
+                                              alpha: 0.85),
+                                          fontSize: 15,
+                                          fontWeight: isSelected
+                                              ? FontWeight.w600
+                                              : FontWeight.w400,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  );
-                }).toList(),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    Overlay.of(context).insert(_overlayEntry!);
+  }
+
+  void _toggleOverlay() {
+    if (_overlayEntry != null) {
+      _removeOverlay();
+    } else {
+      _showOverlay();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: CompositedTransformTarget(
+        link: _layerLink,
+        child: GestureDetector(
+          onTap:  _toggleOverlay,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(18),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 1, sigmaY: 1),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(18),
+                  color: Colors.white.withValues(alpha: 0.08),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.35),
+                    width: 1.2,
+                  ),
+                ),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 14, vertical: 14),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        selectedElement?.name ?? widget.label,
+                        style: TextStyle(
+                          color: selectedElement != null
+                              ? Colors.white
+                              : Colors.white70,
+                          fontSize: selectedElement != null ? 15 : 14,
+                          fontWeight: selectedElement != null
+                              ? FontWeight.w600
+                              : FontWeight.w400,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    Icon(
+                      _overlayEntry != null
+                          ? Icons.arrow_drop_up
+                          : Icons.arrow_drop_down,
+                      color: Colors.white,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -614,6 +818,4 @@ class DropdownWidgetState extends State<DropdownWidget> {
       ),
     );
   }
-
 }
-

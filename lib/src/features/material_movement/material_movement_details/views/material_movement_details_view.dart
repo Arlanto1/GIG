@@ -181,21 +181,35 @@ class _MaterialMovementDetailsViewState
           lock = true;
         }
 
-        showLikeAndDislikeButton =
-            (state.model.status == ConstantsIntValue.mmStatusLSMReview) &&
-                (state.model.entrySecurity!.email
-                    .equalsIgnoreCase(state.loggedInUserDetails?.email));
+        final loggedInFormatted =
+            '${state.loggedInUserDetails?.email} (${state.loggedInUserDetails?.email}, ${state.loggedInUserDetails?.employeeId})';
 
-        log('showApprovalLikeAndDislikeButton ${showApprovalLikeAndDislikeButton}');
+        final loggedInSecurityReview =
+            '${state.loggedInUserDetails?.email} (${state.loggedInUserDetails?.email})';
+
+        showLikeAndDislikeButton =
+            ((state.model.status == ConstantsIntValue.mmStatusLSMReview) &&
+                ( (state.model.entrySecurity!.email
+                    .equalsIgnoreCase(state.loggedInUserDetails?.email)) ||  (state.model.requestorEmail
+                    .equalsIgnoreCase(loggedInSecurityReview)) ||(state.model.requestor2Email
+                    .equalsIgnoreCase(loggedInSecurityReview)))) || ((state.model.status == ConstantsIntValue.mmStatusLSMApproved) &&
+                (state.model.approver1Email
+                    .equalsIgnoreCase(loggedInFormatted)) || (state.model.approver2Email
+                .equalsIgnoreCase(loggedInFormatted)));
+
+
+        log('100 ${(state.model.requestorEmail
+            .equalsIgnoreCase(loggedInFormatted))}');
+        log('101 ${state.model.requestorEmail}');
+        log('102 $loggedInFormatted');
+
+        log('showApprovalLikeAndDislikeButton $showApprovalLikeAndDislikeButton');
         log('state.model.status == ConstantsIntValue.mmStatusLSMApproved ${state.model.status == ConstantsIntValue.mmStatusLSMApproved}');
         log('1 ${state.model.approver1Email
             .equalsIgnoreCase(state.loggedInUserDetails?.email)}');
         log('2 ${state.model.approver2Email
             .equalsIgnoreCase(state.loggedInUserDetails?.email)}');
-        log('111 ${state.model.approver1Email
-        }');
-        log('222 ${state.model.approver2Email
-           }');
+
         showApprovalLikeAndDislikeButton = state.model.status == ConstantsIntValue.mmStatusLSMApproved && (state.model.approver1Email
             .equalsIgnoreCase(state.loggedInUserDetails?.email) || state.model.approver2Email
             .equalsIgnoreCase(state.loggedInUserDetails?.email));
@@ -240,7 +254,7 @@ class _MaterialMovementDetailsViewState
                 state.status != FormStatus.loading,
             pdfAPIName:
                 '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=$moduleCode',
-            gatePassPdf: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=GMM',
+            // gatePassPdf: '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=GMM',
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
@@ -265,20 +279,33 @@ class _MaterialMovementDetailsViewState
                 securitySignatureController: securitySignatureController,
               );
             },
-            showLikeButton: (showLikeAndDislikeButton || isEligibleToEdit) &&
+            showLikeButton: (showLikeAndDislikeButton) &&
                 !lock &&
                 state.status != FormStatus.loading,
             onTapLikeButton: () {
-              FocusScope.of(context).unfocus();
-              BlocProvider.of<MaterialMovementDetailsCubit>(context).submitForm(
-                isApprovedOnly: true,
-                isSaveOnly: false,
-                isRejectOnly: false,
-                receiverSignatureController: receiverSignatureController,
-                securitySignatureController: securitySignatureController,
-              );
+              if(state.model.status != ConstantsIntValue.mmStatusLSMApproved) {
+                FocusScope.of(context).unfocus();
+                BlocProvider
+                    .of<MaterialMovementDetailsCubit>(context)
+                    .submitForm(
+                  isApprovedOnly: true,
+                  isSaveOnly: false,
+                  isRejectOnly: false,
+                  receiverSignatureController: receiverSignatureController,
+                  securitySignatureController: securitySignatureController,
+                );
+              }
+              if(state.model.status == ConstantsIntValue.mmStatusLSMApproved) {
+                context.read<MaterialMovementDetailsCubit>().fetchApprovalById(
+                  apStepId: state.approvalModel.apStepId ?? 0,
+                );
+                BlocProvider
+                    .of<MaterialMovementDetailsCubit>(context)
+                    .approveOrRejectMaterialMovement(decision: 1);
+
+              }
             },
-            showDisLikeButton: (showLikeAndDislikeButton  ) ,
+            showDisLikeButton: (showLikeAndDislikeButton) ,
             onTapDislikeButton: () {
               // FocusScope.of(context).unfocus();
               showDialog(
@@ -376,18 +403,18 @@ class _MaterialMovementDetailsViewState
     //     state.model.status == 6 ||
     //     state.model.status == 2);
 
-    bool isQuantityDisabled = state.model.status == 10 ||
-        state.model.status == -1 ||
-        state.model.status == 6 ||
-        state.model.status == 2 ||
-        state.model.status == 3 ||
-        state.model.status == 4 ||
-        !showSaveSubmitButtons ||
-        state.model.status == ConstantsIntValue.mmStatusInwardWaiting ||
-        !state.model.lock.isEmptyOrNull;
+    // bool isQuantityDisabled = state.model.status == 10 ||
+    //     state.model.status == -1 ||
+    //     state.model.status == 6 ||
+    //     state.model.status == 2 ||
+    //     state.model.status == 3 ||
+    //     state.model.status == 4 ||
+    //     !showSaveSubmitButtons ||
+    //     state.model.status == ConstantsIntValue.mmStatusInwardWaiting ||
+    //     !state.model.lock.isEmptyOrNull;
     return Stack(
       children: [
-        // 🔹 Background Image
+        //  Background Image
         Positioned.fill(
           child: Image.asset(
             'assets/images/bg2.png',
@@ -395,7 +422,7 @@ class _MaterialMovementDetailsViewState
           ),
         ),
 
-        // 🔹 Blur Layer
+        //  Blur Layer
         Positioned.fill(
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 200, sigmaY: 200),

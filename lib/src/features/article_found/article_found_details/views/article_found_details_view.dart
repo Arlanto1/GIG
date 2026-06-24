@@ -57,7 +57,7 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
   SignatureController claimantSignatureController = SignatureController();
 
   final FocusNode sentToFocusNode = FocusNode();
-
+  bool ignorePointer = false;
   List<ImageContent> uploadFiles = [];
 
   @override
@@ -69,6 +69,24 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
   @override
   void dispose() {
     super.dispose();
+    returnableTextController.dispose();
+    takenOutOnDateController.dispose();
+    statusController.dispose();
+    expectedDateOfReturnController.dispose();
+    foundDateController.dispose();
+    passValidUntilController.dispose();
+    passTypeController.dispose();
+    colorController.dispose();
+    foundLocationController.dispose();
+    quantityController.dispose();
+    depositorController.dispose();
+    depositorTextController.dispose();
+    employeeIdController.dispose();
+    returnedTimeController.dispose();
+    claimantController.dispose();
+    claimantTextController.dispose();
+    safeStoragePlaceController.dispose();
+    claimantSignatureController.dispose();
   }
 
   bool showSaveSubmitButtons = false;
@@ -199,7 +217,7 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
         : '';
   }
 
-  getBodybuilder(ArticleFoundDetailsState state, height) {
+  Widget getBodybuilder(ArticleFoundDetailsState state, height) {
     initializeDates(state);
     final name = state.model.typeOfArticle?.name?.toLowerCase() ?? '';
 
@@ -216,7 +234,7 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
 
 
     return Stack(children: [
-      // 🌄 Background Image
+      //  Background Image
       Positioned.fill(
         child: Image.asset(
           'assets/images/bg2.png',
@@ -224,7 +242,7 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
         ),
       ),
 
-      // 🔹 Blur Layer
+      //  Blur Layer
       Positioned.fill(
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 100, sigmaY: 100),
@@ -261,7 +279,7 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
                     children: [
                       AbsorbPointer(
                         absorbing:
-                            !showSaveSubmitButtons && IgnorePointer == false,
+                            !showSaveSubmitButtons && !ignorePointer ,
                         child: Column(
                           children: [
                             // if (!state.model.lock.isEmptyOrNull) ...[
@@ -795,7 +813,7 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
                                                 context)
                                             .onCheckBoxChange(state.model);
                                       }),
-                            CommonWidgets.verticalSpacerWidget(height * 0.03),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             if (state.model.depositorDbEmp == true) ...[
                               ///  Depositor Employee Id
@@ -1336,7 +1354,7 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
   }
 
 
-  AbsorbPointer buildSignature({
+  Widget buildSignature({
     required SignatureController controller,
     required String label,
     required double spaceHeight,

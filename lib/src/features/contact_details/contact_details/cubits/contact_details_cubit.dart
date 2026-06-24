@@ -160,7 +160,6 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
     ContactDetailsGiRequest request =
         ContactDetailsGiRequest(cdGi: state.model);
 
-    // TODO: Need to change from Backend- Status should be handled from backend
     state.model.status ??= 0;
     try {
       GenericResponse response = GenericResponse();

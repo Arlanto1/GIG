@@ -393,31 +393,14 @@ class _MaterialMovementsViewState extends State<MaterialMovementsView> {
                                                       true,
                                                   isEventProtectionStatus:
                                                       false,
-                                                  // showApproveButton: (state
-                                                  //                 .items[index]
-                                                  //                 .status ==
-                                                  //     ConstantsIntValue
-                                                  //         .mmStatusLSMApproved)
-                                                      // &&
-                                                      //     ((state.items[index]
-                                                      //                 .approver1Email ==
-                                                      //             state
-                                                      //                 .items[index].entrySecurity
-                                                      //                 ?.email) ||
-                                                      //         (state.items[index]
-                                                      //             .approver2Email ==
-                                                      //             state
-                                                      //                 .items[index].entrySecurity
-                                                      //                 ?.email))
-                                                      // ? true
-                                                      // : false,
-                                                  // onApproveTap: (index) {
-                                                  //   context.read<MaterialMovementBloc>().add(
-                                                  //     FetchApprovalById(
-                                                  //       apStepId: state.items[index].approverStepId!,
-                                                  //     ),
-                                                  //   );
-                                                  // },
+                                                  showApproveButton: false,
+                                                  onApproveTap: (index) {
+                                                    context.read<MaterialMovementBloc>().add(
+                                                      FetchApprovalById(
+                                                        apStepId: state.items[index].approverStepId!,
+                                                      ),
+                                                    );
+                                                  },
 
 
                                                   onTap: (selectedIndex) {
