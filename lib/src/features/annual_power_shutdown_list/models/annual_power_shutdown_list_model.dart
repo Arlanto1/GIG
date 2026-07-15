@@ -173,17 +173,17 @@ class AnnualPowerShutdownListModel extends BaseObject {
 
 class EventProtectionGuardsInfos {
   EventProtectionGuardsInfos({
-    required this.id,
-    required this.staffCategory,
-    required this.staffCategoryCount,
-    required this.totalDutyHours,
-    required this.totalCost,
+     this.id,
+     this.staffCategory,
+     this.staffCategoryCount,
+     this.totalDutyHours,
+     this.totalCost,
   });
-  late final int id;
-  late final int staffCategory;
-  late final int staffCategoryCount;
-  late final int totalDutyHours;
-  late final int totalCost;
+    int? id;
+    int? staffCategory;
+    int? staffCategoryCount;
+    int? totalDutyHours;
+    double? totalCost;
 
   EventProtectionGuardsInfos.fromJson(Map<String, dynamic> json){
     id = json['id'];

@@ -14,7 +14,7 @@ class BasicWidgetFunctions {
           Text(
             email,
             textAlign: TextAlign.start,
-              style: const TextStyle(color: Colors.white)
+              style: const TextStyle(color: Colors.white,fontSize: 18)
           ),
           if (showDeleteIcon!) ...[
             IconButton(

@@ -671,6 +671,7 @@ class Constants {
   static const String isExtraSecurityDeployed = 'Is Extra Security Deployed';
   static const String totalDutyHours = 'Total Duty Hours';
   static const String numberOfStaff = 'Number of Staff';
+  static const String dutyHours = 'Duty Hours';
 
   static const String numOfSecurityOfficers = 'No. Of Security Officers';
   static const String numOfSecuritySupervisor = 'No. Of Security Supervisor';

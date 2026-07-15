@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/annual_power_shutdown_list/annual_power_shutdown_list_details/cubits/annual_power_shutdown_list_details_cubit.dart';
+import 'package:get/get_navigation/src/root/parse_route.dart';
 
 class AnnualPowerShutdownListDetailsView extends StatefulWidget {
   final AnnualPowerShutdownListModel? model;
@@ -1551,7 +1552,7 @@ class _AnnualPowerShutdownListDetailsViewState
                                     isMandatory: true),
                                 //if (!disableForm) ...[
                                 Opacity(
-                                  opacity: disableForm ? 0.5 : 1,
+                                  opacity: disableForm ? 1 : 1,
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -1801,108 +1802,11 @@ class _AnnualPowerShutdownListDetailsViewState
                                       height * 0.01),
 
 
-                                  ///  Number of Staff
-                                  CommonWidgets.textDisplay(
-                                    // state.labels?.locale.securityGuardCountHrs ??
-                                    //     state.labels?.defaultLocale
-                                    //         .securityGuardCountHrs ??
-                                        Constants.numberOfStaff,
-                                    Styles.textStyleWhite16,
-                                    isMandatory: true,
-                                  ),
-                                  FlutterInputField(
-                                    initialValue:
-                                    '${state.model.eventProtectionGuardsInfos ?? ''}',
-                                    textFormKey: Keys.noOfSecurityGuardsHrsKey,
-                                    textInputType: TextInputType.number,
-                                    isEnable: !disableForm,
-                                    isDisableColor: disableForm,
-                                    hintText: '',
-                                    onChange: (String? value) {
-                                      // if (value != null) {
-                                      //   state.model.totalDutyHours =
-                                      //       int.tryParse(value);
-                                      //   budgetCostModel.sgHours =
-                                      //       int.tryParse(value);
-                                      //   getBudgetCost(budgetCostModel, state);
-                                      // }
-                                      // context
-                                      //     .read<
-                                      //         AnnualPowerShutdownListDetailsCubit>()
-                                      //     .onModelValueChange(state.model);
-                                    },
-                                    // validateTextField: (String? user) {},
-                                  ),
-                                  CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01),
+                                  /// Event Protection Guards Info
 
-                                  /// Total Duty Hours
-                                  CommonWidgets.textDisplay(
-                                    // state.labels?.locale.securityGuardCountHrs ??
-                                    //     state.labels?.defaultLocale
-                                    //         .securityGuardCountHrs ??
-                                        Constants.totalDutyHours,
-                                    Styles.textStyleWhite16,
-                                    isMandatory: true,
-                                  ),
-                                  FlutterInputField(
-                                    initialValue:
-                                        '${state.model.eventProtectionGuardsInfos ?? ''}',
-                                    textFormKey: Keys.noOfSecurityGuardsHrsKey,
-                                    textInputType: TextInputType.number,
-                                    isEnable: !disableForm,
-                                    isDisableColor: disableForm,
-                                    hintText: '',
-                                    onChange: (String? value) {
-                                      // if (value != null) {
-                                      //   state.model.totalDutyHours =
-                                      //       int.tryParse(value);
-                                      //   budgetCostModel.sgHours =
-                                      //       int.tryParse(value);
-                                      //   getBudgetCost(budgetCostModel, state);
-                                      // }
-                                      // context
-                                      //     .read<
-                                      //         AnnualPowerShutdownListDetailsCubit>()
-                                      //     .onModelValueChange(state.model);
-                                    },
-                                    // validateTextField: (String? user) {},
-                                  ),
-                                  CommonWidgets.verticalSpacerWidget(
-                                      height * 0.01),
-
-                                  /// Guarding Cost (in INR)
-                                  CommonWidgets.textDisplay(
-                                      state.labels?.locale.budget ??
-                                          state.labels?.defaultLocale.budget ??
-                                          Constants.budget,
-                                      Styles.textStyleWhite16),
-                                  CommonWidgets.verticalSpacerWidget(
-                                      height * 0.001),
-                                  FlutterInputField(
-                                    textInputType: TextInputType.number,
-                                    controller: budgetController,
-                                    // initialValue:
-                                    //     '${state.model.budget ?? 022}',
-                                    textFormKey: Keys.budgetKey,
-                                    hintText: '',
-                                    isEnable: false,
-                                    isDisableColor: disableForm,
-                                    onChange: (double value) {
-                                      // state.model.budget = value;
-                                      // context
-                                      //     .read<
-                                      //         AnnualPowerShutdownListDetailsCubit>()
-                                      //     .onModelValueChange(state.model);
-                                    },
-                                    validateTextField: (String? user) {},
-                                  ),
-
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.01),
-
-
-
+                                  CommonWidgets.verticalSpacerWidget(height * 0.01),
+                                  eventProtectionGuardsInfoTable(state),
+                                  CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                                   /// Guarding Cost (in INR)
                                   CommonWidgets.textDisplay(
@@ -2006,6 +1910,200 @@ class _AnnualPowerShutdownListDetailsViewState
     );
   }
 
+
+  Widget eventProtectionGuardsInfoTable(
+      AnnualPowerShutdownListDetailsState state) {
+    state.model.eventProtectionGuardsInfos ??= [EventProtectionGuardsInfos()];
+    final infos = state.model.eventProtectionGuardsInfos!;
+
+    return Opacity(
+      opacity: disableForm ? 1 : 1,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          /// Header row
+          Row(
+            children: [
+              Expanded(
+                  flex: 3,
+                  child: CommonWidgets.textDisplay(
+                      Constants.staffCategory, Styles.textStyleWhite16)),
+              const SizedBox(width: 8),
+              Expanded(
+                  flex: 2,
+                  child: CommonWidgets.textDisplay(
+                      Constants.numberOfStaff, Styles.textStyleWhite16)),
+              const SizedBox(width: 8),
+              Expanded(
+                  flex: 2,
+                  child: CommonWidgets.textDisplay(
+                      Constants.dutyHours, Styles.textStyleWhite16)),
+              const SizedBox(width: 8),
+              Expanded(
+                  flex: 3,
+                  child: CommonWidgets.textDisplay(
+                      Constants.budget, Styles.textStyleWhite16)),
+              const SizedBox(width: 8), // reserve space to align with "x" column below
+            ],
+          ),
+          // CommonWidgets.verticalSpacerWidget(height * 0.01),
+
+          /// One row per entry
+          ...infos.asMap().entries.map((entry) {
+            final index = entry.key;
+            final info = entry.value;
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 10.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: GestureDetector(
+                      onTap: disableForm
+                          ? null
+                          : () => _showStaffCategoryPicker(context, info, state),
+                      child: AbsorbPointer(
+                        child: FlutterInputField(
+                          key: ValueKey('staffCategory_$index'),
+                          textInputType: TextInputType.text,
+                          initialValue: guardRankDropDownValues
+                              .firstWhereOrNull((l) => l.value == '${info.staffCategory}')
+                              ?.key ??
+                              '',
+                          textFormKey: '${Keys.staffCategoryKey}_$index',
+                          hintText: Constants.staffCategory,
+                          isEnable: !disableForm,
+                          isDisableColor: disableForm,
+                          onChange: (String value) {},
+                          validateTextField: (String? value) {},
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    flex: 2,
+                    child: FlutterInputField(
+                      key: ValueKey('staffCount_$index'),
+                      textInputType: TextInputType.number,
+                      initialValue: info.staffCategoryCount != null
+                          ? '${info.staffCategoryCount}'
+                          : '',
+                      textFormKey: '${Keys.staffCategoryCountKey}_$index',
+                      hintText: '',
+                      isEnable: !disableForm,
+                      isDisableColor: disableForm,
+                      onChange: (String value) {
+                        info.staffCategoryCount = int.tryParse(value);
+                        context
+                            .read<AnnualPowerShutdownListDetailsCubit>()
+                            .onModelValueChange(state.model);
+                      },
+                      validateTextField: (String? value) {},
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    flex: 2,
+                    child: FlutterInputField(
+                      key: ValueKey('dutyHours_$index'),
+                      textInputType: TextInputType.number,
+                      initialValue:
+                      info.totalDutyHours != null ? '${info.totalDutyHours}' : '',
+                      textFormKey: '${Keys.totalDutyHoursKey}_$index',
+                      hintText: '',
+                      isEnable: !disableForm,
+                      isDisableColor: disableForm,
+                      onChange: (String value) {
+                        info.totalDutyHours = int.tryParse(value);
+                        context
+                            .read<AnnualPowerShutdownListDetailsCubit>()
+                            .onModelValueChange(state.model);
+                      },
+                      validateTextField: (String? value) {},
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    flex: 3,
+                    child: FlutterInputField(
+                      key: ValueKey('totalCost_$index'),
+                      textInputType: TextInputType.number,
+                      initialValue: info.totalCost != null ? '${info.totalCost}' : '',
+                      textFormKey: '${Keys.totalCostKey}_$index',
+                      hintText: '',
+                      isEnable: false, // computed/read-only, like the budget field
+                      isDisableColor: disableForm,
+                      onChange: (String value) {},
+                      validateTextField: (String? value) {},
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  GestureDetector(
+                    onTap: disableForm
+                        ? null
+                        : () {
+                      if (infos.length > 1) {
+                        infos.removeAt(index);
+                      } else {
+                        infos[0] = EventProtectionGuardsInfos();
+                      }
+                      BlocProvider.of<AnnualPowerShutdownListDetailsCubit>(
+                          context)
+                          .onCheckBoxChange(state.model);
+                    },
+                    child: SizedBox.fromSize()
+                  ),
+                ],
+              ),
+            );
+          }),
+        ],
+      ),
+    );
+  }
+
+  void _showStaffCategoryPicker(
+      BuildContext context,
+      EventProtectionGuardsInfos info,
+      AnnualPowerShutdownListDetailsState state) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (BuildContext sheetContext) {
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: guardRankDropDownValues.map((label) {
+              final bool isSelected =
+                  '${info.staffCategory}' == label.value;
+              return ListTile(
+                title: Text(
+                  label.key,
+                  style: TextStyle(
+                    color: isSelected ? Colors.white : Colors.black87,
+                    fontWeight:
+                    isSelected ? FontWeight.bold : FontWeight.normal,
+                  ),
+                ),
+                tileColor: isSelected ? const Color(0xFF5C6BC0) : null,
+                onTap: () {
+                  info.staffCategory = int.tryParse(label.value);
+                  Navigator.pop(sheetContext);
+                  BlocProvider.of<AnnualPowerShutdownListDetailsCubit>(context)
+                      .onModelValueChange(state.model);
+                },
+              );
+            }).toList(),
+          ),
+        );
+      },
+    );
+  }
   Widget cancelButtonDisplay() {
     return AppButton(
       width: Constants.cancelButtonWidth,

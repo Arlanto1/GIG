@@ -158,6 +158,7 @@ const List<Label> guardRankDropDownValues = [
   Label(key: 'Lady Security Guard', value: '6'),
 ];
 
+
 const List<Label> staffCategoryDropDownValues = [
   Label(key: 'Guarding Agency', value: '0'),
   Label(key: 'Security Guard', value: '1'),
@@ -569,3 +570,4 @@ const List<Label> csrEventProtectionGiStatus = [
   Label(key: 'Closed', value: '30'),
   Label(key: 'Cancelled', value: '-1'),
 ];
+

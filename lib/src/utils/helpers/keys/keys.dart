@@ -181,6 +181,12 @@ class Keys {
   static const String incidentDescription = 'incidentDescription_im';
   static const String shortIncidentDescription = 'shortIncidentDescription';
 
+
+  static const String staffCategoryKey = 'staffCategoryKey_gd';
+  static const String staffCategoryCountKey = 'staffCategoryCountKey_gd';
+  static const String totalDutyHoursKey = 'totalDutyHoursKey_gd';
+  static const String totalCostKey = 'totalCostKey_gd';
+
   //Occurrence
 
   static const String premisesRoundTknCommentsKey =
