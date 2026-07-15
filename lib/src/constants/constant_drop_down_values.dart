@@ -457,6 +457,8 @@ const List<Label> ticketTypeDropDownValues = [
   Label(key: 'Improvements', value: '2'),
   Label(key: 'Support', value: '3'),
   Label(key: 'Feature', value: '4'),
+  Label(key: 'Spent_print', value: '5'),
+
 ];
 const List<Label> priorityTypeDropDownValues = [
   Label(key: 'Urgent', value: '1'),

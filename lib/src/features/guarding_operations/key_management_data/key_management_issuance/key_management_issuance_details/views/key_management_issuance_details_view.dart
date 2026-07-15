@@ -1026,6 +1026,12 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                         height * 0.02),
                                   ],
 
+
+                                  CommonWidgets.horizontalTextHandling(
+                                      'Signatures : ',''
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.01),
                                   /// Security Signature
                                   buildSignature(
                                       controller: securitySignatureController,
@@ -1049,9 +1055,17 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                       spaceHeight: height,
                                       state: state,
                                       isMandatory: false),
-
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
                                   if (state.model.status != 0 &&
                                       state.model.status != null) ...[
+
+                                    CommonWidgets.horizontalTextHandling(
+                                            'Issuance Summary : ',''
+                                      ),
+
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),
                                     /// Total Allocated
                                     CommonWidgets.horizontalTextHandling(
                                         state.labels?.locale.totalAllocated ??
@@ -1101,6 +1115,12 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.02),
 
+
+                                    CommonWidgets.horizontalTextHandling(
+                                        'Return Details :',''
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.01),
                                     /// Key Return Date And Time
                                     // Text('${state.model.keyReturnDateTime}'),
                                     // if (state

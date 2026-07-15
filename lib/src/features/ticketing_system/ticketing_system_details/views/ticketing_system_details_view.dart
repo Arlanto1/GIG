@@ -278,120 +278,73 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                              /// Created By
-                              CommonWidgets.horizontalTextHandling(
-                                // state.labels?.locale.entrySecurity ??
-                                //     state.labels?.defaultLocale.entrySecurity ??
-                                Constants.createdby,
-                                isMandatory: true,
-                                '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}',
-                              ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+                              // /// Created By
+                              // CommonWidgets.horizontalTextHandling(
+                              //   // state.labels?.locale.entrySecurity ??
+                              //   //     state.labels?.defaultLocale.entrySecurity ??
+                              //   Constants.createdby,
+                              //   isMandatory: true,
+                              //   '${state.model.createdBy?.firstName ?? ''} ${state.model.createdBy?.lastName ?? ''}',
+                              // ),
+                              // CommonWidgets.verticalSpacerWidget(height * 0.02),
+                              //
+                              // /// Date of creation
+                              // CommonWidgets.textDisplay(
+                              //   state.labels?.locale.inputDate ??
+                              //       state.labels?.defaultLocale.inputDate ??
+                              //       Constants.dateofcreation,
+                              //   isMandatory: true,
+                              //   Styles.textStyleWhite14,
+                              // ),
+                              // CommonWidgets.verticalSpacerWidget(
+                              //   height * 0.01,
+                              // ),
+                              // BaseDate().creationDateDisplay(
+                              //   state.model.inputDate ?? '',
+                              // ),
+                              // CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                              /// Date of creation
-                              CommonWidgets.textDisplay(
-                                state.labels?.locale.inputDate ??
-                                    state.labels?.defaultLocale.inputDate ??
-                                    Constants.dateofcreation,
-                                isMandatory: true,
-                                Styles.textStyleWhite14,
-                              ),
-                              CommonWidgets.verticalSpacerWidget(
-                                height * 0.01,
-                              ),
-                              BaseDate().creationDateDisplay(
-                                state.model.inputDate ?? '',
-                              ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+                              // /// Location
+                              // CommonWidgets.textDisplay(
+                              //   state.labels?.locale.location ??
+                              //       state.labels?.defaultLocale.location ??
+                              //       Constants.location,
+                              //   isMandatory: true,
+                              //   Styles.textStyleWhite14,
+                              // ),
+                              // CommonWidgets.verticalSpacerWidget(
+                              //   height * 0.01,
+                              // ),
+                              // BaseLocationDropdown().locationWidgetDisplay(
+                              //   selectedLocationName:
+                              //       state.model.location?.name ?? '',
+                              //   isEnabled: !isReadOnly,
+                              //   context: context,
+                              //   locations: state.locations,
+                              //   onTap: (Organisation? location) async {
+                              //     log('location?.name-----${location?.name}');
+                              //
+                              //     state.model.location = location;
+                              //
+                              //     BlocProvider.of<TicketingSystemDetailsCubit>(
+                              //       context,
+                              //     ).updateLocationDropdownValue(
+                              //       location: location,
+                              //     );
+                              //   },
+                              // ),
+                              // CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                              /// Location
-                              CommonWidgets.textDisplay(
-                                state.labels?.locale.location ??
-                                    state.labels?.defaultLocale.location ??
-                                    Constants.location,
-                                isMandatory: true,
-                                Styles.textStyleWhite14,
-                              ),
-                              CommonWidgets.verticalSpacerWidget(
-                                height * 0.01,
-                              ),
-                              BaseLocationDropdown().locationWidgetDisplay(
-                                selectedLocationName:
-                                    state.model.location?.name ?? '',
-                                isEnabled: !isReadOnly,
-                                context: context,
-                                locations: state.locations,
-                                onTap: (Organisation? location) async {
-                                  log('location?.name-----${location?.name}');
+                              // /// Ticket No.
+                              // CommonWidgets.horizontalTextHandling(
+                              //   // state.labels?.locale.slNo ??
+                              //   //     state.labels?.defaultLocale.slNo ??
+                              //   'Ticket No',
+                              //   isMandatory: true,
+                              //   state.model.ticketNo ?? '',
+                              // ),
+                              // CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                                  state.model.location = location;
-
-                                  BlocProvider.of<TicketingSystemDetailsCubit>(
-                                    context,
-                                  ).updateLocationDropdownValue(
-                                    location: location,
-                                  );
-                                },
-                              ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                              /// Ticket No.
-                              CommonWidgets.horizontalTextHandling(
-                                // state.labels?.locale.slNo ??
-                                //     state.labels?.defaultLocale.slNo ??
-                                'Ticket No',
-                                isMandatory: true,
-                                state.model.ticketNo ?? '',
-                              ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                              /// Ticket Type
-                              CommonWidgets.textDisplay(
-                                // state.labels?.locale.status ??
-                                //     state.labels?.defaultLocale.status ??
-                                Constants.ticketType,
-                                isMandatory: true,
-                                Styles.textStyleWhite14,
-                              ),
-                              CommonWidgets.verticalSpacerWidget(
-                                height * 0.01,
-                              ),
-                              BaseDropDown().getDropDown(
-                                isDisabled: false,
-                                textController: ticketTypeController,
-                                items: ticketTypeDropDownValues,
-                                initialValue: '${state.model.ticketType ??= 0}',
-                                onTap: () {
-                                  BaseDropDown().assetTypeDialog(
-                                    context: context,
-                                    dropDownValues: ticketTypeDropDownValues
-                                        .map((label) => label.key)
-                                        .toList(),
-                                    onTap: (String value) {
-                                      Label? selectedLabel;
-                                      selectedLabel =
-                                          ticketTypeDropDownValues.firstWhere(
-                                        (label) => label.key == value,
-                                        orElse: () => const Label(
-                                          key: '',
-                                          value: '',
-                                        ),
-                                      );
-
-                                      BlocProvider.of<
-                                                  TicketingSystemDetailsCubit>(
-                                              context)
-                                          .updateDropdownValues(
-                                        ticketType: int.tryParse(
-                                          selectedLabel.value,
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                              ),
-
-                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Start Date
                               CommonWidgets.textDisplay(
@@ -409,11 +362,11 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                              /// To date
+                              /// Due date
                               CommonWidgets.textDisplay(
                                 // state.labels?.locale.startTime ??
                                 //     state.labels?.defaultLocale.startTime ??
-                                Constants.toDate,
+                                Constants.duedate,
                                 isMandatory: true,
                                 Styles.textStyleWhite16,
                               ),
@@ -435,6 +388,55 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                                 },
                                 context: context,
                               ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+
+                              /// Tracker
+                              CommonWidgets.textDisplay(
+                                // state.labels?.locale.status ??
+                                //     state.labels?.defaultLocale.status ??
+                                Constants.tracker,
+                                isMandatory: true,
+                                Styles.textStyleWhite14,
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                height * 0.01,
+                              ),
+                              BaseDropDown().getDropDown(
+                                isDisabled: false,
+                                textController: ticketTypeController,
+                                items: ticketTypeDropDownValues,
+                                initialValue: '${state.model.ticketType ??= 0}',
+                                onTap: () {
+                                  BaseDropDown().assetTypeDialog(
+                                    context: context,
+                                    dropDownValues: ticketTypeDropDownValues
+                                        .map((label) => label.key)
+                                        .toList(),
+                                    onTap: (String value) {
+                                      Label? selectedLabel;
+                                      selectedLabel =
+                                          ticketTypeDropDownValues.firstWhere(
+                                                (label) => label.key == value,
+                                            orElse: () => const Label(
+                                              key: '',
+                                              value: '',
+                                            ),
+                                          );
+
+                                      BlocProvider.of<
+                                          TicketingSystemDetailsCubit>(
+                                          context)
+                                          .updateDropdownValues(
+                                        ticketType: int.tryParse(
+                                          selectedLabel.value,
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Priority Type
