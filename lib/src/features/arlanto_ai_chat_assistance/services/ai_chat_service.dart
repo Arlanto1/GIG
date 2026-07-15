@@ -1,4 +1,3 @@
-
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/arlanto_ai_chat_assistance/models/ai_chat_model.dart';
 import 'package:db_atom/src/features/arlanto_ai_chat_assistance/models/requestModel/ai_chat_request.dart';
@@ -8,7 +7,8 @@ class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
   static final String _getList = '$baseUrl/aai/api/aaiRestService/getPrompt';
-  static final String _getById = '$baseUrl/aai/api/aaiRestService/getPromptById?';
+  static final String _getById =
+      '$baseUrl/aai/api/aaiRestService/getPromptById?';
   static final String _create = '$baseUrl/aai/api/aaiRestService/sendPrompt';
 }
 
@@ -31,8 +31,8 @@ class AiChatService {
   //   return ArticleFoundResponseModel.fromJson(response);
   // }
   Future<AIResponseModel> getList() async {
-    final url = "https://api.uat.dbatom.com/aai/api/aaiRestService/getPrompt";
-
+    // final url = "https://api.uat.dbatom.com/aai/api/aaiRestService/getPrompt";
+    final url = Apis._getList;
     final response = await BaseApiService().getRequest(
       url: url,
       isAuthenticated: true,
@@ -41,9 +41,9 @@ class AiChatService {
     return AIResponseModel.fromJson(response);
   }
 
-
   Future<AiChatModel> getById(int id) async {
-    final String url = 'https://api.uat.dbatom.com/aai/api/aaiRestService/getPromptById?id=82$id';
+    // final String url = 'https://api.uat.dbatom.com/aai/api/aaiRestService/getPromptById?id=82$id';
+    final url = Apis._getById;
     final response = await BaseApiService().getRequest(
       url: url,
       isAuthenticated: true,
@@ -54,8 +54,8 @@ class AiChatService {
   Future<AiChatResponseAnswerModel> createAiChat({
     required AiChatRequestModel body,
   }) async {
-    final String url = "https://api.uat.dbatom.com/aai/api/aaiRestService/sendPrompt";
-
+    // final String url = "https://api.uat.dbatom.com/aai/api/aaiRestService/sendPrompt";
+    final url = Apis._create;
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),

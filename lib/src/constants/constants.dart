@@ -159,6 +159,7 @@ class Constants {
   static const String supportContact = "+91 6150 961 6244";
   static const String copyrightText = "Copyright © 2024 Arlanto.";
   static const String submit = "Submit";
+  static const String emailAddress = "Email Address";
 
 
   static const String locationPermissionError =
@@ -553,6 +554,7 @@ class Constants {
   static const String createGunMan = 'Create Gun Man';
   static const String addSecurityGuard = 'Security Guard';
   static const String createOthers = 'Create Others';
+  static const String technicalVendor = 'Technical Vendor';
 
   static const String monthlyCost = 'Monthly Cost';
   static const String days = 'Days';
@@ -665,9 +667,11 @@ class Constants {
   static const String businessPoc = 'Business POC';
   static const String businessPocEscalation = 'Business POC Escalation';
   static const String pONumber = 'PO Number';
-  static const String budget = 'Budget Costs (in INR)';
+  static const String budget = 'Guarding Costs (in INR)';
   static const String isExtraSecurityDeployed = 'Is Extra Security Deployed';
   static const String totalDutyHours = 'Total Duty Hours';
+  static const String numberOfStaff = 'Number of Staff';
+
   static const String numOfSecurityOfficers = 'No. Of Security Officers';
   static const String numOfSecuritySupervisor = 'No. Of Security Supervisor';
   static const String numOfSecurityGuards = 'No. Of Security Guards';
@@ -813,6 +817,8 @@ class Constants {
   static const String supervisorRank = 'Supervisor Rank';
   static const String systemSiEscalationMatrixRank =
       'System (SI) Escalation Matrix';
+  static const String otherContact = 'Other Contact';
+
 
   ///SLA Violation Penalty
   static const String typeOfService = 'Type Of Service';

@@ -573,7 +573,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                                   contactRecordsRoute,
                                   arguments: {
                                     ConstantsArgument.title:
-                                        Constants.cmsEscalationContact,
+                                        Constants.otherContact,
                                     ConstantsArgument.keyLostType: 4,
                                     ConstantsArgument.id: state.model.id,
                                     ConstantsArgument.rankType:
@@ -611,79 +611,79 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                            /// Zonal Escalation Contact
-                            Container(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                state.labels?.locale
-                                        .guardingAgencyZonalManager ??
-                                    state.labels?.defaultLocale
-                                        .guardingAgencyZonalManager ??
-                                    Constants.guardingAgencyZonalManagerContact,
-                                style: Styles.styleHeaderWhiteText16,
-                              ),
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            // /// Zonal Escalation Contact
+                            // Container(
+                            //   alignment: Alignment.topLeft,
+                            //   child: Text(
+                            //     state.labels?.locale
+                            //             .guardingAgencyZonalManager ??
+                            //         state.labels?.defaultLocale
+                            //             .guardingAgencyZonalManager ??
+                            //         Constants.guardingAgencyZonalManagerContact,
+                            //     style: Styles.styleHeaderWhiteText16,
+                            //   ),
+                            // ),
+                            // CommonWidgets.verticalSpacerWidget(height * 0.01),
 
-                            GestureDetector(
-                              onTap: () async {
-                                NavigatorState nav = Navigator.of(context);
-                                // bool isSaveSuccess =
-                                //     await BlocProvider.of<ContactDetailsCubit>(
-                                //             context)
-                                //         .submitForm(
-                                //   isSaveOnly: true,
-                                //   navigateToNextScreen: true,
-                                // );
-                                //
-                                // if (!isSaveSuccess) {
-                                //   return;
-                                // }
-                                log('--state.model.id---${state.model.id}--');
-                                List<Organisation> ranks =
-                                    await CommonServices().getOrganisations(
-                                  name: Constants.contactZone,
-                                );
-                                nav.pushNamed(
-                                  contactRecordsRoute,
-                                  arguments: {
-                                    ConstantsArgument.title: Constants
-                                        .guardingAgencyZonalManagerContact,
-                                    ConstantsArgument.keyLostType: 3,
-                                    ConstantsArgument.id: state.model.id,
-                                    ConstantsArgument.rankType:
-                                        Constants.contactZone,
-                                    ConstantsArgument.ranks: ranks,
-                                    ConstantsArgument.parentStatus:
-                                        state.model.status,
-                                    ConstantsArgument.isLocked:
-                                        state.model.lock,
-                                  },
-                                );
-                              },
-                              child: const Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  // SvgPicture.asset(
-                                  //   AppIcon.pluscircle,
-                                  //   colorFilter: const ColorFilter.mode(
-                                  //     AppColors.navigationSkyBlueColor,
-                                  //     BlendMode.srcIn,
-                                  //   ),
-                                  //   // color: AppColors.navigationSkyBlueColor,
-                                  // ),
-                                  SizedBox(width: 10),
-                                  Text(
-                                    'View Contact(s)',
-                                    style: TextStyle(
-                                      color: AppColors.white,
-                                      decoration: TextDecoration.underline,
-                                      decorationColor: AppColors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                            // GestureDetector(
+                            //   onTap: () async {
+                            //     NavigatorState nav = Navigator.of(context);
+                            //     // bool isSaveSuccess =
+                            //     //     await BlocProvider.of<ContactDetailsCubit>(
+                            //     //             context)
+                            //     //         .submitForm(
+                            //     //   isSaveOnly: true,
+                            //     //   navigateToNextScreen: true,
+                            //     // );
+                            //     //
+                            //     // if (!isSaveSuccess) {
+                            //     //   return;
+                            //     // }
+                            //     log('--state.model.id---${state.model.id}--');
+                            //     List<Organisation> ranks =
+                            //         await CommonServices().getOrganisations(
+                            //       name: Constants.contactZone,
+                            //     );
+                            //     nav.pushNamed(
+                            //       contactRecordsRoute,
+                            //       arguments: {
+                            //         ConstantsArgument.title: Constants
+                            //             .guardingAgencyZonalManagerContact,
+                            //         ConstantsArgument.keyLostType: 3,
+                            //         ConstantsArgument.id: state.model.id,
+                            //         ConstantsArgument.rankType:
+                            //             Constants.contactZone,
+                            //         ConstantsArgument.ranks: ranks,
+                            //         ConstantsArgument.parentStatus:
+                            //             state.model.status,
+                            //         ConstantsArgument.isLocked:
+                            //             state.model.lock,
+                            //       },
+                            //     );
+                            //   },
+                            //   child: const Row(
+                            //     mainAxisAlignment: MainAxisAlignment.start,
+                            //     children: <Widget>[
+                            //       // SvgPicture.asset(
+                            //       //   AppIcon.pluscircle,
+                            //       //   colorFilter: const ColorFilter.mode(
+                            //       //     AppColors.navigationSkyBlueColor,
+                            //       //     BlendMode.srcIn,
+                            //       //   ),
+                            //       //   // color: AppColors.navigationSkyBlueColor,
+                            //       // ),
+                            //       SizedBox(width: 10),
+                            //       Text(
+                            //         'View Contact(s)',
+                            //         style: TextStyle(
+                            //           color: AppColors.white,
+                            //           decoration: TextDecoration.underline,
+                            //           decorationColor: AppColors.white,
+                            //         ),
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),
@@ -807,6 +807,7 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
 
   Widget dateCreateWidgetDisplay(String date) {
     return FlutterInputField(
+      key: ValueKey(date),
       textFormKey: Keys.dateofcreationTextController,
       initialValue: date,
       hintText: '',

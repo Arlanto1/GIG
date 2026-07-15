@@ -47,24 +47,33 @@ SLAViolationPenaltyModel _$SLAViolationPenaltyModelFromJson(
     )..lock = json['lock'] as String?;
 
 Map<String, dynamic> _$SLAViolationPenaltyModelToJson(
-        SLAViolationPenaltyModel instance) =>
-    <String, dynamic>{
-      'lock': instance.lock,
-      'id': instance.id,
-      'slNo': instance.slNo,
-      'location': instance.location,
-      'locationRegion': instance.locationRegion,
-      'inputDate': instance.inputDate,
-      'entrySecurity': instance.entrySecurity,
-      'status': instance.status,
-      'vendor': instance.vendor,
-      'typeOfService': instance.typeOfService,
-      'entity': instance.entity,
-      'dutyPostLocation': instance.dutyPostLocation,
-      'approver': instance.approver,
-      'poc': instance.poc,
-      'attdShiftInfoId': instance.attdShiftInfoId,
-      'entitiesInfo': instance.entitiesInfo,
-      'vendorInfo': instance.vendorInfo,
-      'typeOfServiceInfo': instance.typeOfServiceInfo,
-    };
+    SLAViolationPenaltyModel instance) {
+  final val = <String, dynamic>{
+    'lock': instance.lock,
+    'id': instance.id,
+    'slNo': instance.slNo,
+    'location': instance.location,
+    'locationRegion': instance.locationRegion,
+    'inputDate': instance.inputDate,
+    'entrySecurity': instance.entrySecurity,
+    'status': instance.status,
+    'vendor': instance.vendor,
+    'typeOfService': instance.typeOfService,
+    'entity': instance.entity,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('dutyPostLocation', instance.dutyPostLocation);
+  val['approver'] = instance.approver;
+  val['poc'] = instance.poc;
+  val['attdShiftInfoId'] = instance.attdShiftInfoId;
+  val['entitiesInfo'] = instance.entitiesInfo;
+  val['vendorInfo'] = instance.vendorInfo;
+  val['typeOfServiceInfo'] = instance.typeOfServiceInfo;
+  return val;
+}

@@ -11,6 +11,8 @@ class ContactRecord {
   String? state;
   String? contactNo;
   Organisation? rank;
+  Organisation? vendor;
+  Organisation? department;
   int? type;
   @JsonKey(name: 'escltnLevel')
   int? escalationLevel;
@@ -21,6 +23,8 @@ class ContactRecord {
       this.email,
       this.contactNo,
       this.rank,
+      this.vendor,
+      this.department,
       this.type,
       this.state,
       this.escalationLevel});

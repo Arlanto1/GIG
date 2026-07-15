@@ -38,10 +38,13 @@ class AddContactPopUpState extends State<AddContactPopUp> {
   TextEditingController stateController = TextEditingController();
   TextEditingController contactNoController = TextEditingController();
   TextEditingController escalationLevelController = TextEditingController();
+  TextEditingController departmentController = TextEditingController();
+  TextEditingController vendorController = TextEditingController();
 
   final FocusNode nameFocusNode = FocusNode();
   String name = Constants.name;
   String rank = Constants.rank;
+  String designation = Constants.designation;
   bool isReadonly = true;
 
   @override
@@ -53,7 +56,8 @@ class AddContactPopUpState extends State<AddContactPopUp> {
     nameController.text = widget.model.email ?? '';
     stateController.text = widget.model.state ?? '';
     contactNoController.text = widget.model.contactNo ?? '';
-
+    departmentController.text = widget.model.department?.name ?? '';
+    vendorController.text = widget.model.vendor?.name ?? '';
     if (widget.model.escalationLevel != null) {
       Label matchingLabel = escalationLevelDropDownValues.firstWhere(
           (label) => label.value == widget.model.escalationLevel.toString());
@@ -66,11 +70,12 @@ class AddContactPopUpState extends State<AddContactPopUp> {
 
     if (widget.rankType == Constants.contactGuardingAgencyEscalationRank) {
       name = Constants.name;
-      rank = Constants.guardingAgencyRank;
+      // rank = Constants.guardingAgencyRank;
+      designation = Constants.guardingAgencyRank;
     }
 
     if (widget.rankType == Constants.contactSupervisorRank) {
-      rank = Constants.supervisorRank;
+      designation = Constants.otherContact;
     }
     if (widget.rankType == Constants.contactZone) {
       rank = Constants.zone;
@@ -78,15 +83,19 @@ class AddContactPopUpState extends State<AddContactPopUp> {
 
     if (widget.rankType == Constants.contactSystemEscalationRank) {
       rank = Constants.systemSiEscalationMatrixRank;
+      designation = Constants.systemSiEscalationMatrixRank;
     }
+
+    // if (widget.rankType == Constants.contactGeneralRank) {
+    //   designation = Constants.designation;
+    // }
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Stack(
       children: [
-        // 🔹 BLUR THE ENTIRE BACKGROUND PAGE
+        //  BLUR THE ENTIRE BACKGROUND PAGE
         BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
           child: Container(
@@ -94,7 +103,7 @@ class AddContactPopUpState extends State<AddContactPopUp> {
           ),
         ),
 
-        // 🔹 YOUR ALERT DIALOG
+        //  YOUR ALERT DIALOG
         Center(
           child: AlertDialog(
             insetPadding: const EdgeInsets.symmetric(
@@ -158,81 +167,124 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                               children: <Widget>[
                                 Column(
                                   children: [
-                                    if(widget.rankType != Constants.contactZone)...[
-                                    /// Rank
-                                    CommonWidgets.textDisplay(
-                                      rank,
-                                      Styles.textStyleWhite16,
-                                      //  isMandatory: true,
-                                    ),
-                                    TextFieldAddButton(
-                                      title: rankController.text,
-                                      height: 70,
-                                      isDisableColor: true,
-                                      onTap: () {
-                                        // if(isReadonly){
-                                        //   BaseOrganisationDialog().departmentDialog(
-                                        //       context: widget.mainContext,
-                                        //       organisations: widget.users,
-                                        //       onTap: (Organisation user) {
-                                        //         log('-user.name----${user.name}-');
-                                        //
-                                        //         rankController.text = user.name ?? '';
-                                        //
-                                        //         widget.model.rank ??= Organisation();
-                                        //         widget.model.rank = user;
-                                        //         log('-widget.contact.rank?.name----${widget.model.rank?.name}-');
-                                        //
-                                        //         setState(() {});
-                                        //         FocusScope.of(context)
-                                        //             .requestFocus(nameFocusNode);
-                                        //       },
-                                        //       orgName: widget.rankType ==
-                                        //           Constants.contactGeneralRank
-                                        //           ? 'CONTACT_GENERAL_RANK'
-                                        //           : widget.rankType ==
-                                        //           Constants
-                                        //               .contactGuardingAgencyEscalationRank
-                                        //           ? 'CONTACT_GUARDING_AGENCY_ESCALATION_RANK'
-                                        //           : widget.rankType ==
-                                        //           Constants.contactZone
-                                        //           ? 'CONTACT_ZONE'
-                                        //           : widget.rankType ==
-                                        //           Constants
-                                        //               .contactSystemEscalationRank
-                                        //           ? 'CONTACT_SYSTEM_ESCALATION_RANK'
-                                        //           : 'CONTACT_SUPERVISOR_RANK',
-                                        //       createEntity: false,
-                                        //       title: widget.rankType ==
-                                        //           Constants.contactZone
-                                        //           ? Constants.zone
-                                        //           : widget.rankType ==
-                                        //           Constants.contactGeneralRank
-                                        //           ? Constants.rank
-                                        //           : widget.rankType ==
-                                        //           Constants
-                                        //               .contactSystemEscalationRank
-                                        //           ? Constants
-                                        //           .systemSiEscalationMatrixRank
-                                        //           : widget.rankType ==
-                                        //           Constants
-                                        //               .contactSupervisorRank
-                                        //           ? Constants.supervisorRank
-                                        //           : Constants
-                                        //           .guardingAgencyRank,
-                                        //       functionToCall: () {
-                                        //         log('---functionToCall----');
-                                        //         BlocProvider.of<ContactRecordBloc>(
-                                        //             widget.mainContext)
-                                        //             .add(
-                                        //           const RefreshContactRecordsList(),
-                                        //         );
-                                        //       });
-                                        // }
-                                      },
-                                    )
+                                    if (widget.rankType ==
+                                        Constants.contactGeneralRank) ...[
+                                      /// Department
+                                      CommonWidgets.textDisplay(
+                                        Constants.department,
+                                        Styles.textStyleWhite16,
+                                        //  isMandatory: true,
+                                      ),
+                                      TextFieldAddButton(
+                                        title: departmentController.text,
+                                        height: 70,
+                                        isDisableColor: true,
+                                        onTap: () {},
+                                      ),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
+                                    ],
+                                    if (widget.rankType ==
+                                            Constants
+                                                .contactGuardingAgencyEscalationRank ||
+                                        widget.rankType ==
+                                            Constants
+                                                .contactSystemEscalationRank) ...[
+                                      /// Guarding Vendor
+                                      CommonWidgets.textDisplay(
+                                        widget.rankType ==
+                                                Constants
+                                                    .contactGuardingAgencyEscalationRank
+                                            ? Constants.guardingVendor
+                                            : Constants.technicalVendor,
+                                        Styles.textStyleWhite16,
+                                        //  isMandatory: true,
+                                      ),
+                                      TextFieldAddButton(
+                                        title: vendorController.text,
+                                        height: 70,
+                                        isDisableColor: true,
+                                        onTap: () {},
+                                      ),
+                                      CommonWidgets.verticalSpacerWidget(
+                                          height * 0.01),
+                                    ],
+                                    if (widget.rankType !=
+                                        Constants.contactZone) ...[
+                                      /// Designation
+                                      CommonWidgets.textDisplay(
+                                        designation,
+                                        Styles.textStyleWhite16,
+                                        //  isMandatory: true,
+                                      ),
+                                      TextFieldAddButton(
+                                        title: rankController.text,
+                                        height: 70,
+                                        isDisableColor: true,
+                                        onTap: () {
+                                          // if(isReadonly){
+                                          //   BaseOrganisationDialog().departmentDialog(
+                                          //       context: widget.mainContext,
+                                          //       organisations: widget.users,
+                                          //       onTap: (Organisation user) {
+                                          //         log('-user.name----${user.name}-');
+                                          //
+                                          //         rankController.text = user.name ?? '';
+                                          //
+                                          //         widget.model.rank ??= Organisation();
+                                          //         widget.model.rank = user;
+                                          //         log('-widget.contact.rank?.name----${widget.model.rank?.name}-');
+                                          //
+                                          //         setState(() {});
+                                          //         FocusScope.of(context)
+                                          //             .requestFocus(nameFocusNode);
+                                          //       },
+                                          //       orgName: widget.rankType ==
+                                          //           Constants.contactGeneralRank
+                                          //           ? 'CONTACT_GENERAL_RANK'
+                                          //           : widget.rankType ==
+                                          //           Constants
+                                          //               .contactGuardingAgencyEscalationRank
+                                          //           ? 'CONTACT_GUARDING_AGENCY_ESCALATION_RANK'
+                                          //           : widget.rankType ==
+                                          //           Constants.contactZone
+                                          //           ? 'CONTACT_ZONE'
+                                          //           : widget.rankType ==
+                                          //           Constants
+                                          //               .contactSystemEscalationRank
+                                          //           ? 'CONTACT_SYSTEM_ESCALATION_RANK'
+                                          //           : 'CONTACT_SUPERVISOR_RANK',
+                                          //       createEntity: false,
+                                          //       title: widget.rankType ==
+                                          //           Constants.contactZone
+                                          //           ? Constants.zone
+                                          //           : widget.rankType ==
+                                          //           Constants.contactGeneralRank
+                                          //           ? Constants.rank
+                                          //           : widget.rankType ==
+                                          //           Constants
+                                          //               .contactSystemEscalationRank
+                                          //           ? Constants
+                                          //           .systemSiEscalationMatrixRank
+                                          //           : widget.rankType ==
+                                          //           Constants
+                                          //               .contactSupervisorRank
+                                          //           ? Constants.supervisorRank
+                                          //           : Constants
+                                          //           .guardingAgencyRank,
+                                          //       functionToCall: () {
+                                          //         log('---functionToCall----');
+                                          //         BlocProvider.of<ContactRecordBloc>(
+                                          //             widget.mainContext)
+                                          //             .add(
+                                          //           const RefreshContactRecordsList(),
+                                          //         );
+                                          //       });
+                                          // }
+                                        },
+                                      )
+                                    ],
                                   ],
-                          ],
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.01),
@@ -301,9 +353,9 @@ class AddContactPopUpState extends State<AddContactPopUp> {
                                       height * 0.01),
                                 ],
 
-                                /// Name
+                                /// Email Address
                                 CommonWidgets.textDisplay(
-                                  name,
+                                  Constants.emailAddress,
                                   //isMandatory: true,
                                   Styles.textStyleWhite16,
                                 ),

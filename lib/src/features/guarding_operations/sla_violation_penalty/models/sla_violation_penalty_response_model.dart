@@ -49,6 +49,7 @@ class SLAViolationPenaltyModel extends BaseObject {
   List<Organisation>? vendor;
   List<Organisation>? typeOfService;
   List<Organisation>? entity;
+  @JsonKey(includeIfNull: false)
   Organisation? dutyPostLocation;
   User? approver;
   String? poc;

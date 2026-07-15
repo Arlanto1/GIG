@@ -181,7 +181,7 @@ class _MaterialMovementDetailsViewState
         }
 
         final loggedInFormatted =
-            '${state.loggedInUserDetails?.email} (${state.loggedInUserDetails?.email}, ${state.loggedInUserDetails?.employeeId})';
+            '${state.loggedInUserDetails?.firstName} ${state.loggedInUserDetails?.lastName} (${state.loggedInUserDetails?.email}, ${state.loggedInUserDetails?.employeeId})';
 
         final loggedInSecurityReview =
             '${state.loggedInUserDetails?.email} (${state.loggedInUserDetails?.email})';
@@ -208,6 +208,8 @@ class _MaterialMovementDetailsViewState
         log('state.model.status == ConstantsIntValue.mmStatusLSMApproved ${state.model.status == ConstantsIntValue.mmStatusLSMApproved}');
         log('1 ${state.model.approver1Email.equalsIgnoreCase(state.loggedInUserDetails?.email)}');
         log('2 ${state.model.approver2Email.equalsIgnoreCase(state.loggedInUserDetails?.email)}');
+        log('22 ${state.model.approver1Email}');
+        log('33 ${loggedInFormatted}');
 
         showApprovalLikeAndDislikeButton =
             state.model.status == ConstantsIntValue.mmStatusLSMApproved &&
@@ -299,11 +301,21 @@ class _MaterialMovementDetailsViewState
                 );
               }
               if (state.model.status == ConstantsIntValue.mmStatusLSMApproved) {
-                context.read<MaterialMovementDetailsCubit>().fetchApprovalById(
-                      apStepId: state.approvalModel.apStepId ?? 0,
-                    );
+                // context.read<MaterialMovementDetailsCubit>().fetchApprovalById(
+                //       apStepId: state.approvalModel.apStepId ?? 0,
+                //     );
+                // BlocProvider.of<MaterialMovementDetailsCubit>(context)
+                //     .approveOrRejectMaterialMovement(decision: 1);
+                FocusScope.of(context).unfocus();
                 BlocProvider.of<MaterialMovementDetailsCubit>(context)
-                    .approveOrRejectMaterialMovement(decision: 1);
+                    .submitForm(
+                  isApproverApprovedOnly: true,
+                  isApprovedOnly: false,
+                  isSaveOnly: false,
+                  isRejectOnly: false,
+                  receiverSignatureController: receiverSignatureController,
+                  securitySignatureController: securitySignatureController,
+                );
               }
             },
             showDisLikeButton: (showLikeAndDislikeButton),
@@ -320,16 +332,32 @@ class _MaterialMovementDetailsViewState
                       BlocProvider.of<MaterialMovementDetailsCubit>(context)
                           .onAddRejectionComment(value);
 
-                      BlocProvider.of<MaterialMovementDetailsCubit>(context)
-                          .submitForm(
-                        isRejectOnly: true,
-                        isSaveOnly: false,
-                        isApprovedOnly: false,
-                        receiverSignatureController:
-                            receiverSignatureController,
-                        securitySignatureController:
-                            securitySignatureController,
-                      );
+                      if (state.model.status != ConstantsIntValue.mmStatusLSMApproved) {
+                        BlocProvider.of<MaterialMovementDetailsCubit>(context)
+                            .submitForm(
+                          isApproverRejectedOnly: false,
+                          isRejectOnly: true,
+                          isSaveOnly: false,
+                          isApprovedOnly: false,
+                          receiverSignatureController:
+                          receiverSignatureController,
+                          securitySignatureController:
+                          securitySignatureController,
+                        );
+                      }
+                      if (state.model.status == ConstantsIntValue.mmStatusLSMApproved) {
+                        BlocProvider.of<MaterialMovementDetailsCubit>(context)
+                            .submitForm(
+                          isApproverRejectedOnly: true,
+                          isRejectOnly: false,
+                          isSaveOnly: false,
+                          isApprovedOnly: false,
+                          receiverSignatureController:
+                          receiverSignatureController,
+                          securitySignatureController:
+                          securitySignatureController,
+                        );
+                      }
                       Navigator.pop(context);
                     },
                   );

@@ -59,19 +59,26 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
       dynamic responseLabels = results[2];
       Organisation? defaultLocation = results[3];
 
-      // Get Date of Creation
-      // state.model.inputDate = Utils().getCurrentDate();
 
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(state.model.inputDate ?? '0'),
-              Constants.fulldateFormat);
+          int.tryParse(state.model.inputDate ?? '0'),
+          Constants.fulldateFormat);
+      // state.model.inputDate = state.model.inputDate == null
+      //     ? Utils().getCurrentDate()
+      //     : Utils().formatUnixTimestamp(state.model.inputDate ?? '');
+
+      // Get Date of Creation
+      // state.model.inputDate = Utils().getCurrentDate();
+
+      // state.model.inputDate =  Utils.timestampToDateConversion(
+      //         int.tryParse(state.model.inputDate ?? '0'),
+      //         Constants.fulldateFormat);
       // state.model.inputDate = state.model.inputDate == null ? Utils().getCurrentDate() : Utils().formatUnixTimestamp(state.model.inputDate ?? '') ;
       state.model.modifiedDate = state.model.modifiedDate == null
           ? Utils().getCurrentDate()
           : Utils().formatUnixTimestamp(state.model.modifiedDate ?? '');
-
       // state.model.modifiedDate = Utils().getCurrentDate();
 
       CdUiLabels labels = CdUiLabels.fromJson(responseLabels);

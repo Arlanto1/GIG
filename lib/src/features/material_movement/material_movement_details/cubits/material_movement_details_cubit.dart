@@ -1111,10 +1111,110 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
   //   );
   // }
 
+  // Future<bool> submitForm({
+  //   bool isSaveOnly = false,
+  //   bool isRejectOnly = false,
+  //   bool isApprovedOnly = false,
+  //   bool navigateToNextScreen = false,
+  //   required SignatureController receiverSignatureController,
+  //   required SignatureController securitySignatureController,
+  // }) async {
+  //   emit(state.copyWith(status: FormStatus.loading));
+  //
+  //   try {
+  //     DateTime dateTime;
+  //     if (!Utils().isTimestamp(state.model.inputDate!)) {
+  //       dateTime = DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.inputDate!);
+  //       int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+  //       state.model.inputDate = inputDate.toString();
+  //     }
+  //
+  //     if (state.model.approvedDate != null) {
+  //       if (!Utils().isTimestamp(state.model.approvedDate!)) {
+  //         dateTime = DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.approvedDate!);
+  //         int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+  //         state.model.approvedDate = inputDate.toString();
+  //       }
+  //     }
+  //
+  //     state.model.modifiedDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+  //
+  //     await pushSignature(controller: receiverSignatureController, isReceiverSignature: true);
+  //     await pushSignature(controller: securitySignatureController, isReceiverSignature: false);
+  //
+  //     MaterialMovementRequest request = MaterialMovementRequest(materialMovement: state.model);
+  //     state.model.status ??= 0;
+  //
+  //     //  Single declaration here
+  //     GenericResponse response;
+  //
+  //     if (isSaveOnly) {
+  //       if (!state.isValidDraft.status) {
+  //         emit(state.copyWith(status: FormStatus.formError, message: state.isValidDraft.message));
+  //         return false;
+  //       }
+  //       response = await materialMovementServices.createMaterialMovement(body: request, flow: 1);
+  //     } else if (isRejectOnly) {
+  //       if (!state.isValidDraft.status) {
+  //         emit(state.copyWith(status: FormStatus.formError, message: state.isValidDraft.message));
+  //         return false;
+  //       }
+  //       response = await materialMovementServices.createMaterialMovement(body: request, flow: 4);
+  //     } else if (isApprovedOnly) {
+  //       if (!state.isValid.status) {
+  //         emit(state.copyWith(status: FormStatus.formError, message: state.isValid.message));
+  //         return false;
+  //       }
+  //       response = await materialMovementServices.createMaterialMovement(body: request, flow: 3);
+  //     } else {
+  //       if (!state.isValid.status) {
+  //         emit(state.copyWith(status: FormStatus.formError, message: state.isValid.message));
+  //         return false;
+  //       }
+  //       response = await materialMovementServices.createMaterialMovement(body: request, flow: 2);
+  //     }
+  //
+  //     if (response.id != null) {
+  //       int? id = int.tryParse(response.id!);
+  //       if (id != null) state.model.id = id;
+  //     }
+  //
+  //     state.model.modifiedDate = Utils.timestampToDateConversion(
+  //         int.tryParse(state.model.modifiedDate ?? '0'), Constants.fulldateFormat);
+  //     state.model.inputDate = state.model.inputDate == null
+  //         ? Utils().getCurrentDate()
+  //         : Utils.timestampToDateConversion(
+  //         int.tryParse(state.model.inputDate ?? '0'), Constants.fulldateFormat);
+  //
+  //     //  Emit is now inside try block where response is in scope
+  //     emit(state.copyWith(
+  //       message: response.message, //  use correct casing
+  //       status: navigateToNextScreen ? FormStatus.navigateToNextScreen : FormStatus.success,
+  //     ));
+  //
+  //     return true;
+  //
+  //   } on GenericResponse catch (e) {
+  //     Utils().emitErrorState(e, emit, state);
+  //     state.model.inputDate = state.model.inputDate == null
+  //         ? Utils().getCurrentDate()
+  //         : Utils.timestampToDateConversion(
+  //         int.tryParse(state.model.inputDate ?? '0'), Constants.fulldateFormat);
+  //     return false; //  return false on error, not true
+  //   } on Exception catch (e) {
+  //     emit(state.copyWith(
+  //       message: e.toString(),
+  //       status: FormStatus.error,
+  //     ));
+  //     return false; // explicit return
+  //   }
+  // }
   Future<bool> submitForm({
     bool isSaveOnly = false,
     bool isRejectOnly = false,
     bool isApprovedOnly = false,
+    bool isApproverApprovedOnly = false,
+    bool isApproverRejectedOnly = false,
     bool navigateToNextScreen = false,
     required SignatureController receiverSignatureController,
     required SignatureController securitySignatureController,
@@ -1166,6 +1266,18 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           return false;
         }
         response = await materialMovementServices.createMaterialMovement(body: request, flow: 3);
+      } else if (isApproverApprovedOnly) {
+        if (!state.isValid.status) {
+          emit(state.copyWith(status: FormStatus.formError, message: state.isValid.message));
+          return false;
+        }
+        response = await materialMovementServices.createMaterialMovement(body: request, flow: 5);
+      } else if (isApproverRejectedOnly) {
+        if (!state.isValidDraft.status) {
+          emit(state.copyWith(status: FormStatus.formError, message: state.isValidDraft.message));
+          return false;
+        }
+        response = await materialMovementServices.createMaterialMovement(body: request, flow: 6);
       } else {
         if (!state.isValid.status) {
           emit(state.copyWith(status: FormStatus.formError, message: state.isValid.message));

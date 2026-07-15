@@ -84,6 +84,20 @@ class AnnualPowerShutdownListModel extends BaseObject {
   // Organisation? proposedVendors;
   double? budget;
   String? poNumber;
+  String? vendor1Primary;
+  String? vendor1PrimaryContact;
+  String? vendor1Secondary;
+  String? vendor1SecondaryContact;
+  String? vendor2Primary;
+  String? vendor2PrimaryContact;
+  String? vendor2Secondary;
+  String? vendor2SecondaryContact;
+  String? vendor3Primary;
+  String? vendor3PrimaryContact;
+  String? vendor3Secondary;
+  String? vendor3SecondaryContact;
+  List<EventProtectionGuardsInfos>? eventProtectionGuardsInfos;
+
 
   AnnualPowerShutdownListModel({
     this.id,
@@ -134,6 +148,19 @@ class AnnualPowerShutdownListModel extends BaseObject {
     this.proposedVendors,
     this.budget,
     this.poNumber,
+    this.vendor1Primary,
+    this.vendor1PrimaryContact,
+    this.vendor1Secondary,
+    this.vendor1SecondaryContact,
+    this.vendor2Primary,
+    this.vendor2PrimaryContact,
+    this.vendor2Secondary,
+    this.vendor2SecondaryContact,
+    this.vendor3Primary,
+    this.vendor3PrimaryContact,
+    this.vendor3Secondary,
+    this.vendor3SecondaryContact,
+    this.eventProtectionGuardsInfos,
   });
 
   factory AnnualPowerShutdownListModel.fromJson(Map<String, dynamic> json) =>
@@ -141,4 +168,38 @@ class AnnualPowerShutdownListModel extends BaseObject {
 
   @override
   Map<String, dynamic> toJson() => _$AnnualPowerShutdownListModelToJson(this);
+}
+
+
+class EventProtectionGuardsInfos {
+  EventProtectionGuardsInfos({
+    required this.id,
+    required this.staffCategory,
+    required this.staffCategoryCount,
+    required this.totalDutyHours,
+    required this.totalCost,
+  });
+  late final int id;
+  late final int staffCategory;
+  late final int staffCategoryCount;
+  late final int totalDutyHours;
+  late final int totalCost;
+
+  EventProtectionGuardsInfos.fromJson(Map<String, dynamic> json){
+    id = json['id'];
+    staffCategory = json['staffCategory'];
+    staffCategoryCount = json['staffCategoryCount'];
+    totalDutyHours = json['totalDutyHours'];
+    totalCost = json['totalCost'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['id'] = id;
+    _data['staffCategory'] = staffCategory;
+    _data['staffCategoryCount'] = staffCategoryCount;
+    _data['totalDutyHours'] = totalDutyHours;
+    _data['totalCost'] = totalCost;
+    return _data;
+  }
 }

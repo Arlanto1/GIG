@@ -98,6 +98,23 @@ AnnualPowerShutdownListModel _$AnnualPowerShutdownListModelFromJson(
           .toList(),
       budget: (json['budget'] as num?)?.toDouble(),
       poNumber: json['poNumber'] as String?,
+      vendor1Primary: json['vendor1Primary'] as String?,
+      vendor1PrimaryContact: json['vendor1PrimaryContact'] as String?,
+      vendor1Secondary: json['vendor1Secondary'] as String?,
+      vendor1SecondaryContact: json['vendor1SecondaryContact'] as String?,
+      vendor2Primary: json['vendor2Primary'] as String?,
+      vendor2PrimaryContact: json['vendor2PrimaryContact'] as String?,
+      vendor2Secondary: json['vendor2Secondary'] as String?,
+      vendor2SecondaryContact: json['vendor2SecondaryContact'] as String?,
+      vendor3Primary: json['vendor3Primary'] as String?,
+      vendor3PrimaryContact: json['vendor3PrimaryContact'] as String?,
+      vendor3Secondary: json['vendor3Secondary'] as String?,
+      vendor3SecondaryContact: json['vendor3SecondaryContact'] as String?,
+      eventProtectionGuardsInfos: (json['eventProtectionGuardsInfos']
+              as List<dynamic>?)
+          ?.map((e) =>
+              EventProtectionGuardsInfos.fromJson(e as Map<String, dynamic>))
+          .toList(),
     )..lock = json['lock'] as String?;
 
 Map<String, dynamic> _$AnnualPowerShutdownListModelToJson(
@@ -152,4 +169,17 @@ Map<String, dynamic> _$AnnualPowerShutdownListModelToJson(
       'proposedVendors': instance.proposedVendors,
       'budget': instance.budget,
       'poNumber': instance.poNumber,
+      'vendor1Primary': instance.vendor1Primary,
+      'vendor1PrimaryContact': instance.vendor1PrimaryContact,
+      'vendor1Secondary': instance.vendor1Secondary,
+      'vendor1SecondaryContact': instance.vendor1SecondaryContact,
+      'vendor2Primary': instance.vendor2Primary,
+      'vendor2PrimaryContact': instance.vendor2PrimaryContact,
+      'vendor2Secondary': instance.vendor2Secondary,
+      'vendor2SecondaryContact': instance.vendor2SecondaryContact,
+      'vendor3Primary': instance.vendor3Primary,
+      'vendor3PrimaryContact': instance.vendor3PrimaryContact,
+      'vendor3Secondary': instance.vendor3Secondary,
+      'vendor3SecondaryContact': instance.vendor3SecondaryContact,
+      'eventProtectionGuardsInfos': instance.eventProtectionGuardsInfos,
     };
