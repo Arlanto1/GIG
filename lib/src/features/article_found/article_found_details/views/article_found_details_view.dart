@@ -386,8 +386,8 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
                               characterLimit:
                                   Constants.characterLimitIdTextFormField,
                               hintText: '',
-                              isEnable: !isReadOnly,
-                              isDisableColor: isReadOnly,
+                              isEnable: showSaveSubmitButtons,
+                              isDisableColor: !showSaveSubmitButtons,
                               onChange: (String value) {
                                 state.model.safeStoragePlace = value;
                                 context
@@ -444,13 +444,13 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
                                   Styles.textStyleWhite16,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.idCardManager?.employeeId,
+                                title: '${state.model.idCardManager?.name} (${state.model.idCardManager?.email})',
                                 height: 75,
                                 isDisableColor: !editFields,
                                 onTap: () {
                                   if (editFields) {
                                     BaseOrganisationDialog().userDialog(
-                                      employeeId: true,
+                                      employeeId: false,
                                       context: context,
                                       users: state.idCardManger,
                                       isDbUser: true,
@@ -493,13 +493,13 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
                                   Styles.textStyleWhite16,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: state.model.idCardEmployee?.employeeId,
+                                title: '${state.model.idCardManager?.name} (${state.model.idCardManager?.email})',
                                 height: 75,
                                 isDisableColor: !editFields,
                                 onTap: () {
                                   if (editFields) {
                                     BaseOrganisationDialog().userDialog(
-                                      employeeId: true,
+                                      employeeId: false,
                                       context: context,
                                       users: state.idCardEmployee,
                                       isDbUser: true,
