@@ -205,8 +205,7 @@ class ArticleFoundModel {
     'idCardManager':idCardManager?.toJson(),
     'lock':lock,
     'modificationHistory':modificationHistory,
-    'articleCategory' : articleCategory?.toJson(),
-    'approximateValue':approximateValue,
+    if (articleCategory != null) 'articleCategory' : articleCategory!.toJson(),    'approximateValue':approximateValue,
   };
 }
 

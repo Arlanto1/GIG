@@ -396,20 +396,20 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
 
   }
 
-  void makeSignEditable(
-      {bool? receiverSign, bool? securitySignatureSignEditable}) {
-    emit(
-      state.copyWith(
-        status: FormStatus.loading,
-      ),
-    );
-    emit(
-      state.copyWith(
-        isReceiverSignEditable: receiverSign,
-        status: FormStatus.initial,
-      ),
-    );
-  }
+  // void makeSignEditable(
+  //     {bool? receiverSign, bool? securitySignatureSignEditable}) {
+  //   emit(
+  //     state.copyWith(
+  //       status: FormStatus.loading,
+  //     ),
+  //   );
+  //   emit(
+  //     state.copyWith(
+  //       isReceiverSignEditable: receiverSign,
+  //       status: FormStatus.initial,
+  //     ),
+  //   );
+  // }
 
   Future<void> pushSignature({
     required SignatureController controller,
@@ -435,7 +435,28 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
       ));
   }
 
+  void clearSign() {
+    emit(state.copyWith(status: FormStatus.loading));
 
+    state.model.claimantSign = null;
+
+    emit(
+      state.copyWith(
+        model: state.model,
+        isReceiverSignEditable: true, // let the UI show the blank pad again
+        status: FormStatus.initial,
+      ),
+    );
+  }
+  void makeSignEditable() {
+    emit(state.copyWith(status: FormStatus.loading));
+    emit(
+      state.copyWith(
+        isReceiverSignEditable: true,
+        status: FormStatus.initial,
+      ),
+    );
+  }
   void submitForm({bool isSaveOnly = false, required SignatureController claimantSignatureController,
   }) async {
     emit(

@@ -1291,41 +1291,42 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
 
 
-                            if(state.model.status !=null)...[
-                            /// Modification History
-                            CommonWidgets.textDisplay(
-                              // state.labels?.locale.additionalInformation ??
-                              //     state.labels?.defaultLocale.additionalInformation ??
-                                Constants.modificationHistory,
-                                Styles.textStyleWhite16,
-                                isMandatory: false),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            FlutterInputField(
-                              lineHeight: 6,
-                              maxVisibleLines: 6,
-                              characterLimit:
-                              Constants.characterLimitDescTextFormField,
-                              initialValue: state.model.modificationHistory,
-                              textFormKey: Keys.premisesRoundTknCommentsKey,
-                              hintText: Constants.informationhere,
-                              showBorder: true,
-                              textInputAction: TextInputAction.newline,
-                              textInputType: TextInputType.multiline,
-                              isEnable: true,
-                              readOnly: true,
-                              isDisableColor: true,
-                              onChange: (String value) {
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            ],
+                            // if(state.model.status !=null)...[
+                            // /// Modification History
+                            // CommonWidgets.textDisplay(
+                            //   // state.labels?.locale.additionalInformation ??
+                            //   //     state.labels?.defaultLocale.additionalInformation ??
+                            //     Constants.modificationHistory,
+                            //     Styles.textStyleWhite16,
+                            //     isMandatory: false),
+                            // CommonWidgets.verticalSpacerWidget(height * 0.01),
+                            // FlutterInputField(
+                            //   lineHeight: 6,
+                            //   maxVisibleLines: 6,
+                            //   characterLimit:
+                            //   Constants.characterLimitDescTextFormField,
+                            //   initialValue: state.model.modificationHistory,
+                            //   textFormKey: Keys.premisesRoundTknCommentsKey,
+                            //   hintText: Constants.informationhere,
+                            //   showBorder: true,
+                            //   textInputAction: TextInputAction.newline,
+                            //   textInputType: TextInputType.multiline,
+                            //   isEnable: true,
+                            //   readOnly: true,
+                            //   isDisableColor: true,
+                            //   onChange: (String value) {
+                            //   },
+                            //   validateTextField: (String? user) {},
+                            // ),
+                            // ],
                             CommonWidgets.verticalSpacerWidget(height * 0.03),
+
 
                             /// SubmitButton
                             if (showSaveSubmitButtons) ...[
                               Row(
                                 mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                MainAxisAlignment.spaceEvenly,
                                 children: [
                                   cancelButtonDisplay(),
                                   if (showSaveSubmitButtons) ...[
@@ -1334,13 +1335,16 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
                                 ],
                               ),
                             ],
-                            if (!showSaveSubmitButtons) ...[
-                              cancelButtonDisplay(),
-                            ],
-                            CommonWidgets.verticalSpacerWidget(height * 0.04),
                           ],
                         ),
+
                       ),
+
+                      /// Kept outside AbsorbPointer so the close button stays tappable
+                      if (!showSaveSubmitButtons) ...[
+                        cancelButtonDisplay(),
+                      ],
+                      CommonWidgets.verticalSpacerWidget(height * 0.04),
                     ],
                   ),
                 ),
@@ -1354,6 +1358,106 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
   }
 
 
+  // Widget buildSignature({
+  //   required SignatureController controller,
+  //   required String label,
+  //   required double spaceHeight,
+  //   required ArticleFoundDetailsState state,
+  //   required bool isMandatory,
+  // }) {
+  //   bool isEditable = false;
+  //   bool isSigned = false;
+  //   bool isReceiver = label.equalsIgnoreCase(Constants.receiverSignature);
+  //     isSigned = state.model.claimantSign != null &&
+  //         !state.model.claimantSign!.imageContent.isEmptyOrNull;
+  //   log('---------');
+  //   return AbsorbPointer(
+  //     absorbing: !(state.model.lock.isEmptyOrNull &&
+  //         state.model.status == 1),
+  //
+  //   child: Column(
+  //       children: [
+  //         Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: [
+  //             Row(
+  //               children: [
+  //                 CommonWidgets.textDisplay(
+  //                   label,
+  //                   Styles.textStyleWhite14,
+  //                 ),
+  //                 if (isMandatory) ...[
+  //                   const Text(
+  //                     ' *',
+  //                     style: TextStyle(color: Colors.red),
+  //                   ),
+  //                 ],
+  //               ],
+  //             ),
+  //             Row(
+  //               children: [
+  //                 state.model.status == 1 &&
+  //                     state.model.lock.isEmptyOrNull
+  //                     ? IconButton(
+  //                   onPressed: () {
+  //                     controller.clear();
+  //                     if (isReceiver) {
+  //                       BlocProvider.of<
+  //                           ArticleFoundDetailsCubit>(
+  //                           context)
+  //                           .makeSignEditable(receiverSign: true);
+  //                     } else {
+  //                       BlocProvider.of<
+  //                           ArticleFoundDetailsCubit>(
+  //                           context)
+  //                           .makeSignEditable(
+  //                           securitySignatureSignEditable: true);
+  //                     }
+  //                   },
+  //                   iconSize: 20,
+  //                   color: Colors.white,
+  //                   icon: const Icon(Icons.refresh),
+  //                 )
+  //                     : SizedBox.fromSize(),
+  //               ],
+  //             ),
+  //           ],
+  //         ),
+  //         CommonWidgets.verticalSpacerWidget(spaceHeight * 0.001),
+  //         ClipRect(
+  //           child: Container(
+  //             decoration: BoxDecoration(
+  //               borderRadius: BorderRadius.circular(2.0),
+  //               border: Border.all(
+  //                 color: AppColors.geryLightBackground,
+  //                 width: 1, // Border width
+  //               ),
+  //             ),
+  //             height: 120,
+  //             width: double.infinity,
+  //             child: (!isEditable && isSigned)
+  //                 ? Image.memory(
+  //               Uint8List.fromList(
+  //                 base64Decode(
+  //                   isReceiver
+  //                       ? state.model.claimantSign!.imageContent ?? ''
+  //                       : state.model.claimantSign!.imageContent ?? '',
+  //                 ),
+  //               ),
+  //               fit: BoxFit.none,
+  //             )
+  //                 : Signature(
+  //               controller: controller,
+  //               backgroundColor: Colors.transparent,
+  //             ),
+  //           ),
+  //         ),
+  //         CommonWidgets.verticalSpacerWidget(spaceHeight * 0.01),
+  //       ],
+  //     ),
+  //   );
+  // }
+
   Widget buildSignature({
     required SignatureController controller,
     required String label,
@@ -1361,26 +1465,12 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
     required ArticleFoundDetailsState state,
     required bool isMandatory,
   }) {
-    bool isEditable = false;
-    bool isSigned = false;
-    bool isReceiver = label.equalsIgnoreCase(Constants.receiverSignature);
-      isSigned = state.model.claimantSign != null &&
-          !state.model.claimantSign!.imageContent.isEmptyOrNull;
-      // isEditable = state.isReceiverSignEditable;
+    final bool isEditable = state.isReceiverSignEditable ?? false;
+    final bool isSigned = state.model.claimantSign != null &&
+        !state.model.claimantSign!.imageContent.isEmptyOrNull;
 
-    // else {
-    //   isSigned = state.model.claimantSign != null &&
-    //       !state.model.claimantSign!.imageContent.isEmptyOrNull;
-    //   isEditable = state.isSecuritySignatureSignEditable;
-    // }
-
-    log('---------');
     return AbsorbPointer(
-      absorbing: !(state.model.lock.isEmptyOrNull &&
-          state.model.status == 1),
-
-      // state.model.status == ConstantsIntValue.closed ||
-      //     state.model.status == ConstantsIntValue.issuanceHandedOverStatus,
+      absorbing: !(state.model.lock.isEmptyOrNull && state.model.status == 1),
       child: Column(
         children: [
           Row(
@@ -1388,37 +1478,18 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
             children: [
               Row(
                 children: [
-                  CommonWidgets.textDisplay(
-                    label,
-                    Styles.textStyleWhite14,
-                  ),
-                  if (isMandatory) ...[
-                    const Text(
-                      ' *',
-                      style: TextStyle(color: Colors.red),
-                    ),
-                  ],
+                  CommonWidgets.textDisplay(label, Styles.textStyleWhite14),
+                  if (isMandatory)
+                    const Text(' *', style: TextStyle(color: Colors.red)),
                 ],
               ),
               Row(
                 children: [
-                  state.model.status == 1 &&
-                      state.model.lock.isEmptyOrNull
+                  state.model.status == 1 && state.model.lock.isEmptyOrNull
                       ? IconButton(
                     onPressed: () {
                       controller.clear();
-                      if (isReceiver) {
-                        BlocProvider.of<
-                            ArticleFoundDetailsCubit>(
-                            context)
-                            .makeSignEditable(receiverSign: true);
-                      } else {
-                        BlocProvider.of<
-                            ArticleFoundDetailsCubit>(
-                            context)
-                            .makeSignEditable(
-                            securitySignatureSignEditable: true);
-                      }
+                      BlocProvider.of<ArticleFoundDetailsCubit>(context).clearSign();
                     },
                     iconSize: 20,
                     color: Colors.white,
@@ -1436,7 +1507,7 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
                 borderRadius: BorderRadius.circular(2.0),
                 border: Border.all(
                   color: AppColors.geryLightBackground,
-                  width: 1, // Border width
+                  width: 1,
                 ),
               ),
               height: 120,
@@ -1444,11 +1515,7 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
               child: (!isEditable && isSigned)
                   ? Image.memory(
                 Uint8List.fromList(
-                  base64Decode(
-                    isReceiver
-                        ? state.model.claimantSign!.imageContent ?? ''
-                        : state.model.claimantSign!.imageContent ?? '',
-                  ),
+                  base64Decode(state.model.claimantSign!.imageContent ?? ''),
                 ),
                 fit: BoxFit.none,
               )
@@ -1463,8 +1530,6 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
       ),
     );
   }
-
-
   Widget cancelButtonDisplay() {
     return AppButton(
       width: Constants.cancelButtonWidth,

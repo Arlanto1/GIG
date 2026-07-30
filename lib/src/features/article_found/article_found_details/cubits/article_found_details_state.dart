@@ -19,7 +19,7 @@ class ArticleFoundDetailsState extends Equatable {
   final List<BaseUser>? idCardEmployee;
   final String? message;
   final AFUiLabels? labels;
-
+  final bool isReceiverSignEditable;
   factory ArticleFoundDetailsState.initial({
     required ArticleFoundModel model,
     required Locations locations,
@@ -99,28 +99,28 @@ class ArticleFoundDetailsState extends Equatable {
       return const ErrorResponse(status: false, message: 'Claimant Signature is Mandatory');
     }
 
-    if((model.typeOfArticle!.name!.toLowerCase().contains('id') ||
-        model.typeOfArticle!.name!.toLowerCase().contains('card')) && (model.idCardManager?.employeeId == model.idCardEmployee?.employeeId)){
-      return const ErrorResponse(status: false, message: 'Manager Name and Employee Name should be different, Please select other user');
-    }
+    // if((model.typeOfArticle.name!.toLowerCase().contains('id') ||
+    //     model.typeOfArticle?.name!.toLowerCase().contains('card')) && (model.idCardManager?.employeeId == model.idCardEmployee?.employeeId)){
+    //   return const ErrorResponse(status: false, message: 'Manager Name and Employee Name should be different, Please select other user');
+    // }
 
-    if(model.claimant?.employeeId!=null && model.idCardManager?.employeeId!= null && (model.idCardManager?.employeeId == model.claimant?.employeeId)){
-      return const ErrorResponse(status: false, message: 'Manager Name and Claimant Name should be different, Please select other user');
-    }
+    // if(model.claimant?.employeeId!=null && model.idCardManager?.employeeId!= null && (model.idCardManager?.employeeId == model.claimant?.employeeId)){
+    //   return const ErrorResponse(status: false, message: 'Manager Name and Claimant Name should be different, Please select other user');
+    // }
+    //
+    // if(model.idCardEmployee?.employeeId !=null && model.claimant?.employeeId !=null  && (model.idCardEmployee?.employeeId == model.claimant?.employeeId)){
+    //   return const ErrorResponse(status: false, message: 'Employee Name and Claimant Name should be different, Please select other user');
+    // }
 
-    if(model.idCardEmployee?.employeeId !=null && model.claimant?.employeeId !=null  && (model.idCardEmployee?.employeeId == model.claimant?.employeeId)){
-      return const ErrorResponse(status: false, message: 'Employee Name and Claimant Name should be different, Please select other user');
-    }
-
-    if((model.typeOfArticle!.name!.toLowerCase().contains('id') ||
-        model.typeOfArticle!.name!.toLowerCase().contains('card')) && model.depositor?.employeeId !=null && model.idCardManager?.employeeId !=null && (model.depositor?.employeeId == model.idCardManager?.employeeId)){
-      return const ErrorResponse(status: false, message: 'Depositor Name and Manager Name should be different, Please select other user');
-    }
-
-    if((model.typeOfArticle!.name!.toLowerCase().contains('id') ||
-        model.typeOfArticle!.name!.toLowerCase().contains('card')) && model.depositor?.employeeId != null && model.idCardEmployee?.employeeId !=null && (model.depositor?.employeeId == model.idCardEmployee?.employeeId)){
-      return const ErrorResponse(status: false, message: 'Depositor Name and Employee Name should be different, Please select other user');
-    }
+    // if((model.typeOfArticle!.name!.toLowerCase().contains('id') ||
+    //     model.typeOfArticle!.name!.toLowerCase().contains('card')) && model.depositor?.employeeId !=null && model.idCardManager?.employeeId !=null && (model.depositor?.employeeId == model.idCardManager?.employeeId)){
+    //   return const ErrorResponse(status: false, message: 'Depositor Name and Manager Name should be different, Please select other user');
+    // }
+    //
+    // if((model.typeOfArticle!.name!.toLowerCase().contains('id') ||
+    //     model.typeOfArticle!.name!.toLowerCase().contains('card')) && model.depositor?.employeeId != null && model.idCardEmployee?.employeeId !=null && (model.depositor?.employeeId == model.idCardEmployee?.employeeId)){
+    //   return const ErrorResponse(status: false, message: 'Depositor Name and Employee Name should be different, Please select other user');
+    // }
     // if (model.entities.isEmptyOrNull) {
     //   return const ErrorResponse(status: false, message: 'Please enter Entities');
     // }
@@ -172,7 +172,7 @@ class ArticleFoundDetailsState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [model, status];
+  List<Object?> get props => [model, status, isReceiverSignEditable];
 
   const ArticleFoundDetailsState({
     required this.status,
@@ -192,6 +192,7 @@ class ArticleFoundDetailsState extends Equatable {
     this.idCardManger,
     this.idCardEmployee,
     this.host,
+    this.isReceiverSignEditable = false,
   });
 
   ArticleFoundDetailsState copyWith({
