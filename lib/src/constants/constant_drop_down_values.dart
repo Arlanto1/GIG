@@ -573,3 +573,10 @@ const List<Label> csrEventProtectionGiStatus = [
   Label(key: 'Cancelled', value: '-1'),
 ];
 
+
+
+const List<Label> transportIncidentStatusValues = [
+  // Label(key: 'Created', value: '0'),
+  Label(key: 'Open', value: '1'),
+  Label(key: 'Closed', value: '2'),
+];

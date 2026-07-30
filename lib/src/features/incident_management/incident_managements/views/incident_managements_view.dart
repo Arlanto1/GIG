@@ -76,33 +76,12 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
       builder: (context, state) {
         log('widget.kldId.isEmptyOrNul--&=${widget.kldId.isEmptyOrNull}');
         log('widget.occId.isEmptyOrNul--&=${widget.occId.isEmptyOrNull}');
+        log('state.extraProperties?.hasWritePermission ${state.extraProperties?.hasWritePermission}');
 
         return Scaffold(
-            backgroundColor: Colors.transparent,
+          backgroundColor: Colors.transparent,
             extendBody: true,
             extendBodyBehindAppBar: true,
-            // floatingActionButton: (state.extraProperties?.hasWritePermission ??
-            //             false) &&
-            //         (widget.occId.isEmptyOrNull) &&
-            //         (widget.kldId.isEmptyOrNull)
-            //
-            //     /// disable + icon when navigating via Shift Occurrence or via Key Issuance
-            //     ? Flutterfloatingbutton(
-            //         backgroundColor: AppColors.navigationSkyBlueColor,
-            //         foregroundColor: AppColors.backgroundWhiteColor,
-            //         onPressed: () => {
-            //           Navigator.pushNamed(
-            //             context,
-            //             incidentManagementDetailsRoute,
-            //             arguments: {
-            //               'occId': widget.occId?.toString(),
-            //               'occType': widget.occType,
-            //               'kldId': widget.kldId?.toString(),
-            //             },
-            //           )
-            //         },
-            //       )
-            //     : const SizedBox(),
             bottomNavigationBar: CustomBottomNavigationBar(
               hasAddPermission: (state.extraProperties?.hasWritePermission ??
                   false) &&

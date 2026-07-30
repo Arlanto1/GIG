@@ -329,7 +329,7 @@ class MaterialMovementDetailsState extends Equatable {
     }
 
     if (
-        model.requestorEmail != null &&
+    (model.inwardMovement == false &&  model.returnable == false)  && model.requestorEmail != null &&
         model.requestorEmail == model.approver1Email) {
       return const ErrorResponse(
           status: false,
@@ -338,7 +338,7 @@ class MaterialMovementDetailsState extends Equatable {
     }
 
     if (
-        model.requestor2Email != null && model.requestorEmail != null &&
+    (model.inwardMovement == false &&  model.returnable == false) && model.requestor2Email != null && model.requestorEmail != null &&
         model.requestorEmail == model.requestor2Email) {
       return const ErrorResponse(
           status: false,
@@ -347,7 +347,7 @@ class MaterialMovementDetailsState extends Equatable {
     }
 
     if (
-        model.requestorEmail != null &&
+    (model.inwardMovement == false &&  model.returnable == false) &&  model.requestorEmail != null &&
         model.requestorEmail == model.approver2Email) {
       return const ErrorResponse(
           status: false,
@@ -356,7 +356,7 @@ class MaterialMovementDetailsState extends Equatable {
     }
 
     if (
-        model.requestor2Email != null &&
+    (model.inwardMovement == false &&  model.returnable == false) &&  model.requestor2Email != null &&
         model.requestor2Email == model.approver2Email) {
       return const ErrorResponse(
           status: false,
@@ -364,7 +364,7 @@ class MaterialMovementDetailsState extends Equatable {
           'Selected Approver2 Email is already selected in other list');
     }
     if (
-        model.approver1Email != null &&
+    (model.inwardMovement == false &&  model.returnable == false) &&     model.approver1Email != null &&
         model.approver1Email == model.approver2Email) {
       return const ErrorResponse(
           status: false,

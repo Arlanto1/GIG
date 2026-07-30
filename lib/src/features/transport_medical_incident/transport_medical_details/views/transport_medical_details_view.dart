@@ -218,7 +218,7 @@ class _TransportMedicalDetailsViewState
 
     return Stack(
       children: [
-        // 🔹 Background Image
+        //  Background Image
         Positioned.fill(
           child: Image.asset(
             'assets/images/bg2.png',
@@ -226,7 +226,7 @@ class _TransportMedicalDetailsViewState
           ),
         ),
 
-        // 🔹 Blur Layer
+        //  Blur Layer
         Positioned.fill(
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 200, sigmaY: 200),
@@ -286,7 +286,33 @@ class _TransportMedicalDetailsViewState
                                   textController: statusController,
                                   items: transportMedicalStatusValues,
                                   initialValue: '${state.model.status ?? 0}',
-                                  onTap: () {}),
+                                onTap: () {
+                                  if (state.model.status==2) {
+                                    BaseDropDown().assetTypeDialog(
+                                      context: context,
+                                      dropDownValues:
+                                      transportIncidentStatusValues
+                                          .map((label) => label.key)
+                                          .toList(),
+                                      onTap: (String value) {
+                                        Label? selectedLabel;
+                                        selectedLabel =
+                                            transportIncidentStatusValues
+                                                .firstWhere(
+                                                  (label) => label.key == value,
+                                              orElse: () =>
+                                              const Label(key: '', value: ''),
+                                            );
+                                        BlocProvider.of<
+                                            TransportMedicalDetailsCubit>(
+                                            context)
+                                            .updateDropdownValues(
+                                            status: int.tryParse(
+                                                selectedLabel.value));
+                                      },
+                                    );
+                                  }
+                                },),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Date of creation
@@ -1061,6 +1087,7 @@ class _TransportMedicalDetailsViewState
                                   textController: shiftLogoutDateTimeController,
                                   onlyDate: false,
                                   showFutureDate: true,
+                                  startDate: state.model.shiftLoginDate,
                                   context: context,
                                   onChange: (String value) {
                                     log('---value-$value------');
@@ -1211,16 +1238,12 @@ class _TransportMedicalDetailsViewState
                                 ///Attachments
                                 CommonWidgets.textDisplay(Constants.map,isMandatory: true,
                                     Styles.textStyleWhite16),
-                                widget.model == null
-                                    ? CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001)
-                                    : Container(),
                                 if (state.model.status == 0 ||
-                                    state.model.status == null) ...[
+                                    state.model.status == null || state.model.status == 1) ...[
                                   BaseImageUpload().uploadWidget(
                                       context: context,
                                       isDisabled: state.model.status != null &&
-                                          state.model.status != 0,
+                                          state.model.status != 0 && state.model.status != 1,
                                       loggedInUserDetails:
                                       state.loggedInUserDetails ?? User(),
                                       getFiles: uploadFiles,
@@ -1247,8 +1270,8 @@ class _TransportMedicalDetailsViewState
                                             .read<
                                             TransportMedicalDetailsCubit>()
                                             .addMapAttachment(
-                                          data: data, // ✅ single item
-                                          images: files, // ✅ full list
+                                          data: data, //  single item
+                                          images: files, //  full list
                                         );
                                       }
                                   ),
@@ -1264,9 +1287,9 @@ class _TransportMedicalDetailsViewState
                                     files: uploadFiles,
                                     moduleCode: '',
                                     isDisabled: state.model.status != null &&
-                                        state.model.status != 0 ? true : false,
+                                        state.model.status != 0 && state.model.status != 1? true : false,
                                     showDeleteIcon: state.model.status !=
-                                        null && state.model.status != 0
+                                        null && state.model.status != 0 && state.model.status != 1
                                         ? false
                                         : true,
                                   ),
@@ -1323,7 +1346,7 @@ class _TransportMedicalDetailsViewState
 
                               const SizedBox(height: 12),
 
-                              /// 🔹 Employees List
+                              ///  Employees List
                               ListView.builder(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
@@ -1349,7 +1372,7 @@ class _TransportMedicalDetailsViewState
                                         CrossAxisAlignment.start,
                                         children: [
 
-                                          /// 🔹 Top Row (Title + Remove)
+                                          ///  Top Row (Title + Remove)
                                           Row(
                                             mainAxisAlignment:
                                             MainAxisAlignment
@@ -1388,7 +1411,7 @@ class _TransportMedicalDetailsViewState
 
                                           const SizedBox(height: 10),
 
-                                          /// 🔹 NAME (Dropdown - your logic)
+                                          ///  NAME (Dropdown - your logic)
                                           TextFieldAddButton(
                                             // title: emp.userInfo,
                                             title:
@@ -1406,7 +1429,7 @@ class _TransportMedicalDetailsViewState
                                                 state.model.location!.id!,
                                                 isDbUser: true,
                                                 onTap: (BaseUser user) {
-                                                  // ✅ update the employee at the correct index
+                                                  //  update the employee at the correct index
                                                   context
                                                       .read<TransportMedicalDetailsCubit>()
                                                       .updateEmployeeUser(index, user);
@@ -1416,7 +1439,7 @@ class _TransportMedicalDetailsViewState
                                                 functionToCall: (BaseUser user) {
                                                   context
                                                       .read<TransportMedicalDetailsCubit>()
-                                                      .updateEmployeeUser(index, user); // ✅ same here
+                                                      .updateEmployeeUser(index, user); //  same here
                                                 },
                                               );
                                             },
@@ -1424,7 +1447,7 @@ class _TransportMedicalDetailsViewState
 
                                           const SizedBox(height: 10),
 
-                                          /// 🔹 Employee ID
+                                          ///  Employee ID
                                           FlutterInputField(
                                             key: ValueKey(emp.employeeId ?? 'emp_$index'),
                                             initialValue:  emp.employeeId,
@@ -1498,7 +1521,7 @@ class _TransportMedicalDetailsViewState
                                               //         .model.id;
                                               //     if (widget.model?.id ==
                                               //         null) {
-                                              //       // ✅ WAIT for save to complete
+                                              //       //  WAIT for save to complete
                                               //       final isSuccess = await cubit
                                               //           .submitForm(
                                               //           isSaveOnly: true, silent: true);
@@ -1509,7 +1532,7 @@ class _TransportMedicalDetailsViewState
                                               //         return;
                                               //       }
                                               //
-                                              //       // ✅ Now ID is available in state
+                                              //       //  Now ID is available in state
                                               //       final savedId = cubit
                                               //           .state.model.id;
                                               //
@@ -1524,7 +1547,7 @@ class _TransportMedicalDetailsViewState
                                               //     final response = await cubit
                                               //         .getNotificationDetailsById(
                                               //       savedId
-                                              //           .toString(), // ✅ use updated ID
+                                              //           .toString(), //  use updated ID
                                               //     );
                                               //
                                               //     final html = response
@@ -1566,7 +1589,7 @@ class _TransportMedicalDetailsViewState
                                                   }
                                                 }
 
-                                                // ✅ Always read the ID from cubit AFTER the save completes
+                                                //  Always read the ID from cubit AFTER the save completes
                                                 final savedId = cubit.state.model.id;
 
                                                 if (savedId == null) {
@@ -1577,7 +1600,7 @@ class _TransportMedicalDetailsViewState
                                                 cubit.clearAttachments();
 
                                                 final response = await cubit.getNotificationDetailsById(
-                                                  savedId.toString(), // ✅ now has the correct ID
+                                                  savedId.toString(), //  now has the correct ID
                                                 );
 
                                                 final html = response.notification;
@@ -1799,7 +1822,7 @@ class _TransportMedicalDetailsViewState
           child: TemplatePreviewPage(
             html: html,
             templateId: templateId,
-            transportId: savedId.toString(), // ✅ from cubit, never null
+            transportId: savedId.toString(), //  from cubit, never null
             showSaveButtons: true,
             getFiles: getFiles,
           ),
@@ -1886,12 +1909,12 @@ class TemplatePreviewPage extends StatefulWidget {
 
 class _TemplatePreviewPageState extends State<TemplatePreviewPage> {
   final HtmlEditorController quillController = HtmlEditorController();
-  List<ImageContent> localAttachments = []; // ✅ local list
+  List<ImageContent> localAttachments = []; //  local list
   bool _isLoading = false;
   @override
   void initState() {
     super.initState();
-    // ✅ initialize from cubit state
+    //  initialize from cubit state
     final state = context.read<TransportMedicalDetailsCubit>().state;
     localAttachments = List<ImageContent>.from(state.loadAttachments);
   }
@@ -1922,7 +1945,7 @@ class _TemplatePreviewPageState extends State<TemplatePreviewPage> {
                 strokeWidth: 2,
               ),
             )
-                : IconButton(
+                :widget.templateId ==null ? IconButton(
               tooltip: "Submit",
               icon: const Icon(Icons.send, color: Colors.white),
               onPressed: () async {
@@ -1948,7 +1971,7 @@ class _TemplatePreviewPageState extends State<TemplatePreviewPage> {
                   if (context.mounted) setState(() => _isLoading = false);
                 }
               },
-            ),
+            ): SizedBox.fromSize(),
           IconButton(
             tooltip: "Close",
             icon: const Icon(Icons.close, color: Colors.white),
@@ -2045,7 +2068,7 @@ ${widget.html}
 
                   const SizedBox(height: 12),
 
-                  /// ATTACHMENTS — ✅ use localAttachments
+                  /// ATTACHMENTS —  use localAttachments
                   if (localAttachments.isNotEmpty)
                     Expanded(
                       child: Padding(
@@ -2066,8 +2089,8 @@ ${widget.html}
                               padding: const EdgeInsets.all(8),
                               child: BaseImageUpload().getAttachment(
                                 height: height,
-                                attachments: localAttachments, // ✅
-                                files: localAttachments,       // ✅
+                                attachments: localAttachments,
+                                files: localAttachments,
                                 moduleCode: '',
                                 isDisabled: !widget.showSaveButtons,
                                 showDeleteIcon: true,
@@ -2111,13 +2134,13 @@ ${widget.html}
                   builder: (BuildContext dialogContext) {
                     return UploadAttachment(
                       onImageSelected: (ImageContent data) {
-                        final updated = [data, ...localAttachments]; // ✅ prepend
+                        final updated = [data, ...localAttachments]; //  prepend
                         setState(() {
-                          localAttachments = updated; // ✅ instant UI update
+                          localAttachments = updated; //  instant UI update
                         });
                         context
                             .read<TransportMedicalDetailsCubit>()
-                            .addAttachment(updated); // ✅ sync cubit
+                            .addAttachment(updated); //  sync cubit
                       },
                     );
                   },

@@ -70,7 +70,7 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
             scaffoldKey: scaffoldKey,
             context: context,
             displayMenu: state.displayMenu,
-            list: true, // 🔥 only "+" button mode
+            list: true, //  only "+" button mode
             onAddPressed: () {
               Navigator.pushNamed(
                 context,
@@ -96,7 +96,7 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
               builder: (context, state) {
                 return Stack(
                   children: [
-                    // 🔹 Background
+                    //  Background
                     Positioned.fill(
                       child: Image.asset(
                         'assets/images/bg2.png',
@@ -114,7 +114,7 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
                       ),
                     ),
 
-                    // 🔹 Search Bar - positioned safely at the top
+                    //  Search Bar - positioned safely at the top
                     Positioned(
                       top: MediaQuery.of(context).padding.top + kToolbarHeight + -40, // below AppBar
                       left: 3,
@@ -130,7 +130,7 @@ class _ArticleFoundNewListViewState extends State<ArticleFoundNewListView> {
                       ),
                     ),
 
-                    // 🔹 ListView - start immediately below search bar
+                    //  ListView - start immediately below search bar
                     Positioned(
                       top: MediaQuery
                           .of(context)

@@ -1065,8 +1065,7 @@ class _DayPassManagementDetailsViewState
                                 },
                                 context: context,
                               ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                              CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Pass Valid Until
                               CommonWidgets.textDisplay(
@@ -1086,7 +1085,9 @@ class _DayPassManagementDetailsViewState
                                             state.model.dayPassReason?.name ==
                                                 'New joiner waiting for access card' ||
                                             state.model.dayPassReason?.name ==
-                                                'New Joiner waiting for photo ID') &&
+                                                'New Joiner waiting for photo ID' || ((state.model.dayPassReason?.name ==
+                                    'External auditors' || state.model.dayPassReason?.name ==
+                                    'External Regulators')&&  state.model.exceptionalApproval == true)) &&
                                         !isReadOnly
                                     ? false
                                     : true,
