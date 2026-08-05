@@ -134,7 +134,6 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       Vendors vendors = futures[3];
       dynamic responseLabels = futures[4];
       Organisation? defaultLocation = futures[5];
-      log('--model.inputDate--${model.inputDate == null ? Utils().getCurrentDate() : Utils().formatUnixTimestamp(model.inputDate ?? '')}--');
 
       log('--model.location--${model.location?.id}--');
       if (model.location == null && defaultLocation != null) {
@@ -146,18 +145,20 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
         model.slNo = slNo.serialNo;
       }
       model.entrySecurity ??= loggedInUserDetails;
-      model.inputDate = model.inputDate == null
+
+      log('--model.inputDate--${model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-              int.tryParse(model.inputDate ?? '0'), Constants.fulldateFormat);
-      // Get Date of Creation
-      // model.inputDate = model.inputDate == null
-      //     ? Utils().getCurrentDate()
-      //     : Utils().formatUnixTimestamp(model.inputDate ?? '');
+          int.tryParse(model.inputDate ?? '0'), Constants.fulldateFormat)}--');
+
+      model.inputDate = model.inputDate == null
+          ? Utils().getCurrentDate()
+          : Utils().formatUnixTimestamp(model.inputDate ?? '');
+
       model.modifiedDate = state.model.modifiedDate == null
           ? Utils().getCurrentDate()
           : Utils().formatUnixTimestamp(model.modifiedDate ?? '');
-      // model.inputDate =
+      // state.model.inputDate =
       //     DateFormat(Constants.fulldateFormat).format(DateTime.now());
       // model.modifiedDate =
       //     DateFormat(Constants.fulldateFormat).format(DateTime.now());

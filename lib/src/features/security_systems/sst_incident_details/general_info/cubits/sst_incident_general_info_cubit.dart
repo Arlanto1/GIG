@@ -565,20 +565,20 @@ model.modifiedDate = model.modifiedDate == null
       int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
       state.model.createdDate = inputDate.toString();
     }
+    //
+    // if (!Utils().isTimestamp(state.model.fromDate)) {
+    //   dateTime =
+    //       DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.fromDate!);
+    //   int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+    //   state.model.fromDate = inputDate.toString();
+    // }
 
-    if (!Utils().isTimestamp(state.model.fromDate!)) {
-      dateTime =
-          DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.fromDate!);
-      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
-      state.model.fromDate = inputDate.toString();
-    }
-
-    if (!Utils().isTimestamp(state.model.toDate!)) {
-      dateTime =
-          DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.toDate!);
-      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
-      state.model.toDate = inputDate.toString();
-    }
+    // if (!Utils().isTimestamp(state.model.toDate!)) {
+    //   dateTime =
+    //       DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.toDate!);
+    //   int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+    //   state.model.toDate = inputDate.toString();
+    // }
 
     state.model.occurrence ??= OccurrenceModel();
     state.model.occurrence?.id = occId.toIntOrNull();

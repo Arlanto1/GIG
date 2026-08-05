@@ -41,6 +41,7 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
     return BlocConsumer<NotificationDetailsCubit, NotificationDetailsState>(
       listener: (context, state) {
         log('--NN-state.status-${state.status}-------');
+        log('state.model.moduleCode.isEmptyOrNull ${state.model.moduleCode.isEmptyOrNull}');
         Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
 
@@ -110,7 +111,7 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
               width: double.infinity,
               height: double.infinity,
             ),
-    // 🔹 Blur Layer
+    //  Blur Layer
     Positioned.fill(
     child: BackdropFilter(
     filter: ImageFilter.blur(sigmaX: 100, sigmaY: 100),
@@ -241,6 +242,7 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
                   });
               break;
             }
+
 
           case 'SVP':
             {

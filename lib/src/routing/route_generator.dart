@@ -2486,6 +2486,7 @@ import 'package:db_atom/src/features/patrolling/services/patrolling_service.dart
 import 'package:db_atom/src/features/security_systems/services/sst_incident_services.dart';
 import 'package:db_atom/src/features/security_systems/sst_incident_list/bloc/sst_incident_bloc.dart'
 as sv;
+import 'package:db_atom/src/features/selfPacedTraining/selfPacedTrainingList/bloc/selfPacedTrainingListBloc.dart';
 import 'package:db_atom/src/features/ticketing_system/models/ticketing_system_model.dart';
 import 'package:db_atom/src/features/ticketing_system/services/ticketing_system_services.dart';
 import 'package:db_atom/src/features/ticketing_system/ticketing_system_details/cubits/ticketing_system_details_cubit.dart';
@@ -2573,6 +2574,7 @@ import '../features/passmanagement/visitor_pass_management/visitor_pass_manageme
 import '../features/passmanagement/visitor_pass_management/visitor_pass_management_list/bloc/visitor_pass_management_list_bloc.dart';
 import '../features/passmanagement/visitor_pass_management/visitor_pass_management_list/views/visitor_pass_management_list_view.dart';
 import '../features/patrolling/patrolling_list/bloc/patrolling_list_bloc.dart' as pl;
+import '../features/selfPacedTraining/selfPacedTrainingList/view/selfPacedTrainingListView.dart';
 import '../features/transport_medical_incident/transport_medical_list/bloc/transport_medical_list_bloc.dart' as tm;
 
 class RouteGenerator {
@@ -4915,6 +4917,18 @@ class RouteGenerator {
             ),
           ),
         );
+
+
+      case selfPacedTrainingListRoute:
+        return MaterialPageRoute(
+            builder: (context) => BlocProvider<SelfPacedTrainingListBloc>(
+              create: (_) => SelfPacedTrainingListBloc()
+                ..add(FetchSelfPacedTrainingData(
+                    startPos: 0,
+                    maxPos: Constants.maxResults,
+                    filters: BaseFilterModel())),
+              child: const SelfPacedTrainingListView(),
+            ));
 
       case trainingModuleListRoute:
         return MaterialPageRoute(

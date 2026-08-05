@@ -1086,7 +1086,8 @@ class _TransportMedicalDetailsViewState
                                   isDisabled: !isEditable,
                                   textController: shiftLogoutDateTimeController,
                                   onlyDate: false,
-                                  showFutureDate: true,
+                                  // showFutureDate: true,
+                                  // showPastDate: true,
                                   startDate: state.model.shiftLoginDate,
                                   context: context,
                                   onChange: (String value) {

@@ -219,7 +219,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
 
     return Stack(
       children: [
-    // 🔹 Background Image
+    // Background Image
     Positioned.fill(
     child: Image.asset(
       'assets/images/bg2.png',
@@ -227,7 +227,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
     ),
     ),
 
-    // 🔹 Blur Layer
+    //  Blur Layer
     Positioned.fill(
     child: BackdropFilter(
     filter: ImageFilter.blur(sigmaX: 200, sigmaY: 200),
@@ -350,20 +350,19 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                             locationWidgetdislay(
                                 selectedLocation:
                                     state.model.location?.name ?? '',
-                                enabled: state.model.id == null ||
+                                enabled: (state.model.id == null ||
                                     state.model.status == 0 ||
-                                    (state.model.location?.name ?? '').isEmpty,
+                                    (state.model.location?.name ?? '').isEmpty) && (!widget.viaOccurrence && !widget.viaKeyIssuance),
                                 locations: state.locations,
                                 onTap: (Organisation? location) async {
                                   log('location?.name-----${location?.name}');
+      state.model.location = location;
 
-                                  state.model.location = location;
-
-                                  BlocProvider.of<IncidentGeneralInfoCubit>(
-                                          context)
-                                      .updateLocationDropdownValue(
-                                          location: location);
-                                }),
+      BlocProvider.of<IncidentGeneralInfoCubit>(
+          context)
+          .updateLocationDropdownValue(
+          location: location);
+     }),
                             CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                             /// Sl No.

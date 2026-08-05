@@ -1185,7 +1185,7 @@ class Constants {
 
 
   ///Training Module
-  static const String training = 'Classroom Training';
+  static const String classroomTraining = 'Classroom Training';
   static const String trainingItems = 'Training Items';
   static const String trainingType = 'Training Type';
   static const String creatorName = 'Creator Name';
@@ -1195,6 +1195,11 @@ class Constants {
   static const String endDate = 'End Date';
   static const String trainerName = 'Trainer Name';
   static const String currentSession = 'Current Session';
+  static const String training = 'Training';
+
+
+  static const String selfPacedTraining = 'Self Paced Training';
+
 
 }
 

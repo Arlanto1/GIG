@@ -81,19 +81,18 @@ class _KeyLossDestructionDetailsViewState
         }
       },
       builder: (context, state) {
-        if (state.model.status == 2 || !state.model.lock.isEmptyOrNull) {
-          isReadOnly = true;
-        }
-        if (state.model.status == 3 || !state.model.lock.isEmptyOrNull) {
-          isReadOnly = true;
-        }
+
+        // if (state.model.status == 3 && state.model.lock.isEmptyOrNull) {
+        //   isReadOnly = true;
+        // }
         if (state.model.status == 7 || !state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }
         if (state.model.status == 10 || !state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }
-        isReadOnly = state.isReadOnly ?? true;
+        // isReadOnly = state.isReadOnly ?? isReadOnly;
+
         // if (widget.extraProperties != null &&
         //     !widget.extraProperties!.hasWritePermission!) {
         //   isReadOnly = true;
@@ -102,14 +101,35 @@ class _KeyLossDestructionDetailsViewState
           isReadOnly = false;
         }
 
+        // if ((state.model.status == 2 && state.model.lock.isEmptyOrNull) &&
+        //     state.loggedInUserDetails?.email == state.model.srh?.email) {
+        //   isReadOnly = false;
+        // }
+        // if ((state.model.status == 3 && state.model.lock.isEmptyOrNull) &&
+        //     state.loggedInUserDetails?.email == state.model.srh?.email) {
+        //   isReadOnly = false;
+        // }
+
+        if (state.model.status == 2 || state.model.status == 3) {
+          isReadOnly = state.model.lock.isEmptyOrNull
+              ? state.loggedInUserDetails?.email != state.model.srh?.email
+              : true;
+        }
+
+        log('state.loggedInUserDetails?.email != state.model.srh?.email ${(state.model.status == 3 && state.model.lock.isEmptyOrNull) && state.loggedInUserDetails?.email == state.model.srh?.email}');
+    log('11 ${state.loggedInUserDetails?.email == state.model.srh?.email }');
+        log('22 ${state.model.srh?.email}');
+        log('33 ${state.model.status}');
+        log('44${state.model.lock.isEmptyOrNull}');
+
         initializeDates();
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
             title: widget.title,
             showPopUp: false,
-            showSaveButton: state.model.status != 7 && !isReadOnly,
-            showSubmitButton: state.model.status != 7 && !isReadOnly,
+            showSaveButton:  isReadOnly == false,
+            showSubmitButton: isReadOnly ==false,
             showDisLikeButton: state.model.status == 7 && !isReadOnly,
             showLikeButton: state.model.status == 7 && !isReadOnly,
             pdfAPIName:
@@ -178,7 +198,7 @@ class _KeyLossDestructionDetailsViewState
     }
     return Stack(
       children: [
-        // 🔹 Background Image
+        //  Background Image
         Positioned.fill(
           child: Image.asset(
             'assets/images/bg2.png',
@@ -186,7 +206,7 @@ class _KeyLossDestructionDetailsViewState
           ),
         ),
 
-        // 🔹 Blur Layer
+        //  Blur Layer
         Positioned.fill(
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 200, sigmaY: 200),
@@ -402,7 +422,7 @@ class _KeyLossDestructionDetailsViewState
                               ),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
                               if (state.model.type ==
-                                  ConstantsIntValue.keyDamageHistoryInt) ...[
+                                  ConstantsIntValue.keyDamageHistoryInt || state.model.status == 2) ...[
                                 /// SRH
                                 CommonWidgets.textDisplay(
                                   // state.labels?.locale.srh ??
@@ -419,7 +439,7 @@ class _KeyLossDestructionDetailsViewState
                                   onTap: () {
                                     BaseOrganisationDialog().userDialog(
                                       context: context,
-                                      enabled: !isReadOnly,
+                                      enabled: isReadOnly,
                                       users: state.srh,
                                       onTap: (BaseUser user) {
                                         BlocProvider.of<
@@ -634,7 +654,8 @@ class _KeyLossDestructionDetailsViewState
                                       ConstantsIntValue.keyLostHistoryInt ||
                                   widget.type ==
                                       ConstantsIntValue
-                                          .keyDamageHistoryInt) ...[
+                                          .keyDamageHistoryInt ||  widget.model?.status ==
+                                  2) ...[
                                 /// Investigation Required
                                 // if (widget.type ==
                                 //     ConstantsIntValue.keyLostHistoryInt ||

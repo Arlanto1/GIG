@@ -267,17 +267,27 @@ class _ShiftScheduleDetailsViewState extends State<ShiftScheduleDetailsView> {
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Date of creation
-                              CommonWidgets.textDisplay(
+                              // CommonWidgets.textDisplay(
+                              //     state.labels?.locale.inputDate ??
+                              //         state.labels?.defaultLocale.inputDate ??
+                              //         Constants.dateofcreation,
+                              //     isMandatory: true,
+                              //     Styles.textStyleWhite14),
+                              // CommonWidgets.verticalSpacerWidget(
+                              //     height * 0.001),
+                              // // BaseDate().creationDateDisplay(
+                              // //     state.model.inputDate ?? ''),
+                              // BaseDate().creationDateDisplay(
+                              //     state.model.modifiedDate ?? ''),
+                              // CommonWidgets.verticalSpacerWidget(height * 0.02),
+                              CommonWidgets.horizontalTextHandling(
                                   state.labels?.locale.inputDate ??
                                       state.labels?.defaultLocale.inputDate ??
                                       Constants.dateofcreation,
                                   isMandatory: true,
-                                  Styles.textStyleWhite14),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-                              BaseDate().creationDateDisplay(
                                   state.model.inputDate ?? ''),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
+
 
                               /// Location
                               CommonWidgets.textDisplay(

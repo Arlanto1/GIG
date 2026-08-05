@@ -157,3 +157,10 @@ const String trainingModuleListRoute = '/trainingModuleListRoute';
 const String trainingListCardRoute = '/trainingListCardRoute';
 const String trainingGenInfoDetailsRoute = '/trainingGenInfoDetailsRoute';
 const String trainingItemsListRoute = '/trainingItemsListRoute';
+
+
+
+const String selfPacedTrainingListRoute = '/selfPacedTrainingListRoute';
+// const String trainingListCardRoute = '/trainingListCardRoute';
+// const String trainingGenInfoDetailsRoute = '/trainingGenInfoDetailsRoute';
+// const String trainingItemsListRoute = '/trainingItemsListRoute';

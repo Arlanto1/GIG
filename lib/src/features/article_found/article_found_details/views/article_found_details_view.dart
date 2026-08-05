@@ -282,9 +282,9 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
                             !showSaveSubmitButtons && !ignorePointer ,
                         child: Column(
                           children: [
-                            // if (!state.model.lock.isEmptyOrNull) ...[
-                            //   RecordLockedWidget(text: '${state.model.lock}'),
-                            // ],
+                            if (!state.model.lock.isEmptyOrNull) ...[
+                              RecordLockedWidget(text: '${state.model.lock}'),
+                            ],
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
                             Container(
                               alignment: Alignment.topLeft,
@@ -1342,7 +1342,10 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
 
                       /// Kept outside AbsorbPointer so the close button stays tappable
                       if (!showSaveSubmitButtons) ...[
-                        cancelButtonDisplay(),
+                        Center(
+                          child: cancelButtonDisplay(),
+                        ),
+                        CommonWidgets.verticalSpacerWidget(height * 0.04),
                       ],
                       CommonWidgets.verticalSpacerWidget(height * 0.04),
                     ],

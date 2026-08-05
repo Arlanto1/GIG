@@ -29,4 +29,10 @@ class DrawerCubit extends Cubit<DrawerState> {
     emit(TicketingSystemSetDrawerItemChange(index));
     emit(TicketingSystemGetDrawerItemChange(index));
   }
+
+
+  void getTrainingIndexChange(int index) {
+    emit(TrainingSetDrawerItemChange(index));
+    emit(TrainingGetDrawerItemChange(index));
+  }
 }

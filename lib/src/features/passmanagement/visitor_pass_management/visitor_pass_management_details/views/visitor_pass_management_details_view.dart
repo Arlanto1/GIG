@@ -149,7 +149,7 @@ class _VisitorPassManagementDetailsViewState
             onTapSubmit: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<VisitorPassManagementDetailsCubit>(context).submitForm(
-                isSaveOnly: false,
+                // isSaveOnly: false,
               );
               // if (state.model.id != null) {
               //   final pdfUrl = '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=VPM';
@@ -571,7 +571,7 @@ class _VisitorPassManagementDetailsViewState
                                   } else {
                                     state.model.passTypeName = "Day Pass";
                                   }
-                                  if (hasDws && selectedEntities.length > 1) {
+                                  if (selectedEntities.length > 1) {
                                     showDialog(
                                       context: context,
                                       barrierColor: Colors.black.withValues(alpha: 0.3),
@@ -605,7 +605,7 @@ class _VisitorPassManagementDetailsViewState
                                                     ),
                                                     const SizedBox(height: 10),
                                                     const Text(
-                                                      "Multiple entities selection is restricted, when DWS entity is selected.",
+                                                      "Multiple entities selection is restricted.",
                                                       textAlign: TextAlign.center,
                                                       style: TextStyle(color: Colors.white),
                                                     ),
@@ -618,7 +618,7 @@ class _VisitorPassManagementDetailsViewState
                                                       onPressed: () {
                                                         Navigator.pop(context);
                                                       },
-                                                      child: const Text("OK"),
+                                                      child: const Text("OK", style: Styles.textStyleWhite16,),
                                                     )
                                                   ],
                                                 ),

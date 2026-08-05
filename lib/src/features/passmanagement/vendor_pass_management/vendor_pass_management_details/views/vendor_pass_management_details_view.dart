@@ -439,7 +439,7 @@ class _VendorPassManagementDetailsViewState
                                   } else {
                                     state.model.passTypeName = "Day Pass";
                                   }
-                                  if (hasDws && selectedEntities.length > 1) {
+                                  if (selectedEntities.length > 1) {
                                     showDialog(
                                       context: context,
                                       barrierColor: Colors.black.withValues(alpha: 0.3),
@@ -473,7 +473,7 @@ class _VendorPassManagementDetailsViewState
                                                     ),
                                                     const SizedBox(height: 10),
                                                     const Text(
-                                                      "Multiple entities selection is restricted, when DWS entity is selected.",
+                                                      "Multiple entities selection is restricted.",
                                                       textAlign: TextAlign.center,
                                                       style: TextStyle(color: Colors.white),
                                                     ),
@@ -486,7 +486,7 @@ class _VendorPassManagementDetailsViewState
                                                       onPressed: () {
                                                         Navigator.pop(context);
                                                       },
-                                                      child: const Text("OK"),
+                                                      child: const Text("OK", style: Styles.textStyleWhite16,),
                                                     )
                                                   ],
                                                 ),

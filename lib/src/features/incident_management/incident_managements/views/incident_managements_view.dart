@@ -127,7 +127,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
 
                       return Stack(
                         children: [
-                          // 🔹 Background
+                          //  Background
                           Positioned.fill(
                             child: Image.asset(
                               'assets/images/bg2.png',
@@ -145,7 +145,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
                             ),
                           ),
 
-                          // 🔹 Search Bar - positioned safely at the top
+                          //  Search Bar - positioned safely at the top
                           Positioned(
                             top: MediaQuery
                                 .of(context)
@@ -164,7 +164,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
                             ),
                           ),
 
-                          // 🔹 ListView - start immediately below search bar
+                          //  ListView - start immediately below search bar
                           Positioned(
                             top: MediaQuery
                                 .of(context)
@@ -191,8 +191,7 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
                               : state.items.length + 1,
                           itemBuilder: (context, index) {
                             if (index >= state.items.length) {
-                              if (state.status == FormStatus.loading ||
-                                  state.status == FormStatus.initial) {
+                              if (state.status == FormStatus.loading) {
                                 return const Center(child: BaseLoader());
                               }
                               return const SizedBox();

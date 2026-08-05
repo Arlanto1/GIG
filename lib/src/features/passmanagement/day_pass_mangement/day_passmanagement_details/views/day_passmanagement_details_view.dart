@@ -435,7 +435,7 @@ class _DayPassManagementDetailsViewState
                                   } else {
                                     state.model.passTypeName = "Day Pass";
                                   }
-                                  if (hasDws && selectedEntities.length > 1) {
+                                  if (selectedEntities.length > 1) {
                                     showDialog(
                                       context: context,
                                       barrierColor: Colors.black.withValues(alpha: 0.3),
@@ -469,7 +469,7 @@ class _DayPassManagementDetailsViewState
                                                     ),
                                                     const SizedBox(height: 10),
                                                     const Text(
-                                                      "Multiple entities selection is restricted, when DWS entity is selected.",
+                                                      "Multiple entities selection is restricted.",
                                                       textAlign: TextAlign.center,
                                                       style: TextStyle(color: Colors.white),
                                                     ),

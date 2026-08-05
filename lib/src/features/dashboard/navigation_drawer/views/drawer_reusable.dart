@@ -5705,6 +5705,7 @@ class NavigationDrawer1 extends StatelessWidget {
   late int _passlastSelectedItem = 10;
   late int _securityfunfunctionslastSelectedItem = 10;
   late int _ticketingSystemlastSelectedItem = 1;
+  late int _traininglastSelectedItem = 1;
 
   Future<void> getIndeifydrawerIndex() async {
     _lastSelectedItem = await SharedPrefs.getIdentifymenuindex();
@@ -5810,6 +5811,10 @@ class NavigationDrawer1 extends StatelessWidget {
                           (state as TicketingSystemGetDrawerItemChange)
                               .index;
                       break;
+                      case TrainingGetDrawerItemChange _:
+                        _traininglastSelectedItem =
+                            (state as TrainingGetDrawerItemChange)
+                                .index;
                       default:
                         break;
                     }
@@ -6140,6 +6145,10 @@ class NavigationDrawer1 extends StatelessWidget {
                 _onTicketingSystemItemSelected(i, context);
                 break;
 
+                case Constants.training:
+                  _onTrainingItemSelected(i, context);
+                  break;
+
               /// 3nd Level Menu
                 case Constants.guardingOperations:
                   _onGuardingOperationItemSelected(i, context, drawerItem);
@@ -6258,6 +6267,23 @@ class NavigationDrawer1 extends StatelessWidget {
       Navigator.pushNamed(
         context,
         ticketingSystemListRoute,
+      );
+    }
+  }
+
+  _onTrainingItemSelected(int index, BuildContext context) async {
+    _traininglastSelectedItem = index;
+    context.read<DrawerCubit>().getTrainingIndexChange(index);
+    if (index == 0) {
+      Navigator.pushNamed(
+        context,
+        trainingModuleListRoute,
+      );
+    }
+    if (index == 1) {
+      Navigator.pushNamed(
+        context,
+        selfPacedTrainingListRoute,
       );
     }
   }
@@ -6425,10 +6451,15 @@ class NavigationDrawer1 extends StatelessWidget {
                             : AppColors.white)),
                 childrenPadding: const EdgeInsets.only(left: 18),
                 //children padding
+                // children: drawerItem.title == Constants.securityFunctions
+                //     ? _buildOperationsFromSecurity(context, state)
+                //     : _buildTicketingSystemFromSecurity(context, state)),
                 children: drawerItem.title == Constants.securityFunctions
                     ? _buildOperationsFromSecurity(context, state)
+                    : drawerItem.title == Constants.training
+                    ? _buildTrainingFromSecurity(context, state)
                     : _buildTicketingSystemFromSecurity(context, state)),
-          ),
+            ),
         ),
       );
     }
@@ -6574,6 +6605,52 @@ class NavigationDrawer1 extends StatelessWidget {
 
     return children;
   }
+
+
+  List<Widget> _buildTrainingFromSecurity(
+      BuildContext context, DrawerState state) {
+    List<Widget> children = [];
+
+    List<MenuItem> menuItems = [];
+    menuItems.add(
+      const MenuItem(Constants.classroomTraining, AppIcon.tasklist, 0));
+    menuItems.add( const MenuItem(Constants.selfPacedTraining, AppIcon.tasklist, 0));
+
+    for (int i = 0; i < menuItems.length; i++) {
+      MenuItem drawerItem = menuItems[i];
+      children.add(
+        _glassyTile(
+          child: ListTile(
+            dense: true,
+            contentPadding: const EdgeInsets.symmetric(horizontal: 6),
+            leading: SizedBox(
+                width: 20,
+                height: 20,
+                child: Image.asset(
+                  drawerItem.imageName,
+                  //fit: BoxFit.cover,
+                  color: (i == _traininglastSelectedItem)
+                      ? AppColors.white
+                      : AppColors.white,
+                )),
+            title: Text(drawerItem.title,
+                //style: Styles.textStyleBlack16,
+                style: TextStyle(
+                    fontSize: 18,
+                    fontFamily: Constants.customFontSemiBoldFamily,
+                    fontWeight: FontWeight.w600,
+                    color: (i == _traininglastSelectedItem)
+                        ? AppColors.white
+                        : AppColors.white)),
+            onTap: () => _onTrainingItemSelected(i, context),
+          ),
+        ),
+      );
+    }
+
+    return children;
+  }
+
 
   List<Widget> selectedChild(MenuItem drawerItem, BuildContext context) {
     switch (drawerItem.title) {

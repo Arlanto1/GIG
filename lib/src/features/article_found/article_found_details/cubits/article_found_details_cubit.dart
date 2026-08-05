@@ -253,6 +253,7 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
     }
     if ( employee!= null) {
       state.model.depositor?.employeeId = employee.employeeId;
+      state.model.employeeId = employee.employeeId;
       String name = employee.name ?? '';
       String email = employee.email ?? '';
       List<String> nameParts = employee.name!.split(' '); // Split by space
@@ -277,6 +278,7 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
 
     if ( claimant!= null) {
       state.model.claimant?.employeeId = claimant.employeeId;
+      state.model.claimantEmployeeId = claimant.employeeId;
       String name = claimant.name ?? '';
       String email = claimant.email ?? '';
       List<String> nameParts = claimant.name!.split(' '); // Split by space

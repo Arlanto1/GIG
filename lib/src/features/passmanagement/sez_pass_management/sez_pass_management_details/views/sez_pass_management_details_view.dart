@@ -208,7 +208,7 @@ class _SezPassManagementDetailsViewState
     }
     return Stack(
       children: [
-        // 🔹 Background Image
+        //  Background Image
         Positioned.fill(
           child: Image.asset(
             'assets/images/bg2.png',
@@ -216,7 +216,7 @@ class _SezPassManagementDetailsViewState
           ),
         ),
 
-        // 🔹 Blur Layer
+        //  Blur Layer
         Positioned.fill(
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 200, sigmaY: 200),
@@ -423,6 +423,65 @@ class _SezPassManagementDetailsViewState
                                 all: state.listOfEntities ?? [],
                                 enabled: !isReadOnly,
                                 onTap: (List<Organisation> selectedEntities) {
+                                  if (selectedEntities.length > 1) {
+                                    showDialog(
+                                      context: context,
+                                      barrierColor: Colors.black.withValues(alpha: 0.3),
+                                      builder: (context) {
+                                        return Dialog(
+                                          backgroundColor: Colors.transparent,
+                                          elevation: 0,
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(20),
+                                            child: BackdropFilter(
+                                              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                                              child: Container(
+                                                padding: const EdgeInsets.all(20),
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(20),
+                                                  color: Colors.black.withValues(alpha: 0.15),
+                                                  border: Border.all(
+                                                    color: Colors.white.withValues(alpha: 0.3),
+                                                  ),
+                                                ),
+                                                child: Column(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: [
+                                                    const Text(
+                                                      "Validation",
+                                                      style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight: FontWeight.bold,
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                    const SizedBox(height: 10),
+                                                    const Text(
+                                                      "Multiple entities selection is restricted.",
+                                                      textAlign: TextAlign.center,
+                                                      style: TextStyle(color: Colors.white),
+                                                    ),
+                                                    const SizedBox(height: 20),
+                                                    ElevatedButton(
+                                                      style: ElevatedButton.styleFrom(
+                                                        backgroundColor: Colors.white.withValues(alpha: 0.2),
+                                                        elevation: 0,
+                                                      ),
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: const Text("OK", style: Styles.textStyleWhite16,),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                    return;
+                                  }
                                   BlocProvider.of<
                                               SezPassManagementDetailsCubit>(
                                           context)

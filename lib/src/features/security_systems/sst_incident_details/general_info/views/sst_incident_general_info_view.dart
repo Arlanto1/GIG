@@ -401,7 +401,7 @@ class _SstIncidentGeneralInfoViewState
     }
     return Stack(
       children: [
-        // 🔹 Background Image
+        //  Background Image
         Positioned.fill(
           child: Image.asset(
             'assets/images/bg2.png',
@@ -409,7 +409,7 @@ class _SstIncidentGeneralInfoViewState
           ),
         ),
 
-        // 🔹 Blur Layer
+        //  Blur Layer
         Positioned.fill(
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 200, sigmaY: 200),
@@ -545,8 +545,8 @@ class _SstIncidentGeneralInfoViewState
                                 locationWidgetdislay(
                                     selectedLocation:
                                         state.model.location?.name ?? '',
-                                    enabled: state.model.id == null ||
-                                        state.model.status == 1,
+                                    enabled: (state.model.id == null ||
+                                        state.model.status == 1) && !widget.viaOccurrence,
                                     locations: state.locations,
                                     onTap: (Organisation? location) async {
                                       log('location?.name-----${location?.name}');

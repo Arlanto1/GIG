@@ -50,6 +50,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
   Organisation? selectedKeyDescription;
 
   late bool isReadOnly;
+  String? formErrorMessage;
 
   @override
   void initState() {
@@ -494,10 +495,10 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                                     onChange: (String value) {
                                       widget.model.noKeysIssued =
                                           int.tryParse(value);
-                                      // num sum = (selectedKeyDescription!.noKeys ?? 0) -
-                                      //     (widget.model.noKeysIssued ?? 0);
-                                      // availableKeysController.text = sum.toString();
-                                      // widget.model.available = sum.toInt();
+                                      num sum = (selectedKeyDescription!.noKeys ?? 0) -
+                                          (widget.model.noKeysIssued ?? 0);
+                                      availableKeysController.text = sum.toString();
+                                      widget.model.available = sum.toInt();
                                     },
                                     validateTextField: (String? user) {},
                                   ),
@@ -526,6 +527,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                                     onChange: (String value) {
                                       widget.model.returned =
                                           int.tryParse(value);
+                                      formErrorMessage = null;
                                     },
                                     validateTextField: (String? user) {},
                                   ),
@@ -555,6 +557,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                                       widget.model.notReturned =
                                           int.tryParse(value);
                                       notReturnedKeysController.text = value;
+                                    formErrorMessage = null;
                                     },
                                     validateTextField: (String? user) {},
                                   ),
@@ -582,6 +585,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                                     onChange: (String value) {
                                       widget.model.lost = int.tryParse(value);
                                       lostKeysController.text = value;
+                                      formErrorMessage = null;
                                     },
                                     validateTextField: (String? user) {},
                                   ),
@@ -611,6 +615,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                                       widget.model.damaged =
                                           int.tryParse(value);
                                       damagedKeysController.text = value;
+                                      formErrorMessage = null;
                                     },
                                     validateTextField: (String? user) {},
                                   ),
@@ -619,6 +624,19 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.02),
                                   buttonViews(widget.mainContext, width, state),
+                                  if (formErrorMessage != null) ...[
+                                    CommonWidgets.verticalSpacerWidget(height * 0.01),
+                                    Text(
+                                     formErrorMessage!,
+                                      textAlign: TextAlign.center,
+                                      style: Styles.textFontSet(
+                                        15,
+                                        AppColors.redColor,
+                                        FontWeight.normal,
+                                        Constants.customFontSemiBoldFamily,
+                                      ),
+                                    ),
+                                  ],
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.02),
                                 ],
@@ -675,6 +693,31 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
     );
   }
 
+  // Widget saveButton(double width, Function onSubmit) {
+  //   return PopButton(
+  //     width: width / 3.5,
+  //     key: const Key(Keys.saveButton),
+  //     buttonText: Constants.save,
+  //     buttonTextKey: Keys.saveButtonText,
+  //     boarderColor: AppColors.navigationSkyBlueColor,
+  //     backgroundColor: AppColors.navigationSkyBlueColor,
+  //     foregroundColor: Colors.white,
+  //     textStyle: Styles.textStyleSemiBold16White,
+  //     onTap: () {
+  //       if (!isFormValid.status) {
+  //         Validator().showToast(
+  //           context,
+  //           isFormValid.message,
+  //         );
+  //         return;
+  //       }
+  //
+  //       // log('-widget.model.totalPenaltyAmount--${widget.model.totalPenaltyAmount}-----');
+  //       onSubmit(widget.model);
+  //       Navigator.pop(context);
+  //     },
+  //   );
+  // }
   Widget saveButton(double width, Function onSubmit) {
     return PopButton(
       width: width / 3.5,
@@ -687,14 +730,16 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
       textStyle: Styles.textStyleSemiBold16White,
       onTap: () {
         if (!isFormValid.status) {
-          Validator().showToast(
-            context,
-            isFormValid.message,
-          );
+          setState(() {
+            formErrorMessage = isFormValid.message;
+          });
           return;
         }
 
-        // log('-widget.model.totalPenaltyAmount--${widget.model.totalPenaltyAmount}-----');
+        setState(() {
+         formErrorMessage = null;
+        });
+
         onSubmit(widget.model);
         Navigator.pop(context);
       },
@@ -731,17 +776,17 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
     //     message: 'Please enter valid Number of Keys Issued',
     //   );
     // }
-    // if (widget.parentStatus == ConstantsIntValue.issuanceHandedOverStatus &&
-    //     widget.model.noKeysIssued !=
-    //         (widget.model.returned! +
-    //             widget.model.notReturned! +
-    //             widget.model.lost! +
-    //             widget.model.damaged!)) {
-    //   return const ErrorResponse(
-    //     status: false,
-    //     message: 'Values not matching with no of keys issued',
-    //   );
-    // }
+    if (widget.parentStatus == ConstantsIntValue.issuanceHandedOverStatus &&
+        widget.model.noKeysIssued !=
+            (widget.model.returned! +
+                widget.model.notReturned! +
+                widget.model.lost! +
+                widget.model.damaged!)) {
+      return const ErrorResponse(
+        status: false,
+        message: 'Values not matching with no of keys issued',
+      );
+    }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 }

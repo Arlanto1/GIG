@@ -67,3 +67,14 @@ class TicketingSystemSetDrawerItemChange extends DrawerState {
 class TicketingSystemGetDrawerItemChange extends DrawerState {
   const TicketingSystemGetDrawerItemChange(super.index);
 }
+
+
+class TrainingSetDrawerItemChange extends DrawerState {
+  const TrainingSetDrawerItemChange(this.index) : super(index);
+
+  @override
+  final int index;
+}
+class TrainingGetDrawerItemChange extends DrawerState {
+  const TrainingGetDrawerItemChange(super.index);
+}

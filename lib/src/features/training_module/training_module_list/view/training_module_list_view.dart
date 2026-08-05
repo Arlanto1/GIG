@@ -77,7 +77,7 @@ class _ClassRoomTrainingListViewState extends State<ClassRoomTrainingListView> {
           // backgroundColor: AppColors.newColor,
           appBar: BaseAppBar().buildAppHeader(
             context: context,
-            title: Constants.training,
+            title: Constants.classroomTraining,
             showPopUp: true,
             showSaveButton: false,
             showSubmitButton: false,

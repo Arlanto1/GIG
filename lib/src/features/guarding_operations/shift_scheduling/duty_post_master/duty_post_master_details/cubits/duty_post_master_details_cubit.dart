@@ -65,8 +65,10 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.guardingMasterModuleCode),//3
         SharedPrefs.getDefaultLocation(),//4
-     services.getDutyPostsByLocation(
-    locationId: state.model.location!.id.toString()),
+        state.model.location?.id != null
+            ? services.getDutyPostsByLocation(
+            locationId: state.model.location!.id.toString())
+            : Future.value(<Organisation>[]),//5
       ]);
 
       Locations getLocationsData = futures[0];
@@ -88,6 +90,7 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
         dutyPosts = await services.getDutyPostsByLocation(
             locationId: state.model.location!.id.toString());
       }
+
       state.model.createdBy ??= loggedInUserDetails;
       // Get Date of Creation
       // state.model.createdDate = _getCurrentDate();

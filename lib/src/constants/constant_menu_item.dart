@@ -6,7 +6,7 @@ const mainDrawerItems = [
   //  const MenuItem(Constants.administration, AppIcon.maninsuitandtie, 0),
   MenuItem(Constants.ticketingSystem, AppIcon.ticketingSystemIcon, 1),
   MenuItem(Constants.updatePassword, AppIcon.settings, 0),
-  MenuItem(Constants.training, AppIcon.eventProtectionIcon, 0),
+  MenuItem(Constants.training, AppIcon.eventProtectionIcon, 1),
   // MenuItem(Constants.logout, AppIcon.logout, 0),
 ];
 // const securityItems = [
@@ -110,10 +110,16 @@ const sCRIItems = [
   MenuItem(Constants.vVipVisitorsTitle, AppIcon.incidentIcon, 0),
 ];
 
-const ticketingSystem = [
-  MenuItem(Constants.tickets, AppIcon.incidentIcon, 0),
-];
+// const ticketingSystem = [
+//   MenuItem(Constants.tickets, AppIcon.incidentIcon, 0),
+// ];
 
+
+// const training = [
+//   MenuItem(Constants.classroomTraining, AppIcon.tasklist, 0),
+//   MenuItem(Constants.selfPacedTraining, AppIcon.tasklist, 0),
+//
+// ];
 
 const eventProtectionDrawerItems = [
   MenuItem(
