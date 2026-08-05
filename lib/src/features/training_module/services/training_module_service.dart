@@ -9,7 +9,6 @@ class Apis {
   static final String _getTrainingModuleList = '$baseUrl/getClassRoomTrainingList';
   static  final String _getTrainingModuleById = '$baseUrl/getClassRoomTraining';
   static final String _getTrainingItemsListById = '$baseUrl/getTrainingItemList';
-
 }
 
 class TrainingModuleServices {

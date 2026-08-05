@@ -12,7 +12,7 @@ class Apis {
   static final String baseUrl = Environment().config.apiHost;
 
   static final String _getTicketingSystemList =
-      '$baseUrl/getTicketingSystemList?';
+      '$baseUrl/getRedmineIssuesList?';
 
   static final String _getTicketingSystemById = '$baseUrl/getTicketingSystemById';
 
