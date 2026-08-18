@@ -738,7 +738,9 @@ class Constants {
   static const String cCTvSystemOfflineEndDate = 'CCTV System Offline End Date';
   static const String accessSystemOfflineEndDate = 'Access System Offline End Date';
   static const String intruderSystemOfflineEndDate = 'Intruder System Offline End Date';
-
+  static const String cCTvSystemOfflineHours = 'CCTV System Offline Hours';
+  static const String accessSystemOfflineHours = 'Access System Offline Hours';
+  static const String intruderSystemOfflineHours = 'Intruder System Offline Hours ';
   //Occurrence
   static const String createOccurrence = 'Create Occurrence';
   static const String editOccurrence = 'Edit Occurrence';

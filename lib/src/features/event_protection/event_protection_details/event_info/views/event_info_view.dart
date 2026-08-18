@@ -1096,6 +1096,35 @@
                                                         .verticalSpacerWidget(
                                                         height * 0.02),
 
+                                                    /// CCTV System offline Hours
+                                                    CommonWidgets.textDisplay(
+                                                        Constants.cCTvSystemOfflineHours,
+                                                        Styles.textStyleWhite14,
+                                                        isMandatory: true),
+                                                    CommonWidgets
+                                                        .verticalSpacerWidget(
+                                                        height * 0.01),
+                                                    FlutterInputField(
+                                                      textInputType:
+                                                      TextInputType.text,
+                                                      initialValue:
+                                                      '${state.model.cctvSystemOfflineHours ?? ''}',
+                                                      textFormKey:
+                                                      Keys.lsm1ContactNOKey,
+                                                      hintText: '',
+                                                      isEnable:  false,
+                                                      characterLimit: Constants
+                                                          .characterLimitContactNo,
+                                                      isDisableColor: true,
+                                                      onChange: (String value) {
+                                                      },
+                                                      validateTextField:
+                                                          (String? user) {},
+                                                    ),
+                                                    CommonWidgets
+                                                        .verticalSpacerWidget(
+                                                        height * 0.02),
+
                                                     /// Access System Offline end Date
 
                                                     CommonWidgets.textDisplay(
@@ -1129,6 +1158,36 @@
                                                         },
                                                       ),
 
+                                                    CommonWidgets
+                                                        .verticalSpacerWidget(
+                                                        height * 0.02),
+
+
+                                                    /// Access System offline Hours
+                                                    CommonWidgets.textDisplay(
+                                                        Constants.accessSystemOfflineHours,
+                                                        Styles.textStyleWhite14,
+                                                        isMandatory: true),
+                                                    CommonWidgets
+                                                        .verticalSpacerWidget(
+                                                        height * 0.01),
+                                                    FlutterInputField(
+                                                      textInputType:
+                                                      TextInputType.text,
+                                                      initialValue:
+                                                      '${state.model.accessSystemOfflineHours ?? ''}',
+                                                      textFormKey:
+                                                      Keys.lsm1ContactNOKey,
+                                                      hintText: '',
+                                                      isEnable:  false,
+                                                      characterLimit: Constants
+                                                          .characterLimitContactNo,
+                                                      isDisableColor: true,
+                                                      onChange: (String value) {
+                                                      },
+                                                      validateTextField:
+                                                          (String? user) {},
+                                                    ),
                                                     CommonWidgets
                                                         .verticalSpacerWidget(
                                                         height * 0.02),

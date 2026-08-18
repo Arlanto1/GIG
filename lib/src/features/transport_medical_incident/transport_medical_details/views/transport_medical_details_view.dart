@@ -53,6 +53,7 @@ class _TransportMedicalDetailsViewState
   List<ImageContent> getFiles = [];
   bool isEditable = false;
   String selectedTemplateHtml = "";
+  String?  initialisedFromDate;
 
   @override
   void initState() {
@@ -216,6 +217,10 @@ class _TransportMedicalDetailsViewState
       uploadPhotographyFiles = state.loadAttachments;
     }
 
+
+     initialisedFromDate = DateTime.fromMillisecondsSinceEpoch(
+        (int.tryParse('${state.model.shiftLoginDate}') ?? 0) * 1000)
+        .toString();
     return Stack(
       children: [
         //  Background Image
@@ -282,12 +287,12 @@ class _TransportMedicalDetailsViewState
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               BaseDropDown().getDropDown(
-                                  isDisabled: state.model.status!=2 ? true : false,
+                                  isDisabled: state.model.status!=1 ? true : false,
                                   textController: statusController,
                                   items: transportMedicalStatusValues,
                                   initialValue: '${state.model.status ?? 0}',
                                 onTap: () {
-                                  if (state.model.status==2) {
+                                  if (state.model.status==1) {
                                     BaseDropDown().assetTypeDialog(
                                       context: context,
                                       dropDownValues:
@@ -1086,9 +1091,14 @@ class _TransportMedicalDetailsViewState
                                   isDisabled: !isEditable,
                                   textController: shiftLogoutDateTimeController,
                                   onlyDate: false,
-                                  // showFutureDate: true,
+                                  showFutureDate: true,
                                   // showPastDate: true,
-                                  startDate: state.model.shiftLoginDate,
+                                  startDate:
+                                  initialisedFromDate,
+                                  fromDate:
+                                  initialisedFromDate,
+                                  // toDate: ,
+                                  // startDate: state.model.shiftLoginDate,
                                   context: context,
                                   onChange: (String value) {
                                     log('---value-$value------');
@@ -2160,7 +2170,7 @@ ${widget.html}
                 fixedSize: const Size(120, 50),
                 backgroundColor: Colors.transparent,
               ),
-              onPressed: widget.showSaveButtons ? () {
+              onPressed: widget.templateId == null ? () {
                 showDialog(
                   context: context,
                   builder: (BuildContext dialogContext) {
@@ -2178,7 +2188,7 @@ ${widget.html}
                   },
                 );
               } : null,
-              icon: SvgPicture.asset(
+              icon: widget.templateId == null ? SvgPicture.asset(
                 AppIcon.uploadIcon,
                 colorFilter: const ColorFilter.mode(
                   AppColors.backgroundWhiteColor,
@@ -2186,7 +2196,7 @@ ${widget.html}
                 ),
                 width: 13,
                 height: 13,
-              ),
+              ) : null,
               label: const Text(
                 Constants.clicktoupload,
                 style: Styles.textStyleRegularNormalWhite12,

@@ -100,15 +100,12 @@ class AddMaterialItemsPopUpState extends State<AddMaterialItemsPopUp> {
                         textFormKey: Keys.visitorsNameKey,
                         hintText: '',
                         isEnable:
-                            !(widget.extraProperties != null &&
-                                !widget
-                                    .extraProperties!.hasWritePermission!)
-                            ? true
-                            : false,
+                        !(widget.extraProperties != null &&
+                            !widget.extraProperties!.hasWritePermission!) && (widget.parentStatus == 0),
                         isDisableColor:
                             !(widget.extraProperties != null &&
                                 !widget
-                                    .extraProperties!.hasWritePermission!)
+                                    .extraProperties!.hasWritePermission!) && (widget.parentStatus == 0)
                             ? false
                             : true,
                         onChange: (String value) {
@@ -242,6 +239,9 @@ class AddMaterialItemsPopUpState extends State<AddMaterialItemsPopUp> {
                               textInputType: TextInputType.number,
                               controller: quantityController,
                               textFormKey: Keys.quantityKey,
+                              isEnable: !(widget.extraProperties != null &&
+                                  !widget.extraProperties!.hasWritePermission!) &&
+                          (widget.parentStatus == 0),
                               hintText: '',
                               onChange: (String? value) {
                                 if (value != null) {
@@ -265,7 +265,8 @@ class AddMaterialItemsPopUpState extends State<AddMaterialItemsPopUp> {
                             SizedBox(
                               width: 50,
                               child: InkWell(
-                                onTap: () {
+                                onTap:!(widget.extraProperties != null &&
+                                    !widget.extraProperties!.hasWritePermission!)  && (widget.parentStatus == 0) ? () {
                                   BaseOrganisationDialog().departmentDialog(
                                     context: context,
                                     organisations: widget.users,
@@ -276,7 +277,7 @@ class AddMaterialItemsPopUpState extends State<AddMaterialItemsPopUp> {
                                       });
                                     },
                                   );
-                                },
+                                } : null,
                                 child: const AddButtonWidget(height: 50),
                               ),
                             ),
@@ -298,9 +299,9 @@ class AddMaterialItemsPopUpState extends State<AddMaterialItemsPopUp> {
                           textFormKey: Keys.visitorsNameKey,
                           hintText: '',
                           isEnable:
-                              !(widget.extraProperties != null &&
-                                  !widget
-                                      .extraProperties!.hasWritePermission!)
+                          !(widget.extraProperties != null &&
+                              !widget.extraProperties!.hasWritePermission!) &&
+                              (widget.parentStatus == 0)
                               ? true
                               : false,
                           isDisableColor:
@@ -340,7 +341,7 @@ class AddMaterialItemsPopUpState extends State<AddMaterialItemsPopUp> {
         cancelButton(width),
         if (
             !(widget.extraProperties != null &&
-                !widget.extraProperties!.hasWritePermission!)) ...[
+                !widget.extraProperties!.hasWritePermission!) && (widget.parentStatus == 0)) ...[
           saveButton(width, widget.onSubmit)
         ]
       ],

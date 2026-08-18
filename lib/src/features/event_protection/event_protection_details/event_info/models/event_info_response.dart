@@ -19,12 +19,15 @@ class EventInfoResponse {
     this.eventStartedAt,
     this.totalAttendance,
     this.cctvSystemOffline,
+    this.cctvSystemOfflineHours,
     this.cctvSystemOfflineStartDate,
     this.cctvSystemOfflineEndDate,
     this.accessSystemOffline,
+    this.accessSystemOfflineHours,
     this.accessSystemOfflineStartDate,
     this.accessSystemOfflineEndDate,
     this.intruderSystemOffline,
+    this.intruderSystemOfflineHours,
     this.intruderSystemOfflineStartDate,
     this.intruderSystemOfflineEndDate,
     this.additionalInformation,
@@ -47,12 +50,16 @@ class EventInfoResponse {
   Organisation? location;
   int? totalAttendance;
   bool? cctvSystemOffline;
+  int? cctvSystemOfflineHours;
   String? cctvSystemOfflineStartDate;
   String? cctvSystemOfflineEndDate;
   bool? accessSystemOffline;
+  int? accessSystemOfflineHours;
   String? accessSystemOfflineStartDate;
   String? accessSystemOfflineEndDate;
   bool? intruderSystemOffline;
+  int? intruderSystemOfflineHours;
+
   String? intruderSystemOfflineStartDate;
   String? intruderSystemOfflineEndDate;
   String? additionalInformation;
@@ -77,12 +84,15 @@ class EventInfoResponse {
     notification = json['notification'];
     totalAttendance = json['totalAttendance'];
     cctvSystemOffline = json['cctvSystemOffline'];
+    cctvSystemOfflineHours = json['cctvSystemOfflineHours'];
     cctvSystemOfflineStartDate = json['cctvSystemOfflineStartDate'];
     cctvSystemOfflineEndDate = json['cctvSystemOfflineEndDate'];
     accessSystemOffline = json['accessSystemOffline'];
+    accessSystemOfflineHours = json['accessSystemOfflineHours'];
     accessSystemOfflineStartDate= json['accessSystemOfflineStartDate'];
     accessSystemOfflineEndDate= json['accessSystemOfflineEndDate'];
     intruderSystemOffline = json['intruderSystemOffline'];
+    intruderSystemOfflineHours = json['intruderSystemOfflineHours'];
     intruderSystemOfflineStartDate= json['intruderSystemOfflineStartDate'];
     intruderSystemOfflineEndDate= json['intruderSystemOfflineEndDate'];
     images =
@@ -108,12 +118,15 @@ class EventInfoResponse {
     data['eventConcludedAt'] = eventConcludedAt;
     data['totalAttendance'] = totalAttendance;
     data['cctvSystemOffline'] = cctvSystemOffline;
+    data['cctvSystemOfflineHours'] = cctvSystemOfflineHours;
     data['cctvSystemOfflineStartDate'] = cctvSystemOfflineStartDate;
     data['cctvSystemOfflineEndDate'] = cctvSystemOfflineEndDate;
     data['accessSystemOffline'] = accessSystemOffline;
+    data['accessSystemOfflineHours'] = accessSystemOfflineHours;
     data['accessSystemOfflineStartDate'] = accessSystemOfflineStartDate;
     data['accessSystemOfflineEndDate'] = accessSystemOfflineEndDate;
     data['intruderSystemOffline'] = intruderSystemOffline;
+    data['intruderSystemOfflineHours'] = intruderSystemOfflineHours;
     data['intruderSystemOfflineStartDate'] = intruderSystemOfflineStartDate;
     data['intruderSystemOfflineEndDate'] = intruderSystemOfflineEndDate;
     data['images'] = images?.map((e) => e.toJson()).toList();

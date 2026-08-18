@@ -107,13 +107,15 @@ class _MaterialItemsViewView extends State<MaterialItemsView> {
           context: context,
           // displayMenu: state.displayMenu,
           list: true, // 🔥 only "+" button mode
-          onAddPressed: () {
+          onAddPressed: !(widget.extraProperties != null &&
+              !widget.extraProperties!.hasWritePermission!) &&
+              widget.lock.isEmptyOrNull && (widget.parentStatus == 0) ?() {
             showAddContactPopUp(
               context: context,
               contact: MaterialMovementItem(),
               unit: state.units ?? [],
             );
-          },
+          }: null,
         ),
         appBar: BaseAppBar().buildAppHeader(
           context: context,
