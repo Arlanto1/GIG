@@ -805,7 +805,7 @@ class _MaterialMovementDetailsViewState
 
                               /// Outward Details Fields
                               if (!widget.isInward ||
-                                  (widget.isInward &&
+                                  (widget.isInward && widget.returnable== true &&
                                       state.model.status != null &&
                                       state.model.status != 0)) ...[
                                 CommonWidgets.verticalSpacerWidget(

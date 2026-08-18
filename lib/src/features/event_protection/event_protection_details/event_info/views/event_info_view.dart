@@ -390,7 +390,55 @@
               }
             }
 
+            // if (state.eventDuration == ConstantsIntValue.eventDurationAfter) {
+            //   if (!state.model.eventConcludedAt.isEmptyOrNull &&
+            //       dateController.text.isEmpty) {
+            //     log('state.model.eventConcludedAt--- ${state.model.eventConcludedAt}');
+            //     dateController.text = Utils.timestampToDateConversion(
+            //         int.tryParse(state.model.eventConcludedAt ?? 'null'),
+            //         Constants.fulldateFormat);
+            //   }
+            //   initialisedFromDate = DateTime.fromMillisecondsSinceEpoch(
+            //           (int.tryParse('${state.model.eventStartedAt}') ?? 0) * 1000)
+            //       .toString();
+            //   initialisedStartDate = DateTime.fromMillisecondsSinceEpoch(
+            //           (int.tryParse('${state.model.eventStartedAt}') ?? 0) * 1000)
+            //       .toString();
+            //   DateTime currentDate = DateTime.now();
+            //   DateTime newDateTime = currentDate.add(const Duration(days: 1));
+            //   initialisedToDate = newDateTime.toString();
+            //   log('initialisedToDate--- $initialisedToDate');
+            //   log('initialisedStartDate--- $initialisedStartDate');
+            //   log('initialisedFromDate--- $initialisedFromDate');
+            // }
+
+            // if (state.eventDuration == ConstantsIntValue.eventDurationAfter) {
+            //
+            // initialisedFromDate = DateTime.fromMillisecondsSinceEpoch(
+            // (int.tryParse('${state.model.eventStartedAt}') ?? 0) * 1000).toString();
+            // initialisedStartDate = initialisedFromDate;
+            //
+            // final DateTime eventStart =
+            // DateTime.tryParse(initialisedFromDate ?? '') ?? DateTime.now();
+            // final DateTime currentDate = DateTime.now();
+            //
+            // // "Concluded" must be on/after the event's own start — not just "now".
+            // // Guards against device-clock skew or future-dated eventStartedAt values
+            // // ever putting toDate before fromDate.
+            // final DateTime baseline =
+            // eventStart.isAfter(currentDate) ? eventStart : currentDate;
+            // final DateTime newDateTime = baseline.add(const Duration(days: 1));
+            // initialisedToDate = newDateTime.toString();
+            //
+            // log('initialisedToDate--- $initialisedToDate');
+            // log('initialisedStartDate--- $initialisedStartDate');
+            // log('initialisedFromDate--- $initialisedFromDate');
+            // }
+
             if (state.eventDuration == ConstantsIntValue.eventDurationAfter) {
+              // Populate "Event Concluded At" from the API — this line was dropped
+              // when the block was rewritten, which is why the field showed blank
+              // even though the API returned eventConcludedAt.
               if (!state.model.eventConcludedAt.isEmptyOrNull &&
                   dateController.text.isEmpty) {
                 log('state.model.eventConcludedAt--- ${state.model.eventConcludedAt}');
@@ -398,20 +446,48 @@
                     int.tryParse(state.model.eventConcludedAt ?? 'null'),
                     Constants.fulldateFormat);
               }
+
               initialisedFromDate = DateTime.fromMillisecondsSinceEpoch(
-                      (int.tryParse('${state.model.eventStartedAt}') ?? 0) * 1000)
+                  (int.tryParse('${state.model.eventStartedAt}') ?? 0) * 1000)
                   .toString();
-              initialisedStartDate = DateTime.fromMillisecondsSinceEpoch(
-                      (int.tryParse('${state.model.eventStartedAt}') ?? 0) * 1000)
-                  .toString();
-              DateTime currentDate = DateTime.now();
-              DateTime newDateTime = currentDate.add(const Duration(days: 1));
+              initialisedStartDate = initialisedFromDate;
+
+              final DateTime eventStart =
+                  DateTime.tryParse(initialisedFromDate ?? '') ?? DateTime.now();
+              final DateTime currentDate = DateTime.now();
+
+              final DateTime baseline =
+              eventStart.isAfter(currentDate) ? eventStart : currentDate;
+              final DateTime newDateTime = baseline.add(const Duration(days: 1));
               initialisedToDate = newDateTime.toString();
+
+              // Populate CCTV / Access / Intruder "offline end date" fields from the
+              // API. This previously only ran inside the eventDurationBefore branch,
+              // so opening a record in "after" (concluded) mode never loaded these
+              // saved values — the fields looked empty even though the data existed.
+              if (!state.model.cctvSystemOfflineEndDate.isEmptyOrNull &&
+                  cctvEndDateController.text.isEmpty) {
+                cctvEndDateController.text = Utils.timestampToDateConversion(
+                    int.tryParse(state.model.cctvSystemOfflineEndDate ?? 'null'),
+                    Constants.fulldateFormat);
+              }
+              if (!state.model.accessSystemOfflineEndDate.isEmptyOrNull &&
+                  accessEndDateController.text.isEmpty) {
+                accessEndDateController.text = Utils.timestampToDateConversion(
+                    int.tryParse(state.model.accessSystemOfflineEndDate ?? 'null'),
+                    Constants.fulldateFormat);
+              }
+              if (!state.model.intruderSystemOfflineEndDate.isEmptyOrNull &&
+                  intruderEndDateController.text.isEmpty) {
+                intruderEndDateController.text = Utils.timestampToDateConversion(
+                    int.tryParse(state.model.intruderSystemOfflineEndDate ?? 'null'),
+                    Constants.fulldateFormat);
+              }
+
               log('initialisedToDate--- $initialisedToDate');
               log('initialisedStartDate--- $initialisedStartDate');
               log('initialisedFromDate--- $initialisedFromDate');
             }
-
             log('--widget.editForm---${widget.editForm}--');
             if (state.model.status != 4 && widget.editForm) {
               showSaveButtons = true;
@@ -420,9 +496,13 @@
             if (!state.model.lock.isEmptyOrNull) {
               showSaveButtons = false;
             }
-            // if(widget.editForm){
-            //   showSaveButtons == true;
-            // }
+            if(state.model.canEdit == true){
+              showSaveButtons == true;
+            }
+
+            if(state.model.readOnly == false){
+              showSaveButtons == true;
+            }
 
             log('-csrrr-${widget.isSportEventProtection}---');
             return Scaffold(
@@ -460,38 +540,84 @@
                 //     (route) => false,
                 //   );
                 // },
+                // onTapSubmit: () async {
+                //   FocusScope.of(context).unfocus();
+                //
+                //   final success = await BlocProvider.of<EventInfoCubit>(context).submitForm(
+                //     isSaveOnly: false,
+                //     updatedEmailText: updatedEmailText ?? '',
+                //   );
+                //
+                //   if (!success) return; //  API failed — stay on page
+                //   //
+                //   if (!context.mounted) return; // safety check after await
+                //   //
+                //   // // Navigator.pop(context);
+                //   // // Navigator.pop(context);
+                //   //
+                //   // String route = widget.isEventProtection
+                //   //     ? eventProtectionListRoute
+                //   //     : widget.isCSREventProtection || widget.isSportEventProtection
+                //   //     ? csrEventListRoute
+                //   //     : annualPowerShutdownListRoute;
+                //   //
+                //   // Navigator.pushNamedAndRemoveUntil(
+                //   //   context,
+                //   //   route,
+                //   //       (route) => false,
+                //   // );
+                // },
+                // onTapSubmit: () async {
+                //   FocusScope.of(context).unfocus();
+                //   final success = await BlocProvider.of<EventInfoCubit>(context)
+                //       .submitForm(isSaveOnly: false, updatedEmailText: updatedEmailText ?? '');
+                //
+                //   if (!success) return;
+                //   if (!context.mounted) return;
+                //
+                //   setState(() {
+                //     showSaveButtons = false;
+                //   });
+                //
+                //   Navigator.pop(context);
+                //   Navigator.pop(context);
+                // },
+
                 onTapSubmit: () async {
                   FocusScope.of(context).unfocus();
-
                   final success = await BlocProvider.of<EventInfoCubit>(context).submitForm(
                     isSaveOnly: false,
                     updatedEmailText: updatedEmailText ?? '',
                   );
 
-                  if (!success) return; //  API failed — stay on page
-                  //
-                  if (!context.mounted) return; // safety check after await
-                  //
-                  // // Navigator.pop(context);
-                  // // Navigator.pop(context);
-                  //
-                  // String route = widget.isEventProtection
-                  //     ? eventProtectionListRoute
-                  //     : widget.isCSREventProtection || widget.isSportEventProtection
-                  //     ? csrEventListRoute
-                  //     : annualPowerShutdownListRoute;
-                  //
-                  // Navigator.pushNamedAndRemoveUntil(
-                  //   context,
-                  //   route,
-                  //       (route) => false,
-                  // );
+                  if (!success) return; // API failed — stay on page
+                  if (!context.mounted) return;
+
+                  setState(() {
+                    showSaveButtons = false;
+                  });
+
+                  // Determine which list this event type belongs to
+                  final String route = widget.isEventProtection
+                      ? eventProtectionListRoute
+                      : widget.isCSREventProtection || widget.isSportEventProtection
+                      ? csrEventListRoute
+                      : annualPowerShutdownListRoute;
+
+                  // Rebuilds the list page from scratch — its initState (and therefore
+                  // its list-fetch API call) runs again, so the submitted record shows
+                  // up with fresh data instead of a stale cached list.
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    route,
+                        (route) => false, // clears the whole stack back to the list
+                  );
                 },
               ),
               backgroundColor: Colors.transparent,
               body: Stack(
                 children: [
-                  /// 🔹 FULL SCREEN BACKGROUND IMAGE
+                  ///  FULL SCREEN BACKGROUND IMAGE
                   Positioned.fill(
                     child: Image.asset(
                       'assets/images/bg2.png',
@@ -499,7 +625,7 @@
                     ),
                   ),
 
-                  // 🔹 GLASS BLUR OVERLAY
+                  //  GLASS BLUR OVERLAY
                   Positioned.fill(
                     child: BackdropFilter(
                       filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
@@ -509,7 +635,7 @@
                     ),
                   ),
 
-                  // 🔹 CONTENT (FORCED TO FULL HEIGHT)
+                  //  CONTENT (FORCED TO FULL HEIGHT)
                   LayoutBuilder(builder: (context, constraints) {
                     return SingleChildScrollView(
                         child: ConstrainedBox(
@@ -947,12 +1073,12 @@
                                                           .datePickerWidgetLoading(
                                                         context: context,
                                                         textController:
-                                                        cctvDateController,
+                                                        cctvEndDateController,
                                                         isDisabled:
                                                         !showSaveButtons,
                                                         onlyDate: false,
                                                         onChange: (String value) {
-                                                          cctvDateController
+                                                          cctvEndDateController
                                                               .text = value;
                                                           log('dateControllerValue --- $value');
                                                           state.model
@@ -984,12 +1110,12 @@
                                                           .datePickerWidgetLoading(
                                                         context: context,
                                                         textController:
-                                                        accessDateController,
+                                                        accessEndDateController,
                                                         isDisabled:
                                                         !showSaveButtons,
                                                         onlyDate: false,
                                                         onChange: (String value) {
-                                                          accessDateController
+                                                          accessEndDateController
                                                               .text = value;
                                                           log('dateControllerValue --- $value');
                                                           state.model
@@ -1006,37 +1132,37 @@
                                                     CommonWidgets
                                                         .verticalSpacerWidget(
                                                         height * 0.02),
-                                                    /// Intruder System Offline End Date
-                                                      CommonWidgets.textDisplay(
-                                                        // state.labels?.locale.extraSecurityDeployed ??
-                                                        //     state.labels?.defaultLocale
-                                                        //         .extraSecurityDeployed ??
-                                                          Constants.intruderSystemOfflineEndDate,
-                                                          Styles.textStyleWhite16,
-                                                          isMandatory: true
-                                                      ),
-                                                      BaseDate()
-                                                          .datePickerWidgetLoading(
-                                                        context: context,
-                                                        textController:
-                                                        intruderDateController,
-                                                        isDisabled:
-                                                        !showSaveButtons,
-                                                        onlyDate: false,
-                                                        onChange: (String value) {
-                                                          intruderDateController
-                                                              .text = value;
-                                                          log('dateControllerValue --- $value');
-                                                          state.model
-                                                              .intruderSystemOfflineEndDate =
-                                                              value;
-                                                          BlocProvider.of<
-                                                              EventInfoCubit>(
-                                                              context)
-                                                              .onModelValueChange(
-                                                              state.model);
-                                                        },
-                                                      ),
+                                                    // /// Intruder System Offline End Date
+                                                    //   CommonWidgets.textDisplay(
+                                                    //     // state.labels?.locale.extraSecurityDeployed ??
+                                                    //     //     state.labels?.defaultLocale
+                                                    //     //         .extraSecurityDeployed ??
+                                                    //       Constants.intruderSystemOfflineEndDate,
+                                                    //       Styles.textStyleWhite16,
+                                                    //       isMandatory: true
+                                                    //   ),
+                                                    //   BaseDate()
+                                                    //       .datePickerWidgetLoading(
+                                                    //     context: context,
+                                                    //     textController:
+                                                    //     intruderDateController,
+                                                    //     isDisabled:
+                                                    //     !showSaveButtons,
+                                                    //     onlyDate: false,
+                                                    //     onChange: (String value) {
+                                                    //       intruderDateController
+                                                    //           .text = value;
+                                                    //       log('dateControllerValue --- $value');
+                                                    //       state.model
+                                                    //           .intruderSystemOfflineEndDate =
+                                                    //           value;
+                                                    //       BlocProvider.of<
+                                                    //           EventInfoCubit>(
+                                                    //           context)
+                                                    //           .onModelValueChange(
+                                                    //           state.model);
+                                                    //     },
+                                                    //   ),
                                                   ],
                                                   CommonWidgets
                                                       .verticalSpacerWidget(
@@ -1044,8 +1170,8 @@
                                                   if (state.eventDuration ==
                                                           ConstantsIntValue
                                                               .eventDurationAfter &&
-                                                      widget
-                                                          .isEventProtection) ...[
+                                                     !widget
+                                                          .isAnnualPowerShutdown ) ...[
                                                     ///Total Attendies
                                                     CommonWidgets.textDisplay(
                                                         Constants.totalAttendies,
@@ -1138,14 +1264,15 @@
                                                               ),
                                                               IconButton(
                                                                 icon: showSaveButtons
-                                                                    ? const Icon(
+                                                                    ?
+                                                                const Icon(
                                                                         Icons.add,
                                                                         color: Colors
                                                                             .white)
                                                                     : const SizedBox(),
                                                                 tooltip:
                                                                     'Fetch Template',
-                                                                onPressed:
+                                                                onPressed: showSaveButtons ?
                                                                     () async {
                                                                   try {
                                                                     final cubit =
@@ -1190,7 +1317,7 @@
                                                                         stackTrace:
                                                                             s);
                                                                   }
-                                                                },
+                                                                } : null,
                                                               ),
                                                             ],
                                                           ),
@@ -1360,9 +1487,10 @@
                                                     if ((widget
                                                         .isEventProtection && state.eventDuration ==
                                                         ConstantsIntValue
-                                                            .eventDurationAfter) || widget.isCSREventProtection && state.eventDuration ==
+                                                            .eventDurationAfter) || (widget.isCSREventProtection && state.eventDuration ==
                                                         ConstantsIntValue
-                                                            .eventDurationDuring) ...[
+                                                            .eventDurationAfter) ||( widget.isAnnualPowerShutdown  && state.eventDuration == ConstantsIntValue
+                                                        .eventDurationAfter)) ...[
                                                       Center(
                                                         child: Row(
                                                           mainAxisAlignment:
@@ -1393,6 +1521,7 @@
                                                                         state
                                                                             .model
                                                                             .location,
+                                                                    ConstantsArgument.title: "Article Found",
                                                                   },
                                                                 );
                                                               },
@@ -1522,7 +1651,7 @@
                 var height = MediaQuery.of(dialogContext).size.height;
                 var width = MediaQuery.of(dialogContext).size.width;
                 return AlertDialog(
-                  backgroundColor: Colors.transparent, // ✅ important for gradient
+                  backgroundColor: Colors.transparent, //  important for gradient
                   elevation: 0,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),

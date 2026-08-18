@@ -152,7 +152,7 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                       ),
                     ),
 
-                    // 🔹 ListView - start immediately below search bar
+                    //  ListView - start immediately below search bar
                     Positioned(
                       top: MediaQuery.of(context).padding.top +
                           kToolbarHeight +
@@ -312,7 +312,8 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                                                     isDutyPostMasterStatus:
                                                     true,
                                                     isEventProtectionStatus: false,
-
+                                                    isMasterGuard:
+                                                    false,
                                                     onTap: (selectedIndex) {
                                                       showDialog(
                                                         context: context,
@@ -332,7 +333,7 @@ class _DutyPostMasterListViewState extends State<DutyPostMasterListView> {
                                                             status: state.list[selectedIndex].status,
                                                             isEventProtectionStatus: false,
                                                             isDutyPostMasterStatus:
-                                                            true,  isMasterGuard: true,
+                                                            true,  isMasterGuard: false,
                                                           );
                                                         },
                                                       );

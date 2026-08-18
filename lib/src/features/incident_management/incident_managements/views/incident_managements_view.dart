@@ -385,6 +385,9 @@ class _IncidentManagementsViewState extends State<IncidentManagementsView> {
         ConstantsArgument.id: id.toString(),
         ConstantsArgument.extraProperties:
             ExtraProperties(hasWritePermission: hasWritePermission),
+        'occId': widget.occId?.toString(),
+        'occType': widget.occType,
+        'kldId': widget.kldId?.toString(),
       },
     );
   }

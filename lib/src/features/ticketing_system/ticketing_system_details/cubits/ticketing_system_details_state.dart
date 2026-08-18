@@ -31,7 +31,7 @@ class TicketingSystemDetailsState extends Equatable {
     required Locations locations,
     required final List<Organisation>? listOfModules,
     required final List<Organisation> getStatus,
-    required final List<Organisation>? getTsStatus,
+    // required final List<Organisation>? getTsStatus,
 
   }) {
     return TicketingSystemDetailsState(
@@ -48,7 +48,7 @@ class TicketingSystemDetailsState extends Equatable {
       uploadAttachments: uploadAttachments,
       listOfModules: listOfModules,
       getStatus: getStatus,
-        getTsStatus:getTsStatus,
+        // getTsStatus:getTsStatus,
     );
   }
 

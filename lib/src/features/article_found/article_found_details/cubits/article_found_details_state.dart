@@ -108,9 +108,9 @@ class ArticleFoundDetailsState extends Equatable {
     //   return const ErrorResponse(status: false, message: 'Manager Name and Claimant Name should be different, Please select other user');
     // }
     //
-    // if(model.idCardEmployee?.employeeId !=null && model.claimant?.employeeId !=null  && (model.idCardEmployee?.employeeId == model.claimant?.employeeId)){
-    //   return const ErrorResponse(status: false, message: 'Employee Name and Claimant Name should be different, Please select other user');
-    // }
+    if(model.idCardEmployee?.employeeId !=null && model.idCardManager?.employeeId !=null  && (model.idCardEmployee?.employeeId == model.idCardManager?.employeeId)){
+      return const ErrorResponse(status: false, message: 'Employee Name and Manager Name should be different, Please select other user');
+    }
 
     // if((model.typeOfArticle!.name!.toLowerCase().contains('id') ||
     //     model.typeOfArticle!.name!.toLowerCase().contains('card')) && model.depositor?.employeeId !=null && model.idCardManager?.employeeId !=null && (model.depositor?.employeeId == model.idCardManager?.employeeId)){

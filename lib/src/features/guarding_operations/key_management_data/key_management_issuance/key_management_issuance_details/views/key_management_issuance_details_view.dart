@@ -414,7 +414,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
     initializeDates(state);
     return Stack(
       children: [
-        // 🔹 Background Image
+        //  Background Image
         Positioned.fill(
           child: Image.asset(
             'assets/images/bg2.png',
@@ -917,7 +917,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                                 .employeeID ??
                                             Constants.employeeid,
                                         isMandatory: false,
-                                        Styles.textStyleBlack14),
+                                        Styles.textStyleWhite14),
                                     CommonWidgets.verticalSpacerWidget(
                                         height * 0.002),
                                     FlutterInputField(
@@ -977,7 +977,7 @@ class _SLAViolationViewState extends State<KeyManagementIssuanceDetailsView> {
                                             state.labels?.defaultLocale
                                                 .dbSponsorCwrT2 ??
                                             Constants.dbSponsorOfCWRT2,
-                                        Styles.textStyleBlack14,
+                                        Styles.textStyleWhite14,
                                         isMandatory: true),
                                     TextFieldAddButton(
                                       title: state

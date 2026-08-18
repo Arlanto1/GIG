@@ -48,7 +48,7 @@ class _CsrEventShowGridViewState extends State<CsrEventShowGridView> {
       ),
       body: Stack(
         children: [
-          // 🔹 FULL SCREEN BACKGROUND IMAGE
+          //  FULL SCREEN BACKGROUND IMAGE
           Positioned.fill(
             child: Image.asset(
               'assets/images/bg2.png',
@@ -56,7 +56,7 @@ class _CsrEventShowGridViewState extends State<CsrEventShowGridView> {
             ),
           ),
 
-          // 🔹 GLASS BLUR OVERLAY
+          //  GLASS BLUR OVERLAY
           Positioned.fill(
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),

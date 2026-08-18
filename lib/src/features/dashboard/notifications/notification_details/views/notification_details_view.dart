@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/dashboard/notifications/notification_details/cubits/notification_details_cubit.dart';
+import 'package:db_atom/src/features/event_protection/services/event_protection_services.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/models/key_loss_destruction_list_model.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_loss_destruction_list/services/key_loss_destruction_list_services.dart';
 import 'package:db_atom/src/features/law_enforcement_new/models/law_enforcement_model_new.dart';
@@ -10,6 +11,7 @@ import 'package:db_atom/src/features/law_enforcement_new/services/law_enforcemen
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../annual_power_shutdown_list/services/annual_power_shutdown_services.dart';
 import '../../../../guarding_operations/sla_violation_penalty/services/sla_violation_penalty_services.dart';
 
 class NotificationDetailsView extends StatefulWidget {
@@ -295,6 +297,35 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
                   'id': moduleId,
                   'isInternal': false,
                   "title": Constants.ticketLifeCycle,
+                },
+              );
+              break;
+            }
+          case 'APS':
+            {
+              AnnualPowerShutdownListModel annualPowerShutdownListModel = await AnnualPowerShutdownListServices().getById('${moduleId}');
+              nav.pushNamed(
+                annualPowerShutdownListDetailsRoute,
+                arguments: {
+                  ConstantsArgument.id: moduleId.toString(),
+                  'model': annualPowerShutdownListModel,
+                },
+              );
+              break;
+            }
+
+          case 'EP':
+            {
+              nav.pushNamed(
+                eventProtectionDetailsTabRoute,
+                arguments: {
+                  ConstantsArgument.id: moduleId.toString(),
+                  'eventStatus': 0,
+                  ConstantsArgument.title: Constants.eventProtectionTitle,
+                  ConstantsArgument.isEventProtection: true,
+                  ConstantsArgument.showEPGridsModel: ShowEPGridsModel(),
+                  // ConstantsArgument.extraProperties:
+                  // ExtraProperties(hasWritePermission: hasWritePermission),
                 },
               );
               break;

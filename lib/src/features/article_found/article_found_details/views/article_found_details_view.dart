@@ -172,6 +172,10 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
 
         editFields= (widget.model == null ||  state.model.status == 0) &&  state.model.lock.isEmptyOrNull;
 
+        /// Builds a "Name (email)" display string, but only shows the parts that
+        /// actually have data — avoids literal "null" text when the value or its
+        /// fields are empty/null.
+
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
             context: context,
@@ -231,7 +235,15 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
       uploadFiles = state.uploadAttachments;
       uploadFiles = state.model.images ?? [];
     }
+    String _displayNameEmail(String? name, String? email) {
+      final hasName = name != null && name.trim().isNotEmpty;
+      final hasEmail = email != null && email.trim().isNotEmpty;
 
+      if (!hasName && !hasEmail) return '';
+      if (hasName && hasEmail) return '$name ($email)';
+      if (hasName) return name;
+      return email!;
+    }
 
     return Stack(children: [
       //  Background Image
@@ -444,7 +456,11 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
                                   Styles.textStyleWhite16,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: '${state.model.idCardManager?.name} (${state.model.idCardManager?.email})',
+                                // title: '${state.model.idCardManager?.name} (${state.model.idCardManager?.email})',
+                                title: _displayNameEmail(
+                                  state.model.idCardManager?.name,
+                                  state.model.idCardManager?.email,
+                                ),
                                 height: 75,
                                 isDisableColor: !editFields,
                                 onTap: () {
@@ -493,7 +509,11 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
                                   Styles.textStyleWhite16,
                                   isMandatory: true),
                               TextFieldAddButton(
-                                title: '${state.model.idCardManager?.name} (${state.model.idCardManager?.email})',
+                                // title: '${state.model.idCardEmployee?.name} (${state.model.idCardEmployee?.email})',
+                                title: _displayNameEmail(
+                                  state.model.idCardEmployee?.name,
+                                  state.model.idCardEmployee?.email,
+                                ),
                                 height: 75,
                                 isDisableColor: !editFields,
                                 onTap: () {

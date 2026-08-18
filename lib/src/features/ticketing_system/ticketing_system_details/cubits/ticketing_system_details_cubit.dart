@@ -28,7 +28,7 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
             priorities: const [],
             projects: const [],
             trackers: const [],
-            eventId: null, locations: Locations(), listOfModules: const [], getStatus: const [], getTsStatus: const [],
+            eventId: null, locations: Locations(), listOfModules: const [], getStatus: const [],
           ),
         );
 
@@ -76,7 +76,7 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
         commonServices.getOrganisations(name: 'ATOM_MODULES_NAME_LIST'),
         commonServices.getStatusesByModuleId(
             module: Constants.ticketingSystemModuleCode,),
-        services.getStatuses(id: state.model.id?.toString() ?? '')
+        // services.getStatuses(id: state.model.id?.toString() ?? '')
       ]);
       Locations locations = futures[0];
       User loggedInUserDetails = futures[1];
@@ -84,7 +84,7 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
       Organisation? defaultLocation = futures[3];
       List<Organisation> listOfModules = futures[4];
       List<Organisation> getStatus = futures[5];
-      List<Organisation> getTsStatus = futures[6];
+      // List<Organisation> getTsStatus = futures[6];
 
       // Get Date of Creation
       state.model.inputDate = state.model.inputDate == null
@@ -119,7 +119,7 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
           model: state.model,
           listOfModules:listOfModules,
           getStatus :getStatus,
-            getTsStatus:getTsStatus
+            // getTsStatus:getTsStatus
         ),
       );
     } catch (e) {
@@ -187,8 +187,8 @@ class TicketingSystemDetailsCubit extends Cubit<TicketingSystemDetailsState> {
     int? ticketRaisedFor,
     int? ragStatus,
     List<Organisation>? modulesName,
-    // int? status,
-Organisation? status,
+    int? status,
+// Organisation? status,
 
   }) async {
     emit(
@@ -208,9 +208,9 @@ Organisation? status,
       state.model.location = location;
       state.model.ticketNo = slNo.serialNo ?? '';
     }
-    // if (status != null) {
-    //   state.model.status = status;
-    // }
+    if (status != null) {
+      state.model.status = status;
+    }
 
     if (ticketType != null) {
       state.model.ticketType = ticketType;
@@ -235,9 +235,9 @@ Organisation? status,
     }
 
 
-    if (status != null) {
-      state.model.status = status.id;
-    }
+    // if (status != null) {
+    //   state.model.status = status.id;
+    // }
 
 
     emit(state.copyWith(

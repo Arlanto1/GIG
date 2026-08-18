@@ -63,7 +63,7 @@ class _DayPassManagementDetailsViewState
 
   bool showSaveSubmitButtons = false;
   bool lock = false;
-
+  String? previousPassValidUntileTime;
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -288,7 +288,7 @@ class _DayPassManagementDetailsViewState
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
                               /// Updated Status
-                              if (widget.model?.status == 0 ||
+                              if (
                                   widget.model?.status == 1 ||
                                   widget.model?.status == 3) ...[
                                 CommonWidgets.textDisplay(
@@ -989,6 +989,7 @@ class _DayPassManagementDetailsViewState
                                     onChangedYes: isReadOnly
                                         ? null
                                         : (val) {
+                                      previousPassValidUntileTime ??= state.model.endTime;
                                             state.model.exceptionalApproval =
                                                 true;
                                             BlocProvider.of<
@@ -1001,6 +1002,8 @@ class _DayPassManagementDetailsViewState
                                         : (val) {
                                             state.model.exceptionalApproval =
                                                 false;
+                                            state.model.endTime = previousPassValidUntileTime;
+                                            previousPassValidUntileTime = null;
                                             BlocProvider.of<
                                                         DayPassManagementDetailsCubit>(
                                                     context)

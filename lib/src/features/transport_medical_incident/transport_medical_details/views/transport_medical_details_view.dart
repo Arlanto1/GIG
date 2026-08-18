@@ -282,7 +282,7 @@ class _TransportMedicalDetailsViewState
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               BaseDropDown().getDropDown(
-                                  isDisabled: true,
+                                  isDisabled: state.model.status!=2 ? true : false,
                                   textController: statusController,
                                   items: transportMedicalStatusValues,
                                   initialValue: '${state.model.status ?? 0}',
@@ -2006,15 +2006,15 @@ class _TemplatePreviewPageState extends State<TemplatePreviewPage> {
           /// Content
           BlocBuilder<TransportMedicalDetailsCubit, TransportMedicalDetailsState>(
             builder: (context, state) {
-              // ✅ sync local list when new attachment added via cubit
-              if (state.status == FormStatus.addAttachment) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  setState(() {
-                    localAttachments =
-                    List<ImageContent>.from(state.loadAttachments);
-                  });
-                });
-              }
+              //  sync local list when new attachment added via cubit
+              // if (state.status == FormStatus.addAttachment) {
+              //   WidgetsBinding.instance.addPostFrameCallback((_) {
+              //     setState(() {
+              //       localAttachments =
+              //       List<ImageContent>.from(state.loadAttachments);
+              //     });
+              //   });
+              // }
 
               return Column(
                 children: [
@@ -2070,35 +2070,66 @@ ${widget.html}
                   const SizedBox(height: 12),
 
                   /// ATTACHMENTS —  use localAttachments
-                  if (localAttachments.isNotEmpty)
+                  // if (localAttachments.isNotEmpty)
+                  //   Expanded(
+                  //     child: Padding(
+                  //       padding: const EdgeInsets.symmetric(horizontal: 12),
+                  //       child: Container(
+                  //         width: width,
+                  //         decoration: BoxDecoration(
+                  //           borderRadius: BorderRadius.circular(12),
+                  //           border: Border.all(
+                  //             color: Colors.white.withValues(alpha: 0.35),
+                  //             width: 0.8,
+                  //           ),
+                  //           color: Colors.white.withValues(alpha: 0.03),
+                  //         ),
+                  //         child: ClipRRect(
+                  //           borderRadius: BorderRadius.circular(12),
+                  //           child: SingleChildScrollView(
+                  //             padding: const EdgeInsets.all(8),
+                  //             child: BaseImageUpload().getAttachment(
+                  //               height: height,
+                  //               attachments: localAttachments,
+                  //               files: localAttachments,
+                  //               moduleCode: '',
+                  //               isDisabled: widget.templateId !=null,
+                  //               showDeleteIcon: widget.templateId ==null,
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  if ((state.loadAttachments ?? []).isNotEmpty)
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 12),
-                        child: Container(
-                          width: width,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(
-                              color: Colors.white.withValues(alpha: 0.35),
-                              width: 0.8,
-                            ),
-                            color: Colors.white.withValues(alpha: 0.03),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: SingleChildScrollView(
-                              padding: const EdgeInsets.all(8),
-                              child: BaseImageUpload().getAttachment(
-                                height: height,
-                                attachments: localAttachments,
-                                files: localAttachments,
-                                moduleCode: '',
-                                isDisabled: !widget.showSaveButtons,
-                                showDeleteIcon: true,
-                              ),
-                            ),
-                          ),
+              child: Container(
+              width: width,
+              decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+              color: Colors.white.withValues(alpha: 0.35),
+              width: 0.8,
+              ),
+              color: Colors.white.withValues(alpha: 0.03),
+              ),
+              child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: SingleChildScrollView(
+              padding: const EdgeInsets.all(8),
+                        child: BaseImageUpload().getAttachment(
+                          height: height,
+                          attachments: List<ImageContent>.from(state.loadAttachments ?? []),
+                          files: List<ImageContent>.from(state.loadAttachments ?? []),
+                          moduleCode: '',
+                          isDisabled: widget.templateId != null,
+                          showDeleteIcon: widget.templateId == null,
                         ),
+              ),
+              ),
+              ),
                       ),
                     ),
 
@@ -2129,7 +2160,7 @@ ${widget.html}
                 fixedSize: const Size(120, 50),
                 backgroundColor: Colors.transparent,
               ),
-              onPressed: () {
+              onPressed: widget.showSaveButtons ? () {
                 showDialog(
                   context: context,
                   builder: (BuildContext dialogContext) {
@@ -2146,7 +2177,7 @@ ${widget.html}
                     );
                   },
                 );
-              },
+              } : null,
               icon: SvgPicture.asset(
                 AppIcon.uploadIcon,
                 colorFilter: const ColorFilter.mode(

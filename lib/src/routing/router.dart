@@ -162,5 +162,5 @@ const String trainingItemsListRoute = '/trainingItemsListRoute';
 
 const String selfPacedTrainingListRoute = '/selfPacedTrainingListRoute';
 // const String trainingListCardRoute = '/trainingListCardRoute';
-// const String trainingGenInfoDetailsRoute = '/trainingGenInfoDetailsRoute';
+const String selfPacedTrainingDetailsRoute = '/selfPacedTrainingDetailsRoute';
 // const String trainingItemsListRoute = '/trainingItemsListRoute';

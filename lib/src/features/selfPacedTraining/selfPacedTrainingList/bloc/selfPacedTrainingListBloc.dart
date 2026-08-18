@@ -1,6 +1,5 @@
 
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/selfPacedTraining/models/selfPacedTrainingModel.dart';
@@ -71,13 +70,11 @@ class SelfPacedTrainingListBloc
       SelfPacedTrainingModuleResponseModel response;
 
       response = await _services.getSelfPacedTrainingList(
-        startPosition: '0',
-        maximumRecords: '20',
       );
 
       return emit(
         state.copyWith(
-          items: response.items,
+          items: response.list,
           hasReachedMax: false,
           status: FormStatus.success,
         ),
@@ -95,20 +92,16 @@ class SelfPacedTrainingListBloc
         status: FormStatus.loading,
       ),
     );
-    log('response.111');
+
     try {
-      log('response.222');
       if (state.status == FormStatus.initial) {
         SelfPacedTrainingModuleResponseModel response;
         response = await _services.getSelfPacedTrainingList(
-          startPosition: '${event.startPos}',
-          maximumRecords: '${event.maxPos}',
         );
-        log('response.items ${response.items}');
 
         return emit(
           state.copyWith(
-            items: response.items,
+            items: response.list,
             hasReachedMax: false,
             status: FormStatus.success,
           ),
@@ -117,17 +110,14 @@ class SelfPacedTrainingListBloc
 
       SelfPacedTrainingModuleResponseModel response;
       response = await _services.getSelfPacedTrainingList(
-        startPosition: '${event.startPos}',
-        maximumRecords: '${event.maxPos}',
       );
-      log('response.333 ${response.items}');
 
-      if (response.items?.isEmpty == true) {
+      if (response.list?.isEmpty == true) {
         return emit(state.copyWith(hasReachedMax: true));
       }
       return emit(
         state.copyWith(
-          items: List.of(state.items)..addAll(response.items ?? []),
+          items: List.of(state.items)..addAll(response.list ?? []),
           hasReachedMax: false,
           status: FormStatus.success,
         ),

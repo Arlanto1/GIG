@@ -266,6 +266,7 @@ class Constants {
   static const String updatestatus = 'Update Status';
   static const String dateofcreation = 'Date of Creation';
   static const String createDate = 'Create Date';
+  static const String creationDate = 'Creation Date';
   static const String createdDate = 'Created Date';
   static const String createOn = 'Create On';
   static const String founddate = 'Found Date';
@@ -730,7 +731,7 @@ class Constants {
   static const String closureTargetDate = 'Target Date of Closure';
 
   static const String assetType = 'Asset Type';
-  static const String totalAttendies = 'Total Attendies';
+  static const String totalAttendies = 'Total Attendance';
   static const String cCTvSystemOffline = 'CCTV System Offline';
   static const String accessSystemOffline = 'Access System Offline';
   static const String intruderSystemOffline = 'Intruder System Offline';
@@ -1124,7 +1125,7 @@ class Constants {
   static const String ticketingSystem = "Ticketing System";
   static const String ticketingSystemListTitle = "Bugs";
   static const String ticketType = "Ticket Type";
-  static const String priorityType = "Priority Type";
+  static const String priorityType = "Priority";
   static const String assignee = "Assignee To";
   static const String ticketRaisedFor = "Ticket raised for";
   static const String ragStatus = "Rag Status";
@@ -1197,8 +1198,14 @@ class Constants {
   static const String currentSession = 'Current Session';
   static const String training = 'Training';
 
+  static const String trainingSetup= 'Training Setup';
 
   static const String selfPacedTraining = 'Self Paced Training';
+  static const String questionnaire = 'Questionnaire';
+  static const String launchDate = 'Launch Date';
+  static const String passingScore = 'Passing Score';
+  static const String audit = 'Audit';
+  static const String recipientGroup = 'Recipient Group(s)';
 
 
 }

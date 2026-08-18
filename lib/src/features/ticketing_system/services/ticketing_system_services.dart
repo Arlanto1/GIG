@@ -20,7 +20,7 @@ class Apis {
   static final String _getTrackers = '$baseUrl/getTrackerList';
   static final String _getProjects = '$baseUrl/getProjectList';
   static final String _getAssignee = '$baseUrl/getAssigneeList';
-  static final String _getStatus = '$baseUrl/getTSStatus';
+  // static final String _getStatus = '$baseUrl/getTSStatus';
 
 }
 
@@ -93,22 +93,22 @@ class TicketingSystemServices {
   }
 
 
-  Future<List<Organisation>> getStatuses({
-    required String? id,
-    BuildContext? context,
-  }) async {
-    String url = '${Apis._getStatus}/ ';
-    if(id !=null){
-       url = '${Apis._getStatus}/$id';
-    }
-    final response = await BaseApiService().getRequest(
-      url: url,
-    );
-
-    if (response == null) {
-      return [];
-    }
-    return List<Organisation>.from(
-        response.map((x) => Organisation.fromJson(x)));
-  }
+  // Future<List<Organisation>> getStatuses({
+  //   required String? id,
+  //   BuildContext? context,
+  // }) async {
+  //   String url = '${Apis._getStatus}/ ';
+  //   if(id !=null){
+  //      url = '${Apis._getStatus}/$id';
+  //   }
+  //   final response = await BaseApiService().getRequest(
+  //     url: url,
+  //   );
+  //
+  //   if (response == null) {
+  //     return [];
+  //   }
+  //   return List<Organisation>.from(
+  //       response.map((x) => Organisation.fromJson(x)));
+  // }
 }

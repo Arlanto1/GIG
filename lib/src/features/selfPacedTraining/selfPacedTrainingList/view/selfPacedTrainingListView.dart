@@ -280,7 +280,7 @@ class _SelfPacedTrainingListViewState extends State<SelfPacedTrainingListView> {
   void editDataLoading(SelfPacedTrainingModel? model, bool hasWritePermission) {
     dismissLoadingDialog(context);
     if (model != null) {
-      Navigator.pushNamed(context, trainingListCardRoute, arguments: {
+      Navigator.pushNamed(context, selfPacedTrainingDetailsRoute, arguments: {
         "model": model,
         "title": Constants.editFound,
         ConstantsArgument.extraProperties:

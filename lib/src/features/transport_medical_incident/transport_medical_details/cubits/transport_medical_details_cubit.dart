@@ -1530,7 +1530,7 @@ class TransportMedicalDetailsCubit extends Cubit<TransportMedicalDetailsState> {
           error: e, name: 'Transport Medical Details Cubit');
       emit(
         state.copyWith(
-          model: state.model, // ✅ FIX: always carry model
+          model: state.model, //  FIX: always carry model
           message: Constants.errorText,
           status: FormStatus.error,
         ),

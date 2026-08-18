@@ -393,6 +393,8 @@ const List<Label> articleFoundStatus = [
   Label(key: 'Found', value: '0'),
   Label(key: 'Under Security Custody', value: '1'),
   Label(key: 'Handed Over/ Claimed', value: '2'),
+  Label(key: 'Article Ready for Disposed', value: '3'),
+  Label(key: 'Article Disposed', value: '4'),
   Label(key: 'Cancelled', value: '-1'),
 
 ];

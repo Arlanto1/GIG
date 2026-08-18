@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 import 'package:db_atom/index.dart';
 
 import '../../models/vvip_visitor_record_model.dart';
@@ -57,15 +58,15 @@ class AddVVIPVisitorsPopUpState extends State<AddVVIPVisitorsPopUp> {
   Widget build(BuildContext context) {
     return Stack(
         children: [
-    // 🔹 BLUR THE ENTIRE BACKGROUND PAGE
-    // BackdropFilter(
-    // filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
-    // child: Container(
-    // color: Colors.black.withValues(alpha: 0.25), // dim + blur
-    // ),
-    // ),
+    //  BLUR THE ENTIRE BACKGROUND PAGE
+    BackdropFilter(
+    filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+    child: Container(
+    color: Colors.black.withValues(alpha: 0.25), // dim + blur
+    ),
+    ),
 
-    // 🔹 YOUR ALERT DIALOG
+    //  YOUR ALERT DIALOG
     Center(
     child: AlertDialog(
       insetPadding: const EdgeInsets.symmetric(
