@@ -144,6 +144,9 @@ class SezPassManagementDetailsState extends Equatable {
     if (model.passIssuedOn.isEmptyOrNull) {
       return const ErrorResponse(status: false, message: 'Please select Pass Issued On');
     }
+    if ( model.status == 1 && model.updatedStatus == null) {
+      return const ErrorResponse(status: false, message: 'Please select Updated Status');
+    }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 

@@ -5,6 +5,8 @@ import 'package:db_atom/src/features/ticketing_system/models/ticketing_system_li
 import 'package:db_atom/src/features/ticketing_system/models/ticketing_system_model.dart';
 import 'package:db_atom/src/features/ticketing_system/services/ticketing_system_services.dart';
 
+import '../../models/ticketing_new_list_model.dart';
+
 part 'ticketing_system_event.dart';
 part 'ticketing_system_state.dart';
 
@@ -36,17 +38,9 @@ class TicketingSystemBloc
       //   commonServices: commonServices,
       // );
 
-      List<Organisation> statuses = await commonServices.getStatusesByModuleId(
-          module: Constants.ticketingSystemModuleCode);
-
-      List<Organisation> regions =
-      await commonServices.getRegionsOrLocationsByRegionId();
-
       CommonFilters commonFilters =
-      CommonFilters(regions: regions, statuses: statuses);
+      CommonFilters(statuses: [], regions: []);
 
-      Locations locations =
-      await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
 
       dynamic responseLabels = await commonServices.getUiLabels(
           language: await SharedPrefs.getLanguageCode(),
@@ -54,10 +48,7 @@ class TicketingSystemBloc
 
       return emit(
         state.copyWith(
-          locations: locations,
-          regions: regions,
           // labels: labels,
-          statuses: statuses,
           commonFilters: commonFilters,
           hasReachedMax: false,
           status: FormStatus.initial,
@@ -80,7 +71,7 @@ class TicketingSystemBloc
   FutureOr<void> _refreshList(
       RefreshList event, Emitter<TicketingSystemState> emit) async {
     try {
-      TicketingSystemListResponse response;
+      TicketingNewListModelResponse response;
 
       response = await _services.getTicketingSystemList(
         startPosition: '0',
@@ -111,7 +102,7 @@ class TicketingSystemBloc
       // if (state.hasReachedMax) return;
 
       if (state.status == FormStatus.initial || event.newSearch) {
-        TicketingSystemListResponse response;
+        TicketingNewListModelResponse response;
         response = await _services.getTicketingSystemList(
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
@@ -130,7 +121,7 @@ class TicketingSystemBloc
         );
       }
 
-      TicketingSystemListResponse response;
+      TicketingNewListModelResponse response;
       response = await _services.getTicketingSystemList(
         startPosition: '${event.startPos}',
         maximumRecords: '${event.maxPos}',

@@ -112,6 +112,14 @@ class ArticleFoundDetailsState extends Equatable {
       return const ErrorResponse(status: false, message: 'Employee Name and Manager Name should be different, Please select other user');
     }
 
+    if(model.idCardEmployee?.employeeId !=null && model.depositor?.employeeId !=null  && (model.idCardEmployee?.employeeId == model.depositor?.employeeId)){
+      return const ErrorResponse(status: false, message: 'Employee Name and Depositor Name should be different, Please select other user');
+    }
+
+    if(model.idCardManager?.employeeId !=null && model.depositor?.employeeId !=null  && (model.idCardManager?.employeeId == model.depositor?.employeeId)){
+      return const ErrorResponse(status: false, message: 'Manager Name and Depositor Name should be different, Please select other user');
+    }
+
     // if((model.typeOfArticle!.name!.toLowerCase().contains('id') ||
     //     model.typeOfArticle!.name!.toLowerCase().contains('card')) && model.depositor?.employeeId !=null && model.idCardManager?.employeeId !=null && (model.depositor?.employeeId == model.idCardManager?.employeeId)){
     //   return const ErrorResponse(status: false, message: 'Depositor Name and Manager Name should be different, Please select other user');

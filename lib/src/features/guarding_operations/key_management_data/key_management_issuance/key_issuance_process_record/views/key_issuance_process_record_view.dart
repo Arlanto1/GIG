@@ -132,27 +132,64 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                 // displayMenu: state.displayMenu,
                 list: true,
                 // 🔥 only "+" button mode
-                onAddPressed: () async {
-                  KeyIssuanceProcessRecord keyIssuanceProcessModel =
-                      KeyIssuanceProcessRecord();
-                  bool isMasterKey =
-                      keyIssuanceProcessModel.kmId == 1 ? true : false;
-                  List<Organisation> keyDescriptions =
-                      await KeyManagementIssuanceServices().getKeyDescriptions(
-                    locationId: widget.locationId,
-                    isMasterKey: isMasterKey,
-                    kmIssuanceId: widget.parentId,
-                  );
+                // onAddPressed: () async {
+                //   KeyIssuanceProcessRecord keyIssuanceProcessModel =
+                //       KeyIssuanceProcessRecord();
+                //   bool isMasterKey =
+                //       keyIssuanceProcessModel.kmId == 1 ? true : false;
+                //   List<Organisation> keyDescriptions =
+                //       await KeyManagementIssuanceServices().getKeyDescriptions(
+                //     locationId: widget.locationId,
+                //     isMasterKey: isMasterKey,
+                //     kmIssuanceId: widget.parentId,
+                //   );
+                //
+                //   showAddKeyIssuanceProcessPopUp(
+                //     context: context,
+                //     keyIssuanceProcessRecord: KeyIssuanceProcessRecord(),
+                //     keyDescriptions: keyDescriptions,
+                //     selectedKeyDescription: null,
+                //     parentStatus: widget.parentStatus,
+                //     state: state,
+                //   );
+                // },
+          onAddPressed: () async {
+            showLoadingDialog(context);
 
-                  showAddKeyIssuanceProcessPopUp(
-                    context: context,
-                    keyIssuanceProcessRecord: KeyIssuanceProcessRecord(),
-                    keyDescriptions: keyDescriptions,
-                    selectedKeyDescription: null,
-                    parentStatus: widget.parentStatus,
-                    state: state,
-                  );
-                },
+            try {
+              KeyIssuanceProcessRecord keyIssuanceProcessModel =
+              KeyIssuanceProcessRecord();
+
+              bool isMasterKey =
+                  keyIssuanceProcessModel.kmId == 1;
+
+              List<Organisation> keyDescriptions =
+              await KeyManagementIssuanceServices().getKeyDescriptions(
+                locationId: widget.locationId,
+                isMasterKey: isMasterKey,
+                kmIssuanceId: widget.parentId,
+              );
+
+              if (!mounted) return;
+
+              dismissLoadingDialog(context);
+
+              showAddKeyIssuanceProcessPopUp(
+                context: context,
+                keyIssuanceProcessRecord: KeyIssuanceProcessRecord(),
+                keyDescriptions: keyDescriptions,
+                selectedKeyDescription: null,
+                parentStatus: widget.parentStatus,
+                state: state,
+              );
+            } catch (e) {
+              if (mounted) {
+                dismissLoadingDialog(context);
+              }
+
+              log('Error while loading key descriptions: $e');
+            }
+          },
               )
             : null,
         appBar: BaseAppBar().buildAppHeader(
@@ -393,57 +430,104 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
                                                 },
                                                 showEditButton:
                                                     !showNonEditIcon,
-                                                onEditTap:
-                                                    (selectedIndex) async {
-                                                  KeyIssuanceProcessRecord
-                                                      keyIssuanceProcessModel =
-                                                      await KeyManagementIssuanceServices()
-                                                          .getIssuanceProcessById(
-                                                              state.items[index]
-                                                                      .id ??
-                                                                  0);
+                                                // onEditTap:
+                                                //     (selectedIndex) async {
+                                                //   KeyIssuanceProcessRecord
+                                                //       keyIssuanceProcessModel =
+                                                //       await KeyManagementIssuanceServices()
+                                                //           .getIssuanceProcessById(
+                                                //               state.items[index]
+                                                //                       .id ??
+                                                //                   0);
+                                                //
+                                                //   /// Get Key Description
+                                                //   bool isMasterKey =
+                                                //       keyIssuanceProcessModel
+                                                //                   .kmId ==
+                                                //               1
+                                                //           ? true
+                                                //           : false;
+                                                //   Organisation
+                                                //       selectedKeyDescription =
+                                                //       await KeyManagementIssuanceServices()
+                                                //           .getKeyDescById(
+                                                //               id: keyIssuanceProcessModel
+                                                //                   .kmId!,
+                                                //               isMasterKey:
+                                                //                   isMasterKey);
+                                                //
+                                                //   List<Organisation>
+                                                //       keyDescriptions =
+                                                //       await KeyManagementIssuanceServices()
+                                                //           .getKeyDescriptions(
+                                                //     locationId:
+                                                //         widget.locationId,
+                                                //     isMasterKey: isMasterKey,
+                                                //     kmIssuanceId:
+                                                //         widget.parentId,
+                                                //   );
+                                                //
+                                                //   log('--state.keyDescriptions--onEditTap--${state.keyDescriptions?.length}---');
+                                                //
+                                                //   showAddKeyIssuanceProcessPopUp(
+                                                //       context: context,
+                                                //       keyIssuanceProcessRecord:
+                                                //           keyIssuanceProcessModel,
+                                                //       keyDescriptions:
+                                                //           keyDescriptions,
+                                                //       selectedKeyDescription:
+                                                //           selectedKeyDescription,
+                                                //       parentStatus:
+                                                //           widget.parentStatus,
+                                                //       lock: widget.lock,
+                                                //       state: state);
+                                                // },
+                                                onEditTap: (selectedIndex) async {
+                                                  showLoadingDialog(context);
 
-                                                  /// Get Key Description
-                                                  bool isMasterKey =
-                                                      keyIssuanceProcessModel
-                                                                  .kmId ==
-                                                              1
-                                                          ? true
-                                                          : false;
-                                                  Organisation
-                                                      selectedKeyDescription =
-                                                      await KeyManagementIssuanceServices()
-                                                          .getKeyDescById(
-                                                              id: keyIssuanceProcessModel
-                                                                  .kmId!,
-                                                              isMasterKey:
-                                                                  isMasterKey);
+                                                  try {
+                                                    final KeyIssuanceProcessRecord keyIssuanceProcessModel =
+                                                    await KeyManagementIssuanceServices()
+                                                        .getIssuanceProcessById(
+                                                      state.items[selectedIndex].id ?? 0,
+                                                    );
 
-                                                  List<Organisation>
-                                                      keyDescriptions =
-                                                      await KeyManagementIssuanceServices()
-                                                          .getKeyDescriptions(
-                                                    locationId:
-                                                        widget.locationId,
-                                                    isMasterKey: isMasterKey,
-                                                    kmIssuanceId:
-                                                        widget.parentId,
-                                                  );
+                                                    bool isMasterKey =
+                                                        keyIssuanceProcessModel.kmId == 1;
 
-                                                  log('--state.keyDescriptions--onEditTap--${state.keyDescriptions?.length}---');
+                                                    Organisation selectedKeyDescription =
+                                                    await KeyManagementIssuanceServices().getKeyDescById(
+                                                      id: keyIssuanceProcessModel.kmId!,
+                                                      isMasterKey: isMasterKey,
+                                                    );
 
-                                                  showAddKeyIssuanceProcessPopUp(
+                                                    List<Organisation> keyDescriptions =
+                                                    await KeyManagementIssuanceServices().getKeyDescriptions(
+                                                      locationId: widget.locationId,
+                                                      isMasterKey: isMasterKey,
+                                                      kmIssuanceId: widget.parentId,
+                                                    );
+
+                                                    if (!mounted) return;
+
+                                                    dismissLoadingDialog(context);
+
+                                                    showAddKeyIssuanceProcessPopUp(
                                                       context: context,
-                                                      keyIssuanceProcessRecord:
-                                                          keyIssuanceProcessModel,
-                                                      keyDescriptions:
-                                                          keyDescriptions,
-                                                      selectedKeyDescription:
-                                                          selectedKeyDescription,
-                                                      parentStatus:
-                                                          widget.parentStatus,
+                                                      keyIssuanceProcessRecord: keyIssuanceProcessModel,
+                                                      keyDescriptions: keyDescriptions,
+                                                      selectedKeyDescription: selectedKeyDescription,
+                                                      parentStatus: widget.parentStatus,
                                                       lock: widget.lock,
-                                                      state: state);
+                                                      state: state,
+                                                    );
+                                                  } catch (e) {
+                                                    if (mounted) {
+                                                      dismissLoadingDialog(context);
+                                                    }
+
+                                                    log('Error while loading edit data: $e');
+                                                  }
                                                 },
                                                 showViewButton:
                                                     showIcons ? true : false,

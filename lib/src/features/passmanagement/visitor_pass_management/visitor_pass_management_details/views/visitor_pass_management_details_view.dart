@@ -1113,7 +1113,7 @@ class _VisitorPassManagementDetailsViewState
                                               .onCheckBoxChange(state.model);
                                         }),
 
-                              if (state.model.escortedByHost == true) ...[
+                              if (state.model.escortedByHost == false) ...[
                                 /// Escorted By
                                 CommonWidgets.textDisplay(
                                     state.labels?.locale.escortedBy ??

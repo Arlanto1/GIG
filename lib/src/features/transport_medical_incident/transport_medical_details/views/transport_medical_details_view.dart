@@ -37,7 +37,8 @@ class _TransportMedicalDetailsViewState
   TextEditingController shiftLoginDateTimeController = TextEditingController();
   TextEditingController shiftLogoutDateTimeController = TextEditingController();
   TextEditingController transportTypeController = TextEditingController();
-  TextEditingController employeeReachedDateTimeController = TextEditingController();
+  TextEditingController employeeReachedDateTimeController =
+      TextEditingController();
   final FocusNode incidentLocationFocusNode = FocusNode();
   final FocusNode lSM2ContactNoFocusNode = FocusNode();
   final FocusNode pocContactNoFocusNode = FocusNode();
@@ -53,24 +54,24 @@ class _TransportMedicalDetailsViewState
   List<ImageContent> getFiles = [];
   bool isEditable = false;
   String selectedTemplateHtml = "";
-  String?  initialisedFromDate;
+  String? initialisedFromDate;
+  int? _persistedStatus; // the status as last confirmed saved on the server
 
   @override
   void initState() {
     super.initState();
+    _persistedStatus = widget.model?.status;
     BlocProvider.of<TransportMedicalDetailsCubit>(context).initializeValues();
   }
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery
-        .of(context)
-        .size;
+    final size = MediaQuery.of(context).size;
     final height = size.height;
     return BlocConsumer<TransportMedicalDetailsCubit,
         TransportMedicalDetailsState>(
       listenWhen: (previous, current) =>
-      previous.status != current.status &&
+          previous.status != current.status &&
           (current.status == FormStatus.success ||
               current.status == FormStatus.templateLoaded ||
               current.status == FormStatus.formError),
@@ -81,6 +82,7 @@ class _TransportMedicalDetailsViewState
         log('Status123${state.status}');
 
         if (state.status == FormStatus.success) {
+          _persistedStatus = state.model.status;
           var dialog = CustomAlertDialog(
             title: 'General Information',
             message: state.message ?? '',
@@ -119,6 +121,10 @@ class _TransportMedicalDetailsViewState
         if (state.model.status == null) {
           disableForm = false;
         }
+
+        if (state.model.status == 2) {
+          disableForm = true;
+        }
         if (state.model.status != 0 && state.model.status != null) {
           disableForm = false;
         }
@@ -131,7 +137,10 @@ class _TransportMedicalDetailsViewState
         if (state.model.status != 0 && state.model.status != null) {
           disableForm = false;
         }
-        isEditable = (state.model.status == 0 || state.model.status == null) && state.model.lock.isEmptyOrNull && state.model.status != -1;
+        isEditable = (state.model.status == 0 || state.model.status == null) &&
+            state.model.lock.isEmptyOrNull &&
+            state.model.status != -1 &&
+            state.model.status != 2;
 
         return Scaffold(
           appBar: BaseAppBar().buildAppHeader(
@@ -140,8 +149,16 @@ class _TransportMedicalDetailsViewState
                 ? Constants.transportIncidentList
                 : Constants.medicalEmergencyTitle,
             showPopUp: false,
-            showSaveButton: true,
-            showSubmitButton: true,
+          //   showSaveButton:
+          //   (state.model.status == 0 || state.model.status == null || state.model.status == 1) &&
+          //     state.model.lock.isEmptyOrNull
+          //     ,
+          //   showSubmitButton:
+          // state.model.lock.isEmptyOrNull
+          //           ? true
+          //           : false,
+            showSaveButton: _persistedStatus != 2 && state.model.lock.isEmptyOrNull,
+            showSubmitButton: _persistedStatus != 2 && state.model.lock.isEmptyOrNull,
             showDisLikeButton: false,
             showLikeButton: false,
             onTapSave: () {
@@ -155,8 +172,7 @@ class _TransportMedicalDetailsViewState
                   .submitForm(isSaveOnly: false);
             },
             pdfAPIName:
-            '${CommonApis.exportDetailPagePDF}${state.model
-                .id}&moduleCode=${Constants.eventProtectionModuleCode}',
+                '${CommonApis.exportDetailPagePDF}${state.model.id}&moduleCode=${Constants.eventProtectionModuleCode}',
           ),
           backgroundColor: AppColors.newColor,
           body: getBodybuilder(state, height),
@@ -191,7 +207,7 @@ class _TransportMedicalDetailsViewState
     }
   }
 
-  getBodybuilder(TransportMedicalDetailsState state, height) {
+  Widget getBodybuilder(TransportMedicalDetailsState state, height) {
     initializeDates(state);
     if (state.status == FormStatus.loading) {
       return const BaseLoader();
@@ -217,9 +233,8 @@ class _TransportMedicalDetailsViewState
       uploadPhotographyFiles = state.loadAttachments;
     }
 
-
-     initialisedFromDate = DateTime.fromMillisecondsSinceEpoch(
-        (int.tryParse('${state.model.shiftLoginDate}') ?? 0) * 1000)
+    initialisedFromDate = DateTime.fromMillisecondsSinceEpoch(
+            (int.tryParse('${state.model.shiftLoginDate}') ?? 0) * 1000)
         .toString();
     return Stack(
       children: [
@@ -253,470 +268,776 @@ class _TransportMedicalDetailsViewState
                   autovalidateMode: disableForm
                       ? AutovalidateMode.disabled
                       : AutovalidateMode.onUserInteraction,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        AbsorbPointer(
-                          absorbing: false,
-                          child: Padding(
-                            padding:
-                            const EdgeInsets.only(left: 20.0, right: 20),
-                            child: Column(children: [
-                              // if (!state.model.lock.isEmptyOrNull) ...[
-                              //   RecordLockedWidget(text: '${state.model.lock}'),
-                              // ],
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
-                              Container(
-                                alignment: Alignment.topLeft,
-                                child: const Text(
-                                  Constants.generalinformation,
-                                  style: Styles.textStyleRegularNormalWhite18,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20.0, right: 20),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          AbsorbPointer(
+                            absorbing: false,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 20.0, right: 20),
+                              child: Column(children: [
+                                // if (!state.model.lock.isEmptyOrNull) ...[
+                                //   RecordLockedWidget(text: '${state.model.lock}'),
+                                // ],
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+                                Container(
+                                  alignment: Alignment.topLeft,
+                                  child: const Text(
+                                    Constants.generalinformation,
+                                    style: Styles.textStyleRegularNormalWhite18,
+                                  ),
                                 ),
-                              ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.01),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
 
-                              /// Status
-                              CommonWidgets.textDisplay(
-                                  state.labels?.locale.status ??
-                                      state.labels?.defaultLocale.status ??
-                                      Constants.status,
-                                  Styles.textStyleWhite16,
-                                  isMandatory: true),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-                              BaseDropDown().getDropDown(
-                                  isDisabled: state.model.status!=1 ? true : false,
+                                /// Status
+                                CommonWidgets.textDisplay(
+                                    state.labels?.locale.status ??
+                                        state.labels?.defaultLocale.status ??
+                                        Constants.status,
+                                    Styles.textStyleWhite16,
+                                    isMandatory: true),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                BaseDropDown().getDropDown(
+                                  isDisabled:
+                                      state.model.status != 1 ? true : false,
                                   textController: statusController,
                                   items: transportMedicalStatusValues,
                                   initialValue: '${state.model.status ?? 0}',
-                                onTap: () {
-                                  if (state.model.status==1) {
-                                    BaseDropDown().assetTypeDialog(
-                                      context: context,
-                                      dropDownValues:
-                                      transportIncidentStatusValues
-                                          .map((label) => label.key)
-                                          .toList(),
-                                      onTap: (String value) {
-                                        Label? selectedLabel;
-                                        selectedLabel =
+                                  onTap: () {
+                                    if (state.model.status == 1) {
+                                      BaseDropDown().assetTypeDialog(
+                                        context: context,
+                                        dropDownValues:
                                             transportIncidentStatusValues
-                                                .firstWhere(
-                                                  (label) => label.key == value,
-                                              orElse: () =>
-                                              const Label(key: '', value: ''),
-                                            );
-                                        BlocProvider.of<
-                                            TransportMedicalDetailsCubit>(
-                                            context)
-                                            .updateDropdownValues(
-                                            status: int.tryParse(
-                                                selectedLabel.value));
-                                      },
-                                    );
-                                  }
-                                },),
-                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+                                                .map((label) => label.key)
+                                                .toList(),
+                                        onTap: (String value) {
+                                          Label? selectedLabel;
+                                          selectedLabel =
+                                              transportIncidentStatusValues
+                                                  .firstWhere(
+                                            (label) => label.key == value,
+                                            orElse: () =>
+                                                const Label(key: '', value: ''),
+                                          );
+                                          BlocProvider.of<
+                                                      TransportMedicalDetailsCubit>(
+                                                  context)
+                                              .updateDropdownValues(
+                                                  status: int.tryParse(
+                                                      selectedLabel.value));
+                                        },
+                                      );
+                                    }
+                                  },
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02),
 
-                              /// Date of creation
-                              CommonWidgets.textDisplay(
-                                  state.labels?.locale.inputDate ??
-                                      state.labels?.defaultLocale.inputDate ??
-                                      Constants.dateofcreation,
-                                  Styles.textStyleWhite16,
-                                  isMandatory: true),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-                              BaseDate().creationDateDisplay(
-                                  state.model.inputDate ?? ''),
-                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+                                /// Date of creation
+                                CommonWidgets.textDisplay(
+                                    state.labels?.locale.inputDate ??
+                                        state.labels?.defaultLocale.inputDate ??
+                                        Constants.dateofcreation,
+                                    Styles.textStyleWhite16,
+                                    isMandatory: true),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                BaseDate().creationDateDisplay(
+                                    state.model.inputDate ?? ''),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02),
 
-                              /// Created By
-                              CommonWidgets.horizontalTextHandling(
-                                // state.labels?.locale.entrySecurity ??
-                                //     state.labels?.defaultLocale.entrySecurity ??
-                                  Constants.createdby,
-                                  isMandatory: true,
-                                  '${state.model.entrySecurity?.firstName ??
-                                      ''} ${state.model.entrySecurity
-                                      ?.lastName ?? ''}'),
-                              CommonWidgets.verticalSpacerWidget(height * 0.02),
+                                /// Created By
+                                CommonWidgets.horizontalTextHandling(
+                                    // state.labels?.locale.entrySecurity ??
+                                    //     state.labels?.defaultLocale.entrySecurity ??
+                                    Constants.createdby,
+                                    isMandatory: true,
+                                    '${state.model.entrySecurity?.firstName ?? ''} ${state.model.entrySecurity?.lastName ?? ''}'),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02),
 
-                              /// Location
-                              CommonWidgets.textDisplay(
-                                  state.labels?.locale.location ??
-                                      state.labels?.defaultLocale.location ??
-                                      Constants.location,
-                                  Styles.textStyleWhite16,
-                                  isMandatory: true),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-                              BaseLocationDropdown().locationWidgetDisplay(
-                                  isEnabled: isEditable,
+                                /// Location
+                                CommonWidgets.textDisplay(
+                                    state.labels?.locale.location ??
+                                        state.labels?.defaultLocale.location ??
+                                        Constants.location,
+                                    Styles.textStyleWhite16,
+                                    isMandatory: true),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                BaseLocationDropdown().locationWidgetDisplay(
+                                    isEnabled: isEditable,
+                                    context: context,
+                                    locations: state.locations ?? Locations(),
+                                    selectedLocationName:
+                                        state.model.location?.name ?? '',
+                                    onTap: (Organisation? location) {
+                                      BlocProvider.of<
+                                                  TransportMedicalDetailsCubit>(
+                                              context)
+                                          .updateLocationDropdownValue(
+                                              location: location);
+                                    }),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02),
+
+                                /// Sl No.
+                                CommonWidgets.horizontalTextHandling(
+                                    state.labels?.locale.slNo ??
+                                        state.labels?.defaultLocale.slNo ??
+                                        Constants.slno,
+                                    state.model.slNo ?? '',
+                                    isMandatory: true),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02),
+
+                                /// Entity
+                                CommonWidgets.textDisplay(
+                                    state.labels?.locale.entity ??
+                                        state.labels?.defaultLocale.entity ??
+                                        Constants.entity,
+                                    Styles.textStyleWhite16,
+                                    isMandatory: true),
+                                BaseEntitiesSelection().entityDropDownSelection(
                                   context: context,
-                                  locations: state.locations ?? Locations(),
-                                  selectedLocationName:
-                                  state.model.location?.name ?? '',
-                                  onTap: (Organisation? location) {
+                                  selectedValues: state.model.entities ?? [],
+                                  all: state.listOfEntities ?? [],
+                                  enabled: isEditable,
+                                  onTap: (List<Organisation> selectedEntities) {
+                                    log('--selectedEntities----${selectedEntities.length}');
                                     BlocProvider.of<
-                                        TransportMedicalDetailsCubit>(
-                                        context)
-                                        .updateLocationDropdownValue(
-                                        location: location);
-                                  }),
-                              CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                              /// Sl No.
-                              CommonWidgets.horizontalTextHandling(
-                                  state.labels?.locale.slNo ??
-                                      state.labels?.defaultLocale.slNo ??
-                                      Constants.slno,
-                                  state.model.slNo ?? '',
-                                  isMandatory: true),
-                              CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                              /// Entity
-                              CommonWidgets.textDisplay(
-                                  state.labels?.locale.entity ??
-                                      state.labels?.defaultLocale.entity ??
-                                      Constants.entity,
-                                  Styles.textStyleWhite16,
-                                  isMandatory: true),
-                              BaseEntitiesSelection().entityDropDownSelection(
-                                context: context,
-                                selectedValues: state.model.entities ?? [],
-                                all: state.listOfEntities ?? [],
-                                enabled: isEditable,
-                                onTap: (List<Organisation> selectedEntities) {
-                                  log('--selectedEntities----${selectedEntities
-                                      .length}');
-                                  BlocProvider.of<TransportMedicalDetailsCubit>(
-                                      context)
-                                      .updateDropdownValues(
-                                      entities: selectedEntities);
-                                  Navigator.of(context)
-                                      .pop(); // Close the dialog
-                                },
-                                orgName: 'ATOM_ENTITIES',
-                                functionToCall: () {
-                                  // refresh the list
-                                  BlocProvider.of<TransportMedicalDetailsCubit>(
-                                      context)
-                                      .refreshList();
-                                },
-                              ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                              /// Incident Type
-                              CommonWidgets.textDisplay(
-                                // state.labels?.locale.incidentType ??
-                                //     state.labels?.defaultLocale.incidentType ??
-                                  Constants.incidentType,
-                                  Styles.textStyleWhite16,
-                                  isMandatory: true),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-                              BaseDropDown().getDropDown(
-                                isDisabled: true,
-                                textController: incidentTypeController,
-                                items: transportIncidentTypeValues,
-                                initialValue: widget.isTransport
-                                    ? '${state.model.incidentType ?? 0}'
-                                    : '${state.model.incidentType ?? 1}',
-                                onTap: () {
-                                  // BaseDropDown().assetTypeDialog(
-                                  //   context: context,
-                                  //   dropDownValues: transportIncidentTypeValues
-                                  //       .map((label) => label.key)
-                                  //       .toList(),
-                                  //   onTap: (String value) {
-                                      // Label? selectedLabel;
-                                      // selectedLabel =
-                                      //     transportIncidentTypeValues.firstWhere(
-                                      //           (label) => label.key == value,
-                                      //       orElse: () =>
-                                      //       const Label(key: '', value: ''),
-                                      //     );
-                                      // BlocProvider.of<TransportMedicalDetailsCubit>(
-                                      //     context)
-                                      //     .updateDropdownValues(
-                                      //     incidentType: int.tryParse(
-                                      //         selectedLabel.value));
-                                    // },
-                                  // );
-                                },
-                              ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                              /// Incident Date and Time
-                              CommonWidgets.textDisplay(
-                                state.labels?.locale.incidentDate ??
-                                    state.labels?.defaultLocale.incidentDate ??
-                                    Constants.incidentDateTime,
-                                Styles.textStyleWhite16,
-                                isMandatory: true,
-                              ),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-
-                              BaseDate().datePickerWidgetLoading(
-                                isDisabled: !isEditable,
-                                textController: incidentDateTimeController,
-                                onlyDate: false,
-                                showFutureDate: false,
-                                context: context,
-                                onChange: (String value) {
-                                  state.model.incidentDate =
-                                      Utils().formatTime(value);
-                                  log('---value11-${state.model
-                                      .incidentDate}------');
-                                  BlocProvider.of<TransportMedicalDetailsCubit>(
-                                      context)
-                                      .onModelValueChange(state.model);
-                                  FocusScope.of(context)
-                                      .requestFocus(incidentLocationFocusNode);
-                                },
-                              ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                              /// Incident Location
-                              CommonWidgets.textDisplay(
-                                // state.labels?.locale.incidentLocation ??
-                                //     state.labels?.defaultLocale
-                                //         .incidentLocation ??
-                                  Constants.incidentLocation,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-                              FlutterInputField(
-                                textInputType: TextInputType.text,
-                                initialValue: state.model.incidentLocation,
-                                textFormKey: Keys.lsm1ContactNOKey,
-                                hintText: '',
-                                // focusNode: incidentLocationFocusNode,
-                                isEnable: isEditable,
-                                isDisableColor: !isEditable,
-                                onChange: (String value) {
-                                  state.model.incidentLocation = value;
-                                  context
-                                      .read<TransportMedicalDetailsCubit>()
-                                      .onModelValueChange(state.model);
-                                },
-                                validateTextField: (String? user) {},
-                              ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                              /// Incident Description
-                              CommonWidgets.textDisplay(
-                                // state.labels?.locale.incidentLocation ??
-                                //     state.labels?.defaultLocale
-                                //         .incidentLocation ??
-                                  Constants.incidentDescription,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-                              FlutterInputField(
-                                textInputType: TextInputType.text,
-                                initialValue: state.model.description,
-                                textFormKey: Keys.lsm1ContactNOKey,
-                                hintText: '',
-                                // focusNode: incidentLocationFocusNode,
-                                isEnable: isEditable,
-                                isDisableColor: !isEditable,
-                                onChange: (String value) {
-                                  state.model.description = value;
-                                  context
-                                      .read<TransportMedicalDetailsCubit>()
-                                      .onModelValueChange(state.model);
-                                },
-                                validateTextField: (String? user) {},
-                              ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                              /// Vehicle Registration No
-                              CommonWidgets.textDisplay(
-                                // state.labels?.locale.incidentLocation ??
-                                //     state.labels?.defaultLocale
-                                //         .incidentLocation ??
-                                  Constants.vehicleRegistrationNo,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16),
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.001),
-                              FlutterInputField(
-                                textInputType: TextInputType.text,
-                                initialValue: state.model.vehicleRegistrationNo,
-                                textFormKey: Keys.lsm1ContactNOKey,
-                                hintText: '',
-                                // focusNode: incidentLocationFocusNode,
-                                isEnable: isEditable,
-                                isDisableColor: !isEditable,
-                                onChange: (String value) {
-                                  state.model.vehicleRegistrationNo = value;
-                                  context
-                                      .read<TransportMedicalDetailsCubit>()
-                                      .onModelValueChange(state.model);
-                                },
-                                validateTextField: (String? user) {},
-                              ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.02),
-
-                              if (!widget.isTransport) ...[
-
-                                /// Employee attended by DB wellness
-                                CommonWidgets.textDisplay(
-                                  // state.labels?.locale.shiftBrfngAttnded ??
-                                  //     state.labels?.defaultLocale
-                                  //         .shiftBrfngAttnded ??
-                                  Constants.employeeAttendedByDB,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite14,
-                                ),
-                                RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue:
-                                  state.model.wellnessTeamAttended ? 1 : 0,
-                                  onChangedYes: !isEditable
-                                      ? null
-                                      : (val) {
-                                    state.model.wellnessTeamAttended = true;
-                                    BlocProvider.of<
-                                        TransportMedicalDetailsCubit>(
-                                        context)
-                                        .showFields(
-                                      escortDeployed: true,
-                                    );
+                                                TransportMedicalDetailsCubit>(
+                                            context)
+                                        .updateDropdownValues(
+                                            entities: selectedEntities);
+                                    Navigator.of(context)
+                                        .pop(); // Close the dialog
                                   },
-                                  onChangedNo: !isEditable
-                                      ? null
-                                      : (val) {
-                                    state.model.wellnessTeamAttended = false;
+                                  orgName: 'ATOM_ENTITIES',
+                                  functionToCall: () {
+                                    // refresh the list
                                     BlocProvider.of<
-                                        TransportMedicalDetailsCubit>(
-                                        context)
-                                        .showFields(
-                                      escortDeployed: false,
-                                    );
+                                                TransportMedicalDetailsCubit>(
+                                            context)
+                                        .refreshList();
                                   },
                                 ),
                                 CommonWidgets.verticalSpacerWidget(
                                     height * 0.02),
 
-                                /// Employee taken to nearest hospital
+                                /// Incident Type
                                 CommonWidgets.textDisplay(
-                                  // state.labels?.locale.shiftBrfngAttnded ??
-                                  //     state.labels?.defaultLocale
-                                  //         .shiftBrfngAttnded ??
-                                  Constants.employeeTakenToHsptl,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite14,
-                                ),
-                                RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue:
-                                  state.model.takenToHospital ? 1 : 0,
-                                  onChangedYes: !isEditable
-                                      ? null
-                                      : (val) {
-                                    state.model.takenToHospital = true;
-                                    BlocProvider.of<
-                                        TransportMedicalDetailsCubit>(
-                                        context)
-                                        .showFields(
-                                      escortDeployed: true,
-                                    );
-                                  },
-                                  onChangedNo: !isEditable
-                                      ? null
-                                      : (val) {
-                                    state.model.takenToHospital = false;
-                                    BlocProvider.of<
-                                        TransportMedicalDetailsCubit>(
-                                        context)
-                                        .showFields(
-                                      escortDeployed: false,
-                                    );
-                                  },
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.02),
-
-
-                                if(state.model.takenToHospital == true)...[
-
-                                  /// Transport Type
-                                  CommonWidgets.textDisplay(
                                     // state.labels?.locale.incidentType ??
                                     //     state.labels?.defaultLocale.incidentType ??
-                                      Constants.transportType,
+                                    Constants.incidentType,
+                                    Styles.textStyleWhite16,
+                                    isMandatory: true),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                BaseDropDown().getDropDown(
+                                  isDisabled: true,
+                                  textController: incidentTypeController,
+                                  items: transportIncidentTypeValues,
+                                  initialValue: widget.isTransport
+                                      ? '${state.model.incidentType ?? 0}'
+                                      : '${state.model.incidentType ?? 1}',
+                                  onTap: () {
+                                    // BaseDropDown().assetTypeDialog(
+                                    //   context: context,
+                                    //   dropDownValues: transportIncidentTypeValues
+                                    //       .map((label) => label.key)
+                                    //       .toList(),
+                                    //   onTap: (String value) {
+                                    // Label? selectedLabel;
+                                    // selectedLabel =
+                                    //     transportIncidentTypeValues.firstWhere(
+                                    //           (label) => label.key == value,
+                                    //       orElse: () =>
+                                    //       const Label(key: '', value: ''),
+                                    //     );
+                                    // BlocProvider.of<TransportMedicalDetailsCubit>(
+                                    //     context)
+                                    //     .updateDropdownValues(
+                                    //     incidentType: int.tryParse(
+                                    //         selectedLabel.value));
+                                    // },
+                                    // );
+                                  },
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02),
+
+                                /// Incident Date and Time
+                                CommonWidgets.textDisplay(
+                                  state.labels?.locale.incidentDate ??
+                                      state
+                                          .labels?.defaultLocale.incidentDate ??
+                                      Constants.incidentDateTime,
+                                  Styles.textStyleWhite16,
+                                  isMandatory: true,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+
+                                BaseDate().datePickerWidgetLoading(
+                                  isDisabled: !isEditable,
+                                  textController: incidentDateTimeController,
+                                  onlyDate: false,
+                                  showFutureDate: false,
+                                  context: context,
+                                  onChange: (String value) {
+                                    state.model.incidentDate =
+                                        Utils().formatTime(value);
+                                    log('---value11-${state.model.incidentDate}------');
+                                    BlocProvider.of<
+                                                TransportMedicalDetailsCubit>(
+                                            context)
+                                        .onModelValueChange(state.model);
+                                    FocusScope.of(context).requestFocus(
+                                        incidentLocationFocusNode);
+                                  },
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02),
+
+                                /// Incident Location
+                                CommonWidgets.textDisplay(
+                                    // state.labels?.locale.incidentLocation ??
+                                    //     state.labels?.defaultLocale
+                                    //         .incidentLocation ??
+                                    Constants.incidentLocation,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                FlutterInputField(
+                                  textInputType: TextInputType.text,
+                                  initialValue: state.model.incidentLocation,
+                                  textFormKey: Keys.lsm1ContactNOKey,
+                                  hintText: '',
+                                  // focusNode: incidentLocationFocusNode,
+                                  isEnable: isEditable,
+                                  isDisableColor: !isEditable,
+                                  onChange: (String value) {
+                                    state.model.incidentLocation = value;
+                                    context
+                                        .read<TransportMedicalDetailsCubit>()
+                                        .onModelValueChange(state.model);
+                                  },
+                                  validateTextField: (String? user) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02),
+
+                                /// Incident Description
+                                CommonWidgets.textDisplay(
+                                    // state.labels?.locale.incidentLocation ??
+                                    //     state.labels?.defaultLocale
+                                    //         .incidentLocation ??
+                                    Constants.incidentDescription,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                FlutterInputField(
+                                  textInputType: TextInputType.text,
+                                  initialValue: state.model.description,
+                                  textFormKey: Keys.lsm1ContactNOKey,
+                                  hintText: '',
+                                  // focusNode: incidentLocationFocusNode,
+                                  isEnable: isEditable,
+                                  isDisableColor: !isEditable,
+                                  onChange: (String value) {
+                                    state.model.description = value;
+                                    context
+                                        .read<TransportMedicalDetailsCubit>()
+                                        .onModelValueChange(state.model);
+                                  },
+                                  validateTextField: (String? user) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02),
+
+                                /// Vehicle Registration No
+                                CommonWidgets.textDisplay(
+                                    // state.labels?.locale.incidentLocation ??
+                                    //     state.labels?.defaultLocale
+                                    //         .incidentLocation ??
+                                    Constants.vehicleRegistrationNo,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite16),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                FlutterInputField(
+                                  textInputType: TextInputType.text,
+                                  initialValue:
+                                      state.model.vehicleRegistrationNo,
+                                  textFormKey: Keys.lsm1ContactNOKey,
+                                  hintText: '',
+                                  // focusNode: incidentLocationFocusNode,
+                                  isEnable: isEditable,
+                                  isDisableColor: !isEditable,
+                                  onChange: (String value) {
+                                    state.model.vehicleRegistrationNo = value;
+                                    context
+                                        .read<TransportMedicalDetailsCubit>()
+                                        .onModelValueChange(state.model);
+                                  },
+                                  validateTextField: (String? user) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02),
+
+                                if (!widget.isTransport) ...[
+                                  /// Employee attended by DB wellness
+                                  CommonWidgets.textDisplay(
+                                    // state.labels?.locale.shiftBrfngAttnded ??
+                                    //     state.labels?.defaultLocale
+                                    //         .shiftBrfngAttnded ??
+                                    Constants.employeeAttendedByDB,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite14,
+                                  ),
+                                  RadioButtonsYesNo(
+                                    status: state.model.status ?? 0,
+                                    selectedValue:
+                                        state.model.wellnessTeamAttended
+                                            ? 1
+                                            : 0,
+                                    onChangedYes: !isEditable
+                                        ? null
+                                        : (val) {
+                                            state.model.wellnessTeamAttended =
+                                                true;
+                                            BlocProvider.of<
+                                                        TransportMedicalDetailsCubit>(
+                                                    context)
+                                                .showFields(
+                                              escortDeployed: true,
+                                            );
+                                          },
+                                    onChangedNo: !isEditable
+                                        ? null
+                                        : (val) {
+                                            state.model.wellnessTeamAttended =
+                                                false;
+                                            BlocProvider.of<
+                                                        TransportMedicalDetailsCubit>(
+                                                    context)
+                                                .showFields(
+                                              escortDeployed: false,
+                                            );
+                                          },
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
+
+                                  /// Employee taken to nearest hospital
+                                  CommonWidgets.textDisplay(
+                                    // state.labels?.locale.shiftBrfngAttnded ??
+                                    //     state.labels?.defaultLocale
+                                    //         .shiftBrfngAttnded ??
+                                    Constants.employeeTakenToHsptl,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite14,
+                                  ),
+                                  RadioButtonsYesNo(
+                                    status: state.model.status ?? 0,
+                                    selectedValue:
+                                        state.model.takenToHospital ? 1 : 0,
+                                    onChangedYes: !isEditable
+                                        ? null
+                                        : (val) {
+                                            state.model.takenToHospital = true;
+                                            BlocProvider.of<
+                                                        TransportMedicalDetailsCubit>(
+                                                    context)
+                                                .showFields(
+                                              escortDeployed: true,
+                                            );
+                                          },
+                                    onChangedNo: !isEditable
+                                        ? null
+                                        : (val) {
+                                            state.model.takenToHospital = false;
+                                            BlocProvider.of<
+                                                        TransportMedicalDetailsCubit>(
+                                                    context)
+                                                .showFields(
+                                              escortDeployed: false,
+                                            );
+                                          },
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
+
+                                  if (state.model.takenToHospital == true) ...[
+                                    /// Transport Type
+                                    CommonWidgets.textDisplay(
+                                        // state.labels?.locale.incidentType ??
+                                        //     state.labels?.defaultLocale.incidentType ??
+                                        Constants.transportType,
+                                        Styles.textStyleWhite16,
+                                        isMandatory: true),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.002),
+
+                                    BaseDropDown().getDropDown(
+                                      isDisabled: !isEditable,
+                                      textController: transportTypeController,
+                                      items: transportTypeValues,
+                                      initialValue:
+                                          state.model.transportType.toString(),
+                                      onTap: () {
+                                        if (isEditable) {
+                                          BaseDropDown().assetTypeDialog(
+                                            context: context,
+                                            dropDownValues: transportTypeValues
+                                                .map((label) => label.key)
+                                                .toList(),
+                                            onTap: (String value) {
+                                              Label? selectedLabel;
+                                              selectedLabel =
+                                                  transportTypeValues
+                                                      .firstWhere(
+                                                (label) => label.key == value,
+                                                orElse: () => const Label(
+                                                    key: '', value: ''),
+                                              );
+                                              BlocProvider.of<
+                                                          TransportMedicalDetailsCubit>(
+                                                      context)
+                                                  .updateDropdownValues(
+                                                      transportType:
+                                                          int.tryParse(
+                                                              selectedLabel
+                                                                  .value));
+                                            },
+                                          );
+                                        }
+                                      },
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.02),
+
+                                    /// Name of Hospital
+                                    CommonWidgets.textDisplay(
+                                        // state.labels?.locale.incidentLocation ??
+                                        //     state.labels?.defaultLocale
+                                        //         .incidentLocation ??
+                                        Constants.nameOfHospital,
+                                        isMandatory: true,
+                                        Styles.textStyleWhite16),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001),
+                                    FlutterInputField(
+                                      textInputType: TextInputType.text,
+                                      initialValue: state.model.hospitalName,
+                                      textFormKey: Keys.lsm1ContactNOKey,
+                                      hintText: '',
+                                      // focusNode: incidentLocationFocusNode,
+                                      isEnable: isEditable,
+                                      isDisableColor: !isEditable,
+                                      onChange: (String value) {
+                                        state.model.hospitalName = value;
+                                        context
+                                            .read<
+                                                TransportMedicalDetailsCubit>()
+                                            .onModelValueChange(state.model);
+                                      },
+                                      validateTextField: (String? user) {},
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.02),
+
+                                    /// Hospital Location/Details
+                                    CommonWidgets.textDisplay(
+                                        // state.labels?.locale.incidentLocation ??
+                                        //     state.labels?.defaultLocale
+                                        //         .incidentLocation ??
+                                        Constants.hospitalLocation,
+                                        isMandatory: true,
+                                        Styles.textStyleWhite16),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001),
+                                    FlutterInputField(
+                                      lineHeight: 5,
+                                      textInputType: TextInputType.text,
+                                      initialValue:
+                                          state.model.hospitalLocation,
+                                      textFormKey: Keys.lsm1ContactNOKey,
+                                      hintText: '',
+                                      // focusNode: incidentLocationFocusNode,
+                                      isEnable: isEditable,
+                                      isDisableColor: !isEditable,
+                                      onChange: (String value) {
+                                        state.model.hospitalLocation = value;
+                                        context
+                                            .read<
+                                                TransportMedicalDetailsCubit>()
+                                            .onModelValueChange(state.model);
+                                      },
+                                      validateTextField: (String? user) {},
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.02),
+
+                                    /// Accompanied By
+                                    CommonWidgets.textDisplay(
+                                      // state.labels?.locale.handoverSecurity ??
+                                      //     state.labels?.defaultLocale
+                                      //         .handoverSecurity ??
+                                      Constants.accompaniedBy,
+                                      isMandatory: true,
+                                      Styles.textStyleWhite14,
+                                    ),
+                                    TextFieldAddButton(
+                                      title: state.model.accompaniedEmployee
+                                              ?.userInfo ??
+                                          state.model.accompaniedEmployee?.name,
+                                      height: 70,
+                                      isDisableColor: !isEditable,
+                                      onTap: () {
+                                        if (isEditable) {
+                                          BaseOrganisationDialog().userDialog(
+                                            context: context,
+                                            users: state.employees,
+                                            onTap: (BaseUser user) {
+                                              BlocProvider.of<
+                                                          TransportMedicalDetailsCubit>(
+                                                      context)
+                                                  .updateDropdownValues(
+                                                accompaniedEmployee: user,
+                                              );
+                                            },
+                                            roleName: ConstantUserRoles
+                                                .atomStaticUser,
+                                            locationId:
+                                                state.model.location!.id!,
+                                            isDbUser: false,
+                                            functionToCall: (BaseUser user) {
+                                              BlocProvider.of<
+                                                          TransportMedicalDetailsCubit>(
+                                                      context)
+                                                  .updateDropdownValues(
+                                                accompaniedEmployee: user,
+                                              );
+                                              // refresh the list
+                                              BlocProvider.of<
+                                                          TransportMedicalDetailsCubit>(
+                                                      context)
+                                                  .refreshList();
+                                            },
+                                          );
+                                        }
+                                      },
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.02),
+                                  ],
+
+                                  /// Medical home drop provided
+                                  CommonWidgets.textDisplay(
+                                    // state.labels?.locale.shiftBrfngAttnded ??
+                                    //     state.labels?.defaultLocale
+                                    //         .shiftBrfngAttnded ??
+                                    Constants.medicalHomeDrop,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite14,
+                                  ),
+                                  RadioButtonsYesNo(
+                                    status: state.model.status ?? 0,
+                                    selectedValue:
+                                        state.model.dropProvided ? 1 : 0,
+                                    onChangedYes: !isEditable
+                                        ? null
+                                        : (val) {
+                                            state.model.dropProvided = true;
+                                            BlocProvider.of<
+                                                        TransportMedicalDetailsCubit>(
+                                                    context)
+                                                .showFields(
+                                              escortDeployed: true,
+                                            );
+                                          },
+                                    onChangedNo: !isEditable
+                                        ? null
+                                        : (val) {
+                                            state.model.dropProvided = false;
+                                            BlocProvider.of<
+                                                        TransportMedicalDetailsCubit>(
+                                                    context)
+                                                .showFields(
+                                              escortDeployed: false,
+                                            );
+                                          },
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
+
+                                  if (state.model.dropProvided == true) ...[
+                                    /// Accompanied for home drop
+                                    CommonWidgets.textDisplay(
+                                      // state.labels?.locale.handoverSecurity ??
+                                      //     state.labels?.defaultLocale
+                                      //         .handoverSecurity ??
+                                      Constants.accompaniedForHomeDrop,
+                                      isMandatory: true,
+                                      Styles.textStyleWhite14,
+                                    ),
+                                    TextFieldAddButton(
+                                      title: state.model.accompaniedEmployee1
+                                              ?.userInfo ??
+                                          state
+                                              .model.accompaniedEmployee1?.name,
+                                      height: 70,
+                                      isDisableColor: !isEditable,
+                                      onTap: () {
+                                        if (isEditable) {
+                                          BaseOrganisationDialog().userDialog(
+                                            context: context,
+                                            users: state.employees,
+                                            onTap: (BaseUser user) {
+                                              BlocProvider.of<
+                                                          TransportMedicalDetailsCubit>(
+                                                      context)
+                                                  .updateDropdownValues(
+                                                accompaniedEmployee1: user,
+                                              );
+                                            },
+                                            roleName: ConstantUserRoles
+                                                .atomStaticUser,
+                                            locationId:
+                                                state.model.location!.id!,
+                                            isDbUser: false,
+                                            functionToCall: (BaseUser user) {
+                                              BlocProvider.of<
+                                                          TransportMedicalDetailsCubit>(
+                                                      context)
+                                                  .updateDropdownValues(
+                                                accompaniedEmployee1: user,
+                                              );
+                                              // refresh the list
+                                              BlocProvider.of<
+                                                          TransportMedicalDetailsCubit>(
+                                                      context)
+                                                  .refreshList();
+                                            },
+                                          );
+                                        }
+                                      },
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.02),
+                                  ],
+
+                                  /// Employee reached home safely
+                                  CommonWidgets.textDisplay(
+                                    // state.labels?.locale.shiftBrfngAttnded ??
+                                    //     state.labels?.defaultLocale
+                                    //         .shiftBrfngAttnded ??
+                                    Constants.employeeReachedHome,
+                                    isMandatory: true,
+                                    Styles.textStyleWhite14,
+                                  ),
+                                  RadioButtonsYesNo(
+                                    status: state.model.status ?? 0,
+                                    selectedValue:
+                                        state.model.employeeReached ? 1 : 0,
+                                    onChangedYes: !isEditable
+                                        ? null
+                                        : (val) {
+                                            state.model.employeeReached = true;
+                                            BlocProvider.of<
+                                                        TransportMedicalDetailsCubit>(
+                                                    context)
+                                                .showFields(
+                                              escortDeployed: true,
+                                            );
+                                          },
+                                    onChangedNo: !isEditable
+                                        ? null
+                                        : (val) {
+                                            state.model.employeeReached = false;
+                                            BlocProvider.of<
+                                                        TransportMedicalDetailsCubit>(
+                                                    context)
+                                                .showFields(
+                                              escortDeployed: false,
+                                            );
+                                          },
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
+
+                                  if (state.model.employeeReached == true) ...[
+                                    /// Time of the employee reached home
+                                    CommonWidgets.textDisplay(
+                                      // state.labels?.locale.incidentDate ??
+                                      //     state.labels?.defaultLocale.incidentDate ??
+                                      Constants.timeEmployeeReachedHome,
                                       Styles.textStyleWhite16,
-                                      isMandatory: true),
-                                  CommonWidgets.verticalSpacerWidget(
-                                      height * 0.002),
+                                      isMandatory: true,
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.001),
 
-                                  BaseDropDown().getDropDown(
-                                    isDisabled: !isEditable,
-                                    textController: transportTypeController,
-                                    items: transportTypeValues,
-                                    initialValue: state.model.transportType
-                                        .toString(),
-                                    onTap: () {
-                                      if(isEditable) {
-                                        BaseDropDown().assetTypeDialog(
-                                          context: context,
-                                          dropDownValues: transportTypeValues
-                                              .map((label) => label.key)
-                                              .toList(),
-                                          onTap: (String value) {
-                                            Label? selectedLabel;
-                                            selectedLabel =
-                                                transportTypeValues.firstWhere(
-                                                      (label) =>
-                                                  label.key == value,
-                                                  orElse: () =>
-                                                  const Label(
-                                                      key: '', value: ''),
-                                                );
-                                            BlocProvider.of<
-                                                TransportMedicalDetailsCubit>(
+                                    BaseDate().datePickerWidgetLoading(
+                                      isDisabled: !isEditable,
+                                      textController:
+                                          employeeReachedDateTimeController,
+                                      onlyDate: false,
+                                      showFutureDate: false,
+                                      context: context,
+                                      onChange: (String value) {
+                                        state.model.employeeReachedTime =
+                                            Utils().formatTime(value);
+                                        BlocProvider.of<
+                                                    TransportMedicalDetailsCubit>(
                                                 context)
-                                                .updateDropdownValues(
-                                                transportType: int.tryParse(
-                                                    selectedLabel.value));
-                                          },
-                                        );
-                                      }
-                                    },
-                                  ),
-                                  CommonWidgets.verticalSpacerWidget(
-                                      height * 0.02),
+                                            .onModelValueChange(state.model);
+                                        FocusScope.of(context).requestFocus(
+                                            incidentLocationFocusNode);
+                                      },
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.02),
+                                  ]
+                                ],
 
-                                  /// Name of Hospital
+                                if (widget.isTransport) ...[
+                                  /// Actions taken by Corporate Security
                                   CommonWidgets.textDisplay(
-                                    // state.labels?.locale.incidentLocation ??
-                                    //     state.labels?.defaultLocale
-                                    //         .incidentLocation ??
-                                      Constants.nameOfHospital,
+                                      // state.labels?.locale.incidentLocation ??
+                                      //     state.labels?.defaultLocale
+                                      //         .incidentLocation ??
+                                      Constants.actionTaken,
                                       isMandatory: true,
                                       Styles.textStyleWhite16),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
                                   FlutterInputField(
                                     textInputType: TextInputType.text,
-                                    initialValue: state.model.hospitalName,
+                                    initialValue: state.model.actionsTaken,
                                     textFormKey: Keys.lsm1ContactNOKey,
                                     hintText: '',
                                     // focusNode: incidentLocationFocusNode,
                                     isEnable: isEditable,
                                     isDisableColor: !isEditable,
                                     onChange: (String value) {
-                                      state.model.hospitalName = value;
+                                      state.model.actionsTaken = value;
                                       context
                                           .read<TransportMedicalDetailsCubit>()
                                           .onModelValueChange(state.model);
@@ -726,28 +1047,26 @@ class _TransportMedicalDetailsViewState
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.02),
 
-
-                                  /// Hospital Location/Details
+                                  /// Impact on Incident on Travellers
                                   CommonWidgets.textDisplay(
-                                    // state.labels?.locale.incidentLocation ??
-                                    //     state.labels?.defaultLocale
-                                    //         .incidentLocation ??
-                                      Constants.hospitalLocation,
+                                      // state.labels?.locale.incidentLocation ??
+                                      //     state.labels?.defaultLocale
+                                      //         .incidentLocation ??
+                                      Constants.impactOnTravellers,
                                       isMandatory: true,
                                       Styles.textStyleWhite16),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.001),
                                   FlutterInputField(
-                                    lineHeight: 5,
                                     textInputType: TextInputType.text,
-                                    initialValue: state.model.hospitalLocation,
+                                    initialValue: state.model.incidentImpact,
                                     textFormKey: Keys.lsm1ContactNOKey,
                                     hintText: '',
                                     // focusNode: incidentLocationFocusNode,
                                     isEnable: isEditable,
                                     isDisableColor: !isEditable,
                                     onChange: (String value) {
-                                      state.model.hospitalLocation = value;
+                                      state.model.incidentImpact = value;
                                       context
                                           .read<TransportMedicalDetailsCubit>()
                                           .onModelValueChange(state.model);
@@ -757,199 +1076,11 @@ class _TransportMedicalDetailsViewState
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.02),
 
-                                  /// Accompanied By
-                                  CommonWidgets.textDisplay(
-                                    // state.labels?.locale.handoverSecurity ??
-                                    //     state.labels?.defaultLocale
-                                    //         .handoverSecurity ??
-                                    Constants.accompaniedBy,
-                                    isMandatory: true,
-                                    Styles.textStyleWhite14,
-                                  ),
-                                  TextFieldAddButton(
-                                    title: state.model.accompaniedEmployee
-                                        ?.userInfo ??
-                                        state.model.accompaniedEmployee?.name,
-                                    height: 70,
-                                    isDisableColor: !isEditable,
-                                    onTap: () {
-                                      if (isEditable) {
-                                        BaseOrganisationDialog().userDialog(
-                                          context: context,
-                                          users: state.employees,
-                                          onTap: (BaseUser user) {
-                                            BlocProvider.of<
-                                                TransportMedicalDetailsCubit>(
-                                                context)
-                                                .updateDropdownValues(
-                                              accompaniedEmployee: user,
-                                            );
-                                          },
-                                          roleName: ConstantUserRoles
-                                              .atomStaticUser,
-                                          locationId: state.model.location!.id!,
-                                          isDbUser: false,
-                                          functionToCall: (BaseUser user) {
-                                            BlocProvider.of<
-                                                TransportMedicalDetailsCubit>(
-                                                context)
-                                                .updateDropdownValues(
-                                              accompaniedEmployee: user,
-                                            );
-                                            // refresh the list
-                                            BlocProvider.of<
-                                                TransportMedicalDetailsCubit>(
-                                                context)
-                                                .refreshList();
-                                          },
-                                        );
-                                      }
-                                    },
-                                  ),
-                                  CommonWidgets.verticalSpacerWidget(
-                                      height * 0.02),
-                                ],
-
-                                /// Medical home drop provided
-                                CommonWidgets.textDisplay(
-                                  // state.labels?.locale.shiftBrfngAttnded ??
-                                  //     state.labels?.defaultLocale
-                                  //         .shiftBrfngAttnded ??
-                                  Constants.medicalHomeDrop,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite14,
-                                ),
-                                RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue:
-                                  state.model.dropProvided ? 1 : 0,
-                                  onChangedYes: !isEditable
-                                      ? null
-                                      : (val) {
-                                    state.model.dropProvided = true;
-                                    BlocProvider.of<
-                                        TransportMedicalDetailsCubit>(
-                                        context)
-                                        .showFields(
-                                      escortDeployed: true,
-                                    );
-                                  },
-                                  onChangedNo: !isEditable
-                                      ? null
-                                      : (val) {
-                                    state.model.dropProvided = false;
-                                    BlocProvider.of<
-                                        TransportMedicalDetailsCubit>(
-                                        context)
-                                        .showFields(
-                                      escortDeployed: false,
-                                    );
-                                  },
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.02),
-
-                                if(state.model.dropProvided == true)...[
-
-                                  /// Accompanied for home drop
-                                  CommonWidgets.textDisplay(
-                                    // state.labels?.locale.handoverSecurity ??
-                                    //     state.labels?.defaultLocale
-                                    //         .handoverSecurity ??
-                                    Constants.accompaniedForHomeDrop,
-                                    isMandatory: true,
-                                    Styles.textStyleWhite14,
-                                  ),
-                                  TextFieldAddButton(
-                                    title: state.model.accompaniedEmployee1
-                                        ?.userInfo ??
-                                        state.model.accompaniedEmployee1?.name,
-                                    height: 70,
-                                    isDisableColor: !isEditable,
-                                    onTap: () {
-                                      if (isEditable) {
-                                        BaseOrganisationDialog().userDialog(
-                                          context: context,
-                                          users: state.employees,
-                                          onTap: (BaseUser user) {
-                                            BlocProvider.of<
-                                                TransportMedicalDetailsCubit>(
-                                                context)
-                                                .updateDropdownValues(
-                                              accompaniedEmployee1: user,
-                                            );
-                                          },
-                                          roleName: ConstantUserRoles
-                                              .atomStaticUser,
-                                          locationId: state.model.location!.id!,
-                                          isDbUser: false,
-                                          functionToCall: (BaseUser user) {
-                                            BlocProvider.of<
-                                                TransportMedicalDetailsCubit>(
-                                                context)
-                                                .updateDropdownValues(
-                                              accompaniedEmployee1: user,
-                                            );
-                                            // refresh the list
-                                            BlocProvider.of<
-                                                TransportMedicalDetailsCubit>(
-                                                context)
-                                                .refreshList();
-                                          },
-                                        );
-                                      }
-                                    },
-                                  ),
-                                  CommonWidgets.verticalSpacerWidget(
-                                      height * 0.02),
-                                ],
-
-                                /// Employee reached home safely
-                                CommonWidgets.textDisplay(
-                                  // state.labels?.locale.shiftBrfngAttnded ??
-                                  //     state.labels?.defaultLocale
-                                  //         .shiftBrfngAttnded ??
-                                  Constants.employeeReachedHome,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite14,
-                                ),
-                                RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue:
-                                  state.model.employeeReached ? 1 : 0,
-                                  onChangedYes: !isEditable
-                                      ? null
-                                      : (val) {
-                                    state.model.employeeReached = true;
-                                    BlocProvider.of<
-                                        TransportMedicalDetailsCubit>(
-                                        context)
-                                        .showFields(
-                                      escortDeployed: true,
-                                    );
-                                  },
-                                  onChangedNo: !isEditable
-                                      ? null
-                                      : (val) {
-                                    state.model.employeeReached = false;
-                                    BlocProvider.of<
-                                        TransportMedicalDetailsCubit>(
-                                        context)
-                                        .showFields(
-                                      escortDeployed: false,
-                                    );
-                                  },
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.02),
-
-                                if(state.model.employeeReached == true)...[
-
-                                  /// Time of the employee reached home
+                                  /// Shift Login Date
                                   CommonWidgets.textDisplay(
                                     // state.labels?.locale.incidentDate ??
                                     //     state.labels?.defaultLocale.incidentDate ??
-                                    Constants.timeEmployeeReachedHome,
+                                    Constants.shiftLoginDate,
                                     Styles.textStyleWhite16,
                                     isMandatory: true,
                                   ),
@@ -958,569 +1089,495 @@ class _TransportMedicalDetailsViewState
 
                                   BaseDate().datePickerWidgetLoading(
                                     isDisabled: !isEditable,
-                                    textController: employeeReachedDateTimeController,
+                                    textController:
+                                        shiftLoginDateTimeController,
                                     onlyDate: false,
                                     showFutureDate: false,
                                     context: context,
                                     onChange: (String value) {
-                                      state.model.employeeReachedTime =
+                                      log('---value-$value------');
+                                      log('---incidentDateTimeController------###-${incidentDateTimeController.text}------');
+                                      state.model.shiftLoginDate =
                                           Utils().formatTime(value);
+                                      log('---value11-${state.model.incidentDate}------');
                                       BlocProvider.of<
-                                          TransportMedicalDetailsCubit>(
-                                          context)
+                                                  TransportMedicalDetailsCubit>(
+                                              context)
                                           .onModelValueChange(state.model);
-                                      FocusScope.of(context)
-                                          .requestFocus(
+                                      FocusScope.of(context).requestFocus(
                                           incidentLocationFocusNode);
                                     },
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.02),
-                                ]
-                              ],
 
-                              if (widget.isTransport) ...[
-
-                                /// Actions taken by Corporate Security
-                                CommonWidgets.textDisplay(
-                                  // state.labels?.locale.incidentLocation ??
-                                  //     state.labels?.defaultLocale
-                                  //         .incidentLocation ??
-                                    Constants.actionTaken,
-                                    isMandatory: true,
-                                    Styles.textStyleWhite16),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
-                                FlutterInputField(
-                                  textInputType: TextInputType.text,
-                                  initialValue: state.model.actionsTaken,
-                                  textFormKey: Keys.lsm1ContactNOKey,
-                                  hintText: '',
-                                  // focusNode: incidentLocationFocusNode,
-                                  isEnable: isEditable,
-                                  isDisableColor: !isEditable,
-                                  onChange: (String value) {
-                                    state.model.actionsTaken = value;
-                                    context
-                                        .read<TransportMedicalDetailsCubit>()
-                                        .onModelValueChange(state.model);
-                                  },
-                                  validateTextField: (String? user) {},
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.02),
-
-                                /// Impact on Incident on Travellers
-                                CommonWidgets.textDisplay(
-                                  // state.labels?.locale.incidentLocation ??
-                                  //     state.labels?.defaultLocale
-                                  //         .incidentLocation ??
-                                    Constants.impactOnTravellers,
-                                    isMandatory: true,
-                                    Styles.textStyleWhite16),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
-                                FlutterInputField(
-                                  textInputType: TextInputType.text,
-                                  initialValue: state.model.incidentImpact,
-                                  textFormKey: Keys.lsm1ContactNOKey,
-                                  hintText: '',
-                                  // focusNode: incidentLocationFocusNode,
-                                  isEnable: isEditable,
-                                  isDisableColor: !isEditable,
-                                  onChange: (String value) {
-                                    state.model.incidentImpact = value;
-                                    context
-                                        .read<TransportMedicalDetailsCubit>()
-                                        .onModelValueChange(state.model);
-                                  },
-                                  validateTextField: (String? user) {},
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.02),
-
-                                /// Shift Login Date
-                                CommonWidgets.textDisplay(
-                                  // state.labels?.locale.incidentDate ??
-                                  //     state.labels?.defaultLocale.incidentDate ??
-                                  Constants.shiftLoginDate,
-                                  Styles.textStyleWhite16,
-                                  isMandatory: true,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
-
-                                BaseDate().datePickerWidgetLoading(
-                                  isDisabled: !isEditable,
-                                  textController: shiftLoginDateTimeController,
-                                  onlyDate: false,
-                                  showFutureDate: false,
-                                  context: context,
-                                  onChange: (String value) {
-                                    log('---value-$value------');
-                                    log(
-                                        '---incidentDateTimeController------###-${incidentDateTimeController
-                                            .text}------');
-                                    state.model.shiftLoginDate =
-                                        Utils().formatTime(value);
-                                    log('---value11-${state.model
-                                        .incidentDate}------');
-                                    BlocProvider.of<
-                                        TransportMedicalDetailsCubit>(
-                                        context)
-                                        .onModelValueChange(state.model);
-                                    FocusScope.of(context).requestFocus(
-                                        incidentLocationFocusNode);
-                                  },
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.02),
-
-                                /// Shift Logout Date
-                                CommonWidgets.textDisplay(
-                                  // state.labels?.locale.incidentDate ??
-                                  //     state.labels?.defaultLocale.incidentDate ??
-                                  Constants.shiftLogoutDate,
-                                  Styles.textStyleWhite16,
-                                  isMandatory: true,
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
-
-                                BaseDate().datePickerWidgetLoading(
-                                  isDisabled: !isEditable,
-                                  textController: shiftLogoutDateTimeController,
-                                  onlyDate: false,
-                                  showFutureDate: true,
-                                  // showPastDate: true,
-                                  startDate:
-                                  initialisedFromDate,
-                                  fromDate:
-                                  initialisedFromDate,
-                                  // toDate: ,
-                                  // startDate: state.model.shiftLoginDate,
-                                  context: context,
-                                  onChange: (String value) {
-                                    log('---value-$value------');
-                                    log(
-                                        '---incidentDateTimeController------###-${incidentDateTimeController
-                                            .text}------');
-                                    state.model.shiftLogoutDate =
-                                        Utils().formatTime(value);
-                                    log('---value11-${state.model
-                                        .incidentDate}------');
-                                    BlocProvider.of<
-                                        TransportMedicalDetailsCubit>(
-                                        context)
-                                        .onModelValueChange(state.model);
-                                    FocusScope.of(context).requestFocus(
-                                        incidentLocationFocusNode);
-
-                                    log(
-                                        '---incidentDateTimeController----222--###-${incidentDateTimeController
-                                            .text}------');
-                                  },
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.02),
-
-                                /// Trip Id
-                                CommonWidgets.textDisplay(
-                                  // state.labels?.locale.incidentLocation ??
-                                  //     state.labels?.defaultLocale
-                                  //         .incidentLocation ??
-                                    Constants.tripId,
-                                    isMandatory: true,
-                                    Styles.textStyleWhite16),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.001),
-                                FlutterInputField(
-                                  textInputType: TextInputType.text,
-                                  initialValue: state.model.tripId,
-                                  textFormKey: Keys.lsm1ContactNOKey,
-                                  hintText: '',
-                                  // focusNode: incidentLocationFocusNode,
-                                  isEnable: isEditable,
-                                  isDisableColor: !isEditable,
-                                  onChange: (String value) {
-                                    state.model.tripId = value;
-                                    context
-                                        .read<TransportMedicalDetailsCubit>()
-                                        .onModelValueChange(state.model);
-                                  },
-                                  validateTextField: (String? user) {},
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.02),
-
-                                /// Is Escort Guard Deployed
-                                CommonWidgets.textDisplay(
-                                  // state.labels?.locale.shiftBrfngAttnded ??
-                                  //     state.labels?.defaultLocale
-                                  //         .shiftBrfngAttnded ??
-                                  Constants.isEscortGuardDeployed,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite14,
-                                ),
-                                RadioButtonsYesNo(
-                                  status: state.model.status ?? 0,
-                                  selectedValue:
-                                  state.model.escortDeployed ? 1 : 0,
-                                  onChangedYes: !isEditable
-                                      ? null
-                                      : (val) {
-                                    state.model.escortDeployed = true;
-                                    BlocProvider.of<
-                                        TransportMedicalDetailsCubit>(
-                                        context)
-                                        .showFields(
-                                      escortDeployed: true,
-                                    );
-                                  },
-                                  onChangedNo: !isEditable
-                                      ? null
-                                      : (val) {
-                                    state.model.escortDeployed = false;
-                                    BlocProvider.of<
-                                        TransportMedicalDetailsCubit>(
-                                        context)
-                                        .showFields(
-                                      escortDeployed: false,
-                                    );
-                                  },
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.02),
-
-                                if (state.model.escortDeployed == true) ...[
-
-                                  /// Escort Guard
+                                  /// Shift Logout Date
                                   CommonWidgets.textDisplay(
-                                    // state.labels?.locale.handoverSecurity ??
+                                    // state.labels?.locale.incidentDate ??
+                                    //     state.labels?.defaultLocale.incidentDate ??
+                                    Constants.shiftLogoutDate,
+                                    Styles.textStyleWhite16,
+                                    isMandatory: true,
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001),
+
+                                  BaseDate().datePickerWidgetLoading(
+                                    isDisabled: !isEditable,
+                                    textController:
+                                        shiftLogoutDateTimeController,
+                                    onlyDate: false,
+                                    showFutureDate: true,
+                                    // showPastDate: true,
+                                    startDate: initialisedFromDate,
+                                    fromDate: initialisedFromDate,
+                                    // toDate: ,
+                                    // startDate: state.model.shiftLoginDate,
+                                    context: context,
+                                    onChange: (String value) {
+                                      log('---value-$value------');
+                                      log('---incidentDateTimeController------###-${incidentDateTimeController.text}------');
+                                      state.model.shiftLogoutDate =
+                                          Utils().formatTime(value);
+                                      log('---value11-${state.model.incidentDate}------');
+                                      BlocProvider.of<
+                                                  TransportMedicalDetailsCubit>(
+                                              context)
+                                          .onModelValueChange(state.model);
+                                      FocusScope.of(context).requestFocus(
+                                          incidentLocationFocusNode);
+
+                                      log('---incidentDateTimeController----222--###-${incidentDateTimeController.text}------');
+                                    },
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
+
+                                  /// Trip Id
+                                  CommonWidgets.textDisplay(
+                                      // state.labels?.locale.incidentLocation ??
+                                      //     state.labels?.defaultLocale
+                                      //         .incidentLocation ??
+                                      Constants.tripId,
+                                      isMandatory: true,
+                                      Styles.textStyleWhite16),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.001),
+                                  FlutterInputField(
+                                    textInputType: TextInputType.text,
+                                    initialValue: state.model.tripId,
+                                    textFormKey: Keys.lsm1ContactNOKey,
+                                    hintText: '',
+                                    // focusNode: incidentLocationFocusNode,
+                                    isEnable: isEditable,
+                                    isDisableColor: !isEditable,
+                                    onChange: (String value) {
+                                      state.model.tripId = value;
+                                      context
+                                          .read<TransportMedicalDetailsCubit>()
+                                          .onModelValueChange(state.model);
+                                    },
+                                    validateTextField: (String? user) {},
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
+
+                                  /// Is Escort Guard Deployed
+                                  CommonWidgets.textDisplay(
+                                    // state.labels?.locale.shiftBrfngAttnded ??
                                     //     state.labels?.defaultLocale
-                                    //         .handoverSecurity ??
-                                    Constants.escortGuard,
+                                    //         .shiftBrfngAttnded ??
+                                    Constants.isEscortGuardDeployed,
                                     isMandatory: true,
                                     Styles.textStyleWhite14,
                                   ),
-                                  TextFieldAddButton(
-                                    title: state.model.escortGuard?.userInfo ??
-                                        state.model.escortGuard?.name,
-                                    height: 70,
-                                    isDisableColor: !isEditable,
-                                    onTap: () {
-                                      if (isEditable) {
-                                        BaseOrganisationDialog().userDialog(
-                                          context: context,
-                                          users: state.escortGuard,
-                                          onTap: (BaseUser user) {
+                                  RadioButtonsYesNo(
+                                    status: state.model.status ?? 0,
+                                    selectedValue:
+                                        state.model.escortDeployed ? 1 : 0,
+                                    onChangedYes: !isEditable
+                                        ? null
+                                        : (val) {
+                                            state.model.escortDeployed = true;
                                             BlocProvider.of<
-                                                TransportMedicalDetailsCubit>(
-                                                context)
-                                                .updateDropdownValues(
-                                              escortGuard: user,
+                                                        TransportMedicalDetailsCubit>(
+                                                    context)
+                                                .showFields(
+                                              escortDeployed: true,
                                             );
                                           },
-                                          roleName: ConstantUserRoles
-                                              .atomGuardingStaffUser,
-                                          locationId: state.model.location!.id!,
-                                          isDbUser: false,
-                                          functionToCall: (BaseUser user) {
+                                    onChangedNo: !isEditable
+                                        ? null
+                                        : (val) {
+                                            state.model.escortDeployed = false;
                                             BlocProvider.of<
-                                                TransportMedicalDetailsCubit>(
-                                                context)
-                                                .updateDropdownValues(
-                                              escortGuard: user,
+                                                        TransportMedicalDetailsCubit>(
+                                                    context)
+                                                .showFields(
+                                              escortDeployed: false,
                                             );
-                                            // refresh the list
-                                            BlocProvider.of<
-                                                TransportMedicalDetailsCubit>(
-                                                context)
-                                                .refreshList();
                                           },
-                                        );
-                                      }
-                                    },
+                                  ),
+                                  CommonWidgets.verticalSpacerWidget(
+                                      height * 0.02),
+
+                                  if (state.model.escortDeployed == true) ...[
+                                    /// Escort Guard
+                                    CommonWidgets.textDisplay(
+                                      // state.labels?.locale.handoverSecurity ??
+                                      //     state.labels?.defaultLocale
+                                      //         .handoverSecurity ??
+                                      Constants.escortGuard,
+                                      isMandatory: true,
+                                      Styles.textStyleWhite14,
+                                    ),
+                                    TextFieldAddButton(
+                                      title:
+                                          state.model.escortGuard?.userInfo ??
+                                              state.model.escortGuard?.name,
+                                      height: 70,
+                                      isDisableColor: !isEditable,
+                                      onTap: () {
+                                        if (isEditable) {
+                                          BaseOrganisationDialog().userDialog(
+                                            context: context,
+                                            users: state.escortGuard,
+                                            onTap: (BaseUser user) {
+                                              BlocProvider.of<
+                                                          TransportMedicalDetailsCubit>(
+                                                      context)
+                                                  .updateDropdownValues(
+                                                escortGuard: user,
+                                              );
+                                            },
+                                            roleName: ConstantUserRoles
+                                                .atomGuardingStaffUser,
+                                            locationId:
+                                                state.model.location!.id!,
+                                            isDbUser: false,
+                                            functionToCall: (BaseUser user) {
+                                              BlocProvider.of<
+                                                          TransportMedicalDetailsCubit>(
+                                                      context)
+                                                  .updateDropdownValues(
+                                                escortGuard: user,
+                                              );
+                                              // refresh the list
+                                              BlocProvider.of<
+                                                          TransportMedicalDetailsCubit>(
+                                                      context)
+                                                  .refreshList();
+                                            },
+                                          );
+                                        }
+                                      },
+                                    ),
+                                    CommonWidgets.verticalSpacerWidget(
+                                        height * 0.02),
+                                  ],
+
+                                  ///Attachments
+                                  CommonWidgets.textDisplay(
+                                      Constants.map,
+                                      isMandatory: true,
+                                      Styles.textStyleWhite16),
+                                  if (state.model.status == 0 ||
+                                      state.model.status == null ||
+                                      state.model.status == 1) ...[
+                                    BaseImageUpload().uploadWidget(
+                                        context: context,
+                                        isDisabled:
+                                            state.model.status != null &&
+                                                state.model.status != 0 &&
+                                                state.model.status != 1,
+                                        loggedInUserDetails:
+                                            state.loggedInUserDetails ?? User(),
+                                        getFiles: uploadFiles,
+                                        onImageSelected: (ImageContent data) {
+                                          List<ImageContent> files = [];
+                                          files.add(data);
+                                          for (ImageContent image
+                                              in uploadFiles) {
+                                            files.add(image);
+                                          }
+                                          context
+                                              .read<
+                                                  TransportMedicalDetailsCubit>()
+                                              .addMapAttachment(
+                                                data: data, //  single item
+                                                images: files, //  full list
+                                              );
+                                        }),
+                                  ],
+
+                                  /// Attachments
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20.0),
+                                    child: BaseImageUpload().getAttachment(
+                                      height: height,
+                                      attachments: state.mapAttachments,
+                                      files: uploadFiles,
+                                      moduleCode: '',
+                                      isDisabled: state.model.status != null &&
+                                              state.model.status != 0 &&
+                                              state.model.status != 1
+                                          ? true
+                                          : false,
+                                      showDeleteIcon:
+                                          state.model.status != null &&
+                                                  state.model.status != 0 &&
+                                                  state.model.status != 1
+                                              ? false
+                                              : true,
+                                      onDelete:  (index, imageData) {
+                                  context.read<TransportMedicalDetailsCubit>().removeAttachment(imageData);
+                                  },
+                                    ),
                                   ),
                                   CommonWidgets.verticalSpacerWidget(
                                       height * 0.02),
                                 ],
 
-                                ///Attachments
-                                CommonWidgets.textDisplay(Constants.map,isMandatory: true,
-                                    Styles.textStyleWhite16),
-                                if (state.model.status == 0 ||
-                                    state.model.status == null || state.model.status == 1) ...[
-                                  BaseImageUpload().uploadWidget(
-                                      context: context,
-                                      isDisabled: state.model.status != null &&
-                                          state.model.status != 0 && state.model.status != 1,
-                                      loggedInUserDetails:
-                                      state.loggedInUserDetails ?? User(),
-                                      getFiles: uploadFiles,
-                                      // onImageSelected: (ImageContent data) {
-                                      //   List<ImageContent>? files = [];
-                                      //   files.add(data);
-                                      //   for (ImageContent image in uploadFiles) {
-                                      //     files.add(image);
-                                      //   }
-                                      //   BlocProvider.of<TransportMedicalDetailsCubit>(
-                                      //       context)
-                                      //       .addMapAttachment(
-                                      //     data: files,
-                                      //     images: files,
-                                      //   );
-                                      // },
-                                      onImageSelected: (ImageContent data) {
-                                        List<ImageContent> files = [];
-                                        files.add(data);
-                                        for (ImageContent image in uploadFiles) {
-                                          files.add(image);
-                                        }
-                                        context
-                                            .read<
-                                            TransportMedicalDetailsCubit>()
-                                            .addMapAttachment(
-                                          data: data, //  single item
-                                          images: files, //  full list
-                                        );
-                                      }
+                                /// Employee Header
+                                Container(
+                                  height: 48,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white.withValues(alpha: 0.2),
+                                    borderRadius: BorderRadius.circular(4),
+                                    border: Border.all(
+                                      color: Colors.white,
+                                      width: 0.8,
+                                    ),
                                   ),
-                                ],
-
-                                /// Attachments
-                                Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 20.0),
-                                  child: BaseImageUpload().getAttachment(
-                                    height: height,
-                                    attachments: state.mapAttachments,
-                                    files: uploadFiles,
-                                    moduleCode: '',
-                                    isDisabled: state.model.status != null &&
-                                        state.model.status != 0 && state.model.status != 1? true : false,
-                                    showDeleteIcon: state.model.status !=
-                                        null && state.model.status != 0 && state.model.status != 1
-                                        ? false
-                                        : true,
-                                  ),
-                                ),
-                                CommonWidgets.verticalSpacerWidget(
-                                    height * 0.02),
-                              ],
-
-                              /// Employee
-                              Container(
-                                height: 48,
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withValues(alpha: 0.2),
-                                  borderRadius: BorderRadius.circular(4),
-                                  border: Border.all(
-                                      color: Colors.white, width: 0.8),
-                                ),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12),
-                                child: Row(
-                                  children: [
-                                    const Expanded(
-                                      child: Text(
-                                        'Employees',
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w600,
+                                      horizontal: 12),
+                                  child: Row(
+                                    children: [
+                                      const Expanded(
+                                        child: Text(
+                                          'Employees',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        final updatedEmployees =
-                                        List<User>.from(
-                                          state.model.employees ?? [],
-                                        )
-                                          ..add(
-                                            User(
-                                              employeeId: '',
-                                              name: '',
-                                            ),
-                                          );
-                                        context
-                                            .read<
-                                            TransportMedicalDetailsCubit>()
-                                            .updateEmployee(updatedEmployees);
-                                      },
-                                      child: const Icon(Icons.add,
-                                          color: Colors.white),
-                                    )
-                                  ],
+                                      if (state.model.status != 2 &&
+                                          state.model.lock.isEmptyOrNull)
+                                        InkWell(
+                                          onTap: () {
+                                            final updatedEmployees =
+                                                List<User>.from(
+                                                    state.model.employees ?? [])
+                                                  ..add(
+                                                    User(
+                                                      employeeId: '',
+                                                      name: '',
+                                                    ),
+                                                  );
+
+                                            context
+                                                .read<
+                                                    TransportMedicalDetailsCubit>()
+                                                .updateEmployee(
+                                                    updatedEmployees);
+                                          },
+                                          child: const Icon(
+                                            Icons.add,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                    ],
+                                  ),
                                 ),
-                              ),
 
-                              const SizedBox(height: 12),
+                                const SizedBox(height: 12),
 
-                              ///  Employees List
-                              ListView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: state.model.employees?.length ?? 0,
-                                itemBuilder: (context, index) {
-                                  final emp = state.model.employees![index];
+                                /// Employees
+                                Column(
+                                  children: List.generate(
+                                    state.model.employees?.length ?? 0,
+                                    (index) {
+                                      final emp = state.model.employees![index];
 
-                                  return Padding(
-                                    padding:
-                                    const EdgeInsets.only(bottom: 16),
-                                    child: Container(
-                                      padding: const EdgeInsets.all(12),
-                                      decoration: BoxDecoration(
-                                        color: Colors.white
-                                            .withValues(alpha: 0.05),
-                                        borderRadius:
-                                        BorderRadius.circular(8),
-                                        border:
-                                        Border.all(color: Colors.white24),
-                                      ),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                        children: [
-
-                                          ///  Top Row (Title + Remove)
-                                          Row(
-                                            mainAxisAlignment:
-                                            MainAxisAlignment
-                                                .spaceBetween,
+                                      return Padding(
+                                        padding:
+                                            const EdgeInsets.only(bottom: 16),
+                                        child: Container(
+                                          padding: const EdgeInsets.all(12),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white
+                                                .withValues(alpha: 0.05),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            border: Border.all(
+                                              color: Colors.white24,
+                                            ),
+                                          ),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              const Text(
-                                                'Employee',
-                                                style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                              InkWell(
-                                                onTap: () {
-                                                  final updatedEmployees =
-                                                  List<User>.from(
-                                                    state.model.employees ??
-                                                        [],
-                                                  )
-                                                    ..removeAt(index);
+                                              /// Top Row
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  const Text(
+                                                    'Employee',
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                    ),
+                                                  ),
+                                                  if (state.model.status != 2 &&
+                                                      state.model.lock
+                                                          .isEmptyOrNull)
+                                                    InkWell(
+                                                      onTap: () {
+                                                        final updatedEmployees =
+                                                            List<User>.from(
+                                                          state.model
+                                                                  .employees ??
+                                                              [],
+                                                        )..removeAt(index);
 
-                                                  context
-                                                      .read<
-                                                      TransportMedicalDetailsCubit>()
-                                                      .updateEmployee(
-                                                      updatedEmployees);
-                                                },
-                                                child: const Icon(
-                                                  Icons.close,
-                                                  color: Colors.white,
-                                                  size: 20,
+                                                        context
+                                                            .read<
+                                                                TransportMedicalDetailsCubit>()
+                                                            .updateEmployee(
+                                                              updatedEmployees,
+                                                            );
+                                                      },
+                                                      child: const Icon(
+                                                        Icons.close,
+                                                        color: Colors.white,
+                                                        size: 20,
+                                                      ),
+                                                    ),
+                                                ],
+                                              ),
+
+                                              const SizedBox(height: 10),
+
+                                              /// Employee Name
+                                              TextFieldAddButton(
+                                                title: emp.name,
+                                                height: 70,
+                                                isDisableColor:
+                                                    state.model.status == 2 ||
+                                                        !state.model.lock
+                                                            .isEmptyOrNull,
+                                                onTap: state.model.status !=
+                                                            2 &&
+                                                        state.model.lock
+                                                            .isEmptyOrNull
+                                                    ? () {
+                                                        BaseOrganisationDialog()
+                                                            .userDialog(
+                                                          context: context,
+                                                          users:
+                                                              state.employees,
+                                                          roleName:
+                                                              ConstantUserRoles
+                                                                  .atomStaticUser,
+                                                          locationId: state
+                                                              .model
+                                                              .location!
+                                                              .id!,
+                                                          isDbUser: true,
+                                                          onTap:
+                                                              (BaseUser user) {
+                                                            context
+                                                                .read<
+                                                                    TransportMedicalDetailsCubit>()
+                                                                .updateEmployeeUser(
+                                                                  index,
+                                                                  user,
+                                                                );
+
+                                                            emp.employeeId =
+                                                                user.employeeId;
+                                                          },
+                                                          functionToCall:
+                                                              (BaseUser user) {
+                                                            context
+                                                                .read<
+                                                                    TransportMedicalDetailsCubit>()
+                                                                .updateEmployeeUser(
+                                                                  index,
+                                                                  user,
+                                                                );
+                                                          },
+                                                        );
+                                                      }
+                                                    : null,
+                                              ),
+
+                                              const SizedBox(height: 10),
+
+                                              /// Employee ID
+                                              FlutterInputField(
+                                                key: ValueKey(
+                                                  '${emp.employeeId}_$index',
                                                 ),
+                                                initialValue: emp.employeeId,
+                                                showBorder: true,
+                                                isEnable: false,
+                                                hintText: 'Employee ID',
+                                                onChange: (value) {
+                                                  // Do nothing because field is disabled.
+                                                },
+                                                textFormKey: '',
                                               ),
                                             ],
                                           ),
-
-                                          const SizedBox(height: 10),
-
-                                          ///  NAME (Dropdown - your logic)
-                                          TextFieldAddButton(
-                                            // title: emp.userInfo,
-                                            title:
-                                            emp.name,
-                                            height: 70,
-                                            isDisableColor: disableForm,
-                                            onTap: () {
-                                              BaseOrganisationDialog()
-                                                  .userDialog(
-                                                context: context,
-                                                users: state.employees,
-                                                roleName: ConstantUserRoles
-                                                    .atomStaticUser,
-                                                locationId:
-                                                state.model.location!.id!,
-                                                isDbUser: true,
-                                                onTap: (BaseUser user) {
-                                                  //  update the employee at the correct index
-                                                  context
-                                                      .read<TransportMedicalDetailsCubit>()
-                                                      .updateEmployeeUser(index, user);
-
-                                                  emp.employeeId = user.employeeId;
-                                                },
-                                                functionToCall: (BaseUser user) {
-                                                  context
-                                                      .read<TransportMedicalDetailsCubit>()
-                                                      .updateEmployeeUser(index, user); //  same here
-                                                },
-                                              );
-                                            },
-                                          ),
-
-                                          const SizedBox(height: 10),
-
-                                          ///  Employee ID
-                                          FlutterInputField(
-                                            key: ValueKey(emp.employeeId ?? 'emp_$index'),
-                                            initialValue:  emp.employeeId,
-                                            // controller: employeeIdController,
-                                            showBorder: true,
-                                            isEnable: false,
-                                            hintText: "Employee ID",
-                                            onChange: (value) {
-                                              context
-                                                  .read<
-                                                  TransportMedicalDetailsCubit>()
-                                                  .updateEmployeeUser(
-                                                  index, value);
-                                            },
-                                            textFormKey: '',
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-
-                              /// View Email Notification List
-                              CommonWidgets.textDisplay(
-                                  'View Notifications',
-                                  Styles.textStyleWhite14),
-
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02),
-
-                              ///  TEMPLATE LIST
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(7),
-                                  border: Border.all(
-                                      color: Colors.white, width: .7),
+                                        ),
+                                      );
+                                    },
+                                  ),
                                 ),
-                                child: Column(
-                                  children: [
 
-                                    /// ===== HEADER =====
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16, vertical: 12),
-                                      color: Colors.white.withValues(
-                                          alpha: 0.1),
-                                      child: Row(
-                                        children: [
-                                          const Expanded(
-                                            child: Text(
-                                              "Id",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
+                                /// View Email Notification List
+                                CommonWidgets.textDisplay('View Notifications',
+                                    Styles.textStyleWhite14),
+
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02),
+
+                                ///  TEMPLATE LIST
+                                Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(7),
+                                    border: Border.all(
+                                        color: Colors.white, width: .7),
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      /// ===== HEADER =====
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 16, vertical: 12),
+                                        color:
+                                            Colors.white.withValues(alpha: 0.1),
+                                        child: Row(
+                                          children: [
+                                            const Expanded(
+                                              child: Text(
+                                                "Id",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          IconButton(
+                                            IconButton(
                                               icon: state.model.status != 2
                                                   ? const Icon(Icons.add,
-                                                  color: Colors.white)
+                                                      color: Colors.white)
                                                   : const SizedBox(),
                                               tooltip: 'Fetch Template',
 
@@ -1583,156 +1640,56 @@ class _TransportMedicalDetailsViewState
                                               //         stackTrace: s);
                                               //   }
                                               // }
-                                            onPressed: () async {
-                                              try {
-                                                final cubit = context.read<TransportMedicalDetailsCubit>();
-
-                                                // If record doesn't exist yet, save it silently first
-                                                if (widget.model?.id == null) {
-                                                  final isSuccess = await cubit.submitForm(
-                                                    isSaveOnly: true,
-                                                    silent: true,
-                                                  );
-
-                                                  if (!isSuccess) {
-                                                    debugPrint("Save failed");
-                                                    return;
-                                                  }
-                                                }
-
-                                                //  Always read the ID from cubit AFTER the save completes
-                                                final savedId = cubit.state.model.id;
-
-                                                if (savedId == null) {
-                                                  debugPrint("ID is still null after save");
-                                                  return;
-                                                }
-
-                                                cubit.clearAttachments();
-
-                                                final response = await cubit.getNotificationDetailsById(
-                                                  savedId.toString(), //  now has the correct ID
-                                                );
-
-                                                final html = response.notification;
-
-                                                if (html == null || html.trim().isEmpty) {
-                                                  debugPrint("HTML is empty");
-                                                  return;
-                                                }
-
-                                                openTemplatePreview(
-                                                  html: html,
-                                                  templateId: null,
-                                                );
-                                              } catch (e, s) {
-                                                debugPrint("Failed to load template: $e");
-                                                debugPrintStack(stackTrace: s);
-                                              }
-                                            },
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-
-
-                                    /// ===== TEMPLATE LIST =====
-                                    ...?state.emailTemplates?.map((item) {
-                                      return Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 20, vertical: 10),
-                                        decoration: const BoxDecoration(
-                                          border: Border(
-                                            bottom: BorderSide(
-                                                color: Colors.white24),
-                                          ),
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                item["id"].toString(),
-                                                style: Styles
-                                                    .textStyleWhite14,
-                                              ),
-                                            ),
-                                            isLoading
-                                                ? const SizedBox(
-                                              width: 24,
-                                              height: 24,
-                                              child: CircularProgressIndicator(
-                                                strokeWidth: 2,
-                                                color: Colors.white,
-                                              ),
-                                            )
-                                                : IconButton(
-                                              icon: const Icon(
-                                                Icons.remove_red_eye,
-                                                color: Colors.white,
-                                              ),
-                                              onPressed:
-                                                  () async {
-                                                final id =
-                                                item["id"];
-                                                if (id ==
-                                                    null) {
-                                                  return;
-                                                }
-
-                                                setState(
-                                                        () {
-                                                      isLoading =
-                                                      true;
-                                                    });
-
+                                              onPressed: () async {
                                                 try {
-                                                  final cubit =
-                                                  context.read<
+                                                  final cubit = context.read<
                                                       TransportMedicalDetailsCubit>();
 
-                                                  cubit
-                                                      .clearAttachments();
+                                                  // If record doesn't exist yet, save it silently first
+                                                  if (widget.model?.id ==
+                                                      null) {
+                                                    final isSuccess =
+                                                        await cubit.submitForm(
+                                                      isSaveOnly: true,
+                                                      silent: true,
+                                                    );
 
-                                                  final response =
-                                                  await cubit
-                                                      .getNotificationById(
-                                                      id.toString());
+                                                    if (!isSuccess) {
+                                                      debugPrint("Save failed");
+                                                      return;
+                                                    }
+                                                  }
 
-                                                  debugPrint(
-                                                      "API images: ${response
-                                                          .images}");
-                                                  debugPrint(
-                                                      "API images length: ${response
-                                                          .images?.length}");
+                                                  //  Always read the ID from cubit AFTER the save completes
+                                                  final savedId =
+                                                      cubit.state.model.id;
 
-                                                  cubit.addAttachment(
-                                                      response.images);
+                                                  if (savedId == null) {
+                                                    debugPrint(
+                                                        "ID is still null after save");
+                                                    return;
+                                                  }
+
+                                                  cubit.clearAttachments();
+
+                                                  final response = await cubit
+                                                      .getNotificationDetailsById(
+                                                    savedId
+                                                        .toString(), //  now has the correct ID
+                                                  );
 
                                                   final html =
                                                       response.notification;
+
                                                   if (html == null ||
-                                                      html
-                                                          .trim()
-                                                          .isEmpty) {
-                                                    debugPrint(
-                                                        "HTML is empty");
-                                                    return;
-                                                  }
-
-                                                  await Future.delayed(
-                                                      const Duration(
-                                                          milliseconds: 10));
-
-                                                  if (!context
-                                                      .mounted) {
+                                                      html.trim().isEmpty) {
+                                                    debugPrint("HTML is empty");
                                                     return;
                                                   }
 
                                                   openTemplatePreview(
-                                                    html:
-                                                    html,
-                                                    templateId:
-                                                    id as int?,
+                                                    html: html,
+                                                    templateId: null,
                                                   );
                                                 } catch (e, s) {
                                                   debugPrint(
@@ -1740,54 +1697,159 @@ class _TransportMedicalDetailsViewState
                                                   debugPrintStack(
                                                       stackTrace: s);
                                                 }
-                                                finally {
-                                                  if (mounted) {
-                                                    setState(() {
-                                                      isLoading = false;
-                                                    });
-                                                  }
-                                                }
                                               },
                                             ),
                                           ],
                                         ),
-                                      );
-                                    }),
-                                  ],
+                                      ),
+
+                                      /// ===== TEMPLATE LIST =====
+                                      ...?state.emailTemplates?.map((item) {
+                                        return Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 20, vertical: 10),
+                                          decoration: const BoxDecoration(
+                                            border: Border(
+                                              bottom: BorderSide(
+                                                  color: Colors.white24),
+                                            ),
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                child: Text(
+                                                  item["id"].toString(),
+                                                  style:
+                                                      Styles.textStyleWhite14,
+                                                ),
+                                              ),
+                                              isLoading
+                                                  ? const SizedBox(
+                                                      width: 24,
+                                                      height: 24,
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                        strokeWidth: 2,
+                                                        color: Colors.white,
+                                                      ),
+                                                    )
+                                                  : IconButton(
+                                                      icon: const Icon(
+                                                        Icons.remove_red_eye,
+                                                        color: Colors.white,
+                                                      ),
+                                                      onPressed: () async {
+                                                        final id = item["id"];
+                                                        if (id == null) {
+                                                          return;
+                                                        }
+
+                                                        setState(() {
+                                                          isLoading = true;
+                                                        });
+
+                                                        try {
+                                                          final cubit =
+                                                              context.read<
+                                                                  TransportMedicalDetailsCubit>();
+
+                                                          cubit
+                                                              .clearAttachments();
+
+                                                          final response = await cubit
+                                                              .getNotificationById(
+                                                                  id.toString());
+
+                                                          debugPrint(
+                                                              "API images: ${response.images}");
+                                                          debugPrint(
+                                                              "API images length: ${response.images?.length}");
+
+                                                          cubit.addAttachment(
+                                                              response.images);
+
+                                                          final html = response
+                                                              .notification;
+                                                          if (html == null ||
+                                                              html
+                                                                  .trim()
+                                                                  .isEmpty) {
+                                                            debugPrint(
+                                                                "HTML is empty");
+                                                            return;
+                                                          }
+
+                                                          await Future.delayed(
+                                                              const Duration(
+                                                                  milliseconds:
+                                                                      10));
+
+                                                          if (!context
+                                                              .mounted) {
+                                                            return;
+                                                          }
+
+                                                          openTemplatePreview(
+                                                            html: html,
+                                                            templateId:
+                                                                id as int?,
+                                                          );
+                                                        } catch (e, s) {
+                                                          debugPrint(
+                                                              "Failed to load template: $e");
+                                                          debugPrintStack(
+                                                              stackTrace: s);
+                                                        } finally {
+                                                          if (mounted) {
+                                                            setState(() {
+                                                              isLoading = false;
+                                                            });
+                                                          }
+                                                        }
+                                                      },
+                                                    ),
+                                            ],
+                                          ),
+                                        );
+                                      }),
+                                    ],
+                                  ),
                                 ),
-                              ),
 
-                              CommonWidgets.verticalSpacerWidget(
-                                  height * 0.02),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02),
 
-                              CommonWidgets.verticalSpacerWidget(height * 0.02),
-                            ]),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02),
+                              ]),
+                            ),
                           ),
-                        ),
-                        CommonWidgets.verticalSpacerWidget(height * 0.02),
+                          CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                        /// SubmitButton
-                        // if (state.model.status != 0) ...[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            cancelButtonDisplay(),
-                            if(state.model.status != 2)...[
-                              submitButtonDisplay(),
-                            ]
-                          ],
-                        ),
-                        // ],
-                        CommonWidgets.verticalSpacerWidget(height * 0.04),
-                      ]),
+                          /// SubmitButton
+                          // if (state.model.status != 0) ...[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              cancelButtonDisplay(),
+                              if (_persistedStatus != 2 && state.model.lock.isEmptyOrNull) ...[
+                                submitButtonDisplay(),
+                              ]
+                            ],
+                          ),
+                          // ],
+                          CommonWidgets.verticalSpacerWidget(height * 0.04),
+                        ]),
+                  ),
                 ),
-              ),
+              )
             ],
           ),
         ),
       ],
     );
   }
+
   //
   // void openTemplatePreview({
   //   required String html,
@@ -1833,7 +1895,8 @@ class _TransportMedicalDetailsViewState
           child: TemplatePreviewPage(
             html: html,
             templateId: templateId,
-            transportId: savedId.toString(), //  from cubit, never null
+            transportId: savedId.toString(),
+            //  from cubit, never null
             showSaveButtons: true,
             getFiles: getFiles,
           ),
@@ -1864,7 +1927,8 @@ class _TransportMedicalDetailsViewState
       buttonTextKey: Keys.submitButton,
       onTap: () async {
         FocusScope.of(context).unfocus();
-        BlocProvider.of<TransportMedicalDetailsCubit>(context).submitForm(isSaveOnly: false, silent: false);
+        BlocProvider.of<TransportMedicalDetailsCubit>(context)
+            .submitForm(isSaveOnly: false, silent: false);
       },
     );
   }
@@ -1895,9 +1959,7 @@ class _TransportMedicalDetailsViewState
   void enableEditor(bool enable) {
     quillController.enable(); // call directly
   }
-
 }
-
 
 class TemplatePreviewPage extends StatefulWidget {
   const TemplatePreviewPage({
@@ -1914,20 +1976,21 @@ class TemplatePreviewPage extends StatefulWidget {
   final bool showSaveButtons;
   final String transportId;
   final List<ImageContent> getFiles;
+
   @override
   State<TemplatePreviewPage> createState() => _TemplatePreviewPageState();
 }
 
 class _TemplatePreviewPageState extends State<TemplatePreviewPage> {
   final HtmlEditorController quillController = HtmlEditorController();
-  List<ImageContent> localAttachments = []; //  local list
+  // List<ImageContent> localAttachments = []; //  local list
   bool _isLoading = false;
   @override
   void initState() {
     super.initState();
     //  initialize from cubit state
     final state = context.read<TransportMedicalDetailsCubit>().state;
-    localAttachments = List<ImageContent>.from(state.loadAttachments);
+    // localAttachments = List<ImageContent>.from(state.loadAttachments);
   }
 
   @override
@@ -1949,40 +2012,43 @@ class _TemplatePreviewPageState extends State<TemplatePreviewPage> {
           if (widget.showSaveButtons)
             _isLoading
                 ? const SizedBox(
-              width: 24,
-              height: 24,
-              child: CircularProgressIndicator(
-                color: Colors.white,
-                strokeWidth: 2,
-              ),
-            )
-                :widget.templateId ==null ? IconButton(
-              tooltip: "Submit",
-              icon: const Icon(Icons.send, color: Colors.white),
-              onPressed: () async {
-                final html = await quillController.getText();
-                if (html.trim().isEmpty) return;
+                    width: 24,
+                    height: 24,
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                      strokeWidth: 2,
+                    ),
+                  )
+                : widget.templateId == null
+                    ? IconButton(
+                        tooltip: "Submit",
+                        icon: const Icon(Icons.send, color: Colors.white),
+                        onPressed: () async {
+                          final html = await quillController.getText();
+                          if (html.trim().isEmpty) return;
 
-                setState(() => _isLoading = true);
+                          setState(() => _isLoading = true);
 
-                try {
-                  await context
-                      .read<TransportMedicalDetailsCubit>()
-                      .submitTemplateAndRefresh(
-                    html: html,
-                    id: widget.templateId,
-                  );
+                          try {
+                            await context
+                                .read<TransportMedicalDetailsCubit>()
+                                .submitTemplateAndRefresh(
+                                  html: html,
+                                  id: widget.templateId,
+                                );
 
-                  await context
-                      .read<TransportMedicalDetailsCubit>()
-                      .getNotificationDetailsById(widget.transportId);
+                            await context
+                                .read<TransportMedicalDetailsCubit>()
+                                .getNotificationDetailsById(widget.transportId);
 
-                  if (context.mounted) Navigator.pop(context);
-                } finally {
-                  if (context.mounted) setState(() => _isLoading = false);
-                }
-              },
-            ): SizedBox.fromSize(),
+                            if (context.mounted) Navigator.pop(context);
+                          } finally {
+                            if (context.mounted)
+                              setState(() => _isLoading = false);
+                          }
+                        },
+                      )
+                    : SizedBox.fromSize(),
           IconButton(
             tooltip: "Close",
             icon: const Icon(Icons.close, color: Colors.white),
@@ -2014,7 +2080,8 @@ class _TemplatePreviewPageState extends State<TemplatePreviewPage> {
           ),
 
           /// Content
-          BlocBuilder<TransportMedicalDetailsCubit, TransportMedicalDetailsState>(
+          BlocBuilder<TransportMedicalDetailsCubit,
+              TransportMedicalDetailsState>(
             builder: (context, state) {
               //  sync local list when new attachment added via cubit
               // if (state.status == FormStatus.addAttachment) {
@@ -2115,31 +2182,36 @@ ${widget.html}
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Container(
-              width: width,
-              decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-              color: Colors.white.withValues(alpha: 0.35),
-              width: 0.8,
-              ),
-              color: Colors.white.withValues(alpha: 0.03),
-              ),
-              child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: SingleChildScrollView(
-              padding: const EdgeInsets.all(8),
-                        child: BaseImageUpload().getAttachment(
-                          height: height,
-                          attachments: List<ImageContent>.from(state.loadAttachments ?? []),
-                          files: List<ImageContent>.from(state.loadAttachments ?? []),
-                          moduleCode: '',
-                          isDisabled: widget.templateId != null,
-                          showDeleteIcon: widget.templateId == null,
+                        child: Container(
+                          width: width,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                              color: Colors.white.withValues(alpha: 0.35),
+                              width: 0.8,
+                            ),
+                            color: Colors.white.withValues(alpha: 0.03),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: SingleChildScrollView(
+                              padding: const EdgeInsets.all(8),
+                              child: BaseImageUpload().getAttachment(
+                                height: height,
+                                attachments: List<ImageContent>.from(
+                                    state.loadAttachments ?? []),
+                                files: List<ImageContent>.from(
+                                    state.loadAttachments ?? []),
+                                moduleCode: '',
+                                isDisabled: widget.templateId != null,
+                                showDeleteIcon: widget.templateId == null,
+                                onDelete:  (index, imageData) {
+                                  context.read<TransportMedicalDetailsCubit>().removeAttachment(imageData);
+                                },
+                              ),
+                            ),
+                          ),
                         ),
-              ),
-              ),
-              ),
                       ),
                     ),
 
@@ -2153,7 +2225,8 @@ ${widget.html}
     );
   }
 
-  Widget _uploadWidget(BuildContext context, TransportMedicalDetailsState state) {
+  Widget _uploadWidget(
+      BuildContext context, TransportMedicalDetailsState state) {
     return Container(
       height: 60,
       decoration: BoxDecoration(
@@ -2170,33 +2243,37 @@ ${widget.html}
                 fixedSize: const Size(120, 50),
                 backgroundColor: Colors.transparent,
               ),
-              onPressed: widget.templateId == null ? () {
+              onPressed: widget.templateId == null
+                  ? () {
                 showDialog(
                   context: context,
                   builder: (BuildContext dialogContext) {
                     return UploadAttachment(
                       onImageSelected: (ImageContent data) {
-                        final updated = [data, ...localAttachments]; //  prepend
-                        setState(() {
-                          localAttachments = updated; //  instant UI update
-                        });
+                        // Build from the CURRENT cubit state, not a stale local copy
+                        final current = List<ImageContent>.from(
+                            state.loadAttachments ?? []);
+                        final updated = [data, ...current];
                         context
                             .read<TransportMedicalDetailsCubit>()
-                            .addAttachment(updated); //  sync cubit
+                            .addAttachment(updated);
                       },
                     );
                   },
                 );
-              } : null,
-              icon: widget.templateId == null ? SvgPicture.asset(
-                AppIcon.uploadIcon,
-                colorFilter: const ColorFilter.mode(
-                  AppColors.backgroundWhiteColor,
-                  BlendMode.srcIn,
-                ),
-                width: 13,
-                height: 13,
-              ) : null,
+              }
+                  : null,
+              icon: widget.templateId == null
+                  ? SvgPicture.asset(
+                      AppIcon.uploadIcon,
+                      colorFilter: const ColorFilter.mode(
+                        AppColors.backgroundWhiteColor,
+                        BlendMode.srcIn,
+                      ),
+                      width: 13,
+                      height: 13,
+                    )
+                  : null,
               label: const Text(
                 Constants.clicktoupload,
                 style: Styles.textStyleRegularNormalWhite12,

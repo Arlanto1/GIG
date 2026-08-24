@@ -202,27 +202,47 @@ class _TicketingSystemViewState extends State<TicketingSystemView> {
 
                           // Build labels
                           List<Label> labels = [
-                            Label(
-                                key:
-                                // state.labels?.locale.i ??
-                                //     statee.labels?.defaultLocale.inputDate ??
-                                    Constants.dateofcreation,
-                                value: item.inputDate != null
-                                    ? Utils.timestampToDateConversion(
-                                    int.parse(item.inputDate ?? '0'),
-                                    Constants.twentyFourHourDateTimeFormat)
-                                    : ''),
-                            Label(
-                                key: state.labels?.locale.location ??
-                                    state.labels?.defaultLocale.location ??
-                                    Constants.location,
-                                value: item.location?.name ?? ''),
+                            // Label(
+                            //     key:
+                            //     // state.labels?.locale.i ??
+                            //     //     statee.labels?.defaultLocale.inputDate ??
+                            //         Constants.dateofcreation,
+                            //     value: item.createdOn != null
+                            //         ? Utils.timestampToDateConversion(
+                            //         int.parse(item.createdOn ?? '0'),
+                            //         Constants.twentyFourHourDateTimeFormat)
+                            //         : ''),
+
                             Label(
                                 key: state.labels?.locale.createdBy ??
                                     state.labels?.defaultLocale.createdBy ??
                                     Constants.createdby,
                                 value:
-                                '${item.createdBy?.firstName ?? ''} ${item.createdBy?.lastName ?? ''}'),
+                                item.createdBy ?? ''),
+                            Label(
+                                // key: state.labels?.locale.location ??
+                                //     state.labels?.defaultLocale.location ??
+                                key:  Constants.assignee,
+                                value: item.assigneeName ?? ''),
+
+                            Label(
+                              // key: state.labels?.locale.location ??
+                              //     state.labels?.defaultLocale.location ??
+                                key:  Constants.project,
+                                value: item.projectName ?? ''),
+
+                            Label(
+                              // key: state.labels?.locale.location ??
+                              //     state.labels?.defaultLocale.location ??
+                                key:  Constants.priority,
+                                value: item.priorityName ?? ''),
+                            Label(
+                                // key: state.labels?.locale.createdBy ??
+                                //     state.labels?.defaultLocale.createdBy ??
+                                key: Constants.tracker,
+                                value:
+                                item.tracker?.name ?? ''),
+
                           ];
 
                           return Container(
@@ -269,7 +289,7 @@ class _TicketingSystemViewState extends State<TicketingSystemView> {
                                         context: context,
                                         builder: (dialogContext) => BasePopUpItems(
                                           id: state.items[selectedIndex].id.toString(),
-                                          slNo: state.items[selectedIndex].ticketNo,
+                                          // slNo: state.items[selectedIndex].ticketNo,
                                           status: state.items[selectedIndex].status,
                                           labels: labels,
                                           isOccurrenceStatus: false,
@@ -289,7 +309,7 @@ class _TicketingSystemViewState extends State<TicketingSystemView> {
                                         context: context,
                                         builder: (dialogContext) => BasePopUpItems(
                                           id: state.items[selectedIndex].id.toString(),
-                                          slNo: state.items[selectedIndex].ticketNo,
+                                          // slNo: state.items[selectedIndex].ticketNo,
                                           status: state.items[selectedIndex].status,
                                           labels: labels,
                                           isEventProtectionStatus: false,

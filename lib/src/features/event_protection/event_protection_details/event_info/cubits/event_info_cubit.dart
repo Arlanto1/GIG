@@ -491,6 +491,24 @@ class EventInfoCubit extends Cubit<EventInfoState> {
     debugPrint("Attachments cleared");
   }
 
+  void removeAttachment(ImageContent imageToRemove) {
+    final updatedLoadAttachments =
+    List<ImageContent>.from(state.loadAttachments ?? [])
+      ..removeWhere((img) => img == imageToRemove);
+
+    final updatedModelImages =
+    List<ImageContent>.from(state.model.images ?? [])
+      ..removeWhere((img) => img == imageToRemove);
+
+    state.model.images = updatedModelImages;
+
+    emit(
+      state.copyWith(
+        loadAttachments: updatedLoadAttachments,
+        model: state.model,
+      ),
+    );
+  }
   void onAddEmail(String email) {
     log('-email---$email-');
     emit(state.copyWith(status: FormStatus.loading));

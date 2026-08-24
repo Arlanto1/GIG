@@ -13,9 +13,10 @@ MaterialMovementModel _$MaterialMovementModelFromJson(
           ? null
           : Organisation.fromJson(
               json['takenOutDepartment'] as Map<String, dynamic>),
-      gatePassSecuritySign: (json['gatePassSecuritySign'] as List<dynamic>?)
-          ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      gatePassSecuritySign: json['gatePassSecuritySign'] == null
+          ? null
+          : ImageContent.fromJson(
+              json['gatePassSecuritySign'] as Map<String, dynamic>),
       id: (json['id'] as num?)?.toInt(),
       slNo: json['slNo'] as String?,
       inputDate: json['inputDate'] as String?,
@@ -54,10 +55,6 @@ MaterialMovementModel _$MaterialMovementModelFromJson(
       receiverSign: json['receiverSign'] == null
           ? null
           : ImageContent.fromJson(json['receiverSign'] as Map<String, dynamic>),
-      entrySecuritySign: json['entrySecuritySign'] == null
-          ? null
-          : ImageContent.fromJson(
-              json['entrySecuritySign'] as Map<String, dynamic>),
       requestorEmployeeId: json['requestorEmployeeId'] as String?,
       requestorDepartment: json['requestorDepartment'] == null
           ? null
@@ -144,7 +141,7 @@ Map<String, dynamic> _$MaterialMovementModelToJson(
       'quantity': instance.quantity,
       'images': instance.images,
       'receiverSign': instance.receiverSign,
-      'entrySecuritySign': instance.entrySecuritySign,
+      'gatePassSecuritySign': instance.gatePassSecuritySign,
       'receiverEmail': instance.receiverEmail,
       'receiverEmployeeId': instance.receiverEmployeeId,
       'entrySecurity': instance.entrySecurity,
@@ -191,7 +188,6 @@ Map<String, dynamic> _$MaterialMovementModelToJson(
       'takenOutDate': instance.takenOutDate,
       'actualDateOfReturn': instance.actualDateOfReturn,
       'takenOutDepartment': instance.takenOutDepartment,
-      'gatePassSecuritySign': instance.gatePassSecuritySign,
       'comment': instance.comment,
       'isEligibleToEdit': instance.isEligibleToEdit,
       'modifiedBy': instance.modifiedBy,

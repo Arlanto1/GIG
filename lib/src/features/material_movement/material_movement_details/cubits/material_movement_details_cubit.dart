@@ -639,7 +639,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       ));
     } else {
       imageContent.type = 3;
-      state.model.entrySecuritySign = imageContent;
+      state.model.gatePassSecuritySign = imageContent;
       emit(state.copyWith(
         model: state.model,
       ));
@@ -1236,8 +1236,18 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           state.model.approvedDate = inputDate.toString();
         }
       }
+      // state.model.modifiedDate = state.model.modifiedDate == null
+      //     ? Utils().getCurrentDate()
+      //     : Utils.timestampToDateConversion(
+      //     int.tryParse(state.model.modifiedDate ?? '0'),Constants.fulldateFormat);
 
-      state.model.modifiedDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
+      if (!Utils().isTimestamp(state.model.modifiedDate!)) {
+        dateTime = DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.modifiedDate!);
+        int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+        state.model.modifiedDate = inputDate.toString();
+      }
+
+      // state.model.modifiedDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
       await pushSignature(controller: receiverSignatureController, isReceiverSignature: true);
       await pushSignature(controller: securitySignatureController, isReceiverSignature: false);
@@ -1290,9 +1300,12 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         int? id = int.tryParse(response.id!);
         if (id != null) state.model.id = id;
       }
-
-      state.model.modifiedDate = Utils.timestampToDateConversion(
-          int.tryParse(state.model.modifiedDate ?? '0'), Constants.fulldateFormat);
+      state.model.modifiedDate = state.model.modifiedDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model.modifiedDate ?? '0'),Constants.fulldateFormat);
+      // state.model.modifiedDate = Utils.timestampToDateConversion(
+      //     int.tryParse(state.model.modifiedDate ?? '0'), Constants.fulldateFormat);
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(

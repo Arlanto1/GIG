@@ -12,11 +12,13 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
   final ArticleFoundServices articleFoundServices;
   final ArticleFoundModel? model;
   final CommonServices commonServices;
+  final String? eventProtectionId;
 
   ArticleFoundDetailsCubit({
     required this.articleFoundServices,
     required this.commonServices,
     this.model,
+    required this.eventProtectionId
 
   }) : super(
     ArticleFoundDetailsState.initial(
@@ -120,6 +122,13 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
           int.tryParse(state.model.inputDate ?? '0'),
+          Constants.fulldateFormat);
+
+
+      state.model.handoverDate = state.model.handoverDate == null
+          ? Utils().getCurrentDate()
+          : Utils.timestampToDateConversion(
+          int.tryParse(state.model.handoverDate ?? '0'),
           Constants.fulldateFormat);
 
       AFUiLabels labels = AFUiLabels.fromJson(responseLabels);
@@ -229,6 +238,7 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
     Organisation? dayPassReason,
     BaseUser? idCardManager,
     BaseUser? idCardEmployee,
+    int? assetType,
 
     int? status,
   }) async {
@@ -240,13 +250,14 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
 
     state.model.status = status ?? state.model.status;
 
-    // if (entities != null) {
-    //   state.model.en = entities;
-    // }
+    if (assetType != null) {
+      state.model.typeOfAsset = assetType;
+    }
 
     if (articleType != null) {
       state.model.typeOfArticle = articleType;
     }
+
 
     if(articleCategory !=null){
       state.model.articleCategory = articleCategory;
@@ -476,6 +487,10 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
       state.model.inputDate = inputDate.toString();
     }
 
+
+    state.model.eventProtection ??= EventInfoResponse();
+    state.model.eventProtection?.id = eventProtectionId.toIntOrNull();
+
     await pushSignature(controller: claimantSignatureController, isReceiverSignature: true);
 
     ArticleFoundRequest request =
@@ -498,7 +513,7 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
           return;
         }
         response = (await articleFoundServices.createArticleFound(
-            body: request, isSubmit: false));
+            body: request, isSubmit: false,eventId: eventProtectionId));
       } else {
         //Validating Fields
         if (!state.isValid.status) {
@@ -516,7 +531,7 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
           return;
         }
         response = (await articleFoundServices.createArticleFound(
-            body: request, isSubmit: true));
+            body: request, isSubmit: true, eventId: eventProtectionId));
       }
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()

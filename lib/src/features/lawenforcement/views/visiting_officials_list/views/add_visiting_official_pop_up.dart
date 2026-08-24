@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/lawenforcement/views/visiting_officials_list/bloc/visiting_officials_list_bloc.dart';
@@ -21,6 +22,7 @@ class AddVisitingOfficialPopUp extends StatefulWidget {
   final List<Organisation> departments;
   final BuildContext mainContext;
   final bool showSaveButton;
+
   // final bool parentIsEligibleToEdit;
 
   @override
@@ -58,280 +60,297 @@ class AddVisitingOfficialPopUpState extends State<AddVisitingOfficialPopUp> {
   Widget build(BuildContext context) {
     VisitingOfficialListState state =
         const VisitingOfficialListState(departments: []);
-    return AlertDialog(
-      insetPadding: const EdgeInsets.symmetric(
-        horizontal: 12,
-      ),
-      title: null,
-      backgroundColor: Colors.transparent,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      content: Builder(builder: (context) {
-        var height = MediaQuery.of(context).size.height;
-        var width = MediaQuery.of(context).size.width;
-
-        return Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-             color: Colors.transparent,
-              borderRadius: BorderRadius.circular(27),
-              border: Border.all(
-                color: Colors.white.withValues(alpha: 0.9),
-                width: 0.7,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.2),
-                  blurRadius: 12,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            child: SizedBox(
-              height: height / 1.5,
-              width: width,
-              child: Column(
-                // clipBehavior: Clip.none,
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      widget.title,
-                      style: Styles.textFontSet(
-                          18,
-                          AppColors.white,
-                          FontWeight.normal,
-                          Constants.customFontSemiBoldFamily),
+    return BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+        child: AlertDialog(
+          insetPadding: const EdgeInsets.symmetric(horizontal: 12),
+          title: null,
+          backgroundColor: Colors.transparent,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          content: Builder(builder: (context) {
+            var height = MediaQuery.of(context).size.height;
+            var width = MediaQuery.of(context).size.width;
+            return Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  borderRadius: BorderRadius.circular(27),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.9),
+                    width: 0.7,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.2),
+                      blurRadius: 12,
+                      offset: const Offset(0, 2),
                     ),
-                  ),
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                  const Divider(
-                    thickness: 0.5,
-                  ),
-                  CommonWidgets.verticalSpacerWidget(height * 0.01),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            /// Name
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.visitingOfficialName ??
-                                  state.labels?.defaultLocale
-                                      .visitingOfficialName ??
-                                  Constants.name,
-                              //isMandatory: true,
-                              Styles.textStyleWhite16,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            FlutterInputField(
-                              initialValue: nameController.text,
-                              textInputType: TextInputType.text,
-                              textFormKey: Keys.nameKey,
-                              hintText: '',
-                              isEnable: widget.showSaveButton,
-                              isDisableColor: false,
-                              onChange: (String value) {
-                                log('-widget.contact.rank?.name--value--$value-');
-                                widget.model.name = value;
-                                log('-widget.contact.rank?.name----${widget.model.name}-');
-
-                                // widget.payRate.perHour = double.parse(value);
-                                // BlocProvider.of<PayRateCubit>(widget.mainContext)
-                                //     .onModelValueChange(widget.payRate);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Designation
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.visitingOfficialDesignation ??
-                                  state.labels?.defaultLocale
-                                      .visitingOfficialDesignation ??
-                                  Constants.designation,
-                              //isMandatory: true,
-                              Styles.textStyleWhite16,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            FlutterInputField(
-                              initialValue: designationController.text,
-                              textInputType: TextInputType.text,
-                              textFormKey: Keys.nameKey,
-                              hintText: '',
-                              isEnable: widget.showSaveButton,
-                              isDisableColor: false,
-                              onChange: (String value) {
-                                log('-value--$value-');
-                                widget.model.designation = value;
-                                log('-widget.model.designation----${widget.model.designation}-');
-
-                                // widget.payRate.perHour = double.parse(value);
-                                // BlocProvider.of<PayRateCubit>(widget.mainContext)
-                                //     .onModelValueChange(widget.payRate);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Department
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.visitingOfficialDepartment ??
-                                  state.labels?.defaultLocale
-                                      .visitingOfficialDepartment ??
-                                  Constants.department,
-                              Styles.textStyleWhite16,
-                              //  isMandatory: true,
-                            ),
-                            TextFieldAddButton(
-                              title: departmentController.text,
-                              height: 70,
-                              isDisableColor: !widget.showSaveButton,
-                              onTap: () {
-                                if (widget.showSaveButton) {
-                                  BaseOrganisationDialog().departmentDialog(
-                                      context: context,
-                                      organisations: updatedDepartmentList,
-                                      onTap: (Organisation user) {
-                                        log('-user.name----${user.name}-');
-
-                                        departmentController.text =
-                                            user.name ?? '';
-
-                                        widget.model.department ??=
-                                            Organisation();
-                                        widget.model.department = user;
-                                        log('-widget.model.department?.name----${widget.model.department?.name}-');
-
-                                        setState(() {});
-                                        FocusScope.of(context).requestFocus(
-                                            officeAddressFocusNode);
-                                      },
-                                      leftImage: false,
-                                      orgName: 'ATOM_LEO_DEPARTMENTS',
-                                      createEntity: true,
-                                      title: Constants.department,
-                                      functionToCall: () async {
-                                        updatedDepartmentList =
-                                            await CommonServices()
-                                                .getOrganisations(
-                                          name: 'ATOM_LEO_DEPARTMENTS',
-                                        );
-
-                                        // BlocProvider.of<VisitingOfficialListBloc>(
-                                        //         context)
-                                        //     .add(const RefreshList());
-                                      });
-                                }
-                              },
-                            ),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Office Address
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.visitingOfficialAddress ??
-                                  state.labels?.defaultLocale
-                                      .visitingOfficialAddress ??
-                                  Constants.officeAddress,
-                              //isMandatory: true,
-                              Styles.textStyleWhite16,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.001),
-                            FlutterInputField(
-                              initialValue: officeAddressController.text,
-                              textInputType: TextInputType.text,
-                              textFormKey: Keys.nameKey,
-                              hintText: '',
-                              focusNode: officeAddressFocusNode,
-                              isEnable: widget.showSaveButton,
-                              isDisableColor: false,
-                              onChange: (String value) {
-                                log('-value--$value-');
-                                widget.model.address = value;
-                                log('-widget.model.address----${widget.model.address}-');
-
-                                // widget.payRate.perHour = double.parse(value);
-                                // BlocProvider.of<PayRateCubit>(widget.mainContext)
-                                //     .onModelValueChange(widget.payRate);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Email Id
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.visitingOfficialEmail ??
-                                  state.labels?.defaultLocale
-                                      .visitingOfficialEmail ??
-                                  Constants.emailId,
-                              //isMandatory: true,
-                              Styles.textStyleWhite16,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            FlutterInputField(
-                              initialValue: emailIdController.text,
-                              textInputType: TextInputType.text,
-                              textFormKey: Keys.nameKey,
-                              hintText: '',
-                              isEnable: widget.showSaveButton,
-                              isDisableColor: false,
-                              onChange: (String value) {
-                                log('-value--$value-');
-                                widget.model.email = value;
-                                log('-widget.model.email----${widget.model.email}-');
-
-                                // widget.payRate.perHour = double.parse(value);
-                                // BlocProvider.of<PayRateCubit>(widget.mainContext)
-                                //     .onModelValueChange(widget.payRate);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            /// Contact No
-                            CommonWidgets.textDisplay(
-                              state.labels?.locale.visitingOfficialContactNo ??
-                                  state.labels?.defaultLocale
-                                      .visitingOfficialContactNo ??
-                                  Constants.phoneNumber,
-                              Styles.textStyleWhite16,
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            FlutterInputField(
-                              initialValue: widget.model.contactNo ?? '',
-                              textInputType: TextInputType.number,
-                              textFormKey: Keys.phoneNumberKey,
-                              hintText: '',
-                              isEnable: widget.showSaveButton,
-                              characterLimit: Constants.characterLimitContactNo,
-                              isDisableColor: false,
-                              onChange: (String value) {
-                                log('-widget.contact.rank?.name--value--$value-');
-                                widget.model.contactNo = value;
-                                log('contactNo---${widget.model.contactNo?.length != 10}-');
-                                // widget.payRate.perHour = double.parse(value);
-                                // BlocProvider.of<PayRateCubit>(widget.mainContext)
-                                //     .onModelValueChange(widget.payRate);
-                              },
-                              validateTextField: (String? user) {},
-                            ),
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-
-                            CommonWidgets.verticalSpacerWidget(height * 0.01),
-                            buttonViews(widget.mainContext, width),
-                            CommonWidgets.verticalSpacerWidget(height * 0.02),
-                          ],
+                  ],
+                ),
+                child: SizedBox(
+                  height: height / 1.5,
+                  width: width,
+                  child: Column(
+                    // clipBehavior: Clip.none,
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          widget.title,
+                          style: Styles.textFontSet(
+                              18,
+                              AppColors.white,
+                              FontWeight.normal,
+                              Constants.customFontSemiBoldFamily),
                         ),
                       ),
-                    ),
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      const Divider(
+                        thickness: 0.5,
+                      ),
+                      CommonWidgets.verticalSpacerWidget(height * 0.01),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                /// Name
+                                CommonWidgets.textDisplay(
+                                  state.labels?.locale.visitingOfficialName ??
+                                      state.labels?.defaultLocale
+                                          .visitingOfficialName ??
+                                      Constants.name,
+                                  //isMandatory: true,
+                                  Styles.textStyleWhite16,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+                                FlutterInputField(
+                                  initialValue: nameController.text,
+                                  textInputType: TextInputType.text,
+                                  textFormKey: Keys.nameKey,
+                                  hintText: '',
+                                  isEnable: widget.showSaveButton,
+                                  isDisableColor: false,
+                                  onChange: (String value) {
+                                    log('-widget.contact.rank?.name--value--$value-');
+                                    widget.model.name = value;
+                                    log('-widget.contact.rank?.name----${widget.model.name}-');
+
+                                    // widget.payRate.perHour = double.parse(value);
+                                    // BlocProvider.of<PayRateCubit>(widget.mainContext)
+                                    //     .onModelValueChange(widget.payRate);
+                                  },
+                                  validateTextField: (String? user) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                /// Designation
+                                CommonWidgets.textDisplay(
+                                  state.labels?.locale
+                                          .visitingOfficialDesignation ??
+                                      state.labels?.defaultLocale
+                                          .visitingOfficialDesignation ??
+                                      Constants.designation,
+                                  //isMandatory: true,
+                                  Styles.textStyleWhite16,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+                                FlutterInputField(
+                                  initialValue: designationController.text,
+                                  textInputType: TextInputType.text,
+                                  textFormKey: Keys.nameKey,
+                                  hintText: '',
+                                  isEnable: widget.showSaveButton,
+                                  isDisableColor: false,
+                                  onChange: (String value) {
+                                    log('-value--$value-');
+                                    widget.model.designation = value;
+                                    log('-widget.model.designation----${widget.model.designation}-');
+
+                                    // widget.payRate.perHour = double.parse(value);
+                                    // BlocProvider.of<PayRateCubit>(widget.mainContext)
+                                    //     .onModelValueChange(widget.payRate);
+                                  },
+                                  validateTextField: (String? user) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                /// Department
+                                CommonWidgets.textDisplay(
+                                  state.labels?.locale
+                                          .visitingOfficialDepartment ??
+                                      state.labels?.defaultLocale
+                                          .visitingOfficialDepartment ??
+                                      Constants.department,
+                                  Styles.textStyleWhite16,
+                                  //  isMandatory: true,
+                                ),
+                                TextFieldAddButton(
+                                  title: departmentController.text,
+                                  height: 70,
+                                  isDisableColor: !widget.showSaveButton,
+                                  onTap: () {
+                                    if (widget.showSaveButton) {
+                                      BaseOrganisationDialog().departmentDialog(
+                                          context: context,
+                                          organisations: updatedDepartmentList,
+                                          onTap: (Organisation user) {
+                                            log('-user.name----${user.name}-');
+
+                                            departmentController.text =
+                                                user.name ?? '';
+
+                                            widget.model.department ??=
+                                                Organisation();
+                                            widget.model.department = user;
+                                            log('-widget.model.department?.name----${widget.model.department?.name}-');
+
+                                            setState(() {});
+                                            FocusScope.of(context).requestFocus(
+                                                officeAddressFocusNode);
+                                          },
+                                          leftImage: false,
+                                          orgName: 'ATOM_LEO_DEPARTMENTS',
+                                          createEntity: true,
+                                          title: Constants.department,
+                                          functionToCall: () async {
+                                            updatedDepartmentList =
+                                                await CommonServices()
+                                                    .getOrganisations(
+                                              name: 'ATOM_LEO_DEPARTMENTS',
+                                            );
+
+                                            // BlocProvider.of<VisitingOfficialListBloc>(
+                                            //         context)
+                                            //     .add(const RefreshList());
+                                          });
+                                    }
+                                  },
+                                ),
+
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                /// Office Address
+                                CommonWidgets.textDisplay(
+                                  state.labels?.locale.visitingOfficialAddress ??
+                                      state.labels?.defaultLocale
+                                          .visitingOfficialAddress ??
+                                      Constants.officeAddress,
+                                  //isMandatory: true,
+                                  Styles.textStyleWhite16,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.001),
+                                FlutterInputField(
+                                  initialValue: officeAddressController.text,
+                                  textInputType: TextInputType.text,
+                                  textFormKey: Keys.nameKey,
+                                  hintText: '',
+                                  focusNode: officeAddressFocusNode,
+                                  isEnable: widget.showSaveButton,
+                                  isDisableColor: false,
+                                  onChange: (String value) {
+                                    log('-value--$value-');
+                                    widget.model.address = value;
+                                    log('-widget.model.address----${widget.model.address}-');
+
+                                    // widget.payRate.perHour = double.parse(value);
+                                    // BlocProvider.of<PayRateCubit>(widget.mainContext)
+                                    //     .onModelValueChange(widget.payRate);
+                                  },
+                                  validateTextField: (String? user) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                /// Email Id
+                                CommonWidgets.textDisplay(
+                                  state.labels?.locale.visitingOfficialEmail ??
+                                      state.labels?.defaultLocale
+                                          .visitingOfficialEmail ??
+                                      Constants.emailId,
+                                  //isMandatory: true,
+                                  Styles.textStyleWhite16,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+                                FlutterInputField(
+                                  initialValue: emailIdController.text,
+                                  textInputType: TextInputType.text,
+                                  textFormKey: Keys.nameKey,
+                                  hintText: '',
+                                  isEnable: widget.showSaveButton,
+                                  isDisableColor: false,
+                                  onChange: (String value) {
+                                    log('-value--$value-');
+                                    widget.model.email = value;
+                                    log('-widget.model.email----${widget.model.email}-');
+
+                                    // widget.payRate.perHour = double.parse(value);
+                                    // BlocProvider.of<PayRateCubit>(widget.mainContext)
+                                    //     .onModelValueChange(widget.payRate);
+                                  },
+                                  validateTextField: (String? user) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                /// Contact No
+                                CommonWidgets.textDisplay(
+                                  state.labels?.locale
+                                          .visitingOfficialContactNo ??
+                                      state.labels?.defaultLocale
+                                          .visitingOfficialContactNo ??
+                                      Constants.phoneNumber,
+                                  Styles.textStyleWhite16,
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+                                FlutterInputField(
+                                  initialValue: widget.model.contactNo ?? '',
+                                  textInputType: TextInputType.number,
+                                  textFormKey: Keys.phoneNumberKey,
+                                  hintText: '',
+                                  isEnable: widget.showSaveButton,
+                                  characterLimit:
+                                      Constants.characterLimitContactNo,
+                                  isDisableColor: false,
+                                  onChange: (String value) {
+                                    log('-widget.contact.rank?.name--value--$value-');
+                                    widget.model.contactNo = value;
+                                    log('contactNo---${widget.model.contactNo?.length != 10}-');
+                                    // widget.payRate.perHour = double.parse(value);
+                                    // BlocProvider.of<PayRateCubit>(widget.mainContext)
+                                    //     .onModelValueChange(widget.payRate);
+                                  },
+                                  validateTextField: (String? user) {},
+                                ),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.01),
+                                buttonViews(widget.mainContext, width),
+                                CommonWidgets.verticalSpacerWidget(
+                                    height * 0.02),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ));
-      }),
-    );
+                ));
+          }),
+        ));
   }
 
   Widget buttonViews(BuildContext context, double width) {

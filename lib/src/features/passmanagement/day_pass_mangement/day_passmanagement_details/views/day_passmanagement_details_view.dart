@@ -959,6 +959,8 @@ class _DayPassManagementDetailsViewState
                                       context: context,
                                       organisations: state.dayPassReason,
                                       onTap: (Organisation department) {
+                                        state.model.endTime = previousPassValidUntileTime;
+                                        previousPassValidUntileTime = null;
                                         BlocProvider.of<
                                                     DayPassManagementDetailsCubit>(
                                                 context)

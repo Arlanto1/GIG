@@ -76,7 +76,8 @@ class ArticleFoundBloc extends Bloc<ArticleFoundEvent, ArticleFoundState>{
           .getListWithFilters(
           startPosition: '0',
           maximumRecords: '20',
-          filters: BaseFilterModel()
+          filters: BaseFilterModel(),
+          // eventId: event.e
       );
       return emit(
         state.copyWith(
@@ -105,6 +106,7 @@ class ArticleFoundBloc extends Bloc<ArticleFoundEvent, ArticleFoundState>{
           startPosition: '${event.startPos}',
           maximumRecords: '${event.maxPos}',
           filters: event.filters,
+          eventId: event.eventId
         );
 
         return emit(
@@ -123,6 +125,8 @@ class ArticleFoundBloc extends Bloc<ArticleFoundEvent, ArticleFoundState>{
         maximumRecords: '${event.maxPos}',
         // passType: 0,
         filters: event.filters,
+          eventId: event.eventId
+
       );
 
       if (response.list?.isEmpty == true) {

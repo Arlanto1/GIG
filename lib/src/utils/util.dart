@@ -1466,7 +1466,7 @@ class Utils {
         break;
 
       case 22:
-        statusText = 'During Event';
+        statusText = 'Event Ongoing';
         bgColor = const Color(0xFF5C6BC0);
         borderColor = const Color(0xFF283593);
         textColor = Colors.white;
@@ -3948,49 +3948,49 @@ class Utils {
         textColor = const Color(0xFF827717);// Dark Purple
         break;
 
-      case 2:
+      case 7:
         statusText = 'Duplicate';
         bgColor = const Color(0xFFC5CAE9);      // Light Indigo
         borderColor = const Color(0xFF3F51B5);  // Indigo Border
         textColor = const Color(0xFF1A237E);    // Dark Indigo
         break;
 
-      case 3:
+      case 11:
         statusText = 'Invalid';
         bgColor = const Color(0xFFFFCDD2);      // Light Red
         borderColor = const Color(0xFFD32F2F);  // Red Border
         textColor = const Color(0xFFB71C1C);  // Dark Yellow
         break;
 
-      case 4:
+      case 2:
         statusText = 'In Progress';
         bgColor = const Color(0xFFFFE0B2);      // Light Orange
         borderColor = const Color(0xFFF57C00);  // Orange Border
         textColor = const Color(0xFFE65100);    // Dark Orange
         break;
 
-      case 5:
+      case 3:
         statusText = 'Dev Completed';
         bgColor = const Color(0xFFB2EBF2);      // Light Cyan
         borderColor = const Color(0xFF0097A7);  // Cyan Border
         textColor = const Color(0xFF006064);    // Dark Cyan
         break;
 
-      case 6:
+      case 4:
         statusText = 'Testing';
         bgColor = const Color(0xFFE1BEE7);      // Light Purple
         borderColor = const Color(0xFF8E24AA);  // Purple Border
         textColor = const Color(0xFF4A148C);       // Dark Lime
         break;
 
-      case 7:
+      case 5:
         statusText = 'Done';
         bgColor = const Color(0xFFC8E6C9);      // Light Green
         borderColor = const Color(0xFF388E3C);  // Green Border
         textColor = const Color(0xFF1B5E20); // Dark Red
         break;
 
-      case 8:
+      case 10:
         statusText = 'Reopen';
         bgColor = const Color(0xFFFFCDD2);      // Light Red
         borderColor = const Color(0xFFD32F2F);  // Red Border
@@ -3998,14 +3998,14 @@ class Utils {
         break;
 
 
-      case 9:
-        statusText = 'Released';
+      case 8:
+        statusText = 'Block';
         bgColor = const Color(0xFFCFD8DC);      // Light Grey-Blue
         borderColor = const Color(0xFF455A64);  // Blue-Grey Border
         textColor = const Color(0xFF263238);    // Dark Blue-Grey
         break;
 
-      case 10:
+      case 9:
         statusText = 'Closed';
         bgColor = const Color(0xFFF8BBD0);      // Light Pink
         borderColor = const Color(0xFFC2185B);  // Pink Border

@@ -375,7 +375,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                     !isReadOnly &&
                                     state.model.attdShiftInfoId == null,
                                 onTap: (List<Organisation> selectedVendors) {
-                                  // ✅ Auto-populate POCs from selected vendors' keyname
+                                  //  Auto-populate POCs from selected vendors' keyname
                                   List<String> autoPocs = [];
                                   for (Organisation vendor in selectedVendors) {
                                     if (vendor.keyName != null && vendor.keyName!.isNotEmpty) {
@@ -384,14 +384,14 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
                                           .map((e) => e.trim())
                                           .where((e) => e.isNotEmpty)
                                           .toList();
-                                      autoPocs.addAll(emails);
+                                      // autoPocs.addAll(emails);
                                     }
                                   }
 
                                   BlocProvider.of<SLAViolationPenaltyDetailsCubit>(context)
                                       .updateDropdownValues(
                                     vendors: selectedVendors,
-                                    pocs: autoPocs, // ✅ pass auto-populated POCs
+                                    // pocs: autoPocs, //  pass auto-populated POCs
                                   );
                                   Navigator.of(context).pop();
                                 },

@@ -14,6 +14,7 @@ class ArticleFoundDetailsView extends StatefulWidget {
   final String?
       eventProtectionId; // For creating Article Found inside Event Protection
   final Organisation? eventProtectionLocation;
+  final bool viaEvent;
 
   const ArticleFoundDetailsView({
     super.key,
@@ -23,6 +24,7 @@ class ArticleFoundDetailsView extends StatefulWidget {
     this.eventId,
     this.eventProtectionId,
     this.eventProtectionLocation,
+    required this.viaEvent,
   });
 
   @override
@@ -55,7 +57,7 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
   TextEditingController claimantTextController = TextEditingController();
   TextEditingController safeStoragePlaceController = TextEditingController();
   SignatureController claimantSignatureController = SignatureController();
-
+  TextEditingController assetTypeController=TextEditingController();
   final FocusNode sentToFocusNode = FocusNode();
   bool ignorePointer = false;
   List<ImageContent> uploadFiles = [];
@@ -87,6 +89,7 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
     claimantTextController.dispose();
     safeStoragePlaceController.dispose();
     claimantSignatureController.dispose();
+    assetTypeController.dispose();
   }
 
   bool showSaveSubmitButtons = false;
@@ -95,6 +98,7 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
 
   @override
   Widget build(BuildContext context) {
+    log('---viaEvent-----${widget.viaEvent}-----');
     final size = MediaQuery.of(context).size;
     double height = size.height;
     return BlocConsumer<ArticleFoundDetailsCubit, ArticleFoundDetailsState>(
@@ -103,42 +107,129 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
         log('123 ${state.message}--');
         Utils().formError(state, context);
         Utils().errorAndLogout(state, context);
-        if (widget.eventId != null && state.status == FormStatus.success) {
-          // Navigator.pop(context);
-          Navigator.popAndPushNamed(
-            context,
-            eventInfoRoute,
-            arguments: {
-              ConstantsArgument.title: Constants.afterEventInformation,
-              ConstantsArgument.id: widget.eventProtectionId.toString(),
-              'eventDuration': 2,
+        // if (widget.eventId != null && state.status == FormStatus.success && widget.viaEvent) {
+        //   // Navigator.pop(context);
+        //   Navigator.popAndPushNamed(
+        //     context,
+        //     eventInfoRoute,
+        //     arguments: {
+        //       ConstantsArgument.title: Constants.afterEventInformation,
+        //       ConstantsArgument.id: widget.eventProtectionId.toString(),
+        //       'eventDuration': 2,
+        //
+        //       /// 2 is for After the Event
+        //       ConstantsArgument.editForm: true,
+        //       ConstantsArgument.isEventProtection: true,
+        //     },
+        //   );
+        //   return;
+        // }
 
-              /// 2 is for After the Event
-              ConstantsArgument.editForm: true,
-              ConstantsArgument.isEventProtection: true,
-            },
-          );
-          return;
-        }
+        // if (widget.eventId != null && state.status == FormStatus.success && widget.viaEvent) {
+        //   var dialog = CustomAlertDialog(
+        //     title: Constants.articleFoundRegisterListTitle,
+        //     message: state.message,
+        //     positiveBtnText: Constants.ok,
+        //     onPositivePressed: () {
+        //       Navigator.pop(context); // close the dialog
+        //       if (!context.mounted) return;
+        //       Navigator.pop(context); // pop this page — back to the existing EventInfoView underneath
+        //     },
+        //   );
+        //   showDialog(
+        //       context: context,
+        //       barrierDismissible: false,
+        //       builder: (BuildContext context) => dialog);
+        //   return;
+        // }
+        // if (state.status == FormStatus.success && !widget.viaEvent) {
+        //   var dialog = CustomAlertDialog(
+        //     title: Constants.articleFoundRegisterListTitle,
+        //     message: state.message,
+        //     positiveBtnText: Constants.ok,
+        //     onPositivePressed: () {
+        //       // TODO: Need to improve this code
+        //       Navigator.pop(context);
+        //       Navigator.pop(context);
+        //       Navigator.popAndPushNamed(context, articleFoundNewListRoute,
+        //           arguments: {});
+        //     },
+        //   );
+        //   showDialog(
+        //       context: context,
+        //       barrierDismissible: false,
+        //       builder: (BuildContext context) => dialog);
+        // }
+
+
+        // if (state.status == FormStatus.success) {
+        //   var dialog = CustomAlertDialog(
+        //     title: Constants.articleFoundRegisterListTitle,
+        //     message: state.message,
+        //     positiveBtnText: Constants.ok,
+        //     onPositivePressed: () {
+        //       Navigator.pop(context); // close the dialog
+        //
+        //       if (!context.mounted) return;
+        //
+        //       if (widget.viaEvent) {
+        //         // Came from Event Protection flow — go back to the EventInfoView
+        //         // that's already underneath on the stack.
+        //         Navigator.pop(context);
+        //       } else {
+        //         // Came from the standalone Article Found list flow.
+        //         Navigator.pop(context);
+        //         Navigator.pop(context);
+        //         Navigator.popAndPushNamed(context, articleFoundNewListRoute,
+        //             arguments: {
+        //             });
+        //       }
+        //     },
+        //   );
+        //   showDialog(
+        //     context: context,
+        //     barrierDismissible: false,
+        //     builder: (BuildContext context) => dialog,
+        //   );
+        //   return;
+        // }
+
         if (state.status == FormStatus.success) {
           var dialog = CustomAlertDialog(
             title: Constants.articleFoundRegisterListTitle,
             message: state.message,
             positiveBtnText: Constants.ok,
             onPositivePressed: () {
-              // TODO: Need to improve this code
-              Navigator.pop(context);
-              Navigator.pop(context);
-              Navigator.popAndPushNamed(context, articleFoundNewListRoute,
-                  arguments: {});
+              Navigator.pop(context); // close the dialog
+
+              if (!context.mounted) return;
+
+              if (widget.viaEvent) {
+                // Came from Event Protection flow — go back to the EventInfoView
+                // that's already underneath on the stack.
+                Navigator.pop(context);
+              } else {
+                // Came from the standalone Article Found list flow.
+                // popAndPushNamed already pops the current page (ArticleFoundDetailsView)
+                // before pushing the list route — no extra manual pops needed here.
+                Navigator.pop(context);
+                Navigator.popAndPushNamed(
+                  context,
+                  articleFoundNewListRoute,
+                  arguments: {},
+                );
+              }
             },
           );
           showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (BuildContext context) => dialog);
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) => dialog,
+          );
+          return;
         }
       },
+      // },
       builder: (context, state) {
         depositorController.text =
             '${state.model.depositor?.firstName ?? ''} ${state.model.depositor?.lastName ?? ''}';
@@ -149,6 +240,8 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
             '${state.model.claimant?.firstName ?? ''} ${state.model.claimant?.lastName ?? ''}';
         claimantTextController.text = state.model.claimantName ?? '';
         safeStoragePlaceController.text = state.model.safeStoragePlace ?? '';
+        // assetTypeController.text = '${state.model.typeOfAsset ?? 0}';
+
         if (state.model.status == 0 && !state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }
@@ -345,7 +438,7 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.001),
                             BaseLocationDropdown().locationWidgetDisplay(
-                                isEnabled: (!isReadOnly) && !lock,
+                                isEnabled: (!isReadOnly) && !lock && !widget.viaEvent,
                                 context: context,
                                 locations: state.locations ?? Locations(),
                                 selectedLocationName:
@@ -446,6 +539,53 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.03),
 
+                            /// Asset Type
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.companyType ??
+                              //     state.labels?.defaultLocale
+                              //         .companyType ??
+                                Constants.assetType,
+                                Styles.textStyleWhite16,
+                                isMandatory: true),
+                            BaseDropDown().getDropDown(
+                              isDisabled:isReadOnly ? true : true,
+                              textController: assetTypeController,
+                              items: assetTypeValues,
+                              initialValue:
+                              '${state.model.typeOfAsset ?? 0}',
+                              onTap: () {
+                                if(!isReadOnly){
+                                BaseDropDown().assetTypeDialog(
+                                  context: context,
+                                  dropDownValues: assetTypeValues
+                                      .map((label) => label.key)
+                                      .toList(),
+                                  onTap: (String value) {
+                                    Label? selectedLabel;
+                                    selectedLabel =
+                                        assetTypeValues.firstWhere(
+                                              (label) => label.key == value,
+                                          orElse: () =>
+                                          const Label(key: '', value: ''),
+                                        );
+
+                                    BlocProvider.of<
+                                        ArticleFoundDetailsCubit>(
+                                        context)
+                                        .updateDropdownValues(
+                                        assetType: int.tryParse(
+                                            selectedLabel.value));
+                                    widget.model?.typeOfAsset =
+                                        int.tryParse(selectedLabel.value);
+                                    // assetTypeController.text =
+                                    //     selectedLabel.key;
+                                    // setState(() {});
+                                  },
+                                );}
+                              },
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.03),
+
                             if (name.contains('id')||name.contains('card')) ...[
                                   ///Manager Name
                               CommonWidgets.textDisplay(
@@ -458,7 +598,7 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
                               TextFieldAddButton(
                                 // title: '${state.model.idCardManager?.name} (${state.model.idCardManager?.email})',
                                 title: _displayNameEmail(
-                                  state.model.idCardManager?.name,
+                                  state.model.idCardManager?.userInfo,
                                   state.model.idCardManager?.email,
                                 ),
                                 height: 75,
@@ -511,7 +651,7 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
                               TextFieldAddButton(
                                 // title: '${state.model.idCardEmployee?.name} (${state.model.idCardEmployee?.email})',
                                 title: _displayNameEmail(
-                                  state.model.idCardEmployee?.name,
+                                  state.model.idCardEmployee?.userInfo,
                                   state.model.idCardEmployee?.email,
                                 ),
                                 height: 75,
@@ -1254,7 +1394,33 @@ class _ArticleFoundDetailsViewState extends State<ArticleFoundDetailsView> {
                                 state: state, isMandatory: true
                               ),
                             ],
-                            
+
+
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                            if( state.model.status == 2)...[
+                            /// Handover By
+                            CommonWidgets.horizontalTextHandling(
+                              // state.labels?.locale.entrySecurity ??
+                              //     state.labels?.defaultLocale.entrySecurity ??
+                                Constants.handoverBy,
+                                isMandatory: true,
+                                '${state.model.handOverSecurityName}'),
+                            CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                            /// Handover Date
+                            CommonWidgets.textDisplay(
+                              // state.labels?.locale.inputDate ??
+                              //     state.labels?.defaultLocale.inputDate ??
+                              Constants.handedOverDate,
+                              Styles.textStyleWhite16,
+                              isMandatory: true,
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.001),
+                            dateCreateWidgetDisplay(
+                                state.model.handoverDate ?? ''),
+                            CommonWidgets.verticalSpacerWidget(height * 0.03),
+],
                             ///Upload Image
                             CommonWidgets.textDisplay(
                                 // state.labels?.locale.evidenceInfo ??

@@ -105,6 +105,8 @@ class BaseImageUpload {
     required String moduleCode,
     bool? showDeleteIcon = true,
     bool isDisabled = false,
+    void Function(int index, ImageContent imageData)? onDelete,
+
   }) {
     if (isDisabled) {
       showDeleteIcon = false;
@@ -117,6 +119,7 @@ class BaseImageUpload {
             attachmentListviews: files ?? attachments,
             moduleCode: moduleCode,
             showDeleteIcon: showDeleteIcon,
+            onDelete: onDelete,
           ),
         ],
       );
@@ -130,13 +133,17 @@ class AttachmentListView extends StatefulWidget {
   final List<ImageContent>? attachmentListviews;
   final String moduleCode;
   final bool? showDeleteIcon;
+  final void Function(int index, ImageContent imageData)? onDelete;
 
   const AttachmentListView({
     super.key,
     this.attachmentListviews,
     required this.moduleCode,
     this.showDeleteIcon,
+    this.onDelete,
+
   });
+
 
   @override
   AttachmentListViewState createState() => AttachmentListViewState();
@@ -238,10 +245,19 @@ class AttachmentListViewState extends State<AttachmentListView> {
                           var dialog = CustomAlertDialog(
                               title: Constants.deleteAttachment,
                               message: Constants.deleteAttachmentWarningMessage,
+                              // onPositivePressed: () {
+                              //   Navigator.pop(context);
+                              //   // Navigator.pop(context);
+                              //   if (imageData != null) {
+                              //     setState(() {
+                              //       widget.attachmentListviews!.removeAt(index);
+                              //     });
+                              //   }
+                              // },
                               onPositivePressed: () {
                                 Navigator.pop(context);
-                                // Navigator.pop(context);
                                 if (imageData != null) {
+                                  widget.onDelete?.call(index, imageData);
                                   setState(() {
                                     widget.attachmentListviews!.removeAt(index);
                                   });

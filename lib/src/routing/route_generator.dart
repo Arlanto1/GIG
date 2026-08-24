@@ -3899,10 +3899,12 @@ class RouteGenerator {
         settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
         type = arguments[ConstantsArgument.keyLostType] ?? 0;
+        int? kmId = arguments[ConstantsArgument.kmId];
         KeyLossDestructionListModel? keyLossDestructionListModel =
         arguments["keyLossGi"];
         extraProperties = arguments[ConstantsArgument.extraProperties];
-
+        keyLossDestructionListModel ??= KeyLossDestructionListModel();
+        keyLossDestructionListModel.kmId ??= kmId;
         return MaterialPageRoute(
           builder: (context) => BlocProvider<KeyLossDestructionDetailsCubit>(
             create: (_) => KeyLossDestructionDetailsCubit(
@@ -3916,6 +3918,7 @@ class RouteGenerator {
               type: type,
               extraProperties: extraProperties,
             ),
+
           ),
         );
 
@@ -4548,17 +4551,45 @@ class RouteGenerator {
 
 
       case articleFoundNewListRoute:
+        // return MaterialPageRoute(
+        //     builder: (context) => BlocProvider<ArticleFoundBloc>(
+        //       create: (_) => ArticleFoundBloc()
+        //         ..add(FetchArticleData(
+        //             startPos: 0,
+        //             maxPos: Constants.maxResults,
+        //             newSearch: true,
+        //             filters: BaseFilterModel())),
+        //       child: const ArticleFoundNewListView(),
+        //     ));
         return MaterialPageRoute(
-            builder: (context) => BlocProvider<ArticleFoundBloc>(
+          builder: (context) {
+            final arguments =
+            settings.arguments as Map<String, dynamic>?;
+
+            final String? eventId =
+            arguments?[ConstantsArgument.eventId]?.toString();
+
+            final String? eventProtectionId =
+            arguments?[ConstantsArgument.eventProtectionId]?.toString();
+
+            log('eventId123: $eventId');
+            log('eventProtectionId123: $eventProtectionId');
+
+            return BlocProvider<ArticleFoundBloc>(
               create: (_) => ArticleFoundBloc()
-                ..add(FetchArticleData(
+                ..add(
+                  FetchArticleData(
                     startPos: 0,
                     maxPos: Constants.maxResults,
                     newSearch: true,
-                    filters: BaseFilterModel())),
+                    filters: BaseFilterModel(),
+                    eventId: eventId,
+                  ),
+                ),
               child: const ArticleFoundNewListView(),
-            ));
-
+            );
+          },
+        );
       case articleFoundNewDetailsRoute:
         ArticleFoundServices services = ArticleFoundServices();
         CommonServices commonServices = CommonServices();
@@ -4580,11 +4611,13 @@ class RouteGenerator {
                       articleFoundServices: services,
                       model: model,
                       commonServices: commonServices,
+                      eventProtectionId: eventProtectionId,
                     ),
                 child: ArticleFoundDetailsView(
                     model: model,
                     title: title,
                     eventProtectionId: eventProtectionId,
+                    viaEvent: !eventProtectionId.isEmptyOrNull ? true : false,
                     extraProperties: extraProperties),
               ),
         );

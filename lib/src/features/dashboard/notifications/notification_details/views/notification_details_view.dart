@@ -301,16 +301,28 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView> {
               );
               break;
             }
-          case 'APS':
+          case 'Annual%20Power%20Shutdown%20New':
             {
-              AnnualPowerShutdownListModel annualPowerShutdownListModel = await AnnualPowerShutdownListServices().getById('${moduleId}');
-              nav.pushNamed(
-                annualPowerShutdownListDetailsRoute,
-                arguments: {
-                  ConstantsArgument.id: moduleId.toString(),
-                  'model': annualPowerShutdownListModel,
-                },
-              );
+              AnnualPowerShutdownListModel annualPowerShutdownListModel = await AnnualPowerShutdownListServices().getById('$moduleId');
+              // nav.pushNamed(
+              //   annualPowerShutdownListDetailsRoute,
+              //   arguments: {
+              //     ConstantsArgument.id: moduleId.toString(),
+              //     'model': annualPowerShutdownListModel,
+              //   },
+              // );
+              ShowEPGridsModel showEPGridsModel =
+              await EventProtectionServices().showEpGrids(moduleId);
+            nav.pushNamed(
+            eventProtectionDetailsTabRoute,
+            arguments: {
+            ConstantsArgument.title: Constants.annualPowerShutdownListDetails,
+            ConstantsArgument.id: moduleId.toString(),
+            'eventStatus': 0,
+            ConstantsArgument.showEPGridsModel: showEPGridsModel,
+            'model': annualPowerShutdownListModel,
+            ConstantsArgument.isAnnualPowerShutDown : true,
+            },);
               break;
             }
 

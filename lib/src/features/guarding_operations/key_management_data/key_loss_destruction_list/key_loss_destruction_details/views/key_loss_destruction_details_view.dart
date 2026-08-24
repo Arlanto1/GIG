@@ -68,7 +68,7 @@ class _KeyLossDestructionDetailsViewState
               Navigator.pop(context);
               Navigator.popAndPushNamed(
                 context,
-                keyManagementMasterListRoute,
+                keyLossDestructionListRoute,
                 arguments: {},
               );
             },
@@ -116,11 +116,19 @@ class _KeyLossDestructionDetailsViewState
               : true;
         }
 
+        if (state.model.status == 7) {
+          isReadOnly = state.model.lock.isEmptyOrNull
+              ? state.loggedInUserDetails?.email != state.model.securityManager?.email
+              : true;
+        }
+
         log('state.loggedInUserDetails?.email != state.model.srh?.email ${(state.model.status == 3 && state.model.lock.isEmptyOrNull) && state.loggedInUserDetails?.email == state.model.srh?.email}');
     log('11 ${state.loggedInUserDetails?.email == state.model.srh?.email }');
         log('22 ${state.model.srh?.email}');
         log('33 ${state.model.status}');
         log('44${state.model.lock.isEmptyOrNull}');
+        log('100 ${state.model.securityManager?.email}');
+        log('22 ${state.loggedInUserDetails?.email}');
 
         initializeDates();
         return Scaffold(

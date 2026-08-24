@@ -142,6 +142,41 @@ const List<Label> eventProtectionGiStatus = [
 ];
 
 
+const List<Label> csrStatusValues = [
+  Label(key: 'Draft', value: '0'),
+  Label(key: 'Business User Review', value: '1'),
+  Label(key: 'LSM Review', value: '2'),
+  Label(key: 'LSM Approved', value: '3'),
+  Label(key: 'LSM Rejected', value: '4'),
+  Label(key: 'Vendor Review', value: '5'),
+  Label(key: 'Vendor Approved', value: '6'),
+  Label(key: 'Vendor Rejected', value: '7'),
+  Label(key: 'Business User POC Review', value: '8'),
+  Label(key: 'Business User POC Approved', value: '9'),
+  Label(key: 'Business User POC Rejected', value: '10'),
+  Label(key: 'Security Vendor Review', value: '11'),
+  Label(key: 'Security Vendor Submitted', value: '12'),
+  Label(key: 'EP Pre Review', value: '13'),
+  Label(key: 'Before event start', value: '14'),
+  Label(key: 'EP Pre Rejected', value: '15'),
+  Label(key: 'SRH Review', value: '16'),
+  Label(key: 'SRH Approved', value: '17'),
+  Label(key: 'SRH Rejected', value: '18'),
+  Label(key: 'EP PO Required', value: '19'),
+  Label(key: 'PO Updated', value: '20'),
+  Label(key: 'Event Started', value: '21'),
+  Label(key: 'Event Ongoing', value: '22'),
+  Label(key: 'Event Concluded', value: '23'),
+  Label(key: 'EP Post Review', value: '24'),
+  Label(key: 'EP Post Approved', value: '25'),
+  Label(key: 'EP Post Rejected', value: '26'),
+  Label(key: 'Invoice Requested', value: '27'),
+  Label(key: 'Invoice Raised', value: '28'),
+  Label(key: 'Invoice Submitted', value: '29'),
+  Label(key: 'Closed', value: '30'),
+  Label(key: 'Cancelled', value: '-1'),
+];
+
 const List<Label> transportMedicalStatusValues = [
   Label(key: 'Created', value: '0'),
   Label(key: 'Open', value: '1'),
@@ -276,7 +311,7 @@ const List<Label> shiftScheduleReasonDropDownValues = [
   Label(key: 'Week Off', value: '1'),
   Label(key: 'Resigned', value: '2'),
   Label(key: 'Terminated', value: '3'),
-  Label(key: 'Shift Completed', value: '4'),
+  Label(key: 'Already Assigned', value: '4'),
   Label(key: 'Absent', value: '5'),
 ];
 
@@ -452,9 +487,29 @@ const List<Label> ticketStatusDropDownValues = [
   Label(key: 'Cancelled', value: '-1'),
 ];
 
+const List<Label> ticketOpenStatusDropDownValues = [
+  Label(key: 'Open', value: '1'),
+  Label(key: 'In progress', value: '2'),
+  Label(key: 'Duplicate', value: '7'),
+  Label(key: 'Block', value: '8'),
+  Label(key: 'Closed', value: '9'),
+  Label(key: 'Invalid', value: '11'),
+];
 
 
-const List<Label> ticketTypeDropDownValues = [
+const List<Label> ticketDevCompleteStatusDropDownValues = [
+  Label(key: 'Dev Completed', value: '3'),
+  Label(key: 'Testing', value: '4'),
+];
+
+const List<Label> ticketTestingStatusDropDownValues = [
+  Label(key: 'Testing', value: '4'),
+  Label(key: 'Done', value: '5'),
+  Label(key: 'Reopen ', value: '10'),
+];
+
+
+const List<Label> trackerDropDownValues = [
   Label(key: 'Bugs', value: '1'),
   Label(key: 'Improvements', value: '2'),
   Label(key: 'Support', value: '3'),

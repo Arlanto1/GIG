@@ -6,49 +6,48 @@ part 'ticketing_system_model.g.dart';
 @JsonSerializable()
 class TicketingSystemModel extends BaseObject {
   int? id;
-  String? ticketNo;
-  Organisation? location;
-  List<Organisation>? modulesName;
-  User? createdBy;
-  int? ticketType;
-  String? inputDate;
-  String? fromDate;
-  String? toDate;
-  int? priorityType;
+  String? statusName;
+  String? assigneeName;
+  String? priorityName;
+  String? projectName;
+  User? assignee;
+  Organisation? tracker;
+  Organisation? project;
+  Organisation? priority;
+  String? description;
+  String? history;
+  String? createdBy;
+  String? createdOn;
+  String? startDate;
+  String? dueDate;
+  String? updatedOn;
   int? status;
   String? title;
-  String? assignee;
-  String? bugDescription;
-  String? cancelReason;
   List<ImageContent>? attachments;
-  String? modifiedDate;
-  String? modifiedBy;
-  int? issuedForm;
-  int? ragStatus;
-  List<ActivityNote>? activityNotes;
+  String? notes;
+
 
   TicketingSystemModel({
     this.id,
-    this.ticketNo,
-    this.location,
-    this.modulesName,
+    this.statusName,
+    this.assigneeName,
+    this.priorityName,
+    this.projectName,
+    this.assignee,
+    this.tracker,
+    this.project,
+    this.priority,
+    this.description,
+    this.history,
+    this.createdOn,
+    this.startDate,
+    this.dueDate,
+    this.updatedOn,
     this.createdBy,
-    this.ticketType,
-    this.inputDate,
-    this.fromDate,
-    this.toDate,
-    this.priorityType,
     this.status,
     this.title,
-    this.assignee,
-    this.bugDescription,
-    this.cancelReason,
     this.attachments,
-    this.modifiedDate,
-    this.modifiedBy,
-    this.issuedForm,
-    this.ragStatus,
-    this.activityNotes,
+    this.notes,
   });
 
   factory TicketingSystemModel.fromJson(Map<String, dynamic> json) =>
@@ -56,5 +55,4 @@ class TicketingSystemModel extends BaseObject {
 
   @override
   Map<String, dynamic> toJson() => _$TicketingSystemModelToJson(this);
-
 }

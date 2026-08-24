@@ -296,7 +296,7 @@ class KeyLossDestructionDetailsCubit
         response = (await services.createKeyLossDestruction(
           body: request,
           isSubmit: false,
-          kmId: state.model.keyManagementId,
+          kmId: state.model.kmId,
         ));
       } else {
         //Validating Fields
@@ -317,7 +317,7 @@ class KeyLossDestructionDetailsCubit
         response = (await services.createKeyLossDestruction(
           body: request,
           isSubmit: true,
-          kmId: state.model.keyManagementId,
+          kmId: state.model.kmId,
         ));
       }
       if (isRejectOnly) {
@@ -334,7 +334,7 @@ class KeyLossDestructionDetailsCubit
         response = await services.createKeyLossDestruction(
           body: request,
           isSubmit: true,
-          kmId: state.model.keyManagementId,
+          kmId: state.model.kmId,
         );
       }
       if (isApprovedOnly) {
@@ -351,7 +351,7 @@ class KeyLossDestructionDetailsCubit
         response = await services.createKeyLossDestruction(
           body: request,
           isSubmit: true,
-          kmId: state.model.keyManagementId,
+          kmId: state.model.kmId,
         );
       }
       state.model.createdDate = state.model.createdDate == null

@@ -13,12 +13,13 @@ class FetchArticleData extends ArticleFoundEvent {
   final int maxPos;
   final bool newSearch;
   final BaseFilterModel filters;
+  final String? eventId;
 
   const FetchArticleData(
       {required this.startPos,
         required this.maxPos,
         required this.newSearch,
-        required this.filters});
+        required this.filters, this.eventId} );
 }
 
 class InitializeValuesAF extends ArticleFoundEvent{

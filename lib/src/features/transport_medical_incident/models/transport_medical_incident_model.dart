@@ -167,7 +167,7 @@ class IncidentNotifications {
     notification = json['notification'];
     images = List.from(json['images'])
         .map((e) => ImageContent.fromJson(e))
-        .toList(); // ✅ properly parse each image
+        .toList(); //  properly parse each image
   }
 
   Map<String, dynamic> toJson() {
@@ -175,7 +175,7 @@ class IncidentNotifications {
       'id': id,
       'type': type,
       'notification': notification,
-      'images': images.map((e) => e.toJson()).toList(), // ✅ serialize each image
+      'images': images.map((e) => e.toJson()).toList(), //  serialize each image
     };
   }
 }

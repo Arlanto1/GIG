@@ -98,20 +98,21 @@ class _TransportMedicalListViewState extends State<TransportMedicalListView> {
           extendBodyBehindAppBar: true,
           bottomNavigationBar: CustomBottomNavigationBar(
             hasAddPermission: (state.extraProperties?.hasWritePermission ??
-                false) ,
+                true) ,
             scaffoldKey: scaffoldKey,
             context: context,
             displayMenu: state.displayMenu,
             list: true, //  only "+" button mode
             onAddPressed: () {
+              // if(state.extraProperties?.hasWritePermission == true){
               Navigator.popAndPushNamed(
                 context,
                 transportMedicalDetailsRoute,
                 arguments: {
                    ConstantsArgument.title: widget.isTransport ? Constants.transportIncidentList : Constants.medicalEmergencyTitle,
                 ConstantsArgument.isTransport: widget.isTransport },
-              );
-            },
+              );}
+            // },
           ),
           appBar: BaseAppBar().buildAppHeader(
             context: context,

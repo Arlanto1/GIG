@@ -98,7 +98,7 @@ class LimitedDatePickerState extends State<LimitedDatePicker> {
                   child: SvgPicture.asset(
                     AppIcon.calendarIcon,
                     colorFilter: const ColorFilter.mode(
-                      AppColors.textGreyThemeColor,
+                      AppColors.white,
                       BlendMode.srcIn,
                     ),
                     width: 20,

@@ -66,7 +66,7 @@ class _CsrEventShowGridViewState extends State<CsrEventShowGridView> {
             ),
           ),
 
-          // 🔹 CONTENT (FORCED TO FULL HEIGHT)
+          //  CONTENT (FORCED TO FULL HEIGHT)
           LayoutBuilder(
             builder: (context, constraints) {
               return
@@ -88,52 +88,181 @@ class _CsrEventShowGridViewState extends State<CsrEventShowGridView> {
                         crossAxisAlignment:
                         CrossAxisAlignment.start,
                         children: [
+                          // _rowCard(
+                          //   iconData: Icons.error_outline,
+                          //   label: "General Information",
+                          //   onTap: () async {
+                          //     NavigatorState nav =
+                          //     Navigator.of(context);
+                          //     bool? showGuardInfo = false;
+                          //
+                          //     final res =
+                          //     await services.showGuardInfo(widget.id);
+                          //     showGuardInfo =
+                          //         res.showGuardInfo;
+                          //
+                          //     nav.pushNamed(
+                          //     csrEventGeneralInfoRoute,
+                          //       arguments: {
+                          //         'id': widget.id,
+                          //         'showGuardInfo':
+                          //         showGuardInfo,
+                          //         'isCSREvent': widget.isCSREvent
+                          //       },
+                          //     );
+                          //   },
+                          // ),
                           _rowCard(
                             iconData: Icons.error_outline,
                             label: "General Information",
                             onTap: () async {
-                              NavigatorState nav =
-                              Navigator.of(context);
-                              bool? showGuardInfo = false;
+                              NavigatorState nav = Navigator.of(context);
 
-                              final res =
-                              await services.showGuardInfo(widget.id);
-                              showGuardInfo =
-                                  res.showGuardInfo;
+                              showLoadingDialog(context);
+
+                              bool showGuardInfo = false;
+                              try {
+                                final res = await services.showGuardInfo(widget.id);
+                                showGuardInfo = res.showGuardInfo ?? false;
+                              } finally {
+                                if (mounted) dismissLoadingDialog(context);
+                              }
+
+                              if (!mounted) return;
 
                               nav.pushNamed(
-                              csrEventGeneralInfoRoute,
+                                csrEventGeneralInfoRoute,
                                 arguments: {
                                   'id': widget.id,
-                                  'showGuardInfo':
-                                  showGuardInfo,
-                                  'isCSREvent': widget.isCSREvent
+                                  'showGuardInfo': showGuardInfo,
+                                  'isCSREvent': widget.isCSREvent,
                                 },
                               );
                             },
                           ),
 
+                          // if (widget.showEPGridsModel.before ?? false)
+                          //   _rowCard(
+                          //     iconData: Icons.event,
+                          //     label:
+                          //     'Before the Event Information',
+                          //     onTap: () {
+                          //       Navigator.pushNamed(
+                          //         context,
+                          //         eventInfoRoute,
+                          //         arguments: {
+                          //           'title': Constants
+                          //               .beforeEventInformation,
+                          //           'id': widget.id.toString(),
+                          //           'eventDuration': 0,
+                          //           ConstantsArgument
+                          //               .isCSREvent:
+                          //           widget.isCSREvent,
+                          //           ConstantsArgument.isSportEvent : widget.isSportEvent,
+                          //           ConstantsArgument.editForm:
+                          //           widget.showEPGridsModel
+                          //               .editBefore,
+                          //           ConstantsArgument.isEventProtection: false,
+                          //           ConstantsArgument.isAnnualPowerShutDown: false,
+                          //         },
+                          //       );
+                          //     },
+                          //   ),
+                          //
+                          // if (widget.showEPGridsModel.during ?? false)
+                          //   _rowCard(
+                          //     iconData: Icons.event,
+                          //     label: Constants
+                          //         .duringEventInformation,
+                          //     onTap: () {
+                          //       Navigator.pushNamed(
+                          //         context,
+                          //         eventInfoRoute,
+                          //         arguments: {
+                          //           'title': Constants
+                          //               .duringEventInformation,
+                          //           'id': widget.id.toString(),
+                          //           'eventDuration': 1,
+                          //           ConstantsArgument
+                          //               .isCSREvent:
+                          //           widget.isCSREvent,
+                          //           ConstantsArgument.isSportEvent : widget.isSportEvent,
+                          //           ConstantsArgument.editForm:
+                          //           widget.showEPGridsModel
+                          //               .during,
+                          //           ConstantsArgument.isEventProtection: false,
+                          //           ConstantsArgument.isAnnualPowerShutDown: false,
+                          //         },
+                          //       );
+                          //     },
+                          //   ),
+                          //
+                          // if (widget.showEPGridsModel.after ?? false)
+                          //   _rowCard(
+                          //     iconData: Icons.event,
+                          //     label: Constants
+                          //         .afterEventInformation,
+                          //     onTap: () {
+                          //       // Navigator.pushNamed(
+                          //       //   context,
+                          //       //   eventInfoRoute,
+                          //       //   arguments: {
+                          //       //     'title': Constants
+                          //       //         .afterEventInformation,
+                          //       //     'id': widget.id,
+                          //       //     'eventDuration': 2,
+                          //       //     ConstantsArgument.editForm:
+                          //       //     widget.showEPGridsModel
+                          //       //         .editAfter,
+                          //       //     ConstantsArgument
+                          //       //         .isCSREvent:
+                          //       //     widget.isCSREvent,
+                          //       //   },
+                          //       // );
+                          //
+                          //       Navigator.pushNamed(
+                          //         context,
+                          //         eventInfoRoute,
+                          //         arguments: {
+                          //           'title': Constants
+                          //               .afterEventInformation,
+                          //           'id': widget.id.toString(),
+                          //           'eventDuration': 2,
+                          //           ConstantsArgument
+                          //               .isCSREvent:
+                          //           widget.isCSREvent,
+                          //           ConstantsArgument.isSportEvent : widget.isSportEvent,
+                          //           ConstantsArgument.editForm:
+                          //           widget.showEPGridsModel
+                          //               .editAfter,
+                          //           ConstantsArgument.isEventProtection: false,
+                          //           ConstantsArgument.isAnnualPowerShutDown: false,
+                          //         },
+                          //       );
+                          //     },
+                          //   ),
                           if (widget.showEPGridsModel.before ?? false)
                             _rowCard(
                               iconData: Icons.event,
-                              label:
-                              'Before the Event Information',
-                              onTap: () {
-                                Navigator.pushNamed(
-                                  context,
+                              label: 'Before the Event Information',
+                              onTap: () async {
+                                NavigatorState nav = Navigator.of(context);
+
+                                showLoadingDialog(context);
+                                await Future.delayed(const Duration(milliseconds: 500));
+                                if (!mounted) return;
+                                dismissLoadingDialog(context);
+                                if (!mounted) return;
+
+                                nav.pushNamed(
                                   eventInfoRoute,
                                   arguments: {
-                                    'title': Constants
-                                        .beforeEventInformation,
+                                    'title': Constants.beforeEventInformation,
                                     'id': widget.id.toString(),
                                     'eventDuration': 0,
-                                    ConstantsArgument
-                                        .isCSREvent:
-                                    widget.isCSREvent,
-                                    ConstantsArgument.isSportEvent : widget.isSportEvent,
-                                    ConstantsArgument.editForm:
-                                    widget.showEPGridsModel
-                                        .editBefore,
+                                    ConstantsArgument.isCSREvent: widget.isCSREvent,
+                                    ConstantsArgument.isSportEvent: widget.isSportEvent,
+                                    ConstantsArgument.editForm: widget.showEPGridsModel.editBefore,
                                     ConstantsArgument.isEventProtection: false,
                                     ConstantsArgument.isAnnualPowerShutDown: false,
                                   },
@@ -144,24 +273,25 @@ class _CsrEventShowGridViewState extends State<CsrEventShowGridView> {
                           if (widget.showEPGridsModel.during ?? false)
                             _rowCard(
                               iconData: Icons.event,
-                              label: Constants
-                                  .duringEventInformation,
-                              onTap: () {
-                                Navigator.pushNamed(
-                                  context,
+                              label: Constants.duringEventInformation,
+                              onTap: () async {
+                                NavigatorState nav = Navigator.of(context);
+
+                                showLoadingDialog(context);
+                                await Future.delayed(const Duration(milliseconds: 500));
+                                if (!mounted) return;
+                                dismissLoadingDialog(context);
+                                if (!mounted) return;
+
+                                nav.pushNamed(
                                   eventInfoRoute,
                                   arguments: {
-                                    'title': Constants
-                                        .duringEventInformation,
+                                    'title': Constants.duringEventInformation,
                                     'id': widget.id.toString(),
                                     'eventDuration': 1,
-                                    ConstantsArgument
-                                        .isCSREvent:
-                                    widget.isCSREvent,
-                                    ConstantsArgument.isSportEvent : widget.isSportEvent,
-                                    ConstantsArgument.editForm:
-                                    widget.showEPGridsModel
-                                        .during,
+                                    ConstantsArgument.isCSREvent: widget.isCSREvent,
+                                    ConstantsArgument.isSportEvent: widget.isSportEvent,
+                                    ConstantsArgument.editForm: widget.showEPGridsModel.during,
                                     ConstantsArgument.isEventProtection: false,
                                     ConstantsArgument.isAnnualPowerShutDown: false,
                                   },
@@ -172,41 +302,25 @@ class _CsrEventShowGridViewState extends State<CsrEventShowGridView> {
                           if (widget.showEPGridsModel.after ?? false)
                             _rowCard(
                               iconData: Icons.event,
-                              label: Constants
-                                  .afterEventInformation,
-                              onTap: () {
-                                // Navigator.pushNamed(
-                                //   context,
-                                //   eventInfoRoute,
-                                //   arguments: {
-                                //     'title': Constants
-                                //         .afterEventInformation,
-                                //     'id': widget.id,
-                                //     'eventDuration': 2,
-                                //     ConstantsArgument.editForm:
-                                //     widget.showEPGridsModel
-                                //         .editAfter,
-                                //     ConstantsArgument
-                                //         .isCSREvent:
-                                //     widget.isCSREvent,
-                                //   },
-                                // );
+                              label: Constants.afterEventInformation,
+                              onTap: () async {
+                                NavigatorState nav = Navigator.of(context);
 
-                                Navigator.pushNamed(
-                                  context,
+                                showLoadingDialog(context);
+                                await Future.delayed(const Duration(milliseconds: 500));
+                                if (!mounted) return;
+                                dismissLoadingDialog(context);
+                                if (!mounted) return;
+
+                                nav.pushNamed(
                                   eventInfoRoute,
                                   arguments: {
-                                    'title': Constants
-                                        .afterEventInformation,
+                                    'title': Constants.afterEventInformation,
                                     'id': widget.id.toString(),
                                     'eventDuration': 2,
-                                    ConstantsArgument
-                                        .isCSREvent:
-                                    widget.isCSREvent,
-                                    ConstantsArgument.isSportEvent : widget.isSportEvent,
-                                    ConstantsArgument.editForm:
-                                    widget.showEPGridsModel
-                                        .editAfter,
+                                    ConstantsArgument.isCSREvent: widget.isCSREvent,
+                                    ConstantsArgument.isSportEvent: widget.isSportEvent,
+                                    ConstantsArgument.editForm: widget.showEPGridsModel.editAfter,
                                     ConstantsArgument.isEventProtection: false,
                                     ConstantsArgument.isAnnualPowerShutDown: false,
                                   },

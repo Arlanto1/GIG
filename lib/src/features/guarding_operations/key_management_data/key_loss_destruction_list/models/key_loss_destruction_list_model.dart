@@ -34,7 +34,7 @@ class KeyLossDestructionListResponse {
 
 @JsonSerializable()
 class KeyLossDestructionListModel extends BaseObject {
-  String? keyManagementId;
+  int? kmId;
   int? id;
   String? slNo;
   int? type;
@@ -56,7 +56,7 @@ class KeyLossDestructionListModel extends BaseObject {
   String? modifiedBy;
 
   KeyLossDestructionListModel({
-    this.keyManagementId,
+    this.kmId,
     this.id,
     this.slNo,
     this.type,

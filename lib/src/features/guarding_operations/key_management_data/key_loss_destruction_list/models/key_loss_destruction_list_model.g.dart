@@ -9,7 +9,7 @@ part of 'key_loss_destruction_list_model.dart';
 KeyLossDestructionListModel _$KeyLossDestructionListModelFromJson(
         Map<String, dynamic> json) =>
     KeyLossDestructionListModel(
-      keyManagementId: json['keyManagementId'] as String?,
+      kmId: (json['kmId'] as num?)?.toInt(),
       id: (json['id'] as num?)?.toInt(),
       slNo: json['slNo'] as String?,
       type: (json['type'] as num?)?.toInt(),
@@ -44,7 +44,7 @@ Map<String, dynamic> _$KeyLossDestructionListModelToJson(
         KeyLossDestructionListModel instance) =>
     <String, dynamic>{
       'lock': instance.lock,
-      'keyManagementId': instance.keyManagementId,
+      'kmId': instance.kmId,
       'id': instance.id,
       'slNo': instance.slNo,
       'type': instance.type,

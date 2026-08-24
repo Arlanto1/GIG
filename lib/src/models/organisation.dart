@@ -26,6 +26,7 @@ class Organisation {
   bool? submitted;
   /// For Dropdown
   bool? isSelected;
+bool? isDefault;
 
   Organisation({
     this.id,
@@ -42,6 +43,7 @@ class Organisation {
     this.activityNotes,
     this.submitted,
     this.submittedDate,
+    this.isDefault
   });
 
   // factory Organisation.fromJson(Map<String, dynamic> json) => _$OrganisationFromJson(json);
@@ -64,7 +66,9 @@ class Organisation {
         keyName = json['keyname'] as String?,
   activityNotes = json['activityNotes'] as String?,
         submitted = json['submitted'] as bool?,
-        submittedDate = json['submittedDate'] as String?;
+        submittedDate = json['submittedDate'] as String?,
+        isDefault = json['isDefault'] as bool?;
+
 
 
   Map<String, dynamic> toJson() => {
@@ -80,6 +84,7 @@ class Organisation {
     'activityNotes':activityNotes,
     'submitted':submitted,
     'submittedDate':submittedDate,
+    "isDefault":isDefault,
       };
 
   @override
@@ -98,7 +103,6 @@ class Organisation {
           dutyPostName == other.dutyPostName &&
           transportShift == other.transportShift &&
           isSelected == other.isSelected;
-
   @override
   int get hashCode =>
       id.hashCode ^

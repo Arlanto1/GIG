@@ -1903,7 +1903,6 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                                 ],
                               ),
                             ),
-                          ],
                           CommonWidgets.verticalSpacerWidget(height * 0.01),
                           AbsorbPointer(
                             absorbing: isReadOnly,
@@ -1912,7 +1911,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
                             ),
                           ),
                           CommonWidgets.verticalSpacerWidget(height * 0.02),
-
+                          ],
                           /// DG Working
                           // CommonWidgets.textDisplay(
                           //   state.labels?.locale.dgWrking ??

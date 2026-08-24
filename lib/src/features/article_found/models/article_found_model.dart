@@ -1,4 +1,5 @@
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/csr_event/models/csr_event_model.dart';
 
 class ArticleFoundResponseModel {
   final List<ArticleFoundModel>? list;
@@ -71,6 +72,7 @@ class ArticleFoundModel {
    String? modificationHistory;
    Organisation? articleCategory;
    String? approximateValue;
+   EventInfoResponse? eventProtection;
 
   ArticleFoundModel({
     this.id,
@@ -115,7 +117,8 @@ class ArticleFoundModel {
     this.lock,
     this.modificationHistory,
     this.articleCategory,
-    this.approximateValue
+    this.approximateValue,
+    this.eventProtection,
   });
 
   ArticleFoundModel.fromJson(Map<String, dynamic> json)
@@ -161,6 +164,10 @@ class ArticleFoundModel {
         modificationHistory = (json['modificationHistory']) as String?,
         articleCategory = (json['articleCategory'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['articleCategory'] as Map<String,dynamic>) : null,
         approximateValue = (json['approximateValue']) as String?,
+        eventProtection = (json['eventProtection'] as Map<String, dynamic>?) != null
+            ? EventInfoResponse.fromJson(
+            json['eventProtection'] as Map<String, dynamic>)
+            : null,
    lock = json['lock'] as String?;
 
   Map<String, dynamic> toJson() => {
@@ -203,6 +210,7 @@ class ArticleFoundModel {
     'safeStoragePlace':safeStoragePlace,
     'idCardEmployee':idCardEmployee?.toJson(),
     'idCardManager':idCardManager?.toJson(),
+    'eventProtection':eventProtection?.toJson(),
     'lock':lock,
     'modificationHistory':modificationHistory,
     if (articleCategory != null) 'articleCategory' : articleCategory!.toJson(),    'approximateValue':approximateValue,

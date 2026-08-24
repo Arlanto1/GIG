@@ -386,7 +386,7 @@ class _KeyLossDestructionListViewState
         arguments: {
           "keyLossGi": keyLossDestructionListModel,
           "title": Constants.editKeyLossDestruction,
-          ConstantsArgument.extraProperties: ExtraProperties(
+          ConstantsArgument.kmId: keyLossDestructionListModel.kmId,          ConstantsArgument.extraProperties: ExtraProperties(
             hasWritePermission: hasWritePermission,
           ),
         },

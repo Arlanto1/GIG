@@ -101,11 +101,11 @@ class AddMaterialItemsPopUpState extends State<AddMaterialItemsPopUp> {
                         hintText: '',
                         isEnable:
                         !(widget.extraProperties != null &&
-                            !widget.extraProperties!.hasWritePermission!) && (widget.parentStatus == 0),
+                            !widget.extraProperties!.hasWritePermission!) && ((widget.parentStatus == 0 && widget.isInward) || ((widget.parentStatus == 0 || widget.parentStatus == 1 )&& widget.isInward == false)),
                         isDisableColor:
                             !(widget.extraProperties != null &&
                                 !widget
-                                    .extraProperties!.hasWritePermission!) && (widget.parentStatus == 0)
+                                    .extraProperties!.hasWritePermission!) && ((widget.parentStatus == 0 && widget.isInward) || ((widget.parentStatus == 0 || widget.parentStatus == 1 )&& widget.isInward == false))
                             ? false
                             : true,
                         onChange: (String value) {
@@ -241,7 +241,7 @@ class AddMaterialItemsPopUpState extends State<AddMaterialItemsPopUp> {
                               textFormKey: Keys.quantityKey,
                               isEnable: !(widget.extraProperties != null &&
                                   !widget.extraProperties!.hasWritePermission!) &&
-                          (widget.parentStatus == 0),
+                                  ((widget.parentStatus == 0 && widget.isInward) || ((widget.parentStatus == 0 || widget.parentStatus == 1 )&& widget.isInward == false)),
                               hintText: '',
                               onChange: (String? value) {
                                 if (value != null) {
@@ -266,7 +266,7 @@ class AddMaterialItemsPopUpState extends State<AddMaterialItemsPopUp> {
                               width: 50,
                               child: InkWell(
                                 onTap:!(widget.extraProperties != null &&
-                                    !widget.extraProperties!.hasWritePermission!)  && (widget.parentStatus == 0) ? () {
+                                    !widget.extraProperties!.hasWritePermission!)  && ((widget.parentStatus == 0 && widget.isInward) || ((widget.parentStatus == 0 || widget.parentStatus == 1 )&& widget.isInward == false)) ? () {
                                   BaseOrganisationDialog().departmentDialog(
                                     context: context,
                                     organisations: widget.users,
@@ -301,7 +301,7 @@ class AddMaterialItemsPopUpState extends State<AddMaterialItemsPopUp> {
                           isEnable:
                           !(widget.extraProperties != null &&
                               !widget.extraProperties!.hasWritePermission!) &&
-                              (widget.parentStatus == 0)
+                              ((widget.parentStatus == 0 && widget.isInward) || ((widget.parentStatus == 0 || widget.parentStatus == 1 )&& widget.isInward == false))
                               ? true
                               : false,
                           isDisableColor:
@@ -341,7 +341,7 @@ class AddMaterialItemsPopUpState extends State<AddMaterialItemsPopUp> {
         cancelButton(width),
         if (
             !(widget.extraProperties != null &&
-                !widget.extraProperties!.hasWritePermission!) && (widget.parentStatus == 0)) ...[
+                !widget.extraProperties!.hasWritePermission!) && ((widget.parentStatus == 0 && widget.isInward) || ((widget.parentStatus == 0 || widget.parentStatus == 1 )&& widget.isInward == false))) ...[
           saveButton(width, widget.onSubmit)
         ]
       ],

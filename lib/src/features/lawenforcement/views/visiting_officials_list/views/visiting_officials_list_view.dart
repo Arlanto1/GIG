@@ -162,7 +162,7 @@ class _VisitingOfficialListViewState extends State<VisitingOfficialListView> {
     }
     return Stack(
       children: [
-        // 🔹 Background
+        //  Background
         Positioned.fill(
           child: Image.asset(
             'assets/images/bg2.png',

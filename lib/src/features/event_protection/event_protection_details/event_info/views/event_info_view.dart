@@ -187,7 +187,7 @@
           //   //     previous.status != current.status,
           //   //
           //   //     listener: (context, state) {
-          //   //       log('LISTENER CALLED: ${state.status}');
+          //   //       log('LISfTENER CALLED: ${state.status}');
           //   //
           //   //       Utils().formError(state, context);
           //   //
@@ -240,58 +240,74 @@
               return;
             }
 
-            if (state.status == FormStatus.success) {
-              showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (BuildContext dialogContext) {
-                  return CustomAlertDialog(
-                    title: widget.title,
-                    message: state.message ?? '',
-                    positiveBtnText: Constants.ok,
-                    onPositivePressed: () {
-                      Navigator.pop(dialogContext); // closes dialog
-                      if (context.mounted) {
-                        Navigator.pop(context);     // pops the page
-                      }
-                    },
-                  );
-                },
-              );
-              return;
-            }
-
             // if (state.status == FormStatus.success) {
             //   showDialog(
             //     context: context,
             //     barrierDismissible: false,
             //     builder: (BuildContext dialogContext) {
             //       return CustomAlertDialog(
-            //         title: 'Event Protection',
+            //         title: widget.title,
             //         message: state.message ?? '',
             //         positiveBtnText: Constants.ok,
             //         onPositivePressed: () {
-            //           Navigator.pop(dialogContext); // close dialog
-            //
-            //           if (!context.mounted) return;
-            //
-            //           String route = widget.isEventProtection
-            //               ? eventProtectionListRoute
-            //               : widget.isCSREventProtection || widget.isSportEventProtection
-            //               ? csrEventListRoute
-            //               : annualPowerShutdownListRoute;
-            //
-            //           Navigator.pushNamedAndRemoveUntil(
-            //             context,
-            //             route,
-            //                 (route) => false, //  clears entire stack to list
-            //           );
+            //           Navigator.pop(dialogContext); // closes dialog
+            //           if (context.mounted) {
+            //             Navigator.pop(context);     // pops the page
+            //           }
             //         },
             //       );
             //     },
             //   );
             //   return;
             // }
+
+            if (state.status == FormStatus.success) {
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (BuildContext dialogContext) {
+                  return CustomAlertDialog(
+                    title: 'Event Protection',
+                    message: state.message ?? '',
+                    positiveBtnText: Constants.ok,
+                    onPositivePressed: () {
+                      Navigator.pop(dialogContext); // close dialog
+
+                      if (!context.mounted) return;
+
+                      String route;
+                      Map<String, dynamic>? routeArgs;
+
+                      if (widget.isEventProtection) {
+                        route = eventProtectionListRoute;
+                      } else if (widget.isCSREventProtection) {
+                        route = csrEventListRoute;
+                        routeArgs = {
+                          ConstantsArgument.isCSREvent: true,
+                          ConstantsArgument.isSportEvent: false,
+                        };
+                      } else if (widget.isSportEventProtection) {
+                        route = csrEventListRoute;
+                        routeArgs = {
+                          ConstantsArgument.isCSREvent: false,
+                          ConstantsArgument.isSportEvent: true,
+                        };
+                      } else {
+                        route = annualPowerShutdownListRoute;
+                      }
+
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        route,
+                            (route) => route.isFirst, // keep the first/root route, only clear what's above it
+                        arguments: routeArgs,
+                      );
+                    },
+                  );
+                },
+              );
+              // return;
+            }
             if (state.status == FormStatus.addArticleFound) {
               Navigator.pop(context);
               Navigator.pushNamed(
@@ -489,20 +505,28 @@
               log('initialisedFromDate--- $initialisedFromDate');
             }
             log('--widget.editForm---${widget.editForm}--');
-            if (state.model.status != 4 && widget.editForm) {
-              showSaveButtons = true;
-            }
+            log('state.model.canEdit${state.model.canEdit}--');
 
-            if (!state.model.lock.isEmptyOrNull) {
-              showSaveButtons = false;
-            }
-            if(state.model.canEdit == true){
-              showSaveButtons == true;
-            }
+            // if (state.model.status != 4) {
+            //   showSaveButtons = true;
+            // }
 
-            if(state.model.readOnly == false){
-              showSaveButtons == true;
-            }
+            // if (state.model.lock.isEmptyOrNull) {
+            //   showSaveButtons = true;
+            // }
+            // if(state.model.canEdit == true && state.model.lock.isEmptyOrNull){
+            //   showSaveButtons == true;
+            // }
+            //
+            // if(state.model.readOnly == false && state.model.lock.isEmptyOrNull){
+            //   showSaveButtons == true;
+            // }
+
+            showSaveButtons = state.model.canEdit == true && state.model.lock.isEmptyOrNull;
+            log('state.model.lock.isEmptyOrNull${state.model.lock.isEmptyOrNull}--');
+            log('state.model.canEdit${state.model.canEdit}--');
+
+            log('-showSaveButtons-${showSaveButtons}---');
 
             log('-csrrr-${widget.isSportEventProtection}---');
             return Scaffold(
@@ -510,7 +534,7 @@
                 context: context,
                 title: widget.title,
                 showPopUp: false,
-                showSaveButton: showSaveButtons,
+                showSaveButton: showSaveButtons ,
                 showSubmitButton: showSaveButtons,
                 showDisLikeButton: false,
                 showLikeButton: false,
@@ -583,6 +607,36 @@
                 //   Navigator.pop(context);
                 // },
 
+                // onTapSubmit: () async {
+                //   FocusScope.of(context).unfocus();
+                //   final success = await BlocProvider.of<EventInfoCubit>(context).submitForm(
+                //     isSaveOnly: false,
+                //     updatedEmailText: updatedEmailText ?? '',
+                //   );
+                //
+                //   if (!success) return; // API failed — stay on page
+                //   if (!context.mounted) return;
+                //
+                //   setState(() {
+                //     showSaveButtons = false;
+                //   });
+                //
+                //   // Determine which list this event type belongs to
+                //   final String route = widget.isEventProtection
+                //       ? eventProtectionListRoute
+                //       : widget.isCSREventProtection || widget.isSportEventProtection
+                //       ? csrEventListRoute
+                //       : annualPowerShutdownListRoute;
+                //
+                //   // Rebuilds the list page from scratch — its initState (and therefore
+                //   // its list-fetch API call) runs again, so the submitted record shows
+                //   // up with fresh data instead of a stale cached list.
+                //   Navigator.pushNamedAndRemoveUntil(
+                //     context,
+                //     route,
+                //         (route) => false, // clears the whole stack back to the list
+                //   );
+                // },
                 onTapSubmit: () async {
                   FocusScope.of(context).unfocus();
                   final success = await BlocProvider.of<EventInfoCubit>(context).submitForm(
@@ -597,20 +651,38 @@
                     showSaveButtons = false;
                   });
 
-                  // Determine which list this event type belongs to
-                  final String route = widget.isEventProtection
-                      ? eventProtectionListRoute
-                      : widget.isCSREventProtection || widget.isSportEventProtection
-                      ? csrEventListRoute
-                      : annualPowerShutdownListRoute;
+                  String route;
+                  Map<String, dynamic>? routeArgs;
 
-                  // Rebuilds the list page from scratch — its initState (and therefore
-                  // its list-fetch API call) runs again, so the submitted record shows
-                  // up with fresh data instead of a stale cached list.
+                  if (widget.isEventProtection) {
+                    route = eventProtectionListRoute;
+                  } else if (widget.isCSREventProtection) {
+                    route = csrEventListRoute;
+                    routeArgs = {
+                      ConstantsArgument.isCSREvent: true,
+                      ConstantsArgument.isSportEvent: false,
+                    };
+                  } else if (widget.isSportEventProtection) {
+                    route = csrEventListRoute;
+                    routeArgs = {
+                      ConstantsArgument.isCSREvent: false,
+                      ConstantsArgument.isSportEvent: true,
+                    };
+                  } else {
+                    route = annualPowerShutdownListRoute;
+                  }
+
+                  // Navigator.pushNamedAndRemoveUntil(
+                  //   context,
+                  //   route,
+                  //       (route) => false, // clears the whole stack back to the list
+                  //   // arguments: routeArgs,
+                  // );
                   Navigator.pushNamedAndRemoveUntil(
                     context,
                     route,
-                        (route) => false, // clears the whole stack back to the list
+                        (route) => route.isFirst, // keep the first/root route, only clear what's above it
+                      arguments: routeArgs,
                   );
                 },
               ),
@@ -682,6 +754,7 @@
                                                           : Constants
                                                               .eventConcludedAt,
                                                       Styles.textStyleWhite14,
+                                                      isMandatory: true
                                                     ),
                                                     CommonWidgets
                                                         .verticalSpacerWidget(
@@ -730,10 +803,13 @@
                                                             height * 0.02),
                                                   ],
 
+
                                                   ///Additional Emails
                                                   CommonWidgets.textDisplay(
                                                       Constants.additionalEmails,
-                                                      Styles.textStyleWhite14),
+                                                      Styles.textStyleWhite14,
+                                                      isMandatory: true
+                                                  ),
                                                   CommonWidgets
                                                       .verticalSpacerWidget(
                                                           height * 0.01),
@@ -792,38 +868,38 @@
                                                       .verticalSpacerWidget(
                                                           height * 0.02),
 
+                                                  if ((state.eventDuration == ConstantsIntValue.eventDurationBefore &&
+                                                      (widget.isSportEventProtection || widget.isCSREventProtection))) ...[
+                                                    /// Additional Information
+                                                    CommonWidgets.textDisplay(
+                                                      // state.labels?.locale.additionalInformation ??
+                                                      //     state.labels?.defaultLocale.additionalInformation ??
+                                                        Constants.additionalinformation,
+                                                        Styles.textStyleWhite16,
+                                                        isMandatory: true),
+                                                    FlutterInputField(
+                                                      lineHeight: 5,
+                                                      characterLimit:
+                                                      Constants.characterLimitDescTextFormField,
+                                                      initialValue: state.model.additionalInfo4,
+                                                      textFormKey: Keys.premisesRoundTknCommentsKey,
+                                                      hintText: Constants.informationhere,
+                                                      showBorder: true,
+                                                      textInputAction: TextInputAction.newline,
+                                                      textInputType: TextInputType.multiline,
+                                                      isEnable: true,
+                                                      isDisableColor: false,
+                                                      onChange: (String value) {
+                                                        state.model.additionalInfo4 = value;
+                                                        context
+                                                            .read<EventInfoCubit>()
+                                                            .onModelValueChange(state.model);
+                                                      },
+                                                      validateTextField: (String? user) {},
+                                                    ),
+                                                    CommonWidgets.verticalSpacerWidget(height * 0.02),
+                                                  ],
 
-                            if ((state.eventDuration == ConstantsIntValue.eventDurationBefore &&
-                                (widget.isSportEventProtection || widget.isCSREventProtection))) ...[
-                                                  /// Additional Information
-                                                  CommonWidgets.textDisplay(
-                                                    // state.labels?.locale.additionalInformation ??
-                                                    //     state.labels?.defaultLocale.additionalInformation ??
-                                                      Constants.additionalinformation,
-                                                      Styles.textStyleWhite16,
-                                                      isMandatory: false),
-                                                  FlutterInputField(
-                                                    lineHeight: 5,
-                                                    characterLimit:
-                                                    Constants.characterLimitDescTextFormField,
-                                                    initialValue: state.model.additionalInformation,
-                                                    textFormKey: Keys.premisesRoundTknCommentsKey,
-                                                    hintText: Constants.informationhere,
-                                                    showBorder: true,
-                                                    textInputAction: TextInputAction.newline,
-                                                    textInputType: TextInputType.multiline,
-                                                    isEnable: true,
-                                                    isDisableColor: false,
-                                                    onChange: (String value) {
-                                                      state.model.additionalInformation = value;
-                                                      context
-                                                          .read<EventInfoCubit>()
-                                                          .onModelValueChange(state.model);
-                                                    },
-                                                    validateTextField: (String? user) {},
-                                                  ),
-                              CommonWidgets.verticalSpacerWidget(height * 0.02),
-                            ],
                                                   if ((state.eventDuration == ConstantsIntValue.eventDurationBefore) &&
                                                     widget.isAnnualPowerShutdown) ...[
                                                     /// CCTV System Offline
@@ -1060,7 +1136,9 @@
 
                                                   if ((state.eventDuration == ConstantsIntValue.eventDurationAfter) &&
                                                       widget.isAnnualPowerShutdown) ...[
-                                                    /// CCTV System Offline end Date
+                                                    if(state.model.cctvSystemOffline == true)...[
+
+                                                      /// CCTV System Offline end Date
                                                       CommonWidgets.textDisplay(
                                                         // state.labels?.locale.extraSecurityDeployed ??
                                                         //     state.labels?.defaultLocale
@@ -1124,8 +1202,10 @@
                                                     CommonWidgets
                                                         .verticalSpacerWidget(
                                                         height * 0.02),
+],
+                                                    if(state.model.accessSystemOffline == true)...[
 
-                                                    /// Access System Offline end Date
+                    /// Access System Offline end Date
 
                                                     CommonWidgets.textDisplay(
                                                         // state.labels?.locale.extraSecurityDeployed ??
@@ -1191,6 +1271,7 @@
                                                     CommonWidgets
                                                         .verticalSpacerWidget(
                                                         height * 0.02),
+                                                    ],
                                                     // /// Intruder System Offline End Date
                                                     //   CommonWidgets.textDisplay(
                                                     //     // state.labels?.locale.extraSecurityDeployed ??
@@ -1557,38 +1638,61 @@
                                                                   .spaceBetween,
                                                           children: [
                                                             /// Add Button
+                                                            // OpacityAbsorbInkWellWidget(
+                                                            //   absorbing:
+                                                            //       !showSaveButtons,
+                                                            //   onTap: () {
+                                                            //     Navigator
+                                                            //         .pushNamed(
+                                                            //       context,
+                                                            //       articleFoundNewDetailsRoute,
+                                                            //       arguments: {
+                                                            //         ConstantsArgument
+                                                            //                 .eventId:
+                                                            //             state
+                                                            //                 .model
+                                                            //                 .id,
+                                                            //         ConstantsArgument
+                                                            //                 .eventProtectionId:
+                                                            //             widget
+                                                            //                 .eventProtectionId,
+                                                            //         ConstantsArgument
+                                                            //                 .location:
+                                                            //             state
+                                                            //                 .model
+                                                            //                 .location,
+                                                            //         ConstantsArgument.title: "Article Found",
+                                                            //       },
+                                                            //     );
+                                                            //   },
+                                                            //   child:
+                                                            //       const AddViewButton(
+                                                            //     label:
+                                                            //         'Add Article Found',
+                                                            //
+                                                            //   ),
+                                                            // ),
+                                                            /// Add Button
                                                             OpacityAbsorbInkWellWidget(
-                                                              absorbing:
-                                                                  !showSaveButtons,
-                                                              onTap: () {
-                                                                Navigator
-                                                                    .pushNamed(
+                                                              absorbing: !showSaveButtons,
+                                                              onTap: () async {
+                                                                await Navigator.pushNamed(
                                                                   context,
                                                                   articleFoundNewDetailsRoute,
                                                                   arguments: {
-                                                                    ConstantsArgument
-                                                                            .eventId:
-                                                                        state
-                                                                            .model
-                                                                            .id,
-                                                                    ConstantsArgument
-                                                                            .eventProtectionId:
-                                                                        widget
-                                                                            .eventProtectionId,
-                                                                    ConstantsArgument
-                                                                            .location:
-                                                                        state
-                                                                            .model
-                                                                            .location,
+                                                                    ConstantsArgument.eventId: state.model.id,
+                                                                    ConstantsArgument.eventProtectionId: widget.eventProtectionId,
+                                                                    ConstantsArgument.location: state.model.location,
                                                                     ConstantsArgument.title: "Article Found",
                                                                   },
                                                                 );
-                                                              },
-                                                              child:
-                                                                  const AddViewButton(
-                                                                label:
-                                                                    'Add Article Found',
 
+                                                                if (!context.mounted) return;
+
+                                                                BlocProvider.of<EventInfoCubit>(context).initializeValues();
+                                                              },
+                                                              child: const AddViewButton(
+                                                                label: 'Add Article Found',
                                                               ),
                                                             ),
 
@@ -1965,6 +2069,7 @@
 
   class _TemplatePreviewPageState extends State<TemplatePreviewPage> {
     final HtmlEditorController quillController = HtmlEditorController();
+    List<ImageContent> localAttachments = [];
 
     @override
     Widget build(BuildContext context) {
@@ -2078,6 +2183,21 @@
 
                         /// ===== UPLOAD =====
                         if (widget.showSaveButtons)
+                          // Padding(
+                          //   padding: const EdgeInsets.symmetric(horizontal: 12),
+                          //   child: Column(
+                          //     crossAxisAlignment: CrossAxisAlignment.start,
+                          //     children: [
+                          //       CommonWidgets.textDisplay(
+                          //         Constants.upload,
+                          //         Styles.textStyleWhite16,
+                          //       ),
+                          //       _uploadWidget(context, state),
+                          //     ],
+                          //   ),
+                          // ),
+
+
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 12),
                             child: Column(
@@ -2093,41 +2213,115 @@
                           ),
 
                         const SizedBox(height: 12),
+                        const SizedBox(height: 12),
 
                         /// ===== ATTACHMENTS =====
-                        if ((state.loadAttachments ?? []).isNotEmpty)
-                          Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 12),
-                              child: Container(
-                                width: width,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(
-                                    color: Colors.white.withValues(alpha: 0.35),
-                                    width: 0.8,
+                        // if ((state.loadAttachments ?? []).isNotEmpty)
+                        //   Expanded(
+                        //     child: Padding(
+                        //       padding: const EdgeInsets.symmetric(horizontal: 12),
+                        //       child: Container(
+                        //         width: width,
+                        //         decoration: BoxDecoration(
+                        //           borderRadius: BorderRadius.circular(12),
+                        //           border: Border.all(
+                        //             color: Colors.white.withValues(alpha: 0.35),
+                        //             width: 0.8,
+                        //           ),
+                        //           color: Colors.white.withValues(alpha: 0.03),
+                        //         ),
+                        //         child: ClipRRect(
+                        //           borderRadius: BorderRadius.circular(12),
+                        //           child: SingleChildScrollView(
+                        //             padding: const EdgeInsets.all(8),
+                        //             child: BaseImageUpload().getAttachment(
+                        //               height: height,
+                        //               attachments: List<ImageContent>.from(
+                        //                   state.loadAttachments ?? []),
+                        //               files: List<ImageContent>.from(
+                        //                   state.loadAttachments ?? []),
+                        //               moduleCode: '',
+                        //               isDisabled: !widget.showSaveButtons,
+                        //               showDeleteIcon: true,
+                        //             ),
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // if ((state.loadAttachments ?? []).isNotEmpty)
+                          // Expanded(
+                          //   child: Padding(
+                          //     padding: const EdgeInsets.symmetric(horizontal: 12),
+                          //     child: Container(
+                          //       width: width,
+                          //       decoration: BoxDecoration(
+                          //         borderRadius: BorderRadius.circular(12),
+                          //         border: Border.all(
+                          //           color: Colors.white.withValues(alpha: 0.35),
+                          //           width: 0.8,
+                          //         ),
+                          //         color: Colors.white.withValues(alpha: 0.03),
+                          //       ),
+                          //       child: ClipRRect(
+                          //         borderRadius: BorderRadius.circular(12),
+                          //         child: SingleChildScrollView(
+                          //           padding: const EdgeInsets.all(8),
+                          //           child: BaseImageUpload().getAttachment(
+                          //             height: height,
+                          //             attachments: List<ImageContent>.from(
+                          //                 state.loadAttachments ?? []),
+                          //             files: List<ImageContent>.from(
+                          //                 state.loadAttachments ?? []),
+                          //             moduleCode: '',
+                          //             isDisabled: widget.templateId != null,
+                          //             showDeleteIcon: widget.templateId == null,
+                          //             onDelete: (index, imageData) {
+                          //               context.read<EventInfoCubit>().removeAttachment(imageData);
+                          //             },
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ),
+                          // ),
+
+                          if ((state.loadAttachments ?? []).isNotEmpty)
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 12),
+                                child: Container(
+                                  width: width,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    border: Border.all(
+                                      color: Colors.white.withValues(alpha: 0.35),
+                                      width: 0.8,
+                                    ),
+                                    color: Colors.white.withValues(alpha: 0.03),
                                   ),
-                                  color: Colors.white.withValues(alpha: 0.03),
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: SingleChildScrollView(
-                                    padding: const EdgeInsets.all(8),
-                                    child: BaseImageUpload().getAttachment(
-                                      height: height,
-                                      attachments: List<ImageContent>.from(
-                                          state.loadAttachments ?? []),
-                                      files: List<ImageContent>.from(
-                                          state.loadAttachments ?? []),
-                                      moduleCode: '',
-                                      isDisabled: !widget.showSaveButtons,
-                                      showDeleteIcon: true,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: SingleChildScrollView(
+                                      padding: const EdgeInsets.all(8),
+                                      child: BaseImageUpload().getAttachment(
+                                        height: height,
+                                        attachments: List<ImageContent>.from(
+                                            state.loadAttachments ?? []),
+                                        files: List<ImageContent>.from(
+                                            state.loadAttachments ?? []),
+                                        moduleCode: '',
+                                        isDisabled: widget.templateId != null,
+                                        showDeleteIcon: widget.templateId == null,
+                                        onDelete:  (index, imageData) {
+                                          context.read<EventInfoCubit>().removeAttachment(imageData);
+                                        },
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
 
                         SizedBox(height: height * 0.015),
                       ],
@@ -2156,7 +2350,61 @@
       );
     }
 
-    Widget _uploadWidget(BuildContext context, EventInfoState state) {
+    // Widget _uploadWidget(BuildContext context, EventInfoState state) {
+    //   return Container(
+    //     height: 60,
+    //     decoration: BoxDecoration(
+    //       border: Border.all(color: const Color(0xFFCACACA), width: 1.0),
+    //       borderRadius: const BorderRadius.all(Radius.circular(8)),
+    //     ),
+    //     child: Row(
+    //       mainAxisAlignment: MainAxisAlignment.end,
+    //       children: [
+    //         Padding(
+    //           padding: const EdgeInsets.only(right: 5.0),
+    //           child: ElevatedButton.icon(
+    //             style: ElevatedButton.styleFrom(
+    //               fixedSize: const Size(120, 50),
+    //               backgroundColor: Colors.transparent,
+    //             ),
+    //             onPressed: () {
+    //               showDialog(
+    //                 context: context,
+    //                 builder: (BuildContext dialogContext) {
+    //                   return UploadAttachment(
+    //                     onImageSelected: (ImageContent data) {
+    //                       List<ImageContent> files = [];
+    //                       files.add(data);
+    //                       for (ImageContent image in widget.getFiles.toList()) {
+    //                         files.add(image);
+    //                       }
+    //                       context.read<EventInfoCubit>().addAttachment(files);
+    //                     },
+    //                   );
+    //                 },
+    //               );
+    //             },
+    //             icon: SvgPicture.asset(
+    //               AppIcon.uploadIcon,
+    //               colorFilter: const ColorFilter.mode(
+    //                 AppColors.backgroundWhiteColor,
+    //                 BlendMode.srcIn,
+    //               ),
+    //               width: 13,
+    //               height: 13,
+    //             ),
+    //             label: const Text(
+    //               Constants.clicktoupload,
+    //               style: Styles.textStyleRegularNormalWhite12,
+    //             ),
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+    //   );
+    // }
+    Widget _uploadWidget(
+        BuildContext context, EventInfoState state) {
       return Container(
         height: 60,
         decoration: BoxDecoration(
@@ -2173,24 +2421,37 @@
                   fixedSize: const Size(120, 50),
                   backgroundColor: Colors.transparent,
                 ),
-                onPressed: () {
+                onPressed: widget.templateId == null
+                    ? () {
                   showDialog(
                     context: context,
                     builder: (BuildContext dialogContext) {
                       return UploadAttachment(
+                        // onImageSelected: (ImageContent data) {
+                        //   final updated = [
+                        //     data,
+                        //     ...localAttachments
+                        //   ]; //  prepend
+                        //   setState(() {
+                        //     localAttachments =
+                        //         updated; //  instant UI update
+                        //   });
+                        //   context
+                        //       .read<EventInfoCubit>()
+                        //       .addAttachment(updated); //  sync cubit
+                        // },
                         onImageSelected: (ImageContent data) {
-                          List<ImageContent> files = [];
-                          files.add(data);
-                          for (ImageContent image in widget.getFiles.toList()) {
-                            files.add(image);
-                          }
-                          context.read<EventInfoCubit>().addAttachment(files);
+                          final current = List<ImageContent>.from(state.loadAttachments ?? []);
+                          final updated = [data, ...current];
+                          context.read<EventInfoCubit>().addAttachment(updated);
                         },
                       );
                     },
                   );
-                },
-                icon: SvgPicture.asset(
+                }
+                    : null,
+                icon: widget.templateId == null
+                    ? SvgPicture.asset(
                   AppIcon.uploadIcon,
                   colorFilter: const ColorFilter.mode(
                     AppColors.backgroundWhiteColor,
@@ -2198,7 +2459,8 @@
                   ),
                   width: 13,
                   height: 13,
-                ),
+                )
+                    : null,
                 label: const Text(
                   Constants.clicktoupload,
                   style: Styles.textStyleRegularNormalWhite12,

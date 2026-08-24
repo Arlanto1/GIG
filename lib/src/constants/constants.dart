@@ -270,6 +270,8 @@ class Constants {
   static const String createdDate = 'Created Date';
   static const String createOn = 'Create On';
   static const String founddate = 'Found Date';
+  static const String handoverBy = 'Handover By';
+
   static const String duedate = 'Due Date';
   static const String articlename = 'Article Name';
   static const String handedoverdate = 'Handed over Date';
@@ -1128,7 +1130,7 @@ class Constants {
   static const String ticketingSystemListTitle = "Bugs";
   static const String ticketType = "Ticket Type";
   static const String priorityType = "Priority";
-  static const String assignee = "Assignee To";
+  static const String assignee = "Assignee";
   static const String ticketRaisedFor = "Ticket raised for";
   static const String ragStatus = "Rag Status";
   static const String subject = "Subject";

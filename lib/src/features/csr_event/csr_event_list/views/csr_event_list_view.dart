@@ -188,7 +188,7 @@ class _CSREventListViewState extends State<CSREventListView> {
                     ),
                   ),
 
-                  // 🔹 ListView - start immediately below search bar
+                  //  ListView - start immediately below search bar
                   Positioned(
                     top: MediaQuery.of(context).padding.top + kToolbarHeight + 4, // search bar height ~64+padding
                     left: 0,
@@ -281,7 +281,7 @@ class _CSREventListViewState extends State<CSREventListView> {
                                           .twentyFourHourDateTimeFormat)));
                             }
                             return index >= state.items.length
-                                ? const BaseLoader()
+                                ? const SizedBox()
                                 : Container(
                                 decoration: const BoxDecoration(
                                   gradient: LinearGradient(
@@ -415,17 +415,34 @@ class _CSREventListViewState extends State<CSREventListView> {
     );
   }
 
-
   getById(
       bool hasWritePermission, {
         required int id,
         required int eventStatus,
       }) async {
     log('-----');
-    var nav = Navigator.of(context);
-    ShowEPGridsModel showEPGridsModel =
-    await CSREventServices().showEventGrids(id);
+    showLoadingDialog(context);
+
+    ShowEPGridsModel? model;
+    try {
+      model = await CSREventServices().showEventGrids(id);
+    } finally {
+      if (mounted) dismissLoadingDialog(context);
+    }
+
+    if (!mounted || model == null) return;
+
+    editDataLoading(model, hasWritePermission, id: id, eventStatus: eventStatus);
+  }
+
+  void editDataLoading(
+      ShowEPGridsModel model,
+      bool hasWritePermission, {
+        required int id,
+        required int eventStatus,
+      }) {
     if (!mounted) return;
+    var nav = Navigator.of(context);
     nav.pushNamed(
       csrEventDetailsTabRoute,
       arguments: {
@@ -434,13 +451,69 @@ class _CSREventListViewState extends State<CSREventListView> {
         ConstantsArgument.title: Constants.cSREventList,
         ConstantsArgument.isCSREvent: widget.isCSREvent,
         ConstantsArgument.isSportEvent: widget.isSportEvent,
-        ConstantsArgument.showEPGridsModel: showEPGridsModel,
+        ConstantsArgument.showEPGridsModel: model,
         ConstantsArgument.extraProperties:
         ExtraProperties(hasWritePermission: hasWritePermission),
       },
     );
+    if (mounted) {
+      context.read<CSREventBloc>().add(const RefreshList());
+    }
   }
 
+  // getById(
+  //     bool hasWritePermission, {
+  //       required int id,
+  //       required int eventStatus,
+  //     }) async {
+  //   showLoadingDialog(context);
+  //
+  //   log('-----');
+  //   var nav = Navigator.of(context);
+  //   dismissLoadingDialog(context);
+  //
+  //   ShowEPGridsModel showEPGridsModel =
+  //   await CSREventServices().showEventGrids(id);
+  //   if (!mounted) return;
+  //   nav.pushNamed(
+  //     csrEventDetailsTabRoute,
+  //     arguments: {
+  //       ConstantsArgument.id: id,
+  //       'eventStatus': eventStatus,
+  //       ConstantsArgument.title: Constants.cSREventList,
+  //       ConstantsArgument.isCSREvent: widget.isCSREvent,
+  //       ConstantsArgument.isSportEvent: widget.isSportEvent,
+  //       ConstantsArgument.showEPGridsModel: showEPGridsModel,
+  //       ConstantsArgument.extraProperties:
+  //       ExtraProperties(hasWritePermission: hasWritePermission),
+  //     },
+  //   );
+  // }
+  //
+  // getById(bool hasWritePermission, { required int id, required int eventStatus}) async{
+  //   showLoadingDialog(context);
+  //   ShowEPGridsModel model = await CSREventServices().showEventGrids(id);
+  //   editDataLoading(model, hasWritePermission);
+  // }
+  //
+  // void editDataLoading(ShowEPGridsModel? model, bool hasWritePermission, int eventStatus) {
+  //   dismissLoadingDialog(context);
+  //     if (!mounted) return;
+  //     var nav = Navigator.of(context);
+  //     nav.pushNamed(
+  //       csrEventDetailsTabRoute,
+  //       arguments: {
+  //         ConstantsArgument.id: id,
+  //         'eventStatus': eventStatus,
+  //         ConstantsArgument.title: Constants.cSREventList,
+  //         ConstantsArgument.isCSREvent: widget.isCSREvent,
+  //         ConstantsArgument.isSportEvent: widget.isSportEvent,
+  //         ConstantsArgument.showEPGridsModel: showEPGridsModel,
+  //         ConstantsArgument.extraProperties:
+  //         ExtraProperties(hasWritePermission: hasWritePermission),
+  //       },
+  //     );
+  // }
   void applySearchFilters(
       FilterCriteria model,
       ) {

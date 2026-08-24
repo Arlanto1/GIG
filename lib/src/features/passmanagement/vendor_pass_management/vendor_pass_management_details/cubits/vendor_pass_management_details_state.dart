@@ -144,6 +144,10 @@ class VendorPassManagementDetailsState extends Equatable {
       return const ErrorResponse(status: false, message: 'Please enter Escorted By Employee Id');
     }
 
+    if ( model.status == 1 && model.updatedStatus == null) {
+      return const ErrorResponse(status: false, message: 'Please select Updated Status');
+    }
+
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 

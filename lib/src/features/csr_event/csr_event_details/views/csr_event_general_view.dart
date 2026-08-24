@@ -258,19 +258,19 @@ log('widget.isCSREvent ${widget.isCSREvent}');
                             BaseDropDown().getDropDown(
                                 isDisabled: true,
                                 textController: statusController,
-                                items: eventProtectionGiStatus,
+                                items: csrStatusValues,
                                 initialValue: '${state.model.status ?? 0}',
                                 onTap: () {
                                   if (disableForm) {
                                     BaseDropDown().assetTypeDialog(
                                       context: context,
-                                      dropDownValues: eventProtectionGiStatus
+                                      dropDownValues: csrStatusValues
                                           .map((label) => label.key)
                                           .toList(),
                                       onTap: (String value) {
                                         Label? selectedLabel;
                                         selectedLabel =
-                                            eventProtectionGiStatus.firstWhere(
+                                            csrStatusValues.firstWhere(
                                                   (label) => label.key == value,
                                               orElse: () =>
                                               const Label(key: '', value: ''),

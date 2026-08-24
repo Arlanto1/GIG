@@ -26,7 +26,7 @@ class MaterialMovementModel extends BaseObject {
   int? quantity;
   List<ImageContent>? images;
   ImageContent? receiverSign;
-  ImageContent? entrySecuritySign;
+  ImageContent? gatePassSecuritySign;
   String? receiverEmail;
   String? receiverEmployeeId;
   User? entrySecurity;
@@ -73,7 +73,7 @@ class MaterialMovementModel extends BaseObject {
   String? takenOutDate;
   String? actualDateOfReturn;
   final Organisation? takenOutDepartment;
-  List<ImageContent>? gatePassSecuritySign;
+  // ImageContent? gatePassSecuritySign;
   String? comment;
   bool isEligibleToEdit;
   String? modifiedBy;
@@ -109,7 +109,7 @@ class MaterialMovementModel extends BaseObject {
     this.requestorEmail,
     this.requestor2Email,
     this.receiverSign,
-    this.entrySecuritySign,
+    // this.gatePassSecuritySign,
     this.requestorEmployeeId,
     this.requestorDepartment,
     this.requestor2EmployeeId,

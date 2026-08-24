@@ -819,7 +819,7 @@ class _KeyHistoryRecordsDetailsViewState
                             if (state.model.investigationRequired == true) ...[
                               CommonWidgets.textDisplay(
                                 Constants.incidentItemList,
-                                Styles.textStyleBlack14,
+                                Styles.textStyleWhite14,
                               ),
                               GestureDetector(
                                 onTap: () =>
@@ -833,7 +833,7 @@ class _KeyHistoryRecordsDetailsViewState
                                       SvgPicture.asset(
                                         AppIcon.plusCircle,
                                         colorFilter: const ColorFilter.mode(
-                                          AppColors.navigationSkyBlueColor,
+                                          AppColors.white,
                                           BlendMode.srcIn,
                                         ),
                                         // color: AppColors.navigationSkyBlueColor,
@@ -843,7 +843,7 @@ class _KeyHistoryRecordsDetailsViewState
                                         'Add Incident Item List',
                                         style: TextStyle(
                                           color:
-                                              AppColors.navigationSkyBlueColor,
+                                              AppColors.white,
                                           decoration: TextDecoration.underline,
                                         ),
                                       ),

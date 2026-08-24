@@ -102,14 +102,14 @@ class _MaterialItemsViewView extends State<MaterialItemsView> {
           hasAddPermission:
               !(widget.extraProperties != null &&
                   !widget.extraProperties!.hasWritePermission!) &&
-              widget.lock.isEmptyOrNull && (widget.parentStatus == 0) ? true : false,
+              widget.lock.isEmptyOrNull && ((widget.parentStatus == 0 && widget.isInWard) || ((widget.parentStatus == 0 || widget.parentStatus == 1 )&& widget.isInWard == false)) ? true : false,
           scaffoldKey: scaffoldKey,
           context: context,
           // displayMenu: state.displayMenu,
           list: true, // 🔥 only "+" button mode
           onAddPressed: !(widget.extraProperties != null &&
               !widget.extraProperties!.hasWritePermission!) &&
-              widget.lock.isEmptyOrNull && (widget.parentStatus == 0) ?() {
+              widget.lock.isEmptyOrNull && ((widget.parentStatus == 0 && widget.isInWard) || ((widget.parentStatus == 0 || widget.parentStatus == 1 )&& widget.isInWard == false)) ?() {
             showAddContactPopUp(
               context: context,
               contact: MaterialMovementItem(),

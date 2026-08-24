@@ -18,9 +18,13 @@ class ArticleFoundServices {
     required String startPosition,
     required String maximumRecords,
     required BaseFilterModel filters,
+    String? eventId,
   }) async {
     String url =
         '${Apis._getList}?startPos=$startPosition&maxResults=$maximumRecords';
+    if (eventId != null) {
+      url = '$url&eventId=$eventId';
+    }
     var response = await BaseApiService().postRequest(
       requestedData: filters.toJson(),
       isAuthenticated: true,
@@ -44,8 +48,16 @@ class ArticleFoundServices {
   Future<GenericResponse> createArticleFound({
     required ArticleFoundRequest body,
     required bool isSubmit,
+    String? eventId,
   }) async {
-    final String url = "${Apis._create}?isSubmit=$isSubmit";
+    // final String url = "${Apis._create}?isSubmit=$isSubmit";
+    // if (eventId != null) {
+    //   url = '$url&eventProtectionId=$eventId';
+    // }
+    String url = "${Apis._create}?isSubmit=$isSubmit";
+    if (eventId != null) {
+      url = '$url&eventProtectionId=$eventId';
+    }
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),

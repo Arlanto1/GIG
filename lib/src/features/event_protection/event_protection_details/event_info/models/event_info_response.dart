@@ -32,7 +32,9 @@ class EventInfoResponse {
     this.intruderSystemOfflineEndDate,
     this.additionalInformation,
     this.canEdit,
-    this.readOnly
+    this.readOnly,
+    this.additionalInfo4,
+    this.additionalInfo5,
   });
 
   int? id;
@@ -65,6 +67,9 @@ class EventInfoResponse {
   String? additionalInformation;
   bool? canEdit;
   bool? readOnly;
+  String? additionalInfo4;
+  String? additionalInfo5;
+
   EventInfoResponse.fromJson(Map<String, dynamic> json) {
     log('-json id--${json['id']}-');
 
@@ -100,6 +105,8 @@ class EventInfoResponse {
     additionalInformation = json['additionalInformation'];
     canEdit = json['canEdit'];
     readOnly = json['readOnly'];
+    additionalInfo4 = json['additionalInfo4'];
+    additionalInfo5 = json['additionalInfo5'];
   }
 
   Map<String, dynamic> toJson() {
@@ -133,6 +140,8 @@ class EventInfoResponse {
     data['additionalInformation'] = additionalInformation;
     data['canEdit'] = canEdit;
     data['readOnly'] = readOnly;
+    data['additionalInfo4'] = additionalInfo4;
+    data['additionalInfo5']=additionalInfo5;
     return data;
   }
 }

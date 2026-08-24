@@ -10,36 +10,35 @@ TicketingSystemModel _$TicketingSystemModelFromJson(
         Map<String, dynamic> json) =>
     TicketingSystemModel(
       id: (json['id'] as num?)?.toInt(),
-      ticketNo: json['ticketNo'] as String?,
-      location: json['location'] == null
+      statusName: json['statusName'] as String?,
+      assigneeName: json['assigneeName'] as String?,
+      priorityName: json['priorityName'] as String?,
+      projectName: json['projectName'] as String?,
+      assignee: json['assignee'] == null
           ? null
-          : Organisation.fromJson(json['location'] as Map<String, dynamic>),
-      modulesName: (json['modulesName'] as List<dynamic>?)
-          ?.map((e) => Organisation.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      createdBy: json['createdBy'] == null
+          : User.fromJson(json['assignee'] as Map<String, dynamic>),
+      tracker: json['tracker'] == null
           ? null
-          : User.fromJson(json['createdBy'] as Map<String, dynamic>),
-      ticketType: (json['ticketType'] as num?)?.toInt(),
-      inputDate: json['inputDate'] as String?,
-      fromDate: json['fromDate'] as String?,
-      toDate: json['toDate'] as String?,
-      priorityType: (json['priorityType'] as num?)?.toInt(),
+          : Organisation.fromJson(json['tracker'] as Map<String, dynamic>),
+      project: json['project'] == null
+          ? null
+          : Organisation.fromJson(json['project'] as Map<String, dynamic>),
+      priority: json['priority'] == null
+          ? null
+          : Organisation.fromJson(json['priority'] as Map<String, dynamic>),
+      description: json['description'] as String?,
+      history: json['history'] as String?,
+      createdOn: json['createdOn'] as String?,
+      startDate: json['startDate'] as String?,
+      dueDate: json['dueDate'] as String?,
+      updatedOn: json['updatedOn'] as String?,
+      createdBy: json['createdBy'] as String?,
       status: (json['status'] as num?)?.toInt(),
       title: json['title'] as String?,
-      assignee: json['assignee'] as String?,
-      bugDescription: json['bugDescription'] as String?,
-      cancelReason: json['cancelReason'] as String?,
       attachments: (json['attachments'] as List<dynamic>?)
           ?.map((e) => ImageContent.fromJson(e as Map<String, dynamic>))
           .toList(),
-      modifiedDate: json['modifiedDate'] as String?,
-      modifiedBy: json['modifiedBy'] as String?,
-      issuedForm: (json['issuedForm'] as num?)?.toInt(),
-      ragStatus: (json['ragStatus'] as num?)?.toInt(),
-      activityNotes: (json['activityNotes'] as List<dynamic>?)
-          ?.map((e) => ActivityNote.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      notes: json['notes'] as String?,
     )..lock = json['lock'] as String?;
 
 Map<String, dynamic> _$TicketingSystemModelToJson(
@@ -47,24 +46,23 @@ Map<String, dynamic> _$TicketingSystemModelToJson(
     <String, dynamic>{
       'lock': instance.lock,
       'id': instance.id,
-      'ticketNo': instance.ticketNo,
-      'location': instance.location,
-      'modulesName': instance.modulesName,
+      'statusName': instance.statusName,
+      'assigneeName': instance.assigneeName,
+      'priorityName': instance.priorityName,
+      'projectName': instance.projectName,
+      'assignee': instance.assignee,
+      'tracker': instance.tracker,
+      'project': instance.project,
+      'priority': instance.priority,
+      'description': instance.description,
+      'history': instance.history,
       'createdBy': instance.createdBy,
-      'ticketType': instance.ticketType,
-      'inputDate': instance.inputDate,
-      'fromDate': instance.fromDate,
-      'toDate': instance.toDate,
-      'priorityType': instance.priorityType,
+      'createdOn': instance.createdOn,
+      'startDate': instance.startDate,
+      'dueDate': instance.dueDate,
+      'updatedOn': instance.updatedOn,
       'status': instance.status,
       'title': instance.title,
-      'assignee': instance.assignee,
-      'bugDescription': instance.bugDescription,
-      'cancelReason': instance.cancelReason,
       'attachments': instance.attachments,
-      'modifiedDate': instance.modifiedDate,
-      'modifiedBy': instance.modifiedBy,
-      'issuedForm': instance.issuedForm,
-      'ragStatus': instance.ragStatus,
-      'activityNotes': instance.activityNotes,
+      'notes': instance.notes,
     };

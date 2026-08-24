@@ -9,7 +9,7 @@ class Apis {
       '$baseUrl/getKemMgmtDestructiontList?';
 
   static final String _getGIById = '$baseUrl/getKldById';
-  static final String _createKeyLossDes = '$baseUrl/createKeyLossDes?';
+  static final String _createKeyLossDes = '$baseUrl/createKeyLossDes';
 }
 
 class KeyLossDestructionListServices {
@@ -46,10 +46,10 @@ class KeyLossDestructionListServices {
   Future<GenericResponse> createKeyLossDestruction({
     required KeyLossDestructionRequest body,
     required bool isSubmit,
-    required String? kmId,
+    required int? kmId,
   }) async {
     final String url =
-        "${Apis._createKeyLossDes}&kmId=$kmId&isSubmit=$isSubmit&isKeyManagementMaster=false";
+        "${Apis._createKeyLossDes}?kmId=$kmId&isSubmit=$isSubmit&isKeyManagementMaster=false";
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),
