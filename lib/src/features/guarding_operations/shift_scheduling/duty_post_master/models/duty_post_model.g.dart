@@ -82,6 +82,7 @@ Replacement _$ReplacementFromJson(Map<String, dynamic> json) => Replacement(
       toDate: json['toDate'] as String?,
       status: (json['status'] as num?)?.toInt(),
       tempId: json['tempId'] as String?,
+      replacementType: (json['replacementType'] as num?)?.toInt(),
       statusActive: json['statusActive'] as bool?,
     );
 
@@ -94,5 +95,6 @@ Map<String, dynamic> _$ReplacementToJson(Replacement instance) =>
       'toDate': instance.toDate,
       'status': instance.status,
       'statusActive': instance.statusActive,
+      'replacementType': instance.replacementType,
       'tempId': instance.tempId,
     };

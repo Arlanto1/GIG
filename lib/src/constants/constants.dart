@@ -264,6 +264,7 @@ class Constants {
   static const String claimant = 'Claimant';
   static const String status = 'Status';
   static const String updatestatus = 'Update Status';
+  static const String approvalStatus = 'Approval Status';
   static const String dateofcreation = 'Date of Creation';
   static const String createDate = 'Create Date';
   static const String creationDate = 'Creation Date';
@@ -976,6 +977,7 @@ class Constants {
   static const String addReplacement = 'Add Replacement';
   static const String replacementFor = 'Replacement For';
   static const String replacementBy = 'Replacement By';
+  static const String replacementType = 'Replacement Type';
   static const String reason = 'Reason';
   static const String poc = 'POC';
   static const String addPOC = 'Add POC';

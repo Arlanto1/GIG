@@ -291,11 +291,12 @@ class _AttendanceViewState extends State<AttendanceView> {
                                                                 .dutyType,
                                                             isAttendance: true,
                                                             isShiftScheduleStatus:
-                                                                true,
+                                                                false,
                                                             isMasterGuard:
                                                                 false,
                                                             isEventProtectionStatus:
                                                                 false,
+                                                            isAttendanceStatus: true,
                                                             status: state
                                                                 .items[
                                                                     selectedIndex]

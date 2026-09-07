@@ -39,6 +39,9 @@ PatrollingModel _$PatrollingModelFromJson(Map<String, dynamic> json) =>
       shift: (json['shift'] as num?)?.toInt(),
       submittedDate: json['submittedDate'] as String?,
       verifiedDate: json['verifiedDate'] as String?,
+      items: (json['items'] as List<dynamic>?)
+          ?.map((e) => Items.fromJson(e as Map<String, dynamic>))
+          .toList(),
     )
       ..lock = json['lock'] as String?
       ..subsectionId = (json['subsectionId'] as num?)?.toInt();
@@ -63,4 +66,5 @@ Map<String, dynamic> _$PatrollingModelToJson(PatrollingModel instance) =>
       'lsm': instance.lsm,
       'securitySupervisor': instance.securitySupervisor,
       'shift': instance.shift,
+      'items': instance.items,
     };

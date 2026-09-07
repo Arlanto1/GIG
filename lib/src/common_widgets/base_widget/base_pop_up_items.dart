@@ -99,6 +99,8 @@ class BasePopUpItems extends StatefulWidget {
   final bool isPatrollingStatus;
   final bool isDutyPostMasterStatus;
   final int? transportIncidentType;
+  final bool isAttendanceStatus;
+
   @override
   State<BasePopUpItems> createState() => _BasePopUpItemsState();
 
@@ -200,6 +202,7 @@ class BasePopUpItems extends StatefulWidget {
     this.isCSREventProtectionStatus = false,
     this.isPatrollingStatus = false,
     this.isDutyPostMasterStatus = false,
+    this.isAttendanceStatus = false,
   });
 }
 
@@ -212,7 +215,6 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
     final height = size.height;
     final width = size.width;
     return Center(
-
       child: ClipRRect(
         borderRadius: BorderRadius.circular(18),
         child: BackdropFilter(
@@ -240,7 +242,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
               boxShadow: [
                 BoxShadow(
                   color: AppColors.newColor.withValues(alpha: 0.1),
-                  blurRadius:12,
+                  blurRadius: 12,
                   offset: const Offset(8, 0),
                 ),
               ],
@@ -288,7 +290,8 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
       if (widget.slNo != null && widget.slNo!.isNotEmpty) ...[
         Row(
           children: [
-            Expanded(   //  REQUIRED to avoid overflow
+            Expanded(
+              //  REQUIRED to avoid overflow
               child: Utils().textHandling(
                 'Sl No : ',
                 widget.slNo.toString(),
@@ -297,7 +300,6 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-
       if (widget.locationRegion != null) ...[
         // CommonWidgets.verticalSpacerWidget(8),
         Row(
@@ -334,7 +336,6 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-
       if (widget.keyType != null) ...[
         // CommonWidgets.verticalSpacerWidget(8),
         Row(
@@ -401,7 +402,6 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-
       if (widget.inputDate != null) ...[
         Row(
           children: [
@@ -423,7 +423,6 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-
       if (widget.status != null && widget.isMaterialMovementStatus == true) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Row(
@@ -585,17 +584,26 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-
-        if (widget.status != null &&
-        widget.isCSREventProtectionStatus &&
-        !widget.isMasterGuard) ...[
+      if (widget.status != null &&
+          widget.isCSREventProtectionStatus &&
+          !widget.isMasterGuard) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Row(
-        children: [
-        Utils().buildCSRProtectionStatusRow(widget.status ?? 0),
-        ],
+          children: [
+            Utils().buildCSRProtectionStatusRow(widget.status ?? 0),
+          ],
         ),
-        ],
+      ],
+      if (widget.status != null &&
+          widget.isAttendanceStatus &&
+          !widget.isMasterGuard) ...[
+        CommonWidgets.verticalSpacerWidget(5),
+        Row(
+          children: [
+            Utils().buildAttendanceStatusRow(widget.status ?? 0),
+          ],
+        ),
+      ],
       if (widget.status != null &&
           !widget.isEventProtectionStatus &&
           widget.isSecuritySystemSLAStatus == true) ...[
@@ -623,9 +631,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-
-      if (widget.status != null &&
-          widget.isDutyPostMasterStatus == true) ...[
+      if (widget.status != null && widget.isDutyPostMasterStatus == true) ...[
         Row(
           children: [
             CommonWidgets.verticalSpacerWidget(5),
@@ -633,9 +639,7 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-
-      if (widget.isTicketStatus == true &&
-          widget.status != null ) ...[
+      if (widget.isTicketStatus == true && widget.status != null) ...[
         Row(
           children: [
             CommonWidgets.verticalSpacerWidget(5),
@@ -664,7 +668,6 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
                 style: Styles.textStyleWhite14,
               ),
             )
-
           ],
         ),
       ],
@@ -932,7 +935,6 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
           ],
         ),
       ],
-
       if (widget.status != null && widget.isPatrollingStatus) ...[
         CommonWidgets.verticalSpacerWidget(5),
         Row(
@@ -1153,7 +1155,6 @@ class _BasePopUpItemsState extends State<BasePopUpItems> {
     }
     return widgets;
   }
-
 
   Widget textHandling(String title, String desc, BuildContext context) {
     return Row(

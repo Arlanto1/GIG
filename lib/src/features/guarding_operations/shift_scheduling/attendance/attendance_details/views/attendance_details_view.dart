@@ -1,3 +1,4 @@
+
 import 'dart:developer';
 import 'dart:ui';
 
@@ -27,6 +28,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
   TextEditingController statusController = TextEditingController();
   TextEditingController dutyTypeController = TextEditingController();
   TextEditingController attendanceTypeController = TextEditingController();
+  TextEditingController approvalStatusController = TextEditingController();
 
   bool isDisabled = true;
   bool isReadOnly = false;
@@ -88,11 +90,12 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
               ConstantsArgument.locationRegion: state.model.locationRegion,
               ConstantsArgument.vendor: state.model.vendor,
               ConstantsArgument.selectedDutyPostModel:
-                  state.selectedDutyPostModel,
+              state.selectedDutyPostModel ?? DutyPostModel(),
               ConstantsArgument.isReadOnly: isReadOnly,
               ConstantsArgument.isEligibleToEdit: state.model.isEligibleToEdit
             },
           );
+
         }
       },
       builder: (context, state) {
@@ -116,6 +119,9 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
         if (!state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }
+        if (state.model.status == 1) {
+          isReadOnly = true;
+        }
 
         log('isEligible -----  ${!state.model.isEligibleToEdit}');
         if (!state.model.isEligibleToEdit) {
@@ -127,7 +133,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
             context: context,
             title: Constants.attendanceDetails,
             showPopUp: false,
-            showSubmitButton: !isReadOnly && state.status != FormStatus.loading,
+            showSubmitButton: state.model.isEligibleToEdit == true && state.model.status !=1,
             showSaveButton: false,
             showDisLikeButton: false,
             showLikeButton: false,
@@ -136,7 +142,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
             onTapSave: () {
               FocusScope.of(context).unfocus();
               BlocProvider.of<AttendanceDetailsCubit>(context)
-                  .submitForm(isSaveOnly: true);
+                  .submitForm(isSaveOnly: true,);
             },
             onTapSubmit: () {
               FocusScope.of(context).unfocus();
@@ -159,7 +165,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
     }
     return Stack(
       children: [
-        // 🔹 Background Image
+        //  Background Image
         Positioned.fill(
           child: Image.asset(
             'assets/images/bg2.png',
@@ -388,52 +394,201 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                                   }),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
-                              /// Attendance Type
+                              if(state.model.approvalStatus !=null)...[
+                              ///Approval Status
                               CommonWidgets.textDisplay(
-                                  // state.labels?.locale.guardRank ??
-                                  //    state.labels?.defaultLocale.guardRank ??
-                                  Constants.attendanceType,
-                                  isMandatory: true,
-                                  Styles.textStyleWhite16),
+                                  // state.labels?.locale.status ??
+                                  //     state.labels?.defaultLocale.status ??
+                                  Constants.approvalStatus,
+                                  Styles.textStyleWhite16,
+                                  isMandatory: true),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               BaseDropDown().getDropDown(
-                                  isDisabled: state.model.status != null,
-                                  textController: attendanceTypeController,
-                                  items: attendanceTypeDropDownValues,
-                                  initialValue:
-                                      state.model.attendanceType.toString(),
-                                  onTap: () {
-                                    if (state.model.status == 0) {
-                                      BaseDropDown().assetTypeDialog(
-                                          context: context,
-                                          dropDownValues:
-                                              attendanceTypeDropDownValues
-                                                  .map((label) => label.key)
-                                                  .toList(),
-                                          onTap: (String value) {
-                                            Label? selectedLabel;
-                                            selectedLabel =
-                                                attendanceTypeDropDownValues
-                                                    .firstWhere(
-                                              (label) => label.key == value,
-                                              orElse: () => const Label(
-                                                  key: '', value: ''),
-                                            );
-                                            BlocProvider.of<
-                                                        AttendanceDetailsCubit>(
-                                                    context)
-                                                .updateDropdownValues(
-                                                    attendanceType:
-                                                        int.tryParse(
-                                                            selectedLabel
-                                                                .value));
-                                          });
-                                    }
-                                  }),
+                                isDisabled: true,
+                                textController: approvalStatusController,
+                                items: attendanceApprovalStatusDropDownValues,
+                                initialValue:
+                                    '${state.model.approvalStatus ?? 0}',
+                                onTap: () {},
+                              ),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
+],
+                              // /// Briefing Points
+                              // CommonWidgets.textDisplay(
+                              //   'Briefing Points:',
+                              //   isMandatory: true,
+                              //   Styles.textStyleWhite16,
+                              // ),
+                              // CommonWidgets.verticalSpacerWidget(
+                              //     height * 0.001),
+                              // Opacity(
+                              //   opacity: state.model.status != 1 ? 0.5 : 1.0,
+                              //   child: BriefingPointsGroupedView(
+                              //     rawBriefingPoints:
+                              //     state.model.briefingPoints ?? '',
+                              //     isReadOnly: isReadOnly,
+                              //     onChanged: (String updatedRaw) {
+                              //       log('-briefingPoints--$updatedRaw--');
+                              //       state.model.briefingPoints = updatedRaw;
+                              //
+                              //       BlocProvider.of<AttendanceShiftsCubit>(
+                              //           context)
+                              //           .submitAndRefreshScreen(
+                              //           isRemove: true,
+                              //           isSubmit: false,
+                              //           isSaveOnly: true);
+                              //     },
+                              //   ),
+                              // ),
+                              // CommonWidgets.verticalSpacerWidget(
+                              //     MediaQuery.of(context).size.height * 0.01),
+
+                              /// Briefing Points
+                              CommonWidgets.textDisplay(
+                                'Briefing PointsA:',
+                                isMandatory: true,
+                                Styles.textStyleWhite16,
+                              ),
+                              Opacity(
+                                opacity: 1.0,
+                                child: AbsorbPointer(
+                                  absorbing: false,
+                                  child: MultiSelectDropdown(
+                                    briefingPoints: state.briefingPointsA ?? [],
+                                    selectedPoints: state.model.briefingPointsA
+                                            ?.split(',') ??
+                                        [],
+                                    onSelectedBriefingPointsChanged:
+                                        (List<String> points) {
+                                      log('-points--$points--');
+                                      state.model.briefingPointsA =
+                                          Utils().joinListWithComma(points);
+
+                                      BlocProvider.of<AttendanceShiftsCubit>(
+                                              context)
+                                          .submitAndRefreshScreen(
+                                              isRemove: true,
+                                              isSubmit: false,
+                                              isSaveOnly: true);
+                                      // Update the points in your Bloc or state management accordingly
+                                      // BlocProvider.of<AttendanceShiftsCubit>(context).updateBriefingPoints();
+                                    },
+                                  ),
+                                ),
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  MediaQuery.of(context).size.height * 0.02),
+
+                              /// Briefing Points
+                              CommonWidgets.textDisplay(
+                                'Briefing PointsB:',
+                                isMandatory: true,
+                                Styles.textStyleWhite16,
+                              ),
+                              Opacity(
+                                opacity: 1.0,
+                                child: AbsorbPointer(
+                                  absorbing: false,
+                                  child: MultiSelectDropdown(
+                                    briefingPoints: state.briefingPointsB ?? [],
+                                    selectedPoints: state.model.briefingPointsB
+                                            ?.split(',') ??
+                                        [],
+                                    onSelectedBriefingPointsChanged:
+                                        (List<String> points) {
+                                      log('-points--$points--');
+                                      state.model.briefingPointsB =
+                                          Utils().joinListWithComma(points);
+
+                                      BlocProvider.of<AttendanceShiftsCubit>(
+                                              context)
+                                          .submitAndRefreshScreen(
+                                              isRemove: true,
+                                              isSubmit: false,
+                                              isSaveOnly: true);
+                                      // Update the points in your Bloc or state management accordingly
+                                      // BlocProvider.of<AttendanceShiftsCubit>(context).updateBriefingPoints();
+                                    },
+                                  ),
+                                ),
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  MediaQuery.of(context).size.height * 0.02),
+
+                              /// Briefing Points
+                              CommonWidgets.textDisplay(
+                                'Briefing PointsC:',
+                                isMandatory: true,
+                                Styles.textStyleWhite16,
+                              ),
+                              Opacity(
+                                opacity: 1.0,
+                                child: AbsorbPointer(
+                                  absorbing: false,
+                                  child: MultiSelectDropdown(
+                                    briefingPoints: state.briefingPointsC ?? [],
+                                    selectedPoints: state.model.briefingPointsC
+                                            ?.split(',') ??
+                                        [],
+                                    onSelectedBriefingPointsChanged:
+                                        (List<String> points) {
+                                      log('-points--$points--');
+                                      state.model.briefingPoints =
+                                          Utils().joinListWithComma(points);
+
+                                      BlocProvider.of<AttendanceShiftsCubit>(
+                                              context)
+                                          .submitAndRefreshScreen(
+                                              isRemove: true,
+                                              isSubmit: false,
+                                              isSaveOnly: true);
+                                      // Update the points in your Bloc or state management accordingly
+                                      // BlocProvider.of<AttendanceShiftsCubit>(context).updateBriefingPoints();
+                                    },
+                                  ),
+                                ),
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  MediaQuery.of(context).size.height * 0.02),
+
+                              /// Briefing Points
+                              CommonWidgets.textDisplay(
+                                'Briefing PointsG:',
+                                isMandatory: true,
+                                Styles.textStyleWhite16,
+                              ),
+                              Opacity(
+                                opacity: 1.0,
+                                child: AbsorbPointer(
+                                  absorbing: false,
+                                  child: MultiSelectDropdown(
+                                    briefingPoints: state.briefingPointsG ?? [],
+                                    selectedPoints: state.model.briefingPointsG
+                                            ?.split(',') ??
+                                        [],
+                                    onSelectedBriefingPointsChanged:
+                                        (List<String> points) {
+                                      log('-points--$points--');
+                                      state.model.briefingPointsG =
+                                          Utils().joinListWithComma(points);
+
+                                      BlocProvider.of<AttendanceShiftsCubit>(
+                                              context)
+                                          .submitAndRefreshScreen(
+                                              isRemove: true,
+                                              isSubmit: false,
+                                              isSaveOnly: true);
+                                      // Update the points in your Bloc or state management accordingly
+                                      // BlocProvider.of<AttendanceShiftsCubit>(context).updateBriefingPoints();
+                                    },
+                                  ),
+                                ),
+                              ),
+                              CommonWidgets.verticalSpacerWidget(
+                                  MediaQuery.of(context).size.height * 0.02),
 
                               if (state.model.id != null) ...[
                                 /// Modified Date
@@ -477,21 +632,21 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                               // flag =   widget.flag;
                               // AttendanceDetailsView.flag++;
                               log('flagValue---${AttendanceDetailsView.flag}');
-                              bool isSaveSuccess =
-                                  await BlocProvider.of<AttendanceDetailsCubit>(
-                                          context)
-                                      .submitForm(
-                                          isSaveOnly: true,
-                                          navigateToNextScreen: true);
+                              if (!isReadOnly) {
+                                bool isSaveSuccess = await BlocProvider.of<
+                                        AttendanceDetailsCubit>(context)
+                                    .submitForm(
+                                        isSaveOnly: true,
+                                        navigateToNextScreen: true);
 
-                              log('flagValue---${AttendanceDetailsView.flag}');
-                              AttendanceDetailsView.flag++;
-                              log('flagValue---${AttendanceDetailsView.flag}');
+                                log('flagValue---${AttendanceDetailsView.flag}');
+                                AttendanceDetailsView.flag++;
+                                log('flagValue---${AttendanceDetailsView.flag}');
 
-                              if (!isSaveSuccess) {
-                                return;
+                                if (!isSaveSuccess) {
+                                  return;
+                                }
                               }
-
                               BlocProvider.of<AttendanceDetailsCubit>(context)
                                   .navigateToNextScreen(
                                 dutyPostNameId: dutyPostNameId!,
@@ -517,7 +672,132 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                                 },
                               );
                               log('--state.model.id---${state.model.id}--');
+                              log('-- state.selectedDutyPostModel---${state.selectedDutyPostModel}--');
                             }),
+                      ],
+                      CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                      ///ADHOC Attendance
+                      if (state.model.shiftInfo?.id != null) ...[
+                        GestureDetector(
+                          onTap: () {
+                            NavigatorState nav = Navigator.of(context);
+                            nav.pushNamed(
+                              attendanceAdhocAttendanceRoute,
+                              arguments: {
+                                ConstantsArgument.parentId: state.model.id,
+                                ConstantsArgument.location:
+                                state.model.location,
+                                ConstantsArgument.locationRegion:
+                                state.model.locationRegion,
+                                ConstantsArgument.vendor: state.model.vendor,
+                                ConstantsArgument.isReadOnly: isReadOnly,
+                                ConstantsArgument.isEligibleToEdit:
+                                state.model.isEligibleToEdit
+                              },
+                            );
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.only(
+                                bottom: 14, left: 20, right: 20),
+                            //  SAME WIDTH AS DATE INPUT
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 18),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.white.withValues(alpha: 0.09),
+                                  Colors.transparent,
+                                  Colors.white.withValues(alpha: 0.09),
+                                ],
+                                stops: const [0.02, 0.35, 1],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                              ),
+                              borderRadius: BorderRadius.circular(27),
+                              border: Border.all(
+                                color: Colors.white.withValues(alpha: 0.60),
+                                width: 0.7,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.white.withValues(alpha: 0.0),
+                                  blurRadius: 12,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: const Row(
+                              children: [
+                                // const Icon(Icons.calendar_today, color: Colors.white, size: 22),
+                                SizedBox(width: 16),
+                                Expanded(
+                                  child: Text(
+                                    'ADHOC Attendance',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                                Icon(Icons.arrow_forward_ios,
+                                    color: Colors.white, size: 18),
+                              ],
+                            ),
+                          ),
+                        ),
+                        // DutyPostListWidget(
+                        //     // dutyPosts: '',
+                        //     onTap: (int? thisVariableIsOfNoUseDoNotDeleteThis,
+                        //         int? dutyPostNameId,
+                        //         DutyPostModel dutyPostModel) async {
+                        //       log('flagValue---${AttendanceDetailsView.flag}');
+                        //       // flag =   widget.flag;
+                        //       // AttendanceDetailsView.flag++;
+                        //       // log('flagValue---${AttendanceDetailsView.flag}');
+                        //       // if (!isReadOnly) {
+                        //       //   bool isSaveSuccess =
+                        //       //   await BlocProvider.of<AttendanceDetailsCubit>(
+                        //       //       context)
+                        //       //       .submitForm(
+                        //       //       isSaveOnly: true,
+                        //       //       navigateToNextScreen: true);
+                        //       //
+                        //       //   log('flagValue---${AttendanceDetailsView.flag}');
+                        //       //   AttendanceDetailsView.flag++;
+                        //       //   log('flagValue---${AttendanceDetailsView.flag}');
+                        //       //
+                        //       //   if (!isSaveSuccess) {
+                        //       //     return;
+                        //       //   }
+                        //       // }
+                        //       // BlocProvider.of<AttendanceDetailsCubit>(context)
+                        //       //     .navigateToNextScreen(
+                        //       //   dutyPostNameId: dutyPostNameId!,
+                        //       //   dutyPostModel: dutyPostModel,
+                        //       // );
+                        //       NavigatorState nav = Navigator.of(context);
+                        //       nav.pushNamed(
+                        //         attendanceAdhocAttendanceRoute,
+                        //         arguments: {
+                        //           ConstantsArgument.parentId: state.parentId,
+                        //           ConstantsArgument.selectedDutyPostNameId:
+                        //           state.selectedDutyPostNameId,
+                        //           ConstantsArgument.location:
+                        //           state.model.location,
+                        //           ConstantsArgument.locationRegion:
+                        //           state.model.locationRegion,
+                        //           ConstantsArgument.vendor: state.model.vendor,
+                        //           ConstantsArgument.selectedDutyPostModel:
+                        //           state.selectedDutyPostModel,
+                        //           ConstantsArgument.isReadOnly: isReadOnly,
+                        //           ConstantsArgument.isEligibleToEdit:
+                        //           state.model.isEligibleToEdit
+                        //         },
+                        //       );
+                        //       log('--state.model.id---${state.model.id}--');
+                        //     }),
                       ],
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
 
@@ -631,51 +911,6 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
       },
     );
   }
-
-  // Widget cancelButtonDisplay(AttendanceDetailsState state) {
-  //   bool condition =state.model.id == null ||
-  //       !state.model.lock.isEmptyOrNull ||
-  //       state.model.status == ConstantsIntValue.cancelledStatus;
-  //   return AppButton(
-  //     width: Constants.cancelButtonWidth,
-  //     backgroundColor: Colors.white,
-  //     key: const Key(Keys.cancelButton),
-  //     buttonText: condition
-  //         ? Constants.close
-  //         : Constants.cancelRecord,
-  //     buttonTextKey: Keys.cancelButton,
-  //     onTap: () {
-  //       if (condition) {
-  //         Navigator.pop(context);
-  //         return;
-  //       }
-  //       var dialog = CustomAlertDialog(
-  //           title: Constants.cancelRecord,
-  //           message: Constants.cancelRecordWarningMessage,
-  //           onPositivePressed: () {
-  //             Navigator.pop(context);
-  //             Navigator.pop(context);
-  //             updateRecordStatus(state);
-  //           },
-  //           positiveBtnText: Constants.yes,
-  //           negativeBtnText: Constants.no);
-  //       showDialog(context: context, builder: (BuildContext context) => dialog);
-  //     },
-  //   );
-  // }
-
-  // void updateRecordStatus(AttendanceDetailsState state) {
-  //   if (state.model.id != null) {
-  //     BlocProvider.of<AttendanceDetailsCubit>(context)
-  //         .updateStatus(id: state.model.id.toString());
-  //     Navigator.popAndPushNamed(
-  //       context,
-  //       attendanceListRoute,
-  //     );
-  //   } else {
-  //     Navigator.pop(context);
-  //   }
-  // }
 
   Widget submitButtonDisplay() {
     return AppButton(

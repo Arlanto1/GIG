@@ -2040,7 +2040,7 @@ class _SstIncidentGeneralInfoViewState
                 //   activityNotes.activityNotes ?? '',
                 //   style: const TextStyle(
                 //     fontSize: 16,
-                //     color: Colors.grey,
+                //     color: Colors.white,
                 //   ),
                 // ),
                 const SizedBox(height: 30),

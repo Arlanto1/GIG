@@ -66,6 +66,10 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
               Navigator.pop(context);
               // Navigator.pop(context);
               // return;
+
+              if (widget.viaAttendance && state.model.attdShiftInfoId != null && state.model.attendanceId != null) {
+                Navigator.pop(context);
+              }
             },
           );
           showDialog(
@@ -73,7 +77,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
               barrierDismissible: false,
               builder: (BuildContext context) => dialog);
         }
-        if (state.status == FormStatus.success && state.model.id != null) {
+        if (state.status == FormStatus.success && state.model.id != null && (state.model.attdShiftInfoId !=null || state.model.attendanceId !=null)) {
           log('100${state.status == FormStatus.success && widget.viaAttendance}');
           var dialog = CustomAlertDialog(
             title: 'SLA Violation Penalty',
@@ -93,7 +97,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
         if (state.status == FormStatus.success &&
             !widget.viaAttendance &&
             state.model.attdShiftInfoId == null) {
-          log('200${state.status == FormStatus.success && !widget.viaAttendance && state.model.attdShiftInfoId == null}');
+          log('200${state.status == FormStatus.success && !widget.viaAttendance && state.model.attdShiftInfoId == null && state.model.attendanceId == null}');
           var dialog = CustomAlertDialog(
             title: 'SLA Violation Penalty',
             message: state.message ?? '',
@@ -195,7 +199,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
           ),
         ),
 
-        // 🔹 Blur Layer
+        //  Blur Layer
         Positioned.fill(
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 200, sigmaY: 200),

@@ -1021,7 +1021,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                                         title: keyDescriptionController.text,
                                         height: 70,
                                         isDisableColor: !(widget.parentStatus ==
-                                            0 &&
+                                            0 && widget.model.id == null &&
                                             !(widget.extraProperties != null &&
                                                 !widget.extraProperties!
                                                     .hasWritePermission! &&
@@ -1030,7 +1030,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                                           if (isReadOnly) {
                                             return;
                                           }
-                                          if (widget.parentStatus == 0 &&
+                                          if (widget.parentStatus == 0 && widget.model.id == null &&
                                               !(widget.extraProperties !=
                                                   null &&
                                                   !widget.extraProperties!
@@ -1096,7 +1096,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                                       height * 0.002),
 
                                   BaseDropDown().getDropDown(
-                                    isDisabled: !(widget.parentStatus == 0 &&
+                                    isDisabled: !(widget.parentStatus == 0 && widget.model.id == null &&
                                         !(widget.extraProperties != null &&
                                             !widget.extraProperties!
                                                 .hasWritePermission!)),
@@ -1106,7 +1106,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                                       if (isReadOnly) {
                                         return;
                                       }
-                                      if (widget.parentStatus == 0 &&
+                                      if (widget.parentStatus == 0 && widget.model.id == null &&
                                           !(widget.extraProperties != null &&
                                               !widget.extraProperties!
                                                   .hasWritePermission!)) {
@@ -1280,7 +1280,7 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
                                     textFormKey: Keys.bu2ContactNOKey,
                                     controller: numberOfKeysIssuedController,
                                     hintText: '',
-                                    isEnable: widget.parentStatus == 0 &&
+                                    isEnable: widget.parentStatus == 0 && widget.model.id == null &&
                                         !(widget.extraProperties != null &&
                                             !widget.extraProperties!
                                                 .hasWritePermission!),
@@ -1497,7 +1497,9 @@ class AddContactPopUpState extends State<AddKeyIssuanceProcessPopUp> {
             widget.parentStatus != ConstantsIntValue.issuanceClosedStatus &&
             !(widget.extraProperties != null &&
                 !widget.extraProperties!.hasWritePermission!) &&
-            !isReadOnly) ...[saveButton(width, widget.onSubmit)],
+            !isReadOnly && (widget.model.id == null && widget.parentStatus ==
+            ConstantsIntValue.issuanceDraftStatus || widget.parentStatus ==
+            ConstantsIntValue.issuanceHandedOverStatus)) ...[saveButton(width, widget.onSubmit)],
       ],
     );
   }

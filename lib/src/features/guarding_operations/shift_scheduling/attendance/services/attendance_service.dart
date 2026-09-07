@@ -1,4 +1,7 @@
 import 'package:db_atom/index.dart';
+import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/models/requestModel/adhoc_attendance_request.dart';
+
+import '../models/adhoc_attendance_model.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -8,6 +11,15 @@ class Apis {
 
   static final String _getDutyPostsById = '$baseUrl/getAttdDpList';
   static final String _getDutyPostById = '$baseUrl/getAttdDpById';
+  static final String _getAdhocAttendanceById = '$baseUrl/getAdhocAttendanceById';
+  static final String _getAdhocDesignation = '$baseUrl/getAdhocDesignationList';
+  static final String  _getAdhocDutyHourList = '$baseUrl/getAdhocDutyHourList';
+  static final String  _getAdhocShiftList ='$baseUrl/getAdhocShiftList';
+  static final String  _getAdhocDutyPostList ='$baseUrl/getAdhocDutyPostList';
+  static final String  _getAdhocAvailableGuards = '$baseUrl/getAvailableGuards';
+  static final String _createAdhocAttendance = '$baseUrl/adhocAttendanceGi?';
+  static final String _getNextAvailableReplacementDates =
+      '$baseUrl/getNextAvailableReplacementDates';
 
   /// Rank List
   static final String _getAttendanceRanksByDutyPostId =
@@ -84,7 +96,8 @@ class AttendanceServices {
     required int shiftId,
   }) async {
     final String url =
-        '${Apis._getDutyPostById}?attInfoId=$attInfoId&dutyPostNameId=$dutyPostNameId&rankId=$rankId&shiftId=$shiftId';
+        '${Apis
+        ._getDutyPostById}?attInfoId=$attInfoId&dutyPostNameId=$dutyPostNameId&rankId=$rankId&shiftId=$shiftId';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -109,7 +122,8 @@ class AttendanceServices {
     required bool isSubmit,
     required bool isRemove,
   }) async {
-    final String url = "${Apis._updateAttendance}&isSubmit=$isSubmit&isRemove=$isRemove";
+    final String url = "${Apis
+        ._updateAttendance}&isSubmit=$isSubmit&isRemove=$isRemove";
     final response = await BaseApiService().postRequest(
       url: url,
       requestedData: body.toJson(),
@@ -123,7 +137,8 @@ class AttendanceServices {
     required int dutyPostId,
   }) async {
     String url =
-        '${Apis._getAttendanceRanksByDutyPostId}$attendanceId?shiftAssignedDutyPostId=$dutyPostId';
+        '${Apis
+        ._getAttendanceRanksByDutyPostId}$attendanceId?shiftAssignedDutyPostId=$dutyPostId';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -139,7 +154,8 @@ class AttendanceServices {
     required int rankId,
   }) async {
     String url =
-        '${Apis._getAttendanceShiftByByDutyPostIdAndRankId}$attendanceId?shiftAssignedDutyPostId=$dutyPostId&rankId=$rankId';
+        '${Apis
+        ._getAttendanceShiftByByDutyPostIdAndRankId}$attendanceId?shiftAssignedDutyPostId=$dutyPostId&rankId=$rankId';
     final response = await BaseApiService().getRequest(
       url: url,
     );
@@ -153,13 +169,147 @@ class AttendanceServices {
     required int rankId,
     required int shiftId,
     required String fromDate,
+    required String toDate,
   }) async {
     String url =
-        '${Apis._getAttAvailableGuardsByDate}/$dutyPostId?rankId=$rankId&fromDate=$fromDate&shiftId=$shiftId';
+        '${Apis
+        ._getAttAvailableGuardsByDate}/$dutyPostId?rankId=$rankId&fromDate=$fromDate&toDate=$toDate&shiftId=$shiftId';
     final response = await BaseApiService().getRequest(
       url: url,
     );
 
     return List<BaseUser>.from(response.map((x) => BaseUser.fromJson(x)));
+  }
+
+
+  Future<AdhocAttendanceGiModel> getAdhocAttendanceById({
+    required int? attInfoId,
+  }) async {
+    final String url =
+        '${Apis._getAdhocAttendanceById}/$attInfoId';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    return AdhocAttendanceGiModel.fromJson(response);
+  }
+
+
+  // Future<List<Organisation>> getAdhocDesignation() async {
+  //   final String url = Apis._getAdhocDesignation;
+  //   final response = await BaseApiService().getRequest(
+  //     url: url,
+  //   );
+  //
+  //   return List<Organisation>.from(response.map((x) => x));
+  // }
+  //
+  // Future<List<Organisation>> getAdhocDutyHourList() async {
+  //   final String url = Apis._getAdhocDutyHourList;
+  //   final response = await BaseApiService().getRequest(
+  //     url: url,
+  //   );
+  //
+  //   return List<Organisation>.from(response.map((x) => x));
+  // }
+  //
+  // Future<List<Organisation>> getAdhocShiftList() async {
+  //   final String url = Apis._getAdhocShiftList;
+  //   final response = await BaseApiService().getRequest(
+  //     url: url,
+  //   );
+  //   return List<Organisation>.from(response.map((x) => x));
+  // }
+
+  Future<List<Organisation>> getAdhocAvailableGuards({
+    required int locId,
+    required int vendorId,
+  }) async {
+    final String url = '${Apis._getAdhocAvailableGuards}?locationId=$locId&vendorId=$vendorId';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    return List<Organisation>.from(
+      response.map((x) => Organisation.fromJson(x as Map<String, dynamic>)),
+    );
+  }
+
+  Future<List<Organisation>> getAdhocDesignation() async {
+    final String url = Apis._getAdhocDesignation;
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    return List<Organisation>.from(
+      response.map((x) => Organisation.fromJson(x as Map<String, dynamic>)),
+    );
+  }
+
+  Future<List<Organisation>> getAdhocDutyHourList() async {
+    final String url = Apis._getAdhocDutyHourList;
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    return List<Organisation>.from(
+      response.map((x) => Organisation.fromJson(x as Map<String, dynamic>)),
+    );
+  }
+
+  Future<List<Organisation>> getAdhocShiftList() async {
+    final String url = Apis._getAdhocShiftList;
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return List<Organisation>.from(
+      response.map((x) => Organisation.fromJson(x as Map<String, dynamic>)),
+    );
+  }
+
+  Future<List<Organisation>> getAdhocDutyPost({required int? id}) async {
+    final String url = '${Apis._getAdhocDutyPostList}/$id';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return List<Organisation>.from(
+      response.map((x) => Organisation.fromJson(x as Map<String, dynamic>)),
+    );
+  }
+
+  //
+  Future<GenericResponse> createAdhocAttendance({
+    required AdhocAttendanceRequest body,
+    required bool isSubmit,
+    bool? isApprovedStatus,
+  }) async {
+     String url = "${Apis
+        ._createAdhocAttendance}isSubmit=$isSubmit";
+
+    if (isApprovedStatus != null) {
+      url += '&isApprovedStatus=$isApprovedStatus';
+    }
+
+    final response = await BaseApiService().postRequest(
+      url: url,
+      requestedData: body.toJson(),
+    );
+    return GenericResponse.fromJson(response);
+  }
+
+  Future<NextAvailableDateRange> getNextAvailableReplacementDates({
+    required int? dutyPostId,
+    required int rankId,
+    required int shiftId,
+    required int userId,
+  required int? attendanceId
+  }) async {
+    String url =
+        '${Apis._getNextAvailableReplacementDates}/$dutyPostId?attendanceInfoId=$attendanceId&replaceForUserId=$userId&rankId=$rankId&shiftId=$shiftId';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    return NextAvailableDateRange.fromJson(response);
   }
 }

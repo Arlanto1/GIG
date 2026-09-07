@@ -41,6 +41,7 @@ SLAViolationPenaltyModel _$SLAViolationPenaltyModelFromJson(
           ? null
           : User.fromJson(json['approver'] as Map<String, dynamic>),
       attdShiftInfoId: (json['attdShiftInfoId'] as num?)?.toInt(),
+      attendanceId: (json['attendanceId'] as num?)?.toInt(),
       entitiesInfo: json['entitiesInfo'] as String?,
       vendorInfo: json['vendorInfo'] as String?,
       typeOfServiceInfo: json['typeOfServiceInfo'] as String?,
@@ -72,6 +73,7 @@ Map<String, dynamic> _$SLAViolationPenaltyModelToJson(
   val['approver'] = instance.approver;
   val['poc'] = instance.poc;
   val['attdShiftInfoId'] = instance.attdShiftInfoId;
+  val['attendanceId'] = instance.attendanceId;
   val['entitiesInfo'] = instance.entitiesInfo;
   val['vendorInfo'] = instance.vendorInfo;
   val['typeOfServiceInfo'] = instance.typeOfServiceInfo;

@@ -66,11 +66,11 @@ class _ClassRoomTrainingListViewState extends State<ClassRoomTrainingListView> {
             displayMenu: state.displayMenu,
             list: true, // 🔥 only "+" button mode
             onAddPressed: () {
-              Navigator.pushNamed(
-                context,
-                articleFoundNewDetailsRoute,
-                arguments: {"title": Constants.createFound},
-              );
+              // Navigator.pushNamed(
+              //   context,
+              //   articleFoundNewDetailsRoute,
+              //   arguments: {"title": Constants.createFound},
+              // );
             },
           ),
           // backgroundColor: const Color(0xFF071130),

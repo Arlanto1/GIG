@@ -23,7 +23,7 @@ AttendanceModel _$AttendanceModelFromJson(Map<String, dynamic> json) =>
           : Organisation.fromJson(json['vendor'] as Map<String, dynamic>),
       dutyType: (json['dutyType'] as num?)?.toInt(),
       status: (json['status'] as num?)?.toInt(),
-      attendanceType: (json['attendanceType'] as num?)?.toInt(),
+      approvalStatus: (json['approvalStatus'] as num?)?.toInt(),
       entrySecurityName: json['entrySecurityName'] as String?,
       isEligibleToEdit: json['isEligibleToEdit'] as bool? ?? false,
       modifiedBy: json['modifiedBy'] as String?,
@@ -31,6 +31,11 @@ AttendanceModel _$AttendanceModelFromJson(Map<String, dynamic> json) =>
       shiftInfo: json['shiftInfo'] == null
           ? null
           : Organisation.fromJson(json['shiftInfo'] as Map<String, dynamic>),
+      briefingPoints: json['briefingPoints'] as String?,
+      briefingPointsA: json['briefingPointsA'] as String?,
+      briefingPointsB: json['briefingPointsB'] as String?,
+      briefingPointsC: json['briefingPointsC'] as String?,
+      briefingPointsG: json['briefingPointsG'] as String?,
     )..lock = json['lock'] as String?;
 
 Map<String, dynamic> _$AttendanceModelToJson(AttendanceModel instance) =>
@@ -44,10 +49,15 @@ Map<String, dynamic> _$AttendanceModelToJson(AttendanceModel instance) =>
       'vendor': instance.vendor,
       'dutyType': instance.dutyType,
       'status': instance.status,
-      'attendanceType': instance.attendanceType,
+      'approvalStatus': instance.approvalStatus,
       'entrySecurityName': instance.entrySecurityName,
       'isEligibleToEdit': instance.isEligibleToEdit,
       'modifiedBy': instance.modifiedBy,
       'modifiedDate': instance.modifiedDate,
       'shiftInfo': instance.shiftInfo,
+      'briefingPoints': instance.briefingPoints,
+      'briefingPointsA': instance.briefingPointsA,
+      'briefingPointsB': instance.briefingPointsB,
+      'briefingPointsC': instance.briefingPointsC,
+      'briefingPointsG': instance.briefingPointsG,
     };

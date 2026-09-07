@@ -324,6 +324,14 @@ const List<Label> attendanceReasonDropDownValues  = [
   Label(key: 'Absent', value: '4'),
   Label(key: 'AlreadyAssigned', value: '5'),
 ];
+
+const List<Label> replacementTypeDropDownValues  = [
+  Label(key: 'Standard', value: '0'),
+  Label(key: 'Previous Shift Continues', value: '1'),
+  Label(key: 'Previous Shift Till Relief', value: '2'),
+  Label(key: 'Different Post Takeover', value: '3'),
+  Label(key: 'Different Post Till Relief', value: '4'),
+];
 const List<Label> dutyPostNameMasterStatusValues = [
   Label(key: 'Cancelled', value: '-1'),
   Label(key: 'Draft', value: '0'),
@@ -350,6 +358,13 @@ const List<Label> attendanceStatusDropDownValues = [
   Label(key: 'Active', value: '1'),
   Label(key: 'Closed', value: '2'),
   Label(key: 'Cancelled', value: '-1'),
+];
+
+
+const List<Label> attendanceApprovalStatusDropDownValues = [
+  Label(key: 'Pending', value: '1'),
+  Label(key: 'Approved', value: '2'),
+  Label(key: 'Rejected', value: '3'),
 ];
 
 const List<Label> materialMovementStatusValues = [
@@ -552,16 +567,20 @@ const List<Label> transportTypeValues = [
 
 
 const List<Label> patrollingShift = [
-  Label(key: 'A', value: '0'),
-  Label(key: 'B', value: '1'),
+  Label(key: 'A', value: '1'),
+  Label(key: 'B', value: '2'),
+  Label(key: 'C', value: '3'),
+
 ];
 
 
 const List<Label> patrollingStatusDropDownValues = [
   Label(key: 'Draft', value: '0'),
-  Label(key: 'LSM Actions', value: '1'),
-  Label(key: 'Owner Actions', value: '2'),
-  Label(key: 'Closed', value: '3'),
+  Label(key: 'LSM Review', value: '1'),
+  Label(key: 'Action Pending', value: '2'),
+  Label(key: 'Security Approval', value: '3'),
+  Label(key: 'Revision Required', value: '5'),
+  Label(key: 'Closed', value: '4'),
   Label(key: 'Cancelled', value: '-1'),
 ];
 

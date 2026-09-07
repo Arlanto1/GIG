@@ -100,6 +100,7 @@ const String dutyPostNameMasterDetailsRoute = '/dutyPostNameMasterDetailsRoute';
 const String attendanceListRoute = '/attendanceListRoute';
 const String attendanceDetailsRoute = '/attendanceDetailsRoute';
 const String attendanceShiftsRoute = '/attendanceShiftsRoute';
+const String attendanceAdhocAttendanceRoute = '/attendanceAdhocAttendanceRoute';
 
 const String attendanceReportBillingListRoute =
     '/attendanceReportBillingListRoute';

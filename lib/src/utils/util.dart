@@ -738,35 +738,80 @@ class Utils {
     );
   }
 
-  dynamic buildAttendanceStatusRow(
-      {required int status, bool? returnTextOnly}) {
+  Widget buildAttendanceStatusRow(int status) {
     String statusText;
+    Color bgColor;
+    Color textColor;
+    Color borderColor;
 
     switch (status) {
       case 0:
         statusText = 'Draft';
+        bgColor = const Color(0xFFBBDEFB);      // Light Blue
+        borderColor = const Color(0xFF1976D2);  // Blue Border
+        textColor = const Color(0xFF0D47A1);    // Dark Blue Text
         break;
+
       case 1:
         statusText = 'Active';
+        bgColor = const Color(0xFFA5D6A7);      // Light Green
+        borderColor = const Color(0xFF43A047);  // Green Border
+        textColor = const Color(0xFF1B5E20);     // Yellow Text
         break;
+
       case 2:
         statusText = 'Closed';
+        bgColor = const Color(0xFFFFF9C4);      // Light Yellow
+        borderColor = const Color(0xFFFBC02D);  // Yellow Border
+        textColor = const Color(0xFFF57F17);    // Yellow Text
         break;
+
       case -1:
         statusText = 'Cancelled';
+        bgColor = const Color(0xFFFFCDD2);      // Light Red
+        borderColor = const Color(0xFFD32F2F);  // Red Border
+        textColor = const Color(0xFFB71C1C);    // Dark Red
         break;
+
       default:
-        statusText = ''; // Handle the default case if needed
+        statusText = 'Unknown';
+        bgColor = const Color(0xFFE0E0E0);
+        borderColor = const Color(0xFF9E9E9E);
+        textColor = const Color(0xFF424242);
     }
-    if (returnTextOnly ?? false) {
-      return statusText;
-    }
+
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        textHandling('Status : ', statusText),
+        const Text(
+          'Status:',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+          ),
+        ),
+        const SizedBox(width: 8),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+          decoration: BoxDecoration(
+            color: bgColor.withValues(alpha: 0.9),
+            borderRadius: BorderRadius.circular(30),
+            border: Border.all(color: borderColor, width: 0.1),
+          ),
+          child: Text(
+            statusText,
+            style: TextStyle(
+              color: textColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 10,
+            ),
+          ),
+        ),
       ],
     );
   }
+
 
   dynamic buildAttendanceShiftStatusRow(
       {required int status, bool? returnTextOnly}) {
@@ -3215,24 +3260,37 @@ class Utils {
         break;
 
       case 1:
-        statusText = 'LSM Action';
+        statusText = 'LSM Review';
         bgColor = const Color(0xFFC8E6C9);      // Light Green
         borderColor = const Color(0xFF388E3C);  // Dark Green
         textColor = const Color(0xFF1B5E20);// Text Orange
         break;
 
       case 2:
-        statusText = 'Owner Action';
+        statusText = 'Action Pending';
         bgColor = const Color(0xFFBBDEFB);      // Light Blue
         borderColor = const Color(0xFF1976D2);  // Dark Blue
         textColor = const Color(0xFF0D47A1);   // Text Green
         break;
 
       case 3:
+        statusText = 'Security Approval';
+        bgColor = const Color(0xFFFFF9C4);
+        borderColor = const Color(0xFFFBC02D);
+        textColor = const Color(0xFF6D4C41);  // Text Green
+        break;
+      case 4:
         statusText = 'Closed';
-        bgColor = const Color(0xFFBBDEFB);      // Light Blue
-        borderColor = const Color(0xFF1976D2);  // Dark Blue
-        textColor = const Color(0xFF0D47A1);   // Text Green
+        bgColor = const Color(0xFFFFCDD2);      // Light Red
+        borderColor = const Color(0xFFD32F2F);  // Red Border
+        textColor = const Color(0xFFB71C1C);// Text Green
+        break;
+
+      case 5:
+        statusText = 'Revision Required';
+        bgColor = const Color(0xFF00838F);      // Light Cyan
+        borderColor = const Color(0xFF00838F);  // Cyan Border
+        textColor =  Colors.white;     // Text Green
         break;
 
       case -1:

@@ -24,27 +24,30 @@ class Organisation {
   String? activityNotes;
   String? submittedDate;
   bool? submitted;
+
   /// For Dropdown
   bool? isSelected;
-bool? isDefault;
+  bool? isDefault;
 
-  Organisation({
-    this.id,
-    this.name,
-    this.keyName,
-    this.description,
-    this.keyDescription,
-    this.noKeys,
-    this.noKeysIssued,
-    this.available,
-    this.dutyPostName,
-    this.transportShift,
-    this.isSelected = false,
-    this.activityNotes,
-    this.submitted,
-    this.submittedDate,
-    this.isDefault
-  });
+  int? tatMinutes;
+
+  Organisation(
+      {this.id,
+      this.name,
+      this.keyName,
+      this.description,
+      this.keyDescription,
+      this.noKeys,
+      this.noKeysIssued,
+      this.available,
+      this.dutyPostName,
+      this.transportShift,
+      this.isSelected = false,
+      this.activityNotes,
+      this.submitted,
+      this.submittedDate,
+      this.isDefault,
+      this.tatMinutes});
 
   // factory Organisation.fromJson(Map<String, dynamic> json) => _$OrganisationFromJson(json);
   //
@@ -64,12 +67,11 @@ bool? isDefault;
         transportShift =
             json['transportShift'] ?? json['transportShift'] as bool?,
         keyName = json['keyname'] as String?,
-  activityNotes = json['activityNotes'] as String?,
+        activityNotes = json['activityNotes'] as String?,
         submitted = json['submitted'] as bool?,
         submittedDate = json['submittedDate'] as String?,
-        isDefault = json['isDefault'] as bool?;
-
-
+        isDefault = json['isDefault'] as bool?,
+        tatMinutes = json['tatMinutes'] as int?;
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -81,10 +83,11 @@ bool? isDefault;
         'dutyPostName': dutyPostName,
         'transportShift': transportShift,
         'keyname': keyName,
-    'activityNotes':activityNotes,
-    'submitted':submitted,
-    'submittedDate':submittedDate,
-    "isDefault":isDefault,
+        'activityNotes': activityNotes,
+        'submitted': submitted,
+        'submittedDate': submittedDate,
+        "isDefault": isDefault,
+        "tatMinutes": tatMinutes,
       };
 
   @override
@@ -102,7 +105,9 @@ bool? isDefault;
           available == other.available &&
           dutyPostName == other.dutyPostName &&
           transportShift == other.transportShift &&
+          tatMinutes == other.tatMinutes &&
           isSelected == other.isSelected;
+
   @override
   int get hashCode =>
       id.hashCode ^
@@ -115,5 +120,6 @@ bool? isDefault;
       available.hashCode ^
       dutyPostName.hashCode ^
       transportShift.hashCode ^
-      isSelected.hashCode;
+      isSelected.hashCode ^
+      tatMinutes.hashCode;
 }

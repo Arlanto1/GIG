@@ -85,8 +85,8 @@ class TicketingSystemServices {
   }
 
 
-  Future<Assignee> getAssignee() async {
-    String url = Apis._getAssignee;
+  Future<Assignee> getAssignee(int projectId, String projectName) async {
+    String url = '${Apis._getAssignee}?projectId=$projectId&projectName=$projectName';
     final response = await BaseApiService().getRequest(
       url: url,
     );

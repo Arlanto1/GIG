@@ -1,3 +1,5 @@
+
+
 import 'dart:developer';
 
 import 'package:db_atom/index.dart';
@@ -8,6 +10,11 @@ import 'package:db_atom/src/features/patrolling/models/requestModel/patrolling_r
 import 'package:db_atom/src/features/patrolling/services/patrolling_service.dart';
 import 'package:intl/intl.dart';
 
+import '../../models/dbsponsor_user_model.dart';
+import '../../models/lsm_user_model.dart';
+import '../../models/owner_user_model.dart';
+import '../../models/securitySupervisor_user_model.dart';
+
 part 'patrolling_details_state.dart';
 
 class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
@@ -15,6 +22,11 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
   final PatrollingModel? model;
   final CommonServices commonServices;
   final PatrollingOtherModel? otherModel;
+
+  // Name-based default location. IDs differ per environment, so we resolve
+  // by name against the freshly-fetched locations tree instead of relying
+  // on any stored/environment-specific id or a stray default baked into a model.
+  static const String _defaultLocationName = 'NKP B1';
 
   PatrollingDetailsCubit({
     required this.services,
@@ -44,6 +56,42 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
+  /// Finds a location by name (case-insensitive, trimmed) across all regions
+  /// in the given [locations] tree. Returns null if not found.
+  ///
+  /// NOTE: adjust `region.locations` / `loc.name` / `loc.id` accessors below
+  /// if your actual Locations/Organisation model field names differ.
+  Organisation? _findLocationByName(Locations locations, String name) {
+    final regions = locations.regions ?? [];
+    for (final region in regions) {
+      final locs = region.locations ?? [];
+      for (final loc in locs) {
+        if ((loc.name ?? '').trim().toLowerCase() == name.trim().toLowerCase()) {
+          return loc;
+        }
+      }
+    }
+    return null;
+  }
+
+  /// Returns true if [candidate] is an id/name that genuinely exists in the
+  /// fetched [locations] tree. Used to detect and discard stray/default
+  /// values (e.g. "Sungard") that don't come from real data.
+  bool _isValidFetchedLocation(Locations locations, Organisation? candidate) {
+    if (candidate == null) return false;
+    final regions = locations.regions ?? [];
+    for (final region in regions) {
+      final locs = region.locations ?? [];
+      for (final loc in locs) {
+        if (loc.id != null && loc.id == candidate.id) return true;
+        if ((loc.name ?? '').trim().toLowerCase() ==
+            (candidate.name ?? '').trim().toLowerCase()) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
 
   Future<void> initializeValues() async {
 
@@ -55,92 +103,164 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
     var userId = await SharedPrefs.getUserId();
     final isNewRecord = state.model.id == null;
 
-    Organisation? defaultLocation = await SharedPrefs.getPDefaultLocation(Constants.patrollingModule);
-
-    log('default ${defaultLocation?.name}');
-    if (state.model.location == null && defaultLocation != null) {
-      String moduleCode = Constants.patrollingModule;
-      SerialNumberModel slNo = await commonServices.getSlNo(
-        locationId: defaultLocation.id.toString(),
-        moduleCode: moduleCode,
-      );
-      state.model.location = defaultLocation;
-      state.model.slNo = slNo.serialNo;
-    }
-
     try {
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
-        commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
-        commonServices.getUserDetails(userId: userId),
+        commonServices.getPatrollingRegionsWithLocations(name: 'ATOM_LOCATIONS', patrolling: true),//0
+        commonServices.getUserDetails(userId: userId),//1
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
-            moduleCode: Constants.ticketingSystemModuleCode),
-        SharedPrefs.getPDefaultLocation(Constants.patrollingModule),
-        commonServices.getOrganisations(name: 'ATOM_MODULES_NAME_LIST'),
-        commonServices.getOrganisations(name: 'PATROLLING_ENTITIES'),
-        commonServices.getBaseUsers(
-            roleName: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
-            isDbUser: true,
-         ),
+            moduleCode: Constants.ticketingSystemModuleCode),//2
+        commonServices.getOrganisations(name: 'PATROLLING_ENTITIES'),//3
+
+        commonServices.getPatrollingActionOwnerUsers(
+          locationId: state.model.location?.id ?? 17,
+            ownerType: state.otherModel.items?.firstOrNull?.ownerType),//4
+
+
+        commonServices.getPatrollingLSMUsers(
+          locationId: state.model.location?.id ?? 17
+        ),//5
+
+        commonServices.getPatrollingSecuritySupervisor(
+          locationId: state.model.location?.id ?? 17
+        ),//6
+
+        commonServices.getPatrollingDBSponsor(
+          locationId: state.model.location?.id ?? 17
+        ),
         // commonServices.getStatusesByModuleId(
         //   module: Constants.ticketingSystemModuleCode,),
-          // services.getGenIndoDetails(userId)
+        // services.getGenIndoDetails(userId)
         if (isNewRecord)
           services.getGenIndoDetails(userId)
         else Future.value(null),
-      ]);
+      ]);//7
+      // Locations locations = futures[0];
+      // User loggedInUserDetails = futures[1];
+      // dynamic responseLabels = futures[2];
+      // List<Organisation> getEntities = futures[3];
+      // List<BaseUser> getActionOwner = futures[4];
+      // List<BaseUser> getLsm = futures[5];
+      // List<BaseUser> getSupervisor = futures[6];
+      // final PatrollingModel? genInfoModel  = futures[7] as PatrollingModel?;
       Locations locations = futures[0];
       User loggedInUserDetails = futures[1];
       dynamic responseLabels = futures[2];
-      Organisation? defaultLocation = futures[3];
-      List<Organisation> listOfModules = futures[4];
-      List<Organisation> getEntities = futures[5];
-      List<BaseUser> getLsm = futures[6];
-      final PatrollingModel? genInfoModel  = futures[7] as PatrollingModel?;
+      List<Organisation> getEntities = futures[3];
+
+      final OwnerUserModel actionOwnerResponse = futures[4];
+      final LsmUserModel lsmResponse = futures[5];
+      final SecuritySupervisorsModel supervisorResponse = futures[6];
+      final DbSponsorUserModel dbSponsorResponse = futures[7];
+
+      List<BaseUser> getActionOwner = actionOwnerResponse.users
+          .map((e) => BaseUser(
+        id: e.id,
+        name: e.name,
+        email: e.email,
+        employeeId: e.employeeId,
+      ))
+          .toList();
+
+      List<BaseUser> getLsm = lsmResponse.lsmUsers
+          .map((e) => BaseUser(
+        id: e.userId,
+        name: e.name,
+        email: e.email,
+        employeeId: e.employeeId,
+      ))
+          .toList();
+
+      List<BaseUser> getSupervisor = supervisorResponse.securitySupervisors
+          .map((e) => BaseUser(
+        id: e.id,
+        name: e.name,
+        email: e.email,
+        employeeId: e.employeeId,
+      ))
+          .toList();
+
+      List<BaseUser> getDbSponsor = dbSponsorResponse.dbSponsorUsers
+          .map((e) => BaseUser(
+        id: e.id,
+        name: e.name,
+        email: e.email,
+        employeeId: e.employeeId,
+      ))
+          .toList();
+
+      final PatrollingModel? genInfoModel = futures[8] as PatrollingModel?;
+      // Resolve the real "NKP B1" location from the freshly-fetched tree.
+      Organisation? resolvedDefaultLocation =
+      _findLocationByName(locations, _defaultLocationName);
+
+      // Decide which model is "final" for this screen (mirrors the emit below).
+      PatrollingModel finalModel = isNewRecord
+          ? (genInfoModel ?? state.model)
+          : state.model;
+
+      // Force the correct default location onto the final model whenever:
+      //  - it's a new record, OR
+      //  - the existing location isn't a real one from the fetched data
+      //    (i.e. it's a stray/hardcoded default like "Sungard").
+      final bool hasValidExistingLocation =
+      _isValidFetchedLocation(locations, finalModel.location);
+
+      if (resolvedDefaultLocation != null &&
+          (isNewRecord || !hasValidExistingLocation)) {
+        SerialNumberModel slNo = await commonServices.getSlNo(
+          locationId: resolvedDefaultLocation.id.toString(),
+          moduleCode: Constants.patrollingModule,
+        );
+        finalModel.location = resolvedDefaultLocation;
+        finalModel.slNo = slNo.serialNo;
+      }
+
+      log('default ${finalModel.location?.name}');
 
       // Get Date of Creation
-      state.model.inputDate = state.model.inputDate == null
+      finalModel.inputDate = finalModel.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model.inputDate ?? '0'),
+          int.tryParse(finalModel.inputDate ?? '0'),
           Constants.fulldateFormat);
 
 
-      state.model.modifiedDate = state.model.modifiedDate == null
+      finalModel.modifiedDate = finalModel.modifiedDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model.modifiedDate ?? '0'),
+          int.tryParse(finalModel.modifiedDate ?? '0'),
           Constants.fulldateFormat);
 
 
-      state.model.submittedDate = state.model.submittedDate == null
+      finalModel.submittedDate = finalModel.submittedDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model.submittedDate ?? '0'),
+          int.tryParse(finalModel.submittedDate ?? '0'),
           Constants.fulldateFormat);
 
-      state.model.verifiedDate = state.model.verifiedDate == null
+      finalModel.verifiedDate = finalModel.verifiedDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model.verifiedDate ?? '0'),
+          int.tryParse(finalModel.verifiedDate ?? '0'),
           Constants.fulldateFormat);
 
       // PMUiLabels labels = PMUiLabels.fromJson(responseLabels);
 
-
-      state.model.entrySecurity ??= loggedInUserDetails;
+      finalModel.entrySecurity ??= loggedInUserDetails;
 
       emit(
         state.copyWith(
           locations: locations,
           loggedInUserDetails: loggedInUserDetails,
           status: FormStatus.initial,
-          // model: state.model,
-          listOfModules:listOfModules,
           listOfEntities :getEntities,
           lsm: getLsm,
-          model: isNewRecord ? genInfoModel : state.model,
+          securitySupervisor:getSupervisor ,
+          owner: getActionOwner,
+          dbSponsor :getDbSponsor,
+          model: finalModel,
         ),
       );
     } catch (e) {
@@ -191,79 +311,40 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
     }
   }
 
-  // Future<void> updateGetOtherInfoModelValue(String? id, String? subId) async {
-  //   if (id != null) {
-  //     emit(state.copyWith(status: FormStatus.loading));
-  //
-  //     try {
-  //       PatrollingOtherModel response = await services.getSubSectionById(
-  //           id.toString(), subId.toString());
-  //       emit(state.copyWith(otherModel: response, status: FormStatus.initial));
-  //     } on Exception catch (e) {
-  //       // ✅ API failed (no record) — create empty model with subsectionId
-  //       // so PatrollingOtherView still loads with patrollingId + subsectionId
-  //       emit(state.copyWith(
-  //         otherModel: PatrollingOtherModel(
-  //           patrollingId: int.tryParse(id),
-  //           subsectionId: int.tryParse(subId ?? ''),
-  //           items: [], // empty — view will show empty state or you can prefill
-  //         ),
-  //         status: FormStatus.initial,
-  //       ));
-  //     }
-  //   }
-  // }
-  // Future<void> updateGetOtherInfoModelValue(String? id, String? subId) async {
-  //   if (id != null) {
-  //     emit(
-  //       state.copyWith(
-  //         status: FormStatus.loading,
-  //       ),
-  //     );
-  //     PatrollingOtherModel response = await services.getSubSectionById(id.toString(),subId.toString());
-  //     emit(
-  //       state.copyWith(
-  //         otherModel: response,
-  //         status: FormStatus.initial,
-  //       ),
-  //     );
-  //   }
-  //   else{
-  //     emit(
-  //       state.copyWith(
-  //         status: FormStatus.loading,
-  //       ),
-  //     );
-  //     PatrollingOtherModel response = await services.getNewSubSectionById(subId.toString());
-  //     emit(
-  //       state.copyWith(
-  //         otherModel: response,
-  //         status: FormStatus.initial,
-  //       ),
-  //     );
-  //   }
-  // }
+  void removeAttachment({
+    required int itemIndex,
+    required ImageContent imageToRemove,
+  }) {
+    final items = List<Items>.from(state.otherModel.items ?? []);
+    if (itemIndex < 0 || itemIndex >= items.length) return;
 
+    final item = items[itemIndex];
+    final updatedAttachments = List<ImageContent>.from(item.attachments ?? [])
+      ..removeWhere((img) => imageToRemove.id != null
+          ? img.id == imageToRemove.id
+          : identical(img, imageToRemove));
 
-  // Future<void> updateGetOtherInfoModelValue(String? id, String? subId) async {
-  //   if (state.model.id != null) {
-  //     emit(state.copyWith(status: FormStatus.loading));
-  //     PatrollingOtherModel response = await services.getSubSectionById(id.toString(), subId.toString());
-  //
-  //     //  stamp the patrolling id onto state.model so submitForm can read it
-  //     state.model.id = int.tryParse(id!);
-  //
-  //     emit(state.copyWith(
-  //       otherModel: response,
-  //       model: state.model, //  emit updated model too
-  //       status: FormStatus.initial,
-  //     ));
-  //   } else {
-  //     emit(state.copyWith(status: FormStatus.loading));
-  //     PatrollingOtherModel response = await services.getNewSubSectionById(subId.toString());
-  //     emit(state.copyWith(otherModel: response, status: FormStatus.initial));
-  //   }
-  // }
+    item.attachments = updatedAttachments;
+    items[itemIndex] = item;
+
+    final updatedOtherModel = state.otherModel;
+    updatedOtherModel.items = items;
+
+    // Keep the flat upload-tracking list in sync too, if it's used elsewhere
+    // (e.g. to show "recently added" files independent of per-item lists).
+    final updatedUploadAttachments =
+    List<ImageContent>.from(state.uploadAttachments ?? [])
+      ..removeWhere((img) => imageToRemove.id != null
+          ? img.id == imageToRemove.id
+          : identical(img, imageToRemove));
+
+    emit(
+      state.copyWith(
+        otherModel: updatedOtherModel,
+        uploadAttachments: updatedUploadAttachments,
+      ),
+    );
+  }
 
   Future<void> updateGetOtherInfoModelValue(String? id, String? subId) async {
     emit(state.copyWith(status: FormStatus.loading));
@@ -333,7 +414,7 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
     int? ticketRaisedFor,
     int? ragStatus,
     List<Organisation>? modulesName,
-   Organisation? entity,
+    Organisation? entity,
 
 
   }) async {
@@ -387,7 +468,7 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
       state.model.securitySupervisor?.employeeId = securitySupervisor.employeeId;
       String name = securitySupervisor.name ?? '';
       String email = securitySupervisor.email ?? '';
-      List<String> nameParts = securitySupervisor.name!.split(' '); // Split by space
+      List<String> nameParts = securitySupervisor.name!.split(' ');
       String? firstName = nameParts.isNotEmpty ? nameParts.first : null;
       String? lastName = nameParts.length > 1 ? nameParts.sublist(1).join(' ') : null;
       User userDetails = User(
@@ -425,7 +506,7 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
     try {
       final response = await services.getOwnerUser(locationId, ownerType);
 
-      debugPrint("RAW response.users count: ${response.users.length}"); // ✅ add this
+      debugPrint("RAW response.users count: ${response.users.length}");
 
       final users = (response.users)
           .map((e) => BaseUser(
@@ -436,9 +517,9 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
       ))
           .toList();
 
-      debugPrint("Mapped users count: ${users.length}"); // ✅ add this
+      debugPrint("Mapped users count: ${users.length}");
       for (var u in users) {
-        debugPrint("User: ${u.name} | ${u.employeeId}"); // ✅ add this
+        debugPrint("User: ${u.name} | ${u.employeeId}");
       }
 
       emit(state.copyWith(owner: users));
@@ -449,6 +530,39 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
   }
 
   void selectOwner(BaseUser user) {
+    emit(state.copyWith(
+      selectedOwner: user,
+    ));
+  }
+
+  Future<void> getDbSponsorUsers(int locationId) async {
+    try {
+      final response = await services.getDbSponsorUser(locationId);
+
+      log("RAW response.users count: ${response.dbSponsorUsers.length}");
+
+      final users = (response.dbSponsorUsers)
+          .map((e) => BaseUser(
+        id: e.id,
+        name: e.name,
+        email: e.email,
+        employeeId: e.employeeId,
+      ))
+          .toList();
+
+      debugPrint("Mapped users count: ${users.length}");
+      for (var u in users) {
+        debugPrint("User: ${u.name} | ${u.employeeId}");
+      }
+
+      emit(state.copyWith(dbSponsor: users));
+
+    } catch (e) {
+      debugPrint("Owner API Error: $e");
+    }
+  }
+
+  void selectDbSponsor(BaseUser user) {
     emit(state.copyWith(
       selectedOwner: user,
     ));
@@ -484,13 +598,6 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
         state.model.inputDate = (ms > 9999999999 ? ms ~/ 1000 : ms).toString();
       }
     }
-
-    // Setting time in milliseconds
-
-    // state.model.startDate = state.model.startDate == null
-    //     ? Utils().getCurrentDate()
-    //     : Utils().formatUnixTimestamp(state.model.startDate ?? '');
-
 
     // Create/Update API Call
     PatrollingRequestModel request =
@@ -547,7 +654,7 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
           : Utils.timestampToDateConversion(
           int.tryParse(state.model.inputDate ?? '0'),
           Constants.fulldateFormat);
-       emit(
+      emit(
         state.copyWith(
           message: e.message,
           status: FormStatus.formError,
@@ -568,11 +675,102 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
         message: response.message,
         status: FormStatus.success,
         model: state.model..id = response.id.toIntOrNull(),
+          isSaveOnly: isSaveOnly
       ),
     );
   }
 
-  void submitForm({bool isSaveOnly = false, String? id, String? subId}) async {
+  // void submitForm({bool isSaveOnly = false, String? id, String? subId}) async {
+  //   emit(
+  //     state.copyWith(
+  //       status: FormStatus.loading,
+  //     ),
+  //   );
+  //
+  //   if (state.model.status == 0 || state.model.status == null) {
+  //     state.model.status = 0;
+  //   }
+  //
+  //   // Create/Update API Call
+  //   PatrollingOtherRequestModel request =
+  //   PatrollingOtherRequestModel(patrollingOtherModel: state.otherModel);
+  //
+  //   GenericResponse response = GenericResponse();
+  //
+  //   try {
+  //     if (isSaveOnly) {
+  //       if (!state.isValidDraft.status) {
+  //         emit(
+  //           state.copyWith(
+  //             status: FormStatus.formError,
+  //             message: state.isValidDraft.message,
+  //           ),
+  //         );
+  //         state.model.inputDate = state.model.inputDate == null
+  //             ? Utils().getCurrentDate()
+  //             : Utils.timestampToDateConversion(
+  //             int.tryParse(state.model.inputDate ?? '0'),
+  //             Constants.fulldateFormat);
+  //         return;
+  //       }
+  //       response = (await services.createOtherInfo(body: request, isSubmit: false, id: id.toString(), subId: subId.toString()));
+  //     } else {
+  //       //Validating Fields
+  //       if (!state.isValid.status) {
+  //         emit(
+  //           state.copyWith(
+  //             status: FormStatus.formError,
+  //             message: state.isValid.message,
+  //           ),
+  //         );
+  //         state.model.inputDate = state.model.inputDate == null
+  //             ? Utils().getCurrentDate()
+  //             : Utils.timestampToDateConversion(
+  //             int.tryParse(state.model.inputDate ?? '0'),
+  //             Constants.fulldateFormat);
+  //         return;
+  //       }
+  //       response = (await services.createOtherInfo(
+  //           body: request, isSubmit: true, id:id.toString(), subId: subId.toString()));
+  //     }
+  //     state.model.inputDate = state.model.inputDate == null
+  //         ? Utils().getCurrentDate()
+  //         : Utils.timestampToDateConversion(
+  //         int.tryParse(state.model.inputDate ?? '0'),
+  //         Constants.fulldateFormat);
+  //
+  //   }
+  //   on GenericResponse catch (e) {
+  //     state.model.inputDate = state.model.inputDate == null
+  //         ? Utils().getCurrentDate()
+  //         : Utils.timestampToDateConversion(
+  //         int.tryParse(state.model.inputDate ?? '0'),
+  //         Constants.fulldateFormat);
+  //     emit(
+  //       state.copyWith(
+  //         message: e.message,
+  //         status: FormStatus.formError,
+  //       ),
+  //     );
+  //     return;
+  //   } on Exception catch (e) {
+  //     emit(
+  //       state.copyWith(
+  //         message: e.toString(),
+  //         status: FormStatus.error,
+  //       ),
+  //     );
+  //   }
+  //
+  //   emit(
+  //     state.copyWith(
+  //       message: response.message,
+  //       status: FormStatus.success,
+  //     ),
+  //   );
+  // }
+  //
+  Future<bool> submitForm({bool isSaveOnly = false, String? id, String? subId}) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -603,9 +801,13 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
               : Utils.timestampToDateConversion(
               int.tryParse(state.model.inputDate ?? '0'),
               Constants.fulldateFormat);
-          return;
+          return false;
         }
-        response = (await services.createOtherInfo(body: request, isSubmit: false, id: id.toString(), subId: subId.toString()));
+        response = (await services.createOtherInfo(
+            body: request,
+            isSubmit: false,
+            id: id.toString(),
+            subId: subId.toString()));
       } else {
         //Validating Fields
         if (!state.isValid.status) {
@@ -620,19 +822,20 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
               : Utils.timestampToDateConversion(
               int.tryParse(state.model.inputDate ?? '0'),
               Constants.fulldateFormat);
-          return;
+          return false;
         }
         response = (await services.createOtherInfo(
-            body: request, isSubmit: false, id:id.toString(), subId: subId.toString()));
+            body: request,
+            isSubmit: false,
+            id: id.toString(),
+            subId: subId.toString()));
       }
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
           int.tryParse(state.model.inputDate ?? '0'),
           Constants.fulldateFormat);
-
-    }
-    on GenericResponse catch (e) {
+    } on GenericResponse catch (e) {
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
@@ -644,7 +847,7 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
           status: FormStatus.formError,
         ),
       );
-      return;
+      return false;
     } on Exception catch (e) {
       emit(
         state.copyWith(
@@ -652,6 +855,7 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
           status: FormStatus.error,
         ),
       );
+      return false;
     }
 
     emit(
@@ -660,8 +864,8 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
         status: FormStatus.success,
       ),
     );
+    return true;
   }
-
 
   void updateStatus({required String id}) {
     commonServices.updateRecordStatus(
@@ -688,24 +892,6 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
     }
   }
 
-  // void addAttachment({
-  //   List<ImageContent>? files,
-  //   required int itemIndex,
-  // }) async {
-  //   emit(state.copyWith(status: FormStatus.loading));
-  //
-  //   if (files != null) {
-  //     final items = state.otherModel.items ?? [];
-  //     if (itemIndex < items.length) {
-  //       items[itemIndex].attachments = files;
-  //     }
-  //     emit(state.copyWith(
-  //       otherModel: state.otherModel,
-  //       status: FormStatus.initial,
-  //     ));
-  //   } else {
-  //     emit(state.copyWith(status: FormStatus.initial));
-  //   }
-  // }
+
 
 }

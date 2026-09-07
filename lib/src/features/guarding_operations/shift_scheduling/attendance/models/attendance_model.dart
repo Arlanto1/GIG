@@ -42,12 +42,18 @@ class AttendanceModel extends BaseObject {
   Organisation? vendor;
   int? dutyType;
   int? status;
-  int? attendanceType;
+  int? approvalStatus;
   String? entrySecurityName;
   bool isEligibleToEdit;
   String? modifiedBy;
   String? modifiedDate;
   Organisation? shiftInfo;
+  String? briefingPoints;
+  String? briefingPointsA;
+  String? briefingPointsB;
+  String? briefingPointsC;
+  String? briefingPointsG;
+
 
   AttendanceModel({
     this.id,
@@ -58,12 +64,17 @@ class AttendanceModel extends BaseObject {
     this.vendor,
     this.dutyType,
     this.status,
-    this.attendanceType,
+    this.approvalStatus,
     this.entrySecurityName,
     this.isEligibleToEdit = false,
     this.modifiedBy,
     this.modifiedDate,
-    this.shiftInfo
+    this.shiftInfo,
+    this.briefingPoints,
+    this.briefingPointsA,
+  this.briefingPointsB,
+    this.briefingPointsC,
+    this.briefingPointsG,
   });
 
   factory AttendanceModel.fromJson(Map<String, dynamic> json) =>

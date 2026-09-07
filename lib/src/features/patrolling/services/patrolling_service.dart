@@ -10,6 +10,7 @@ import 'package:db_atom/src/features/patrolling/models/requestModel/patrolling_r
 import 'package:db_atom/src/models/base_filter_model.dart';
 import 'package:db_atom/src/utils/shared_preferences.dart';
 import '../../../models/responseModels/generic_response.dart';
+import '../models/dbsponsor_user_model.dart';
 import '../models/patrolling_model.dart';
 
 class Apis {
@@ -23,6 +24,7 @@ class Apis {
   static final String _createOtherInfo = '$baseUrl/createPatrollingSubsection';
   static final String _getGenInfoDetails = '$baseUrl/getPTRDefaults';
   static final String _getOwnerUserDetails = '$baseUrl/getPatrollingActionOwners';
+  static final String _getDbSponsorUserDetails = '$baseUrl/getPatrollingDbSponsorList';
 
 }
 
@@ -116,5 +118,15 @@ class PatrollingService {
     );
     return OwnerUserModel.fromJson(response);
   }
+
+
+  Future<DbSponsorUserModel> getDbSponsorUser(int locId,) async {
+    final String url = '${Apis._getDbSponsorUserDetails}?locationId=$locId';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return DbSponsorUserModel.fromJson(response);
+  }
+
 
 }

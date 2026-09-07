@@ -2531,6 +2531,8 @@ import '../features/guarding_operations/key_management_data/key_management_maste
 import '../features/guarding_operations/key_management_data/key_management_master/key_history_records_details/views/key_history_records_details_view.dart';
 import '../features/guarding_operations/key_management_data/key_reconciliation_list/key_reconciliation_list/bloc/key_reconciliation_list_bloc.dart';
 import '../features/guarding_operations/key_management_data/key_reconciliation_list/key_reconciliation_list/views/key_reconciliation_list_view.dart';
+import '../features/guarding_operations/shift_scheduling/attendance/additional_deployments/additional_deployments_view.dart';
+import '../features/guarding_operations/shift_scheduling/attendance/additional_deployments/cubits/additional_deployments_cubit.dart';
 import '../features/guarding_operations/shift_scheduling/attendance/attendance/bloc/attendance_bloc.dart';
 import '../features/guarding_operations/shift_scheduling/attendance/attendance_details/views/attendance_details_view.dart';
 import '../features/guarding_operations/shift_scheduling/attendance/services/attendance_service.dart';
@@ -3115,6 +3117,7 @@ class RouteGenerator {
         CommonServices commonServices = CommonServices();
         String title;
         late int? attdInfoId;
+        late int? attdId;
         Organisation? location;
         Organisation? locationRegion;
         Organisation? vendor;
@@ -3124,6 +3127,7 @@ class RouteGenerator {
         settings.arguments as Map<String, dynamic>;
         title = arguments[ConstantsArgument.title];
         attdInfoId = arguments[ConstantsArgument.attdInfoId];
+       attdId = arguments[ConstantsArgument.attdId];
         SLAViolationPenaltyModel? model = arguments[ConstantsArgument.model];
         location = arguments[ConstantsArgument.location];
         locationRegion = arguments[ConstantsArgument.locationRegion];
@@ -3138,6 +3142,7 @@ class RouteGenerator {
               model: model,
               commonServices: commonServices,
               attdInfoId: attdInfoId,
+              attdId:attdId,
               location: location,
               locationRegion: locationRegion,
               vendor: vendor,
@@ -4120,8 +4125,42 @@ class RouteGenerator {
           ),
         );
 
-      case attendanceShiftsRoute:
+
+      case attendanceAdhocAttendanceRoute:
+        String id = '';
         int? attInfoId;
+        Organisation? location;
+        Organisation? locationRegion;
+        ExtraProperties? extraProperties;
+        if (settings.arguments != null) {
+          Map<String, dynamic> arguments =
+          settings.arguments as Map<String, dynamic>;
+          id = arguments[ConstantsArgument.id] ?? '';
+          extraProperties = arguments[ConstantsArgument.extraProperties];
+          attInfoId = arguments[ConstantsArgument.parentId];
+          location = arguments[ConstantsArgument.location];
+          locationRegion = arguments[ConstantsArgument.locationRegion];
+        }
+        AttendanceServices services = AttendanceServices();
+        CommonServices commonServices = CommonServices();
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<AdditionalDeploymentsCubit>(
+            create: (_) => AdditionalDeploymentsCubit(
+              attInfoId: attInfoId!,
+              services: services,
+              commonServices: commonServices,
+            ),
+            child: AdditionalDeploymentsView(
+              extraProperties: extraProperties,
+                attInfoId :attInfoId!,
+              location: location!,
+              locationRegion: locationRegion!,
+            ),
+          ),
+        );
+
+      case attendanceShiftsRoute:
+        int attInfoId = 0;
         int? selectedDutyPostNameId;
         Organisation? location;
         Organisation? locationRegion;
@@ -4150,14 +4189,14 @@ class RouteGenerator {
         return MaterialPageRoute(
           builder: (context) => BlocProvider<AttendanceShiftsCubit>(
             create: (_) => AttendanceShiftsCubit(
-              attInfoId: attInfoId!,
+              attInfoId: attInfoId,
               selectedDutyPostNameId: selectedDutyPostNameId!,
               services: services,
               commonServices: commonServices,
-              slaServices: slaServices,
+              slaServices: slaServices, parentModel: selectedDutyPostModel,
             ),
             child: AttendanceShiftsView(
-                attInfoId: attInfoId!,
+                attInfoId: attInfoId,
                 location: location!,
                 locationRegion: locationRegion!,
                 vendor: vendor!,

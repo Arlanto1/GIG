@@ -196,7 +196,7 @@ class ShiftScheduleServices {
   }
 
   Future<NextAvailableDateRange> getNextAvailableReplacementDates({
-    required int dutyPostId,
+    required int? dutyPostId,
     required int rankId,
     required int shiftId,
     required int userId,

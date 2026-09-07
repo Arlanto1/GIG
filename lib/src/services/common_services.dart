@@ -4,6 +4,11 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/models/ipad_model.dart';
 import 'package:db_atom/src/features/passmanagement/models/day_pass_reason_model.dart';
 import 'package:db_atom/src/features/passmanagement/models/vendor_pass_reason_model.dart';
+import 'package:db_atom/src/features/patrolling/models/dbsponsor_user_model.dart';
+
+import '../features/patrolling/models/lsm_user_model.dart';
+import '../features/patrolling/models/owner_user_model.dart';
+import '../features/patrolling/models/securitySupervisor_user_model.dart';
 
 class   CommonApis {
   static final String baseUrl = Environment().config.apiHost;
@@ -43,7 +48,16 @@ class   CommonApis {
   static final String _getGroup = '$baseUrl/getGroup';
   static final String _getDutyPostsByLocation = '$baseUrl/getDpnByLocId';
   static final String _getIpadSerialNum = '$baseUrl/getIpadSerialNos';
-
+  static final String _getPatrollingLocations =
+      '$baseUrl/getAtomLocations?patrolling=';
+  static final String _getPatrollingActionOwners =
+      '$baseUrl/getPatrollingActionOwners';
+  static final String _getPatrollingLSM =
+      '$baseUrl/getPatrollingLsmList';
+  static final String _getPatrollingSecuritySupervisor =
+      '$baseUrl/getSecuritySupervisorList';
+  static final String _getPatrollingDbSponsor =
+      '$baseUrl/getPatrollingDbSponsorList';
 }
 
 class CommonServices {
@@ -103,6 +117,21 @@ class CommonServices {
     );
     return Locations.fromJson(response);
   }
+
+  Future<Locations> getPatrollingRegionsWithLocations({
+    @Deprecated('this parameter is not required.')
+    required String name, // TODO: Remove this parameter
+    BuildContext? context,
+    int? filter,
+    bool? patrolling = false,
+  }) async {
+    String url = '${CommonApis._getPatrollingLocations}$patrolling';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return Locations.fromJson(response);
+  }
+
 
   Future<DayPassReason> getDayPassreason({
     required String name,
@@ -584,5 +613,59 @@ class CommonServices {
   }
 
 
+  Future<OwnerUserModel> getPatrollingActionOwnerUsers({
+    int? locationId,
+    bool? isDbUser,
+    int? search,
+    String? ownerType
+  }) async {
+    // String url = CommonApis._getPatrollingActionOwners;
+    String url = '${CommonApis._getPatrollingLSM}?locationId=$locationId';
+    if (isDbUser != null) {
+      url = '$url&isDbUser=$isDbUser';
+    }
+    if (search != null) {
+      url = '$url&search=$search';
+    }
+    if (ownerType != null) {
+      url = '$url&ownerType=$ownerType';
+    }
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return OwnerUserModel.fromJson(response);
+  }
+
+
+  Future<LsmUserModel> getPatrollingLSMUsers({
+    int? locationId,
+  }) async {
+    String url = '${CommonApis._getPatrollingLSM}?locationId=$locationId';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return LsmUserModel.fromJson(response);
+  }
+
+
+  Future<SecuritySupervisorsModel> getPatrollingSecuritySupervisor({
+    int? locationId,
+  }) async {
+    String url = '${CommonApis._getPatrollingSecuritySupervisor}?locationId=$locationId';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return SecuritySupervisorsModel.fromJson(response);
+  }
+
+  Future<DbSponsorUserModel> getPatrollingDBSponsor({
+    int? locationId,
+  }) async {
+    String url = '${CommonApis._getPatrollingDbSponsor}?locationId=$locationId';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return DbSponsorUserModel.fromJson(response);
+  }
 }
 

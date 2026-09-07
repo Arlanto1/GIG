@@ -353,25 +353,30 @@ class _KeyManagementIssuanceListViewState
                                               },
                                             );
                                           },
-                                          showEditButton: state
-                                                      .list[index].status !=
-                                                  ConstantsIntValue
-                                                      .issuanceClosedDamagedStatus &&
-                                              state.list[index].status !=
-                                                  ConstantsIntValue
-                                                      .issuanceClosedLostStatus &&
-                                              state.list[index].status !=
-                                                  ConstantsIntValue
-                                                      .issuanceClosedLostDamagedStatus &&
-                                              state.list[index].status !=
-                                                  ConstantsIntValue
-                                                      .issuanceClosedDamagedStatus &&
-                                              state.list[index].status !=
-                                                  ConstantsIntValue
-                                                      .issuanceClosedStatus &&
-                                              state.list[index].status !=
-                                                  ConstantsIntValue
-                                                      .cancelledStatus,
+                                          // showEditButton: state
+                                          //             .list[index].status !=
+                                          //         ConstantsIntValue
+                                          //             .issuanceClosedDamagedStatus &&
+                                          //     state.list[index].status !=
+                                          //         ConstantsIntValue
+                                          //             .issuanceClosedLostStatus &&
+                                          //     state.list[index].status !=
+                                          //         ConstantsIntValue
+                                          //             .issuanceClosedLostDamagedStatus &&
+                                          //     state.list[index].status !=
+                                          //         ConstantsIntValue
+                                          //             .issuanceClosedDamagedStatus &&
+                                          //     state.list[index].status !=
+                                          //         ConstantsIntValue
+                                          //             .issuanceClosedStatus &&
+                                          //     state.list[index].status !=
+                                          //         ConstantsIntValue
+                                          //             .cancelledStatus,
+                                          showEditButton:   state.list[index].status ==
+                                              ConstantsIntValue
+                                                  .issuanceDraftStatus || state.list[index].status ==
+                                              ConstantsIntValue
+                                                  .issuanceHandedOverStatus,
                                           onEditTap: (selectedIndex) {
                                             getById(
                                               state.extraProperties

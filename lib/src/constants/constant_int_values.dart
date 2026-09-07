@@ -106,6 +106,7 @@ class ConstantsIntValue {
   static const int mmStatusInwardPending = 11;
   static const int mmStatusOverDue = 12;
   static const int mmRejected = 7;
+  static const int mmStatusOutwardPending = 6;
 
   /// Key Issuance status
   static const int issuanceDraftStatus = 0;
@@ -166,5 +167,15 @@ class ConstantsIntValue {
   static const int lawSubmittedStatus = 1;
   static const int lawUnderVerificationStatus = 2;
   static const int lawDistributedStatus = 3;
+
+  ///Attendance Approval Status
+  static const int attendanceApprovalPending = 1;
+  static const int attendanceApprovalApproved = 2;
+  static const int attendanceApprovalRejected = 3;
+
+
+  ///Patrolling
+  static const int patrollingClosedStatus = 4;
+
 
 }

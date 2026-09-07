@@ -14,6 +14,7 @@ class AttendanceShiftsState extends Equatable {
   final Organisation? selectedShift;
 
   final List<SlaList>? shiftSlaList;
+  final NextAvailableDateRange? replacementDates;
 
   factory AttendanceShiftsState.initial({
     required ShiftModel model,
@@ -38,10 +39,10 @@ class AttendanceShiftsState extends Equatable {
   }
 
   ErrorResponse get isValid {
-    if (model.briefingPoints == null && model.attdStatus == 1) {
-      return const ErrorResponse(
-          status: false, message: 'Please select/enter Briefing Points');
-    }
+    // if (model.briefingPoints == null && model.attdStatus == 1) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Please select/enter Briefing Points');
+    // }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
@@ -60,6 +61,8 @@ class AttendanceShiftsState extends Equatable {
     this.selectedRank,
     this.selectedShift,
     this.shiftSlaList,
+    this.replacementDates,
+
   });
 
   AttendanceShiftsState copyWith({
@@ -74,6 +77,7 @@ class AttendanceShiftsState extends Equatable {
     Organisation? selectedRank,
     Organisation? selectedShift,
     final CdUiLabels? labels,
+    NextAvailableDateRange? replacementDates,
   }) {
     return AttendanceShiftsState(
       status: status ?? this.status,
@@ -87,6 +91,7 @@ class AttendanceShiftsState extends Equatable {
       selectedRank: selectedRank ?? this.selectedRank,
       selectedShift: selectedShift ?? this.selectedShift,
       shiftSlaList: shiftSlaList ?? shiftSlaList,
+      replacementDates: replacementDates ?? this.replacementDates,
     );
   }
 }

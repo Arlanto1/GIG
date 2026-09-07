@@ -4,6 +4,8 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/services/attendance_service.dart';
 import 'package:intl/intl.dart';
 
+import '../../models/adhoc_attendance_model.dart';
+
 part 'attendance_details_state.dart';
 
 class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
@@ -54,6 +56,8 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
             moduleCode: Constants.attendanceModule), // 5
         SharedPrefs.getDefaultLocation(), // 6
         services.getDutyPostsById(id: model.id), // 7
+        services.getBriefingPoints(), //8
+        services.getAdhocAttendanceById(attInfoId: model.id)
       ]);
 
       Locations getLocationsData = futures[0];
@@ -65,6 +69,8 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
       dynamic responseLabels = futures[3];
       Organisation? defaultLocation = futures[4];
       List<DutyPostModel> dutyPosts = futures[5];
+      List<String> briefingPoints = futures[6];
+      AdhocAttendanceGiModel adhocAttendance = futures[7];
 
       if (model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
@@ -89,7 +95,8 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
       model.modifiedDate = model.modifiedDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(model.modifiedDate ?? '0'), Constants.fulldateFormat);
+              int.tryParse(model.modifiedDate ?? '0'),
+              Constants.fulldateFormat);
 
       // dynamic participationDates = Utils()
       //     .splitStringAfterComma(state.model.csrParticipationDates ?? '');
@@ -98,17 +105,23 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
 
       emit(
         state.copyWith(
-          locations: getLocationsData,
-          loggedInUserDetails: loggedInUserDetails,
-          status: FormStatus.initial,
-          model: model,
-          vendors: vendors.items,
-          // users: users.t1Analyst,
-          // entrySecurities: entrySecurities,
-          // emailUsers: emailUsers.atomStaticUser,
-          dutyPosts: dutyPosts,
-          labels: labels,
+            locations: getLocationsData,
+            loggedInUserDetails: loggedInUserDetails,
+            status: FormStatus.initial,
+            model: model,
+            vendors: vendors.items,
+            // users: users.t1Analyst,
+            // entrySecurities: entrySecurities,
+            // emailUsers: emailUsers.atomStaticUser,
+            dutyPosts: dutyPosts,
+            labels: labels,
+            briefingPointsA: briefingPoints,
+            briefingPointsB: briefingPoints,
+            briefingPointsC: briefingPoints,
+            briefingPointsG: briefingPoints,
+            adhocModel :adhocAttendance
         ),
+
       );
     } catch (e) {
       log('Initialization issue', error: e, name: 'Attendance Details Cubit');
@@ -154,7 +167,7 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
     }
-    state.model.attendanceType = attendanceType ?? state.model.attendanceType;
+    // state.model.attendanceType = attendanceType ?? state.model.attendanceType;
     state.model.dutyType = dutyType ?? state.model.dutyType;
     state.model.vendor = vendor ?? state.model.vendor;
     state.model.status = status ?? state.model.status;
@@ -204,7 +217,7 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
           return false;
         }
         response =
-        (await services.createAttendanceGi(body: request, isSubmit: false));
+            (await services.createAttendanceGi(body: request, isSubmit: false));
       } else {
         //Validating Fields
         if (!state.isValid.status) {
@@ -217,7 +230,7 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
           return false;
         }
         response =
-        (await services.createAttendanceGi(body: request, isSubmit: true));
+            (await services.createAttendanceGi(body: request, isSubmit: true));
       }
 
       log('---response--msg--${response.message}---');
@@ -240,23 +253,23 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model.inputDate ?? '0'),
-          Constants.fulldateFormat);
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
       return true;
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model.inputDate ?? '0'),
-          Constants.fulldateFormat);
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
       return false;
     } on Exception catch (e) {
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model.inputDate ?? '0'),
-          Constants.fulldateFormat);
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
       emit(
         state.copyWith(
           message: e.toString(),
@@ -266,6 +279,8 @@ class AttendanceDetailsCubit extends Cubit<AttendanceDetailsState> {
       return false;
     }
   }
+
+
   Future<void> navigateToNextScreen({
     required int dutyPostNameId,
     required DutyPostModel dutyPostModel,

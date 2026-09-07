@@ -16,6 +16,7 @@ class SLAViolationPenaltyDetailsCubit
 
   /// Via Attendance
   final int? attdInfoId;
+  final int? attdId;
   final Organisation? location;
   final Organisation? locationRegion;
   final Organisation? vendor;
@@ -25,6 +26,7 @@ class SLAViolationPenaltyDetailsCubit
     required this.commonServices,
     this.model,
     this.attdInfoId,
+    this.attdId,
     required this.location,
     required this.locationRegion,
     required this.vendor,
@@ -380,8 +382,10 @@ class SLAViolationPenaltyDetailsCubit
     if (attdInfoId != null) {
       state.model.attdShiftInfoId = attdInfoId;
     }
+if(attdId !=null)   {state.model.attendanceId = attdId;}
 
-    log('-attdInfoId-111-$attdInfoId--');
+
+    log('-attdId-111-$attdId--');
     // Create/Update API Call
     SLAViolationPenaltyRequest request =
         SLAViolationPenaltyRequest(svpGi: state.model);

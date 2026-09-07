@@ -1,3 +1,4 @@
+import 'package:db_atom/src/features/patrolling/models/patrolling_other_model.dart';
 import 'package:db_atom/src/models/history.dart';
 
 import '../../../../index.dart';
@@ -53,8 +54,10 @@ class PatrollingModelResponse {
   User? lsm;
   User? securitySupervisor;
   int? shift;
+    List<Items>? items;
 
-  PatrollingModel({
+
+    PatrollingModel({
     this.id,
     this.slNo,
     this.inputDate,
@@ -70,8 +73,9 @@ class PatrollingModelResponse {
     this.securitySupervisor,
     this.shift,
     this.submittedDate,
-    this.verifiedDate
-  });
+    this.verifiedDate,
+    this.items
+    });
 
   factory PatrollingModel.fromJson(Map<String, dynamic> json) =>
       _$PatrollingModelFromJson(json);

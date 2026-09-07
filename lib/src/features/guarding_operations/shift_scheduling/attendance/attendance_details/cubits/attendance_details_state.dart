@@ -16,6 +16,11 @@ class AttendanceDetailsState extends Equatable {
   final int? parentId;
   final int? selectedDutyPostNameId;
   final DutyPostModel? selectedDutyPostModel;
+  final List<String>? briefingPointsA;
+  final List<String>? briefingPointsB;
+  final List<String>? briefingPointsC;
+  final List<String>? briefingPointsG;
+  final AdhocAttendanceGiModel? adhocModel;
 
   factory AttendanceDetailsState.initial({
     required AttendanceModel model,
@@ -27,6 +32,7 @@ class AttendanceDetailsState extends Equatable {
     required String errorMessage,
     List<User>? entrySecurities,
     List<String>? dutyPostLocationNames,
+    AdhocAttendanceGiModel? adhocModel,
   }) {
     return AttendanceDetailsState(
       status: FormStatus.initial,
@@ -39,6 +45,7 @@ class AttendanceDetailsState extends Equatable {
       locationNames: dutyPostLocationNames,
       entrySecurities: entrySecurities,
       vendors: departments,
+        adhocModel:adhocModel
     );
   }
 
@@ -58,9 +65,9 @@ class AttendanceDetailsState extends Equatable {
       return const ErrorResponse(status: false, message: 'Please enter Status');
     }
 
-    if (model.attendanceType == null ||model.attendanceType == 0) {
-      return const ErrorResponse(status: false, message: 'Please select Attendance Type');
-    }
+    // if (model.attendanceType == null ||model.attendanceType == 0) {
+    //   return const ErrorResponse(status: false, message: 'Please select Attendance Type');
+    // }
     return const ErrorResponse(status: true, message: 'Form is Valid');
   }
 
@@ -95,6 +102,12 @@ class AttendanceDetailsState extends Equatable {
     this.parentId,
     this.selectedDutyPostNameId,
     this.selectedDutyPostModel,
+    this.briefingPointsA,
+    this.briefingPointsB,
+    this.briefingPointsC,
+    this.briefingPointsG,
+    required this.adhocModel,
+
   });
 
   AttendanceDetailsState copyWith({
@@ -113,6 +126,12 @@ class AttendanceDetailsState extends Equatable {
     int? parentId,
     int? selectedDutyPostNameId,
     DutyPostModel? selectedDutyPostModel,
+    List<String>? briefingPointsA,
+    List<String>? briefingPointsB,
+    List<String>? briefingPointsC,
+    List<String>? briefingPointsG,
+    AdhocAttendanceGiModel? adhocModel,
+
   }) {
     return AttendanceDetailsState(
       status: status ?? this.status,
@@ -132,6 +151,12 @@ class AttendanceDetailsState extends Equatable {
           selectedDutyPostNameId ?? this.selectedDutyPostNameId,
       selectedDutyPostModel:
           selectedDutyPostModel ?? this.selectedDutyPostModel,
+      briefingPointsA: briefingPointsA ?? this.briefingPointsA,
+      briefingPointsB: briefingPointsB ?? this.briefingPointsB,
+      briefingPointsC: briefingPointsC ?? this.briefingPointsC,
+      briefingPointsG: briefingPointsG ?? this.briefingPointsG,
+        adhocModel:adhocModel??this.adhocModel
+
     );
   }
 }

@@ -177,6 +177,7 @@ class Replacement {
   String? toDate;
   int? status;
   bool? statusActive;
+  int? replacementType;
 
   /// For front end only
   String? tempId;
@@ -189,6 +190,7 @@ class Replacement {
     this.toDate,
     this.status,
     this.tempId,
+    this.replacementType,
     this.statusActive,
   });
 
@@ -213,6 +215,6 @@ class Replacement {
 
   @override
   String toString() {
-    return 'Replacement{id: $id, replacedFor: $replacedFor, replacementBy: $replacementBy, fromDate: $fromDate, toDate: $toDate, status: $status}';
+    return 'Replacement{id: $id, replacedFor: $replacedFor, replacementBy: $replacementBy, fromDate: $fromDate, toDate: $toDate, status: $status, replacementType: $replacementType}';
   }
 }

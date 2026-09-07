@@ -217,4 +217,10 @@ class Keys {
   static const String purposeOfVisitKey = 'purposeOfVisitKey_vvip';
   static const String baseLocationOfVisitorKey =
       'baseLocationOfVisitorKey_vvip';
+
+
+  static const String cctvOfflineHoursKey = 'cctvOfflineHoursKey_EP';
+  static const String accessSystemOfflineHoursKey = 'accessSystemOfflineHoursKey_EP';
+  static const String intruderSystemOfflineHoursKey = 'intruderSystemOfflineHoursKey_EP';
+
 }

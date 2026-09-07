@@ -13,23 +13,7 @@ class DutyPostListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return ListView.builder(
-    //   itemCount: dutyPosts.length,
-    //   physics: const NeverScrollableScrollPhysics(),
-    //   shrinkWrap: true,
-    //   itemBuilder: (context, index) {
-    //     return ListTile(
-    //       title: Text(dutyPosts[index].name ?? ''),
-    //       trailing: const Icon(Icons.arrow_right),
-    //       onTap: () {
-    //         log('-dutyPosts[index].id--${dutyPosts[index].id}---');
-    //         log('-dutyPosts[index].id--${dutyPosts[index].name}---');
-    //         onTap(dutyPosts[index].id, dutyPosts[index].dutyPostNameId,
-    //             dutyPosts[index]);
-    //       },
-    //     );
-    //   },
-    // );
+
     return ListView.builder(
       itemCount: dutyPosts.length,
       physics: const NeverScrollableScrollPhysics(),

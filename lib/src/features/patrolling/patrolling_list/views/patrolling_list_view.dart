@@ -142,15 +142,15 @@ class _PatrollingListViewState extends State<PatrollingListView> {
       if (!mounted) return;
       dismissLoadingDialog(context);
       Navigator.pushNamed(context, patrollingListCardRoute, arguments: {
-        'model': model,
         'title': Constants.editPatrolling,
+        'model': model,
         ConstantsArgument.extraProperties:
         ExtraProperties(hasWritePermission: hasWritePermission),
       });
     } catch (e) {
       if (!mounted) return;
       dismissLoadingDialog(context);
-      log('Error fetching transport by id: $e');
+      log('Error fetching by id: $e');
     }
   }
 
@@ -222,6 +222,7 @@ class _PatrollingListViewState extends State<PatrollingListView> {
                 },
               );
             },
+
           ),
           appBar: BaseAppBar().buildAppHeader(
             context: context,
@@ -338,8 +339,7 @@ class _TransportListCard extends StatelessWidget {
   final VoidCallback onEditTap;
 
   bool get _showEditButton =>
-      item.status == ConstantsIntValue.incidentCreatedStatus ||
-          item.status == ConstantsIntValue.transportIncidentOpenStatus;
+      item.status != ConstantsIntValue.patrollingClosedStatus;
 
   @override
   Widget build(BuildContext context) {

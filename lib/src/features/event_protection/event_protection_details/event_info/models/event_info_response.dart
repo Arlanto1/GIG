@@ -52,15 +52,15 @@ class EventInfoResponse {
   Organisation? location;
   int? totalAttendance;
   bool? cctvSystemOffline;
-  int? cctvSystemOfflineHours;
+  double? cctvSystemOfflineHours;
   String? cctvSystemOfflineStartDate;
   String? cctvSystemOfflineEndDate;
   bool? accessSystemOffline;
-  int? accessSystemOfflineHours;
+  double? accessSystemOfflineHours;
   String? accessSystemOfflineStartDate;
   String? accessSystemOfflineEndDate;
   bool? intruderSystemOffline;
-  int? intruderSystemOfflineHours;
+  double? intruderSystemOfflineHours;
 
   String? intruderSystemOfflineStartDate;
   String? intruderSystemOfflineEndDate;

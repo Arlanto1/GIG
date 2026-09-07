@@ -600,7 +600,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
   }
 
   void makeSignEditable(
-      {bool? receiverSign, bool? entrySecuritySignatureSignEditable}) {
+      {bool? receiverSign, bool? entrySecuritySignatureSignEditable, bool? isGatePassSecuritySignatureSignEditable}) {
     emit(
       state.copyWith(
         status: FormStatus.loading,
@@ -611,6 +611,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
         isReceiverSignEditable: receiverSign,
         isEntrySecuritySignatureSignEditable:
             entrySecuritySignatureSignEditable,
+        isGatePassSecuritySignatureSignEditable: isGatePassSecuritySignatureSignEditable,
         status: FormStatus.initial,
       ),
     );
@@ -618,7 +619,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
   Future<void> pushSignature({
     required SignatureController controller,
-    required bool isReceiverSignature,
+    required bool isReceiverSignature,   required bool isEntrySecuritySignature,
   }) async {
     String imageBytes = await SignatureController().exportSignature(controller);
 
@@ -637,8 +638,16 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       emit(state.copyWith(
         model: state.model,
       ));
-    } else {
+    } else if(isEntrySecuritySignature) {
       imageContent.type = 3;
+      state.model.inwardMovement == true ?
+      state.model.entrySecuritySign : state.model.gatePassSecuritySign = imageContent;
+      emit(state.copyWith(
+        model: state.model,
+      ));
+    }
+    else{
+      imageContent.type = 4;
       state.model.gatePassSecuritySign = imageContent;
       emit(state.copyWith(
         model: state.model,
@@ -1218,6 +1227,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     bool navigateToNextScreen = false,
     required SignatureController receiverSignatureController,
     required SignatureController securitySignatureController,
+    required SignatureController gatePassSignatureController,
   }) async {
     emit(state.copyWith(status: FormStatus.loading));
 
@@ -1249,8 +1259,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
 
       // state.model.modifiedDate = (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
-      await pushSignature(controller: receiverSignatureController, isReceiverSignature: true);
-      await pushSignature(controller: securitySignatureController, isReceiverSignature: false);
+      await pushSignature(controller: receiverSignatureController, isReceiverSignature: true,  isEntrySecuritySignature:false);
+      await pushSignature(controller: securitySignatureController, isReceiverSignature: false, isEntrySecuritySignature:true);
+      await pushSignature(controller: gatePassSignatureController, isEntrySecuritySignature: false, isReceiverSignature: false);
 
       MaterialMovementRequest request = MaterialMovementRequest(materialMovement: state.model);
       state.model.status ??= 0;

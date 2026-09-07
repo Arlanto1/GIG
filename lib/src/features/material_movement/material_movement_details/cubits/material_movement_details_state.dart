@@ -27,6 +27,7 @@ class MaterialMovementDetailsState extends Equatable {
   final bool returnable;
   final bool isReceiverSignEditable;
   final bool isEntrySecuritySignatureSignEditable;
+  final bool isGatePassSecuritySignatureSignEditable;
   final MmUiLabels? labels;
   final List<BaseUser>? requestor2EmailUsers;
 
@@ -325,10 +326,10 @@ class MaterialMovementDetailsState extends Equatable {
           status: false, message: 'Comment is Mandatory');
     }
 
-    if (!isInward && model.gatePassSecuritySign == null && model.status == 6) {
-      return const ErrorResponse(
-          status: false, message: 'Security Signature is Mandatory');
-    }
+    // if (!isInward && model.entrySecuritySign == null && model.status == 6) {
+    //   return const ErrorResponse(
+    //       status: false, message: 'Security Signature is Mandatory');
+    // }
     if ((!model.takenOutContactNo.isEmptyOrNull &&
         model.takenOutContactNo!.length < 10)) {
       return const ErrorResponse(
@@ -402,6 +403,7 @@ class MaterialMovementDetailsState extends Equatable {
     this.locations,
     this.isReceiverSignEditable = false,
     this.isEntrySecuritySignatureSignEditable = false,
+    this.isGatePassSecuritySignatureSignEditable = false,
     this.loggedInUserDetails,
     this.emailUsers,
     required this.departments,
@@ -444,6 +446,7 @@ class MaterialMovementDetailsState extends Equatable {
     MmUiLabels? labels,
     bool? isReceiverSignEditable,
     bool? isEntrySecuritySignatureSignEditable,
+    bool? isGatePassSecuritySignatureSignEditable,
     bool? isReadOnly,
     List<MaterialItem>? materialItems,
     List<BaseUser>? requestor2EmailUsers,
@@ -474,6 +477,7 @@ class MaterialMovementDetailsState extends Equatable {
       isEntrySecuritySignatureSignEditable:
           isEntrySecuritySignatureSignEditable ??
               this.isEntrySecuritySignatureSignEditable,
+      isGatePassSecuritySignatureSignEditable: isGatePassSecuritySignatureSignEditable ?? this.isGatePassSecuritySignatureSignEditable,
       materialItems: materialItems ?? this.materialItems,
       requestor2EmailUsers: requestor2EmailUsers ?? this.requestor2EmailUsers,
       approvalModel: approvalModel ?? this.approvalModel,

@@ -371,7 +371,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                 if (widget.status != null &&
                     widget.isAttendanceStatus == true) ...[
                   CommonWidgets.horizontalSpacerWidget(5),
-                  Utils().buildAttendanceStatusRow(status: widget.status ?? 0),
+                  Utils().buildAttendanceStatusRow(widget.status ?? 0),
                 ],
                 if (widget.status != null && widget.isKeyManagementStatus) ...[
                   CommonWidgets.horizontalSpacerWidget(5),
