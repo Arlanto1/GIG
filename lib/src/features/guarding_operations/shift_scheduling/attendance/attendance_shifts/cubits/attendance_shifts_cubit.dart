@@ -1535,8 +1535,6 @@ class AttendanceShiftsCubit extends Cubit<AttendanceShiftsState> {
     }
   }
 
-  /// Kept for the final "Submit" action, which should reflect the true
-  /// server state once submitted.
   Future<void> submitAndRefreshScreen({
     BuildContext? context,
     bool? checkValidations,
