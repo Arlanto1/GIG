@@ -119,9 +119,9 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
         if (!state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }
-        if (state.model.status == 1) {
-          isReadOnly = true;
-        }
+        // if (state.model.status == 1) {
+        //   isReadOnly = true;
+        // }
 
         log('isEligible -----  ${!state.model.isEligibleToEdit}');
         if (!state.model.isEligibleToEdit) {
@@ -133,7 +133,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
             context: context,
             title: Constants.attendanceDetails,
             showPopUp: false,
-            showSubmitButton: state.model.isEligibleToEdit == true && state.model.status !=1,
+            showSubmitButton: state.model.isEligibleToEdit == true && state.model.lock.isEmptyOrNull,
             showSaveButton: false,
             showDisLikeButton: false,
             showLikeButton: false,
@@ -482,7 +482,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                               CommonWidgets.verticalSpacerWidget(
                                   MediaQuery.of(context).size.height * 0.02),
 
-                              /// Briefing Points
+                              /// Briefing Points B
                               CommonWidgets.textDisplay(
                                 'Briefing PointsB:',
                                 isMandatory: true,
@@ -518,7 +518,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                               CommonWidgets.verticalSpacerWidget(
                                   MediaQuery.of(context).size.height * 0.02),
 
-                              /// Briefing Points
+                              /// Briefing Points C
                               CommonWidgets.textDisplay(
                                 'Briefing PointsC:',
                                 isMandatory: true,
@@ -536,7 +536,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                                     onSelectedBriefingPointsChanged:
                                         (List<String> points) {
                                       log('-points--$points--');
-                                      state.model.briefingPoints =
+                                      state.model.briefingPointsC =
                                           Utils().joinListWithComma(points);
 
                                       BlocProvider.of<AttendanceShiftsCubit>(
@@ -806,7 +806,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           cancelButtonDisplay(),
-                          if (!isReadOnly) ...[submitButtonDisplay()],
+                          if (state.model.isEligibleToEdit == true && state.model.lock.isEmptyOrNull) ...[submitButtonDisplay()],
                         ],
                       ),
 

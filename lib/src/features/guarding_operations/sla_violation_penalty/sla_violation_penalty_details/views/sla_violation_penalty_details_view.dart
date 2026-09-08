@@ -67,7 +67,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
               // Navigator.pop(context);
               // return;
 
-              if (widget.viaAttendance && state.model.attdShiftInfoId != null && state.model.attendanceId != null) {
+              if (widget.viaAttendance && (state.model.attdShiftInfoId != null || state.model.attendanceId != null)) {
                 Navigator.pop(context);
               }
             },
@@ -78,7 +78,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
               builder: (BuildContext context) => dialog);
         }
         if (state.status == FormStatus.success && state.model.id != null && (state.model.attdShiftInfoId !=null || state.model.attendanceId !=null)) {
-          log('100${state.status == FormStatus.success && widget.viaAttendance}');
+          log('success100${state.status == FormStatus.success && widget.viaAttendance}');
           var dialog = CustomAlertDialog(
             title: 'SLA Violation Penalty',
             message: state.message ?? '',
@@ -97,7 +97,7 @@ class _SLAViolationViewState extends State<SLAViolationPenaltyDetailsView> {
         if (state.status == FormStatus.success &&
             !widget.viaAttendance &&
             state.model.attdShiftInfoId == null) {
-          log('200${state.status == FormStatus.success && !widget.viaAttendance && state.model.attdShiftInfoId == null && state.model.attendanceId == null}');
+          log('success200${state.status == FormStatus.success && !widget.viaAttendance && state.model.attdShiftInfoId == null && state.model.attendanceId == null}');
           var dialog = CustomAlertDialog(
             title: 'SLA Violation Penalty',
             message: state.message ?? '',
