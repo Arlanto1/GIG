@@ -7,6 +7,7 @@ import 'package:db_atom/src/features/occurrence/occurrences_details/general_info
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/services/occurrences_services.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../models/location_Type_Model.dart';
 import '../models/ipad_model.dart';
 
 part 'occurrence_general_info_state.dart';
@@ -33,6 +34,8 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
             eventId: null,
             departments: const [],
             loggedInUserDetails: null, ipadSerialNum: const [],
+            getLocationType: GetLocationType(),
+
           ),
         );
 
@@ -68,6 +71,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     emit(state.copyWith(model: occurrence, status: FormStatus.initial));
   }
 
+
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
     List<BaseUser>? shiftTakenOverBy = await commonServices.getBaseUsers(
@@ -89,6 +93,20 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     );
   }
 
+
+  /// Finds the region id that contains the given location id.
+  int? _getRegionIdForLocation(Locations? locations, int? locationId) {
+    if (locations == null || locationId == null) return null;
+
+    for (final region in locations.regions ?? []) {
+      final bool found =
+          region.locations?.any((loc) => loc.id == locationId) ?? false;
+      if (found) return region.id;
+    }
+    return null;
+  }
+
+
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
     //Show Loader and emit loading state
@@ -98,6 +116,11 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       ),
     );
     var userId = await SharedPrefs.getUserId();
+    final Locations locations =
+    await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+    final int? locationId = state.model.location?.id;
+    GetLocationType getLocationType = GetLocationType(getLocationType: []); // Initialize with default value
+
     List<Organisation> dutyPostNames = [];
     GetIpadSerialNo ipadSerialNum = GetIpadSerialNo(ipadSerialNum: []); // Initialize with default value
     try {
@@ -153,6 +176,9 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           if (!followUp.comments.isEmptyOrNull) {
             model.comments = followUp.comments;
           }
+          getLocationType =
+          await commonServices.getLocationType(locId: locationId!);
+
 
           ipadSerialNum =
           await commonServices.getIpadSerialNo(locId: defaultLocation.id!);
@@ -209,6 +235,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
           // getEntitiesResponse: entities,
           isOnGoingPowerFailure: isOnGoingPowerFailure,
           dutyPosts: dutyPostNames,
+            getLocationType:getLocationType,
         ),
       );
       isFormReadable();
@@ -232,6 +259,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
         status: FormStatus.loading,
       ),
     );
+    GetLocationType? locType = state.getLocationType;
 
     List<BaseUser>? shiftTakenOverBy = [];
     List<Organisation> dutyPostNames = [];
@@ -245,6 +273,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
         locationId: location.id.toString(),
         moduleCode: Constants.occurrenceModule,
       );
+      final int? locationId = location.id;
 
       state.model.location = location;
       state.model.slNo = slNo.serialNo ?? '';
@@ -253,6 +282,8 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
         isDbUser: false,
           locationId: location.id!,
       );
+      locType = await commonServices.getLocationType(locId: locationId!);
+
       dutyPostNames = await commonServices
           .getDutyPostsByLocation(
           locationId: location.id.toString());
@@ -273,6 +304,8 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
       ipadSerialNum: ipadSerialNum.ipadSerialNum,
       dutyPosts: dutyPostNames,
       status: FormStatus.initial,
+      getLocationType: locType,
+
     ));
   }
 
@@ -282,6 +315,7 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
     BaseUser? shiftTakenOverBy,
     Organisation? dutyPostName,
     Organisation? ipadSerialNum,
+    Organisation? locationType,
 
     int? status,
   }) async {
@@ -304,6 +338,9 @@ class OccurrenceGeneralInfoCubit extends Cubit<OccurrenceGeneralInfoState> {
 
     if (status != null) {
       state.model.status = status;
+    }
+    if (locationType != null) {
+      state.model.locationType = locationType;
     }
     if (shiftTakenOverBy != null) {
       User userDetails = User(

@@ -18,6 +18,7 @@ class OccurrenceGeneralInfoState extends Equatable {
   final bool? isOnGoingPowerFailure;
   final List<Organisation>? dutyPosts;
   final List<Organisation>? ipadSerialNum;
+  final GetLocationType  getLocationType;
 
 
       factory OccurrenceGeneralInfoState.initial({
@@ -33,7 +34,9 @@ class OccurrenceGeneralInfoState extends Equatable {
     required int? eventId,
     List<PowerFailureModel>? participationDate,
     required final List<Organisation>? ipadSerialNum,
-  }) {
+        required GetLocationType getLocationType,
+
+      }) {
     return OccurrenceGeneralInfoState(
       status: FormStatus.initial,
       model: model,
@@ -46,6 +49,8 @@ class OccurrenceGeneralInfoState extends Equatable {
       participationDates: participationDate,
       entrySecurities: entrySecurities,
       ipadSerialNum:ipadSerialNum,
+      getLocationType:getLocationType,
+
     );
   }
 
@@ -185,6 +190,8 @@ class OccurrenceGeneralInfoState extends Equatable {
     this.isOnGoingPowerFailure,
     this.dutyPosts,
     this.ipadSerialNum,
+    required this.getLocationType,
+
   });
 
   OccurrenceGeneralInfoState copyWith({
@@ -203,6 +210,8 @@ class OccurrenceGeneralInfoState extends Equatable {
     bool? isReadOnly,
     bool? isOnGoingPowerFailure,
     List<Organisation>? dutyPosts,
+    GetLocationType? getLocationType,
+
   }) {
     return OccurrenceGeneralInfoState(
       status: status ?? this.status,
@@ -222,6 +231,8 @@ class OccurrenceGeneralInfoState extends Equatable {
           isOnGoingPowerFailure ?? this.isOnGoingPowerFailure,
       dutyPosts: dutyPosts ?? this.dutyPosts,
         ipadSerialNum:ipadSerialNum??this.ipadSerialNum,
+      getLocationType:getLocationType??this.getLocationType,
+
     );
   }
 }

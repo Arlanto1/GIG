@@ -18,6 +18,9 @@ DutyPostNameMasterModel _$DutyPostNameMasterModelFromJson(
           ? null
           : Organisation.fromJson(
               json['locationRegion'] as Map<String, dynamic>),
+      locationType: json['locationType'] == null
+          ? null
+          : Organisation.fromJson(json['locationType'] as Map<String, dynamic>),
       inputDate: json['inputDate'] as String?,
       entrySecurity: json['entrySecurity'] == null
           ? null
@@ -39,6 +42,7 @@ Map<String, dynamic> _$DutyPostNameMasterModelToJson(
       'slNo': instance.slNo,
       'location': instance.location,
       'locationRegion': instance.locationRegion,
+      'locationType': instance.locationType,
       'inputDate': instance.inputDate,
       'entrySecurity': instance.entrySecurity,
       'modifiedDate': instance.modifiedDate,

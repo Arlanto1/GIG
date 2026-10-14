@@ -517,7 +517,7 @@
 //                                       employeeId: false,
 //                                       context: context,
 //                                       users: state.assignee,
-//                                       isDbUser: true,
+//                                       isDbUser: false,
 //                                       onTap: (BaseUser user) {
 //                                         BlocProvider.of<
 //                                                     TicketingSystemDetailsCubit>(
@@ -1324,7 +1324,7 @@ class _TicketingSystemDetailsView extends State<TicketingSystemDetailsView> {
                                       employeeId: false,
                                       context: context,
                                       users: state.assignee,
-                                      isDbUser: true,
+                                      isDbUser: false,
                                       onTap: (BaseUser user) {
                                         BlocProvider.of<
                                             TicketingSystemDetailsCubit>(

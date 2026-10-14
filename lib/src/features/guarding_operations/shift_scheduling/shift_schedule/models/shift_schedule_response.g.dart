@@ -19,6 +19,9 @@ ShiftScheduleModel _$ShiftScheduleModelFromJson(Map<String, dynamic> json) =>
           ? null
           : Organisation.fromJson(
               json['locationRegion'] as Map<String, dynamic>),
+      locationType: json['locationType'] == null
+          ? null
+          : Organisation.fromJson(json['locationType'] as Map<String, dynamic>),
       inputDate: json['inputDate'] as String?,
       slNo: json['slNo'] as String?,
       vendor: json['vendor'] == null
@@ -42,6 +45,7 @@ Map<String, dynamic> _$ShiftScheduleModelToJson(ShiftScheduleModel instance) =>
       'entrySecurity': instance.entrySecurity,
       'location': instance.location,
       'locationRegion': instance.locationRegion,
+      'locationType': instance.locationType,
       'inputDate': instance.inputDate,
       'slNo': instance.slNo,
       'vendor': instance.vendor,

@@ -16,6 +16,7 @@ class LawEnforcementDetailsState extends Equatable {
   final String? message;
   final List<ImageContent> loadAttachments;
   final LeoUiLabels? labels;
+  final GetLocationType  getLocationType;
 
   factory LawEnforcementDetailsState.initial({
     required LawEnforcementModelNew model,
@@ -31,6 +32,8 @@ class LawEnforcementDetailsState extends Equatable {
     required final List<Organisation>  visitingDepartment,
     required String errorMessage,
     required  List<ImageContent> loadAttachments,
+    required GetLocationType getLocationType,
+
   }) {
     return LawEnforcementDetailsState(
       status: FormStatus.initial,
@@ -47,6 +50,8 @@ class LawEnforcementDetailsState extends Equatable {
       visitingDepartment:visitingDepartment,
       message: errorMessage,
       loadAttachments: loadAttachments,
+      getLocationType:getLocationType,
+
     );
   }
 
@@ -116,6 +121,8 @@ class LawEnforcementDetailsState extends Equatable {
     this.message,
     required this.loadAttachments,
     this.labels,
+    required this.getLocationType,
+
   });
 
   LawEnforcementDetailsState copyWith({
@@ -134,6 +141,8 @@ class LawEnforcementDetailsState extends Equatable {
     List<ImageContent>? loadAttachments,
     String? message,
     LeoUiLabels? labels,
+    GetLocationType? getLocationType,
+
   }) {
     return LawEnforcementDetailsState(
       status: status ?? this.status,
@@ -150,6 +159,8 @@ class LawEnforcementDetailsState extends Equatable {
       loadAttachments: loadAttachments ?? this.loadAttachments,
       labels: labels ?? this.labels,
       emailUsers: emailUsers ?? this.emailUsers,
+      getLocationType:getLocationType??this.getLocationType,
+
     );
   }
 }

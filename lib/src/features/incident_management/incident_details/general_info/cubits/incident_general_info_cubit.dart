@@ -5,6 +5,7 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/incident_management/models/im_ui_labels.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../models/location_Type_Model.dart';
 import '../../../models/incidents_response.dart';
 import '../../../services/incident_management_services.dart';
 import '../models/requestModel/general_info_request.dart';
@@ -41,6 +42,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
             departments: const [],
             loggedInUserDetails: null,
             getArticleTypeResponse: const [],
+              getLocationType: GetLocationType(),
           ),
         );
 
@@ -130,6 +132,8 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
         model.location = location;
         model.slNo = slNo.serialNo;
       }
+      final int? locationId = state.model.location?.id;
+
 
       final results = await Future.wait([
         commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
@@ -151,6 +155,8 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
         commonServices.getArticleType(name: 'ARTICLE_LIST'),
         // commonServices.getUsers(),
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
+        commonServices.getLocationType(locId: locationId!),
+
       ]);
 
       // Assign results to respective variables
@@ -163,6 +169,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       final GetArticleType getArticleType = results[6] as GetArticleType;
       // final List<User> entrySecurities = results[7] as List<User>;
       final EmployeeDepartments departments = results[7] as EmployeeDepartments;
+      GetLocationType? getLocationType = results[8]  as GetLocationType;
 
       model.entrySecurity ??= loggedInUserDetails;
 
@@ -182,6 +189,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
           // entrySecurities: entrySecurities,
           listOfEntities: entities.atomEntities,
           getEntitiesResponse: entities.atomEntities,
+            getLocationType: getLocationType
         ),
       );
     } catch (e) {
@@ -198,6 +206,8 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
 
   Future<void> updateLocationDropdownValue({
     Organisation? location,
+    Organisation? locationType,
+
   }) async {
     emit(
       state.copyWith(
@@ -208,6 +218,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     List<BaseUser> emailUsers = [];
     List<BaseUser> incidentManager = [];
     List<BaseUser> incidentOwner = [];
+    GetLocationType? locType = state.getLocationType;
 
     ////Get Sl No from API
     if (location != null) {
@@ -215,6 +226,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
         locationId: location.id.toString(),
         moduleCode: Constants.incidentManagementModule,
       );
+      final int? locationId = location.id;
 
       state.model.location = location;
       state.model.slNo = slNo.serialNo ?? '';
@@ -231,6 +243,8 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
           isDbUser: true,
           roleName: ConstantUserRoles.atomSubRegionalHeadUser,
           locationId: state.model.location!.id!);
+      locType = await commonServices.getLocationType(locId: locationId!);
+
     }
 
     state.model.incidentManager = null;
@@ -244,6 +258,8 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       incidentManager: incidentManager,
       incidentOwner: incidentOwner,
       status: FormStatus.initial,
+      getLocationType: locType,
+
     ));
 
     log('--state.model---${state.model.incidentType}--');
@@ -260,6 +276,7 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
     int? typeOfAsset,
     BaseUser? incidentManager,
     BaseUser? incidentOwner,
+    Organisation? locationType,
   }) async {
     emit(
       state.copyWith(
@@ -279,6 +296,9 @@ class IncidentGeneralInfoCubit extends Cubit<IncidentGeneralInfoState> {
       state.model.typeOfArticle = typeOfArticle;
     }
 
+    if (locationType != null) {
+      state.model.locationType = locationType;
+    }
     if (incidentManager != null) {
       User userDetails = User(
         name: incidentManager.name,

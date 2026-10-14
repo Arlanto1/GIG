@@ -40,6 +40,7 @@ class KeyManagementMasterModel {
   User? createdBy;
   List<Organisation>? entities;
   Organisation? location;
+  Organisation? locationType;
   Organisation? region;
   Organisation? destructionReason;
   String? floor;
@@ -91,6 +92,7 @@ class KeyManagementMasterModel {
     this.createdBy,
     this.entities,
     this.location,
+    this.locationType,
     this.region,
     this.floor,
     this.doorType,

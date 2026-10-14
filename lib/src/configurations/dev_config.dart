@@ -2,7 +2,9 @@ import 'package:db_atom/src/configurations/base_config.dart';
 
 class DevConfig implements BaseConfig {
   @override
-  String get apiHost => "https://api.integration-v2.dbatom.arlanto.com/api/atomrestservice";
+  // String get apiHost => "https://api.integration-v2.dbatom.arlanto.com/api/atomrestservice";
+
+  String get apiHost => "https://api.gig.dbatom.arlanto.com/api/atomrestservice";
 
   @override
   String get apiHost1 => "https://api.integration-v2.dbatom.arlanto.com/s1/api/survey";

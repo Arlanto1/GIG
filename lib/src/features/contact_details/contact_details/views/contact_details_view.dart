@@ -277,6 +277,37 @@ class _ContactDetailsViewState extends State<ContactDetailsView> {
                             ),
                             CommonWidgets.verticalSpacerWidget(height * 0.01),
 
+
+                            /// Location Type
+                            CommonWidgets.textDisplay(
+                              Constants.locationType,
+                              Styles.textStyleWhite16,
+                              isMandatory: true,
+                            ),
+                            TextFieldAddButton(
+                              title: state.model.locationType?.name,
+                              height: 75,
+                              isDisableColor: isReadOnly,
+                              onTap: () {
+                                if (!isReadOnly) {
+                                  // BaseOrganisationDialog().departmentDialog(
+                                  //   context: context,
+                                  //   organisations: state.getLocationType.getLocationType ?? [],
+                                  //   onTap: (Organisation locationType) {
+                                  //     // BlocProvider.of<ContactDetailsCubit>(context)
+                                  //     //     .updateDropdownValues(locationType: locationType);
+                                  //   },
+                                  //   leftImage: false,
+                                  //   createEntity: false,
+                                  //   functionToCall: () {
+                                  //     BlocProvider.of<ContactDetailsCubit>(context).refreshList();
+                                  //   },
+                                  // );
+                                }
+                              },
+                            ),
+                            CommonWidgets.verticalSpacerWidget(height * 0.03),
+
                             /// Sl No.
                             CommonWidgets.horizontalTextHandling(
                               state.labels?.locale.slNo ??

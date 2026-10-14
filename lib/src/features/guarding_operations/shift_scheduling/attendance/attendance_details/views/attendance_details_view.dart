@@ -311,6 +311,37 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                                           })),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
+
+                              /// Location Type
+                              CommonWidgets.textDisplay(
+                                Constants.locationType,
+                                Styles.textStyleWhite16,
+                                isMandatory: true,
+                              ),
+                              TextFieldAddButton(
+                                title: state.model.locationType?.name,
+                                height: 75,
+                                isDisableColor: isReadOnly,
+                                onTap: () {
+                                  if (!isReadOnly) {
+                                    BaseOrganisationDialog().departmentDialog(
+                                      context: context,
+                                      organisations: state.getLocationType.getLocationType ?? [],
+                                      onTap: (Organisation locationType) {
+                                        BlocProvider.of<AttendanceDetailsCubit>(context)
+                                            .updateDropdownValues(locationType: locationType);
+                                      },
+                                      leftImage: false,
+                                      createEntity: false,
+                                      // functionToCall: () {
+                                      //   BlocProvider.of<DutyPostNameMasterDetailsCubit>(context).refreshList();
+                                      // },
+                                    );
+                                  }
+                                },
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.03),
+
                               /// Sl No.
                               CommonWidgets.horizontalTextHandling(
                                 state.labels?.locale.slNo ??
@@ -467,12 +498,12 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                                       state.model.briefingPointsA =
                                           Utils().joinListWithComma(points);
 
-                                      BlocProvider.of<AttendanceShiftsCubit>(
-                                              context)
+                                      BlocProvider.of<AttendanceDetailsCubit>(
+                                          context)
                                           .submitAndRefreshScreen(
-                                              isRemove: true,
-                                              isSubmit: false,
-                                              isSaveOnly: true);
+                                          isRemove: true,
+                                          isSubmit: false,
+                                          isSaveOnly: true);
                                       // Update the points in your Bloc or state management accordingly
                                       // BlocProvider.of<AttendanceShiftsCubit>(context).updateBriefingPoints();
                                     },
@@ -503,12 +534,12 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                                       state.model.briefingPointsB =
                                           Utils().joinListWithComma(points);
 
-                                      BlocProvider.of<AttendanceShiftsCubit>(
-                                              context)
+                                      BlocProvider.of<AttendanceDetailsCubit>(
+                                          context)
                                           .submitAndRefreshScreen(
-                                              isRemove: true,
-                                              isSubmit: false,
-                                              isSaveOnly: true);
+                                          isRemove: true,
+                                          isSubmit: false,
+                                          isSaveOnly: true);
                                       // Update the points in your Bloc or state management accordingly
                                       // BlocProvider.of<AttendanceShiftsCubit>(context).updateBriefingPoints();
                                     },
@@ -539,7 +570,7 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                                       state.model.briefingPointsC =
                                           Utils().joinListWithComma(points);
 
-                                      BlocProvider.of<AttendanceShiftsCubit>(
+                                      BlocProvider.of<AttendanceDetailsCubit>(
                                               context)
                                           .submitAndRefreshScreen(
                                               isRemove: true,
@@ -575,11 +606,9 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                                       state.model.briefingPointsG =
                                           Utils().joinListWithComma(points);
 
-                                      BlocProvider.of<AttendanceShiftsCubit>(
+                                      BlocProvider.of<AttendanceDetailsCubit>(
                                               context)
-                                          .submitAndRefreshScreen(
-                                              isRemove: true,
-                                              isSubmit: false,
+                                          .submitForm(
                                               isSaveOnly: true);
                                       // Update the points in your Bloc or state management accordingly
                                       // BlocProvider.of<AttendanceShiftsCubit>(context).updateBriefingPoints();
@@ -621,62 +650,170 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                         ),
                       ),
 
+                      // if (state.model.shiftInfo?.id != null) ...[
+                      //   /// List of Duty Posts
+                      //   DutyPostListWidget(
+                      //       dutyPosts: state.dutyPosts ?? [],
+                      //       onTap: (int? thisVariableIsOfNoUseDoNotDeleteThis,
+                      //           int? dutyPostNameId,
+                      //           DutyPostModel dutyPostModel) async {
+                      //         // log('flagValue---${AttendanceDetailsView.flag}');
+                      //         // // flag =   widget.flag;
+                      //         // // AttendanceDetailsView.flag++;
+                      //         // log('flagValue---${AttendanceDetailsView.flag}');
+                      //         // if (!isReadOnly) {
+                      //         //   bool isSaveSuccess = await BlocProvider.of<
+                      //         //           AttendanceDetailsCubit>(context)
+                      //         //       .submitForm(
+                      //         //           isSaveOnly: true,
+                      //         //           navigateToNextScreen: true);
+                      //         //
+                      //         //   log('flagValue---${AttendanceDetailsView.flag}');
+                      //         //   AttendanceDetailsView.flag++;
+                      //         //   log('flagValue---${AttendanceDetailsView.flag}');
+                      //         //
+                      //         //   if (!isSaveSuccess) {
+                      //         //     return;
+                      //         //   }
+                      //         // }
+                      //         // BlocProvider.of<AttendanceDetailsCubit>(context)
+                      //         //     .navigateToNextScreen(
+                      //         //   dutyPostNameId: dutyPostNameId!,
+                      //         //   dutyPostModel: dutyPostModel,
+                      //         // );
+                      //         NavigatorState nav = Navigator.of(context);
+                      //         // nav.pushNamed(
+                      //         //   attendanceShiftsRoute,
+                      //         //   arguments: {
+                      //         //     ConstantsArgument.parentId: state.parentId,
+                      //         //     ConstantsArgument.selectedDutyPostNameId:
+                      //         //         state.selectedDutyPostNameId,
+                      //         //     ConstantsArgument.location:
+                      //         //         state.model.location,
+                      //         //     ConstantsArgument.locationRegion:
+                      //         //         state.model.locationRegion,
+                      //         //     ConstantsArgument.vendor: state.model.vendor,
+                      //         //     // ConstantsArgument.selectedDutyPostModel:
+                      //         //     //     state.selectedDutyPostModel,
+                      //         //     ConstantsArgument.isReadOnly: isReadOnly,
+                      //         //     ConstantsArgument.isEligibleToEdit:
+                      //         //         state.model.isEligibleToEdit
+                      //         //   },
+                      //         // );
+                      //         log('--state.model.id---${state.model.id}--');
+                      //         log('-- state.selectedDutyPostModel---${state.selectedDutyPostModel}--');
+                      //       }),
+                      // ],
                       if (state.model.shiftInfo?.id != null) ...[
                         /// List of Duty Posts
-                        DutyPostListWidget(
-                            dutyPosts: state.dutyPosts ?? [],
-                            onTap: (int? thisVariableIsOfNoUseDoNotDeleteThis,
-                                int? dutyPostNameId,
-                                DutyPostModel dutyPostModel) async {
-                              log('flagValue---${AttendanceDetailsView.flag}');
-                              // flag =   widget.flag;
-                              // AttendanceDetailsView.flag++;
-                              log('flagValue---${AttendanceDetailsView.flag}');
-                              if (!isReadOnly) {
-                                bool isSaveSuccess = await BlocProvider.of<
-                                        AttendanceDetailsCubit>(context)
-                                    .submitForm(
-                                        isSaveOnly: true,
-                                        navigateToNextScreen: true);
-
-                                log('flagValue---${AttendanceDetailsView.flag}');
-                                AttendanceDetailsView.flag++;
-                                log('flagValue---${AttendanceDetailsView.flag}');
-
-                                if (!isSaveSuccess) {
-                                  return;
-                                }
-                              }
-                              BlocProvider.of<AttendanceDetailsCubit>(context)
-                                  .navigateToNextScreen(
-                                dutyPostNameId: dutyPostNameId!,
-                                dutyPostModel: dutyPostModel,
-                              );
-                              NavigatorState nav = Navigator.of(context);
-                              nav.pushNamed(
-                                attendanceShiftsRoute,
-                                arguments: {
-                                  ConstantsArgument.parentId: state.parentId,
-                                  ConstantsArgument.selectedDutyPostNameId:
-                                      state.selectedDutyPostNameId,
-                                  ConstantsArgument.location:
-                                      state.model.location,
-                                  ConstantsArgument.locationRegion:
-                                      state.model.locationRegion,
-                                  ConstantsArgument.vendor: state.model.vendor,
-                                  ConstantsArgument.selectedDutyPostModel:
-                                      state.selectedDutyPostModel,
-                                  ConstantsArgument.isReadOnly: isReadOnly,
-                                  ConstantsArgument.isEligibleToEdit:
-                                      state.model.isEligibleToEdit
-                                },
-                              );
-                              log('--state.model.id---${state.model.id}--');
-                              log('-- state.selectedDutyPostModel---${state.selectedDutyPostModel}--');
-                            }),
+                        // DutyPostListWidget(
+                        //     dutyPosts: state.dutyPosts ?? [],
+                        //     onTap: (int? thisVariableIsOfNoUseDoNotDeleteThis,
+                        //         int? dutyPostNameId,
+                        //         DutyPostModel dutyPostModel) async {
+                        //       NavigatorState nav = Navigator.of(context);
+                        //       nav.pushNamed(
+                        //         attendanceShiftsRoute,
+                        //         arguments: {
+                        //            ConstantsArgument.parentId:
+                        //           state.parentId ?? state.model.id,
+                        //           ConstantsArgument.selectedDutyPostNameId:
+                        //           state.selectedDutyPostNameId,
+                        //           ConstantsArgument.location:
+                        //           state.model.location,
+                        //           ConstantsArgument.locationRegion:
+                        //           state.model.locationRegion,
+                        //           ConstantsArgument.vendor: state.model.vendor,
+                        //           ConstantsArgument.selectedDutyPostModel:
+                        //           dutyPostModel,
+                        //           ConstantsArgument.isReadOnly: isReadOnly,
+                        //           ConstantsArgument.isEligibleToEdit:
+                        //           state.model.isEligibleToEdit
+                        //         },
+                        //       );
+                        //       log('--state.model.id---${state.model.id}--');
+                        //       log('-- dutyPostModel---$dutyPostModel--');
+                        //     }),
                       ],
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
 
+                      ///Attendance
+                      if (state.model.shiftInfo?.id != null) ...[
+                        GestureDetector(
+                          onTap: () {
+                            // DutyPostModel dutyPostModel;
+                            NavigatorState nav = Navigator.of(context);
+                            nav.pushNamed(
+                              attendanceShiftsRoute,
+                              arguments: {
+                                ConstantsArgument.parentId:
+                                state.parentId ?? state.model.id,
+                                ConstantsArgument.selectedDutyPostNameId:
+                                state.selectedDutyPostNameId,
+                                ConstantsArgument.location:
+                                state.model.location,
+                                ConstantsArgument.locationRegion:
+                                state.model.locationRegion,
+                                ConstantsArgument.vendor: state.model.vendor,
+                                ConstantsArgument.selectedDutyPostModel:
+                                DutyPostModel(),
+                                ConstantsArgument.isReadOnly: isReadOnly,
+                                ConstantsArgument.isEligibleToEdit:
+                                state.model.isEligibleToEdit
+                              },
+                            );
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.only(
+                                bottom: 14, left: 20, right: 20),
+                            //  SAME WIDTH AS DATE INPUT
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 18),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  Colors.white.withValues(alpha: 0.09),
+                                  Colors.transparent,
+                                  Colors.white.withValues(alpha: 0.09),
+                                ],
+                                stops: const [0.02, 0.35, 1],
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                              ),
+                              borderRadius: BorderRadius.circular(27),
+                              border: Border.all(
+                                color: Colors.white.withValues(alpha: 0.60),
+                                width: 0.7,
+                              ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.white.withValues(alpha: 0.0),
+                                  blurRadius: 12,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: const Row(
+                              children: [
+                                // const Icon(Icons.calendar_today, color: Colors.white, size: 22),
+                                SizedBox(width: 16),
+                                Expanded(
+                                  child: Text(
+                                    'Attendance',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                                Icon(Icons.arrow_forward_ios,
+                                    color: Colors.white, size: 18),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                       ///ADHOC Attendance
                       if (state.model.shiftInfo?.id != null) ...[
                         GestureDetector(
@@ -747,57 +884,6 @@ class _AttendanceDetailsViewState extends State<AttendanceDetailsView> {
                             ),
                           ),
                         ),
-                        // DutyPostListWidget(
-                        //     // dutyPosts: '',
-                        //     onTap: (int? thisVariableIsOfNoUseDoNotDeleteThis,
-                        //         int? dutyPostNameId,
-                        //         DutyPostModel dutyPostModel) async {
-                        //       log('flagValue---${AttendanceDetailsView.flag}');
-                        //       // flag =   widget.flag;
-                        //       // AttendanceDetailsView.flag++;
-                        //       // log('flagValue---${AttendanceDetailsView.flag}');
-                        //       // if (!isReadOnly) {
-                        //       //   bool isSaveSuccess =
-                        //       //   await BlocProvider.of<AttendanceDetailsCubit>(
-                        //       //       context)
-                        //       //       .submitForm(
-                        //       //       isSaveOnly: true,
-                        //       //       navigateToNextScreen: true);
-                        //       //
-                        //       //   log('flagValue---${AttendanceDetailsView.flag}');
-                        //       //   AttendanceDetailsView.flag++;
-                        //       //   log('flagValue---${AttendanceDetailsView.flag}');
-                        //       //
-                        //       //   if (!isSaveSuccess) {
-                        //       //     return;
-                        //       //   }
-                        //       // }
-                        //       // BlocProvider.of<AttendanceDetailsCubit>(context)
-                        //       //     .navigateToNextScreen(
-                        //       //   dutyPostNameId: dutyPostNameId!,
-                        //       //   dutyPostModel: dutyPostModel,
-                        //       // );
-                        //       NavigatorState nav = Navigator.of(context);
-                        //       nav.pushNamed(
-                        //         attendanceAdhocAttendanceRoute,
-                        //         arguments: {
-                        //           ConstantsArgument.parentId: state.parentId,
-                        //           ConstantsArgument.selectedDutyPostNameId:
-                        //           state.selectedDutyPostNameId,
-                        //           ConstantsArgument.location:
-                        //           state.model.location,
-                        //           ConstantsArgument.locationRegion:
-                        //           state.model.locationRegion,
-                        //           ConstantsArgument.vendor: state.model.vendor,
-                        //           ConstantsArgument.selectedDutyPostModel:
-                        //           state.selectedDutyPostModel,
-                        //           ConstantsArgument.isReadOnly: isReadOnly,
-                        //           ConstantsArgument.isEligibleToEdit:
-                        //           state.model.isEligibleToEdit
-                        //         },
-                        //       );
-                        //       log('--state.model.id---${state.model.id}--');
-                        //     }),
                       ],
                       CommonWidgets.verticalSpacerWidget(height * 0.02),
 

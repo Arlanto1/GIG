@@ -40,7 +40,8 @@ class TransportMedicalModel extends BaseObject {
    String? slNo;
    String? inputDate;
    Organisation? location;
-   Organisation? locationRegion;
+  Organisation? locationType;
+  Organisation? locationRegion;
    List<Organisation>? entities;
    int? status;
    int? incidentType;
@@ -80,6 +81,7 @@ class TransportMedicalModel extends BaseObject {
      this.slNo,
      this.inputDate,
      this.location,
+    this.locationType,
      this.locationRegion,
      this.entities,
      this.status,

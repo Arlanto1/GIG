@@ -27,6 +27,9 @@ MaterialMovementModel _$MaterialMovementModelFromJson(
           ? null
           : Organisation.fromJson(
               json['locationRegion'] as Map<String, dynamic>),
+      locationType: json['locationType'] == null
+          ? null
+          : Organisation.fromJson(json['locationType'] as Map<String, dynamic>),
       entities: json['entities'] as List<dynamic>?,
       returnQuantity: (json['returnQuantity'] as num?)?.toInt(),
       inwardMovement: json['inwardMovement'] as bool? ?? false,
@@ -135,6 +138,7 @@ Map<String, dynamic> _$MaterialMovementModelToJson(
       'inputDate': instance.inputDate,
       'location': instance.location,
       'locationRegion': instance.locationRegion,
+      'locationType': instance.locationType,
       'entities': instance.entities,
       'inwardMovement': instance.inwardMovement,
       'returnable': instance.returnable,

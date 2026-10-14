@@ -133,6 +133,7 @@ class AnnualPowerShutdownListDetailsCubit
             isDbUser: true,
 
             locationId: model.location!.id!),
+        commonServices.getLocationType(locId: model.location!.id!),
       ]);
 
       // Assign results to variables with explicit data types
@@ -148,6 +149,7 @@ class AnnualPowerShutdownListDetailsCubit
       EmployeeDepartments departments = results[7];
       List<BaseUser>? srh = results[8];
       List<BaseUser>? lsm = results[9];
+      List<Organisation>? getLocationType = results[10];
 
       // model.inputDate = model.inputDate == null
       //     ? Utils().getCurrentDate()
@@ -176,6 +178,7 @@ class AnnualPowerShutdownListDetailsCubit
         listOfEntities: entities,
         getEntitiesResponse: entities,
         // labels: EpUiLabels.fromJson(responseLabels),
+        locationType: getLocationType,
       ));
     } catch (e) {
       log('initialization issue', error: e, name: 'General Information Cubit');

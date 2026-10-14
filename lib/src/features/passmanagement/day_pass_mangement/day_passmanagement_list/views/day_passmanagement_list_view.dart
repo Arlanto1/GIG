@@ -163,8 +163,7 @@ class _DayPassManagementListViewState extends State<DayPassManagementListView> {
                               : state.items.length + 1,
                           itemBuilder: (context, index) {
                             if (index >= state.items.length) {
-                              if (state.status == FormStatus.loading ||
-                                  state.status == FormStatus.initial) {
+                              if (state.status == FormStatus.loading) {
                                 return const Center(child: BaseLoader());
                               }
                               return const SizedBox();
@@ -206,8 +205,9 @@ class _DayPassManagementListViewState extends State<DayPassManagementListView> {
                                       '${state.items[index].entrySecurity?.firstName ?? ''} ${state.items[index].entrySecurity?.lastName ?? ''}'));
 
                               labels.add(Label(
-                                  key: state.labels?.locale.dayPassInfo ??
-                                      state.labels?.defaultLocale.dayPassInfo ??
+                                  key:
+                                  // state.labels?.locale.dayPassInfo ??
+                                  //     state.labels?.defaultLocale.dayPassInfo ??
                                       Constants.dayPassNo,
                                   value:
                                       '${state.items[index].passInfo?.passNo ?? ''} '));

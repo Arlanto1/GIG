@@ -4,6 +4,8 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_master/services/duty_post_master_services.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../../models/location_Type_Model.dart';
+
 part 'duty_post_master_details_state.dart';
 
 class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
@@ -23,6 +25,8 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
             users: const [],
             emailUsers: const [],
             errorMessage: '',
+            getLocationType: GetLocationType(),
+
           ),
         );
 
@@ -45,6 +49,18 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
     );
   }
 
+
+  /// Finds the region id that contains the given location id.
+  int? _getRegionIdForLocation(Locations? locations, int? locationId) {
+    if (locations == null || locationId == null) return null;
+
+    for (final region in locations.regions ?? []) {
+      final bool found =
+          region.locations?.any((loc) => loc.id == locationId) ?? false;
+      if (found) return region.id;
+    }
+    return null;
+  }
   Future<void> initializeValues() async {
     emit(
       state.copyWith(
@@ -53,6 +69,11 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
     );
 
     var userId = await SharedPrefs.getUserId();
+    final Locations locations =
+    await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+    final int? regionId =
+    _getRegionIdForLocation(locations, state.model.location?.id);
+
     try {
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
@@ -69,6 +90,8 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
             ? services.getDutyPostsByLocation(
             locationId: state.model.location!.id.toString())
             : Future.value(<Organisation>[]),//5
+        commonServices.getLocationType(locId: regionId!),
+
       ]);
 
       Locations getLocationsData = futures[0];
@@ -78,6 +101,8 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
       dynamic responseLabels = futures[3];
       Organisation? defaultLocation = futures[4];
       List<Organisation> dutyPosts = futures[5];
+      GetLocationType? getLocationType = futures[6];
+
       // Organisation? location = state.model.location;
 
       if (state.model.location == null && defaultLocation != null) {
@@ -115,6 +140,8 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
           dutyPosts: dutyPosts,
           emailUsers: emailUsers.atomStaticUser,
           labels: labels,
+          getLocationType: getLocationType,
+
         ),
       );
     } catch (e) {
@@ -136,12 +163,16 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
     int? status,
     int? rankId,
     int? dutyType,
+    Organisation? locationType,
+
   }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
       ),
     );
+    GetLocationType? locType = state.getLocationType;
+
     //Get Sl No from API
     if (location != null) {
       // SerialNumberModel slNo = await commonServices.getSlNo(
@@ -156,12 +187,21 @@ class DutyPostMasterDetailsCubit extends Cubit<DutyPostMasterDetailsState> {
       log('--dutyPosts-${dutyPosts.length}---');
 
       await checkDpmExistsOrNot(state.model);
+      final int? locationId = location.id;
+      final int? regionId =
+      _getRegionIdForLocation(state.locations, locationId);
+      locType = await commonServices.getLocationType(locId: regionId!);
+
       emit(state.copyWith(
         dutyPosts: dutyPosts,
         status: FormStatus.initial,
+        getLocationType: locType,
       ));
     }
 
+    if (locationType != null) {
+      state.model.locationType = locationType;
+    }
     log('--dutyPostName--${dutyPostName?.name}---');
     if (dutyPostName != null) {
       state.model.dutyPostLocation = dutyPostName;

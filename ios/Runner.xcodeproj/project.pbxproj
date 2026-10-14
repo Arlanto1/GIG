@@ -566,6 +566,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = 3V699YW9M6;
 				ENABLE_BITCODE = NO;
@@ -579,6 +581,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.arlanto.atomedge;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -978,6 +981,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = 3V699YW9M6;
 				ENABLE_BITCODE = NO;
@@ -991,6 +996,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.arlanto.atomedge;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1005,6 +1011,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/RunnerRelease.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = 3V699YW9M6;
 				ENABLE_BITCODE = NO;
@@ -1018,6 +1026,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.arlanto.atomedge;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1409,6 +1418,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 652157C2DF2E0B92CBF11204 /* Pods-Runner.debug-qa.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 3V699YW9M6;
 				INFOPLIST_KEY_CFBundleDisplayName = "Atom Edge";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -1420,6 +1430,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 27A62ACC2A3E65B34AAB6D9F /* Pods-Runner.profile-qa.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 3V699YW9M6;
 				INFOPLIST_KEY_CFBundleDisplayName = "Atom Edge";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -1431,6 +1442,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 57A7F8A7537F1646374E2B0C /* Pods-Runner.release-qa.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 3V699YW9M6;
 				INFOPLIST_KEY_CFBundleDisplayName = "Atom Edge";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -1442,6 +1454,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D0CB0C28C3666592A6F39EE1 /* Pods-Runner.debug-uat.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 3V699YW9M6;
 				INFOPLIST_KEY_CFBundleDisplayName = "Atom Edge";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -1453,6 +1466,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C39B81F73E41D20615447B58 /* Pods-Runner.profile-uat.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 3V699YW9M6;
 				INFOPLIST_KEY_CFBundleDisplayName = "Atom Edge";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -1464,6 +1478,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B8E759DD5BDC046E11E44F71 /* Pods-Runner.release-uat.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = 3V699YW9M6;
 				INFOPLIST_KEY_CFBundleDisplayName = "Atom Edge";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -1475,10 +1490,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8C5B5964F0A2753F57D59E33 /* Pods-Runner.debug-prod.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3V699YW9M6;
 				INFOPLIST_KEY_CFBundleDisplayName = "Atom Edge";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				PRODUCT_NAME = Runner;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = "Debug-PROD";
 		};
@@ -1486,10 +1505,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5140C202DE7BFA963F731D0D /* Pods-Runner.profile-prod.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3V699YW9M6;
 				INFOPLIST_KEY_CFBundleDisplayName = "Atom Edge";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				PRODUCT_NAME = Runner;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = "Profile-PROD";
 		};
@@ -1497,10 +1520,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4EEEB337AEB55AB9AA8A4DE2 /* Pods-Runner.release-prod.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3V699YW9M6;
 				INFOPLIST_KEY_CFBundleDisplayName = "Atom Edge";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				PRODUCT_NAME = Runner;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = "Release-PROD";
 		};

@@ -4118,7 +4118,7 @@ class _EventInfoViewState extends State<EventInfoView> {
                                                             BlocProvider.of<EventInfoCubit>(context).initializeValues();
                                                           },
                                                           child: const AddViewButton(
-                                                            label: 'Add Article Found',
+                                                            label: 'Add Article Found/Loss Property Register',
                                                           ),
                                                         ),
 

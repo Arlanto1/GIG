@@ -114,16 +114,16 @@ class UploadAttachmentState extends State<UploadAttachment>
   Future<void> cropAndUploadImage(File imageFile) async {
     final croppedFile = await ImageCropper().cropImage(
       sourcePath: imageFile.path,
-      uiSettings: [
-        AndroidUiSettings(
-          toolbarTitle: 'Edit Image',
-          toolbarColor: Colors.blue,
-          toolbarWidgetColor: Colors.white,
-          initAspectRatio: CropAspectRatioPreset.original,
-          lockAspectRatio: false,
-        ),
-        IOSUiSettings(title: 'Edit Image'),
-      ],
+      // uiSettings: [
+      //   AndroidUiSettings(
+      //     toolbarTitle: 'Edit Image',
+      //     toolbarColor: Colors.blue,
+      //     toolbarWidgetColor: Colors.white,
+      //     initAspectRatio: CropAspectRatioPreset.original,
+      //     lockAspectRatio: false,
+      //   ),
+      //   IOSUiSettings(title: 'Edit Image'),
+      // ],
     );
 
     if (croppedFile != null) {

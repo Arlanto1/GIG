@@ -64,6 +64,7 @@ class GuardingMastersDataModel extends BaseObject {
   Organisation? location;
   Organisation? locationRegion;
   Organisation? vendor;
+  Organisation? locationType;
   User? entrySecurity;
   User? guard;
   Organisation? entity;
@@ -147,6 +148,7 @@ class GuardingMastersDataModel extends BaseObject {
     this.slNo,
     this.location,
     this.locationRegion,
+    this.locationType,
     this.vendor,
     this.guard,
     this.entity,
@@ -237,6 +239,10 @@ class GuardingMastersDataModel extends BaseObject {
           ? null
           : Organisation.fromJson(
               json['locationRegion'] as Map<String, dynamic>),
+      locationType: json['locationType'] == null
+          ? null
+          : Organisation.fromJson(
+          json['locationType'] as Map<String, dynamic>),
       vendor: json['vendor'] == null
           ? null
           : Organisation.fromJson(json['vendor'] as Map<String, dynamic>),
@@ -368,6 +374,7 @@ class GuardingMastersDataModel extends BaseObject {
       'slNo': slNo,
       'location': location?.toJson(),
       'locationRegion': locationRegion?.toJson(),
+      'locationType':locationType?.toJson(),
       'vendor': vendor?.toJson(),
       'entrySecurity': entrySecurity?.toJson(),
       'guard': guard?.toJson(),

@@ -4,6 +4,8 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_issuance/services/key_management_issuance_services.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../../models/location_Type_Model.dart';
+
 part 'key_management_issuance_details_state.dart';
 
 class KeyManagementIssuanceDetailsCubit
@@ -27,6 +29,7 @@ class KeyManagementIssuanceDetailsCubit
             departments: const [],
             typeOfServices: const [],
             errorMessage: '',
+            getLocationType : GetLocationType(),
           ),
         );
 
@@ -60,6 +63,18 @@ class KeyManagementIssuanceDetailsCubit
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
+  /// Finds the region id that contains the given location id.
+  int? _getRegionIdForLocation(Locations? locations, int? locationId) {
+    if (locations == null || locationId == null) return null;
+
+    for (final region in locations.regions ?? []) {
+      final bool found =
+          region.locations?.any((loc) => loc.id == locationId) ?? false;
+      if (found) return region.id;
+    }
+    return null;
+  }
+
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
     //Show Loader and emit loading state
@@ -68,6 +83,11 @@ class KeyManagementIssuanceDetailsCubit
         status: FormStatus.loading,
       ),
     );
+    final Locations locations =
+    await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+    final int? regionId = _getRegionIdForLocation(locations, state.model.location?.id);
+    final int? locationId = state.model.location?.id;
+
     var userId = await SharedPrefs.getUserId();
     try {
       Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
@@ -94,6 +114,8 @@ class KeyManagementIssuanceDetailsCubit
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.keyManagementIssuanceModule),
+        commonServices.getLocationType(locId: locationId!),
+
       ]);
 
       Locations getLocationsData = futures[0];
@@ -103,6 +125,7 @@ class KeyManagementIssuanceDetailsCubit
       List<BaseUser> emailUsers = futures[3];
       EmployeeDepartments departments = futures[4];
       // dynamic responseLabels = futures[6];
+      GetLocationType? getLocationType = futures[5];
 
       state.model.createdBy ??= loggedInUserDetails;
       // Get Date of Creation
@@ -148,6 +171,7 @@ class KeyManagementIssuanceDetailsCubit
           departments: departments.employeeDepartments,
           listOfEntities: entities.atomEntities,
           emailUsers: emailUsers,
+            getLocationType: getLocationType
           //labels: labels,
         ),
       );
@@ -172,6 +196,8 @@ class KeyManagementIssuanceDetailsCubit
       ),
     );
     List<BaseUser> emailUsers = [];
+    GetLocationType? locType = state.getLocationType;
+
     // Get Sl No from API
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
@@ -181,10 +207,15 @@ class KeyManagementIssuanceDetailsCubit
 
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
+      final int? locationId = location.id;
+      final int? regionId =
+      _getRegionIdForLocation(state.locations, locationId);
 
       emailUsers = await commonServices.getBaseUsers(
           isDbUser: true,
           roleName: 'ATOM_STATIC_USER', locationId: location.id!);
+      locType  = await commonServices.getLocationType(locId: locationId!);
+
     }
     state.model.dbSponsorCwrT2 = null;
     state.model.handedOverTo = null;
@@ -193,6 +224,7 @@ class KeyManagementIssuanceDetailsCubit
       model: state.model,
       emailUsers: emailUsers,
       status: FormStatus.initial,
+      getLocationType: locType,
     ));
   }
 
@@ -206,6 +238,8 @@ class KeyManagementIssuanceDetailsCubit
     BaseUser? dbSponsorCwrT2,
     int? employeeType,
     int? keyHandingOverDuration,
+    Organisation? locationType,
+
   }) async {
     emit(
       state.copyWith(
@@ -219,6 +253,10 @@ class KeyManagementIssuanceDetailsCubit
 
     if (!entities.isEmptyOrNull) {
       state.model.entities = entities;
+    }
+
+    if(locationType!=null){
+      state.model.locationType = locationType;
     }
     if (department != null) {
       state.model.department = department;

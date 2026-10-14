@@ -1,3 +1,313 @@
+// import 'dart:async';
+// import 'package:db_atom/index.dart';
+//
+// class BaseVerticalBarCharts extends StatefulWidget {
+//   final String chartTitle;
+//   final List<PieChartData> chartData;
+//   final Widget? moreIcon;
+//
+//   const BaseVerticalBarCharts({
+//     super.key,
+//     required this.chartTitle,
+//     required this.chartData,
+//     this.moreIcon,
+//   });
+//
+//   @override
+//   State<BaseVerticalBarCharts> createState() => _BaseVerticalBarChartsState();
+// }
+//
+// class _BaseVerticalBarChartsState extends State<BaseVerticalBarCharts>
+//     with SingleTickerProviderStateMixin {
+//   late AnimationController _animationController;
+//   bool isChartVisible = true;
+//   Timer? _timer;
+//
+//
+//   final Map<String, Color> topOvalColors = {};
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//      // prepare top oval colors (slightly brighter)
+//     for (int i = 0; i < widget.chartData.length; i++) {
+//       topOvalColors[widget.chartData[i].x] =
+//           presetColors[i % presetColors.length].withValues(alpha: 0.95);
+//     }
+//
+//
+//     _animationController = AnimationController(
+//       duration: const Duration(milliseconds: 1500),
+//       vsync: this,
+//     );
+//     _animationController.forward();
+// }
+//
+//   @override
+//   void dispose() {
+//     _animationController.dispose();
+//     _timer?.cancel();
+//     super.dispose();
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final media = MediaQuery.of(context);
+//     final isTablet = media.size.shortestSide >= 600;
+//
+//     return Visibility(
+//       visible: isChartVisible,
+//       child: Container(
+//         width: double.infinity,
+//         margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 12),
+//         padding: const EdgeInsets.all(10),
+//         decoration: BoxDecoration(
+//           gradient: const LinearGradient(
+//             colors: [
+//               Colors.transparent,
+//               Colors.transparent,
+//               Colors.transparent,
+//             ],
+//             begin: Alignment.topCenter,
+//             end: Alignment.bottomCenter,
+//           ),
+//           borderRadius: BorderRadius.circular(27),
+//           border: Border.all(
+//             color: Colors.white.withValues(alpha: 0.8),
+//             width: 0.8,
+//           ),
+//         ),
+//
+//         ///  HEIGHT COMES FROM PARENT (Grid / List)
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             /// ---------------- HEADER ----------------
+//             Row(
+//               children: [
+//                 Expanded(
+//                   child: SingleChildScrollView(
+//                     scrollDirection: Axis.horizontal,
+//                     child: Text(
+//                       widget.chartTitle,
+//                       style: const TextStyle(
+//                         fontWeight: FontWeight.bold,
+//                         color: Colors.white,
+//                         fontSize: 19,
+//                       ),
+//                     ),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//
+//             // const SizedBox(height: 10),
+//
+//             /// ---------------- CHART ----------------
+//             Expanded(
+//               flex: 7,
+//               child: widget.chartData.isEmpty
+//                   ? const Center(
+//                 child: Text(
+//                   'No Data Found',
+//                   style:
+//                   TextStyle(color: Colors.white, fontSize: 14),
+//                 ),
+//               )
+//                   : LayoutBuilder(
+//                 builder: (context, constraints) {
+//                   return SfCartesianChart(
+//                     backgroundColor: Colors.transparent,
+//                     tooltipBehavior:
+//                     TooltipBehavior(enable: true),
+//                     plotAreaBorderWidth: 0,
+//
+//                     primaryXAxis: const CategoryAxis(
+//                       labelStyle:
+//                       TextStyle(color: Colors.white),
+//                       axisLine: AxisLine(
+//                           color: Colors.white, width: 0.8),
+//                       majorGridLines:
+//                       MajorGridLines(width: 0),
+//                     ),
+//
+//                     primaryYAxis: const NumericAxis(
+//                       isVisible: false,
+//                       majorGridLines:
+//                       MajorGridLines(width: 0),
+//                       minorGridLines:
+//                       MinorGridLines(width: 0),
+//                     ),
+//
+//                     palette: customGlassColors,
+//
+//                     series: <CartesianSeries>[
+//                       ColumnSeries<PieChartData, String>(
+//                         dataSource: widget.chartData,
+//                         xValueMapper: (d, _) => d.x,
+//                         yValueMapper: (d, _) => d.y,
+//                         width: isTablet ? 0.6 : 0.8,
+//
+//                         borderWidth: 0.7,
+//                         borderColor: Colors.white,
+//
+//                         borderGradient:
+//                         const LinearGradient(
+//                           colors: [Colors.white, Colors.white],
+//                         ),
+//
+//                         onCreateShader:
+//                             (ShaderDetails details) {
+//                           return const LinearGradient(
+//                             begin: Alignment.topLeft,
+//                             end: Alignment.bottomRight,
+//                             colors: [
+//                               Colors.red,
+//                               Color(0xFFdc3545),
+//                               Colors.purple,
+//                               Color(0xFFFFA500),
+//                               Color(0xFFdc3545),
+//                               Color(0xFFFF1493),
+//                               Color(0xFF9D4EDD),
+//                               Color(0xFF5A189A),
+//                               Color(0xFF1E40AF),
+//                             ],
+//                           ).createShader(details.rect);
+//                         },
+//
+//                         dataLabelSettings:
+//                         const DataLabelSettings(
+//                           isVisible: true,
+//                           textStyle:
+//                           TextStyle(color: Colors.white),
+//                         ),
+//                       ),
+//                     ],
+//                   );
+//                 },
+//               ),
+//             ),
+//
+//             // const SizedBox(height: 10),
+//
+//             /// ---------------- LEGEND ----------------
+//             if (widget.chartData.isNotEmpty)
+//               SizedBox(
+//                 height: 60,
+//                 child: SingleChildScrollView(
+//                   scrollDirection: Axis.horizontal,
+//                   child: Row(
+//                     children: widget.chartData.map((data) {
+//                       final index =
+//                       widget.chartData.indexOf(data);
+//                       final color = customColors[
+//                       index % customColors.length];
+//
+//                       return Container(
+//                         margin:
+//                         const EdgeInsets.symmetric(horizontal: 6),
+//                         padding: const EdgeInsets.symmetric(
+//                             horizontal: 12, vertical: 6),
+//                         decoration: BoxDecoration(
+//                           gradient: LinearGradient(
+//                             colors: [
+//                               AppColors.newColor
+//                                   .withValues(alpha: 0.9),
+//                               AppColors.newColor
+//                                   .withValues(alpha: 0.9),
+//                             ],
+//                           ),
+//                           borderRadius: BorderRadius.circular(27),
+//                           border: Border.all(
+//                             color:
+//                             Colors.black.withValues(alpha: 0.8),
+//                             width: 1,
+//                           ),
+//                           boxShadow: [
+//                             BoxShadow(
+//                               color: const Color(0xFF6474C6)
+//                                   .withValues(alpha: 0.09),
+//                               blurRadius: 12,
+//                               offset: const Offset(0, 2),
+//                             ),
+//                           ],
+//                         ),
+//                         child: Row(
+//                           children: [
+//                             Container(
+//                               width: 10,
+//                               height: 10,
+//                               decoration: BoxDecoration(
+//                                 color: color,
+//                                 shape: BoxShape.circle,
+//                               ),
+//                             ),
+//                             const SizedBox(width: 6),
+//                             Text(
+//                               '${data.x} (${data.y}%)',
+//                               style: const TextStyle(
+//                                 fontSize: 13,
+//                                 fontWeight: FontWeight.w500,
+//                                 color: Colors.white,
+//                               ),
+//                             ),
+//                           ],
+//                         ),
+//                       );
+//                     }).toList(),
+//                   ),
+//                 ),
+//               ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+//
+// class GradientColumnSeries<T, D> extends ColumnSeries<T, D> {
+//   const GradientColumnSeries({super.key,
+//     super.dataSource,
+//     super.xValueMapper,
+//     super.yValueMapper,
+//     super.dataLabelSettings,
+//     super.borderRadius,
+//     super.width,
+//   });
+//
+//   ChartSegment createSegment() => GradientColumnSegment();
+// }
+// class GradientColumnSegment extends ColumnSegment {
+//   static List<List<Color>> gradients = [
+//     [const Color(0xFF00C6FF), const Color(0xFF0072FF)],
+//     [const Color(0xFFFFB199), const Color(0xFFFF0844)],
+//     [const Color(0xFFA1FFCE), const Color(0xFFFAFFD1)],
+//     [const Color(0xFFFFD194), const Color(0xFF70E1F5)],
+//   ];
+//
+//   @override
+//   void onPaint(Canvas canvas) {
+//     final index = currentSegmentIndex;
+//
+//     final colors = gradients[index % gradients.length];
+//
+//     // Convert RRect → Rect
+//     final rect = segmentRect!.outerRect;
+//
+//     final shader = LinearGradient(
+//       begin: Alignment.topCenter,
+//       end: Alignment.bottomCenter,
+//       colors: colors,
+//     ).createShader(rect);
+//
+//     final paint = Paint()..shader = shader;
+//
+//     // Draw using rect or drawRRect
+//     canvas.drawRRect(segmentRect!, paint);
+//   }
+// }
+//
+
 import 'dart:async';
 import 'package:db_atom/index.dart';
 
@@ -23,25 +333,23 @@ class _BaseVerticalBarChartsState extends State<BaseVerticalBarCharts>
   bool isChartVisible = true;
   Timer? _timer;
 
-
   final Map<String, Color> topOvalColors = {};
 
   @override
   void initState() {
     super.initState();
-     // prepare top oval colors (slightly brighter)
+    // prepare top oval colors (slightly brighter)
     for (int i = 0; i < widget.chartData.length; i++) {
       topOvalColors[widget.chartData[i].x] =
           presetColors[i % presetColors.length].withValues(alpha: 0.95);
     }
-
 
     _animationController = AnimationController(
       duration: const Duration(milliseconds: 1500),
       vsync: this,
     );
     _animationController.forward();
-}
+  }
 
   @override
   void dispose() {
@@ -59,23 +367,22 @@ class _BaseVerticalBarChartsState extends State<BaseVerticalBarCharts>
       visible: isChartVisible,
       child: Container(
         width: double.infinity,
-        margin: const EdgeInsets.symmetric(vertical: 1, horizontal: 12),
+        margin: EdgeInsets.symmetric(
+          vertical: 1,
+          horizontal: media.size.shortestSide * 0.035,
+        ),
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
             colors: [
-              Colors.transparent,
-              Colors.transparent,
-              Colors.transparent,
+              Colors.white.withValues(alpha: 0.12),
+              Colors.white.withValues(alpha: 0.05),
             ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
           ),
           borderRadius: BorderRadius.circular(27),
-          border: Border.all(
-            color: Colors.white.withValues(alpha: 0.8),
-            width: 0.8,
-          ),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.22)),
         ),
 
         ///  HEIGHT COMES FROM PARENT (Grid / List)
@@ -101,8 +408,6 @@ class _BaseVerticalBarChartsState extends State<BaseVerticalBarCharts>
               ],
             ),
 
-            // const SizedBox(height: 10),
-
             /// ---------------- CHART ----------------
             Expanded(
               flex: 7,
@@ -110,54 +415,38 @@ class _BaseVerticalBarChartsState extends State<BaseVerticalBarCharts>
                   ? const Center(
                 child: Text(
                   'No Data Found',
-                  style:
-                  TextStyle(color: Colors.white, fontSize: 14),
+                  style: TextStyle(color: Colors.white, fontSize: 14),
                 ),
               )
                   : LayoutBuilder(
                 builder: (context, constraints) {
                   return SfCartesianChart(
                     backgroundColor: Colors.transparent,
-                    tooltipBehavior:
-                    TooltipBehavior(enable: true),
+                    tooltipBehavior: TooltipBehavior(enable: true),
                     plotAreaBorderWidth: 0,
-
                     primaryXAxis: const CategoryAxis(
-                      labelStyle:
-                      TextStyle(color: Colors.white),
-                      axisLine: AxisLine(
-                          color: Colors.white, width: 0.8),
-                      majorGridLines:
-                      MajorGridLines(width: 0),
+                      labelStyle: TextStyle(color: Colors.white),
+                      axisLine: AxisLine(color: Colors.white, width: 0.8),
+                      majorGridLines: MajorGridLines(width: 0),
                     ),
-
                     primaryYAxis: const NumericAxis(
                       isVisible: false,
-                      majorGridLines:
-                      MajorGridLines(width: 0),
-                      minorGridLines:
-                      MinorGridLines(width: 0),
+                      majorGridLines: MajorGridLines(width: 0),
+                      minorGridLines: MinorGridLines(width: 0),
                     ),
-
                     palette: customGlassColors,
-
                     series: <CartesianSeries>[
                       ColumnSeries<PieChartData, String>(
                         dataSource: widget.chartData,
                         xValueMapper: (d, _) => d.x,
                         yValueMapper: (d, _) => d.y,
                         width: isTablet ? 0.6 : 0.8,
-
                         borderWidth: 0.7,
                         borderColor: Colors.white,
-
-                        borderGradient:
-                        const LinearGradient(
+                        borderGradient: const LinearGradient(
                           colors: [Colors.white, Colors.white],
                         ),
-
-                        onCreateShader:
-                            (ShaderDetails details) {
+                        onCreateShader: (ShaderDetails details) {
                           return const LinearGradient(
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
@@ -174,12 +463,9 @@ class _BaseVerticalBarChartsState extends State<BaseVerticalBarCharts>
                             ],
                           ).createShader(details.rect);
                         },
-
-                        dataLabelSettings:
-                        const DataLabelSettings(
+                        dataLabelSettings: const DataLabelSettings(
                           isVisible: true,
-                          textStyle:
-                          TextStyle(color: Colors.white),
+                          textStyle: TextStyle(color: Colors.white),
                         ),
                       ),
                     ],
@@ -187,8 +473,6 @@ class _BaseVerticalBarChartsState extends State<BaseVerticalBarCharts>
                 },
               ),
             ),
-
-            // const SizedBox(height: 10),
 
             /// ---------------- LEGEND ----------------
             if (widget.chartData.isNotEmpty)
@@ -198,39 +482,19 @@ class _BaseVerticalBarChartsState extends State<BaseVerticalBarCharts>
                   scrollDirection: Axis.horizontal,
                   child: Row(
                     children: widget.chartData.map((data) {
-                      final index =
-                      widget.chartData.indexOf(data);
-                      final color = customColors[
-                      index % customColors.length];
+                      final index = widget.chartData.indexOf(data);
+                      final color = customColors[index % customColors.length];
 
                       return Container(
-                        margin:
-                        const EdgeInsets.symmetric(horizontal: 6),
+                        margin: const EdgeInsets.symmetric(horizontal: 6),
                         padding: const EdgeInsets.symmetric(
                             horizontal: 12, vertical: 6),
                         decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              AppColors.newColor
-                                  .withValues(alpha: 0.9),
-                              AppColors.newColor
-                                  .withValues(alpha: 0.9),
-                            ],
-                          ),
+                          color: Colors.white.withValues(alpha: 0.10),
                           borderRadius: BorderRadius.circular(27),
                           border: Border.all(
-                            color:
-                            Colors.black.withValues(alpha: 0.8),
-                            width: 1,
+                            color: Colors.white.withValues(alpha: 0.22),
                           ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: const Color(0xFF6474C6)
-                                  .withValues(alpha: 0.09),
-                              blurRadius: 12,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
                         ),
                         child: Row(
                           children: [
@@ -266,7 +530,8 @@ class _BaseVerticalBarChartsState extends State<BaseVerticalBarCharts>
 }
 
 class GradientColumnSeries<T, D> extends ColumnSeries<T, D> {
-  const GradientColumnSeries({super.key,
+  const GradientColumnSeries({
+    super.key,
     super.dataSource,
     super.xValueMapper,
     super.yValueMapper,
@@ -277,6 +542,7 @@ class GradientColumnSeries<T, D> extends ColumnSeries<T, D> {
 
   ChartSegment createSegment() => GradientColumnSegment();
 }
+
 class GradientColumnSegment extends ColumnSegment {
   static List<List<Color>> gradients = [
     [const Color(0xFF00C6FF), const Color(0xFF0072FF)],
@@ -306,4 +572,3 @@ class GradientColumnSegment extends ColumnSegment {
     canvas.drawRRect(segmentRect!, paint);
   }
 }
-

@@ -251,8 +251,38 @@ class _VVIPVisitorDetailsViewState extends State<VVIPVisitorDetailsView> {
                               CommonWidgets.verticalSpacerWidget(
                                   height * 0.001),
                               locationWidgetdislay(state),
-
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
+
+                              /// Location Type
+                              CommonWidgets.textDisplay(
+                                Constants.locationType,
+                                Styles.textStyleWhite16,
+                                isMandatory: true,
+                              ),
+                              TextFieldAddButton(
+                                title: state.model.locationType?.name,
+                                height: 75,
+                                isDisableColor: isReadOnly,
+                                onTap: () {
+                                  if (!isReadOnly) {
+                                    BaseOrganisationDialog().departmentDialog(
+                                      context: context,
+                                      organisations: state.getLocationType.getLocationType ?? [],
+                                      onTap: (Organisation locationType) {
+                                        BlocProvider.of<VVIPVisitorDetailsCubit>(context)
+                                            .updateDropdownValues(locationType: locationType);
+                                      },
+                                      leftImage: false,
+                                      createEntity: false,
+                                      // functionToCall: () {
+                                      //   BlocProvider.of<VVIPVisitorDetailsCubit>(context).refreshList();
+                                      // },
+                                    );
+                                  }
+                                },
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.03),
+
 
                               /// Sl No.
                               CommonWidgets.horizontalTextHandling(

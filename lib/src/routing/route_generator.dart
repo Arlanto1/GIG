@@ -2466,6 +2466,12 @@ as mm;
 import 'package:db_atom/src/features/occurrence/occurrences_details/general_info/services/occurrences_services.dart';
 import 'package:db_atom/src/features/occurrenceList/bloc/occurrences_bloc.dart'
 as ocb;
+import 'package:db_atom/src/features/parking/models/parking_model.dart';
+import 'package:db_atom/src/features/parking/parking_details/cubits/parking_details_cubit.dart';
+import 'package:db_atom/src/features/parking/parking_details/views/parking_details_view.dart';
+import 'package:db_atom/src/features/parking/parking_list/bloc/parking_list_bloc.dart';
+import 'package:db_atom/src/features/parking/parking_list/views/parking_list_view.dart';
+import 'package:db_atom/src/features/parking/services/parking_service.dart';
 import 'package:db_atom/src/features/passmanagement/day_pass_mangement/day_passmanagement_list/bloc/day_passmanagement_list_bloc.dart';
 import 'package:db_atom/src/features/passmanagement/day_pass_mangement/services/day_passmanagement_service.dart';
 import 'package:db_atom/src/features/passmanagement/pass_management_list/bloc/pass_management_list_bloc.dart'
@@ -4159,52 +4165,145 @@ class RouteGenerator {
           ),
         );
 
+
+      // case attendanceShiftsRoute:
+      //   String id = '';
+      //   int? attInfoId;
+      //   Organisation? location;
+      //   Organisation? locationRegion;
+      //   Organisation? vendor;
+      //   late DutyPostModel selectedDutyPostModel;
+      //     late bool isReadOnly;
+      //     late bool isEligibleToEdit;
+      //   ExtraProperties? extraProperties;
+      //   if (settings.arguments != null) {
+      //     Map<String, dynamic> arguments =
+      //     settings.arguments as Map<String, dynamic>;
+      //     id = arguments[ConstantsArgument.id] ?? '';
+      //     extraProperties = arguments[ConstantsArgument.extraProperties];
+      //     attInfoId = arguments[ConstantsArgument.parentId];
+      //     location = arguments[ConstantsArgument.location];
+      //     locationRegion = arguments[ConstantsArgument.locationRegion];
+      //     vendor = arguments[ConstantsArgument.vendor];
+      //     selectedDutyPostModel =
+      //         arguments[ConstantsArgument.selectedDutyPostModel];
+      //     isReadOnly = arguments[ConstantsArgument.isReadOnly];
+      //         isEligibleToEdit = arguments[ConstantsArgument.isEligibleToEdit];
+      //   }
+      //   AttendanceServices services = AttendanceServices();
+      //   CommonServices commonServices = CommonServices();
+      //   return MaterialPageRoute(
+      //     builder: (context) => BlocProvider<AttendanceShiftsCubit>(
+      //       create: (_) => AttendanceShiftsCubit(
+      //         attInfoId: attInfoId!,
+      //         services: services,
+      //         commonServices: commonServices,
+      //       ),
+      //       child: AttendanceShiftsView(
+      //         // extraProperties: extraProperties,
+      //         attInfoId :attInfoId!,
+      //         location: location!,
+      //         locationRegion: locationRegion!, vendor: vendor!, selectedDutyPostModel: selectedDutyPostModel, isReadOnly: isReadOnly, isEligibleToEdit: isEligibleToEdit!,
+      //       ),
+      //     ),
+      //   );
+
       case attendanceShiftsRoute:
+        String id = '';
         int attInfoId = 0;
-        int? selectedDutyPostNameId;
         Organisation? location;
         Organisation? locationRegion;
         Organisation? vendor;
-        late DutyPostModel selectedDutyPostModel;
-        late bool isReadOnly;
-        late bool isEligibleToEdit;
+        int selectedDutyPostNameId = 0;
+        DutyPostModel selectedDutyPostModel = DutyPostModel(); // FIX: default instead of `late`, so a missing/null argument degrades gracefully instead of throwing "type 'Null' is not a subtype of type 'DutyPostModel'"
+        bool isReadOnly = false;      // FIX: default instead of `late`
+        bool isEligibleToEdit = false; // FIX: default instead of `late`
+        ExtraProperties? extraProperties;
         if (settings.arguments != null) {
           Map<String, dynamic> arguments =
           settings.arguments as Map<String, dynamic>;
-          attInfoId = arguments[ConstantsArgument.parentId];
-          selectedDutyPostNameId =
-          arguments[ConstantsArgument.selectedDutyPostNameId];
+          id = arguments[ConstantsArgument.id] ?? '';
+          extraProperties = arguments[ConstantsArgument.extraProperties];
+          attInfoId = arguments[ConstantsArgument.parentId] as int? ?? 0;
           location = arguments[ConstantsArgument.location];
           locationRegion = arguments[ConstantsArgument.locationRegion];
           vendor = arguments[ConstantsArgument.vendor];
+          // selectedDutyPostNameId =
+          // arguments[ConstantsArgument.selectedDutyPostNameId];
           selectedDutyPostModel =
-          arguments[ConstantsArgument.selectedDutyPostModel];
-          isReadOnly = arguments[ConstantsArgument.isReadOnly];
-          isEligibleToEdit = arguments[ConstantsArgument.isEligibleToEdit];
+              arguments[ConstantsArgument.selectedDutyPostModel] ??
+                  DutyPostModel();
+          isReadOnly = arguments[ConstantsArgument.isReadOnly] ?? false;
+          isEligibleToEdit =
+              arguments[ConstantsArgument.isEligibleToEdit] ?? false;
         }
         AttendanceServices services = AttendanceServices();
         CommonServices commonServices = CommonServices();
-        SLAViolationPenaltyServices slaServices = SLAViolationPenaltyServices();
-
         return MaterialPageRoute(
           builder: (context) => BlocProvider<AttendanceShiftsCubit>(
             create: (_) => AttendanceShiftsCubit(
               attInfoId: attInfoId,
-              selectedDutyPostNameId: selectedDutyPostNameId!,
               services: services,
               commonServices: commonServices,
-              slaServices: slaServices, parentModel: selectedDutyPostModel,
             ),
             child: AttendanceShiftsView(
-                attInfoId: attInfoId,
-                location: location!,
-                locationRegion: locationRegion!,
-                vendor: vendor!,
-                selectedDutyPostModel: selectedDutyPostModel,
-                isReadOnly: isReadOnly,
-                isEligibleToEdit: isEligibleToEdit),
+              // extraProperties: extraProperties,
+              attInfoId: attInfoId,
+              location: location!,
+              locationRegion: locationRegion!,
+              vendor: vendor!,
+              selectedDutyPostModel: selectedDutyPostModel,
+              isReadOnly: isReadOnly,
+              isEligibleToEdit: isEligibleToEdit,
+            ),
           ),
         );
+      // case attendanceShiftsRoute:
+      //   int attInfoId = 0;
+      //   int? selectedDutyPostNameId;
+      //   Organisation? location;
+      //   Organisation? locationRegion;
+      //   Organisation? vendor;
+      //   late DutyPostModel selectedDutyPostModel;
+      //   late bool isReadOnly;
+      //   late bool isEligibleToEdit;
+      //   if (settings.arguments != null) {
+      //     Map<String, dynamic> arguments =
+      //     settings.arguments as Map<String, dynamic>;
+      //     attInfoId = arguments[ConstantsArgument.parentId];
+      //     selectedDutyPostNameId =
+      //     arguments[ConstantsArgument.selectedDutyPostNameId];
+      //     location = arguments[ConstantsArgument.location];
+      //     locationRegion = arguments[ConstantsArgument.locationRegion];
+      //     vendor = arguments[ConstantsArgument.vendor];
+      //     selectedDutyPostModel =
+      //     arguments[ConstantsArgument.selectedDutyPostModel];
+      //     isReadOnly = arguments[ConstantsArgument.isReadOnly];
+      //     isEligibleToEdit = arguments[ConstantsArgument.isEligibleToEdit];
+      //   }
+      //   AttendanceServices services = AttendanceServices();
+      //   CommonServices commonServices = CommonServices();
+      //   SLAViolationPenaltyServices slaServices = SLAViolationPenaltyServices();
+      //
+      //   return MaterialPageRoute(
+      //     builder: (context) => BlocProvider<AttendanceShiftsCubit>(
+      //       create: (_) => AttendanceShiftsCubit(
+      //         attInfoId: attInfoId,
+      //         // selectedDutyPostNameId: selectedDutyPostNameId!,
+      //         services: services,
+      //         commonServices: commonServices,
+      //         // slaServices: slaServices, parentModel: selectedDutyPostModel,
+      //       ),
+      //       child: AttendanceShiftsView(
+      //           attInfoId: attInfoId,
+      //           location: location!,
+      //           locationRegion: locationRegion!,
+      //           vendor: vendor!,
+      //           selectedDutyPostModel: selectedDutyPostModel,
+      //           isReadOnly: isReadOnly,
+      //           isEligibleToEdit: isEligibleToEdit),
+      //     ),
+      //   );
 
       case attendanceReportBillingListRoute:
         return MaterialPageRoute(
@@ -5124,6 +5223,64 @@ class RouteGenerator {
               child: TrainingItemsListView(id: id),
             ));
 
+      case parkingListRoute:
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<ParkingListBloc>(
+            create: (_) => ParkingListBloc()
+              ..add(FetchParkingData(
+                  startPos: 0,
+                  maxPos: Constants.maxResults,
+                  newSearch: true,
+                  filters: BaseFilterModel())),
+            child: const ParkingListView(),
+          ),
+        );
+
+
+      // case parkingDetailsRoute:
+      //   ParkingService services = ParkingService();
+      //   String title;
+      //   String id = '';
+      //   CommonServices commonServices = CommonServices();
+      //   Map<String, dynamic> arguments =
+      //   settings.arguments as Map<String, dynamic>;
+      //   title = arguments[ConstantsArgument.title];
+      //   ParkingModel? model = arguments["model"];
+      //   return MaterialPageRoute(
+      //     builder: (context) => BlocProvider<ParkingDetailsCubit>(
+      //       create: (_) => ParkingDetailsCubit(
+      //         services: services,
+      //         id: id,
+      //         commonServices: commonServices,
+      //       ),
+      //       child: ParkingDetailsView(
+      //           title: title,
+      //           model: model
+      //       ),
+      //     ),
+      //   );
+      case parkingDetailsRoute:
+        ParkingService services = ParkingService();
+        String title;
+        CommonServices commonServices = CommonServices();
+        Map<String, dynamic> arguments =
+        settings.arguments as Map<String, dynamic>;
+        title = arguments[ConstantsArgument.title];
+        ParkingModel? model = arguments["model"];
+        String id = model?.id?.toString() ?? '';
+        return MaterialPageRoute(
+          builder: (context) => BlocProvider<ParkingDetailsCubit>(
+            create: (_) => ParkingDetailsCubit(
+              services: services,
+              id: id,
+              commonServices: commonServices,
+            ),
+            child: ParkingDetailsView(
+                title: title,
+                model: model
+            ),
+          ),
+        );
       default:
         log('--default123---${settings.name}-');
         return MaterialPageRoute(builder: (context) => const SplashScreen());

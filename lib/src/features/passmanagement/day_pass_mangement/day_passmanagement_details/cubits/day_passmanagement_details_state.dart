@@ -20,6 +20,7 @@ class DayPassManagementDetailsState extends Equatable {
   final List<ImageContent> uploadAttachments;
   final String? message;
   final PMUiLabels? labels;
+  final GetLocationType  getLocationType;
 
   factory DayPassManagementDetailsState.initial({
     required DayPassManagementModel model,
@@ -35,6 +36,8 @@ class DayPassManagementDetailsState extends Equatable {
     required List<Organisation> departments,
     required final List<Organisation> getStatus,
     required List<ImageContent> uploadAttachments,
+    required GetLocationType getLocationType,
+
   }) {
     return DayPassManagementDetailsState(
       status: FormStatus.initial,
@@ -50,6 +53,7 @@ class DayPassManagementDetailsState extends Equatable {
       message: errorMessage,
       departments: departments,
       uploadAttachments: uploadAttachments,
+      getLocationType:getLocationType,
     );
   }
 
@@ -177,6 +181,8 @@ class DayPassManagementDetailsState extends Equatable {
     this.employee,
     this.dbSponsor,
     this.host,
+    required this.getLocationType,
+
   });
 
   DayPassManagementDetailsState copyWith({
@@ -199,6 +205,8 @@ class DayPassManagementDetailsState extends Equatable {
     List<ImageContent>? uploadAttachments,
     String? message,
     PMUiLabels? labels,
+    GetLocationType? getLocationType,
+
   }) {
     return DayPassManagementDetailsState(
       status: status ?? this.status,
@@ -219,6 +227,7 @@ class DayPassManagementDetailsState extends Equatable {
       uploadAttachments: uploadAttachments ?? this.uploadAttachments,
       message: message ?? this.message,
       labels: labels ?? this.labels,
+      getLocationType:getLocationType??this.getLocationType,
     );
   }
 }

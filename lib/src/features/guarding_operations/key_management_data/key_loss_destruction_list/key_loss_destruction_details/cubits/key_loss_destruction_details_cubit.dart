@@ -6,6 +6,7 @@ import 'package:db_atom/src/features/guarding_operations/key_management_data/key
 import 'package:intl/intl.dart';
 
 import '../../../../../../../index.dart';
+import '../../../../../../models/location_Type_Model.dart';
 
 part 'key_loss_destruction_details_state.dart';
 
@@ -30,7 +31,8 @@ class KeyLossDestructionDetailsCubit
               listOfEntities: const [],
               getEntitiesResponse: null,
               departments: const [],
-              getQualificationsResponse: null),
+              getQualificationsResponse: null,
+            getLocationType : GetLocationType()),
         );
 
   Future<void> refreshList() async {
@@ -64,12 +66,26 @@ class KeyLossDestructionDetailsCubit
     );
   }
 
+  int? _getRegionIdForLocation(Locations? locations, int? locationId) {
+    if (locations == null || locationId == null) return null;
+
+    for (final region in locations.regions ?? []) {
+      final bool found =
+          region.locations?.any((loc) => loc.id == locationId) ?? false;
+      if (found) return region.id;
+    }
+    return null;
+  }
   Future<void> initializeValues() async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
       ),
     );
+
+    // final Locations locations =
+    // await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+    // final int? regionId = _getRegionIdForLocation(locations, state.model.location?.id);
 
     var userId = await SharedPrefs.getUserId();
     try {
@@ -92,6 +108,7 @@ class KeyLossDestructionDetailsCubit
             roleNames:
                 ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser, isDbUser: false),//8
         commonServices.getBaseUsersByRoles(roleNames: 'ATOM_Sub_Regional_Head', isDbUser: false),//9
+
       ]);
 
       Locations getLocationsData = futures[0];
@@ -105,6 +122,7 @@ class KeyLossDestructionDetailsCubit
       // Organisation? defaultLocation = futures[9];
       List<BaseUser> securityManager = futures[8];
       List<BaseUser> srh = futures[9];
+      GetLocationType? getLocationType = futures[10];
 
       state.model.createdBy ??= loggedInUserDetails;
       state.model.modifiedBy ??= loggedInUserDetails.userName;
@@ -139,6 +157,7 @@ class KeyLossDestructionDetailsCubit
           getEntitiesResponse: entities,
           departments: departments.items,
           labels: labels,
+            getLocationType: getLocationType
         ),
       );
       isFormReadable();

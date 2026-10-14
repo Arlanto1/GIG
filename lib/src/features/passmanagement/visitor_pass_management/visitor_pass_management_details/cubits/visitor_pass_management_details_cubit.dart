@@ -6,9 +6,12 @@ import 'package:db_atom/src/features/passmanagement/visitor_pass_management/mode
 import 'package:db_atom/src/features/passmanagement/visitor_pass_management/services/visitor_pass_management_service.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../models/location_Type_Model.dart';
+
 part 'visitor_pass_management_details_state.dart';
 
-class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetailsState> {
+class VisitorPassManagementDetailsCubit
+    extends Cubit<VisitorPassManagementDetailsState> {
   final VisitorPassManagementServices visitorPassManagementServices;
   final VisitorPassManagementModel? model;
   final CommonServices commonServices;
@@ -17,26 +20,33 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
     required this.visitorPassManagementServices,
     required this.commonServices,
     this.model,
-
   }) : super(
-    VisitorPassManagementDetailsState.initial(
-      model: model ?? VisitorPassManagementModel(),
-      locations: Locations(),
-      users: const [],
-      emailUsers: const [],
-      errorMessage: '',
-      departments: const [],
-      loadAttachments: const [], listOfEntities: const [], getCompanyTypeResponse: const [], dayPassReason:const [], passNo: const [], passType: const [], getStatus: const [],
-    ),
-  );
+          VisitorPassManagementDetailsState.initial(
+            model: model ?? VisitorPassManagementModel(),
+            locations: Locations(),
+            users: const [],
+            emailUsers: const [],
+            errorMessage: '',
+            departments: const [],
+            loadAttachments: const [],
+            listOfEntities: const [],
+            getCompanyTypeResponse: const [],
+            dayPassReason: const [],
+            passNo: const [],
+            passType: const [],
+            getStatus: const [],
+            getLocationType: GetLocationType(),
+
+          ),
+        );
 
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
 
     List<Organisation>? entities =
-    await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
+        await commonServices.getOrganisations(name: 'ATOM_ENTITIES');
     EmployeeDepartments departments =
-    await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
+        await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
     List<BaseUser> emailUsers = await commonServices.getBaseUsers(
         roleName: ConstantUserRoles.atomStaticUser,
         locationId: state.model.location!.id!);
@@ -71,13 +81,15 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
   }
 
   Future<void> initializeValues() async {
-
     // Show Loader and emit loading state
     emit(
       state.copyWith(status: FormStatus.loading),
     );
 
     var userId = await SharedPrefs.getUserId();
+    final Locations locations =
+    await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+    final int? locationId = state.model.location?.id;
 
     Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
 
@@ -106,10 +118,19 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
             isDbUser: true,
             locationId: state.model.location!.id!),
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
-        commonServices.getPassNo(passType: 1, locationId: state.model.location!.id!,isDwsPass: false),
-        commonServices.getPassType(passType: 1, locationId: state.model.location!.id!,),
+        commonServices.getPassNo(
+            passType: 1,
+            locationId: state.model.location!.id!,
+            isDwsPass: false),
+        commonServices.getPassType(
+          passType: 1,
+          locationId: state.model.location!.id!,
+        ),
         commonServices.getStatusesByModuleId(
-            module: Constants.passManagementModuleCode, filter: state.model.status == 0 ? 0 : 1),
+            module: Constants.passManagementModuleCode,
+            filter: state.model.status == 0 ? 0 : 1),
+        commonServices.getLocationType(locId: locationId!),
+
       ]);
       Locations locations = futures[0];
       User loggedInUserDetails = futures[1];
@@ -121,22 +142,22 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
       DayPassNumberLists passNo = futures[7];
       List<Organisation> getPassType = futures[8];
       List<Organisation> getStatus = futures[9];
-
+      GetLocationType? getLocationType = futures[10];
 
       log('--emailUsers--${emailUsers.length}---');
       // Get Date of Creation
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model.inputDate ?? '0'),
-          Constants.fulldateFormat);
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
 
-      if(state.model.status !=null && state.model.status !=0) {
+      if (state.model.status != null && state.model.status != 0) {
         state.model.returnedTime = state.model.returnedTime == null
             ? Utils().getCurrentDate()
             : Utils.timestampToDateConversion(
-            int.tryParse(state.model.returnedTime ?? '0'),
-            Constants.fulldateFormat);
+                int.tryParse(state.model.returnedTime ?? '0'),
+                Constants.fulldateFormat);
       }
       state.model.passType ??= 1;
 
@@ -146,7 +167,9 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
 
       state.model.entrySecurity ??= loggedInUserDetails;
 
-      if(state.model.updatedStatus == 2  || state.model.updatedStatus == 8  || state.model.updatedStatus == 9 ){
+      if (state.model.updatedStatus == 2 ||
+          state.model.updatedStatus == 8 ||
+          state.model.updatedStatus == 9) {
         state.model.handoverSecurity ??= loggedInUserDetails;
       }
 
@@ -177,10 +200,11 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
           listOfEntities: entities.atomEntities,
           passNo: passNo.activePassInfoList,
           passType: getPassType,
-          getStatus:getStatus,
+          getStatus: getStatus,
           loadAttachments: state.model.visitorImage != null
               ? [state.model.visitorImage ?? ImageContent()]
               : [],
+          getLocationType: getLocationType,
         ),
       );
     } catch (e) {
@@ -205,9 +229,10 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
     );
 
     List<BaseUser> emailUsers = [];
-    DayPassNumberLists passNo = DayPassNumberLists(activePassInfoList: []); // Initialize with default value
+    DayPassNumberLists passNo = DayPassNumberLists(
+        activePassInfoList: []); // Initialize with default value
     List<Organisation> getPassType = [];
-
+    GetLocationType? locType = state.getLocationType;
 
     // Get Sl No from API
     if (location != null) {
@@ -215,6 +240,8 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
         locationId: location.id.toString(),
         moduleCode: Constants.visitorPassManagementModule,
       );
+      final int? locationId = location.id;
+
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
 
@@ -231,16 +258,13 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
           isDbUser: true,
           locationId: state.model.location!.id!);
       passNo = await commonServices.getPassNo(
-          passType: 1,
-          locationId: state.model.location!.id!,
-          isDwsPass: false);
+          passType: 1, locationId: state.model.location!.id!, isDwsPass: false);
 
       getPassType = await commonServices.getPassType(
-          passType: 1,
-          locationId: state.model.location!.id!);
+          passType: 1, locationId: state.model.location!.id!);
+      locType = await commonServices.getLocationType(locId: locationId!);
 
     }
-
 
     if (getPassType.isNotEmpty) {
       Organisation defaultPassType = getPassType.first;
@@ -258,6 +282,8 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
       passNo: passNo.activePassInfoList,
       passType: getPassType,
       status: FormStatus.initial,
+      getLocationType: locType,
+
     ));
   }
 
@@ -276,6 +302,8 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
     Organisation? dayPassReason,
     int? status,
     int? validateType,
+    Organisation? locationType,
+
   }) async {
     emit(
       state.copyWith(
@@ -285,11 +313,13 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
 
     state.model.status = status ?? state.model.status;
 
-    state.model.idValidationType = validateType??state.model.idValidationType;
+    state.model.idValidationType = validateType ?? state.model.idValidationType;
     if (entities != null) {
       state.model.entities = entities;
     }
-
+    if (locationType != null) {
+      state.model.locationType = locationType;
+    }
 
     if (host != null) {
       // Ensure employeeId is explicitly assigned to receiverEmployeeId
@@ -300,12 +330,13 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
       String email = host.email ?? '';
       List<String> nameParts = host.name!.split(' '); // Split by space
       String? firstName = nameParts.isNotEmpty ? nameParts.first : null;
-      String? lastName = nameParts.length > 1 ? nameParts.sublist(1).join(' ') : null;
+      String? lastName =
+          nameParts.length > 1 ? nameParts.sublist(1).join(' ') : null;
       User userDetails = User(
-          name:name,
-          userId: host.id,
-          email: email,
-          employeeId: host.employeeId,
+        name: name,
+        userId: host.id,
+        email: email,
+        employeeId: host.employeeId,
         firstName: firstName,
         lastName: lastName,
       );
@@ -331,11 +362,7 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
 
       // Format the name and email for receiverEmail
       String name = passNo.name ?? '';
-      PassInfo userDetails = PassInfo(
-        passNo:name,
-        id: passNo.id,
-        passType: 1
-      );
+      PassInfo userDetails = PassInfo(passNo: name, id: passNo.id, passType: 1);
       state.model.passInfo = userDetails;
       emit(
         state.copyWith(
@@ -406,22 +433,36 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
     }
 
     state.model.startTime = state.model.startTime != null
-        ? ((int.tryParse(state.model.startTime ?? '') ?? DateTime.now().millisecondsSinceEpoch)).toString()
+        ? ((int.tryParse(state.model.startTime ?? '') ??
+                DateTime.now().millisecondsSinceEpoch))
+            .toString()
         : (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
 
     state.model.endTime = state.model.endTime != null
-        ? ((int.tryParse(state.model.endTime ?? '') ?? DateTime.now().add(const Duration(hours: 12)).millisecondsSinceEpoch)).toString()
-        : (DateTime.now().add(const Duration(hours: 12)).millisecondsSinceEpoch ~/ 1000).toString();
+        ? ((int.tryParse(state.model.endTime ?? '') ??
+                DateTime.now()
+                    .add(const Duration(hours: 12))
+                    .millisecondsSinceEpoch))
+            .toString()
+        : (DateTime.now()
+                    .add(const Duration(hours: 12))
+                    .millisecondsSinceEpoch ~/
+                1000)
+            .toString();
 
-
-    if(state.model.status == 1 && (state.model.updatedStatus == 2||state.model.updatedStatus == 8 || state.model.updatedStatus == 9)){
+    if (state.model.status == 1 &&
+        (state.model.updatedStatus == 2 ||
+            state.model.updatedStatus == 8 ||
+            state.model.updatedStatus == 9)) {
       state.model.returnedTime = state.model.returnedTime != null
-          ? ((int.tryParse(state.model.returnedTime ?? '') ?? DateTime.now().millisecondsSinceEpoch)).toString()
+          ? ((int.tryParse(state.model.returnedTime ?? '') ??
+                  DateTime.now().millisecondsSinceEpoch))
+              .toString()
           : (DateTime.now().millisecondsSinceEpoch ~/ 1000).toString();
     }
     // Create/Update API Call
     VisitorPassManagementRequest request =
-    VisitorPassManagementRequest(passManagement: state.model);
+        VisitorPassManagementRequest(passManagement: state.model);
     state.model.status ??= 0;
 
     state.model.passInfo?.passType ??= 1;
@@ -433,8 +474,8 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
           state.model.inputDate = state.model.inputDate == null
               ? Utils().getCurrentDate()
               : Utils.timestampToDateConversion(
-              int.tryParse(state.model.inputDate ?? '0'),
-              Constants.fulldateFormat);
+                  int.tryParse(state.model.inputDate ?? '0'),
+                  Constants.fulldateFormat);
           emit(
             state.copyWith(
               status: FormStatus.formError,
@@ -451,8 +492,8 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
           state.model.inputDate = state.model.inputDate == null
               ? Utils().getCurrentDate()
               : Utils.timestampToDateConversion(
-              int.tryParse(state.model.inputDate ?? '0'),
-              Constants.fulldateFormat);
+                  int.tryParse(state.model.inputDate ?? '0'),
+                  Constants.fulldateFormat);
           emit(
             state.copyWith(
               status: FormStatus.formError,
@@ -483,23 +524,23 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model.inputDate ?? '0'),
-          Constants.fulldateFormat);
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
       return true;
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model.inputDate ?? '0'),
-          Constants.fulldateFormat);
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
       return false;
     } on Exception catch (e) {
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model.inputDate ?? '0'),
-          Constants.fulldateFormat);
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
       emit(
         state.copyWith(
           message: e.toString(),
@@ -509,5 +550,4 @@ class VisitorPassManagementDetailsCubit extends Cubit<VisitorPassManagementDetai
       return false;
     }
   }
-
 }

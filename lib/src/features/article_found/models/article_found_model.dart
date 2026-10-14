@@ -33,6 +33,7 @@ class ArticleFoundModel {
    String? slNo;
    String? inputDate;
    Organisation? locationRegion;
+   Organisation? locationType;
    int? typeOfAsset;
    Organisation? typeOfArticle;
    String? foundDate;
@@ -79,6 +80,7 @@ class ArticleFoundModel {
     this.slNo,
     this.inputDate,
     this.locationRegion,
+    this.locationType,
     this.typeOfAsset,
     this.typeOfArticle,
     this.foundDate,
@@ -126,7 +128,8 @@ class ArticleFoundModel {
         slNo = json['slNo'] as String?,
         inputDate = json['inputDate'] as String?,
         locationRegion = (json['locationRegion'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['locationRegion'] as Map<String,dynamic>) : null,
-        typeOfAsset = json['typeOfAsset'] as int?,
+        locationType = (json['locationType'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['locationType'] as Map<String,dynamic>) : null,
+      typeOfAsset = json['typeOfAsset'] as int?,
         typeOfArticle = (json['typeOfArticle'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['typeOfArticle'] as Map<String,dynamic>) : null,
         foundDate = json['foundDate'] as String?,
         foundLocation = json['foundLocation'] as String?,
@@ -175,6 +178,7 @@ class ArticleFoundModel {
     'slNo' : slNo,
     'inputDate' : inputDate,
     'locationRegion' : locationRegion?.toJson(),
+    'locationType':locationType?.toJson(),
     'typeOfAsset' : typeOfAsset,
     'typeOfArticle' : typeOfArticle?.toJson(),
     'foundDate' : foundDate,

@@ -104,7 +104,7 @@ class _DayPassManagementDetailsViewState
         employeeIdController.text = state.model.employeeId ?? '';
         companyNameController.text = state.model.companyType?.name != 'FTE'
             ? state.model.companyName ?? ''
-            : 'Deutsche Bank';
+            : 'GIG Gulf';
         if (state.model.status == 0 && !state.model.lock.isEmptyOrNull) {
           isReadOnly = true;
         }
@@ -384,6 +384,36 @@ class _DayPassManagementDetailsViewState
 
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
+                              /// Location Type
+                              CommonWidgets.textDisplay(
+                                Constants.locationType,
+                                Styles.textStyleWhite16,
+                                isMandatory: true,
+                              ),
+                              TextFieldAddButton(
+                                title: state.model.locationType?.name,
+                                height: 75,
+                                isDisableColor: isReadOnly,
+                                onTap: () {
+                                  if (!isReadOnly) {
+                                    BaseOrganisationDialog().departmentDialog(
+                                      context: context,
+                                      organisations: state.getLocationType.getLocationType ?? [],
+                                      onTap: (Organisation locationType) {
+                                        BlocProvider.of<DayPassManagementDetailsCubit>(context)
+                                            .updateDropdownValues(locationType: locationType);
+                                      },
+                                      leftImage: false,
+                                      createEntity: false,
+                                      functionToCall: () {
+                                        BlocProvider.of<DayPassManagementDetailsCubit>(context).refreshList();
+                                      },
+                                    );
+                                  }
+                                },
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.03),
+
                               /// Date of creation
                               CommonWidgets.textDisplay(
                                 state.labels?.locale.inputDate ??
@@ -431,9 +461,9 @@ class _DayPassManagementDetailsViewState
                                       locationName == 'NKB';
 
                                   if (hasDws && isValidLocation) {
-                                    state.model.passTypeName = "DWS Day Pass";
+                                    state.model.passTypeName = "DWS Temporary Card";
                                   } else {
-                                    state.model.passTypeName = "Day Pass";
+                                    state.model.passTypeName = "Temporary Card";
                                   }
                                   if (selectedEntities.length > 1) {
                                     showDialog(
@@ -617,7 +647,7 @@ class _DayPassManagementDetailsViewState
                                   state.model.companyName =
                                       state.model.companyType?.name != 'FTE'
                                           ? value
-                                          : "Deutsche Bank";
+                                          : "GIG Gulf";
                                   context
                                       .read<DayPassManagementDetailsCubit>()
                                       .onModelValueChange(state.model);

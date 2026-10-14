@@ -10,6 +10,7 @@ import 'package:db_atom/src/features/patrolling/models/requestModel/patrolling_r
 import 'package:db_atom/src/features/patrolling/services/patrolling_service.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../models/location_Type_Model.dart';
 import '../../models/dbsponsor_user_model.dart';
 import '../../models/lsm_user_model.dart';
 import '../../models/owner_user_model.dart';
@@ -26,7 +27,7 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
   // Name-based default location. IDs differ per environment, so we resolve
   // by name against the freshly-fetched locations tree instead of relying
   // on any stored/environment-specific id or a stray default baked into a model.
-  static const String _defaultLocationName = 'NKP B1';
+  // static const String _defaultLocationName = 'NKP B1';
 
   PatrollingDetailsCubit({
     required this.services,
@@ -43,6 +44,8 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
       projects: const [],
       trackers: const [],
       eventId: null, locations: Locations(), listOfModules: const [], getStatus: const [], listOfEntities: const [], otherModel: otherModel ?? PatrollingOtherModel(), owner: const [], lsm:const [], securitySupervisor: const [] ,
+      getLocationType: GetLocationType(),
+
     ),
   );
 
@@ -102,41 +105,49 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
 
     var userId = await SharedPrefs.getUserId();
     final isNewRecord = state.model.id == null;
+    Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
+    final Locations locations =
+    await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+    final int? locationId = state.model.location?.id;
 
     try {
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
         commonServices.getPatrollingRegionsWithLocations(name: 'ATOM_LOCATIONS', patrolling: true),//0
         commonServices.getUserDetails(userId: userId),//1
+        // SharedPrefs.getDefaultLocation(),//2
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
-            moduleCode: Constants.ticketingSystemModuleCode),//2
-        commonServices.getOrganisations(name: 'PATROLLING_ENTITIES'),//3
+            moduleCode: Constants.ticketingSystemModuleCode),//3
+        commonServices.getOrganisations(name: 'ATOM_ENTITIES'),//4
 
         commonServices.getPatrollingActionOwnerUsers(
-          locationId: state.model.location?.id ?? 17,
-            ownerType: state.otherModel.items?.firstOrNull?.ownerType),//4
+          locationId: state.model.location?.id ?? defaultLocation!.id,
+            ownerType: state.otherModel.items?.firstOrNull?.ownerType),//5
 
 
         commonServices.getPatrollingLSMUsers(
-          locationId: state.model.location?.id ?? 17
-        ),//5
-
-        commonServices.getPatrollingSecuritySupervisor(
-          locationId: state.model.location?.id ?? 17
+          locationId: state.model.location?.id ?? defaultLocation!.id
         ),//6
 
+        commonServices.getPatrollingSecuritySupervisor(
+          locationId: state.model.location?.id ?? defaultLocation!.id
+        ),//7
+
         commonServices.getPatrollingDBSponsor(
-          locationId: state.model.location?.id ?? 17
-        ),
+          locationId: state.model.location?.id ?? defaultLocation!.id
+        ),//8
         // commonServices.getStatusesByModuleId(
         //   module: Constants.ticketingSystemModuleCode,),
         // services.getGenIndoDetails(userId)
         if (isNewRecord)
           services.getGenIndoDetails(userId)
         else Future.value(null),
-      ]);//7
-      // Locations locations = futures[0];
+      ]);//9
+
+      commonServices.getLocationType(locId: locationId!);
+
+    // Locations locations = futures[0];
       // User loggedInUserDetails = futures[1];
       // dynamic responseLabels = futures[2];
       // List<Organisation> getEntities = futures[3];
@@ -146,6 +157,7 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
       // final PatrollingModel? genInfoModel  = futures[7] as PatrollingModel?;
       Locations locations = futures[0];
       User loggedInUserDetails = futures[1];
+      // Organisation? defaultLocation = futures[3];
       dynamic responseLabels = futures[2];
       List<Organisation> getEntities = futures[3];
 
@@ -153,6 +165,7 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
       final LsmUserModel lsmResponse = futures[5];
       final SecuritySupervisorsModel supervisorResponse = futures[6];
       final DbSponsorUserModel dbSponsorResponse = futures[7];
+      GetLocationType? getLocationType = futures[8];
 
       List<BaseUser> getActionOwner = actionOwnerResponse.users
           .map((e) => BaseUser(
@@ -193,7 +206,7 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
       final PatrollingModel? genInfoModel = futures[8] as PatrollingModel?;
       // Resolve the real "NKP B1" location from the freshly-fetched tree.
       Organisation? resolvedDefaultLocation =
-      _findLocationByName(locations, _defaultLocationName);
+      _findLocationByName(locations, defaultLocation!.name!);
 
       // Decide which model is "final" for this screen (mirrors the emit below).
       PatrollingModel finalModel = isNewRecord
@@ -261,6 +274,8 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
           owner: getActionOwner,
           dbSponsor :getDbSponsor,
           model: finalModel,
+          getLocationType: getLocationType,
+
         ),
       );
     } catch (e) {
@@ -382,6 +397,7 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
         status: FormStatus.loading,
       ),
     );
+    GetLocationType? locType = state.getLocationType;
 
 
     // Get Sl No from API
@@ -390,14 +406,20 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
         locationId: location.id.toString(),
         moduleCode: Constants.patrollingModule,
       );
+      final int? locationId = location.id;
+
+
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
+      locType = await commonServices.getLocationType(locId: locationId!);
 
     }
 
     emit(state.copyWith(
       model: state.model,
       status: FormStatus.initial,
+      getLocationType: locType,
+
     ));
   }
 
@@ -415,6 +437,7 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
     int? ragStatus,
     List<Organisation>? modulesName,
     Organisation? entity,
+    Organisation? locationType,
 
 
   }) async {
@@ -439,7 +462,9 @@ class PatrollingDetailsCubit extends Cubit<PatrollingDetailsState> {
       state.model.status = status;
     }
 
-
+    if (locationType != null) {
+      state.model.locationType = locationType;
+    }
     if ( lsm!= null) {
       state.model.lsm?.employeeId = lsm.employeeId;
       String name = lsm.name ?? '';

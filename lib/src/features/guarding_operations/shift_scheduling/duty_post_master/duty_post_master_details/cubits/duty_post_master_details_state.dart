@@ -11,6 +11,7 @@ class DutyPostMasterDetailsState extends Equatable {
   final String? message;
   final List<User>? entrySecurities;
   final SSUiLabels? labels;
+  final GetLocationType  getLocationType;
 
   factory DutyPostMasterDetailsState.initial({
     required DutyPostMasterModel model,
@@ -20,6 +21,8 @@ class DutyPostMasterDetailsState extends Equatable {
     final List<BaseUser>? emailUsers,
     required String errorMessage,
     List<User>? entrySecurities,
+    required GetLocationType getLocationType,
+
   }) {
     return DutyPostMasterDetailsState(
       status: FormStatus.initial,
@@ -30,6 +33,7 @@ class DutyPostMasterDetailsState extends Equatable {
       emailUsers: emailUsers,
       message: errorMessage,
       entrySecurities: entrySecurities,
+      getLocationType:getLocationType,
     );
   }
 
@@ -65,6 +69,8 @@ class DutyPostMasterDetailsState extends Equatable {
     this.message,
     this.entrySecurities,
     this.labels,
+    required this.getLocationType,
+
   });
 
   DutyPostMasterDetailsState copyWith({
@@ -78,6 +84,8 @@ class DutyPostMasterDetailsState extends Equatable {
     String? message,
     List<User>? entrySecurities,
     final SSUiLabels? labels,
+    GetLocationType? getLocationType,
+
   }) {
     return DutyPostMasterDetailsState(
       status: status ?? this.status,
@@ -90,6 +98,8 @@ class DutyPostMasterDetailsState extends Equatable {
       message: message ?? this.message,
       entrySecurities: entrySecurities ?? this.entrySecurities,
       labels: labels ?? this.labels,
+      getLocationType:getLocationType??this.getLocationType,
+
     );
   }
 }

@@ -20,6 +20,9 @@ DutyPostMasterModel _$DutyPostMasterModelFromJson(Map<String, dynamic> json) =>
           ? null
           : Organisation.fromJson(
               json['dutyPostLocation'] as Map<String, dynamic>),
+      locationType: json['locationType'] == null
+          ? null
+          : Organisation.fromJson(json['locationType'] as Map<String, dynamic>),
       shiftA: (json['shiftA'] as num?)?.toInt(),
       shiftB: (json['shiftB'] as num?)?.toInt(),
       shiftC: (json['shiftC'] as num?)?.toInt(),
@@ -44,6 +47,7 @@ Map<String, dynamic> _$DutyPostMasterModelToJson(
       'location': instance.location,
       'region': instance.region,
       'dutyPostLocation': instance.dutyPostLocation,
+      'locationType': instance.locationType,
       'shiftA': instance.shiftA,
       'shiftB': instance.shiftB,
       'shiftC': instance.shiftC,

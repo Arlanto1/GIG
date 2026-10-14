@@ -37,6 +37,7 @@ class VIVPVisitorModel {
   User? entrySecurity;
   String? inputDate;
   Organisation? location;
+  Organisation? locationType;
   String? modifiedBy;
   String? modifiedDate;
   String? lock;
@@ -48,6 +49,7 @@ class VIVPVisitorModel {
     this.entrySecurity,
     this.inputDate,
     this.location,
+    this.locationType,
     this.modifiedBy,
     this.modifiedDate,
     this.lock,
@@ -64,6 +66,9 @@ class VIVPVisitorModel {
         location = (json['location'] as Map<String, dynamic>?) != null
             ? Organisation.fromJson(json['location'] as Map<String, dynamic>)
             : null,
+        locationType = (json['locationType'] as Map<String, dynamic>?) != null
+            ? Organisation.fromJson(json['locationType'] as Map<String, dynamic>)
+            : null,
         modifiedBy = json['modifiedBy'] as String?,
         modifiedDate = json['modifiedDate'] as String?,
         lock = json['lock'] as String?;
@@ -75,6 +80,7 @@ class VIVPVisitorModel {
         'entrySecurity': entrySecurity?.toJson(),
         'inputDate': inputDate,
         'location': location?.toJson(),
+    'locationType':locationType?.toJson(),
         'modifiedBy': modifiedBy,
         'modifiedDate': modifiedDate,
         'lock': lock,

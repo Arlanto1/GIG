@@ -177,7 +177,7 @@ class _DayPassRegisterListItemState extends State<DayPassRegisterListItem> {
                                   // Text(
                                   //   'Status : ${widget.userItem.status}',
                                   //   style: Styles.textStyleSemiBoldGrey14,
-                                  textHandling('PassNo : ',
+                                  textHandling('CardNo : ',
                                       (widget.userItem.passNo ?? '').toString()),
                                 ],
                               ),

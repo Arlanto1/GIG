@@ -2,7 +2,8 @@ import 'package:db_atom/src/configurations/base_config.dart';
 
 class UatConfig implements BaseConfig {
   @override
-  String get apiHost => "https://api.uat.dbatom.com/api/atomrestservice";
+  // String get apiHost => "https://api.uat.dbatom.com/api/atomrestservice";
+  String get apiHost => "https://api.gig.dbatom.arlanto.com/api/atomrestservice";
 
   @override
   String get apiHost1 => "https://api.uat.dbatom.com/s1/api/survey";

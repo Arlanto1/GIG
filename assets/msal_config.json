@@ -3,22 +3,26 @@
     {
       "type": "AAD",
       "audience": {
-        "type": "AzureADandPersonalMicrosoftAccount"
+        "type": "AzureADMyOrg",
+        "tenant_id": "12be4022-aa36-4c77-8dd8-b881871e5bd1"
       },
+      "authority_url": "https://login.microsoftonline.com/12be4022-aa36-4c77-8dd8-b881871e5bd1",
       "default": true
     }
   ],
+  "client_capabilities": "CP1",
   "broker_redirect_uri_registered": true,
-  "authorization_user_agent": "DEFAULT",
+  "authorization_user_agent": "WEBVIEW",
   "minimum_required_broker_protocol_version": "3.0",
   "multiple_clouds_supported": false,
+  "redirect_backup": "msauth://com.atomedge.arlanto/p2QKLOScLtHTc5gLdqticmOgM7s%3D",
   "redirect_uri": "msauth://com.atomedge.arlanto/p2QKLOScLtHTc5gLdqticmOgM7s%3D",
   "web_view_zoom_controls_enabled": true,
   "web_view_zoom_enabled": true,
-  "environment": "Production",
+  "environment": "PreProduction",
   "power_opt_check_for_network_req_enabled": true,
-  "handle_null_taskaffinity": false,
-  "authorization_in_current_task": false,
+  "handle_null_taskaffinity": true,
+  "authorization_in_current_task": true,
   "webauthn_capable": false,
   "http": {
     "connect_timeout": 10000,
@@ -26,10 +30,10 @@
   },
   "logging": {
     "pii_enabled": false,
-    "log_level": "WARNING",
+    "log_level": "VERBOSE",
     "logcat_enabled": true
   },
-  "account_mode": "MULTIPLE",
+  "account_mode": "SINGLE",
   "preferred_browser": null,
   "browser_safelist": [
     {
@@ -113,7 +117,7 @@
     {
       "browser_package_name": "com.brave.browser",
       "browser_signature_hashes": [
-        "wIwX1v_1TfPxHm5qn-_jdGoH3Pa9VVMR5dtVz0Y0xqPkyM_KlavjWPSgOolrVH05AVO1cHWoLPqMzCH04Pw8LQ=="
+        "wIwX1v_1TfPxHm5qn-_jdGoH3Pa9VVMR5dtVzF0Y0xqPkyM_KlavjWPSgOolrVH05AVO1cHWoLPqMzCH04Pw8LQ=="
       ]
     },
     {

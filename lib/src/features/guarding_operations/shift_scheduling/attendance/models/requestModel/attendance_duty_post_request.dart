@@ -1,19 +1,21 @@
 import 'package:db_atom/index.dart';
 
+import '../dutyPost_attendance_model.dart';
+
 class AttendanceShiftDutyPostRequest {
   AttendanceShiftDutyPostRequest({
     required this.requestModel,
   });
 
-  ShiftModel? requestModel;
+  DutyPostAttendanceModel? requestModel;
 
   AttendanceShiftDutyPostRequest.fromJson(Map<String, dynamic> json) {
-    requestModel = ShiftModel.fromJson(json['shifts']);
+    requestModel = DutyPostAttendanceModel.fromJson(json['attdInfoGi']);
   }
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
-    data['shifts'] = requestModel?.toJson();
+    data['attdInfoGi'] = requestModel?.toJson();
     return data;
   }
 }

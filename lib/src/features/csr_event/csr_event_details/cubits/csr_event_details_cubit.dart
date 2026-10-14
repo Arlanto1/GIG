@@ -6,6 +6,8 @@ import 'package:db_atom/src/features/csr_event/models/csr_event_model.dart';
 import 'package:db_atom/src/features/csr_event/services/csr_event_services.dart';
 import 'package:db_atom/src/features/event_protection/event_protection_details/general_info/models/ep_ui_labels.dart';
 
+import '../../../../models/location_Type_Model.dart';
+
 part 'csr_event_details_state.dart';
 
 class CSRGeneralInfoCubit extends Cubit<CSRGeneralInfoState> {
@@ -33,6 +35,7 @@ final bool? isCSREvent;
       departments: const [],
       vendors: const [],
       loggedInUserDetails: null,
+      getLocationType: GetLocationType(),
     ),
   );
 
@@ -90,6 +93,9 @@ final bool? isCSREvent;
     await services.getGI(id);
     debugPrint('ID12345');
 
+    final Locations locations =
+    await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+    final int? locationId =  state.model.location?.id;
 
     try {
       // Perform multiple asynchronous operations concurrently
@@ -117,6 +123,7 @@ final bool? isCSREvent;
             roleNames:
             ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
             locationId: model.location!.id!),
+        commonServices.getLocationType(locId: locationId!),
       ]);
 
       // Assign results to variables with explicit data types
@@ -132,6 +139,7 @@ final bool? isCSREvent;
       EmployeeDepartments departments = results[7];
       List<BaseUser>? epm = results[8];
       List<BaseUser>? lsm = results[9];
+      GetLocationType? getLocationType = results[10];
 
       log('input date ---${model.inputDate}');
       // model.inputDate =
@@ -174,6 +182,7 @@ final bool? isCSREvent;
         listOfEntities: entities,
         getEntitiesResponse: entities,
         // labels: EpUiLabels.fromJson(responseLabels),
+        getLocationType: getLocationType,
       ));
     } catch (e) {
       log('initialization issue', error: e, name: 'General Information Cubit');
@@ -199,6 +208,7 @@ final bool? isCSREvent;
     List<BaseUser>? emailUsers = [];
     List<BaseUser> epm = [];
     List<BaseUser> lsm = [];
+    GetLocationType? locType = state.getLocationType;
 
     /// Get Sl No from API
     if (location != null) {
@@ -207,6 +217,7 @@ final bool? isCSREvent;
         locationId: location.id.toString(),
         moduleCode: Constants.annualPowerShutDownModuleCode,
       );
+      final int? locationId = location.id;
 
       state.model.location = location;
       state.model.slNo = slNo.serialNo ?? '';
@@ -221,6 +232,8 @@ final bool? isCSREvent;
           isDbUser: true,
           roleName: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
           locationId: location.id!);
+      locType = await commonServices.getLocationType(locId: locationId!);
+
     }
 
     state.model.epManager1 = null;
@@ -237,6 +250,7 @@ final bool? isCSREvent;
       lsm: lsm,
       emailUsers: emailUsers,
       status: FormStatus.initial,
+      getLocationType: locType,
     ));
   }
 
@@ -259,6 +273,8 @@ final bool? isCSREvent;
     BaseUser? locationSecurityManager2,
     BaseUser? epOfficers,
     List<Organisation>? vendors,
+    Organisation? locationType,
+
   }) async {
     emit(
       state.copyWith(
@@ -286,6 +302,9 @@ final bool? isCSREvent;
       state.model.entities = entities;
     }
 
+    if (locationType != null) {
+      state.model.locationType = locationType;
+    }
     state.model.requesterDepartment =
         requesterDepartment ?? state.model.requesterDepartment;
 

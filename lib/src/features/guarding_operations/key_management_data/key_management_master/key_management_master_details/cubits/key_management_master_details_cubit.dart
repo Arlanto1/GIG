@@ -4,6 +4,8 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/key_management_data/key_management_master/services/key_management_master_services.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../../models/location_Type_Model.dart';
+
 part 'key_management_master_details_state.dart';
 
 class KeyManagementMasterDetailsCubit
@@ -27,7 +29,8 @@ class KeyManagementMasterDetailsCubit
               listOfEntities: const [],
               getEntitiesResponse: null,
               departments: const [],
-              getQualificationsResponse: null),
+              getQualificationsResponse: null,
+            getLocationType: GetLocationType()),
         );
 
   Future<void> refreshList() async {
@@ -50,6 +53,18 @@ class KeyManagementMasterDetailsCubit
     );
   }
 
+  /// Finds the region id that contains the given location id.
+  int? _getRegionIdForLocation(Locations? locations, int? locationId) {
+    if (locations == null || locationId == null) return null;
+
+    for (final region in locations.regions ?? []) {
+      final bool found =
+          region.locations?.any((loc) => loc.id == locationId) ?? false;
+      if (found) return region.id;
+    }
+    return null;
+  }
+
   Future<void> initializeValues() async {
     emit(
       state.copyWith(
@@ -66,7 +81,11 @@ class KeyManagementMasterDetailsCubit
       state.model.location = defaultLocation;
       state.model.slNo = slNo.serialNo;
     }
-
+    final Locations locations =
+    await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+    final int? regionId =
+    _getRegionIdForLocation(locations, state.model.location?.id);
+    final int? locationId = state.model.location?.id;
     var userId = await SharedPrefs.getUserId();
     try {
       // Use Future.wait to call API functions concurrently
@@ -82,6 +101,8 @@ class KeyManagementMasterDetailsCubit
         commonServices.getUiLabels(
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.keyManagementMasterModule),
+        commonServices.getLocationType(locId: locationId!),
+
       ]);
 
       Locations getLocationsData = futures[0];
@@ -91,6 +112,7 @@ class KeyManagementMasterDetailsCubit
       GetDepositor emailUsers = futures[3];
       KeyType departments = futures[4];
       dynamic responseLabels = futures[6];
+      GetLocationType? getLocationType = futures[7];
 
       state.model.createdBy ??= loggedInUserDetails;
       state.model.modifiedBy ??= loggedInUserDetails;
@@ -125,7 +147,7 @@ class KeyManagementMasterDetailsCubit
           getEntitiesResponse: entities,
           departments: departments.items,
           labels: labels,
-        ),
+            getLocationType: getLocationType),
       );
     } catch (e) {
       log('Initialization issue',
@@ -165,24 +187,32 @@ class KeyManagementMasterDetailsCubit
     int? maritalStatus,
     int? typeOfDeployment,
     int? msgbFormBSubmitted,
+    Organisation? locationType,
   }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
       ),
     );
+    GetLocationType? locType = state.getLocationType;
+
     ////Get Sl No from API
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
         moduleCode: Constants.keyManagementMasterModule,
       );
+      final int? locationId = location.id;
+      locType  = await commonServices.getLocationType(locId: locationId!);
 
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
     }
     if (doorType != null) {
       state.model.doorType = doorType;
+    }
+    if (locationType != null) {
+      state.model.locationType = locationType;
     }
 
     if (entities != null) {
@@ -193,6 +223,8 @@ class KeyManagementMasterDetailsCubit
     emit(state.copyWith(
       model: state.model,
       status: FormStatus.initial,
+      getLocationType: locType,
+
     ));
   }
 

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:db_atom/index.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../models/location_Type_Model.dart';
 import '../../models/requestModels/vvip_visitor_request.dart';
 import '../../models/vvip_visitor_response_model.dart';
 import '../../services/vvip_visitor_services.dart';
@@ -26,6 +27,8 @@ class VVIPVisitorDetailsCubit extends Cubit<VVIPVisitorDetailsState> {
             users: const [],
             emailUsers: const [],
             errorMessage: '',
+            getLocationType: GetLocationType(),
+
           ),
         );
 
@@ -48,9 +51,18 @@ class VVIPVisitorDetailsCubit extends Cubit<VVIPVisitorDetailsState> {
       ),
     );
     var userId = await SharedPrefs.getUserId();
+    final Locations locations =
+    await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+
+    final int? locationId = state.model.location?.id;
+
     try {
       Locations getLocationsData =
           await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+      GetLocationType getLocationType = GetLocationType(getLocationType: []); // Initialize with default value
+
+      getLocationType =
+      await commonServices.getLocationType(locId: locationId!);
 
       User loggedInUserDetails =
           await commonServices.getUserDetails(userId: userId);
@@ -94,6 +106,7 @@ class VVIPVisitorDetailsCubit extends Cubit<VVIPVisitorDetailsState> {
           status: FormStatus.initial,
           model: state.model,
           labels: labels,
+          getLocationType: getLocationType,
         ),
       );
     } catch (e) {
@@ -111,18 +124,29 @@ class VVIPVisitorDetailsCubit extends Cubit<VVIPVisitorDetailsState> {
   Future<void> updateDropdownValues({
     Organisation? location,
     BaseUser? user,
+    Organisation? locationType,
+
   }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
       ),
     );
+    GetLocationType? locType = state.getLocationType;
+
+
+    if (locationType != null) {
+      state.model.locationType = locationType;
+    }
     // Get Sl No from API
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
         moduleCode: Constants.vipVisitorsDetailsModule,
       );
+
+      final int? locationId = location.id;
+      locType  = await commonServices.getLocationType(locId: locationId!);
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
     }

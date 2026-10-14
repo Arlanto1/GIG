@@ -285,6 +285,36 @@ class _DutyPostNameMasterDetailsViewState
                                   }),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
+                              /// Location Type
+                              CommonWidgets.textDisplay(
+                                Constants.locationType,
+                                Styles.textStyleWhite16,
+                                isMandatory: true,
+                              ),
+                              TextFieldAddButton(
+                                title: state.model.locationType?.name,
+                                height: 75,
+                                isDisableColor: isReadOnly,
+                                onTap: () {
+                                  if (!isReadOnly) {
+                                    BaseOrganisationDialog().departmentDialog(
+                                      context: context,
+                                      organisations: state.getLocationType.getLocationType ?? [],
+                                      onTap: (Organisation locationType) {
+                                        BlocProvider.of<DutyPostNameMasterDetailsCubit>(context)
+                                            .updateDropdownValues(locationType: locationType);
+                                      },
+                                      leftImage: false,
+                                      createEntity: false,
+                                      // functionToCall: () {
+                                      //   BlocProvider.of<DutyPostNameMasterDetailsCubit>(context).refreshList();
+                                      // },
+                                    );
+                                  }
+                                },
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.03),
+
                               /// Sl No.
                               CommonWidgets.horizontalTextHandling(
                                 state.labels?.locale.slNo ??

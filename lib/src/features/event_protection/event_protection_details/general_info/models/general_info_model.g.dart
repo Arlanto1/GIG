@@ -21,6 +21,9 @@ EventProtectionGi _$EventProtectionGiFromJson(Map<String, dynamic> json) =>
           ? null
           : Organisation.fromJson(
               json['locationRegion'] as Map<String, dynamic>),
+      locationType: json['locationType'] == null
+          ? null
+          : Organisation.fromJson(json['locationType'] as Map<String, dynamic>),
       entities: (json['entities'] as List<dynamic>?)
           ?.map((e) => Organisation.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -108,6 +111,7 @@ Map<String, dynamic> _$EventProtectionGiToJson(EventProtectionGi instance) =>
       'inputDate': instance.inputDate,
       'location': instance.location,
       'locationRegion': instance.locationRegion,
+      'locationType': instance.locationType,
       'entities': instance.entities,
       'status': instance.status,
       'modifiedBy': instance.modifiedBy,

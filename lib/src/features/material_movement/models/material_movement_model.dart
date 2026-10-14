@@ -16,6 +16,7 @@ class MaterialMovementModel extends BaseObject {
   String? inputDate;
   Organisation? location;
   Organisation? locationRegion;
+  Organisation? locationType;
   List<dynamic>? entities;
   bool? inwardMovement;
   bool? returnable;
@@ -91,6 +92,7 @@ class MaterialMovementModel extends BaseObject {
     this.inputDate,
     this.location,
     this.locationRegion,
+    this.locationType,
     this.entities,
     this.returnQuantity,
     this.inwardMovement = false,

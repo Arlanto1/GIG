@@ -173,8 +173,7 @@ class _VisitorPassManagementListViewState
                               : state.items.length + 1,
                           itemBuilder: (context, index) {
                             if (index >= state.items.length) {
-                              if (state.status == FormStatus.loading ||
-                                  state.status == FormStatus.initial) {
+                              if (state.status == FormStatus.loading ) {
                                 return const Center(child: BaseLoader());
                               }
                               return const SizedBox();
@@ -216,9 +215,10 @@ class _VisitorPassManagementListViewState
                                       '${state.items[index].entrySecurity?.firstName ?? ''} ${state.items[index].entrySecurity?.lastName ?? ''}'));
 
                               labels.add(Label(
-                                  key: state.labels?.locale.visitorPassInfo ??
-                                      state.labels?.defaultLocale
-                                          .visitorPassInfo ??
+                                  key:
+                                  // state.labels?.locale.visitorPassInfo ??
+                                  //     state.labels?.defaultLocale
+                                  //         .visitorPassInfo ??
                                       Constants.visitorPassNo,
                                   value:
                                       '${state.items[index].passInfo?.passNo ?? ''} '));

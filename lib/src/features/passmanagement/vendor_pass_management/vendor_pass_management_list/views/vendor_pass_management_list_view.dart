@@ -172,8 +172,7 @@ class _VendorPassManagementListViewState
                               : state.items.length + 1,
                           itemBuilder: (context, index) {
                             if (index >= state.items.length) {
-                              if (state.status == FormStatus.loading ||
-                                  state.status == FormStatus.initial) {
+                              if (state.status == FormStatus.loading) {
                                 return const Center(child: BaseLoader());
                               }
                               return const SizedBox();
@@ -215,9 +214,10 @@ class _VendorPassManagementListViewState
                                       '${state.items[index].entrySecurity?.firstName ?? ''} ${state.items[index].entrySecurity?.lastName ?? ''}'));
 
                               labels.add(Label(
-                                  key: state.labels?.locale.vendorPassInfo ??
-                                      state.labels?.defaultLocale
-                                          .vendorPassInfo ??
+                                  key:
+                                  // state.labels?.locale.vendorPassInfo ??
+                                  //     state.labels?.defaultLocale
+                                  //         .vendorPassInfo ??
                                       Constants.vendorPassNo,
                                   value:
                                       '${state.items[index].passInfo?.passNo ?? ''} '));

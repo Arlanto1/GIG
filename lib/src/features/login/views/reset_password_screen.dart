@@ -378,7 +378,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                       child: Column(
                         children: [
                           Image.asset(
-                            'assets/images/logo1.png', // your logo asset
+                            'assets/images/GIG.png', // your logo asset
                             height: 100,
                           ),
                         ],

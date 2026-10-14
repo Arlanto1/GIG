@@ -6,6 +6,8 @@ import 'package:db_atom/src/features/law_enforcement_new/models/requestModels/la
 import 'package:db_atom/src/features/law_enforcement_new/services/law_enforcement_services_new.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../models/location_Type_Model.dart';
+
 part 'law_enforcement_details_state_new.dart';
 
 class LawEnforcementDetailsCubit
@@ -31,6 +33,8 @@ class LawEnforcementDetailsCubit
       visitingDepartment: const [],
       errorMessage: '',
       getEntitiesResponse: const [], loadAttachments:const [], distributionGroups: const [],
+      getLocationType: GetLocationType(),
+
     ),
   );
 
@@ -87,6 +91,11 @@ class LawEnforcementDetailsCubit
       ),
     );
     var userId = await SharedPrefs.getUserId();
+    final Locations locations =
+    await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+    final int? locationId = state.model.location?.id;
+
+    GetLocationType getLocationType = GetLocationType(getLocationType: []); // Initialize with default value
 
     if (state.model.location == null) {
       Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
@@ -119,6 +128,9 @@ class LawEnforcementDetailsCubit
         locationId: state.model.location?.id,
         isDbUser: true,
       );
+      getLocationType =
+      await commonServices.getLocationType(locId: locationId!);
+
       LeoDepartments visitingDepartment =
       await commonServices.getLeoVisitDepartment(name: 'ATOM_LEO_DEPARTMENTS');
 
@@ -170,6 +182,7 @@ class LawEnforcementDetailsCubit
           visitPurpose: visitPurpose.atomLeoPurposeVisit,
           distributionGroups: distributionGroup.distributionGroups,
           labels: labels,
+            getLocationType:getLocationType
         ),
       );
     } catch (e) {
@@ -195,6 +208,7 @@ class LawEnforcementDetailsCubit
     );
 
     List<BaseUser> emailUsers = [];
+    GetLocationType? locType = state.getLocationType;
 
     /// Get Sl No from API
     if (location != null) {
@@ -202,7 +216,7 @@ class LawEnforcementDetailsCubit
         locationId: location.id.toString(),
         moduleCode: Constants.leoModuleCode,
       );
-
+      final int? locationId = location.id;
       state.model.location = location;
       state.model.slNo = slNo.serialNo ?? '';
 
@@ -211,12 +225,16 @@ class LawEnforcementDetailsCubit
         locationId: location.id,
         isDbUser: true,
       );
+      locType = await commonServices.getLocationType(locId: locationId!);
+
     }
 
     emit(state.copyWith(
       model: state.model,
       users: emailUsers,
       status: FormStatus.initial,
+      getLocationType: locType,
+
     ));
   }
 
@@ -227,6 +245,7 @@ class LawEnforcementDetailsCubit
     Organisation? visitPurpose,
     BaseUser? user,
     BaseUser? dbOfficialEmail,
+    Organisation? locationType,
     int? status,
   }) async {
     emit(
@@ -236,7 +255,9 @@ class LawEnforcementDetailsCubit
     );
 
     state.model.status = status ?? state.model.status;
-
+    if (locationType != null) {
+      state.model.locationType = locationType;
+    }
     if (entities != null) {
       state.model.entities = entities;
     }

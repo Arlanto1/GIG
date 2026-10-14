@@ -8,6 +8,7 @@ class ContactDetailsState extends Equatable {
   final List<BaseUser>? users;
   final String? message;
   final CdUiLabels? labels;
+  final GetLocationType?  getLocationType;
 
   factory ContactDetailsState.initial({
     required ContactDetailModel model,
@@ -16,6 +17,8 @@ class ContactDetailsState extends Equatable {
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
     required String errorMessage,
+     required GetLocationType  getLocationType,
+
   }) {
     return ContactDetailsState(
       status: FormStatus.initial,
@@ -24,6 +27,7 @@ class ContactDetailsState extends Equatable {
       loggedInUserDetails: loggedInUserDetails,
       users: users,
       message: errorMessage,
+        getLocationType:getLocationType,
     );
   }
 
@@ -70,6 +74,7 @@ class ContactDetailsState extends Equatable {
     this.users,
     this.message,
     this.labels,
+    this.getLocationType,
   });
 
   ContactDetailsState copyWith({
@@ -80,6 +85,7 @@ class ContactDetailsState extends Equatable {
     List<BaseUser>? users,
     String? message,
     final CdUiLabels? labels,
+    GetLocationType?  getLocationType,
   }) {
     return ContactDetailsState(
       status: status ?? this.status,
@@ -89,6 +95,7 @@ class ContactDetailsState extends Equatable {
       users: users ?? this.users,
       message: message ?? this.message,
       labels: labels ?? this.labels,
+        getLocationType:getLocationType??this.getLocationType,
     );
   }
 }

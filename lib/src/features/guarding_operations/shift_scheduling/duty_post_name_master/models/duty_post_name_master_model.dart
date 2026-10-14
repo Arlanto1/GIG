@@ -38,6 +38,7 @@ class DutyPostNameMasterModel extends BaseObject {
   String? slNo;
   Organisation? location;
   Organisation? locationRegion;
+  Organisation? locationType;
   String? inputDate;
   User? entrySecurity;
   String? modifiedDate;
@@ -51,6 +52,7 @@ class DutyPostNameMasterModel extends BaseObject {
       this.slNo,
       this.location,
       this.locationRegion,
+        this.locationType,
       this.inputDate,
       this.entrySecurity,
       this.modifiedDate,

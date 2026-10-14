@@ -20,6 +20,9 @@ class ArticleFoundDetailsState extends Equatable {
   final String? message;
   final AFUiLabels? labels;
   final bool isReceiverSignEditable;
+  final GetLocationType  getLocationType;
+
+
   factory ArticleFoundDetailsState.initial({
     required ArticleFoundModel model,
     required Locations locations,
@@ -31,6 +34,7 @@ class ArticleFoundDetailsState extends Equatable {
     required List<Organisation> departments,
     required List<Organisation> claimantDepartments,
     required List<ImageContent> uploadAttachments,
+    required GetLocationType getLocationType,
   }) {
     return ArticleFoundDetailsState(
       status: FormStatus.initial,
@@ -43,6 +47,7 @@ class ArticleFoundDetailsState extends Equatable {
       departments: departments,
       claimantDepartments:claimantDepartments,
       uploadAttachments: uploadAttachments,
+        getLocationType:getLocationType,
     );
   }
 
@@ -201,6 +206,7 @@ class ArticleFoundDetailsState extends Equatable {
     this.idCardEmployee,
     this.host,
     this.isReceiverSignEditable = false,
+    required this.getLocationType,
   });
 
   ArticleFoundDetailsState copyWith({
@@ -223,6 +229,7 @@ class ArticleFoundDetailsState extends Equatable {
     List<BaseUser>? idCardEmployee,
     bool? isReceiverSignEditable,
     AFUiLabels? labels,
+    GetLocationType? getLocationType,
   }) {
     return ArticleFoundDetailsState(
       status: status ?? this.status,
@@ -242,6 +249,7 @@ class ArticleFoundDetailsState extends Equatable {
       idCardEmployee: idCardEmployee ?? this.idCardEmployee,
       idCardManger: idCardManger ?? this.idCardManger,
       labels: labels ?? this.labels,
+        getLocationType:getLocationType??this.getLocationType,
     );
   }
 }

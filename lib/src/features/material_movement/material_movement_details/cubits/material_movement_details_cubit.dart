@@ -6,6 +6,7 @@ import 'package:db_atom/src/features/material_movement/models/approval_model.dar
 import 'package:db_atom/src/features/material_movement/models/quantity_units.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../models/location_Type_Model.dart';
 import '../../models/requestModels/approval_request.dart';
 
 part 'material_movement_details_state.dart';
@@ -40,6 +41,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
             eventId: null,
             materialItems: const [],
             approvalModel: approvalModel ?? ApprovalModel(),
+            getLocationType: GetLocationType(),
+
           ),
         );
 
@@ -117,6 +120,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     );
 
     var userId = await SharedPrefs.getUserId();
+    final Locations locations =
+    await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+    final int? locationId = state.model.location?.id;
 
     Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
 
@@ -150,6 +156,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
             isDbUser: true,
             locationId: state.model.location!.id!),
         commonServices.getOrganisations(name: 'ATOM_MATERIAL_MOVEMENT_UNIT'),
+        commonServices.getLocationType(locId: locationId!),
+
       ]);
 
       Locations locations = futures[0];
@@ -159,6 +167,7 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       Organisation? defaultLocation = futures[4];
       List<BaseUser> emailUsers = futures[5];
       List<Organisation> quantityUnits = futures[6];
+      GetLocationType? getLocationType = futures[7];
 
       log('--emailUsers--${emailUsers.length}---');
       // Get Date of Creation
@@ -229,6 +238,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           departments: departments.employeeDepartments,
           quantityUnits: quantityUnits,
           labels: labels,
+          getLocationType: getLocationType,
+
         ),
       );
       isFormReadable();
@@ -255,6 +266,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     );
 
     List<BaseUser> emailUsers = [];
+    GetLocationType? locType = state.getLocationType;
+
     // Get Sl No from API
     if (location != null && isInward == true) {
       SerialNumberModel slNo = await commonServices.getSlNo(
@@ -268,6 +281,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           roleName: ConstantUserRoles.atomStaticUser,
           isDbUser: true,
           locationId: state.model.location!.id!);
+      final int? locationId = location.id;
+      locType = await commonServices.getLocationType(locId: locationId!);
+
     }
     if (location != null && isInward == false) {
       SerialNumberModel slNo = await commonServices.getSlNo(
@@ -281,6 +297,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
           roleName: ConstantUserRoles.atomStaticUser,
           isDbUser: true,
           locationId: state.model.location!.id!);
+      final int? locationId = location.id;
+      locType = await commonServices.getLocationType(locId: locationId!);
+
     }
     state.model.receiverEmail = null;
     state.model.requestorEmail = null;
@@ -294,6 +313,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
       approver2Users: emailUsers,
       receiverEmailUsers: emailUsers,
       status: FormStatus.initial,
+      getLocationType: locType,
+
     ));
   }
 
@@ -312,6 +333,8 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     Organisation? quantityUnit,
     bool? isReturnable,
     int? status,
+    Organisation? locationType,
+
   }) async {
     emit(
       state.copyWith(
@@ -350,6 +373,9 @@ class MaterialMovementDetailsCubit extends Cubit<MaterialMovementDetailsState> {
     //       '${requesterEmailUser.name} (${requesterEmailUser.email})';
     // }
 
+    if (locationType != null) {
+      state.model.locationType = locationType;
+    }
     if (returnReceiverMailId != null) {
       state.model.returnReceiverMailId =
           '${returnReceiverMailId.name} (${returnReceiverMailId.email})';

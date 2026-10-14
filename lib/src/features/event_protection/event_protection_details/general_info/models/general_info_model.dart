@@ -14,6 +14,7 @@ class EventProtectionGi extends BaseObject {
   String? inputDate;
   Organisation? location;
   Organisation? locationRegion;
+  Organisation? locationType;
   List<Organisation>? entities;
   int? status;
   String? modifiedBy;
@@ -66,6 +67,7 @@ class EventProtectionGi extends BaseObject {
     this.inputDate,
     this.location,
     this.locationRegion,
+    this.locationType,
     this.entities,
     this.status,
     this.modifiedBy,

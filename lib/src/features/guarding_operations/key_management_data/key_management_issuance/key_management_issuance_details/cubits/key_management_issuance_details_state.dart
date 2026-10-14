@@ -14,6 +14,7 @@ class KeyManagementIssuanceDetailsState extends Equatable {
   final bool isReceiverSignEditable;
   final bool isSecuritySignatureSignEditable;
   final List<BaseUser>? handedOverToUsers;
+  final GetLocationType  getLocationType;
 
   factory KeyManagementIssuanceDetailsState.initial({
     required KeyManagementIssuanceModel model,
@@ -27,6 +28,7 @@ class KeyManagementIssuanceDetailsState extends Equatable {
     required String errorMessage,
     final List<String>? pocs,
      List<BaseUser>? handedOverToUsers,
+    required GetLocationType getLocationType,
   }) {
     return KeyManagementIssuanceDetailsState(
       status: FormStatus.initial,
@@ -39,6 +41,8 @@ class KeyManagementIssuanceDetailsState extends Equatable {
       message: errorMessage,
       emailUsers: emailUsers,
       handedOverToUsers: handedOverToUsers,
+      getLocationType:getLocationType,
+
     );
   }
 
@@ -206,7 +210,9 @@ class KeyManagementIssuanceDetailsState extends Equatable {
     this.isReceiverSignEditable = false,
     this.isSecuritySignatureSignEditable = false,
      this.handedOverToUsers,
-  });
+     required this.getLocationType,
+
+   });
 
   KeyManagementIssuanceDetailsState copyWith({
     FormStatus? status,
@@ -222,6 +228,7 @@ class KeyManagementIssuanceDetailsState extends Equatable {
     bool? isReceiverSignEditable,
     bool? isSecuritySignatureSignEditable,
     List<BaseUser>? handedOverToUsers,
+    GetLocationType? getLocationType,
   }) {
     return KeyManagementIssuanceDetailsState(
         status: status ?? this.status,
@@ -238,6 +245,9 @@ class KeyManagementIssuanceDetailsState extends Equatable {
             isReceiverSignEditable ?? this.isReceiverSignEditable,
         isSecuritySignatureSignEditable: isSecuritySignatureSignEditable ??
             this.isSecuritySignatureSignEditable,
-        handedOverToUsers: handedOverToUsers ?? this.handedOverToUsers);
+        handedOverToUsers: handedOverToUsers ?? this.handedOverToUsers,
+      getLocationType:getLocationType??this.getLocationType,
+    );
+
   }
 }

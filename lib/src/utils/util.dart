@@ -3342,6 +3342,75 @@ class Utils {
     );
   }
 
+  dynamic parkingStatus(int status, {bool? returnTextOnly}) {
+    String statusText;
+    Color bgColor;
+    Color textColor;
+    Color borderColor;
+
+    switch (status) {
+      case 0:
+        statusText = 'Draft';
+        bgColor = const Color(0xFFE1BEE7);      // Light Purple
+        borderColor = const Color(0xFF8E24AA);  // Purple Border
+        textColor = const Color(0xFF4A148C);    // Dark Orange
+        break;
+
+      case 1:
+        statusText = 'Submitted';
+        bgColor = const Color(0xFFC8E6C9);      // Light Green
+        borderColor = const Color(0xFF388E3C);  // Dark Green
+        textColor = const Color(0xFF1B5E20);// Text Orange
+        break;
+
+      case -1:
+        statusText = 'Cancelled';
+        bgColor = const Color(0xFFFFCDD2);      // Light Red
+        borderColor = const Color(0xFFD32F2F);  // Dark Red
+        textColor = const Color(0xFFB71C1C);    // Text Red
+        break;
+
+      default:
+        statusText = 'Unknown';
+        bgColor = const Color(0xFFE0E0E0);
+        borderColor = const Color(0xFF9E9E9E);
+        textColor = const Color(0xFF424242);
+    }
+    if (returnTextOnly ?? false) {
+      return statusText;
+    }
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const Text(
+          'Status:',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontSize: 16,
+          ),
+        ),
+        const SizedBox(width: 8),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+          decoration: BoxDecoration(
+            color: bgColor.withValues(alpha: 0.9),
+            borderRadius: BorderRadius.circular(30),
+            border: Border.all(color: borderColor, width: 0.1),
+          ),
+          child: Text(
+            statusText,
+            style: TextStyle(
+              color: textColor,
+              fontWeight: FontWeight.bold,
+              fontSize: 10,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
   // Widget dutyPostNameMasterStatus(int status) {
   //   String statusText;
   //

@@ -30,6 +30,7 @@ class MaterialMovementDetailsState extends Equatable {
   final bool isGatePassSecuritySignatureSignEditable;
   final MmUiLabels? labels;
   final List<BaseUser>? requestor2EmailUsers;
+  final GetLocationType  getLocationType;
 
   factory MaterialMovementDetailsState.initial({
     required MaterialMovementModel model,
@@ -44,6 +45,8 @@ class MaterialMovementDetailsState extends Equatable {
     required List<MaterialItem> materialItems,
     String? rejectionComment,
     required ApprovalModel approvalModel,
+    required GetLocationType getLocationType,
+
   }) {
     return MaterialMovementDetailsState(
       status: FormStatus.initial,
@@ -58,6 +61,8 @@ class MaterialMovementDetailsState extends Equatable {
       rejectionComment: rejectionComment,
       materialItems: materialItems,
       approvalModel: approvalModel,
+      getLocationType:getLocationType,
+
     );
   }
 
@@ -424,6 +429,8 @@ class MaterialMovementDetailsState extends Equatable {
     required this.materialItems,
     this.requestor2EmailUsers,
     required this.approvalModel,
+    required this.getLocationType,
+
   });
 
   MaterialMovementDetailsState copyWith({
@@ -451,6 +458,8 @@ class MaterialMovementDetailsState extends Equatable {
     List<MaterialItem>? materialItems,
     List<BaseUser>? requestor2EmailUsers,
     ApprovalModel? approvalModel,
+    GetLocationType? getLocationType,
+
   }) {
     return MaterialMovementDetailsState(
       status: status ?? this.status,
@@ -481,6 +490,8 @@ class MaterialMovementDetailsState extends Equatable {
       materialItems: materialItems ?? this.materialItems,
       requestor2EmailUsers: requestor2EmailUsers ?? this.requestor2EmailUsers,
       approvalModel: approvalModel ?? this.approvalModel,
+      getLocationType:getLocationType??this.getLocationType,
+
     );
   }
 }

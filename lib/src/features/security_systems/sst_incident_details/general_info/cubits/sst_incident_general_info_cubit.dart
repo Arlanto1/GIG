@@ -5,6 +5,8 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/security_systems/services/sst_incident_services.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../models/location_Type_Model.dart';
+
 part 'sst_incident_general_info_state.dart';
 
 class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
@@ -37,6 +39,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
             // departments: const [],
             vendors: const [],
             loggedInUserDetails: User(),
+            getLocationType: GetLocationType(),
           ),
         );
 
@@ -114,6 +117,11 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       //     ? Utils().getCurrentDate()
       //     : Utils().formatUnixTimestamp(model.createdDate ?? '');
 
+
+      final Locations locations =
+      await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+      final int? locationId =state.model.location?.id;
+
       if (location == null && model.location == null) {
         Organisation? defaultLocation = await SharedPrefs.getDefaultLocation();
         if (defaultLocation != null) {
@@ -161,6 +169,8 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
           isDbUser: true,
           locationId: model.location!.id!,
         ),
+        commonServices.getLocationType(locId: locationId!),
+
       ]);
 
       // Assign futures to respective variables
@@ -173,6 +183,7 @@ class SstIncidentGeneralInfoCubit extends Cubit<SstIncidentGeneralInfoState> {
       final List<BaseUser> securityManagers = futures[5] as List<BaseUser>;
       final List<BaseUser> locationTeamUsers = futures[6] as List<BaseUser>;
       final List<BaseUser> systemManagers = futures[7] as List<BaseUser>;
+      final GetLocationType? getLocationType = futures[8] as GetLocationType;
 
       model.createdDate = model.createdDate == null
           ? Utils().getCurrentDate()
@@ -212,6 +223,8 @@ model.modifiedDate = model.modifiedDate == null
           uploadAttachments: model.attachments,
           additionalAttachments: model.additionalDocs,
           dataLossAttachments: model.dataLossDocs,
+          getLocationType: getLocationType,
+
         ),
       );
     } on Exception catch (e) {
@@ -227,7 +240,7 @@ model.modifiedDate = model.modifiedDate == null
         status: FormStatus.loading,
       ),
     );
-
+    GetLocationType? locType = state.getLocationType;
     List<BaseUser> locationTeamUsers = [];
     List<BaseUser> securityLeads = [];
     List<BaseUser> securityManagers = [];
@@ -240,6 +253,7 @@ model.modifiedDate = model.modifiedDate == null
 
       state.model.location = location;
       state.model.slNo = slNo.serialNo ?? '';
+      final int? locationId = location.id;
 
       locationTeamUsers = await commonServices.getBaseUsers(
           isDbUser: true,
@@ -256,6 +270,8 @@ model.modifiedDate = model.modifiedDate == null
           isDbUser: true,
           roleNames: ConstantUserRoles.atomSecurityAndSeniorSecurityManagerUser,
           locationId: location.id!);
+      locType = await commonServices.getLocationType(locId: locationId!);
+
     }
 
     state.model.asl = null;
@@ -269,6 +285,8 @@ model.modifiedDate = model.modifiedDate == null
       securityManagers: securityManagers,
       locationTeamUsers: locationTeamUsers,
       status: FormStatus.initial,
+      getLocationType: locType,
+
     ));
   }
 
@@ -282,6 +300,7 @@ model.modifiedDate = model.modifiedDate == null
     int? status,
     int? incidentType,
     int? systemSLA,
+    Organisation? locationType,
   }) async {
     emit(
       state.copyWith(
@@ -302,6 +321,10 @@ model.modifiedDate = model.modifiedDate == null
         email: asl.email,
       );
       state.model.asl = userDetails;
+    }
+
+    if (locationType != null) {
+      state.model.locationType = locationType;
     }
 
     if (systemManager != null) {

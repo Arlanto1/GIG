@@ -8,6 +8,7 @@ import 'package:db_atom/src/features/transport_medical_incident/models/transport
 import 'package:db_atom/src/features/transport_medical_incident/services/transport_medical_service.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../models/location_Type_Model.dart';
 import '../../models/request_models/transport_medical_request_model.dart';
 
 part 'transport_medical_details_state.dart';
@@ -44,6 +45,8 @@ class TransportMedicalDetailsCubit extends Cubit<TransportMedicalDetailsState> {
       eventId: null,
       draftTemplateHtml: '',
       emailModel: emailModel ?? TransportEmailNotificationModel(),
+      getLocationType: GetLocationType(),
+
     ),
   );
 
@@ -77,6 +80,7 @@ class TransportMedicalDetailsCubit extends Cubit<TransportMedicalDetailsState> {
     );
   }
 
+
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
 
@@ -95,6 +99,11 @@ class TransportMedicalDetailsCubit extends Cubit<TransportMedicalDetailsState> {
         state.model.slNo = slNo.serialNo;
       }
     }
+    final Locations locations =
+    await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+    final int? locationId =state.model.location?.id;
+    GetLocationType getLocationType = GetLocationType(getLocationType: []); // Initialize with default value
+
 
     try {
       Locations getLocationsData =
@@ -105,6 +114,9 @@ class TransportMedicalDetailsCubit extends Cubit<TransportMedicalDetailsState> {
 
       User loggedInUserDetails =
       await commonServices.getUserDetails(userId: userId);
+
+      getLocationType =
+      await commonServices.getLocationType(locId: locationId!);
 
       List<BaseUser> emailUsers = await commonServices.getBaseUsers(
         roleName: ConstantUserRoles.atomStaticUser,
@@ -163,6 +175,8 @@ class TransportMedicalDetailsCubit extends Cubit<TransportMedicalDetailsState> {
           labels: labels,
           emailTemplates: emailTemplates,
           loadAttachments: emailModel?.images,
+          getLocationType: getLocationType,
+
         ),
       );
     } catch (e) {
@@ -276,6 +290,7 @@ class TransportMedicalDetailsCubit extends Cubit<TransportMedicalDetailsState> {
     emit(state.copyWith(status: FormStatus.loading));
 
     List<BaseUser> emailUsers = [];
+    GetLocationType? locType = state.getLocationType;
 
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getIMSlNo(
@@ -285,18 +300,23 @@ class TransportMedicalDetailsCubit extends Cubit<TransportMedicalDetailsState> {
 
       state.model.location = location;
       state.model.slNo = slNo.serialNo ?? '';
+      final int? locationId = location.id;
 
       emailUsers = await commonServices.getBaseUsers(
         roleName: ConstantUserRoles.atomStaticUser,
         locationId: location.id,
         isDbUser: true,
       );
+      locType = await commonServices.getLocationType(locId: locationId!);
+
     }
 
     emit(state.copyWith(
       model: state.model,
       users: emailUsers,
       status: FormStatus.initial,
+      getLocationType: locType,
+
     ));
   }
 
@@ -313,6 +333,8 @@ class TransportMedicalDetailsCubit extends Cubit<TransportMedicalDetailsState> {
     int? status,
     int? incidentType,
     int? transportType,
+    Organisation? locationType,
+
   }) async {
     emit(state.copyWith(status: FormStatus.loading));
 
@@ -330,6 +352,9 @@ class TransportMedicalDetailsCubit extends Cubit<TransportMedicalDetailsState> {
       state.model.slNo = slNo.serialNo ?? '';
     }
 
+    if (locationType != null) {
+      state.model.locationType = locationType;
+    }
     if (entities != null) {
       state.model.entities = entities;
     }

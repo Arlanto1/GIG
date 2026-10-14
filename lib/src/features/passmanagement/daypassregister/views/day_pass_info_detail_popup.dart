@@ -123,7 +123,7 @@ class _DayPassInfoCustomPopUpListState
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      textHandling('Pass No : ', widget.userItem.passNo.toString()),
+                      textHandling('Card No : ', widget.userItem.passNo.toString()),
                     ],
                   ),
                   CommonWidgets.verticalSpacerWidget(8),
@@ -174,11 +174,11 @@ class _DayPassInfoCustomPopUpListState
                     ),
                   ],
                   CommonWidgets.verticalSpacerWidget(8),
-                  Row(
-                    children: [
-                      textHandling('Is Dws Pass : ', widget.userItem.dws.toString()),
-                    ],
-                  ),
+                  // Row(
+                  //   children: [
+                  //     textHandling('Is Dws Pass : ', widget.userItem.dws.toString()),
+                  //   ],
+                  // ),
                   // CommonWidgets.verticalSpacerWidget(8),
                   // Row(
                   //   children: [

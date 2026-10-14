@@ -45,6 +45,7 @@ class OccurrenceModel {
   User? handoverSecurity;
   Organisation? location;
   Organisation? locationRegion;
+  Organisation? locationType;
   bool shiftBrfngAttnded;
   bool premisesRoundTkn;
   String? premisesRoundTknComments;
@@ -99,6 +100,7 @@ class OccurrenceModel {
     this.handoverSecurity,
     this.location,
     this.locationRegion,
+    this.locationType,
     this.shiftBrfngAttnded = false,
     this.premisesRoundTkn = false,
     this.premisesRoundTknComments,

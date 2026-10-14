@@ -185,19 +185,19 @@ const List<Label> transportMedicalStatusValues = [
 ];
 
 const List<Label> guardRankDropDownValues = [
-  Label(key: 'Security Guard', value: '1'),
+  // Label(key: 'Security Guard', value: '1'),
   Label(key: 'Security Officer', value: '2'),
   Label(key: 'Security Supervisor', value: '3'),
   Label(key: 'Security Facilitator', value: '4'),
-  Label(key: 'Gun Man', value: '5'),
-  Label(key: 'Lady Security Guard', value: '6'),
+  // Label(key: 'Gun Man', value: '5'),
+  // Label(key: 'Lady Security Guard', value: '6'),
 ];
 
 
 const List<Label> staffCategoryDropDownValues = [
   Label(key: 'Guarding Agency', value: '0'),
-  Label(key: 'Security Guard', value: '1'),
-  Label(key: 'Security Lady', value: '2'),
+  // Label(key: 'Security Guard', value: '1'),
+  // Label(key: 'Security Lady', value: '2'),
   Label(key: 'Security Supervisor', value: '3'),
   Label(key: 'Security Officer', value: '4'),
   Label(key: 'Security Facilitator', value: '5'),
@@ -531,6 +531,12 @@ const List<Label> trackerDropDownValues = [
   Label(key: 'Feature', value: '4'),
   Label(key: 'Spent_print', value: '5'),
 
+];
+
+const List<Label> demandStatusDropDownValues = [
+  Label(key: 'Low', value: '1'),
+  Label(key: 'Medium', value: '2'),
+  Label(key: 'High', value: '3'),
 ];
 const List<Label> priorityTypeDropDownValues = [
   Label(key: 'Urgent', value: '1'),

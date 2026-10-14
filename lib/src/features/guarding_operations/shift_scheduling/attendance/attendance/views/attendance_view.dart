@@ -157,8 +157,7 @@ class _AttendanceViewState extends State<AttendanceView> {
                               : state.items.length + 1,
                           itemBuilder: (context, index) {
                             if (index >= state.items.length) {
-                              if (state.status == FormStatus.loading ||
-                                  state.status == FormStatus.initial) {
+                              if (state.status == FormStatus.loading) {
                                 return const Center(child: BaseLoader());
                               }
                               return const SizedBox();

@@ -34,6 +34,7 @@ class SstIncident {
   int? id;
   String? slNo;
   Organisation? location;
+  Organisation? locationType;
   Organisation? region;
   Organisation? vendor;
   OccurrenceModel? occurrence;
@@ -95,6 +96,7 @@ class SstIncident {
     this.id,
     this.slNo,
     this.location,
+    this.locationType,
     this.region,
     this.vendor,
     this.vendorTicketNo,
@@ -156,6 +158,9 @@ class SstIncident {
         slNo = json['slNo'] as String?,
         location = (json['location'] as Map<String, dynamic>?) != null
             ? Organisation.fromJson(json['location'] as Map<String, dynamic>)
+            : null,
+        locationType = (json['locationType'] as Map<String, dynamic>?) != null
+            ? Organisation.fromJson(json['locationType'] as Map<String, dynamic>)
             : null,
         region = (json['region'] as Map<String, dynamic>?) != null
             ? Organisation.fromJson(json['region'] as Map<String, dynamic>)
@@ -247,6 +252,7 @@ class SstIncident {
         'id': id,
         'slNo': slNo,
         'location': location?.toJson(),
+    'locationType':locationType?.toJson(),
         'region': region?.toJson(),
         'vendor': vendor?.toJson(),
         'vendorTicketNo': vendorTicketNo,

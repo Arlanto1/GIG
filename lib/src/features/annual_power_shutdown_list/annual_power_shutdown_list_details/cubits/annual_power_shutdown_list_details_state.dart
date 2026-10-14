@@ -20,6 +20,7 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
   final List<User>? entrySecurities;
   final BudgetCostModel? budgetCost;
   final APSUILabels? labels;
+  final List<Organisation>? locationType;
 
   factory AnnualPowerShutdownListDetailsState.initial({
     required AnnualPowerShutdownListModel model,
@@ -39,6 +40,7 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
     List<User>? entrySecurities,
     required int? eventId,
     List<String>? participationDate,
+    List<Organisation>? locationType,
   }) {
     return AnnualPowerShutdownListDetailsState(
       status: FormStatus.initial,
@@ -57,6 +59,7 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
       eventId: eventId,
       participationDates: participationDate,
       entrySecurities: entrySecurities,
+        locationType:locationType,
     );
   }
 
@@ -332,6 +335,7 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
     this.loggedInUserDetails,
     this.budgetCost,
     this.labels,
+    this.locationType,
   });
 
   AnnualPowerShutdownListDetailsState copyWith({
@@ -354,6 +358,7 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
     List<User>? entrySecurities,
     BudgetCostModel? budgetCost,
     final APSUILabels? labels,
+    List<Organisation>? locationType,
   }) {
     return AnnualPowerShutdownListDetailsState(
       status: status ?? this.status,
@@ -375,6 +380,7 @@ class AnnualPowerShutdownListDetailsState extends Equatable {
       entrySecurities: entrySecurities ?? this.entrySecurities,
       budgetCost: budgetCost ?? this.budgetCost,
       labels: labels ?? this.labels,
+        locationType: locationType??this.locationType
     );
   }
 }

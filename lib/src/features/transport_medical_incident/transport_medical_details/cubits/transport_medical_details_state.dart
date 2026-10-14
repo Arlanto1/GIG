@@ -29,6 +29,7 @@ class TransportMedicalDetailsState extends Equatable {
   final String? draftTemplateHtml;
   final TransportEmailNotificationModel? emailModel;
   final bool? showPopup;
+  final GetLocationType  getLocationType;
 
   factory TransportMedicalDetailsState.initial({
     required TransportMedicalModel model,
@@ -56,6 +57,8 @@ class TransportMedicalDetailsState extends Equatable {
     required String? draftTemplateHtml,
     required TransportEmailNotificationModel? emailModel,
     bool? showPopup,
+    required GetLocationType getLocationType,
+
   }) {
     return TransportMedicalDetailsState(
       status: FormStatus.initial,
@@ -81,6 +84,8 @@ class TransportMedicalDetailsState extends Equatable {
       emailTemplates:emailTemplates,
         emailModel:emailModel,
         showPopup:showPopup,
+      getLocationType:getLocationType,
+
     );
   }
 
@@ -147,6 +152,8 @@ class TransportMedicalDetailsState extends Equatable {
     this.draftTemplateHtml,
     this.emailModel,
     this.showPopup = false,
+    required this.getLocationType,
+
   });
 
   TransportMedicalDetailsState copyWith({
@@ -178,6 +185,7 @@ class TransportMedicalDetailsState extends Equatable {
     String? draftTemplateHtml,
     TransportEmailNotificationModel? emailModel,
     final bool? showPopup,
+    GetLocationType? getLocationType,
 
   }) {
     return TransportMedicalDetailsState(
@@ -208,6 +216,8 @@ class TransportMedicalDetailsState extends Equatable {
       draftTemplateHtml:draftTemplateHtml?? this.draftTemplateHtml,
         emailModel:emailModel?? this.emailModel,
         showPopup:showPopup??showPopup,
+      getLocationType:getLocationType??this.getLocationType,
+
     );
   }
 
@@ -226,6 +236,7 @@ class TransportMedicalDetailsState extends Equatable {
     emailTemplates,
     isTemplateLoading,
     draftTemplateHtml,
-    showPopup
+    showPopup,
+    getLocationType,
   ];
 }

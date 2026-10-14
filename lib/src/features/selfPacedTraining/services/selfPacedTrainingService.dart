@@ -1,10 +1,7 @@
+
 import 'package:db_atom/index.dart';
-import 'package:db_atom/src/features/training_module/models/requestModel/training_module_request.dart';
 
 import '../models/selfPacedTrainingModel.dart';
-
-// import '../models/requestModel/training_items_model_request.dart';
-
 class Apis {
   static final String baseUrl = Environment().config.apiHost1;
 

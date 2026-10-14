@@ -209,7 +209,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
   }
 
   getBody(KeyIssuanceProcessRecordState state) {
-    if (state.status == FormStatus.initial ||
+    if (
         state.status == FormStatus.loading) {
       return const BaseLoader();
     }

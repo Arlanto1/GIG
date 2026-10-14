@@ -15,6 +15,9 @@ TransportMedicalModel _$TransportMedicalModelFromJson(
       location: json['location'] == null
           ? null
           : Organisation.fromJson(json['location'] as Map<String, dynamic>),
+      locationType: json['locationType'] == null
+          ? null
+          : Organisation.fromJson(json['locationType'] as Map<String, dynamic>),
       locationRegion: json['locationRegion'] == null
           ? null
           : Organisation.fromJson(
@@ -80,6 +83,7 @@ Map<String, dynamic> _$TransportMedicalModelToJson(
       'slNo': instance.slNo,
       'inputDate': instance.inputDate,
       'location': instance.location,
+      'locationType': instance.locationType,
       'locationRegion': instance.locationRegion,
       'entities': instance.entities,
       'status': instance.status,

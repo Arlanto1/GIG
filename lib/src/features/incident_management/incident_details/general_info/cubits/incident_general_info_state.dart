@@ -19,6 +19,7 @@ class IncidentGeneralInfoState extends Equatable {
   final String? message;
   final List<User>? entrySecurities;
   final IMUiLabels? labels;
+  final GetLocationType  getLocationType;
 
   factory IncidentGeneralInfoState.initial({
     required IncidentModel model,
@@ -38,6 +39,8 @@ class IncidentGeneralInfoState extends Equatable {
     List<User>? entrySecurities,
     required int? eventId,
     List<String>? participationDate,
+    required GetLocationType getLocationType,
+
   }) {
     return IncidentGeneralInfoState(
       status: FormStatus.initial,
@@ -56,6 +59,8 @@ class IncidentGeneralInfoState extends Equatable {
       eventId: eventId,
       participationDates: participationDate,
       entrySecurities: entrySecurities,
+      getLocationType:getLocationType,
+
     );
   }
 
@@ -197,6 +202,8 @@ class IncidentGeneralInfoState extends Equatable {
     this.entrySecurities,
     this.loggedInUserDetails,
     this.labels,
+    required this.getLocationType,
+
   });
 
   IncidentGeneralInfoState copyWith({
@@ -217,6 +224,8 @@ class IncidentGeneralInfoState extends Equatable {
     int? eventId,
     String? message,
     List<User>? entrySecurities,
+    GetLocationType? getLocationType,
+
   }) {
     return IncidentGeneralInfoState(
       status: status ?? this.status,
@@ -236,6 +245,7 @@ class IncidentGeneralInfoState extends Equatable {
       eventId: eventId ?? this.eventId,
       message: message ?? this.message,
       entrySecurities: entrySecurities ?? this.entrySecurities,
+      getLocationType:getLocationType??this.getLocationType,
     );
   }
 }

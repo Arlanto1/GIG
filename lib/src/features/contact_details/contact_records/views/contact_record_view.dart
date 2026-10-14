@@ -92,8 +92,7 @@ class _ContactRecordViewState extends State<ContactRecordView> {
   }
 
   Widget getBody(ContactRecordState state) {
-    if (state.status == FormStatus.initial ||
-        state.status == FormStatus.loading) {
+    if (state.status == FormStatus.initial ) {
       return const BaseLoader();
     }
 
@@ -101,21 +100,21 @@ class _ContactRecordViewState extends State<ContactRecordView> {
         !isPopUpShown &&
         widget.lock.isEmptyOrNull &&
         widget.parentStatus != ConstantsIntValue.cancelledStatus) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        isPopUpShown = true;
-        showAddContactPopUp(
-          // context: context,
-          contact: ContactRecord(
-            contactId: widget.id,
-            email: '',
-            contactNo: '',
-            rank: Organisation(),
-            type: widget.type,
-          ),
-          users: state.ranks,
-          rankType: widget.rankType,
-        );
-      });
+      // WidgetsBinding.instance.addPostFrameCallback((_) {
+      //   isPopUpShown = true;
+      //   showAddContactPopUp(
+      //     // context: context,
+      //     contact: ContactRecord(
+      //       contactId: widget.id,
+      //       email: '',
+      //       contactNo: '',
+      //       rank: Organisation(),
+      //       type: widget.type,
+      //     ),
+      //     users: state.ranks,
+      //     rankType: widget.rankType,
+      //   );
+      // });
       return const NoRecordFoundWidget();
     }
 

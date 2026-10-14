@@ -114,9 +114,9 @@ class _KeyManagementMasterListViewState
               // if (state.status == FormStatus.initial) {
               //   return const BaseLoader();
               // }
-              // if (state.list.isEmptyOrNull) {
-              //   return const NoRecordFoundWidget();
-              // }
+              if (state.list.isEmptyOrNull) {
+                return const NoRecordFoundWidget();
+              }
               // log('--labels-${state.labels?.locale.locationRegion}');
               return Stack(
                 children: [
@@ -184,8 +184,7 @@ class _KeyManagementMasterListViewState
                               : state.list.length + 1,
                           itemBuilder: (context, index) {
                             if (index >= state.list.length) {
-                              if (state.status == FormStatus.loading ||
-                                  state.status == FormStatus.initial) {
+                              if (state.status == FormStatus.loading) {
                                 return const Center(child: BaseLoader());
                               }
                               return const SizedBox();

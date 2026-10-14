@@ -68,8 +68,8 @@ const guardingOperationDrawerItems = [
   MenuItem(Constants.guardingMasterReport, AppIcon.guardingMasterReportIcon, 0),
   // MenuItem(Constants.patrolling, AppIcon.guardingMasterReportIcon, 0),
   MenuItem(Constants.shiftOccurrence, AppIcon.shiftOccurrenceIcon, 0),
-  MenuItem(
-      Constants.slaViolationPenaltyTitle, AppIcon.slaViolationPenaltyIcon, 0),
+  // MenuItem(
+  //     Constants.slaViolationPenaltyTitle, AppIcon.slaViolationPenaltyIcon, 0),
    MenuItem(Constants.patrolling, AppIcon.materialMovementOutwardIcon, 0),
 ];
 
@@ -94,8 +94,8 @@ const passTileDrawerItems = [
   MenuItem(
       Constants.dayPassManagement, AppIcon.dayPassManagementRegisterIcon, 0),
   MenuItem(Constants.dayPassRegister, AppIcon.dayPassManagementRegisterIcon, 0),
-  MenuItem(Constants.sezPassManagement, AppIcon.sezPassManagementRegisterIcon, 0),
-  MenuItem(Constants.sezPassRegister, AppIcon.sezPassManagementRegisterIcon, 0),
+  // MenuItem(Constants.sezPassManagement, AppIcon.sezPassManagementRegisterIcon, 0),
+  // MenuItem(Constants.sezPassRegister, AppIcon.sezPassManagementRegisterIcon, 0),
   MenuItem(
       Constants.vendorPassManagement, AppIcon.vendorPassManagementRegisterIcon, 0),
   MenuItem(Constants.vendorPassRegister,
@@ -108,6 +108,7 @@ const passTileDrawerItems = [
 
 const sCRIItems = [
   MenuItem(Constants.vVipVisitorsTitle, AppIcon.incidentIcon, 0),
+  MenuItem(Constants.parking, AppIcon.incidentIcon, 0),
 ];
 
 // const ticketingSystem = [

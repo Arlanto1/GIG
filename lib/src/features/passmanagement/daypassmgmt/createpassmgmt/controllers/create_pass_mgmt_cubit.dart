@@ -1103,7 +1103,7 @@ class CreatePassMgmtCubit extends Cubit<CreatePassMgmtState> {
     //     await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
     List<BaseUser> emailUsers = await commonServices.getBaseUsersByRoles(
         roleNames: ConstantUserRoles.atomStaticUser,
-        isDbUser: true,
+        isDbUser: false,
         locationId: state.location?.id);
 
     getUserByRoleDepositor();

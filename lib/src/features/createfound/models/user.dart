@@ -68,6 +68,6 @@ class User {
         'name': name,
         'userInfo': userInfo,
         'userStatus': userStatus,
-        'employeeId': employeeId
+        'employeeId': employeeId,
       };
 }

@@ -21,6 +21,9 @@ KeyManagementMasterModel _$KeyManagementMasterModelFromJson(
       location: json['location'] == null
           ? null
           : Organisation.fromJson(json['location'] as Map<String, dynamic>),
+      locationType: json['locationType'] == null
+          ? null
+          : Organisation.fromJson(json['locationType'] as Map<String, dynamic>),
       region: json['region'] == null
           ? null
           : Organisation.fromJson(json['region'] as Map<String, dynamic>),
@@ -86,6 +89,7 @@ Map<String, dynamic> _$KeyManagementMasterModelToJson(
       'createdBy': instance.createdBy,
       'entities': instance.entities,
       'location': instance.location,
+      'locationType': instance.locationType,
       'region': instance.region,
       'destructionReason': instance.destructionReason,
       'floor': instance.floor,

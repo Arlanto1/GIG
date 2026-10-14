@@ -33,6 +33,21 @@ class AppColors {
   static const Color darkGreenColor = Color(0xFF006400);
   static MaterialColor colorCustom = MaterialColor(0xFF2CAAE0, color);
 
+  // static Color navy = const Color(0xFF0B0B80);
+  static Color navy = const Color(0xFF160686);
+  static Color indigo = const Color(0xFF4A3FA8);
+  static Color labelColor = const Color(0xFF111827);
+  static Color hintColor = const Color(0xFF6B7280);
+  static Color borderColor = const Color(0xFFDCE1F5);
+  static Color lavenderGlowColor =const Color(0xFFCBD5F8);
+  static Color peachGlowColor = const Color(0xFFFBDDBF);
+  static Color kIndigo = const Color(0xFF150A78);
+  static Color kIndigoDeep = const  Color(0xFF0C0550);
+  static Color kBronze = const Color(0xFFB5835A);
+  static Color kBronzeLight = const Color(0xFFE3B98F);
+  static Color kPageBg = const Color(0xFFF6F4FC);
+  static Color kBorder = const Color(0xFFE4DFF5);
+  static Color kMuted = const Color(0xFF6E65B5);
 
   static Color newColor = const Color(0xFF071B2E);
   static Color newColor1 = const Color(0xFF98C781);
@@ -190,3 +205,25 @@ final List<Color> customGlassColors = [
   const Color(0xFF003f5c).withValues(alpha: 1),
 
 ];
+
+
+class GigColors {
+  GigColors._();
+  static const Color indigo = Color(0xFF160686);
+  static const Color copper = Color(0xFFC0794A);
+  static const Color lavender = Color(0xFFF4F2FD);
+  static const Color muted = Color(0xFF6C64B5);
+  static const Color border = Color(0xFFE4E0F7);
+  static const Color liveBg = Color(0xFFE6F5EC);
+  static const Color liveText = Color(0xFF1E7A4F);
+
+  /// Used when a chart has more than one segment.
+  static const List<Color> segmentPalette = [
+    indigo,
+    copper,
+    Color(0xFF4B3BD8),
+    Color(0xFFE3AE7C),
+    Color(0xFF6C64B5),
+    Color(0xFF2FAE72),
+  ];
+}

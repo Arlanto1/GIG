@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const String dbEmailId = '@db.com';
+const String dbEmailId = '@gig.com';
 
 class Constants {
   // static const inactivityDuration = Duration(minutes: 5);
@@ -157,10 +157,11 @@ class Constants {
   static const String forgotPassword = 'Forgot Password?';
   static const String support = "Support :";
   static const String supportContact = "+91 6150 961 6244";
-  static const String copyrightText = "Copyright © 2024 Arlanto.";
+  static const String copyrightText = "Copyright © 2026 Arlanto.";
   static const String submit = "Submit";
   static const String emailAddress = "Email Address";
 
+  static const String locationType = 'Location Type';
 
   static const String locationPermissionError =
       'Please enable location services!';
@@ -171,28 +172,28 @@ class Constants {
   static const String securityFunctions = 'Security Functions';
   static const String operations = "Operations";
   static const String costAndBilling = "Cost & Billing";
-  static const String securitySystems = "Security System";
+  static const String securitySystems = "Digital Security Assets Ticketing Tool";
   static const String securitySystemTickets = "Security System Tickets";
   static const String settings = "Settings";
   static const String administration = "Administration";
   static const String profile = 'Profile';
-  static const String articleFoundRegisterListTitle = 'Article Found';
+  static const String articleFoundRegisterListTitle = 'Article Found/Loss Property Register';
   static const String lawEnforcementVisitsListTitle =
-      'Law Enforcement Visits List';
+      'Government Authority Visits';
   static const String eventProtection = 'Event Protection';
-  static const String eventProtectionList = 'Event Protection List';
-  static const String cSREventList = 'CSR Event List';
-  static const String sportEventList = 'Sport Event List';
+  static const String eventProtectionList = 'Event Protection';
+  static const String cSREventList = 'CSR Event';
+  static const String sportEventList = 'Sport Event';
   static const String annualPowerShutdownListTitle =
       'Annual Power Shutdown List';
   static const String annualPowerShutdownListDetails =
       'Annual Power Shutdown List Details';
   static const String sCRI = 'SCRI';
   static const String incidentManagementTitle = 'Incident Management';
-  static const String transportIncidentTitle = 'Transport Incident List';
-  static const String medicalEmergencyTitle = 'Medical Emergency List';
+  static const String transportIncidentTitle = 'Transport Incident';
+  static const String medicalEmergencyTitle = 'Medical Emergency';
   static const String shiftOccurrence = 'Shift Occurrence';
-  static const String occurrenceListTitle = 'Occurrence List';
+  static const String occurrenceListTitle = 'Occurrence';
   static const String materialMovement = 'Material Movement';
   static const String passManagement = 'Pass Management';
   static const String guardingOperations = 'Guarding Operations';
@@ -203,9 +204,9 @@ class Constants {
   static const String eventProtectionByRegion = 'Event Protection By Region';
   static const String eventProtectionByEntity = 'Event Protection By Entity';
   static const String lawEnforcementVisitsByEntity =
-      'Law Enforcement Visits By Entity';
+      'Government Authority Visits By Entity';
   static const String lawEnforcementVisitsByRegion =
-      'Law Enforcement Visits By Region';
+      'Government Authority Visits By Region';
   static const String eventProtectionAttendees = 'Event Protection Attendees';
   static const String eventProtectionBySupport = 'Event Protection By Support';
 
@@ -229,14 +230,14 @@ class Constants {
   static const String materialMovementOutwardEdit =
       'Edit Outward Material Movement';
   // static const String ticketingSystem = 'Ticketing System';
-  static const String dayPassManagement = 'Day Pass Management';
-  static const String dayPassRegister = 'Day Pass Register';
-  static const String visitorPassManagement = 'Visitor Pass Management';
-  static const String visitorPassRegister = 'Visitor Pass Register';
-  static const String vendorPassManagement = 'Vendor Pass Management';
-  static const String vendorPassRegister = 'Vendor Pass Register';
-  static const String sezPassManagement = 'SEZ Pass Management';
-  static const String sezPassRegister = 'SEZ Pass Register';
+  static const String dayPassManagement = 'Temporary Card Management';
+  static const String dayPassRegister = 'Temporary Card Register';
+  static const String visitorPassManagement = 'Visitor Card Management';
+  static const String visitorPassRegister = 'Visitor Card Register';
+  static const String vendorPassManagement = 'Vendor Card Management';
+  static const String vendorPassRegister = 'Vendor Card Register';
+  static const String sezPassManagement = 'SEZ Card Management';
+  static const String sezPassRegister = 'SEZ Card Register';
   static const String someThingWentWrong = 'Something went wrong';
   static const String otpSendSuccessfully = 'Otp sent successfully';
   static const String yes = 'Yes';
@@ -248,9 +249,9 @@ class Constants {
 
 
   // Create Found
-  static const String createFound = 'Create Found';
-  static const String editFound = 'Edit Found';
-  static const String foundListTitle = 'Found List';
+  static const String createFound = 'Create Article Found';
+  static const String editFound = 'Edit Article Found';
+  static const String foundListTitle = 'Article Found/Loss Property Register';
   static const String generalinformation = 'General Information';
   static const String foundLocation = 'Found Location';
   static const String safeStoragePlace = 'Safe Storage Place';
@@ -276,7 +277,7 @@ class Constants {
   static const String duedate = 'Due Date';
   static const String articlename = 'Article Name';
   static const String handedoverdate = 'Handed over Date';
-  static const String isdepositordbemployee = 'Is Depositor DB Employee';
+  static const String isdepositordbemployee = 'Is Depositor GIG Gulf Employee';
   static const String createdby = 'Created By';
   static const String itemhandoverby = 'Item Handover By';
   static const String slno = 'Sl No.';
@@ -295,8 +296,8 @@ class Constants {
 
   static const String buildinglocation = 'Building Location';
   static const String addEmployeeDepartment = 'Add Employee Department';
-  static const String addreasonfordaypass = 'Add Reason for Day Pass';
-  static const String addreasonforvendorpass = 'Add Reason for Vendor Pass';
+  static const String addreasonfordaypass = 'Add Reason for Day Card';
+  static const String addreasonforvendorpass = 'Add Reason for Vendor Card';
   static const String save = 'Save';
   static const String cancel = 'Cancel';
   static const String cancelRecord = 'Cancel Record';
@@ -342,30 +343,30 @@ class Constants {
 
   // Law enforcement
   static const String lawEnforcementListTitle =
-      'Law Enforcement List';
+      'Government Authority Visits';
   static const String createlawenforcement =
-      'Create Law Enforcement Official Visit';
+      'Create Government Authority Visits Official Visit';
   static const String editlawenforcement =
-      'Edit Law Enforcement Official Visit';
+      'Edit Government Authority Visits Official Visit';
   static const String addcompanytype = 'Add Company Type';
   static const String addentitytype = 'Add Entity';
   static const String addpurposeofvisittype = 'Add Puropose Of Visit';
-  static const String addleoofficialtype = 'Add Leo Department';
+  static const String addleoofficialtype = 'Add Government Authority Visits Department';
 
   //static const String editlawenforcement = 'Edit Found';
   static const String entity = 'Entity';
   static const String actualtimeofvisit = 'Actual Time of Visit';
   static const String purposeofvsit = 'Purpose of visit';
-  static const String dbofficialwanttomeet = 'DB official want to meet';
-  static const String dbofficialdepartment = 'DB official department';
+  static const String dbofficialwanttomeet = 'GIG Gulf official want to meet';
+  static const String dbofficialdepartment = 'GIG Gulf official department';
   static const String dbofficialemailidaccompaniedleoofficial =
-      'DB Official email ID Accompanied LEO official';
+      'DB Official email ID Accompanied Government Authority Visits official';
   static const String officialsidcardverified = 'Officials Id Card Verified?';
   static const String documentifanytoconfirmpurpose =
       'Document if any to confirm purpose';
   static const String incaseofpolicewasofficialinuniform =
       'In case of Police, was official in uniform?';
-  static const String dbOfficialName = 'DB Official Name';
+  static const String dbOfficialName = 'GIG Gulf Official Name';
   static const String designation = 'Designation';
   static const String officeAddress = 'Office Address';
   static const String emailId = 'Email Id';
@@ -389,39 +390,39 @@ class Constants {
   static const String employeeid = 'Employee Id';
   static const String hostemployeeid = 'Host Employee Id';
   static const String host = 'Host';
-  static const String passCollectedBy = 'Pass Collected By';
-  static const String passReturnedOn = 'Pass Returned On';
+  static const String passCollectedBy = 'Card Collected By';
+  static const String passReturnedOn = 'Card Returned On';
   static const String vendorName = 'Vendor Name';
   static const String visitorName = 'Visitor Name';
-  static const String dbSponsor = 'DB Sponsor';
-  static const String dbSponsorEmployeeId = 'DB Sponsor Employee Id';
+  static const String dbSponsor = 'GIG Gulf Sponsor';
+  static const String dbSponsorEmployeeId = 'GIG Gulf Sponsor Employee Id';
   static const String visitorComingFrom = 'Visitor Coming From';
-  static const String sezPassInfo = 'SEZ Pass Info';
+  static const String sezPassInfo = 'SEZ Card Info';
   static const String mTPApplicationNo = 'MTP Application No';
   static const String photoIdentityType = 'Photo Identity Validation Type';
   static const String visitingDepartment = 'Visiting Department';
-  static const String reasonForVendorPass = 'Reason for Vendor Pass';
-  static const String visitorPassNo = 'Visitor Pass No';
-  static const String vendorPassNo = 'Vendor Pass No';
+  static const String reasonForVendorPass = 'Reason for Vendor Card';
+  static const String visitorPassNo = 'Visitor Card No';
+  static const String vendorPassNo = 'Vendor Card No';
   static const String escortedByHost = 'Escorted by Host';
   static const String photoOfVisitor = 'Photo of Visitor';
   static const String deutscheBank = 'Deutsche Bank';
 
-  static const String passIssuedOn = 'Pass Issued On';
-  static const String passvlidfrom = 'Pass Valid From';
-  static const String passCategory = 'Pass Category';
+  static const String passIssuedOn = 'Card Issued On';
+  static const String passvlidfrom = 'Card Valid From';
+  static const String passCategory = 'Card Category';
 
   static const String exceptionalApproval =
       'Exceptional Approval for External Auditors/ External Regulators';
-  static const String passvliduntil = 'Pass Valid Until';
+  static const String passvliduntil = 'Card Valid Until';
   static const String escortedby = 'Escorted By';
   static const String identifiedBy = 'Identified By';
   static const String escortedbyemployeeid = 'Escorted by Employee Id';
   static const String identifiedByEmployeeId = 'Identified By Employee Id';
-  static const String reasonfordaypass = 'Reason for Day Pass';
-  static const String daypassno = 'Day Pass No';
-  static const String passtype = 'Pass Type';
-  static const String sezPass = 'SEZ Pass';
+  static const String reasonfordaypass = 'Temporary Card Reason';
+  static const String daypassno = 'Temporary Card No';
+  static const String passtype = 'Card Type';
+  static const String sezPass = 'SEZ Card';
   static const String passValidUntil = '31/03/2023';
   static const String confirmation = 'Update Status';
   static const String updatedStatusMessage = 'are you sure you want to select "lost"?';
@@ -459,9 +460,9 @@ class Constants {
   static const String materialMovementsType = 'Material Movement Type';
   static const String signatureTitle = 'Give Signature';
   static const String materialMovementsInwardTitle =
-      'Inward Material Movement List';
+      'Inward Material Movement';
   static const String materialMovementsOutwardTitle =
-      'Outward Material Movement List';
+      'Outward Material Movement';
   static const String createMaterialMovementInwardTitle =
       'Create Inward Material Movement';
   static const String createMaterialMovementOutwardTitle =
@@ -478,7 +479,7 @@ class Constants {
   static const String outwardMaterialMovementType = 'Outward';
   static const String id = 'ID';
   static const String date = 'Date';
-  static const String challan = 'Challan/ Invoice Nos/ Gate Pass';
+  static const String challan = 'Challan/ Invoice Nos/ Gate Card';
   static const String poNumber = 'PO Number';
   static const String materialBriefDescription = 'Material Brief Description';
   static const String materialComingFromBriefDescription =
@@ -551,7 +552,7 @@ class Constants {
   static const String guardingVendor = 'Guarding Vendor';
   static const String previous = 'Previous';
   static const String next = "Next";
-  static const String createSecurityGuard = 'Create Security Guard';
+  static const String createSecurityGuard = 'Create Security Officer';
   static const String createSecuritySupervisor = 'Create Security Supervisor';
   static const String createSecurityOfficer = 'Create Security Officer';
   static const String createSecurityFacilitator = 'Create Security Facilitator';
@@ -602,7 +603,7 @@ class Constants {
 
   static const String participationDate = 'Participation Date';
   static const String csrParticipationDate = 'Add CSR Participation Date';
-  static const String dbEmployeeId = 'DB Employee ID';
+  static const String dbEmployeeId = 'GIG Gulf Employee ID';
   static const String buildingLocation = 'Building Location';
   static const String mobileNum = 'Mobile Number';
   static const String dependentsNo = 'Dependents';
@@ -653,7 +654,7 @@ class Constants {
   static const String healthInsuranceInfo = 'Health Insurance Info';
 
   // Event Protection
-  static const String eventProtectionTitle = 'Event Protection List';
+  static const String eventProtectionTitle = 'Event Protection';
   static const String generalInformation = 'General Information';
   static const String guardInformation = 'Guard Information';
   static const String beforeEventInformation = 'Before the Event Information';
@@ -715,12 +716,12 @@ class Constants {
   static const String eventEndDate = 'Event End Date';
   static const String isAnnualPowerShutdown = 'Is Annual Power Shutdown';
 
-  static const String incidentManagementListTitle = 'Incident Management List';
+  static const String incidentManagementListTitle = 'Incident Management';
   static const String incident = 'Incident';
   static const String ticketLifeCycle = 'Internal Staff Incident SLA';
   static const String externalVendor = 'External Vendor';
   static const String incidentType = 'Incident Type';
-  static const String dbComplaint = 'DB Complainant';
+  static const String dbComplaint = 'GIG Gulf Complainant';
   static const String incidentDescription = 'Incident Description';
   static const String incidentDateTime = 'Incident Date and Time';
   static const String complaint = 'Complainant';
@@ -752,9 +753,9 @@ class Constants {
   static const String shiftBriefingAttended = 'Shift Briefing Attended';
   static const String premisesRoundTaken = 'Premises Round Taken';
   static const String medicalEmergency = 'Medical Emergency';
-  static const String lEOVisit = 'LEO Visit';
-  static const String incidentItemList = 'Incident Item List';
-  static const String securitySystemSLAList = 'Security System SLA List';
+  static const String lEOVisit = 'Government Authority Visit';
+  static const String incidentItemList = 'Incident Item';
+  static const String securitySystemSLAList = 'Digital Security Assets Ticketing Tool';
   static const String socialEngineeringIncidents =
       'Social Engineering Incidents?';
   static const String addPowerFailuresDates = 'Add Power Failure Date';
@@ -922,7 +923,7 @@ class Constants {
 
   static const String employeeType = 'Employee Type';
   static const String keyHandingOverDuration = 'Key Handing Over Duration';
-  static const String dbSponsorOfCWRT2 = 'DB Sponsor of CWR T2';
+  static const String dbSponsorOfCWRT2 = 'GIG Gulf Sponsor of CWR T2';
   static const String keyIssuanceProcess = 'Key Issuance Process';
   static const String keys = 'Keys';
   static const String keysAvailable = 'Keys Available';
@@ -937,11 +938,11 @@ class Constants {
   static const String editKeyLossDestruction = 'Edit Key Loss Destruction';
 
   /// Duty Post Master
-  static const String dutyPostMaster = 'Duty Post Master';
+  static const String dutyPostMaster = 'Security Post Management';
   static const String dutyPostMasterListTitle = 'Guard Duty Post Master';
 
-  static const String editDutyPostMaster = 'Edit Duty Post Master';
-  static const String createDutyPostMaster = 'Create Duty Post Master';
+  static const String editDutyPostMaster = 'Edit Security Post Management';
+  static const String createDutyPostMaster = 'Create Security Post Management';
   static const String dutyPostName = 'Duty Post Name';
   static const String aShift = 'A Shift(7AM-3PM)';
   static const String bShift = 'B Shift(3PM-11PM)';
@@ -950,11 +951,11 @@ class Constants {
   static const String total = 'Total';
 
   /// Duty Post Name Master
-  static const String dutyPostNameMaster = 'Duty Post Name Master';
+  static const String dutyPostNameMaster = 'Deployment and Shift Planning';
   static const String dutyPostNameMasterListTitle = 'Duty Post Location Name';
 
-  static const String editDutyPostNameMaster = 'Edit Duty Post Name Master';
-  static const String createDutyPostNameMaster = 'Create Duty Post Name Master';
+  static const String editDutyPostNameMaster = 'Edit Deployment and Shift Planning';
+  static const String createDutyPostNameMaster = 'Create Deployment and Shift Planning';
   static const String dutyPostLocationName = 'Post Location Name';
   static const String region = 'Region';
   static const String addDutyPostLocationName = 'Add Duty Post Location Name';
@@ -1057,28 +1058,28 @@ class Constants {
 
 
   ///Day Pass Management
-  static const String dayPassManagementTitle = 'Day Pass Management List';
-  static const String createDayPassManagementTitle = 'Create Day Pass Management';
-  static const String editDayPassManagementTitle = 'Edit Day Pass Management';
-  static const String dayPassNo = 'Day Pass No';
+  static const String dayPassManagementTitle = 'Temporary Card Management List';
+  static const String createDayPassManagementTitle = 'Create Temporary Card Management';
+  static const String editDayPassManagementTitle = 'Edit Temporary Card Management';
+  static const String dayPassNo = 'Temporary Card No';
 
 
   ///Vendor Pass Management
-  static const String vendorPassManagementTitle = 'Vendor Pass Management List';
-  static const String createVendorPassManagementTitle = 'Create Vendor Pass Management';
-  static const String editVendorPassManagementTitle = 'Edit Vendor Pass Management';
+  static const String vendorPassManagementTitle = 'Vendor Card Management List';
+  static const String createVendorPassManagementTitle = 'Create Vendor Card Management';
+  static const String editVendorPassManagementTitle = 'Edit Vendor Card Management';
 
   ///Visitor Pass Management
-  static const String visitorPassManagementTitle = 'Visitor Pass Management List';
-  static const String createVisitorPassManagementTitle = 'Create Visitor Pass Management';
-  static const String editVisitorPassManagementTitle = 'Edit Visitor Pass Management';
+  static const String visitorPassManagementTitle = 'Visitor Card Management List';
+  static const String createVisitorPassManagementTitle = 'Create Visitor Card Management';
+  static const String editVisitorPassManagementTitle = 'Edit Visitor Card Management';
 
 
   ///Sez Pass Management
 
-  static const String sezPassManagementTitle = 'Sez Pass Management List';
-  static const String createSezPassManagementTitle = 'Create Sez Pass Management';
-  static const String editSezPassManagementTitle = 'Edit Sez Pass Management';
+  static const String sezPassManagementTitle = 'Sez Card Management List';
+  static const String createSezPassManagementTitle = 'Create Sez Card Management';
+  static const String editSezPassManagementTitle = 'Edit Sez Card Management';
 
 
   static const String inWardMM = 'Inward Material Movements';
@@ -1092,7 +1093,7 @@ class Constants {
   static const String forecastType = 'Forecast Type';
   static const String specificLocation = 'Specific Location';
   static const String currentRainSituation = 'Current Rain Situation';
-  static const String impactOnDbTrans = 'Impact on DB Transportation';
+  static const String impactOnDbTrans = 'Impact on GIG Gulf Transportation';
   static const String overallImpact = 'Overall Impact';
   static const String waterLoggingOutside = 'Water Logging Outside Premises';
   static const String trafficSituation = 'Current Traffic Situation';
@@ -1101,7 +1102,7 @@ class Constants {
   static const String fteAndCwr = 'FTE and CWR';
   static const String supportStaff = 'Support Staff and Other';
   static const String buildingReport = 'Building Occupancy Report';
-  static const String listDbLocationUpdate ='List of DB Location Update';
+  static const String listDbLocationUpdate ='List of GIG Gulf Location Update';
 
   ///CSR Event Protection
   static const String eventType = 'Event Type';
@@ -1154,7 +1155,7 @@ class Constants {
   static const String tripId ='Trip Id';
   static const String isEscortGuardDeployed = 'Is Escort Guard Deployed';
   static const String escortGuard = 'Escort Guard';
-  static const String employeeAttendedByDB = 'Employee attended By DB wellness';
+  static const String employeeAttendedByDB = 'Employee attended By GIG Gulf';
   static const String employeeTakenToHsptl = 'Employee taken to nearest hospital';
   static const String medicalHomeDrop = 'Medical home drop provided';
   static const String employeeReachedHome = 'Employee reached home safely';
@@ -1174,7 +1175,7 @@ class Constants {
   static const String generalInfo = 'General Info';
   static const String generalInspection = 'General Inspection';
   static const String safetyEmergency = 'Safety & Emergency';
-  static const String pWDAccessibility = 'PWD & Accessibility';
+  static const String pWDAccessibility = 'Specially abled & Accessibility';
   static const String surveillanceSecurity = 'Surveillance & Security';
   static const String amenitiesAreas = 'Amenities Areas';
   static const String parkingExternal = 'Parking External';
@@ -1212,6 +1213,20 @@ class Constants {
   static const String passingScore = 'Passing Score';
   static const String audit = 'Audit';
   static const String recipientGroup = 'Recipient Group(s)';
+
+
+  ///Parking
+  static const String parking = 'Parking Tracking List';
+  static const String customerVisitors = 'Customer Visitors';
+  static const String empVisitors = 'Employee Visitors';
+  static const String totalVisitors = 'Total Visitors';
+  static const String empHeadCount = 'Employee Head Count';
+  static const String totalParkingSlots ='Total Parking Slots';
+  static const String occParkingSlots ='Occupied Parking Slots';
+  static const String availableParkingSlots ='Available Parking Slots';
+  static const String parkingUtilizationPercent ='Parking Utilization %';
+  static const String externalParkingRequired ='External Parking Required';
+  static const String remarks ='Remarks';
 
 
 }

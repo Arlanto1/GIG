@@ -39,6 +39,7 @@ class DutyPostMasterModel extends BaseObject {
   Organisation? location;
   Organisation? region;
   Organisation? dutyPostLocation;
+  Organisation? locationType;
   int? shiftA;
   int? shiftB;
   int? shiftC;
@@ -58,6 +59,7 @@ class DutyPostMasterModel extends BaseObject {
     this.location,
     this.region,
     this.dutyPostLocation,
+    this.locationType,
     this.shiftA,
     this.shiftB,
     this.shiftC,

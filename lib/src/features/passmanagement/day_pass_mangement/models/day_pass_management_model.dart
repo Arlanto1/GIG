@@ -36,6 +36,7 @@ class DayPassManagementModel {
    String? inputDate;
    Organisation? location;
    Organisation? locationRegion;
+   Organisation? locationType;
    List<Organisation>? entities;
    int? status;
    User? entrySecurity;
@@ -74,6 +75,7 @@ class DayPassManagementModel {
     this.inputDate,
     this.location,
     this.locationRegion,
+    this.locationType,
     this.entities,
     this.status,
     this.entrySecurity,
@@ -113,7 +115,8 @@ class DayPassManagementModel {
         inputDate = json['inputDate'] as String?,
         location = (json['location'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['location'] as Map<String,dynamic>) : null,
         locationRegion = (json['locationRegion'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['locationRegion'] as Map<String,dynamic>) : null,
-        entities = (json['entities'] as List?)
+locationType = (json['locationType'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['locationType'] as Map<String,dynamic>) : null,
+entities = (json['entities'] as List?)
             ?.map(
                 (dynamic e) => Organisation.fromJson(e as Map<String, dynamic>))
             .toList(),
@@ -158,6 +161,7 @@ class DayPassManagementModel {
     'inputDate' : inputDate,
     'location' : location?.toJson(),
     'locationRegion' : locationRegion?.toJson(),
+'locationType':locationType?.toJson(),
         'dayPassReason':dayPassReason?.toJson(),
         'department':department?.toJson(),
         'entities': entities?.map((e) => e.toJson()).toList(),

@@ -16,6 +16,7 @@ class KeyManagementMasterDetailsState extends Equatable {
   final String? message;
   final User? createdBy;
   final KMUiLabels? labels;
+  final GetLocationType  getLocationType;
 
   factory KeyManagementMasterDetailsState.initial({
     required KeyManagementMasterModel model,
@@ -30,6 +31,8 @@ class KeyManagementMasterDetailsState extends Equatable {
     required String errorMessage,
     User? createdBy,
     List<String>? participationDate,
+    required GetLocationType getLocationType,
+
   }) {
     return KeyManagementMasterDetailsState(
       status: FormStatus.initial,
@@ -44,6 +47,7 @@ class KeyManagementMasterDetailsState extends Equatable {
       emailUsers: emailUsers,
       message: errorMessage,
       createdBy: createdBy,
+      getLocationType:getLocationType,
     );
   }
 
@@ -138,6 +142,8 @@ class KeyManagementMasterDetailsState extends Equatable {
     this.message,
     this.createdBy,
     this.labels,
+    required this.getLocationType,
+
   });
 
   KeyManagementMasterDetailsState copyWith({
@@ -154,6 +160,8 @@ class KeyManagementMasterDetailsState extends Equatable {
     String? message,
     User? createdBy,
     final KMUiLabels? labels,
+    GetLocationType? getLocationType,
+
   }) {
     return KeyManagementMasterDetailsState(
       status: status ?? this.status,
@@ -168,6 +176,8 @@ class KeyManagementMasterDetailsState extends Equatable {
       createdBy: createdBy ?? this.createdBy,
       labels: labels ?? this.labels,
       departments: departments ?? this.departments,
+      getLocationType:getLocationType??this.getLocationType,
+
     );
   }
 }

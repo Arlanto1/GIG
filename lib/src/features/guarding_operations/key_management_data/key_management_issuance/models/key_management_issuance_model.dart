@@ -125,6 +125,7 @@ class KeyManagementIssuanceModel {
   int? id;
   String? slNo;
   Organisation? location;
+  Organisation? locationType;
   dynamic region;
   User? createdBy;
   int? keyHandingOverDuration;
@@ -157,6 +158,7 @@ class KeyManagementIssuanceModel {
     this.id,
     this.slNo,
     this.location,
+    this.locationType,
     this.createdBy,
     this.keyHandingOverDuration,
     this.keyHandOverDate,
@@ -190,6 +192,9 @@ class KeyManagementIssuanceModel {
         slNo = json['slNo'] as String?,
         location = (json['location'] as Map<String, dynamic>?) != null
             ? Organisation.fromJson(json['location'] as Map<String, dynamic>)
+            : null,
+        locationType = (json['locationType'] as Map<String, dynamic>?) != null
+            ? Organisation.fromJson(json['locationType'] as Map<String, dynamic>)
             : null,
         createdBy = (json['createdBy'] as Map<String, dynamic>?) != null
             ? User.fromJson(json['createdBy'] as Map<String, dynamic>)
@@ -240,6 +245,7 @@ class KeyManagementIssuanceModel {
         'id': id,
         'slNo': slNo,
         'location': location?.toJson(),
+    'locationType':locationType?.toJson(),
         'createdBy': createdBy?.toJson(),
         'keyHandingOverDuration': keyHandingOverDuration,
         'keyHandOverDate': keyHandOverDate,

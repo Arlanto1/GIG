@@ -637,7 +637,7 @@ class _CreateFoundState extends State<CreateFound> {
         context: context,
         builder: (BuildContext dialogContext) {
           return CustomListTexts(
-            isDbUser: true,
+            isDbUser: false,
             isEmployeeId: true,
             location: state.location?.id,
             duplicateDepositorList:
@@ -654,7 +654,7 @@ class _CreateFoundState extends State<CreateFound> {
                       title: Constants.createnewuser,
                       createoundstate: state,
                       locationId: state.location!.id!,
-                      isDbUser: true,
+                      isDbUser: false,
                     );
                   });
             },

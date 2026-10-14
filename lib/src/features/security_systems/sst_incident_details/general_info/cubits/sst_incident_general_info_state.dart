@@ -24,6 +24,7 @@ class SstIncidentGeneralInfoState extends Equatable {
   final SSLAUiLabels? labels;
   final String? rejectionComment;
   final String? activityNotes;
+  final GetLocationType  getLocationType;
 
   factory SstIncidentGeneralInfoState.initial({
     required SstIncident model,
@@ -47,6 +48,8 @@ class SstIncidentGeneralInfoState extends Equatable {
     List<ImageContent>? dataLossAttachments,
     String? rejectionComment,
     String? activityNotes,
+    required GetLocationType getLocationType,
+
   }) {
     return SstIncidentGeneralInfoState(
       status: FormStatus.initial,
@@ -69,6 +72,8 @@ class SstIncidentGeneralInfoState extends Equatable {
       loggedInUserDetails: loggedInUserDetails,
       rejectionComment: rejectionComment,
       activityNotes: activityNotes,
+      getLocationType:getLocationType,
+
     );
   }
 
@@ -177,6 +182,8 @@ class SstIncidentGeneralInfoState extends Equatable {
     this.labels,
     this.rejectionComment,
     this.activityNotes,
+    required this.getLocationType,
+
   });
 
   SstIncidentGeneralInfoState copyWith({
@@ -201,6 +208,8 @@ class SstIncidentGeneralInfoState extends Equatable {
     List<User>? entrySecurities,
     String? rejectionComment,
     String? activityNotes,
+    GetLocationType? getLocationType,
+
   }) {
     return SstIncidentGeneralInfoState(
       status: status ?? this.status,
@@ -224,6 +233,8 @@ class SstIncidentGeneralInfoState extends Equatable {
           additionalAttachments ?? this.additionalAttachments,
       rejectionComment: rejectionComment ?? this.rejectionComment,
       activityNotes: activityNotes ?? this.activityNotes,
+      getLocationType:getLocationType??this.getLocationType,
+
     );
   }
 }

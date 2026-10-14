@@ -5,6 +5,8 @@ import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_p
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/duty_post_name_master/services/duty_post_name_master_services.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../../models/location_Type_Model.dart';
+
 part 'duty_post_name_master_details_state.dart';
 
 class DutyPostNameMasterDetailsCubit
@@ -25,6 +27,7 @@ class DutyPostNameMasterDetailsCubit
             users: const [],
             emailUsers: const [],
             errorMessage: '',
+            getLocationType: GetLocationType(),
           ),
         );
 
@@ -39,6 +42,17 @@ class DutyPostNameMasterDetailsCubit
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
+  /// Finds the region id that contains the given location id.
+  int? _getRegionIdForLocation(Locations? locations, int? locationId) {
+    if (locations == null || locationId == null) return null;
+
+    for (final region in locations.regions ?? []) {
+      final bool found =
+          region.locations?.any((loc) => loc.id == locationId) ?? false;
+      if (found) return region.id;
+    }
+    return null;
+  }
   Future<void> initializeValues() async {
     emit(
       state.copyWith(
@@ -47,6 +61,11 @@ class DutyPostNameMasterDetailsCubit
     );
 
     var userId = await SharedPrefs.getUserId();
+    final Locations locations =
+    await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+    final int? regionId =
+    _getRegionIdForLocation(locations, state.model.location?.id);
+
     try {
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
@@ -56,11 +75,14 @@ class DutyPostNameMasterDetailsCubit
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.guardingMasterModuleCode),//2
         //SharedPrefs.getDefaultLocation(),
+        commonServices.getLocationType(locId: regionId!),
+
       ]);
 
       Locations getLocationsData = futures[0];
       User loggedInUserDetails = futures[1];
       dynamic responseLabels = futures[2];
+      GetLocationType? getLocationType = futures[3];
       //Organisation? defaultLocation = futures[3];
       // if (state.model.location == null && defaultLocation != null) {
       //   SerialNumberModel slNo = await commonServices.getSlNo(
@@ -103,6 +125,7 @@ class DutyPostNameMasterDetailsCubit
           model: state.model,
           locationNames: state.model.dpName,
           labels: labels,
+          getLocationType: getLocationType,
         ),
       );
     } catch (e) {
@@ -135,13 +158,8 @@ class DutyPostNameMasterDetailsCubit
     ));
   }
 
-  Future<void> updateDropdownValues({
+  Future<void> updateLocationDropdownValue({
     Organisation? location,
-    BaseUser? user,
-    Organisation? vendor,
-    int? status,
-    int? guardRank,
-    int? dutyType,
   }) async {
     emit(
       state.copyWith(
@@ -149,12 +167,52 @@ class DutyPostNameMasterDetailsCubit
       ),
     );
 
+    GetLocationType? locType = state.getLocationType;
+
+    // Get Sl No from API
+    if (location != null) {
+      state.model.location = location;
+      final int? locationId = location.id;
+      final int? regionId =
+      _getRegionIdForLocation(state.locations, locationId);
+      locType = await commonServices.getLocationType(locId: regionId!);
+    }
+
+    emit(state.copyWith(
+      model: state.model,
+      status: FormStatus.initial,
+      getLocationType: locType,
+    ));
+  }
+  Future<void> updateDropdownValues({
+    Organisation? location,
+    BaseUser? user,
+    Organisation? vendor,
+    int? status,
+    int? guardRank,
+    int? dutyType,
+    Organisation? locationType,
+  }) async {
+    emit(
+      state.copyWith(
+        status: FormStatus.loading,
+      ),
+    );
+
+
+    GetLocationType? locType = state.getLocationType;
+
     /// Get Sl No from API
     if (location != null) {
       SerialNumberModel slNo = await commonServices.getSlNo(
         locationId: location.id.toString(),
         moduleCode: Constants.dutyPostNameMasterModule,
       );
+      final int? locationId = location.id;
+      final int? regionId =
+      _getRegionIdForLocation(state.locations, locationId);
+      locType = await commonServices.getLocationType(locId: regionId!);
+
 
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
@@ -187,10 +245,15 @@ class DutyPostNameMasterDetailsCubit
       }
     }
 
+    if (locationType != null) {
+      state.model.locationType = locationType;
+    }
+
     state.model.status = status ?? state.model.status;
     emit(state.copyWith(
       model: state.model,
       status: FormStatus.initial,
+      getLocationType: locType,
     ));
   }
 

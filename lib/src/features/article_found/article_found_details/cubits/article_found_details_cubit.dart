@@ -3,8 +3,8 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/article_found/models/article_found_model.dart';
 import 'package:db_atom/src/features/article_found/models/requestModels/article_found_request.dart';
 import 'package:db_atom/src/features/article_found/services/article_found_service.dart';
+import 'package:db_atom/src/models/location_Type_Model.dart';
 import 'package:intl/intl.dart';
-
 
 part 'article_found_details_state.dart';
 
@@ -14,30 +14,32 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
   final CommonServices commonServices;
   final String? eventProtectionId;
 
-  ArticleFoundDetailsCubit({
-    required this.articleFoundServices,
-    required this.commonServices,
-    this.model,
-    required this.eventProtectionId
-
-  }) : super(
-    ArticleFoundDetailsState.initial(
-      model: model ?? ArticleFoundModel(),
-      locations: Locations(),
-      users: const [],
-      emailUsers: const [],
-      errorMessage: '',
-      departments: const [],
-      claimantDepartments: const [],
-      articleType: const [], uploadAttachments: const [], articleCategory: const [],
-    ),
-  );
+  ArticleFoundDetailsCubit(
+      {required this.articleFoundServices,
+      required this.commonServices,
+      this.model,
+      required this.eventProtectionId})
+      : super(
+          ArticleFoundDetailsState.initial(
+            model: model ?? ArticleFoundModel(),
+            locations: Locations(),
+            users: const [],
+            emailUsers: const [],
+            errorMessage: '',
+            departments: const [],
+            claimantDepartments: const [],
+            articleType: const [],
+            uploadAttachments: const [],
+            articleCategory: const [],
+            getLocationType: GetLocationType(),
+          ),
+        );
 
   Future<void> refreshList() async {
     emit(state.copyWith(status: FormStatus.loading));
 
     EmployeeDepartments departments =
-    await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
+        await commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS');
     List<BaseUser> emailUsers = await commonServices.getBaseUsers(
         roleName: ConstantUserRoles.atomStaticUser,
         locationId: state.model.location!.id!);
@@ -70,8 +72,19 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
-  Future<void> initializeValues() async {
+  /// Finds the region id that contains the given location id.
+  int? _getRegionIdForLocation(Locations? locations, int? locationId) {
+    if (locations == null || locationId == null) return null;
 
+    for (final region in locations.regions ?? []) {
+      final bool found =
+          region.locations?.any((loc) => loc.id == locationId) ?? false;
+      if (found) return region.id;
+    }
+    return null;
+  }
+
+  Future<void> initializeValues() async {
     // Show Loader and emit loading state
     emit(
       state.copyWith(status: FormStatus.loading),
@@ -91,6 +104,14 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
       state.model.slNo = slNo.serialNo;
     }
 
+    final Locations locations =
+        await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+    GetLocationType locationType = GetLocationType();
+    final int? regionId =
+        _getRegionIdForLocation(locations, state.model.location?.id);
+    final int? locationId = state.model.location?.id;
+
+
     try {
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
@@ -107,6 +128,7 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
         commonServices.getOrganisations(name: 'ARTICLE_LIST'),
         commonServices.getDepartments(name: 'EMPLOYEE_DEPARTMENTS'),
         commonServices.getOrganisations(name: 'ARTICLE_CATEGORY'),
+        commonServices.getLocationType(locId: locationId!),
       ]);
       Locations locations = futures[0];
       User loggedInUserDetails = futures[1];
@@ -116,27 +138,26 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
       List<Organisation> articleType = futures[5];
       EmployeeDepartments departments = futures[6];
       List<Organisation> articleCategory = futures[7];
+      GetLocationType? getLocationType = futures[8];
 
       // Get Date of Creation
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model.inputDate ?? '0'),
-          Constants.fulldateFormat);
-
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
 
       state.model.handoverDate = state.model.handoverDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model.handoverDate ?? '0'),
-          Constants.fulldateFormat);
+              int.tryParse(state.model.handoverDate ?? '0'),
+              Constants.fulldateFormat);
 
       AFUiLabels labels = AFUiLabels.fromJson(responseLabels);
 
-
       state.model.entrySecurity ??= loggedInUserDetails;
       // if(state.model.updatedStatus == 2  || state.model.updatedStatus == 8  || state.model.updatedStatus == 9 ){
-        state.model.handoverSecurity ??= loggedInUserDetails;
+      state.model.handoverSecurity ??= loggedInUserDetails;
       // }
 
       List<BaseUser> onlyDBUsers = await commonServices.getBaseUsers(
@@ -147,19 +168,21 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
 
       emit(
         state.copyWith(
-          locations: locations,
-          loggedInUserDetails: loggedInUserDetails,
-          status: FormStatus.initial,
-          model: state.model,
-          employee: onlyDBUsers,
-          claimant: onlyDBUsers,
-          host: onlyDBUsers,
-          idCardManger: onlyDBUsers,
-          idCardEmployee: onlyDBUsers,
-          departments: departments.employeeDepartments,
-          labels: labels,
-          articleType: articleType,
-            articleCategory:articleCategory,
+            locations: locations,
+            loggedInUserDetails: loggedInUserDetails,
+            status: FormStatus.initial,
+            model: state.model,
+            employee: onlyDBUsers,
+            claimant: onlyDBUsers,
+            host: onlyDBUsers,
+            emailUsers: emailUsers,
+            idCardManger: onlyDBUsers,
+            idCardEmployee: onlyDBUsers,
+            departments: departments.employeeDepartments,
+            labels: labels,
+            articleType: articleType,
+            articleCategory: articleCategory,
+            getLocationType: getLocationType,
         ),
       );
     } catch (e) {
@@ -184,6 +207,7 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
     );
 
     List<BaseUser> emailUsers = [];
+    GetLocationType? locType = state.getLocationType;
 
     // Get Sl No from API
     if (location != null) {
@@ -193,7 +217,9 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
       );
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
-
+      final int? locationId = location.id;
+      final int? regionId =
+          _getRegionIdForLocation(state.locations, locationId);
       // state.model.host?.employeeId = null;
       // state.model.host?.firstName = null;
       // state.model.host?.lastName = null;
@@ -209,6 +235,8 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
           roleName: ConstantUserRoles.atomStaticUser,
           isDbUser: true,
           locationId: state.model.location!.id!);
+
+      locType = await commonServices.getLocationType(locId: locationId!);
     }
 
     emit(state.copyWith(
@@ -219,6 +247,7 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
       idCardEmployee: emailUsers,
       idCardManger: emailUsers,
       status: FormStatus.initial,
+      getLocationType: locType,
     ));
   }
 
@@ -239,7 +268,7 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
     BaseUser? idCardManager,
     BaseUser? idCardEmployee,
     int? assetType,
-
+    Organisation? locationType,
     int? status,
   }) async {
     emit(
@@ -258,21 +287,24 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
       state.model.typeOfArticle = articleType;
     }
 
-
-    if(articleCategory !=null){
+    if (locationType != null) {
+      state.model.locationType = locationType;
+    }
+    if (articleCategory != null) {
       state.model.articleCategory = articleCategory;
     }
-    if ( employee!= null) {
+    if (employee != null) {
       state.model.depositor?.employeeId = employee.employeeId;
       state.model.employeeId = employee.employeeId;
       String name = employee.name ?? '';
       String email = employee.email ?? '';
       List<String> nameParts = employee.name!.split(' '); // Split by space
       String? firstName = nameParts.isNotEmpty ? nameParts.first : null;
-      String? lastName = nameParts.length > 1 ? nameParts.sublist(1).join(' ') : null;
+      String? lastName =
+          nameParts.length > 1 ? nameParts.sublist(1).join(' ') : null;
       User userDetails = User(
-        name:name,
-        userId : employee.id,
+        name: name,
+        userId: employee.id,
         email: email,
         employeeId: employee.employeeId,
         firstName: firstName,
@@ -287,17 +319,18 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
       );
     }
 
-    if ( claimant!= null) {
+    if (claimant != null) {
       state.model.claimant?.employeeId = claimant.employeeId;
       state.model.claimantEmployeeId = claimant.employeeId;
       String name = claimant.name ?? '';
       String email = claimant.email ?? '';
       List<String> nameParts = claimant.name!.split(' '); // Split by space
       String? firstName = nameParts.isNotEmpty ? nameParts.first : null;
-      String? lastName = nameParts.length > 1 ? nameParts.sublist(1).join(' ') : null;
+      String? lastName =
+          nameParts.length > 1 ? nameParts.sublist(1).join(' ') : null;
       User userDetails = User(
-        name:name,
-        userId : claimant.id,
+        name: name,
+        userId: claimant.id,
         email: email,
         employeeId: claimant.employeeId,
         firstName: firstName,
@@ -315,20 +348,21 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
       state.model.depositorDepartment = department;
     }
 
-    if(claimantDepartment !=null){
+    if (claimantDepartment != null) {
       state.model.claimantDepartment = claimantDepartment;
     }
 
-    if ( idCardManager!= null) {
+    if (idCardManager != null) {
       state.model.idCardManager?.employeeId = idCardManager.employeeId;
       String name = idCardManager.name ?? '';
       String email = idCardManager.email ?? '';
       List<String> nameParts = idCardManager.name!.split(' '); // Split by space
       String? firstName = nameParts.isNotEmpty ? nameParts.first : null;
-      String? lastName = nameParts.length > 1 ? nameParts.sublist(1).join(' ') : null;
+      String? lastName =
+          nameParts.length > 1 ? nameParts.sublist(1).join(' ') : null;
       User userDetails = User(
-        name:name,
-        userId : idCardManager.id,
+        name: name,
+        userId: idCardManager.id,
         email: email,
         employeeId: idCardManager.employeeId,
         firstName: firstName,
@@ -343,16 +377,18 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
       );
     }
 
-    if ( idCardEmployee!= null) {
+    if (idCardEmployee != null) {
       state.model.idCardEmployee?.employeeId = idCardEmployee.employeeId;
       String name = idCardEmployee.name ?? '';
       String email = idCardEmployee.email ?? '';
-      List<String> nameParts = idCardEmployee.name!.split(' '); // Split by space
+      List<String> nameParts =
+          idCardEmployee.name!.split(' '); // Split by space
       String? firstName = nameParts.isNotEmpty ? nameParts.first : null;
-      String? lastName = nameParts.length > 1 ? nameParts.sublist(1).join(' ') : null;
+      String? lastName =
+          nameParts.length > 1 ? nameParts.sublist(1).join(' ') : null;
       User userDetails = User(
-        name:name,
-        userId : idCardEmployee.id,
+        name: name,
+        userId: idCardEmployee.id,
         email: email,
         employeeId: idCardEmployee.employeeId,
         firstName: firstName,
@@ -406,7 +442,6 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
         status: FormStatus.initial,
       ),
     );
-
   }
 
   // void makeSignEditable(
@@ -440,12 +475,12 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
 
     log('--imageBytes--$imageBytes--');
     // if (isReceiverSignature) {
-      imageContent.type =
-          ConstantsIntValue.keyIssuanceReceiverSignImageContentType;
-      state.model.claimantSign = imageContent;
-      emit(state.copyWith(
-        model: state.model,
-      ));
+    imageContent.type =
+        ConstantsIntValue.keyIssuanceReceiverSignImageContentType;
+    state.model.claimantSign = imageContent;
+    emit(state.copyWith(
+      model: state.model,
+    ));
   }
 
   void clearSign() {
@@ -461,6 +496,7 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
       ),
     );
   }
+
   void makeSignEditable() {
     emit(state.copyWith(status: FormStatus.loading));
     emit(
@@ -470,7 +506,10 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
       ),
     );
   }
-  void submitForm({bool isSaveOnly = false, required SignatureController claimantSignatureController,
+
+  void submitForm({
+    bool isSaveOnly = false,
+    required SignatureController claimantSignatureController,
   }) async {
     emit(
       state.copyWith(
@@ -487,14 +526,21 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
       state.model.inputDate = inputDate.toString();
     }
 
+    if (!Utils().isTimestamp(state.model.handoverDate!)) {
+      dateTime =
+          DateFormat("dd/MM/yyyy HH:mm:ss").parse(state.model.handoverDate!);
+      int inputDate = dateTime.toUtc().millisecondsSinceEpoch ~/ 1000;
+      state.model.handoverDate = inputDate.toString();
+    }
 
     state.model.eventProtection ??= EventInfoResponse();
     state.model.eventProtection?.id = eventProtectionId.toIntOrNull();
 
-    await pushSignature(controller: claimantSignatureController, isReceiverSignature: true);
+    await pushSignature(
+        controller: claimantSignatureController, isReceiverSignature: true);
 
     ArticleFoundRequest request =
-    ArticleFoundRequest(articleFoundModel: state.model);
+        ArticleFoundRequest(articleFoundModel: state.model);
     GenericResponse response = GenericResponse();
     try {
       if (isSaveOnly) {
@@ -508,12 +554,12 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
           state.model.inputDate = state.model.inputDate == null
               ? Utils().getCurrentDate()
               : Utils.timestampToDateConversion(
-              int.tryParse(state.model.inputDate ?? '0'),
-              Constants.fulldateFormat);
+                  int.tryParse(state.model.inputDate ?? '0'),
+                  Constants.fulldateFormat);
           return;
         }
         response = (await articleFoundServices.createArticleFound(
-            body: request, isSubmit: false,eventId: eventProtectionId));
+            body: request, isSubmit: false, eventId: eventProtectionId));
       } else {
         //Validating Fields
         if (!state.isValid.status) {
@@ -526,8 +572,8 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
           state.model.inputDate = state.model.inputDate == null
               ? Utils().getCurrentDate()
               : Utils.timestampToDateConversion(
-              int.tryParse(state.model.inputDate ?? '0'),
-              Constants.fulldateFormat);
+                  int.tryParse(state.model.inputDate ?? '0'),
+                  Constants.fulldateFormat);
           return;
         }
         response = (await articleFoundServices.createArticleFound(
@@ -536,15 +582,15 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model.inputDate ?? '0'),
-          Constants.fulldateFormat);
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
     } on GenericResponse catch (e) {
       Utils().emitErrorState(e, emit, state);
       state.model.inputDate = state.model.inputDate == null
           ? Utils().getCurrentDate()
           : Utils.timestampToDateConversion(
-          int.tryParse(state.model.inputDate ?? '0'),
-          Constants.fulldateFormat);
+              int.tryParse(state.model.inputDate ?? '0'),
+              Constants.fulldateFormat);
       return;
     } on Exception catch (e) {
       emit(
@@ -558,7 +604,7 @@ class ArticleFoundDetailsCubit extends Cubit<ArticleFoundDetailsState> {
     log('---response--msg--${response.message}---');
     emit(
       state.copyWith(
-        message:response.Message,
+        message: response.Message,
         status: FormStatus.success,
       ),
     );

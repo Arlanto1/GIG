@@ -27,6 +27,8 @@ class GuardingMasterDataDetailsState extends Equatable {
   final List<ImageContent>? mSGBAttachments;
   final List<User>? entrySecurities;
   final GmUiLabels? labels;
+  final GetLocationType  getLocationType;
+
 
   factory GuardingMasterDataDetailsState.initial({
     required GuardingMastersDataModel model,
@@ -53,6 +55,7 @@ class GuardingMasterDataDetailsState extends Equatable {
     List<User>? entrySecurities,
     required int? eventId,
     List<String>? participationDate,
+    required GetLocationType getLocationType,
   }) {
     return GuardingMasterDataDetailsState(
       status: FormStatus.initial,
@@ -80,6 +83,7 @@ class GuardingMasterDataDetailsState extends Equatable {
       trainingAttachments: trainingAttachments,
       mSGBAttachments: mSGBAttachments,
       entrySecurities: entrySecurities,
+      getLocationType:getLocationType,
     );
   }
 
@@ -274,6 +278,7 @@ class GuardingMasterDataDetailsState extends Equatable {
     this.entrySecurities,
     this.mSGBAttachments,
     this.labels,
+    required this.getLocationType,
   });
 
   GuardingMasterDataDetailsState copyWith({
@@ -303,6 +308,7 @@ class GuardingMasterDataDetailsState extends Equatable {
     List<ImageContent>? mSGBAttachments,
     List<User>? entrySecurities,
     final GmUiLabels? labels,
+    GetLocationType? getLocationType,
   }) {
     return GuardingMasterDataDetailsState(
       status: status ?? this.status,
@@ -334,6 +340,7 @@ class GuardingMasterDataDetailsState extends Equatable {
       medicalAttachments: medicalAttachments ?? this.medicalAttachments,
       entrySecurities: entrySecurities ?? this.entrySecurities,
       labels: labels ?? this.labels,
+      getLocationType:getLocationType??this.getLocationType,
     );
   }
 }

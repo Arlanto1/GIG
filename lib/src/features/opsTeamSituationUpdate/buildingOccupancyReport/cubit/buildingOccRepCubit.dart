@@ -48,7 +48,7 @@ class BuildingOccRepCubit
     List<BaseUser> emailUsers = await commonServices.getBaseUsers(
       roleName: ConstantUserRoles.atomAssistantSecurityLead,
       locationId: state.model.locationId?.id,
-      isDbUser: true,
+      isDbUser: false,
     );
     emit(
       state.copyWith(
@@ -78,7 +78,7 @@ class BuildingOccRepCubit
       await commonServices.getBaseUsers(
         roleName: ConstantUserRoles.atomAssistantSecurityLead,
         locationId: state.model.locationId?.id,
-        isDbUser: true,
+        isDbUser: false,
       );
       emit(
         state.copyWith(

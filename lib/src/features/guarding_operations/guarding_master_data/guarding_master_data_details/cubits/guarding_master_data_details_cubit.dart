@@ -5,6 +5,8 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/models/requestModels/guarding_master_data_request.dart';
 import 'package:db_atom/src/features/guarding_operations/guarding_master_data/services/guarding_master_data_services.dart';
 
+import '../../../../../models/location_Type_Model.dart';
+
 part 'guarding_master_data_details_state.dart';
 
 class GuardingMasterDataDetailsCubit
@@ -31,7 +33,7 @@ class GuardingMasterDataDetailsCubit
               getEntitiesResponse: null,
               departments: const [],
               listOfQualifications: const [],
-              getQualificationsResponse: null),
+              getQualificationsResponse: null, getLocationType: GetLocationType()),
         );
 
   Future<void> refreshList() async {
@@ -80,6 +82,18 @@ class GuardingMasterDataDetailsCubit
   //   emit(state.copyWith(model: model, status: FormStatus.initial));
   // }
 
+  int? _getRegionIdForLocation(Locations? locations, int? locationId) {
+    if (locations == null || locationId == null) return null;
+
+    for (final region in locations.regions ?? []) {
+      final bool found =
+          region.locations?.any((loc) => loc.id == locationId) ?? false;
+      if (found) return region.id;
+    }
+    return null;
+  }
+
+
   Future<void> initializeValues() async {
     emit(
       state.copyWith(
@@ -89,6 +103,11 @@ class GuardingMasterDataDetailsCubit
 
     log('-guardingMastersDataModel--cubit-model--id---${model?.id}---');
     log('-guardingMastersDataModel--cubit-state.model--id---${state.model.id}---');
+
+    final Locations locations =
+    await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+    final int? regionId = _getRegionIdForLocation(locations, state.model.location?.id);
+
 
     var userId = await SharedPrefs.getUserId();
     try {
@@ -107,6 +126,7 @@ class GuardingMasterDataDetailsCubit
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.guardingMasterModuleCode),
         SharedPrefs.getDefaultLocation(),
+        commonServices.getLocationType(locId: regionId!),
       ]);
 
       state.model.modifiedDate = state.model.modifiedDate == null
@@ -133,6 +153,7 @@ class GuardingMasterDataDetailsCubit
       Vendors vendors = futures[6];
       dynamic responseLabels = futures[7];
       Organisation? defaultLocation = futures[8];
+      GetLocationType? getLocationType = futures[9];
       if (state.model.location == null && defaultLocation != null) {
         SerialNumberModel slNo = await commonServices.getSlNo(
           locationId: defaultLocation.id.toString(),
@@ -185,6 +206,7 @@ class GuardingMasterDataDetailsCubit
           trainingAttachments: state.model.trainingCertificates,
           medicalAttachments: state.model.medicalCertificates,
           labels: labels,
+            getLocationType: getLocationType
         ),
       );
     } catch (e) {

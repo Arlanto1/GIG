@@ -37,6 +37,7 @@ class LawEnforcementModelNew {
    String? inputDate;
    Organisation? location;
    Organisation? locationRegion;
+   Organisation? locationType;
    String? timeOfVisit;
    bool officialCardVerified;
    Organisation? visitPurpose;
@@ -66,6 +67,7 @@ class LawEnforcementModelNew {
     this.inputDate,
     this.location,
     this.locationRegion,
+    this.locationType,
     this.timeOfVisit,
     this.officialCardVerified = false,
     this.visitPurpose,
@@ -94,6 +96,7 @@ class LawEnforcementModelNew {
         slNo = json['slNo'] as String?,
         inputDate = json['inputDate'] as String?,
         location = (json['location'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['location'] as Map<String,dynamic>) : null,
+        locationType = (json['locationType'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['locationType'] as Map<String,dynamic>) : null,
         locationRegion = (json['locationRegion'] as Map<String,dynamic>?) != null ? Organisation.fromJson(json['locationRegion'] as Map<String,dynamic>) : null,
         timeOfVisit = json['timeOfVisit'] as String?,
         officialCardVerified = json['officialCardVerified'] as bool,
@@ -124,6 +127,7 @@ class LawEnforcementModelNew {
     'slNo' : slNo,
     'inputDate' : inputDate,
     'location' : location?.toJson(),
+    'locationType':locationType?.toJson(),
     'locationRegion' : locationRegion?.toJson(),
     'timeOfVisit' : timeOfVisit,
     'officialCardVerified' : officialCardVerified,

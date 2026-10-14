@@ -3870,7 +3870,7 @@ class AddReplacementPopUp extends StatefulWidget {
     this.shiftId,
     this.attendanceId,
     required this.viaAttendance,
-    required this.shiftModel,
+    this.shiftModel,
     this.attendanceModel,
   });
 
@@ -4385,19 +4385,7 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
       return;
     }
 
-    // FIX: Utils().convertToDateFormat() expects a datetime string (its
-    // usual input, from Utils().getCurrentDate(), looks like
-    // "06/09/2026 14:19:51" — date + time). Now that fromDateController /
-    // toDateController hold plain "dd/MM/yyyy" dates (no time), that
-    // function's parser runs past the end of the string looking for the
-    // next literal and throws
-    // `FormatException: Trying to read / from 06/09/2026 at 11`.
-    //
-    // Rather than guess at that function's internal pattern, parse the
-    // dd/MM/yyyy values ourselves and format them directly to yyyy-MM-dd
-    // for the API call (matching the format the attendance endpoints use
-    // elsewhere, e.g. the fromDateMin/fromDateMax values in the
-    // getNextAvailableReplacementDates response).
+      // getNextAvailableReplacementDates response).
     DateTime? parsedFromDate;
     DateTime? parsedToDate;
     try {
@@ -4454,12 +4442,6 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
     replacementByController.clear();
   }
 
-  /// Routes to the correct "replacement by" lookup depending on where this
-  /// dialog is opened from. The From/To date pickers previously always
-  /// called getReplacementByUserList() (the duty-post/ShiftScheduleServices
-  /// variant) even when viaAttendance was true, which sent a duty-post
-  /// style request to an endpoint that didn't expect it and returned a
-  /// 400 with a plain-text "Invalid Id:563" body instead of JSON.
   Future<void> _refreshReplacementByUsers() async {
     if (widget.viaAttendance) {
       await getReplacementByUserListForAttendance();
@@ -4517,7 +4499,8 @@ class AddReplacementPopUpState extends State<AddReplacementPopUp> {
         if (widget.viaAttendance) {
           BlocProvider.of<AttendanceShiftsCubit>(widget.mainContext)
               .updateReplacement(context, widget.model, false, false, true);
-        } else {
+        }
+        else {
           BlocProvider.of<DutyPostDetailsCubit>(widget.mainContext)
               .updateReplacement(context, widget.model);
         }

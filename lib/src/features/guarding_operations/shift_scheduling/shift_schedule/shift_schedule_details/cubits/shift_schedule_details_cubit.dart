@@ -5,6 +5,8 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/shift_schedule/services/shift_schedule_services.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../../models/location_Type_Model.dart';
+
 part 'shift_schedule_details_state.dart';
 
 class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
@@ -29,6 +31,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
             errorMessage: '',
             vendors: const [],
             selectedDutyPostModel: mainDutyPostModel,
+            getLocationType: GetLocationType(),
           ),
         );
 
@@ -94,6 +97,18 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     );
   }
 
+  /// Finds the region id that contains the given location id.
+  int? _getRegionIdForLocation(Locations? locations, int? locationId) {
+    if (locations == null || locationId == null) return null;
+
+    for (final region in locations.regions ?? []) {
+      final bool found =
+          region.locations?.any((loc) => loc.id == locationId) ?? false;
+      if (found) return region.id;
+    }
+    return null;
+  }
+
   Future<void> initializeValues() async {
     emit(
       state.copyWith(
@@ -107,6 +122,11 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     }
 
     var userId = await SharedPrefs.getUserId();
+    final Locations locations =
+    await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+    final int? regionId =
+    _getRegionIdForLocation(locations, state.model.location?.id);
+
     try {
       // Use Future.wait to call API functions concurrently
       final futures = await Future.wait([
@@ -123,6 +143,8 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.shiftScheduleModuleCode),//5
         SharedPrefs.getDefaultLocation(),//6
+        commonServices.getLocationType(locId: regionId!),
+
       ]);
 
       Locations getLocationsData = futures[0];
@@ -134,6 +156,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
       Vendors vendors = futures[3];
       dynamic responseLabels = futures[4];
       Organisation? defaultLocation = futures[5];
+      GetLocationType? getLocationType = futures[6];
 
       log('--model.location--${model.location?.id}--');
       if (model.location == null && defaultLocation != null) {
@@ -180,6 +203,7 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
           // emailUsers: emailUsers.atomStaticUser,
           labels: labels,
           pocs: pocs,
+          getLocationType: getLocationType,
         ),
       );
     } on TokenExpiredException catch (e) {
@@ -208,12 +232,15 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
     int? status,
     int? systemAccess,
     int? dutyType,
+    Organisation? locationType,
   }) async {
     emit(
       state.copyWith(
         status: FormStatus.loading,
       ),
     );
+    GetLocationType? locType = state.getLocationType;
+
     ////Get Sl No from API
     if (location != null) {
       log('--location--${location.name}--');
@@ -238,10 +265,18 @@ class ShiftScheduleDetailsCubit extends Cubit<ShiftScheduleDetailsState> {
           status: FormStatus.initial,
         ));
       }
+      final int? locationId = location.id;
+      final int? regionId =
+      _getRegionIdForLocation(state.locations, locationId);
+      locType = await commonServices.getLocationType(locId: regionId!);
+
     }
     if (vendor != null) {
       state.model.vendor = vendor;
 
+      if (locationType != null) {
+        state.model.locationType = locationType;
+      }
       if (state.model.location != null) {
         List<DutyPostModel> dutyPosts = await getDutyPosts();
         NextAvailableDateRange availableDate = await getNextAvailableDate();

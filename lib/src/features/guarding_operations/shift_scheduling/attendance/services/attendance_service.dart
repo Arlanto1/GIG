@@ -2,6 +2,7 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/guarding_operations/shift_scheduling/attendance/models/requestModel/adhoc_attendance_request.dart';
 
 import '../models/adhoc_attendance_model.dart';
+import '../models/dutyPost_attendance_model.dart';
 
 class Apis {
   static final String baseUrl = Environment().config.apiHost;
@@ -20,6 +21,8 @@ class Apis {
   static final String _createAdhocAttendance = '$baseUrl/adhocAttendanceGi?';
   static final String _getNextAvailableReplacementDates =
       '$baseUrl/getNextAvailableReplacementDates';
+  static final String _getDutyPostAttendanceById = '$baseUrl/getAttendanceDutyPosts';
+
 
   /// Rank List
   static final String _getAttendanceRanksByDutyPostId =
@@ -31,6 +34,7 @@ class Apis {
 
   static final String _createAttendanceGi = '$baseUrl/attendanceGi?';
   static final String _updateAttendance = '$baseUrl/updateAttendance?';
+  static final String _createAttendanceDutyPost = '$baseUrl/createAttDutyPost?';
 
   static final String _getAttAvailableGuardsByDate =
       '$baseUrl/getAttAvailableGuardsByDate';
@@ -182,6 +186,18 @@ class AttendanceServices {
   }
 
 
+  Future<DutyPostAttendanceModel> getDutyPostAttendanceById({
+    required int? attInfoId,
+  }) async {
+    final String url =
+        '${Apis._getDutyPostAttendanceById}/$attInfoId';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+
+    return DutyPostAttendanceModel.fromJson(response);
+  }
+
   Future<AdhocAttendanceGiModel> getAdhocAttendanceById({
     required int? attInfoId,
   }) async {
@@ -285,6 +301,25 @@ class AttendanceServices {
   }) async {
      String url = "${Apis
         ._createAdhocAttendance}isSubmit=$isSubmit";
+
+    if (isApprovedStatus != null) {
+      url += '&isApprovedStatus=$isApprovedStatus';
+    }
+
+    final response = await BaseApiService().postRequest(
+      url: url,
+      requestedData: body.toJson(),
+    );
+    return GenericResponse.fromJson(response);
+  }
+
+  Future<GenericResponse> createDutyPostAttendance({
+    required AttendanceShiftDutyPostRequest body,
+    required bool isSubmit,
+    bool? isApprovedStatus,
+  }) async {
+    String url = "${Apis
+        ._createAttendanceDutyPost}isSubmit=$isSubmit";
 
     if (isApprovedStatus != null) {
       url += '&isApprovedStatus=$isApprovedStatus';

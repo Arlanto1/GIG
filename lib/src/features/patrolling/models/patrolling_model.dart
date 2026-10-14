@@ -43,7 +43,8 @@ class PatrollingModelResponse {
   String? inputDate;
   Organisation? location;
   Organisation? locationRegion;
-  Organisation? entity;
+    Organisation? locationType;
+    Organisation? entity;
   User? entrySecurity;
   int? status;
   String? modifiedBy;
@@ -63,6 +64,7 @@ class PatrollingModelResponse {
     this.inputDate,
     this.location,
     this.locationRegion,
+      this.locationType,
     this.entity,
     this.entrySecurity,
     this.status,

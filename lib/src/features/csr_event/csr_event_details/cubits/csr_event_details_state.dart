@@ -20,6 +20,7 @@ class CSRGeneralInfoState extends Equatable {
   final List<User>? entrySecurities;
   final List<ImageContent> loadAttachments;
   final EpUiLabels? labels;
+  final GetLocationType  getLocationType;
 
   factory CSRGeneralInfoState.initial({
     required CSREventGiModel model,
@@ -39,6 +40,7 @@ class CSRGeneralInfoState extends Equatable {
     List<User>? entrySecurities,
     required int? eventId,
     List<String>? participationDate,
+    required GetLocationType  getLocationType,
 
   }) {
     return CSRGeneralInfoState(
@@ -59,6 +61,7 @@ class CSRGeneralInfoState extends Equatable {
       participationDates: participationDate,
       entrySecurities: entrySecurities,
         loadAttachments:loadAttachments,
+        getLocationType:getLocationType,
     );
   }
 
@@ -219,6 +222,7 @@ class CSRGeneralInfoState extends Equatable {
     this.loggedInUserDetails,
     required this.loadAttachments,
     this.labels,
+    required this.getLocationType,
   });
 
   CSRGeneralInfoState copyWith({
@@ -241,6 +245,7 @@ class CSRGeneralInfoState extends Equatable {
     List<User>? entrySecurities,
     List<ImageContent>? loadAttachments,
     final EpUiLabels? labels,
+    GetLocationType?  getLocationType,
   }) {
     return CSRGeneralInfoState(
       status: status ?? this.status,
@@ -262,6 +267,7 @@ class CSRGeneralInfoState extends Equatable {
       entrySecurities: entrySecurities ?? this.entrySecurities,
       labels: labels ?? this.labels,
         loadAttachments:loadAttachments??this.loadAttachments,
+        getLocationType:getLocationType??this.getLocationType,
     );
   }
 }

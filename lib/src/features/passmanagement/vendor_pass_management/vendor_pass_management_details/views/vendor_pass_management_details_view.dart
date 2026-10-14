@@ -388,6 +388,36 @@ class _VendorPassManagementDetailsViewState
 
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
+                              /// Location Type
+                              CommonWidgets.textDisplay(
+                                Constants.locationType,
+                                Styles.textStyleWhite16,
+                                isMandatory: true,
+                              ),
+                              TextFieldAddButton(
+                                title: state.model.locationType?.name,
+                                height: 75,
+                                isDisableColor: isReadOnly,
+                                onTap: () {
+                                  if (!isReadOnly) {
+                                    BaseOrganisationDialog().departmentDialog(
+                                      context: context,
+                                      organisations: state.getLocationType.getLocationType ?? [],
+                                      onTap: (Organisation locationType) {
+                                        BlocProvider.of<VendorPassManagementDetailsCubit>(context)
+                                            .updateDropdownValues(locationType: locationType);
+                                      },
+                                      leftImage: false,
+                                      createEntity: false,
+                                      functionToCall: () {
+                                        BlocProvider.of<VendorPassManagementDetailsCubit>(context).refreshList();
+                                      },
+                                    );
+                                  }
+                                },
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.03),
+
                               /// Date of creation
                               CommonWidgets.textDisplay(
                                 state.labels?.locale.inputDate ??
@@ -435,9 +465,9 @@ class _VendorPassManagementDetailsViewState
                                       locationName == 'NKB';
 
                                   if (hasDws && isValidLocation) {
-                                    state.model.passTypeName = "DWS Day Pass";
+                                    state.model.passTypeName = "DWS Temporary Card";
                                   } else {
-                                    state.model.passTypeName = "Day Pass";
+                                    state.model.passTypeName = "Temporary Card";
                                   }
                                   if (selectedEntities.length > 1) {
                                     showDialog(

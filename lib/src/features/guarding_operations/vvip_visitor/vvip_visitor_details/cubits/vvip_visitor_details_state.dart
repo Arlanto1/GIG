@@ -8,6 +8,7 @@ class VVIPVisitorDetailsState extends Equatable {
   final List<BaseUser>? users;
   final String? message;
   final SlaUiLabels? labels;
+  final GetLocationType  getLocationType;
 
   factory VVIPVisitorDetailsState.initial({
     required VIVPVisitorModel model,
@@ -16,6 +17,8 @@ class VVIPVisitorDetailsState extends Equatable {
     required List<BaseUser>? users,
     final List<BaseUser>? emailUsers,
     required String errorMessage,
+    required GetLocationType getLocationType,
+
   }) {
     return VVIPVisitorDetailsState(
       status: FormStatus.initial,
@@ -24,6 +27,8 @@ class VVIPVisitorDetailsState extends Equatable {
       loggedInUserDetails: loggedInUserDetails,
       users: users,
       message: errorMessage,
+      getLocationType:getLocationType,
+
     );
   }
 
@@ -77,6 +82,8 @@ class VVIPVisitorDetailsState extends Equatable {
     this.users,
     this.message,
     this.labels,
+    required this.getLocationType,
+
   });
 
   VVIPVisitorDetailsState copyWith({
@@ -87,6 +94,8 @@ class VVIPVisitorDetailsState extends Equatable {
     List<BaseUser>? users,
     String? message,
     SlaUiLabels? labels,
+    GetLocationType? getLocationType,
+
   }) {
     return VVIPVisitorDetailsState(
       status: status ?? this.status,
@@ -96,6 +105,8 @@ class VVIPVisitorDetailsState extends Equatable {
       users: users ?? this.users,
       message: message ?? this.message,
       labels: labels ?? this.labels,
+      getLocationType:getLocationType??this.getLocationType,
+
     );
   }
 }

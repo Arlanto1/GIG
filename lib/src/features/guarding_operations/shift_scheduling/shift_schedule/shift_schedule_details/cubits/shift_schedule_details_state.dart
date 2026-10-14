@@ -15,6 +15,7 @@ class ShiftScheduleDetailsState extends Equatable {
   final SSUiLabels? labels;
   final List<String>? pocs;
   final NextAvailableDateRange? availableDate;
+  final GetLocationType  getLocationType;
 
   factory ShiftScheduleDetailsState.initial({
     required ShiftScheduleModel model,
@@ -27,6 +28,8 @@ class ShiftScheduleDetailsState extends Equatable {
     List<User>? entrySecurities,
     final DutyPostModel? selectedDutyPostModel,
     final List<String>? pocs,
+    required GetLocationType getLocationType,
+
   }) {
     return ShiftScheduleDetailsState(
       status: FormStatus.initial,
@@ -40,6 +43,8 @@ class ShiftScheduleDetailsState extends Equatable {
       entrySecurities: entrySecurities,
       selectedDutyPostModel: selectedDutyPostModel,
       pocs: pocs,
+      getLocationType:getLocationType,
+
     );
   }
 
@@ -123,6 +128,8 @@ class ShiftScheduleDetailsState extends Equatable {
     this.labels,
     this.pocs,
     this.availableDate,
+    required this.getLocationType,
+
   });
 
   ShiftScheduleDetailsState copyWith({
@@ -140,6 +147,7 @@ class ShiftScheduleDetailsState extends Equatable {
     final SSUiLabels? labels,
     List<String>? pocs,
     NextAvailableDateRange? availableDate,
+    GetLocationType? getLocationType,
   }) {
     return ShiftScheduleDetailsState(
       status: status ?? this.status,
@@ -156,6 +164,7 @@ class ShiftScheduleDetailsState extends Equatable {
       labels: labels ?? this.labels,
       pocs: pocs ?? this.pocs,
       availableDate: availableDate ?? this.availableDate,
+      getLocationType:getLocationType??this.getLocationType,
     );
   }
 }

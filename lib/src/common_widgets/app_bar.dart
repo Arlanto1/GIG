@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:db_atom/index.dart';
 import 'package:db_atom/src/utils/app_themes/styles/app_styles.dart';
 import 'package:flutter/material.dart';
 
@@ -46,7 +47,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
           child: Container(
             // color: Colors.transparent,
             decoration: BoxDecoration(
-             color:  Colors.transparent,
+              color: GigColors.indigo,
               border: Border(
                 bottom: BorderSide(
                   color: Colors.white.withValues(alpha: 0.25),
@@ -56,7 +57,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
             ),
             child: AppBar(
               automaticallyImplyLeading: false,
-              backgroundColor: Colors.transparent,
+              backgroundColor:  GigColors.indigo,
               elevation: 0,
               centerTitle: isTitleCenter,
               titleSpacing: 0,

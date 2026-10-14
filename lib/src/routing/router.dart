@@ -165,3 +165,8 @@ const String selfPacedTrainingListRoute = '/selfPacedTrainingListRoute';
 // const String trainingListCardRoute = '/trainingListCardRoute';
 const String selfPacedTrainingDetailsRoute = '/selfPacedTrainingDetailsRoute';
 // const String trainingItemsListRoute = '/trainingItemsListRoute';
+
+
+
+const String parkingListRoute = '/parkingListRoute';
+const String parkingDetailsRoute = '/parkingDetailsRoute';

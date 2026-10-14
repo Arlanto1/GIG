@@ -18,6 +18,9 @@ PatrollingModel _$PatrollingModelFromJson(Map<String, dynamic> json) =>
           ? null
           : Organisation.fromJson(
               json['locationRegion'] as Map<String, dynamic>),
+      locationType: json['locationType'] == null
+          ? null
+          : Organisation.fromJson(json['locationType'] as Map<String, dynamic>),
       entity: json['entity'] == null
           ? null
           : Organisation.fromJson(json['entity'] as Map<String, dynamic>),
@@ -55,6 +58,7 @@ Map<String, dynamic> _$PatrollingModelToJson(PatrollingModel instance) =>
       'inputDate': instance.inputDate,
       'location': instance.location,
       'locationRegion': instance.locationRegion,
+      'locationType': instance.locationType,
       'entity': instance.entity,
       'entrySecurity': instance.entrySecurity,
       'status': instance.status,

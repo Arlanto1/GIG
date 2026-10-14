@@ -4,6 +4,8 @@ import 'package:db_atom/index.dart';
 import 'package:db_atom/src/features/contact_details/services/contact_details_services.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../models/location_Type_Model.dart';
+
 part 'contact_details_state.dart';
 
 class ContactDetailsCubit extends Cubit<ContactDetailsState> {
@@ -23,12 +25,24 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
             users: const [],
             emailUsers: const [],
             errorMessage: '',
+            getLocationType:  GetLocationType(),
           ),
         );
 
   void onModelValueChange(ContactDetailModel model) {
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
+  int? _getRegionIdForLocation(Locations? locations, int? locationId) {
+    if (locations == null || locationId == null) return null;
+
+    for (final region in locations.regions ?? []) {
+      final bool found =
+          region.locations?.any((loc) => loc.id == locationId) ?? false;
+      if (found) return region.id;
+    }
+    return null;
+  }
+
 
   Future<void> initializeValues() async {
     log('-status-1-${state.status}--');
@@ -40,6 +54,9 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
     );
 
     var userId = await SharedPrefs.getUserId();
+    final Locations locations =
+    await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+    final int? regionId = _getRegionIdForLocation(locations, state.model.location?.id);
     try {
       final futures = [
         commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS'),
@@ -49,6 +66,8 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
             language: await SharedPrefs.getLanguageCode(),
             moduleCode: Constants.contactDetailsModule),
         SharedPrefs.getDefaultLocation(),
+        commonServices.getLocationType(locId: regionId!),
+
       ];
 
       final results = await Future.wait(futures);
@@ -58,6 +77,7 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
       // Analyst users = results[2];
       dynamic responseLabels = results[2];
       Organisation? defaultLocation = results[3];
+      GetLocationType? getLocationType = results[4];
 
 
       state.model.inputDate = state.model.inputDate == null
@@ -103,6 +123,8 @@ class ContactDetailsCubit extends Cubit<ContactDetailsState> {
           model: state.model,
           // users: users.t1Analyst,
           labels: labels,
+            getLocationType: getLocationType,
+
         ),
       );
     } on Exception catch (e) {

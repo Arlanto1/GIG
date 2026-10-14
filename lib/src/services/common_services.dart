@@ -5,6 +5,7 @@ import 'package:db_atom/src/features/occurrence/occurrences_details/general_info
 import 'package:db_atom/src/features/passmanagement/models/day_pass_reason_model.dart';
 import 'package:db_atom/src/features/passmanagement/models/vendor_pass_reason_model.dart';
 import 'package:db_atom/src/features/patrolling/models/dbsponsor_user_model.dart';
+import 'package:db_atom/src/models/location_Type_Model.dart';
 
 import '../features/patrolling/models/lsm_user_model.dart';
 import '../features/patrolling/models/owner_user_model.dart';
@@ -58,6 +59,8 @@ class   CommonApis {
       '$baseUrl/getSecuritySupervisorList';
   static final String _getPatrollingDbSponsor =
       '$baseUrl/getPatrollingDbSponsorList';
+  static final String _getLocationType = '$baseUrl/getLocationTypeName';
+
 }
 
 class CommonServices {
@@ -176,6 +179,17 @@ class CommonServices {
     return GetIpadSerialNo.fromJson(response);
   }
 
+
+
+  Future<GetLocationType> getLocationType({
+    required int locId,
+  }) async {
+    String url = '${CommonApis._getLocationType}?locationId=$locId';
+    final response = await BaseApiService().getRequest(
+      url: url,
+    );
+    return GetLocationType.fromJson(response);
+  }
 
 
   Future<Vendors> getVendors({

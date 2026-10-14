@@ -7,6 +7,7 @@ import 'package:db_atom/src/features/passmanagement/models/day_pass_reason_model
 import 'package:db_atom/src/features/passmanagement/models/pm_ui_labels.dart';
 import 'package:intl/intl.dart';
 
+import '../../../../../models/location_Type_Model.dart';
 import '../../models/day_pass_management_model.dart';
 import '../../models/requestModels/day_pass_management_request.dart';
 
@@ -31,6 +32,8 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       errorMessage: '',
       departments: const [],
       listOfEntities: const [], getCompanyTypeResponse: const [], dayPassReason:const [], passNo: const [], passType: const [], getStatus: const [], uploadAttachments: [],
+        getLocationType: GetLocationType(),
+
     ),
   );
 
@@ -74,6 +77,8 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
     emit(state.copyWith(model: model, status: FormStatus.initial));
   }
 
+
+
   Future<void> initializeValues() async {
 
     // Show Loader and emit loading state
@@ -94,6 +99,9 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       state.model.location = defaultLocation;
       state.model.slNo = slNo.serialNo;
     }
+    final Locations locations =
+    await commonServices.getRegionsWithLocations(name: 'ATOM_LOCATIONS');
+    final int? locationId =state.model.location?.id;
 
     try {
       // Use Future.wait to call API functions concurrently
@@ -111,11 +119,13 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
             locationId: state.model.location!.id!),
         commonServices.getEntities(name: 'ATOM_ENTITIES'),
         commonServices.getDayPassreason(name: 'DAY_PASS_REASON'),
-        commonServices.getPassNo(passType: 0, locationId: state.model.location!.id!, isDwsPass: state.model.passTypeName == 'DWS Day Pass' ? true : false),
+        commonServices.getPassNo(passType: 0, locationId: state.model.location!.id!, isDwsPass: state.model.passTypeName == 'DWS Temporary Card' ? true : false),
         commonServices.getOrganisations(name: 'ATOM_COMPANY_TYPES'),
         commonServices.getPassType(passType: 0, locationId: state.model.location!.id!,),
         commonServices.getStatusesByModuleId(
           module: Constants.dayPassManagementModule, filter: state.model.status == 0 ? 0 : 1),
+        commonServices.getLocationType(locId: locationId!),
+
       ]);
       Locations locations = futures[0];
       User loggedInUserDetails = futures[1];
@@ -129,6 +139,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       List<Organisation> companyType = futures[9];
       List<Organisation> getPassType = futures[10];
       List<Organisation> getStatus = futures[11];
+      GetLocationType? getLocationType = futures[12];
 
 
       state.model.passType ??= 0;
@@ -176,7 +187,8 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
           companyType: companyType,
           passType: getPassType,
           getStatus:getStatus,
-        ),
+            getLocationType: getLocationType),
+
       );
     } catch (e) {
       log('Initialization issue',
@@ -203,6 +215,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
     List<BaseUser> emailUsers = [];
     DayPassNumberLists passNo = DayPassNumberLists(activePassInfoList: []); // Initialize with default value
     List<Organisation> getPassType = [];
+    GetLocationType? locType = state.getLocationType;
 
 
     // Get Sl No from API
@@ -211,6 +224,9 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
         locationId: location.id.toString(),
         moduleCode: Constants.dayPassManagementModule,
       );
+      final int? locationId = location.id;
+
+
       state.model.location = location;
       state.model.slNo = slNo.serialNo;
       state.model.host?.employeeId = null;
@@ -233,11 +249,13 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
           locationId: state.model.location!.id!);
       passNo = await commonServices.getPassNo(
           passType: 0,
-          locationId: state.model.location!.id!, isDwsPass:  state.model.passTypeName == 'DWS Day Pass' ? true : false);
+          locationId: state.model.location!.id!, isDwsPass:  state.model.passTypeName == 'DWS Temporary Card' ? true : false);
 
       getPassType = await commonServices.getPassType(
           passType: 0,
           locationId: state.model.location!.id!);
+      locType = await commonServices.getLocationType(locId: locationId!);
+
 
     }
     if (getPassType.isNotEmpty) {
@@ -254,6 +272,8 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       passNo: passNo.activePassInfoList,
       passType: getPassType,
       status: FormStatus.initial,
+      getLocationType: locType,
+
     ));
   }
 
@@ -271,6 +291,8 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
     Organisation? passNos,
     Organisation? dayPassReason,
     int? status,
+    Organisation? locationType,
+
   }) async {
     emit(
       state.copyWith(
@@ -282,6 +304,9 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
 
     if (entities != null) {
       state.model.entities = entities;
+    }
+    if (locationType != null) {
+      state.model.locationType = locationType;
     }
 
     if (companyType != null) {
@@ -299,7 +324,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       state.model.employeeName = null;
       state.model.employee = null;
       state.model.employeeId = null;
-      state.model.companyName = state.model.companyType?.name == 'FTE' ?'Deutsche Bank': state.model.companyName;
+      state.model.companyName = state.model.companyType?.name == 'FTE' ?'GIG Gulf': state.model.companyName;
     }
 
     if ( employee!= null) {
@@ -388,7 +413,7 @@ class DayPassManagementDetailsCubit extends Cubit<DayPassManagementDetailsState>
       passTypeNo = await commonServices.getPassNo(
           passType: 0,
           locationId: state.model.location!.id!,
-          isDwsPass: state.model.passTypeName == 'DWS Day Pass' ? true : false);
+          isDwsPass: state.model.passTypeName == 'DWS Temporary Card' ? true : false);
       emit(
         state.copyWith(
           passNo: passTypeNo.activePassInfoList,

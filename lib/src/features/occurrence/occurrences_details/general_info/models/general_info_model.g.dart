@@ -24,6 +24,9 @@ OccurrenceModel _$OccurrenceModelFromJson(Map<String, dynamic> json) =>
           ? null
           : Organisation.fromJson(
               json['locationRegion'] as Map<String, dynamic>),
+      locationType: json['locationType'] == null
+          ? null
+          : Organisation.fromJson(json['locationType'] as Map<String, dynamic>),
       shiftBrfngAttnded: json['shiftBrfngAttnded'] as bool? ?? false,
       premisesRoundTkn: json['premisesRoundTkn'] as bool? ?? false,
       premisesRoundTknComments: json['premisesRoundTknComments'] as String?,
@@ -91,6 +94,7 @@ Map<String, dynamic> _$OccurrenceModelToJson(OccurrenceModel instance) =>
       'handoverSecurity': instance.handoverSecurity?.toJson(),
       'location': instance.location?.toJson(),
       'locationRegion': instance.locationRegion?.toJson(),
+      'locationType': instance.locationType?.toJson(),
       'shiftBrfngAttnded': instance.shiftBrfngAttnded,
       'premisesRoundTkn': instance.premisesRoundTkn,
       'premisesRoundTknComments': instance.premisesRoundTknComments,

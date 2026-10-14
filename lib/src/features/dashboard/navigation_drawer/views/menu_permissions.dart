@@ -31,12 +31,12 @@ class MenuPermissions {
       ));
     }
 
-    if (displayMenu?.sVP ?? false) {
-      menuItemActions.add(MenuItemAction(
-        menuItem: const MenuItem(Constants.slaViolationPenaltyTitle, AppIcon.slaViolationPenaltyIcon, 0),
-        onSelected: (context) => Navigator.pushNamed(context, slaViolationPenaltyListRoute),
-      ));
-    }
+    // if (displayMenu?.sVP ?? false) {
+    //   menuItemActions.add(MenuItemAction(
+    //     menuItem: const MenuItem(Constants.slaViolationPenaltyTitle, AppIcon.slaViolationPenaltyIcon, 0),
+    //     onSelected: (context) => Navigator.pushNamed(context, slaViolationPenaltyListRoute),
+    //   ));
+    // }
   }
   /// ShiftSchedule
   void checkMenuPermissionsShiftSchedule(
@@ -62,6 +62,7 @@ class MenuPermissions {
       menuItems.add(const MenuItem(
           Constants.shiftSchedule, AppIcon.shiftScheduleIcon, 0));
     }
+
   }
 
   /// PassManagement
@@ -74,10 +75,10 @@ class MenuPermissions {
           AppIcon.dayPassManagementRegisterIcon, 0));
     }
 
-    if (displayMenu?.ssDPM ?? false) {
-      menuItems.add(const MenuItem(
-          Constants.sezPassManagement, AppIcon.sezPassManagementRegisterIcon, 0));
-    }
+    // if (displayMenu?.ssDPM ?? false) {
+    //   menuItems.add(const MenuItem(
+    //       Constants.sezPassManagement, AppIcon.sezPassManagementRegisterIcon, 0));
+    // }
 
     if (displayMenu?.sSDP ?? false) {
       menuItems.add(const MenuItem(Constants.vendorPassManagement,

@@ -11,6 +11,7 @@ class PatrollingGenInfoModel {
   User? securitySupervisor;
   Organisation? locationRegion;
   Organisation? location;
+  Organisation? locationType;
   String? cancelReason;
   Organisation? entity;
   int? status;
@@ -29,6 +30,7 @@ class PatrollingGenInfoModel {
     this.cancelReason,
     this.entity,
     this.status,
+    this.locationType,
   });
 
   PatrollingGenInfoModel.fromJson(Map<String, dynamic> json)
@@ -56,6 +58,9 @@ class PatrollingGenInfoModel {
         location = (json['location'] as Map<String, dynamic>?) != null
             ? Organisation.fromJson(json['location'] as Map<String, dynamic>)
             : null,
+        locationType = (json['locationType'] as Map<String, dynamic>?) != null
+            ? Organisation.fromJson(json['locationType'] as Map<String, dynamic>)
+            : null,
         cancelReason = json['cancelReason'] as String?,
         entity = (json['entity'] as Map<String, dynamic>?) != null
             ? Organisation.fromJson(json['entity'] as Map<String, dynamic>)
@@ -73,6 +78,7 @@ class PatrollingGenInfoModel {
         'closedDate': closedDate,
         'securitySupervisor': securitySupervisor?.toJson(),
         'location': location?.toJson(),
+    'locationType':locationType?.toJson(),
         'cancelReason': cancelReason,
         'entity': entity?.toJson(),
         'status': status,

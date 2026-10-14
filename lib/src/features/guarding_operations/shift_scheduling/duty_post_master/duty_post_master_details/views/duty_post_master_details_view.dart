@@ -287,6 +287,36 @@ class _DutyPostMasterDetailsViewState extends State<DutyPostMasterDetailsView> {
                                   }),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
+                              /// Location Type
+                              CommonWidgets.textDisplay(
+                                Constants.locationType,
+                                Styles.textStyleWhite16,
+                                isMandatory: true,
+                              ),
+                              TextFieldAddButton(
+                                title: state.model.locationType?.name,
+                                height: 75,
+                                isDisableColor: isReadOnly,
+                                onTap: () {
+                                  if (!isReadOnly) {
+                                    BaseOrganisationDialog().departmentDialog(
+                                      context: context,
+                                      organisations: state.getLocationType.getLocationType ?? [],
+                                      onTap: (Organisation locationType) {
+                                        BlocProvider.of<DutyPostMasterDetailsCubit>(context)
+                                            .updateDropdownValues(locationType: locationType);
+                                      },
+                                      leftImage: false,
+                                      createEntity: false,
+                                      functionToCall: () {
+                                        BlocProvider.of<DutyPostMasterDetailsCubit>(context).refreshList();
+                                      },
+                                    );
+                                  }
+                                },
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.03),
+
                               /// Duty Post Name
                               CommonWidgets.textDisplay(
                                   state.labels?.locale.postName ??

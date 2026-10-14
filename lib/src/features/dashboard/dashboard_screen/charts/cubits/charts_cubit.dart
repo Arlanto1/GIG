@@ -25,7 +25,95 @@ class ChartsCubit extends Cubit<ChartsState> {
 
   NotificationServices notificationServices = NotificationServices();
 
+  // Future<void> initializeValues() async {
+  //   log('-status-1-${state.status}--');
+  //   emit(
+  //     state.copyWith(
+  //       status: FormStatus.loading,
+  //     ),
+  //   );
+  //   log('-status--${state.status}--');
+  //
+  //   try {
+  //     int count = await notificationServices.getNotificationCount();
+  //     log('-count---$count--');
+  //     final futures = [
+  //       commonServices.getDashboardChart(module: 'LEVE'),
+  //       commonServices.getDashboardChart(module: 'LEVR'),
+  //       commonServices.getDashboardChart(module: 'EPR'),
+  //       // commonServices.getDashboardChart(module: 'OUTWMC'),
+  //       // commonServices.getDashboardChart(module: 'INWMC'),
+  //       // commonServices.getDashboardChart(module: 'VISPASSMC'),
+  //     ];
+  //
+  //     final results = await Future.wait(futures);
+  //     DisplayMenu displayMenu =
+  //         await SharedPrefs.getDisplayMenu() ?? DisplayMenu();
+  //
+  //     List<PieChartData> lawEnforcementVisitByEntity = results[0];
+  //     List<PieChartData> lawEnforcementVisitByRegion = results[1];
+  //     List<PieChartData> eventProtectionByRegion = results[2];
+  //     // List<PieChartData> outWardMaterialMovement = results[3];
+  //     // List<PieChartData> inWardMaterialMovement = results[4];
+  //     // List<PieChartData> visitorPassManagement = results[5];
+  //
+  //     emit(
+  //       state.copyWith(
+  //         lawEnforcementVisitByEntity: lawEnforcementVisitByEntity,
+  //         lawEnforcementVisitByRegion: lawEnforcementVisitByRegion,
+  //         eventProtectionByRegion: eventProtectionByRegion,
+  //         // outWardMaterialMovement:outWardMaterialMovement,
+  //         // inWardMaterialMovement:inWardMaterialMovement,
+  //         // visitorPassManagement:visitorPassManagement,
+  //         status: FormStatus.initial,
+  //         notificationCount: count,
+  //         displayMenu: displayMenu,
+  //       ),
+  //     );
+  //   } on GenericResponse catch (e) {
+  //     emit(
+  //       state.copyWith(
+  //         message: e.message,
+  //         status: FormStatus.formError,
+  //       ),
+  //     );
+  //     return;
+  //   } on TokenExpiredException catch (e) {
+  //     emit(
+  //       state.copyWith(
+  //         message: e.message,
+  //         status: FormStatus.sessionExpired,
+  //       ),
+  //     );
+  //     return;
+  //   } on PermissionError catch (e) {
+  //     log('PermissionError issue', error: e, name: 'Charts Cubit');
+  //     emit(
+  //       state.copyWith(
+  //         message: e.message,
+  //         status: FormStatus.permissionLocationError,
+  //       ),
+  //     );
+  //     return;
+  //   } catch (e) {
+  //     log('Initialization issue', error: e, name: 'Charts Cubit');
+  //     emit(
+  //       state.copyWith(
+  //         message: Constants.errorText,
+  //         status: FormStatus.error,
+  //       ),
+  //     );
+  //   }
+  // }
+  bool _isLoading = false;
+
   Future<void> initializeValues() async {
+    if (_isLoading) {
+      log('-initializeValues---already in progress, skipping duplicate call--');
+      return;
+    }
+    _isLoading = true;
+
     log('-status-1-${state.status}--');
     emit(
       state.copyWith(
@@ -37,6 +125,7 @@ class ChartsCubit extends Cubit<ChartsState> {
     try {
       int count = await notificationServices.getNotificationCount();
       log('-count---$count--');
+
       final futures = [
         commonServices.getDashboardChart(module: 'LEVE'),
         commonServices.getDashboardChart(module: 'LEVR'),
@@ -57,6 +146,7 @@ class ChartsCubit extends Cubit<ChartsState> {
       // List<PieChartData> inWardMaterialMovement = results[4];
       // List<PieChartData> visitorPassManagement = results[5];
 
+      log('-final emit status-${FormStatus.initial}--');
       emit(
         state.copyWith(
           lawEnforcementVisitByEntity: lawEnforcementVisitByEntity,
@@ -71,6 +161,7 @@ class ChartsCubit extends Cubit<ChartsState> {
         ),
       );
     } on GenericResponse catch (e) {
+      log('-initializeValues---GenericResponse error-${e.message}--');
       emit(
         state.copyWith(
           message: e.message,
@@ -79,6 +170,7 @@ class ChartsCubit extends Cubit<ChartsState> {
       );
       return;
     } on TokenExpiredException catch (e) {
+      log('-initializeValues---TokenExpiredException-${e.message}--');
       emit(
         state.copyWith(
           message: e.message,
@@ -95,14 +187,16 @@ class ChartsCubit extends Cubit<ChartsState> {
         ),
       );
       return;
-    } catch (e) {
-      log('Initialization issue', error: e, name: 'Charts Cubit');
+    } catch (e, stack) {
+      log('Initialization issue', error: e, stackTrace: stack, name: 'Charts Cubit');
       emit(
         state.copyWith(
           message: Constants.errorText,
           status: FormStatus.error,
         ),
       );
+    } finally {
+      _isLoading = false;
     }
   }
 }

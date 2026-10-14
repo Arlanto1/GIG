@@ -20,6 +20,7 @@ class VendorPassManagementDetailsState extends Equatable {
   final List<ImageContent> loadAttachments;
   final String? message;
   final PMUiLabels? labels;
+  final GetLocationType  getLocationType;
 
   factory VendorPassManagementDetailsState.initial({
     required VendorPassManagementModel model,
@@ -35,6 +36,8 @@ class VendorPassManagementDetailsState extends Equatable {
     required List<Organisation> departments,
     required final List<Organisation> getStatus,
     required List<ImageContent> loadAttachments,
+    required GetLocationType getLocationType,
+
   }) {
     return VendorPassManagementDetailsState(
       status: FormStatus.initial,
@@ -50,6 +53,8 @@ class VendorPassManagementDetailsState extends Equatable {
       message: errorMessage,
       departments: departments,
       loadAttachments: loadAttachments,
+      getLocationType:getLocationType,
+
     );
   }
 
@@ -173,6 +178,8 @@ class VendorPassManagementDetailsState extends Equatable {
     this.employee,
     this.dbSponsor,
     this.host,
+    required this.getLocationType,
+
   });
 
   VendorPassManagementDetailsState copyWith({
@@ -195,6 +202,8 @@ class VendorPassManagementDetailsState extends Equatable {
     List<ImageContent>? loadAttachments,
     String? message,
     PMUiLabels? labels,
+    GetLocationType? getLocationType,
+
   }) {
     return VendorPassManagementDetailsState(
       status: status ?? this.status,
@@ -215,6 +224,7 @@ class VendorPassManagementDetailsState extends Equatable {
       loadAttachments: loadAttachments ?? this.loadAttachments,
       message: message ?? this.message,
       labels: labels ?? this.labels,
+      getLocationType:getLocationType??this.getLocationType,
     );
   }
 }

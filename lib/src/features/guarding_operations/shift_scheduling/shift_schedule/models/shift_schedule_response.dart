@@ -38,6 +38,7 @@ class ShiftScheduleModel extends BaseObject {
   User? entrySecurity;
   Organisation? location;
   Organisation? locationRegion;
+  Organisation? locationType;
   String? inputDate;
   String? slNo;
   Organisation? vendor;
@@ -62,6 +63,7 @@ class ShiftScheduleModel extends BaseObject {
     this.entrySecurity,
     this.location,
     this.locationRegion,
+    this.locationType,
     this.inputDate,
     this.slNo,
     this.vendor,

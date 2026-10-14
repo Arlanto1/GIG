@@ -381,6 +381,38 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                   }),
                               CommonWidgets.verticalSpacerWidget(height * 0.02),
 
+                              /// Location Type
+                              CommonWidgets.textDisplay(
+                                Constants.locationType,
+                                Styles.textStyleWhite16,
+                                isMandatory: true,
+                              ),
+                              TextFieldAddButton(
+                                title: state.model.locationType?.name,
+                                height: 75,
+                                isDisableColor: false,
+                                onTap: () {
+                                  if ( ((state.model.id == null || state.model.status == 0) ||
+                                      (state.model.location?.name ?? '').isEmpty) && !widget.viaOccurrence && !widget.viaKeyIssuance) {
+                                    BaseOrganisationDialog().departmentDialog(
+                                      context: context,
+                                      organisations: state.getLocationType.getLocationType ?? [],
+                                      onTap: (Organisation locationType) {
+                                        BlocProvider.of<IncidentGeneralInfoCubit>(context)
+                                            .updateLocationDropdownValue(locationType: locationType);
+                                      },
+                                      leftImage: false,
+                                      createEntity: false,
+                                      functionToCall: () {
+                                        BlocProvider.of<IncidentGeneralInfoCubit>(context).refreshList();
+                                      },
+                                    );
+                                  }
+                                },
+                              ),
+                              CommonWidgets.verticalSpacerWidget(height * 0.03),
+
+
                               /// Sl No.
                               CommonWidgets.horizontalTextHandling(
                                   state.labels?.locale.slNo ??
@@ -699,7 +731,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                   children: [
                                     SizedBox(
                                       width: MediaQuery.of(context).size.width -
-                                          105,
+                                          180,
                                       child: FlutterInputField(
                                         lineHeight: 1,
                                         initialValue:
@@ -722,7 +754,7 @@ class _IncidentGeneralInfoViewState extends State<IncidentGeneralInfoView> {
                                       ),
                                     ),
                                     const Text(
-                                      '@db.com',
+                                      '  @gig-gulf.com',
                                       style: TextStyle(
                                         color: Colors.white,
                                       ),

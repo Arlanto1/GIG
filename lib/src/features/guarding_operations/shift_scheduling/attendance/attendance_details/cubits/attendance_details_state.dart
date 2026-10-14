@@ -21,6 +21,8 @@ class AttendanceDetailsState extends Equatable {
   final List<String>? briefingPointsC;
   final List<String>? briefingPointsG;
   final AdhocAttendanceGiModel? adhocModel;
+  final DutyPostAttendanceModel? dutyPostAttendanceModel;
+  final GetLocationType  getLocationType;
 
   factory AttendanceDetailsState.initial({
     required AttendanceModel model,
@@ -33,6 +35,9 @@ class AttendanceDetailsState extends Equatable {
     List<User>? entrySecurities,
     List<String>? dutyPostLocationNames,
     AdhocAttendanceGiModel? adhocModel,
+    DutyPostAttendanceModel? dutyPostAttendanceModel,
+    required GetLocationType getLocationType,
+
   }) {
     return AttendanceDetailsState(
       status: FormStatus.initial,
@@ -45,7 +50,10 @@ class AttendanceDetailsState extends Equatable {
       locationNames: dutyPostLocationNames,
       entrySecurities: entrySecurities,
       vendors: departments,
-        adhocModel:adhocModel
+        adhocModel:adhocModel,
+        dutyPostAttendanceModel:dutyPostAttendanceModel,
+      getLocationType:getLocationType,
+
     );
   }
 
@@ -107,6 +115,8 @@ class AttendanceDetailsState extends Equatable {
     this.briefingPointsC,
     this.briefingPointsG,
     required this.adhocModel,
+    required this.dutyPostAttendanceModel,
+    required this.getLocationType,
 
   });
 
@@ -131,6 +141,9 @@ class AttendanceDetailsState extends Equatable {
     List<String>? briefingPointsC,
     List<String>? briefingPointsG,
     AdhocAttendanceGiModel? adhocModel,
+    DutyPostAttendanceModel? dutyPostAttendanceModel,
+    GetLocationType? getLocationType,
+
 
   }) {
     return AttendanceDetailsState(
@@ -155,7 +168,9 @@ class AttendanceDetailsState extends Equatable {
       briefingPointsB: briefingPointsB ?? this.briefingPointsB,
       briefingPointsC: briefingPointsC ?? this.briefingPointsC,
       briefingPointsG: briefingPointsG ?? this.briefingPointsG,
-        adhocModel:adhocModel??this.adhocModel
+        adhocModel:adhocModel??this.adhocModel,
+        dutyPostAttendanceModel: dutyPostAttendanceModel??this.dutyPostAttendanceModel,
+      getLocationType:getLocationType??this.getLocationType,
 
     );
   }
