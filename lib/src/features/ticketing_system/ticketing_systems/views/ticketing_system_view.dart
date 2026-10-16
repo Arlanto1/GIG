@@ -78,7 +78,7 @@ class _TicketingSystemViewState extends State<TicketingSystemView> {
       listener: (context, state) {},
       builder: (context, state) {
         return Scaffold(
-          backgroundColor:Colors.transparent,
+          backgroundColor:Colors.white,
           extendBody: true,
           extendBodyBehindAppBar: true,
           bottomNavigationBar: CustomBottomNavigationBar(
@@ -125,23 +125,23 @@ class _TicketingSystemViewState extends State<TicketingSystemView> {
               // }
               return Stack(
                 children: [
-                  // 🔹 Background
-                  Positioned.fill(
-                    child: Image.asset(
-                      'assets/images/bg2.png',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Positioned.fill(
-                    child: ClipRect(
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
-                        child: Container(
-                          color: Colors.black.withValues(alpha: 0.2),
-                        ),
-                      ),
-                    ),
-                  ),
+                  // // 🔹 Background
+                  // Positioned.fill(
+                  //   child: Image.asset(
+                  //     'assets/images/bg2.png',
+                  //     fit: BoxFit.cover,
+                  //   ),
+                  // ),
+                  // Positioned.fill(
+                  //   child: ClipRect(
+                  //     child: BackdropFilter(
+                  //       filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
+                  //       child: Container(
+                  //         color: Colors.black.withValues(alpha: 0.2),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
 
                   // 🔹 Search Bar - positioned safely at the top
                   Positioned(

@@ -89,7 +89,7 @@ class _TrainingItemsListViewState extends State<TrainingItemsListView> {
       builder: (context, state) {
         log('plus ${state.extraProperties?.hasWritePermission}');
         return Scaffold(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.white,
           extendBody: true,
           extendBodyBehindAppBar: true,
           bottomNavigationBar: CustomBottomNavigationBar(
@@ -125,22 +125,22 @@ class _TrainingItemsListViewState extends State<TrainingItemsListView> {
               return Stack(
                 children: [
                   // 🔹 Background
-                  Positioned.fill(
-                    child: Image.asset(
-                      'assets/images/bg2.png',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  Positioned.fill(
-                    child: ClipRect(
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
-                        child: Container(
-                          color: Colors.black.withValues(alpha: 0.2),
-                        ),
-                      ),
-                    ),
-                  ),
+                  // Positioned.fill(
+                  //   child: Image.asset(
+                  //     'assets/images/bg2.png',
+                  //     fit: BoxFit.cover,
+                  //   ),
+                  // ),
+                  // Positioned.fill(
+                  //   child: ClipRect(
+                  //     child: BackdropFilter(
+                  //       filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
+                  //       child: Container(
+                  //         color: Colors.black.withValues(alpha: 0.2),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
 
                   // 🔹 ListView - start immediately below search bar
                   Positioned(

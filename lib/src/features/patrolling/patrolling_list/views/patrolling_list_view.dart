@@ -25,25 +25,25 @@ class _PatrollingListViewState extends State<PatrollingListView> {
   BaseFilterModel _filters = BaseFilterModel();
 
   //  Cache the blurred background — built once, never rebuilt
-  static final Widget _cachedBackground = Stack(
+  static const Widget _cachedBackground = Stack(
     children: [
-      Positioned.fill(
-        child: Image.asset(
-          'assets/images/bg2.png',
-          fit: BoxFit.cover,
-          // cacheWidth/cacheHeight reduces memory if image is large
-        ),
-      ),
-      Positioned.fill(
-        child: ClipRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
-            child: const ColoredBox(
-              color: Colors.black12,
-            ),
-          ),
-        ),
-      ),
+      // Positioned.fill(
+      //   child: Image.asset(
+      //     'assets/images/bg2.png',
+      //     fit: BoxFit.cover,
+      //     // cacheWidth/cacheHeight reduces memory if image is large
+      //   ),
+      // ),
+      // Positioned.fill(
+      //   child: ClipRect(
+      //     child: BackdropFilter(
+      //       filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
+      //       child: const ColoredBox(
+      //         color: Colors.black12,
+      //       ),
+      //     ),
+      //   ),
+      // ),
     ],
   );
 
@@ -204,7 +204,7 @@ class _PatrollingListViewState extends State<PatrollingListView> {
 
         return Scaffold(
           key: _scaffoldKey, // using field key
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.white,
           extendBody: true,
           extendBodyBehindAppBar: true,
           bottomNavigationBar: CustomBottomNavigationBar(

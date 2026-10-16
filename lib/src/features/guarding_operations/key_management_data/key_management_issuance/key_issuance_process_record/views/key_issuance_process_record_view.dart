@@ -88,7 +88,7 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
       log('-k desc--${state.keyDescriptions?.length}---');
 
       return Scaffold(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         extendBodyBehindAppBar: true,
         extendBody: true,
         // floatingActionButton: !(widget.extraProperties != null &&
@@ -263,23 +263,23 @@ class _ContactRecordViewState extends State<KeyIssuanceProcessRecordsView> {
     // }
     return Stack(
       children: [
-        // 🔹 Background
-        Positioned.fill(
-          child: Image.asset(
-            'assets/images/bg2.png',
-            fit: BoxFit.cover,
-          ),
-        ),
-        Positioned.fill(
-          child: ClipRect(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
-              child: Container(
-                color: Colors.black.withValues(alpha: 0.2),
-              ),
-            ),
-          ),
-        ),
+        // // 🔹 Background
+        // Positioned.fill(
+        //   child: Image.asset(
+        //     'assets/images/bg2.png',
+        //     fit: BoxFit.cover,
+        //   ),
+        // ),
+        // Positioned.fill(
+        //   child: ClipRect(
+        //     child: BackdropFilter(
+        //       filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
+        //       child: Container(
+        //         color: Colors.black.withValues(alpha: 0.2),
+        //       ),
+        //     ),
+        //   ),
+        // ),
         SafeArea(
           child: Column(
             children: [

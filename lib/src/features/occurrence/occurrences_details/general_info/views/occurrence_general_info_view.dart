@@ -130,7 +130,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
             },
             title: widget.title,
           ),
-          backgroundColor: AppColors.newColor,
+          backgroundColor: AppColors.white,
           body: getBodybuilder(state, height),
         );
       },
@@ -166,22 +166,22 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
 
     return Stack(children: [
       // 🔹 Background Image
-      Positioned.fill(
-        child: Image.asset(
-          'assets/images/bg2.png',
-          fit: BoxFit.cover,
-        ),
-      ),
-
-      // 🔹 Blur Layer
-      Positioned.fill(
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 200, sigmaY: 200),
-          child: Container(
-            color: Colors.black.withValues(alpha: 0.08), // optional tint
-          ),
-        ),
-      ),
+      // Positioned.fill(
+      //   child: Image.asset(
+      //     'assets/images/bg2.png',
+      //     fit: BoxFit.cover,
+      //   ),
+      // ),
+      //
+      // // 🔹 Blur Layer
+      // Positioned.fill(
+      //   child: BackdropFilter(
+      //     filter: ImageFilter.blur(sigmaX: 200, sigmaY: 200),
+      //     child: Container(
+      //       color: Colors.black.withValues(alpha: 0.08), // optional tint
+      //     ),
+      //   ),
+      // ),
 
       // color: AppColors.newColor3,
       // color: AppColors.navigationSkyBlueColor,
@@ -189,7 +189,7 @@ class _OccurrenceDetailsState extends State<OccurrenceDetails> {
         child: Column(
           children: [
             Container(
-              color: Colors.transparent,
+              color: Colors.white,
               // decoration: const ShapeDecoration(
               //     color: AppColors.backgroundWhiteColor,
               //     shape: RoundedRectangleBorder(

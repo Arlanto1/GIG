@@ -302,12 +302,12 @@ class Utils {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           'Status:',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.navy,
             fontWeight: FontWeight.w600,
-            fontSize: 16,
+            fontSize: 15,
           ),
         ),
         const SizedBox(width: 8),
@@ -387,12 +387,12 @@ class Utils {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           'Status:',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.navy,
             fontWeight: FontWeight.w600,
-            fontSize: 16,
+            fontSize: 15,
           ),
         ),
         const SizedBox(width: 8),
@@ -529,12 +529,12 @@ class Utils {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           'Status:',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.navy,
             fontWeight: FontWeight.w600,
-            fontSize: 16,
+            fontSize: 15,
           ),
         ),
         const SizedBox(width: 8),
@@ -623,12 +623,12 @@ class Utils {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           'Status:',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.navy,
             fontWeight: FontWeight.w600,
-            fontSize: 16,
+            fontSize: 15,
           ),
         ),
         const SizedBox(width: 8),
@@ -783,12 +783,12 @@ class Utils {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           'Status:',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.navy,
             fontWeight: FontWeight.w600,
-            fontSize: 16,
+            fontSize: 15,
           ),
         ),
         const SizedBox(width: 8),
@@ -1318,12 +1318,12 @@ class Utils {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           'Status:',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.navy,
             fontWeight: FontWeight.w600,
-            fontSize: 16,
+            fontSize: 15,
           ),
         ),
         const SizedBox(width: 8),
@@ -1590,12 +1590,12 @@ class Utils {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           'Status:',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.navy,
             fontWeight: FontWeight.w600,
-            fontSize: 16,
+            fontSize: 15,
           ),
         ),
         const SizedBox(width: 8),
@@ -1724,12 +1724,12 @@ class Utils {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           'Status:',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.navy,
             fontWeight: FontWeight.w600,
-            fontSize: 16,
+            fontSize: 15,
           ),
         ),
         const SizedBox(width: 8),
@@ -1828,12 +1828,12 @@ class Utils {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           'Status:',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.navy,
             fontWeight: FontWeight.w600,
-            fontSize: 16,
+            fontSize: 15,
           ),
         ),
         const SizedBox(width: 8),
@@ -2010,12 +2010,12 @@ class Utils {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           'Status:',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.navy,
             fontWeight: FontWeight.w600,
-            fontSize: 16,
+            fontSize: 15,
           ),
         ),
         const SizedBox(width: 8),
@@ -2114,12 +2114,12 @@ class Utils {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           'Status:',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.navy,
             fontWeight: FontWeight.w600,
-            fontSize: 16,
+            fontSize: 15,
           ),
         ),
         const SizedBox(width: 8),
@@ -2315,12 +2315,12 @@ class Utils {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           'Status:',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.navy,
             fontWeight: FontWeight.w600,
-            fontSize: 16,
+            fontSize: 15,
           ),
         ),
         const SizedBox(width: 8),
@@ -2705,12 +2705,12 @@ class Utils {
 
     return Row(
       children: [
-        const Text(
+        Text(
           'Status:',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.navy,
             fontWeight: FontWeight.w600,
-            fontSize: 16,
+            fontSize: 15,
           ),
         ),
         const SizedBox(width: 8),
@@ -2819,12 +2819,12 @@ class Utils {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           'Status:',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.navy,
             fontWeight: FontWeight.w600,
-            fontSize: 16,
+            fontSize: 15,
           ),
         ),
         const SizedBox(width: 8),
@@ -2898,12 +2898,12 @@ class Utils {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           'Status:',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.navy,
             fontWeight: FontWeight.w600,
-            fontSize: 16,
+            fontSize: 15,
           ),
         ),
         const SizedBox(width: 8),
@@ -3215,12 +3215,12 @@ class Utils {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           'Status:',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.navy,
             fontWeight: FontWeight.w600,
-            fontSize: 16,
+            fontSize: 15,
           ),
         ),
         const SizedBox(width: 8),
@@ -3313,12 +3313,12 @@ class Utils {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           'Status:',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.navy,
             fontWeight: FontWeight.w600,
-            fontSize: 16,
+            fontSize: 15,
           ),
         ),
         const SizedBox(width: 8),
@@ -3383,12 +3383,12 @@ class Utils {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           'Status:',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.navy,
             fontWeight: FontWeight.w600,
-            fontSize: 16,
+            fontSize: 15,
           ),
         ),
         const SizedBox(width: 8),
@@ -3485,12 +3485,12 @@ class Utils {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           'Status:',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.navy,
             fontWeight: FontWeight.w600,
-            fontSize: 16,
+            fontSize: 15,
           ),
         ),
         const SizedBox(width: 8),
@@ -3554,12 +3554,12 @@ class Utils {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           'Status:',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.navy,
             fontWeight: FontWeight.w600,
-            fontSize: 16,
+            fontSize: 15,
           ),
         ),
         const SizedBox(width: 8),
@@ -3618,12 +3618,12 @@ class Utils {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           'Status:',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.navy,
             fontWeight: FontWeight.w600,
-            fontSize: 16,
+            fontSize: 15,
           ),
         ),
         const SizedBox(width: 8),
@@ -3856,12 +3856,12 @@ class Utils {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           'Status:',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.navy,
             fontWeight: FontWeight.w600,
-            fontSize: 16,
+            fontSize: 15,
           ),
         ),
         const SizedBox(width: 8),
@@ -3919,12 +3919,12 @@ class Utils {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           'Status:',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.navy,
             fontWeight: FontWeight.w600,
-            fontSize: 16,
+            fontSize: 15,
           ),
         ),
         const SizedBox(width: 8),
@@ -4024,12 +4024,12 @@ class Utils {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           'Status:',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.navy,
             fontWeight: FontWeight.w600,
-            fontSize: 16,
+            fontSize: 15,
           ),
         ),
         const SizedBox(width: 8),
@@ -4156,12 +4156,12 @@ class Utils {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Text(
+        Text(
           'Status:',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.navy,
             fontWeight: FontWeight.w600,
-            fontSize: 16,
+            fontSize: 15,
           ),
         ),
         const SizedBox(width: 8),

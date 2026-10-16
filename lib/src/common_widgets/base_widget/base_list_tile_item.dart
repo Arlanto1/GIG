@@ -5661,7 +5661,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Container(
-          height: 3,
+          height: 0.5,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
@@ -5673,14 +5673,14 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
           ),
         ),
         Container(
-          padding: const EdgeInsets.fromLTRB(18, 14, 14, 6),
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [_ListTheme.navyMid, _ListTheme.navyDark],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
+          padding: const EdgeInsets.fromLTRB(12, 8, 8, 2),
+          // decoration: const BoxDecoration(
+          //   gradient: LinearGradient(
+          //     colors: [_ListTheme.navyMid, _ListTheme.navyDark],
+          //     begin: Alignment.topLeft,
+          //     end: Alignment.bottomRight,
+          //   ),
+          // ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -5742,7 +5742,7 @@ class _BaseListTileItemState extends State<BaseListTileItem> {
                 'Edit',
                 style: TextStyle(
                   color: _ListTheme.navyDark,
-                  fontSize: 13,
+                  fontSize: 10,
                   fontWeight: FontWeight.w800,
                 ),
               ),

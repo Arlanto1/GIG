@@ -60,7 +60,7 @@ class _KeyLossDestructionListViewState
     final size = MediaQuery.of(context).size;
     double height = size.height;
     return Scaffold(
-        backgroundColor: AppColors.cardBgColor,
+        backgroundColor: AppColors.white,
         appBar: BaseAppBar().buildAppHeader(
           context: context,
           title: Constants.keyReconciliationList,
